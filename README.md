@@ -1,8 +1,9 @@
 # TECH_SUPPORT_TICKET
 
  fix lỗi:
- - Gõ lệnh: composer install
+
  - Mở cmd và tới thư mục vừa clone về (vd: C:xampp/htdocs/techsupportticket/)
+ - Gõ lệnh: composer install
  - Vào PhPStorm vào file .env.example mở dấu '#' trước các trường và sửa thành như sau
  (phải có csdl trên phpmyadmin)
 DB_CONNECTION=mysql
