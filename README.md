@@ -15,7 +15,7 @@ DB_PASSWORD=
 
  - Gõ lệnh: copy .env.example .env
  - Gõ lệnh: php artisan key:generate
- - Vào file session.php trong thư mục techsupportticket tìm tới chỗ SESSION_DRIVER sửa database thành file
+ - Vào file session.php trong thư mục techsupportticket/config/ tìm tới chỗ SESSION_DRIVER sửa database thành file
  - Gõ lệnh: php artisan config:clear
  - Gõ lệnh: php artisan migrate
  - Gõ lệnh: php artisan config:clear
