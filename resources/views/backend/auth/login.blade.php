@@ -13,7 +13,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <link rel="stylesheet" href="backend/css/login_admin.css">
-    
+
     <title>Login_Admin</title>
 </head>
 <!DOCTYPE html>
@@ -54,7 +54,7 @@
 
             <!-- Captcha -->
             <div class="captcha_box">
-                <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+                <div class="g-recaptcha" data-sitekey="6Lcl14kqAAAAACOoIungM8WeSnOh9t7jIU2C_okM"></div>
             </div>
 
             <div class="input_box">
