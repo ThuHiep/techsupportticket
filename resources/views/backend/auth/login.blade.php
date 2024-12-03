@@ -1,52 +1,68 @@
+<?php
+?>
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>INSPINIA | Login</title>
-
+    <!-- Captcha -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Boxicons -->
     <link href="backend/css/bootstrap.min.css" rel="stylesheet">
     <link href="backend/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    <link href="backend/css/animate.css" rel="stylesheet">
-    <link href="backend/css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="backend/css/login_admin.css">
+    
+    <title>Login_Admin</title>
 </head>
-
-<body class="gray-bg">
-
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
-            
-            <h3>Welcome to IN+</h3>
-            <p>Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
-                <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
-            </p>
-            <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="index.html">
-                <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Username" required="">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required="">
-                </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
-
-                <a href="#"><small>Forgot password?</small></a>
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>
-            </form>
-            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
-        </div>
+<!DOCTYPE html>
+<html>
+<body>
+<div class="wrapper">
+    <div class="logo_box">
+        <img src="backend/img/logosweetsoft.png" alt="Company Logo">
     </div>
+    <div class="login_box">
+        <div class="login-header">
+            <span>Đăng nhập</span>
+        </div>
 
-    <!-- Mainly scripts -->
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+        <form action="process_login.php" method="POST">
+            <div class="input_box">
+                <input type="text" name="username" id="user" class="input-field" required>
+                <label for="user" class="label">Tên đăng nhập (email)</label>
+                <i class="bx bx-user icon"></i>
+            </div>
 
+            <div class="input_box">
+                <input type="password" name="password" id="pass" class="input-field" required>
+                <label for="pass" class="label">Mật khẩu</label>
+                <i class="bx bx-lock-alt icon"></i>
+            </div>
+
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">Ghi nhớ tài khoản</label>
+                </div>
+
+                <div class="forgot">
+                    <a href="#">Quên mật khẩu?</a>
+                </div>
+            </div>
+
+            <!-- Captcha -->
+            <div class="captcha_box">
+                <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+            </div>
+
+            <div class="input_box">
+                <input type="submit" class="input-submit" value="Login">
+            </div>
+        </form>
+    </div>
+</div>
 </body>
-
 </html>
+
