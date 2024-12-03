@@ -13,8 +13,8 @@ class UserController extends Controller
     }
     public function index()
     {
-        // Lấy toàn bộ dữ liệu từ bảng user
-        $users = User::all();
-        return view('backend.users.index', compact('users'));
+    
+        $template = 'backend.user.index';
+        return view('backend.dashboard.layout', compact('template'));
     }
 }
