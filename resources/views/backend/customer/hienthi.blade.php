@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
-    <link rel="stylesheet" href="{{ asset('backend/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/css/bootstrap.css') }}">
 </head>
 <body>
 <div class="container mt-4">
     <h1>Danh sách khách hàng</h1>
-    <a href="{{ route('backend.customers.create') }}" class="btn btn-primary mb-3">Thêm khách hàng</a>
+    <a href="{{ route('backend.customer.create') }}" class="btn btn-primary mb-3">Thêm khách hàng</a>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -28,8 +28,12 @@
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->created_at }}</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-warning">Sửa</a>
-                    <a href="#" class="btn btn-sm btn-danger">Xóa</a>
+                    <a href="{{ route('backend.customer.edit', $customer->customer_id) }}" class="btn btn-sm btn-warning">Sửa</a>
+                    <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                    </form>
                 </td>
             </tr>
         @endforeach

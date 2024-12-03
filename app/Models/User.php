@@ -18,9 +18,5 @@ class User extends Authenticatable
         'user_id', 'username', 'password', 'email',
         'otp', 'otp_expiration_time', 'otp_validation', 'status'
     ];
-    public function customer()
-    {
-        return $this->hasOne(Customer::class, 'user_id', 'id');
-    }
 
 }
