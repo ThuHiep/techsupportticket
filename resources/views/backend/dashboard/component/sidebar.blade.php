@@ -3,7 +3,7 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element"> <span>
-                        <img alt="image" class="img-circle" src="img/profile_small.jpg" />
+                    <img alt="image" src="backend/img/logosweetsoft.png" style="width: 150px; height: 50px;" />
                          </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
@@ -21,7 +21,7 @@
                 </div>
             </li>
             <li class="active">
-                <a href="href="{{ route('dashboard.index') }}""><i class="fa fa-th-large"></i> <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
+                <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="{{ route('user.index') }}">Tài khoản</a></li>
                     <li><a href="index.html">Phân quyền</a></li>
