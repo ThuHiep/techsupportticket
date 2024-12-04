@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -22,10 +21,10 @@ class CustomerController extends Controller
     {
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
         // Sinh customer_id ngẫu nhiên
-        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
         // Sinh tax_id ngẫu nhiên (10 chữ số)
-        $taxId = str_pad(mt_rand(0, 9999999999), 10, '0', STR_PAD_LEFT);
+        $taxId = str_pad(mt_rand(0, 999999999), 9, STR_PAD_LEFT);
 
         // Truyền customer_id, tax_id vào view
         $template = 'backend.customer.create';
@@ -75,14 +74,14 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         // Sinh customer_id ngẫu nhiên
-        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
         // Kiểm tra trùng lặp trong database
         while (Customer::where('customer_id', $randomId)->exists()) {
-            $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+            $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         }
         // Sinh tax_id ngẫu nhiên (10 chữ số)
-        $taxId = str_pad(mt_rand(0, 9999999999), 10, '0', STR_PAD_LEFT);
+        $taxId = str_pad(mt_rand(0, 999999999), 9, STR_PAD_LEFT);
 
 
 

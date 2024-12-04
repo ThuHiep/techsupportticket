@@ -10,6 +10,8 @@ class Customer extends Model
     protected $primaryKey = 'customer_id'; // The primary key field
     public $timestamps = true; // Enable timestamps for created_at and updated_at
 
+    protected $keyType = 'string';  // Đảm bảo rằng customer_id không được chuyển sang kiểu số nguyên
+
     // Define custom timestamp names
     const CREATED_AT = 'create_at';
     const UPDATED_AT = 'update_at';
@@ -31,6 +33,6 @@ class Customer extends Model
     // Define any relationships with other models (if applicable)
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

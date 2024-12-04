@@ -12,7 +12,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>Mã khách hàng</th>
             <th>Tên</th>
             <th>Ngày sinh</th>
             <th>Email</th>
