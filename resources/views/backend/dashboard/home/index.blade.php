@@ -7,10 +7,16 @@
                     <h5>Khách hàng</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">40 886,200</h1>
-                    <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                    <small>Tổng khách hàng</small>
+                    <h1 class="no-margins">{{ number_format($totalCustomersToday) }}</h1>
+                    <div class="stat-percent font-bold {{ $percentageChange === '100%+' || $percentageChange > 0 ? 'text-success' : 'text-danger' }}">
+                        {{ is_numeric($percentageChange) ? number_format($percentageChange, 2) . '%' : $percentageChange }} 
+                        <i class="fa {{ $percentageChange === '100%+' || $percentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
+                    </div>
+                    <small>Tổng khách hàng hôm nay</small>
                 </div>
+                
+                
+                
             </div>
         </div>
         <div class="col-lg-3">
@@ -115,7 +121,7 @@
         </div>
         <div class="col-lg-8">
             <div class="ibox-title">
-                <h5>Yêu cầu</h5>
+                <h5>Yêu cầu hỗ trợ</h5>
             </div>
             <div class="ibox-content" style="height:350px">
                 <div class="flot-chart">
