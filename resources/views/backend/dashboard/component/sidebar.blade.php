@@ -29,7 +29,7 @@
                     <li><a href="{{ route('user.index') }}">  <i class="fas fa-id-card"></i>Tài khoản</a></li>
                     <li><a href="index.html"><i class="fas fa-shield-alt"></i>Phân quyền</a></li>
                     <li><a href="index.html"> <i class="fas fa-address-book"></i>Nhân viên</a></li>
-                    <li><a href="{{ route('backend.customer.hienthi') }}"> <i class="fa-solid fa-users"></i>Khách hàng</a></li>
+                    <li><a href="{{ route('backend.customer.index') }}"> <i class="fa-solid fa-users"></i>Khách hàng</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-clipboard"></i>Phòng ban</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-tools"></i>Yêu cầu</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-chart-line"></i>Thống kê</a></li>

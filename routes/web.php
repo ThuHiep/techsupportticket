@@ -25,7 +25,7 @@ Route::get('user/index', [UserController::class, 'index'])
 // Định nghĩa route cho phần backend nhưng hiển thị URL là 'customer/hienthi'
 Route::prefix('backend')->name('backend.')->group(function () {
     // Hiển thị danh sách khách hàng
-    Route::get('/customer/hienthi', [CustomerController::class, 'index'])->name('customer.hienthi');
+    Route::get('/customer/index', [CustomerController::class, 'index'])->name('customer.index');
 
     // Hiển thị form tạo khách hàng mới
     Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
@@ -36,12 +36,15 @@ Route::prefix('backend')->name('backend.')->group(function () {
     // Chỉnh sửa khách hàng
     Route::get('/customer/edit/{customer_id}', [CustomerController::class, 'edit'])->name('customer.edit');
 
+    // Route cho cập nhật khách hàng
+    Route::put('/customer/update/{customer_id}', [CustomerController::class, 'update'])->name('customer.update');
+
     // Xóa khách hàng
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('customer.delete');
 });
 
 // Định nghĩa route riêng cho customer mà không có tiền tố 'backend'
-Route::get('/customer/hienthi', function () {
-    return redirect()->route('backend.customer.hienthi');
+Route::get('/customer/index', function () {
+    return redirect()->route('backend.customer.index');
 });
 

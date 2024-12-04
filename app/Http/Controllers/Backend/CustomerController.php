@@ -11,7 +11,7 @@ class CustomerController extends Controller
     // Hiển thị danh sách khách hàng
     public function index()
     {
-        $template = 'backend.customer.hienthi';
+        $template = 'backend.customer.index';
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
         return view('backend.dashboard.layout', compact('template', 'customers'));
     }
@@ -30,13 +30,24 @@ class CustomerController extends Controller
         $customers = Customer::findOrFail($customer_id);
         return view('backend.dashboard.layout', compact('template', 'customers'));
     }
+    public function update(Request $request, $customer_id)
+    {
+        $customers = Customer::findOrFail($customer_id);
+        $customers->name = $request->input('name');
+        $customers->email = $request->input('email');
+        $customers->save();
+
+        return redirect()->route('backend.customer.index')
+            ->with('success', 'Thông tin khách hàng đã được cập nhật!');
+    }
+
     // Xóa khách hàng
     public function destroy($customer_id)
     {
         $customers = Customer::findOrFail($customer_id);
         $customers->delete();
 
-        return redirect()->route('backend.customer.hienthi')
+        return redirect()->route('backend.customer.index')
             ->with('success', 'Khách hàng đã được xóa!');
     }
 
@@ -59,7 +70,7 @@ class CustomerController extends Controller
         $customer->email = $request->input('email');
         $customer->save();
 
-        return redirect()->route('backend.customer.hienthi')
+        return redirect()->route('backend.customer.index')
             ->with('success', 'Khách hàng đã được thêm thành công!');
     }
 }
