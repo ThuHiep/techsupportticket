@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -42,7 +43,7 @@ class CustomerController extends Controller
     public function update(Request $request, $customer_id)
     {
         $customers = Customer::findOrFail($customer_id);
-        $customers->name = $request->input('full_name');
+        $customers->full_name = $request->input('full_name');
         $customers->date_of_birth = $request->input('date_of_birth');
         $customers->gender = $request->input('gender');
         $customers->phone = $request->input('phone');
@@ -83,10 +84,13 @@ class CustomerController extends Controller
         // Sinh tax_id ngẫu nhiên (10 chữ số)
         $taxId = str_pad(mt_rand(0, 9999999999), 10, '0', STR_PAD_LEFT);
 
+
+
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
-        $customer->name = $request->input('full_name');
+        $customer->user_id = $request->input('user_id');
+        $customer->full_name = $request->input('full_name');
         $customer->email = $request->input('email');
         $customer->date_of_birth = $request->input('date_of_birth');
         $customer->gender = $request->input('gender');

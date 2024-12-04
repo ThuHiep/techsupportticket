@@ -31,13 +31,15 @@
             <input type="text" id="full_name" name="full_name" class="form-control" required>
         </div>
 
+
         <!-- Chọn khách hàng -->
         <div class="mb-3">
-            <label for="full_name" class="form-label">Chọn</label>
-            <select id="full_name" name="full_name" class="form-control" required>
+            <label for="user_id" class="form-label">Chọn khách hàng</label>
+            <select id="user_id" name="user_id" class="form-control" required>
                 <option value="" disabled selected>Chọn tên khách hàng</option>
                 @foreach ($customers as $customer)
-                    <option value="{{ $customer->user->username }}">{{ $customer->user->username }}</option>
+                    <!-- Make sure to pass user_id instead of username -->
+                    <option value="{{ $customer->user_id }}">{{ $customer->user->username }}</option>
                 @endforeach
             </select>
         </div>
@@ -59,9 +61,8 @@
         <div class="mb-3">
             <label for="gender" class="form-label">Giới tính</label>
             <select id="gender" name="gender" class="form-control" required>
-                <option value="male">Nam</option>
-                <option value="female">Nữ</option>
-                <option value="other">Khác</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
             </select>
         </div>
 
