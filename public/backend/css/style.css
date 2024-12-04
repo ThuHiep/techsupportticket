@@ -173,7 +173,55 @@ h5 {
 .nav.navbar-top-links .dropdown-alerts a {
   font-size: 12px;
 }
+/*Dropdown_1*/
+/* Định dạng chung cho box "Người dùng: David Williams" */
+.dropdown_1 {
+    background-color: #48505e; /* Nền xám mặc định */
+    color: #ffffff; /* Chữ trắng mặc định */
+    padding: 10px;
+    position: relative; /* Để định vị menu con */
+}
 
+/* Loại bỏ hiệu ứng hover cho box "Người dùng: David Williams" */
+.dropdown_1 > a {
+    color: #ffffff; /* Chữ trắng */
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between; /* Để icon mũi tên nằm bên phải */
+    align-items: center;
+    font-size: 16px;
+    background-color: #48505e; /* Giữ nền xám */
+    pointer-events: all; /* Đảm bảo hoạt động bình thường */
+}
+
+/* Menu dropdown */
+.dropdown_1 .dropdown-menu {
+    display: none; /* Ẩn mặc định */
+    position: absolute;
+    left: 0;
+    top: 100%; /* Hiện ngay bên dưới box */
+    background-color: #ffffff; /* Nền trắng */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    z-index: 1000;
+    list-style: none;
+    padding: 5px 0;
+    min-width: 200px;
+}
+/* Các mục trong menu con */
+.dropdown_1 .dropdown-menu > li > a {
+    color: #48505e; /* Màu chữ xám đậm */
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+/* Hiệu ứng hover cho các mục trong menu con */
+.dropdown_1 .dropdown-menu > li > a:hover {
+    background-color: #ff6f00; /* Nền cam khi hover */
+    color: #ffffff; /* Chữ trắng khi hover */
+}
 
 
 li.nav-header {
