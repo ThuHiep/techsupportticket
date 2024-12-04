@@ -10,11 +10,17 @@
                     <img alt="image" src="backend/img/logo_ss.png" style="width: 30px; height: 30px;" />
                 </div>
             </li>
-
+            <!--David William dropdown-->
+            <!-- David Williams dropdown -->
             <li class="dropdown_1">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                         </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                <a data-toggle="dropdown" class="dropdown-toggle" style="color: #a7b1c2; background-color: #48505e;"href="#">
+                <span class="clear">
+                    <span class="block m-t-xs ">
+                        <strong class="font-bold">Người dùng: David Williams</strong>
+                    </span>
+                    <span class="text-muted text-xs block">Art Director</span>
+                </span>
+                </a>
                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="contacts.html">Contacts</a></li>
@@ -23,6 +29,7 @@
                     <li><a href="login.html">Logout</a></li>
                 </ul>
             </li>
+
             <li class="active">
                 <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
@@ -37,6 +44,6 @@
                 </ul>
             </li>
         </ul>
-
     </div>
 </nav>
+
