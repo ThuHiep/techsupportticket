@@ -1,5 +1,5 @@
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
     <div class="notification-box">
         <p class="p1">Liên kết khôi phục đã được gửi.</p>
         <p class="p2">Vui lòng kiểm tra email của bạn.</p>
-        <a href="../user/quenmatkhau.blade.php" class="back-btn">Quay lại</a>
+        <a href="../auth/quenmatkhau.blade.php" class="back-btn">Quay lại</a>
     </div>
 </div>
 </body>
