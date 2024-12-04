@@ -4,3 +4,27 @@
 .mt20{
     margin-top: 20px;
 }
+.triangle-up {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid green; /* Màu của tam giác lên */
+}
+
+.triangle-down {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid red; /* Màu của tam giác xuống */
+}
+
+.minus-symbol {
+    display: inline-block;
+    width: 10px;
+    height: 2px;
+    background-color: gray; /* Màu của dấu trừ */
+}

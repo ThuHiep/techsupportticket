@@ -15,7 +15,7 @@ class User extends Authenticatable
     protected $primaryKey = 'user_id'; // Đặt khóa chính nếu khác `id`
 
     protected $fillable = [
-        'user_id', 'username', 'password', 'email',
+        'user_id', 'username', 'password', 'email', 'create_at',
         'otp', 'otp_expiration_time', 'otp_validation', 'status'
     ];
     public function customer()

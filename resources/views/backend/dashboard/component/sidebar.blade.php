@@ -1,35 +1,27 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header" style="padding: 15px; z-index: 1000;">
-                <div class="dropdown profile-element"> <span>
-                    <img alt="image" src="backend/img/logosweetsoft.png" style="width: 160px; height: 30px;" />
+            <li class="nav-header"> 
+                <div class="dropdown profile-element open"> <span>
+                    <img alt="image"  src="backend/img/logosweetsoft.png" 
+                    style="width:170px; height = 100px; margin-top: -10px; margin-bottom: 20px">
+                        <img alt="image" class="img-circle" src="backend/img/profile_small.jpg">
                          </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="true">
+                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                         </span> <span class="text-muted text-xs block"> <b class="caret"></b></span> </span> </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="contacts.html">Contacts</a></li>
+                        <li><a href="mailbox.html">Mailbox</a></li>
+                        <li class="divider"></li>
+                        <li><a href="login.html">Logout</a></li>
+                    </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" src="backend/img/logo_ss.png" style="width: 30px; height: 30px;" />
+                    <img alt="image" class="img-circle" src="backend/img/logo_ss.png" style="width:30px; height = 30px"> 
                 </div>
             </li>
-            <!--David William dropdown-->
-            <!-- David Williams dropdown -->
-            <li class="dropdown_1">
-                <a data-toggle="dropdown" class="dropdown-toggle" style="color: #a7b1c2; background-color: #48505e;"href="#">
-                <span class="clear">
-                    <span class="block m-t-xs ">
-                        <strong class="font-bold">Người dùng: David Williams</strong>
-                    </span>
-                    <span class="text-muted text-xs block">Art Director</span>
-                </span>
-                </a>
-                <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
-                    <li><a href="mailbox.html">Mailbox</a></li>
-                    <li class="divider"></li>
-                    <li><a href="login.html">Logout</a></li>
-                </ul>
-            </li>
-
             <li class="active">
                 <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
@@ -43,7 +35,8 @@
                     <li><a href="index.html"> <i class="fa-solid fa-newspaper"></i>Tin tức</a></li>
                 </ul>
             </li>
+        
         </ul>
+
     </div>
 </nav>
-

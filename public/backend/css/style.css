@@ -52,13 +52,13 @@ h5 {
   color: #ffffff;  /*Huy đã sửa màu logout*/
 }
 .nav > li.active > a {
-  color: #ff6f00;
+  color: #ff9700;
     background-color: #FFFFFF; /*Huy đã đổi màu tại đây*/
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
   background-color: #ffffff;
-  color: #ee5711;
+  color: #ff9700;
 }
 .nav .open > a,
 .nav .open > a:hover,
@@ -371,6 +371,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   display: none;
   padding: 18px 0;
 }
+
 .pace-done .navbar-static-side,
 .pace-done .nav-header,
 .pace-done li.active,

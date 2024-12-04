@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer; // Import Model Customer
+use App\Models\Request as SupportRequest; // Import Model Request
+use App\Models\User; // Import Model User
+
 
 class DashboardController extends Controller
 {
@@ -23,26 +26,61 @@ class DashboardController extends Controller
         // Số khách hàng ngày hôm qua
         $totalCustomersYesterday = Customer::whereDate('create_at', now()->subDay()->toDateString())->count();
     
-        // Tính phần trăm thay đổi so với hôm qua
-        if ($totalCustomersYesterday == 0) {
-            $percentageChange = $totalCustomersToday > 0 ? '100%+' : '0%';
-        } else {
-            $percentageChange = (($totalCustomersToday - $totalCustomersYesterday) / $totalCustomersYesterday) * 100;
-        }
+        // Tính phần trăm thay đổi khách hàng so với hôm qua
+        $customerPercentageChange = $this->calculatePercentageChange($totalCustomersToday, $totalCustomersYesterday);
+
+        // Tổng số yêu cầu từ bảng request hôm nay
+        $totalRequestsToday = SupportRequest::whereDate('received_at', now()->toDateString())->count();
+        
+        // Tổng số yêu cầu từ bảng request ngày hôm qua
+        $totalRequestsYesterday = SupportRequest::whereDate('received_at', now()->subDay()->toDateString())->count();
+
+        // Tính phần trăm thay đổi yêu cầu so với hôm qua
+        $requestPercentageChange = $this->calculatePercentageChange($totalRequestsToday, $totalRequestsYesterday);
+        
+        // Tổng số người dùng từ bảng user hôm nay
+        $totalUsersToday = User::whereDate('create_at', now()->toDateString())->count();
+        
+        // Tổng số người dùng từ bảng user ngày hôm qua
+        $totalUsersYesterday = User::whereDate('create_at', now()->subDay()->toDateString())->count();
+
+        // Tính phần trăm thay đổi người dùng so với hôm qua
+        $userPercentageChange = $this->calculatePercentageChange($totalUsersToday, $totalUsersYesterday);
+
+        // // Tổng số bài viết từ bảng faq hôm nay
+        // $totalFaqsToday = Faq::whereDate('created_at', now()->toDateString())->count();
+        
+        // // Tổng số bài viết từ bảng faq ngày hôm qua
+        // $totalFaqsYesterday = Faq::whereDate('created_at', now()->subDay()->toDateString())->count();
+
+        // // Tính phần trăm thay đổi bài viết so với hôm qua
+        // $faqPercentageChange = $this->calculatePercentageChange($totalFaqsToday, $totalFaqsYesterday);
     
+        
         $template = 'backend.dashboard.home.index';
     
         return view('backend.dashboard.layout', compact(
             'template',
             'config',
             'totalCustomersToday',
-            'percentageChange'
+            'customerPercentageChange',
+            'totalRequestsToday',
+            'requestPercentageChange',
+            'totalUsersToday',
+            'userPercentageChange',
         ));
     }
-    
 
+    // Hàm tính phần trăm thay đổi
+    private function calculatePercentageChange($todayCount, $yesterdayCount)
+    {
+        if ($yesterdayCount == 0) {
+            return $todayCount > 0 ? '100%+' : '0%';
+        }
+        
+        return number_format((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2) . '%';
+    }
     
-
     private function config()
     {
         return [
