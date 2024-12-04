@@ -49,6 +49,10 @@ class CustomerController extends Controller
         $customers->address = $request->input('address');
         $customers->profile_image = $request->input('profile_image');
         $customers->email = $request->input('email');
+        $customers->company = $request->input('company');
+        $customers->tax_id = $request->input('tax_id'); // Gán giá trị tax_id
+        $customers->create_at = now();  // Ngày tạo
+        $customers->update_at = now();  // Ngày cập nhật (ban đầu là ngày tạo)
         $customers->save();
 
         return redirect()->route('backend.customer.index')

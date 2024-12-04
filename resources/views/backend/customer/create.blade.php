@@ -33,7 +33,7 @@
 
         <!-- Chọn khách hàng -->
         <div class="mb-3">
-            <label for="full_name" class="form-label">Tên khách hàng</label>
+            <label for="full_name" class="form-label">Chọn</label>
             <select id="full_name" name="full_name" class="form-control" required>
                 <option value="" disabled selected>Chọn tên khách hàng</option>
                 @foreach ($customers as $customer)
