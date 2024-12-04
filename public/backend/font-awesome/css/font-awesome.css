@@ -1103,6 +1103,10 @@
 .fa-level-down:before {
   content: "\f149";
 }
+.fa-minus:before {
+  content: "\f068";
+}
+
 .fa-check-square:before {
   content: "\f14a";
 }
