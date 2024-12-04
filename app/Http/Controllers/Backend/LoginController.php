@@ -33,7 +33,7 @@ class LoginController extends Controller
         // Process login here
         // Example: Authenticate user
         if (auth()->attempt($request->only('username', 'password'))) {
-            return redirect()->route('dashboard');
+            return redirect()->route('backend.dashboard');
         }
 
         return back()->withErrors(['login' => 'Invalid credentials.']);
