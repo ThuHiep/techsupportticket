@@ -3,7 +3,7 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element"> <span>
-                    <img alt="image" src="backend/img/logosweetsoft.png" style="width: 150px; height: 50px;" />
+                    <img alt="image" src="backend/img/logosweetsoft.png" style="width: 160px; height: 30px;" />
                          </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
@@ -17,7 +17,7 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    IN+
+                    <img alt="image" src="backend/img/logo_ss.png" style="width: 30px; height: 30px;" />
                 </div>
             </li>
             <li class="active">
