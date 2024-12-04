@@ -19,6 +19,7 @@ class CustomerController extends Controller
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
+        $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
 
@@ -27,7 +28,7 @@ class CustomerController extends Controller
 
         // Truyền customer_id, tax_id vào view
         $template = 'backend.customer.create';
-        return view('backend.dashboard.layout', compact('template', 'randomId', 'taxId'));
+        return view('backend.dashboard.layout', compact('template', 'randomId', 'taxId', 'customers'));
     }
 
 
@@ -83,7 +84,15 @@ class CustomerController extends Controller
         $customer->customer_id = $randomId;
         $customer->name = $request->input('full_name');
         $customer->email = $request->input('email');
+        $customer->date_of_birth = $request->input('date_of_birth');
+        $customer->gender = $request->input('gender');
+        $customer->phone = $request->input('phone');
+        $customer->address = $request->input('address');
+        $customer->profile_image = $request->input('profile_image');
+        $customer->company = $request->input('company');
         $customer->tax_id = $taxId;  // Gán giá trị tax_id
+        $customer->create_at = now();  // Ngày tạo
+        $customer->update_at = now();  // Ngày cập nhật (ban đầu là ngày tạo)
         $customer->save();
 
         return redirect()->route('backend.customer.index')
