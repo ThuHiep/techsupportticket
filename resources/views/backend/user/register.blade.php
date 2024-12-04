@@ -1,7 +1,4 @@
-<?php
-$title = "Trang chủ Sweetsoft";
-$base_url = "/Thuctapnganh_sweetsoft/TECH_SUPPORT_TICKET";
-?>
+
     <!DOCTYPE html>
 <html lang="en">
 <head>
