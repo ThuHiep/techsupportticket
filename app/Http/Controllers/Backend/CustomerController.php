@@ -9,11 +9,33 @@ use Illuminate\Http\Request;
 class CustomerController extends Controller
 {
     // Hiển thị danh sách khách hàng
-    public function index()
+//    public function index()
+//    {
+//        $template = 'backend.customer.index';
+//        $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
+//        return view('backend.dashboard.layout', compact('template', 'customers'));
+//    }
+
+    public function index(Request $request)
     {
         $template = 'backend.customer.index';
-        $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
-        return view('backend.dashboard.layout', compact('template', 'customers'));
+        // Kiểm tra xem có yêu cầu tìm kiếm không
+        $search = $request->input('search');
+
+        // Nếu có tìm kiếm, lọc dữ liệu theo tên hoặc email
+        $customers = Customer::with('user')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('customer_id', 'LIKE', "%$search%")
+                    ->orWhere('full_name', 'LIKE', "%$search%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('email', 'LIKE', "%$search%");
+                    });
+            })
+            // Phân trang với 10 bản ghi mỗi trang
+            ->paginate(10);
+
+        // Trả về view với dữ liệu khách hàng
+        return view('backend.dashboard.layout', compact('template','customers'));
     }
 
     // Hiển thị form tạo khách hàng mới

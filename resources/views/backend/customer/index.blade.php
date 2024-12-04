@@ -8,7 +8,20 @@
 <body>
 <div class="container mt-4">
     <h1>Danh sách khách hàng</h1>
-    <a href="{{ route('backend.customer.create') }}" class="btn btn-primary mb-3">Thêm khách hàng</a>
+
+    <!-- Thanh tìm kiếm và nút Thêm khách hàng -->
+    <div class="d-flex justify-content-between mb-3">
+        <!-- Tìm kiếm -->
+        <form action="{{ route('backend.customer.index') }}" method="GET" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Tìm kiếm khách hàng" value="{{ request()->query('search') }}">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+
+        <!-- Nút Thêm khách hàng -->
+        <a href="{{ route('backend.customer.create') }}" class="btn btn-primary">Thêm khách hàng</a>
+    </div>
+
+    <!-- Bảng danh sách khách hàng -->
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -26,7 +39,7 @@
                 <td>{{ $customer->customer_id }}</td>
                 <td>{{ $customer->full_name }}</td>
                 <td>{{ $customer->date_of_birth }}</td>
-                <td>{{ $customer->user->email ?? 'N/A' }}</td> <!-- Hiển thị email từ bảng user -->
+                <td>{{ $customer->user->email ?? 'N/A' }}</td>
                 <td>{{ $customer->gender }}</td>
                 <td>
                     <a href="{{ route('backend.customer.edit', $customer->customer_id) }}" class="btn btn-sm btn-warning">Sửa</a>
@@ -35,12 +48,17 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
                     </form>
-
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
+    <!-- Phân trang -->
+    <div class="d-flex justify-content-center">
+        {{ $customers->links() }}
+    </div>
 </div>
+
 </body>
 </html>
