@@ -1,0 +1,200 @@
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #764DAA;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .user-options a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #0073e6;
+        font-weight: bold;
+      }
+
+      main {
+        text-align: center;
+      }
+
+      .welcome-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(to bottom, #F3F1FB, #F3F1FB);
+        padding: 20px 1px;
+        position: relative;
+      }
+
+      .left-image {
+        flex: 1;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 100px;
+        max-height: 500px;
+      }
+
+      .left-image img {
+        height: auto;
+        width: 70%;
+        object-fit: cover;
+      }
+
+      .right-container {
+        text-align: right;
+        padding-right: 100px;
+      }
+
+      .right-content {
+        text-align: left;
+        flex: 1;
+      }
+
+      .right-content h1 {
+        font-size: 50px;
+        margin-bottom: 20px;
+        color: #333333;
+        text-align: left;
+      }
+
+      .mulish-right-content h1 {
+        font-family: "Mulish", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 1000;
+        font-style: normal;
+      }
+
+      .search-bar {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .search-bar input {
+        padding: 12px 15px;
+        font-size: 16px;
+        width: 400px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-bar button {
+        background-color: #845DB4;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .search-bar button img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .quick-links {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .quick-links-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+      }
+
+      .box {
+        width: 150px;
+        padding: 20px;
+        background-color: #ffffff;
+        border: 2px solid #F3F1FB;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .box img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+      }
+
+      .box p {
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .section-divider {
+        border: none;
+        height: 2px;
+        background-color: #d6d6d6;
+        margin: 40px 0;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .faq-section {
+        text-align: left;
+        padding: 0 100px;
+        margin-top: 20px;
+      }
+
+      .faq-section h1 {
+        font-size: 40px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+      }
+      
+      .faq-list {
+        list-style-type: disc;
+        padding-left: 20px;
+        margin-bottom: 30px;
+      }
+
+      .faq-list li {
+        margin-bottom: 10px;
+      }
+
+      .faq-list a {
+        text-decoration: none;
+        color: #845DB4;
+      }
+
+      .faq-list a:hover {
+        text-decoration: underline;
+      }
+
+      
