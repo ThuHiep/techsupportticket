@@ -19,9 +19,17 @@ class CustomerController extends Controller
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
+        // Sinh customer_id ngẫu nhiên
+        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+
+        // Sinh tax_id ngẫu nhiên (10 chữ số)
+        $taxId = str_pad(mt_rand(0, 9999999999), 10, '0', STR_PAD_LEFT);
+
+        // Truyền customer_id, tax_id vào view
         $template = 'backend.customer.create';
-        return view('backend.dashboard.layout', compact('template'));
+        return view('backend.dashboard.layout', compact('template', 'randomId', 'taxId'));
     }
+
 
     // Hiển thị form chỉnh sửa khách hàng
     public function edit($customer_id)
@@ -33,7 +41,12 @@ class CustomerController extends Controller
     public function update(Request $request, $customer_id)
     {
         $customers = Customer::findOrFail($customer_id);
-        $customers->name = $request->input('name');
+        $customers->name = $request->input('full_name');
+        $customers->date_of_birth = $request->input('date_of_birth');
+        $customers->gender = $request->input('gender');
+        $customers->phone = $request->input('phone');
+        $customers->address = $request->input('address');
+        $customers->profile_image = $request->input('profile_image');
         $customers->email = $request->input('email');
         $customers->save();
 
@@ -62,12 +75,15 @@ class CustomerController extends Controller
         while (Customer::where('customer_id', $randomId)->exists()) {
             $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         }
+        // Sinh tax_id ngẫu nhiên (10 chữ số)
+        $taxId = str_pad(mt_rand(0, 9999999999), 10, '0', STR_PAD_LEFT);
 
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
         $customer->name = $request->input('full_name');
         $customer->email = $request->input('email');
+        $customer->tax_id = $taxId;  // Gán giá trị tax_id
         $customer->save();
 
         return redirect()->route('backend.customer.index')
