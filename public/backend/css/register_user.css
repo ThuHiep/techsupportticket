@@ -6,6 +6,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
 /*Color variables*/
 :root{
     --primary-color: #ffffff;
@@ -24,7 +25,7 @@ body{
 /*Reusable CSS*/
 a{
     text-decoration: none;
-    color:var(--second-color);
+    color: var(--second-color);
 }
 a:hover{
     text-decoration: underline;
@@ -40,29 +41,27 @@ a:hover{
     flex-direction: column;
     position: relative;
     padding: 20px 10px;
-
 }
-
 
 /*Register box*/
 .register_box {
     position: relative;
     width: 1000px;
-    height: 600px;
+    height: 700px;
     backdrop-filter: blur(25px);
     padding: 2em 2.5em 5em 2.5em;
     border: 2px solid var(--primary-color);
     border-radius: 15px;
     color: var(--second-color);
     box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.3);
-    margin-top: 0px;
+    margin-top: -10px;
 }
 
 .register-header{
     position: absolute;
     top: 0;
     left: 50%;
-    transform:translateX(-50%);
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,7 +72,7 @@ a:hover{
 }
 
 .register-header span{
-    font-size: 20px;
+    font-size: 18px;
     color: var(--black-color);
 }
 
@@ -99,6 +98,7 @@ a:hover{
     background: transparent;
     box-shadow: -13px 0 0 0 var(--primary-color);
 }
+
 /*Input Field*/
 .input-container {
     display: grid;
@@ -118,10 +118,11 @@ a:hover{
     position: relative;
     display: flex;
     flex-direction: column;
+    margin-bottom: 15px;
 }
 .input-field {
     width: 100%;
-    height: 50px;
+    height: 53px;
     font-size: 16px;
     padding: 0 20px;
     border: 2px solid var(--primary-color);
@@ -130,32 +131,37 @@ a:hover{
     color: var(--second-color);
     outline: none;
     appearance: none;
+    margin-bottom: 10px;
+
 }
 /*<Option> */
 select option {
     color: #000000;
-    background-color:  var(--second-color);
+    background-color: var(--second-color);
 }
 
 .input-field:focus ~ .label,
 .input-field:not(:placeholder-shown) ~ .label
 {
     position: absolute;
-    top: -10px;
+    top: -16px;
     left: 20px;
-    font-size: 14px;
+    font-size: 13px;
     background-color: var(--primary-color);
     border-radius: 30px;
-    color:var(--black-color);
+    color: var(--black-color);
     padding: 0 10px;
 }
-
 .label {
     position: absolute;
-    top: 15px;
-    left: 20px;
+    top: 10px;
+    left: 15px;
     transition: 0.2s;
-    font-size: 15px;
+    font-size: 13px;
+}
+.required {
+    color: red;
+    font-size: 16px;
 }
 .icon{
     position: absolute;
@@ -168,34 +174,8 @@ select option {
     bottom: 60px;
     width: 100%;
 }
-
-/*Submit Register*/
-.input-submit {
-    grid-column: span 2;
-    width: 50%;
-    height: 50px;
-    background: #ececec;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s;
-    margin-top: 50px;
-}
-.input-submit {
-    grid-column: span 2;
-    width: 50%;
-    height: 50px;
-    background: #ececec;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s;
-    margin: -30px auto 0 auto;
-    display: block;
+.column {
+    flex: 1;
 }
 /*Goi y password*/
 .strong1 {
@@ -204,7 +184,7 @@ select option {
 }
 .password-hint {
     font-size: 13px;
-    color:var(--second-color);
+    color: var(--second-color);
     margin-top: 15px;
     margin-left: 20px;
     line-height: 1.5;
@@ -222,11 +202,41 @@ select option {
 .hint-list li {
     list-style-position: inside;
 }
+
+/*Submit Register*/
+.input-submit {
+    grid-column: span 2;
+    width: 25%;
+    height: 50px;
+    background: #ececec;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+    margin: 10px 0 0 auto;
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+}
+.input-submit:hover{
+    background: var(--second-color);
+}
+.input-box-submit {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    margin-top: -100px;
+    position: relative;
+}
 /*Login link*/
 .login-link{
-    text-align: center;
-    margin-bottom: -50px;
+    text-align: right;
     margin-top: 25px;
+    margin-bottom: 0;
 }
 .login-link span{
     font-size: 16px;
@@ -244,7 +254,78 @@ select option {
 }
 .login-box:hover {
     border: 2px solid rgb(204, 30, 204);
-    background-color:var(--second-color);
-    color:  rgb(204, 30, 204);
+    background-color: var(--second-color);
+    color: rgb(204, 30, 204);
     text-decoration: none;
+}
+
+/* Responsive CSS */
+@media (max-width: 1200px) {
+    .register_box {
+        width: 90%;
+        height: auto;
+    }
+
+    .input-container {
+        grid-template-columns: 1fr;
+    }
+
+    .input-submit {
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .register_box {
+        width: 100%;
+        padding: 1em;
+    }
+
+    .register-header {
+        width: 150px;
+        height: 60px;
+    }
+
+    .register-header span {
+        font-size: 18px;
+    }
+
+    .input-container {
+        margin-top: 70px;
+        grid-template-columns: 1fr;  /* Changed to 1 column for mobile devices */
+    }
+
+    .input-submit {
+        width: 100%;
+    }
+
+    .login-link {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register_box {
+        padding: 1em;
+    }
+
+    .register-header {
+        width: 120px;
+        height: 50px;
+    }
+
+    .input-container {
+        margin-top: 50px;
+        grid-template-columns: 1fr;  /* Ensure the fields stack vertically */
+    }
+
+    .input-submit {
+        width: 100%;
+        height: 45px;
+    }
+
+    .login-link {
+        margin-top: 10px;
+    }
 }
