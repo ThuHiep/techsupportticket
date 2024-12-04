@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
-    <link rel="stylesheet" href="{{ asset('backend/css/bootstrap.css') }}">
 </head>
 <body>
 <div class="container mt-4">
