@@ -31,7 +31,7 @@
 <script>
     document.querySelector('.input-submit').addEventListener('click', function(e) {
         e.preventDefault(); // Ngăn form submit mặc định
-        window.location.href = "#"; // Chuyển hướng sang trang thông báo
+        window.location.href = "../auth/thongbaodaguimail.blade.php"; // Chuyển hướng sang trang thông báo
     });
 </script>
 </body>

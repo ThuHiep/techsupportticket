@@ -1,0 +1,89 @@
+
+/*Poppins Font*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+/*Color variables*/
+:root{
+    --primary-color: #edede3;
+    --second-color: #ffffff;
+    --black-color: #000000;
+}
+body{
+    background-image: url("/techsupportticket/public/backend/img/galaxy-art.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+a{
+    text-decoration: none;
+    color:var(--second-color);
+}
+a:hover{
+    text-decoration: underline;
+}
+.wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+    flex-direction: column;
+    position: relative;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+/* Forgot Password Box */
+.notification-box{
+    position: relative;
+    width: 600px;
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    padding: 8.5em 2.5em 5em 2.5em ;
+    color:var(--second-color);
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+    margin-bottom: -20px ;
+}
+.notification-box p{
+    font-size: 27px;
+
+}
+.p1 {
+
+    margin-bottom: 5px;
+    color: var(--second-color);
+}
+.p2 {
+
+    margin-top: 5px;
+    color: var(--second-color);
+}
+/*Back*/
+.back-btn{
+    width: auto;
+    height: 50px;
+    display: inline-block;
+    padding: 5px 10px;
+    border: 2px solid var(--second-color);
+    border-radius: 5px;
+    background-color: rgba(176, 255, 66, 0.1);
+    color: #ffffff;
+    transition:.3s;
+    text-decoration: none;
+    margin-top: 40px;
+}
+
+.back-btn:hover {
+    text-decoration: none;
+    border: 2px solid rgb(204, 30, 204);
+    background-color:var(--second-color);
+    color:  rgb(204, 30, 204);
+}
