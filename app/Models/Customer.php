@@ -21,6 +21,8 @@ class Customer extends Model
         'profile_image',
         'company',
         'tax_id',
+        'create_at',
+        'update_at',
     ];
 
 }
