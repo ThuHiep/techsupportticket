@@ -11,7 +11,8 @@ Route::get('/', function () {
 });
 
 Route::get('admin', [AuthController::class, 'login'])->name('auth.login');
-
+/*Route login cua user*/
+Route::get('user', [UserController::class, 'login'])->name('user.login');
 //Route::get('users', [UserController::class, 'index'])->name('users.index');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');

@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="forgot">
-                        <a href="#">Quên mật khẩu?</a>
+                        <a href="../auth/quenmatkhau.blade.php">Quên mật khẩu?</a>
                     </div>
                 </div>
 

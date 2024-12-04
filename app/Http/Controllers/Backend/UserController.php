@@ -16,4 +16,10 @@ class UserController extends Controller
         $template = 'backend.user.index';
         return view('backend.dashboard.layout', compact('template'));
     }
+    /*Login cua user*/
+    public function login(){
+        return view('backend.user.login');
+    }
+
+
 }

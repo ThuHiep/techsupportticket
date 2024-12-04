@@ -23,7 +23,7 @@
             <input type="submit" class="input-submit" value="Gửi liên kết khôi phục qua mail">
         </div>
         <div class="back-to-login">
-            <span>Bạn đã nhớ lại mật khẩu? <a href="../user/login.blade.php" class="login-box">Đăng nhập</a></span>
+            <span>Bạn đã nhớ lại mật khẩu? <a href="../auth/login.blade.php" class="login-box">Đăng nhập</a></span>
         </div>
     </div>
 </div>
