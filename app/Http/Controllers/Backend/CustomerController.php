@@ -11,9 +11,9 @@ class CustomerController extends Controller
     // Hiển thị danh sách khách hàng
     public function index()
     {
-        // Lấy toàn bộ khách hàng từ bảng customers
+        $template = 'backend.customer.hienthi';
         $customers = Customer::all();
-        return view('backend.customer.hienthi', compact('customers'));
+        return view('backend.dashboard.layout', compact('template', 'customers'));
     }
 
     // Hiển thị form tạo khách hàng mới
