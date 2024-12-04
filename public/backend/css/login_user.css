@@ -14,7 +14,7 @@
 }
 
 body{
-    background-image: url("../Images/galaxy-art.jpg");
+    background-image: url("/techsupportticket/public/backend/img/galaxy-art.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -41,22 +41,22 @@ a:hover{
 }
 /*Logo Company*/
 .logo_box {
-    position: absolute; 
-    top: 20px; 
+    position: absolute;
+    top: 20px;
     left: 50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%);
     background-color: #ffffff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    z-index: 10; 
+    z-index: 10;
 }
 
 .logo_box img {
-    width: 100%; 
-    max-width: 230px; 
-    height: auto; 
+    width: 100%;
+    max-width: 230px;
+    height: auto;
 }
 
 
@@ -70,7 +70,8 @@ a:hover{
     padding: 8.5em 2.5em 5em 2.5em ;
     color:var(--second-color);
     box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
-    margin-top: 70px ;
+    margin-top: 50px ;
+
 }
 .login-header{
     position: absolute;
@@ -112,6 +113,13 @@ a:hover{
     box-shadow: -15px 0 0 0 var(--primary-color);
 }
 .input_box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+    bottom: 40px;
+}
+.input_box_submit{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -161,46 +169,47 @@ a:hover{
     display: flex;
     justify-content: space-between;
     font-size: 15px;
+    margin-top: -40px;
 }
 /* Checkbox remember */
 input[type="checkbox"] {
-    width: 20px; 
-    height: 20px; 
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    appearance: none; 
-    border: 2px solid #ffffff; 
-    border-radius: 50%; 
+    appearance: none;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
     outline: none;
-    transition: background-color 0.3s, border-color 0.3s; 
+    transition: background-color 0.3s, border-color 0.3s;
 }
 input[type="checkbox"]:checked {
-    background-color: rgb(255, 66, 255); 
-    border-color: rgb(255, 255, 255); 
+    background-color: rgb(255, 66, 255);
+    border-color: rgb(255, 255, 255);
 }
 input[type="checkbox"]:checked::before {
-    content: "✓"; 
-    color: white; 
-    font-size: 14px; 
-    font-weight: bold; 
-    position: absolute; 
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
     top: 40%;
-    left: 6%; 
-    transform: translate(-50%, -50%); 
+    left: 6%;
+    transform: translate(-50%, -50%);
 }
 input[type="checkbox"]:hover {
-    border-color: #e213f5b3; 
+    border-color: #e213f5b3;
 }
 /*Ghi nho tai khoan*/
 .remember-me {
-    font-size: 14px; 
+    font-size: 14px;
     position: relative;
-    top: -3px; 
+    top: -3px;
 
 }
 .remember-me label{
-    font-size: 16px; 
+    font-size: 16px;
     position: relative;
-    top: -3px; 
+    top: -3px;
 }
 /*Quen mat khau*/
 .forgot a{
@@ -227,10 +236,12 @@ input[type="checkbox"]:hover {
 /*Dang ky*/
 .register{
     text-align: center;
+    position: relative;
+    top: 20px; /* Di chuyển xuống */
 }
 .register span{
     font-size: 14px;
-    
+
 }
 .register a{
     font-weight: 500;
@@ -266,13 +277,13 @@ input[type="checkbox"]:hover {
 
 @media (max-width: 768px) {
     .logo_box img {
-        max-width: 200px; 
+        max-width: 200px;
     }
 }
 
 @media (max-width: 480px) {
     .logo_box img {
-        max-width: 150px; 
+        max-width: 150px;
     }
 }
 

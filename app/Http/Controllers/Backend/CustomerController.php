@@ -12,14 +12,28 @@ class CustomerController extends Controller
     public function index()
     {
         // Lấy toàn bộ khách hàng từ bảng customers
-        $customers = customer::all();
-        return view('backend.customers.hienthi', compact('customers'));
+        $customers = Customer::all();
+        return view('backend.customer.hienthi', compact('customers'));
     }
 
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
-        return view('backend.customers.create');
+        return view('backend.customer.create');
+    }
+
+    // Hiển thị form chỉnh sửa khách hàng
+    public function edit($customer_id)
+    {
+        $customers = Customer::findOrFail($customer_id);
+        return view('backend.customer.edit', compact('customers'));
+    }
+    // Xóa khách hàng
+    public function destroy($customer_id)
+    {
+        $customer = Customer::findOrFail($customer_id);
+        $customer->delete();
+        return redirect()->route('backend.customer.hienthi')->with('success', 'Khách hàng đã được xóa!');
     }
 
     // Lưu khách hàng mới
@@ -31,9 +45,9 @@ class CustomerController extends Controller
             'email' => 'required|email|unique:customers,email',
         ]);
         // Lưu dữ liệu vào database
-        customer::create($request->all());
+        Customer::create($request->all());
 
         // Thêm logic lưu $data vào database
-        return redirect()->route('backend.customers.hienthi')->with('success', 'Khách hàng đã được thêm thành công!');
+        return redirect()->route('backend.customer.hienthi')->with('success', 'Khách hàng đã được thêm thành công!');
     }
 }
