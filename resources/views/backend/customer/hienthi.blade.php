@@ -14,6 +14,7 @@
         <tr>
             <th>ID</th>
             <th>Tên</th>
+            <th>Ngày sinh</th>
             <th>Email</th>
             <th>Ngày tạo</th>
             <th>Thao tác</th>
@@ -24,7 +25,8 @@
             <tr>
                 <td>{{ $customer->customer_id }}</td>
                 <td>{{ $customer->full_name }}</td>
-                <td>{{ $customer->email }}</td>
+                <td>{{ $customer->date_of_birth }}</td>
+                <td>{{ $customer->user->email ?? 'N/A' }}</td> <!-- Hiển thị email từ bảng user -->
                 <td>{{ $customer->created_at }}</td>
                 <td>
                     <a href="{{ route('backend.customer.edit', $customer->customer_id) }}" class="btn btn-sm btn-warning">Sửa</a>

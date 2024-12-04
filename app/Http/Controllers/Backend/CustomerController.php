@@ -12,7 +12,7 @@ class CustomerController extends Controller
     public function index()
     {
         $template = 'backend.customer.hienthi';
-        $customers = Customer::all();
+        $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
         return view('backend.dashboard.layout', compact('template', 'customers'));
     }
 
@@ -26,29 +26,40 @@ class CustomerController extends Controller
     // Hiển thị form chỉnh sửa khách hàng
     public function edit($customer_id)
     {
+        $template = 'backend.customer.edit';
         $customers = Customer::findOrFail($customer_id);
-        return view('backend.customer.edit', compact('customers'));
+        return view('backend.dashboard.layout', compact('template', 'customers'));
     }
     // Xóa khách hàng
     public function destroy($customer_id)
     {
-        $customer = Customer::findOrFail($customer_id);
-        $customer->delete();
-        return redirect()->route('backend.customer.hienthi')->with('success', 'Khách hàng đã được xóa!');
+        $customers = Customer::findOrFail($customer_id);
+        $customers->delete();
+
+        return redirect()->route('backend.customer.hienthi')
+            ->with('success', 'Khách hàng đã được xóa!');
     }
+
 
     // Lưu khách hàng mới
     public function store(Request $request)
     {
-        // Xử lý lưu thông tin vào database
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers,email',
-        ]);
-        // Lưu dữ liệu vào database
-        Customer::create($request->all());
+        // Sinh customer_id ngẫu nhiên
+        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
 
-        // Thêm logic lưu $data vào database
-        return redirect()->route('backend.customer.hienthi')->with('success', 'Khách hàng đã được thêm thành công!');
+        // Kiểm tra trùng lặp trong database
+        while (Customer::where('customer_id', $randomId)->exists()) {
+            $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        }
+
+        // Tạo khách hàng mới
+        $customer = new Customer();
+        $customer->customer_id = $randomId;
+        $customer->name = $request->input('full_name');
+        $customer->email = $request->input('email');
+        $customer->save();
+
+        return redirect()->route('backend.customer.hienthi')
+            ->with('success', 'Khách hàng đã được thêm thành công!');
     }
 }
