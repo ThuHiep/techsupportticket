@@ -14,7 +14,7 @@
 }
 
 body{
-    background-image: url("../Images/galaxy-art.jpg");
+    background-image: url("/techsupportticket/public/backend/img/galaxy-art.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
