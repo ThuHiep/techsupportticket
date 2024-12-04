@@ -19,7 +19,8 @@ class CustomerController extends Controller
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
-        return view('backend.customer.create');
+        $template = 'backend.customer.create';
+        return view('backend.dashboard.layout', compact('template'));
     }
 
     // Hiển thị form chỉnh sửa khách hàng
