@@ -44,3 +44,4 @@ Route::prefix('backend')->name('backend.')->group(function () {
 Route::get('/customer/hienthi', function () {
     return redirect()->route('backend.customer.hienthi');
 });
+
