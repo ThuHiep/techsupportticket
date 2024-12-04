@@ -38,13 +38,18 @@ h5 {
   margin-top: 5px;
   font-weight: 600;
 }
+
+.navbar .fa {
+    color: white; /* Huy đã màu các icon sang trắng */
+}
+
 .nav > li > a {
   color: #a7b1c2;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
 }
 .nav.navbar-right > li > a {
-  color: #999c9e;
+  color: #ffffff;  /*Huy đã sửa màu logout*/
 }
 .nav > li.active > a {
   color: #ff6f00;
