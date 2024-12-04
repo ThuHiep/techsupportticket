@@ -47,12 +47,13 @@ h5 {
   color: #999c9e;
 }
 .nav > li.active > a {
-  color: #ffffff;
+  color: #a7b1c2;
+    background-color: #FFFFFF; /*Huy đã đổi màu tại đây*/
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
-  background-color: #293846;
-  color: white;
+  background-color: #ffffff;
+  color: #ee5711;
 }
 .nav .open > a,
 .nav .open > a:hover,
@@ -175,7 +176,7 @@ li.nav-header {
   transition: all 0.4s;
 }
 ul.nav-second-level {
-  background: #293846;
+  background: #FFFFFF; /*Huy đã đổi màu tại đây*/
 }
 .nav > li.active {
   border-left: 4px solid #ff6f00;
