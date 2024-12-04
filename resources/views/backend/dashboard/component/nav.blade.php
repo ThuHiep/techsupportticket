@@ -1,5 +1,5 @@
 <div class="row border-bottom">
-    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; background-color:#50138D">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; "><!--Huy đã xóa background-color:#50138D ở đây-->
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
 

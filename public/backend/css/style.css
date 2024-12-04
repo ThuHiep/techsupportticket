@@ -47,7 +47,7 @@ h5 {
   color: #999c9e;
 }
 .nav > li.active > a {
-  color: #a7b1c2;
+  color: #ff6f00;
     background-color: #FFFFFF; /*Huy đã đổi màu tại đây*/
 }
 .navbar-default .nav > li > a:hover,
@@ -184,6 +184,7 @@ ul.nav-second-level {
 }
 .nav.nav-second-level > li.active {
   border: none;
+    color: #ff6f00;
 }
 .nav.nav-second-level.collapse[style] {
   height: auto !important;
@@ -331,7 +332,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 }
 .navbar-fixed-top,
 .navbar-static-top {
-  background: #50138D;
+  background: #6f2f9f;
 }
 .fixed-nav #wrapper {
   margin-top: 0;
@@ -4159,7 +4160,7 @@ table.table-mail tr td {
   color: #ed5565;
 }
 .text-muted {
-  color: #888888;
+  color: #ffffff;
 }
 .text-white {
   color: #ffffff;
