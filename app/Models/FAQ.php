@@ -27,6 +27,8 @@ class FAQ extends Model
         'employee_id',
         'question',
         'answer',
+        'create_at',
+        'status'
     ];
 
     // Tắt timestamps (do bảng không có cột `created_at` và `updated_at`)
