@@ -1,15 +1,21 @@
 <nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header"> 
-                <div class="dropdown profile-element open"> <span>
-                    <img alt="image"  src="backend/img/logosweetsoft.png" 
-                    style="width:170px; height = 100px; margin-top: -10px; margin-bottom: 20px">
+            <li class="nav-header" style="background-color: #6f2f9f" > <!--Huy đã đổi màu-->
+                <div class="dropdown profile-element " style="background-color: #6f2f9f"> <!--Huy đã xóa class "open" trong div này, đổi màu -->
+                    <span>
+                    <img alt="image"  src="backend/img/logosweetsoft.png"
+                    style="width:170px; margin-top: -10px; margin-bottom: 20px">
                         <img alt="image" class="img-circle" src="backend/img/profile_small.jpg">
                          </span>
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="true">
-                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                         </span> <span class="text-muted text-xs block"> <b class="caret"></b></span> </span> </a>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">David Williams</strong>
+                                 <b class="caret ms-2"></b>
+                            </span>
+                        </span>
+                    </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="profile.html">Profile</a></li>
                         <li><a href="contacts.html">Contacts</a></li>
@@ -19,7 +25,7 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" class="img-circle" src="backend/img/logo_ss.png" style="width:30px; height = 30px"> 
+                    <img alt="image" class="img-circle" src="backend/img/logo_ss.png" style="width:30px; height = 30px">
                 </div>
             </li>
             <li class="active">
@@ -35,7 +41,7 @@
                     <li><a href="index.html"> <i class="fa-solid fa-newspaper"></i>Tin tức</a></li>
                 </ul>
             </li>
-        
+
         </ul>
 
     </div>

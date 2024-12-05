@@ -225,7 +225,7 @@ h5 {
 
 
 li.nav-header {
-  padding: 33px 25px;
+  padding: 33px 20px 20px;
   background-color: #50138D; /*  Huy đã xóa "background-image: url("patterns/header-profile.png");" và đổi màu "background-color"*/
 }
 .pace-done .nav-header {
