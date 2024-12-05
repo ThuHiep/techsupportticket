@@ -1,3 +1,4 @@
+
 <div class="wrapper wrapper-content">
     <div class="row">
         <!-- Khách hàng -->
@@ -75,55 +76,20 @@
 
     <!-- Phần tiếp theo -->
     <div class="row">
+        
         <div class="col-lg-5">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Phòng ban</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
+            <div class="ibox-title">
+                <h5>Trạng thái yêu cầu</h5>
+            </div>
+            <div class="ibox-content" style="height:350px">
+                <canvas id="requestStatusPieChart" style="width:100%; height:300px;"></canvas>
 
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Dữ liệu</th>
-                            <th>Phòng ban</th>
-                            <th>Yêu cầu</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><span class="pie" style="display: none;">0.52,1.041</span><svg class="peity" height="16" width="16"></path></svg></td>
-                            <td>Samantha</td>
-                            <td class="text-navy"> <i class="fa fa-level-up"></i> 40% </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><span class="pie" style="display: none;">226,134</span><svg class="peity" height="16" width="16"></path></svg></td>
-                            <td>Jacob</td>
-                            <td class="text-warning"> <i class="fa fa-level-down"></i> -20% </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><span class="pie" style="display: none;">0.52/1.561</span><svg class="peity" height="16" width="16"></svg></td>
-                            <td>Damien</td>
-                            <td class="text-navy"> <i class="fa fa-level-up"></i> 26% </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
+        
+      
+        
+        
 
         <!-- Biểu đồ yêu cầu hỗ trợ -->
         <div class="col-lg-7">
@@ -139,9 +105,34 @@
     </div>
 
     <!-- Thêm script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+    <script src="backend/js/jquery-3.1.1.min.js"></script>
+    <script src="backend/js/plugins/flot/jquery.flot.js"></script>
+    <script src="backend/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="backend/js/plugins/chartJs/Chart.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            var data = [
+                { label: "Đang xử lý", data: {{ $requestStatusCounts['processing'] }} },
+                { label: "Đã xử lý", data: {{ $requestStatusCounts['handled'] }} },
+                { label: "Hoàn thành", data: {{ $requestStatusCounts['completed'] }} },
+                { label: "Đã hủy", data: {{ $requestStatusCounts['cancelled'] }} }
+            ];
+    
+            $.plot('#requestStatusPieChart', data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            });
+        });
+    </script>
+    
+   
     <script>
         $(document).ready(function () {
             // Dữ liệu cho biểu đồ: Thống kê yêu cầu trong tuần

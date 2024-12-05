@@ -38,27 +38,21 @@ h5 {
   margin-top: 5px;
   font-weight: 600;
 }
-
-.navbar .fa {
-    color: white; /* Huy đã màu các icon sang trắng */
-}
-
 .nav > li > a {
   color: #a7b1c2;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
 }
 .nav.navbar-right > li > a {
-  color: #ffffff;  /*Huy đã sửa màu logout*/
+  color: #999c9e;
 }
 .nav > li.active > a {
-  color: #ff9700;
-    background-color: #FFFFFF; /*Huy đã đổi màu tại đây*/
+  color: #ffffff;
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
-  background-color: #ffffff;
-  color: #ff9700;
+  background-color: #293846;
+  color: white;
 }
 .nav .open > a,
 .nav .open > a:hover,
@@ -173,74 +167,23 @@ h5 {
 .nav.navbar-top-links .dropdown-alerts a {
   font-size: 12px;
 }
-/*Dropdown_1*/
-/* Định dạng chung cho box "Người dùng: David Williams" */
-.dropdown_1 {
-    background-color: #48505e; /* Nền xám mặc định */
-    color: #ffffff; /* Chữ trắng mặc định */
-    padding: 10px;
-    position: relative; /* Để định vị menu con */
-}
-
-/* Loại bỏ hiệu ứng hover cho box "Người dùng: David Williams" */
-.dropdown_1 > a {
-    color: #ffffff; /* Chữ trắng */
-    text-decoration: none;
-    display: flex;
-    justify-content: space-between; /* Để icon mũi tên nằm bên phải */
-    align-items: center;
-    font-size: 16px;
-    background-color: #48505e; /* Giữ nền xám */
-    pointer-events: all; /* Đảm bảo hoạt động bình thường */
-}
-
-/* Menu dropdown */
-.dropdown_1 .dropdown-menu {
-    display: none; /* Ẩn mặc định */
-    position: absolute;
-    left: 0;
-    top: 100%; /* Hiện ngay bên dưới box */
-    background-color: #ffffff; /* Nền trắng */
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Đổ bóng */
-    z-index: 1000;
-    list-style: none;
-    padding: 5px 0;
-    min-width: 200px;
-}
-/* Các mục trong menu con */
-.dropdown_1 .dropdown-menu > li > a {
-    color: #48505e; /* Màu chữ xám đậm */
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-    font-size: 14px;
-}
-
-/* Hiệu ứng hover cho các mục trong menu con */
-.dropdown_1 .dropdown-menu > li > a:hover {
-    background-color: #ff6f00; /* Nền cam khi hover */
-    color: #ffffff; /* Chữ trắng khi hover */
-}
-
-
-li.nav-header {
-  padding: 33px 20px 20px;
-  background-color: #50138D; /*  Huy đã xóa "background-image: url("patterns/header-profile.png");" và đổi màu "background-color"*/
+.nav-header {
+  padding: 33px 25px;
+  background-color: #2f4050;
+  background-image: url("patterns/header-profile.png");
 }
 .pace-done .nav-header {
   transition: all 0.4s;
 }
 ul.nav-second-level {
-  background: #FFFFFF; /*Huy đã đổi màu tại đây*/
+  background: #293846;
 }
 .nav > li.active {
-  border-left: 4px solid #ff6f00;
+  border-left: 4px solid #19aa8d;
   background: #293846;
 }
 .nav.nav-second-level > li.active {
   border: none;
-    color: #ff6f00;
 }
 .nav.nav-second-level.collapse[style] {
   height: auto !important;
@@ -369,9 +312,8 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   font-weight: 600;
   color: white;
   display: none;
-  padding: 15px 0;
+  padding: 18px 0;
 }
-
 .pace-done .navbar-static-side,
 .pace-done .nav-header,
 .pace-done li.active,
@@ -383,13 +325,14 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   transition: all 0.4s;
 }
 .navbar-fixed-top {
+  background: #fff;
   transition-duration: 0.4s;
   border-bottom: 1px solid #e7eaec !important;
   z-index: 2030;
 }
 .navbar-fixed-top,
 .navbar-static-top {
-  background: #50138d;
+  background: #f3f3f4;
 }
 .fixed-nav #wrapper {
   margin-top: 0;
@@ -470,7 +413,7 @@ body.canvas-menu .logo-element {
 }
 body.mini-navbar .nav-header {
   padding: 0;
-  background-color: #ffffff; /*Huy đã đổi màu*/
+  background-color: #1ab394;
 }
 body.canvas-menu .nav-header {
   padding: 33px 25px;
@@ -572,7 +515,10 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   color: #1ab394;
   font-weight: bold;
 }
-
+.white-bg .navbar-fixed-top,
+.white-bg .navbar-static-top {
+  background: #fff;
+}
 .top-navigation .navbar {
   margin-bottom: 0;
 }
@@ -694,7 +640,6 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-warning.btn-outline {
   color: #f8ac59;
 }
-
 .btn-danger.btn-outline {
   color: #ed5565;
 }
@@ -1731,6 +1676,9 @@ div.dt-button-info {
   }
 }
 /* CIRCLE */
+.img-circle {
+  border-radius: 50%;
+}
 .btn-circle {
   width: 30px;
   height: 30px;
@@ -3530,7 +3478,7 @@ body.tour-open .animated {
 }
 body {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #FFFFFF;
+  background-color: #2f4050;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -4086,9 +4034,6 @@ table.table-mail tr td {
 .white-bg {
   background-color: #ffffff;
 }
-.purple-bg{
-  background-color: #50138D;
-}
 .blue-bg,
 .bg-success {
   background-color: #1c84c6;
@@ -4217,7 +4162,7 @@ table.table-mail tr td {
   color: #ed5565;
 }
 .text-muted {
-  color: #ffffff;
+  color: #888888;
 }
 .text-white {
   color: #ffffff;

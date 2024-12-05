@@ -232,6 +232,7 @@ input[type="checkbox"]:hover {
     cursor: pointer;
     transition: .3s;
     margin-top: 5px;
+    color: #000000;
 }
 .input-submit:hover{
     background: var(--second-color);

@@ -57,6 +57,14 @@ class DashboardController extends Controller
         // $faqPercentageChange = $this->calculatePercentageChange($totalFaqsToday, $totalFaqsYesterday);
     
         
+        // Dữ liệu yêu cầu theo trạng thái
+        $requestStatusCounts = [
+            'processing' => SupportRequest::where('status', 'processing')->count(),
+            'handled' => SupportRequest::where('status', 'handled')->count(),
+            'completed' => SupportRequest::where('status', 'completed')->count(),
+            'cancelled' => SupportRequest::where('status', 'cancelled')->count(),
+        ];
+
         $template = 'backend.dashboard.home.index';
     
         return view('backend.dashboard.layout', compact(
@@ -68,6 +76,7 @@ class DashboardController extends Controller
             'requestPercentageChange',
             'totalUsersToday',
             'userPercentageChange',
+             'requestStatusCounts',
         ));
     }
 
@@ -80,6 +89,7 @@ class DashboardController extends Controller
         
         return number_format((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2) . '%';
     }
+    
     
     private function config()
     {
@@ -103,5 +113,6 @@ class DashboardController extends Controller
                 'backend/js/demo/sparkline-demo.js',
             ],
         ];
+
     }
 }
