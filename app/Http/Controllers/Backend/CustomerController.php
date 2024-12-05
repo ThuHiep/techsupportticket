@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    // Hiển thị danh sách khách hàng
-//    public function index()
-//    {
-//        $template = 'backend.customer.index';
-//        $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
-//        return view('backend.dashboard.layout', compact('template', 'customers'));
-//    }
-
     public function index(Request $request)
     {
         $template = 'backend.customer.index';
@@ -31,8 +23,8 @@ class CustomerController extends Controller
                         $query->where('email', 'LIKE', "%$search%");
                     });
             })
-            // Phân trang với 10 bản ghi mỗi trang
-            ->paginate(10);
+            // Phân trang với 4 bản ghi mỗi trang
+            ->paginate(4);
 
         // Trả về view với dữ liệu khách hàng
         return view('backend.dashboard.layout', compact('template','customers'));
@@ -63,13 +55,23 @@ class CustomerController extends Controller
     }
     public function update(Request $request, $customer_id)
     {
+        // Kiểm tra nếu có hình ảnh được upload
+        $profileImagePath = null;  // Gán giá trị mặc định nếu không có hình ảnh
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            if ($image->isValid()) {
+                $imageName = 'update_' . time() . '.' . $image->getClientOriginalExtension();
+                $profileImagePath = $imageName;
+                $image->move(public_path('backend/img/customer'), $imageName);
+            }
+        }
         $customers = Customer::findOrFail($customer_id);
         $customers->full_name = $request->input('full_name');
         $customers->date_of_birth = $request->input('date_of_birth');
         $customers->gender = $request->input('gender');
         $customers->phone = $request->input('phone');
         $customers->address = $request->input('address');
-        $customers->profile_image = $request->input('profile_image');
+        $customers->profile_image = $profileImagePath;
         $customers->email = $request->input('email');
         $customers->company = $request->input('company');
         $customers->tax_id = $request->input('tax_id'); // Gán giá trị tax_id
@@ -95,6 +97,20 @@ class CustomerController extends Controller
     // Lưu khách hàng mới
     public function store(Request $request)
     {
+        // Thực hiện kiểm tra (validation) các trường dữ liệu
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id', // Kiểm tra user_id phải tồn tại trong bảng users
+            'full_name' => 'required|string|max:255', // Kiểm tra full_name không được bỏ trống, là chuỗi và không quá 255 ký tự
+            'email' => 'required|email|unique:customers,email', // Kiểm tra email phải hợp lệ và chưa tồn tại trong bảng customers
+            'date_of_birth' => 'required|date|before:today', // Kiểm tra ngày sinh hợp lệ và trước ngày hiện tại
+            'gender' => 'required|in:Nam,Nữ', // Kiểm tra giới tính hợp lệ
+            'phone' => 'nullable|numeric|digits_between:10,15', // Kiểm tra số điện thoại nếu có, phải là số và từ 10 đến 15 chữ số
+            'address' => 'nullable|string|max:500', // Kiểm tra địa chỉ nếu có, là chuỗi và không quá 500 ký tự
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Kiểm tra nếu có hình ảnh, phải là ảnh với dung lượng không quá 2MB
+            'company' => 'nullable|string|max:255', // Kiểm tra tên công ty nếu có, là chuỗi và không quá 255 ký tự
+            'tax_id' => 'required|numeric|digits:9|unique:customers,tax_id', // Kiểm tra tax_id phải là số và có 9 chữ số, chưa tồn tại trong bảng customers
+        ]);
+
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
