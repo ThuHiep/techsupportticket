@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
+   
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,50 +14,24 @@
         }
 
         .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
+            width: 1200px;
+            margin-top: 22px;
+            margin-left: 12px;
+            padding: 0 20px;
             background-color: #fff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
 
         h1 {
-            text-align: center;
-            color: #333;
+            padding-bottom: 20px;
+            color: #FF9700;
         }
 
-        .search-container {
+        .top-bar {
             display: flex;
-            justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            gap: 20px; /* Thêm khoảng cách giữa các phần tử */
-        }
-
-        .search-container input[type="text"] {
-            padding: 8px;
-            width: 60%;
-            border: 1px solid #1E90FF; /* Màu xanh nước biển */
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .search-container input[type="text"]:focus {
-            border-color: #4682B4; /* Màu khi focus */
-        }
-
-        .search-container button {
-            padding: 8px 15px;
-            background-color: blue;
-            color: white;
-            border: 1px solid #4CAF50;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .search-container button:hover {
-            background-color: blue;
         }
 
         .add-customer-btn {
@@ -67,10 +42,42 @@
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            margin-right: auto; /* Đưa nút Thêm mới ra mép trái */
         }
 
         .add-customer-btn:hover {
             background-color: #45a049;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin: 0 auto; /* Đưa thanh tìm kiếm vào giữa */
+        }
+
+        .search-container input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #FF9700;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .search-container input[type="text"]:focus {
+            border-color: #FF9700;
+        }
+
+        .search-container button {
+            padding: 8px 15px;
+            background-color: #FF9700;
+            color: white;
+            border: 1px solid #FF9700;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #f57c00;
         }
 
         .table-container {
@@ -139,19 +146,23 @@
     </style>
 </head>
 <body>
+    
 <div class="container">
-    <h1>Danh sách khách hàng</h1>
-    <!-- Nút Thêm khách hàng -->
-    <a href="{{ route('backend.customer.create') }}" class="add-customer-btn">Thêm</a>
-    <!-- Thanh tìm kiếm và nút Thêm khách hàng -->
-    <div class="search-container">
 
+    <h1>Danh sách khách hàng</h1>      
 
-        <!-- Tìm kiếm -->
-        <form action="{{ route('backend.customer.index') }}" method="GET">
-            <input type="text" name="search" placeholder="Tìm kiếm khách hàng" value="{{ request()->query('search') }}">
-            <button type="submit">Tìm kiếm</button>
-        </form>
+    <!-- Nút Thêm mới và Thanh tìm kiếm cùng một hàng -->
+    <div class="top-bar">
+        <!-- Nút Thêm mới nằm bên trái -->
+        <a href="{{ route('backend.customer.create') }}" class="add-customer-btn">Thêm mới</a>
+        
+        <!-- Thanh tìm kiếm nằm giữa -->
+        <div class="search-container">
+            <form action="{{ route('backend.customer.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Tìm kiếm khách hàng" value="{{ request()->query('search') }}">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
     </div>
 
     <!-- Bảng danh sách khách hàng -->
