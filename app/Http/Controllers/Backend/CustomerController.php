@@ -55,30 +55,43 @@ class CustomerController extends Controller
     }
     public function update(Request $request, $customer_id)
     {
+        // Lấy thông tin khách hàng cũ
+        $customer = Customer::findOrFail($customer_id);
+
         // Kiểm tra nếu có hình ảnh được upload
-        $profileImagePath = null;  // Gán giá trị mặc định nếu không có hình ảnh
+        $profileImagePath = $customer->profile_image;  // Lưu ảnh cũ, nếu có
         if ($request->hasFile('profile_image')) {
+            // Xóa ảnh cũ nếu có
+            if ($profileImagePath && file_exists(public_path('backend/img/customer/' . $profileImagePath))) {
+                unlink(public_path('backend/img/customer/' . $profileImagePath)); // Xóa file ảnh cũ
+            }
+
+            // Lưu ảnh mới
             $image = $request->file('profile_image');
             if ($image->isValid()) {
                 $imageName = 'update_' . time() . '.' . $image->getClientOriginalExtension();
-                $profileImagePath = $imageName;
-                $image->move(public_path('backend/img/customer'), $imageName);
+                $profileImagePath = $imageName;  // Cập nhật đường dẫn ảnh mới
+                $image->move(public_path('backend/img/customer'), $imageName);  // Di chuyển ảnh mới vào thư mục
             }
         }
-        $customers = Customer::findOrFail($customer_id);
-        $customers->full_name = $request->input('full_name');
-        $customers->date_of_birth = $request->input('date_of_birth');
-        $customers->gender = $request->input('gender');
-        $customers->phone = $request->input('phone');
-        $customers->address = $request->input('address');
-        $customers->profile_image = $profileImagePath;
-        $customers->email = $request->input('email');
-        $customers->company = $request->input('company');
-        $customers->tax_id = $request->input('tax_id'); // Gán giá trị tax_id
-        $customers->create_at = now();  // Ngày tạo
-        $customers->update_at = now();  // Ngày cập nhật (ban đầu là ngày tạo)
-        $customers->save();
 
+        // Cập nhật thông tin khách hàng
+        $customer->full_name = $request->input('full_name');
+        $customer->date_of_birth = $request->input('date_of_birth');
+        $customer->gender = $request->input('gender');
+        $customer->phone = $request->input('phone');
+        $customer->address = $request->input('address');
+        $customer->profile_image = $profileImagePath; // Cập nhật ảnh đại diện (hoặc ảnh cũ nếu không có ảnh mới)
+        $customer->email = $request->input('email');
+        $customer->company = $request->input('company');
+        $customer->tax_id = $request->input('tax_id');  // Cập nhật giá trị tax_id
+        $customer->create_at = now();  // Ngày tạo (vẫn giữ nguyên nếu không cần thay đổi)
+        $customer->update_at = now();  // Ngày cập nhật (thay đổi khi cập nhật)
+
+        // Lưu thông tin khách hàng vào database
+        $customer->save();
+
+        // Quay lại trang danh sách khách hàng với thông báo thành công
         return redirect()->route('backend.customer.index')
             ->with('success', 'Thông tin khách hàng đã được cập nhật!');
     }
