@@ -90,6 +90,7 @@
         <!-- Biểu đồ yêu cầu hỗ trợ -->
         <div class="col-lg-7">
             <div class="ibox-title">
+                <span class="label label-warning pull-right" style="font-size: 12px">Hằng tuần</span>
                 <h5>Yêu cầu hỗ trợ</h5>
             </div>
             <div class="ibox-content" style="height:350px">
@@ -157,27 +158,29 @@
     </script>
     <script>
         $(document).ready(function () {
-            // Dữ liệu cho biểu đồ: Thống kê yêu cầu trong tuần
-            const data = [
-                { label: "Yêu cầu", data: [[0, 15], [1, 25], [2, 35], [3, 20], [4, 45], [5, 30], [6, 50]] }
+            // Chuyển đổi dữ liệu requestData từ PHP thành định dạng phù hợp cho biểu đồ
+            var requestData = {!! json_encode($requestData) !!};
+            var data = [];
+            var ticks = [];
+    
+            for (var i = 0; i < requestData.length; i++) {
+                data.push([i, requestData[i].total]);
+                ticks.push([i, requestData[i].day]);
+            }
+    
+            const chartData = [
+                { label: "Yêu cầu", data: data }
             ];
-
+    
             // Cấu hình biểu đồ
             const options = {
                 xaxis: {
-                    ticks: [
-                        [0, "Thứ Hai"],
-                        [1, "Thứ Ba"],
-                        [2, "Thứ Tư"],
-                        [3, "Thứ Năm"],
-                        [4, "Thứ Sáu"],
-                        [5, "Thứ Bảy"],
-                        [6, "Chủ Nhật"]
-                    ]
+                    ticks: ticks,
+                    mode: "categories",  // Đảm bảo rằng trục x được hiển thị theo dạng category (tức là hiển thị nhãn)
+                    tickLength: 0, // Giúp hiển thị nhãn dễ dàng hơn
                 },
                 yaxis: {
                     min: 0,
-                    max: 50,
                     tickFormatter: function (val) {
                         return val;
                     }
@@ -199,10 +202,12 @@
                     position: "ne"
                 }
             };
-
+    
             // Vẽ biểu đồ với dữ liệu và cấu hình
-            $.plot($("#flot-dashboard-chart"), data, options);
+            $.plot($("#flot-dashboard-chart"), chartData, options);
         });
     </script>
+    
+    
 
 </div>

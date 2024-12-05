@@ -64,6 +64,32 @@ class DashboardController extends Controller
             'cancelled' => Request::where('status', 'Đã hủy')->count(),
         ];
 
+        // Số lượng yêu cầu hỗ trợ trong 7 ngày gần nhất
+    $requestsLast7Days = SupportRequest::selectRaw('DATE(received_at) as date, COUNT(*) as total')
+    ->where('received_at', '>=', now()->subDays(7))
+    ->groupBy('date')
+    ->orderBy('date', 'asc')
+    ->get();
+// Lấy dữ liệu yêu cầu trong tuần này từ Thứ Hai đến Chủ Nhật
+$requestsThisWeek = SupportRequest::selectRaw('WEEKDAY(received_at) as weekday, COUNT(*) as total')
+->whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])
+->groupBy('weekday')
+->orderBy('weekday', 'asc')
+->get();
+
+// Tạo mảng mặc định với số lượng yêu cầu là 0 cho cả tuần từ Thứ Hai đến Chủ Nhật
+$weekdays = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'];
+$requestData = array_fill(0, 7, ['day' => '', 'total' => 0]);
+
+foreach ($weekdays as $index => $day) {
+$requestData[$index]['day'] = $day;
+}
+
+// Cập nhật dữ liệu thực tế từ $requestsThisWeek
+foreach ($requestsThisWeek as $request) {
+$requestData[$request->weekday]['total'] = $request->total;
+}
+
         $template = 'backend.dashboard.home.index';
 
         return view('backend.dashboard.layout', compact(
@@ -78,6 +104,8 @@ class DashboardController extends Controller
             'totalFaqsToday',
             'faqPercentageChange',
              'requestStatusCounts',
+             'requestData',
+             
         ));
     }
 
