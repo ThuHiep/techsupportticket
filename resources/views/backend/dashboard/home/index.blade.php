@@ -11,7 +11,7 @@
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalCustomersToday) }}</h1>
                     <div class="stat-percent font-bold {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }} 
+                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }}
                         <i class="fa {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
                     </div>
                     <small>Tổng khách hàng hôm nay</small>
@@ -77,20 +77,17 @@
 
     <!-- Phần tiếp theo -->
     <div class="row">
-        
+
         <div class="col-lg-5">
             <div class="ibox-title">
                 <h5>Trạng thái yêu cầu</h5>
             </div>
             <div class="ibox-content" style="height:350px">
-                <canvas id="requestStatusPieChart" style="width:100%; height:300px;"></canvas>
+                <canvas id="requestStatusPieChart" style="width: 100%; height: 300px;"></canvas>
+
 
             </div>
         </div>
-        
-      
-        
-        
 
         <!-- Biểu đồ yêu cầu hỗ trợ -->
         <div class="col-lg-7">
@@ -110,6 +107,9 @@
     <script src="backend/js/plugins/flot/jquery.flot.js"></script>
     <script src="backend/js/plugins/flot/jquery.flot.pie.js"></script>
     <script src="backend/js/plugins/chartJs/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.min.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -119,7 +119,7 @@
                 { label: "Hoàn thành", data: {{ $requestStatusCounts['completed'] }} },
                 { label: "Đã hủy", data: {{ $requestStatusCounts['cancelled'] }} }
             ];
-    
+
             $.plot('#requestStatusPieChart', data, {
                 series: {
                     pie: {
@@ -132,8 +132,8 @@
             });
         });
     </script>
-    
-   
+
+
     <script>
         $(document).ready(function () {
             // Dữ liệu cho biểu đồ: Thống kê yêu cầu trong tuần
