@@ -105,8 +105,22 @@ class CustomerController extends Controller
         // Sinh tax_id ngẫu nhiên (10 chữ số)
         $taxId = str_pad(mt_rand(0, 999999999), 9, STR_PAD_LEFT);
 
+        // Lưu hình ảnh vào thư mục public/backend/img/customer
+        $profileImagePath = null; // Biến này để lưu đường dẫn hình ảnh
 
+        // Kiểm tra nếu có hình ảnh được upload
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
 
+            // Kiểm tra nếu file hợp lệ
+            if ($image->isValid()) {
+                // Tạo tên hình ảnh mới, tránh trùng lặp
+                $imageName = 'profile_' . time() . '.' . $image->getClientOriginalExtension();
+
+                // Di chuyển hình ảnh vào thư mục public/backend/img/customer
+                $profileImagePath = $image->storeAs('public/backend/img/customer', $imageName);
+            }
+        }
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
@@ -117,7 +131,7 @@ class CustomerController extends Controller
         $customer->gender = $request->input('gender');
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
-        $customer->profile_image = $request->input('profile_image');
+        $customer->profile_image = $profileImagePath;
         $customer->company = $request->input('company');
         $customer->tax_id = $taxId;  // Gán giá trị tax_id
         $customer->create_at = now();  // Ngày tạo

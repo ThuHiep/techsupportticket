@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
-   
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -146,16 +146,16 @@
     </style>
 </head>
 <body>
-    
+
 <div class="container">
 
-    <h1>Danh sách khách hàng</h1>      
+    <h1>Danh sách khách hàng</h1>
 
     <!-- Nút Thêm mới và Thanh tìm kiếm cùng một hàng -->
     <div class="top-bar">
         <!-- Nút Thêm mới nằm bên trái -->
         <a href="{{ route('backend.customer.create') }}" class="add-customer-btn">Thêm mới</a>
-        
+
         <!-- Thanh tìm kiếm nằm giữa -->
         <div class="search-container">
             <form action="{{ route('backend.customer.index') }}" method="GET">
@@ -172,6 +172,7 @@
             <tr>
                 <th>Mã khách hàng</th>
                 <th>Tên</th>
+                <th>Hình ảnh</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
                 <th>Giới tính</th>
@@ -183,6 +184,14 @@
                 <tr>
                     <td>{{ $customer->customer_id }}</td>
                     <td>{{ $customer->full_name }}</td>
+                    <td>
+                        <!-- Hiển thị ảnh nếu tồn tại -->
+                        @if($customer->profile_image)
+                            <img src="{{ asset('backend/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" width="100" height="100">
+                        @else
+                            <img src="{{ asset('backend/img/gallery/1.jpg') }}" alt="Ảnh đại diện mặc định" width="100" height="100">
+                        @endif
+                    </td>
                     <td>{{ $customer->date_of_birth }}</td>
                     <td>{{ $customer->user->email ?? 'N/A' }}</td>
                     <td>{{ $customer->gender }}</td>
