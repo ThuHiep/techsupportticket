@@ -43,7 +43,6 @@ class CustomerController extends Controller
         // Truyền customer_id, tax_id vào view
         $template = 'backend.customer.create';
         return view('backend.dashboard.layout', compact('template', 'randomId', 'taxId', 'customers'));
-
     }
 
 
