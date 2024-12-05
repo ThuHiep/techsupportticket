@@ -8,9 +8,8 @@
 <body>
 <div class="container mt-4">
     <h1>Thêm khách hàng mới</h1>
-    <form action="{{ route('backend.customer.store') }}" method="POST">
+    <form action="{{ route('backend.customer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-
         <!-- Hiển thị customer_id (không chỉnh sửa được) -->
         <div class="mb-3">
             <label for="customer_id" class="form-label">Mã khách hàng</label>
