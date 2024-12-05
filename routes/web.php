@@ -20,7 +20,6 @@ Route::get('user', [UserController::class, 'login'])->name('user.login');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
-Route::get('user/index', [UserController::class, 'index'])->name('user.index');
 
 
 // Nhóm route cho phần Backend
