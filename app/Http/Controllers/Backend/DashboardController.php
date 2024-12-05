@@ -94,10 +94,10 @@ class DashboardController extends Controller
     private function calculatePercentageChange($todayCount, $yesterdayCount)
     {
         if ($yesterdayCount == 0) {
-            return $todayCount > 0 ? '100%+' : '0%';
+            return $todayCount > 0 ? '100%' : '0%';
         }
 
-        return number_format((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2) . '%';
+        return number_format((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 0) . '%';
     }
     private function config()
     {
