@@ -5,13 +5,13 @@
         <div class="col-lg-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <span class="label label-success pull-right">Hằng ngày</span>
+                    <span class="label label-warning pull-right">Hằng ngày</span>
                     <h5>Khách hàng</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalCustomersToday) }}</h1>
                     <div class="stat-percent font-bold {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }}
+                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 0) . '%' : $customerPercentageChange }}
                         <i class="fa {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
                     </div>
                     <small>Tổng khách hàng hôm nay</small>
@@ -23,15 +23,15 @@
         <div class="col-lg-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <span class="label label-info pull-right">Hằng ngày</span>
+                    <span class="label label-warning pull-right">Hằng ngày</span>
                     <h5>Yêu cầu</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalRequestsToday) }}</h1>
-                    <div class="stat-percent font-bold {{ $requestPercentageChange === '100%+' || $requestPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ is_numeric($requestPercentageChange) ? number_format($requestPercentageChange, 2) . '%' : $requestPercentageChange }}
-                        <i class="fa {{ $requestPercentageChange === '100%+' || $requestPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
-                    </div>
+                    <div class="stat-percent font-bold {{ $requestPercentageChange > 0 ? 'text-success' : ($requestPercentageChange < 0 ? 'text-danger' : 'text-muted') }}">
+                        {{ number_format($requestPercentageChange, 0) . '%' }}
+                        <i class="fa {{ $requestPercentageChange > 0 ? 'fa-level-up' : ($requestPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
+                    </div>                                       
                     <small>Tổng yêu cầu hôm nay</small>
                 </div>
             </div>
@@ -41,13 +41,13 @@
         <div class="col-lg-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <span class="label label-primary pull-right">Hằng ngày</span>
+                    <span class="label label-warning pull-right">Hằng ngày</span>
                     <h5>Người dùng</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalUsersToday) }}</h1>
                     <div class="stat-percent font-bold {{ $userPercentageChange === '100%+' || $userPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ is_numeric($userPercentageChange) ? number_format($userPercentageChange, 2) . '%' : $userPercentageChange }}
+                        {{ is_numeric($userPercentageChange) ? number_format($userPercentageChange, 0) . '%' : $userPercentageChange }}
                         <i class="fa {{ $userPercentageChange === '100%+' || $userPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
                     </div>
                     <small>Tổng người dùng hôm nay</small>
@@ -59,14 +59,14 @@
         <div class="col-lg-3">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <span class="label label-danger pull-right">Hằng ngày</span>
+                    <span class="label label-warning pull-right">Hằng ngày</span>
                     <h5>Bài viết</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalFaqsToday) }}</h1>
-                    <div class="stat-percent font-bold {{ $faqPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ $faqPercentageChange }}
-                        <i class="fa {{ $faqPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
+                    <div class="stat-percent font-bold {{ $faqPercentageChange === '100%+' || $faqPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
+                        {{ is_numeric($faqPercentageChange) ? number_format($faqPercentageChange, 0) . '%' : $faqPercentageChange }}
+                        <i class="fa {{ $faqPercentageChange === '100%+' || $faqPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
                     </div>
 
                     <small>Tổng bài viết hôm nay</small>
