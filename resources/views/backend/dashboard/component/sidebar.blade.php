@@ -1,8 +1,8 @@
 <nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header" style="background-color: #8c8593" > <!--Huy đã đổi màu-->
-                <div class="dropdown profile-element " style="background-color: #8c8593"> <!--Huy đã xóa class "open" trong div này, đổi màu -->
+            <li class="nav-header" style="background-color: #50138D" > <!--Huy đã đổi màu-->
+                <div class="dropdown profile-element " style="background-color: #8c8593";> <!--Huy đã xóa class "open" trong div này, đổi màu -->
                     <span>
                     <img alt="image"  src="backend/img/logosweetsoft.png"
                     style="width:170px; margin-top: -10px; margin-bottom: 20px">
@@ -25,7 +25,7 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" class="img-circle" src="backend/img/logo_ss.png" style="width:30px; height: 30px">
+                    <img alt="image" class="img-circle" src="backend/img/logo_ss.png" style="width:25px; height: 30px">
                 </div>
             </li>
             <li class="active">
