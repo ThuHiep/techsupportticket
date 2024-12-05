@@ -12,7 +12,7 @@
             padding: 0;
             background-color: #f4f7fc;
         }
-
+    
         .container {
             width: 1200px;
             margin-top: 22px;
@@ -22,18 +22,18 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-
+    
         h1 {
             padding-bottom: 20px;
             color: #FF9700;
         }
-
+    
         .top-bar {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
         }
-
+    
         .add-customer-btn {
             padding: 8px 15px;
             background-color: #4CAF50;
@@ -42,19 +42,19 @@
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
-            margin-right: auto; /* Đưa nút Thêm mới ra mép trái */
+            margin-right: auto;
         }
-
+    
         .add-customer-btn:hover {
             background-color: #45a049;
         }
-
+    
         .search-container {
             display: flex;
             align-items: center;
-            margin: 0 auto; /* Đưa thanh tìm kiếm vào giữa */
+            margin-right: 350px;
         }
-
+    
         .search-container input[type="text"] {
             padding: 8px;
             width: 300px;
@@ -62,11 +62,11 @@
             border-radius: 5px;
             outline: none;
         }
-
+    
         .search-container input[type="text"]:focus {
             border-color: #FF9700;
         }
-
+    
         .search-container button {
             padding: 8px 15px;
             background-color: #FF9700;
@@ -75,62 +75,83 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
+    
         .search-container button:hover {
             background-color: #f57c00;
         }
-
+    
         .table-container {
             width: 100%;
             overflow-x: auto;
         }
-
+    
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-
+    
         th, td {
             padding: 12px;
             text-align: left;
             border: 1px solid #ddd;
         }
-
+    
         th {
             background-color: #f2f2f2;
             font-weight: bold;
         }
-
+    
         td {
             background-color: #fff;
         }
-
+    
+        /* Hình ảnh khách hàng - Giảm kích thước */
+        .customer-image {
+            width: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
+            height: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
+            border-radius: 5px; /* Bo tròn các góc của hình ảnh */
+        }
+    
         .button-group {
             display: flex;
             justify-content: space-around;
             margin-top: 10px;
         }
-
-        .button-group a, .button-group form button {
+    
+        .button-group a {
             padding: 8px 15px;
-            background-color: #ff9800;
+            background-color: #007bff; /* Màu xanh cho nút Sửa */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    
+        .button-group a:hover {
+            background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+        }
+    
+        .button-group form button {
+            padding: 8px 15px;
+            background-color: #ff0000; /* Màu đỏ cho nút Xóa */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .button-group a:hover, .button-group form button:hover {
-            background-color: #f57c00;
+    
+        .button-group form button:hover {
+            background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
         }
-
+    
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
-
+    
         .pagination a {
             padding: 8px 16px;
             margin: 0 5px;
@@ -139,11 +160,13 @@
             text-decoration: none;
             border-radius: 5px;
         }
-
+    
         .pagination a:hover {
             background-color: #0056b3;
         }
     </style>
+    
+    
 </head>
 <body>
 
@@ -159,7 +182,7 @@
         <!-- Thanh tìm kiếm nằm giữa -->
         <div class="search-container">
             <form action="{{ route('backend.customer.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Tìm kiếm khách hàng" value="{{ request()->query('search') }}">
+                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
@@ -171,7 +194,7 @@
             <thead>
             <tr>
                 <th>Mã khách hàng</th>
-                <th>Tên</th>
+                <th>Họ tên</th>
                 <th>Hình ảnh</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
@@ -187,11 +210,12 @@
                     <td>
                         <!-- Hiển thị ảnh nếu tồn tại -->
                         @if($customer->profile_image)
-                            <img src="{{ asset('backend/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" width="100" height="100">
+                            <img src="{{ asset('backend/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
                         @else
-                            <img src="{{ asset('backend/img/gallery/1.jpg') }}" alt="Ảnh đại diện mặc định" width="100" height="100">
+                            <img src="{{ asset('backend/img/gallery/1.jpg') }}" alt="Ảnh đại diện mặc định" class="customer-image">
                         @endif
                     </td>
+                    
                     <td>{{ $customer->date_of_birth }}</td>
                     <td>{{ $customer->user->email ?? 'N/A' }}</td>
                     <td>{{ $customer->gender }}</td>
