@@ -35,7 +35,8 @@
         }
     
         .add-customer-btn {
-            padding: 8px 15px;
+            padding: 10px 20px;
+            font-size: 16px;
             background-color: #4CAF50;
             color: white;
             border: 1px solid #4CAF50;
@@ -113,20 +114,24 @@
             border-radius: 5px; /* Bo tròn các góc của hình ảnh */
         }
     
+        /* Đặt hai nút Sửa và Xóa cùng hàng ngang và có khoảng cách giữa chúng */
         .button-group {
             display: flex;
-            justify-content: space-around;
-            margin-top: 10px;
+            align-items: center;
+            gap: 10px; /* Khoảng cách giữa hai nút */
         }
     
         /* Nút Sửa - màu xanh */
         .edit-button {
-            padding: 8px 15px;
+            padding: 10px 15px;
             background-color: #007bff; /* Màu xanh cho nút Sửa */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Khoảng cách giữa biểu tượng và chữ */
         }
     
         .edit-button:hover {
@@ -135,16 +140,25 @@
     
         /* Nút Xóa - màu đỏ */
         .delete-button {
-            padding: 8px 15px;
+            padding: 10px 15px;
             background-color: #ff0000; /* Màu đỏ cho nút Xóa */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Khoảng cách giữa biểu tượng và chữ */
         }
     
         .delete-button:hover {
             background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
+        }
+    
+        /* Tăng kích thước biểu tượng */
+        .edit-button i,
+        .delete-button i {
+            font-size: 1.5em; /* Tăng kích thước biểu tượng */
         }
     
         .pagination {
@@ -166,6 +180,8 @@
             background-color: #0056b3;
         }
     </style>
+    
+    
     
     
     
@@ -222,20 +238,27 @@
                     <td>{{ $customer->user->email ?? 'N/A' }}</td>
                     <td>{{ $customer->gender }}</td>
                     <td>
-                        <!-- Nút Sửa và Xóa -->
-                        <form action="{{ route('backend.customer.edit', $customer->customer_id) }}" style="display:inline;">
-                            <button type="submit" class="edit-button">
-                                <i class="fas fa-edit"></i> Sửa
-                            </button>
-                        </form>
-                        <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="delete-button">
-                                <i class="fas fa-trash-alt"></i> Xóa
-                            </button>
-                        </form>
+                        <!-- Container chứa nút Sửa và Xóa -->
+                        <div class="button-group">
+                            <!-- Nút Sửa -->
+                            <form action="{{ route('backend.customer.edit', $customer->customer_id) }}" style="display:inline;">
+                                <button type="submit" class="edit-button">
+                                    <i class="fas fa-edit"></i> 
+                                </button>
+                            </form>
+                            
+                            <!-- Nút Xóa -->
+                            <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-button">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
+                    
+                    
                     
                     
                 </tr>
