@@ -120,6 +120,8 @@ class CustomerController extends Controller
             'phone' => 'nullable|numeric|digits_between:10,15', // Kiểm tra số điện thoại nếu có, phải là số và từ 10 đến 15 chữ số
             'address' => 'nullable|string|max:500', // Kiểm tra địa chỉ nếu có, là chuỗi và không quá 500 ký tự
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Kiểm tra nếu có hình ảnh, phải là ảnh với dung lượng không quá 2MB
+            'software' => 'required|string|max:255',
+            'website' => 'required|string|max:255',
             'company' => 'nullable|string|max:255', // Kiểm tra tên công ty nếu có, là chuỗi và không quá 255 ký tự
             'tax_id' => 'required|numeric|digits:9|unique:customers,tax_id', // Kiểm tra tax_id phải là số và có 9 chữ số, chưa tồn tại trong bảng customers
         ]);
@@ -156,6 +158,8 @@ class CustomerController extends Controller
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
         $customer->profile_image = $profileImagePath;
+        $customer->software= $request->input('software');
+        $customer->website = $request->input('website');
         $customer->company = $request->input('company');
         $customer->tax_id = $taxId;  // Gán giá trị tax_id
         $customer->create_at = now();  // Ngày tạo
