@@ -11,7 +11,7 @@
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalCustomersToday) }}</h1>
                     <div class="stat-percent font-bold {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }} 
+                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }}
                         <i class="fa {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
                     </div>
                     <small>Tổng khách hàng hôm nay</small>
@@ -67,8 +67,8 @@
                     <div class="stat-percent font-bold {{ $faqPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
                         {{ $faqPercentageChange }}
                         <i class="fa {{ $faqPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
-                    </div>                    
-                
+                    </div>
+
                     <small>Tổng bài viết hôm nay</small>
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
     <!-- Phần tiếp theo -->
     <div class="row">
-        
+
         <div class="col-lg-5">
             <div class="ibox-title">
                 <h5>Trạng thái yêu cầu</h5>
