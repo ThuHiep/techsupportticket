@@ -124,8 +124,8 @@
                         requestStatusCounts.completed,  // Đảm bảo dữ liệu cho "Hoàn thành" đã được truyền vào đây
                         requestStatusCounts.cancelled
                     ],
-                    backgroundColor: ["#FF5733", "#FF9700", "#1AB394", "#A6A8AA"],  // Màu sắc cho mỗi trạng thái
-                    hoverBackgroundColor: ["#FF5733", "#FF9700", "#1AB394", "#A6A8AA"]
+                    backgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"],  // Màu sắc cho mỗi trạng thái
+                    hoverBackgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"]
                 }]
             };
 
