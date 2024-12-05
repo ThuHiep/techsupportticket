@@ -83,13 +83,14 @@ class DashboardController extends Controller
 
     // Hàm tính phần trăm thay đổi
     private function calculatePercentageChange($todayCount, $yesterdayCount)
-    {
-        if ($yesterdayCount == 0) {
-            return $todayCount > 0 ? '100%+' : '0%';
-        }
-        
-        return number_format((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2) . '%';
+{
+    if ($yesterdayCount == 0) {
+        return $todayCount > 0 ? number_format(100, 2) . '%' : number_format(0, 2) . '%';
     }
+
+    return number_format((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2) . '%';
+}
+
     
     
     private function config()
