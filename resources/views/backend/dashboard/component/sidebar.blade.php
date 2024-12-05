@@ -29,7 +29,8 @@
                 </div>
             </li>
             <li class="active">
-                <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
+                <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i> 
+                    <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="{{ route('user.index') }}">  <i class="fas fa-id-card"></i>Tài khoản</a></li>
                     <li><a href="index.html"><i class="fas fa-shield-alt"></i>Phân quyền</a></li>
