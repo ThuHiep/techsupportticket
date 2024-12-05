@@ -219,8 +219,10 @@
                     <td>{{ $customer->date_of_birth }}</td>
                     <td>{{ $customer->user->email ?? 'N/A' }}</td>
                     <td>{{ $customer->gender }}</td>
-                    <td class="button-group">
-                        <a href="{{ route('backend.customer.edit', $customer->customer_id) }}">Sửa</a>
+                    <td >
+                        <form action="{{ route('backend.customer.edit', $customer->customer_id) }}" style="display:inline;">
+                            <button type="submit">Sửa</button>
+                        </form>
                         <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
