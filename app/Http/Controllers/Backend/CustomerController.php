@@ -33,6 +33,7 @@ class CustomerController extends Controller
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
+<<<<<<< Updated upstream
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
@@ -43,6 +44,10 @@ class CustomerController extends Controller
         // Truyền customer_id, tax_id vào view
         $template = 'backend.customer.create';
         return view('backend.dashboard.layout', compact('template', 'randomId', 'taxId', 'customers'));
+=======
+        $template = 'backend.customer.create';
+        return view('backend.dashboard.layout', compact('template'));
+>>>>>>> Stashed changes
     }
 
 

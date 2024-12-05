@@ -7,8 +7,10 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\CustomerController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home'); // Đổi 'home' thành file view có sẵn
 });
+
+
 
 Route::get('admin', [AuthController::class, 'login'])->name('auth.login');
 /*Route login cua user*/
@@ -18,8 +20,7 @@ Route::get('user', [UserController::class, 'login'])->name('user.login');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
-Route::get('user/index', [UserController::class, 'index'])
-->name('user.index');
+Route::get('user/index', [UserController::class, 'index'])->name('user.index');
 
 
 // Nhóm route cho phần Backend
