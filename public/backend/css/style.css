@@ -1169,6 +1169,11 @@ button.dim:active:before {
   background-color: #ed5565;
   color: #FFFFFF;
 }
+.label-green,
+.badge-green {
+  background-color: #79A857;
+  color: #FFFFFF;
+}
 .label-info,
 .badge-info {
   background-color: #23c6c8;
