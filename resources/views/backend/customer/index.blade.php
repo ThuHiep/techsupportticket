@@ -119,21 +119,22 @@
             margin-top: 10px;
         }
     
-        .button-group a {
+        /* Nút Sửa - màu xanh */
+        .edit-button {
             padding: 8px 15px;
             background-color: #007bff; /* Màu xanh cho nút Sửa */
             color: white;
             border: none;
             border-radius: 5px;
-            text-decoration: none;
             cursor: pointer;
         }
     
-        .button-group a:hover {
+        .edit-button:hover {
             background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
         }
     
-        .button-group form button {
+        /* Nút Xóa - màu đỏ */
+        .delete-button {
             padding: 8px 15px;
             background-color: #ff0000; /* Màu đỏ cho nút Xóa */
             color: white;
@@ -142,7 +143,7 @@
             cursor: pointer;
         }
     
-        .button-group form button:hover {
+        .delete-button:hover {
             background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
         }
     
@@ -165,6 +166,7 @@
             background-color: #0056b3;
         }
     </style>
+    
     
     
 </head>
@@ -219,16 +221,18 @@
                     <td>{{ $customer->date_of_birth }}</td>
                     <td>{{ $customer->user->email ?? 'N/A' }}</td>
                     <td>{{ $customer->gender }}</td>
-                    <td >
+                    <td>
+                        <!-- Nút Sửa và Xóa -->
                         <form action="{{ route('backend.customer.edit', $customer->customer_id) }}" style="display:inline;">
-                            <button type="submit">Sửa</button>
+                            <button type="submit" class="edit-button">Sửa</button>
                         </form>
                         <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">Xóa</button>
+                            <button type="submit" class="delete-button">Xóa</button>
                         </form>
                     </td>
+                    
                 </tr>
             @endforeach
             </tbody>
