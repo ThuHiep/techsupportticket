@@ -188,17 +188,8 @@
             background-color: #0056b3;
         }
     </style>
-<<<<<<< HEAD
     
     
-    
-    
-    
-=======
-
-
-
->>>>>>> a5a0458b635f881e034cfceb1ec72e0bca5e8f94
 </head>
 <body>
 
@@ -271,15 +262,6 @@
                             </form>
                         </div>
                     </td>
-<<<<<<< HEAD
-                    
-                    
-                    
-                    
-=======
-
-
->>>>>>> a5a0458b635f881e034cfceb1ec72e0bca5e8f94
                 </tr>
             @endforeach
             </tbody>
