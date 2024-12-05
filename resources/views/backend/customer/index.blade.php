@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0z4OJyKoBRb6QUqUJ0hB2ihYyELRJ0rokw7DtNUE6c7z8k" crossorigin="anonymous">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -224,14 +224,19 @@
                     <td>
                         <!-- Nút Sửa và Xóa -->
                         <form action="{{ route('backend.customer.edit', $customer->customer_id) }}" style="display:inline;">
-                            <button type="submit" class="edit-button">Sửa</button>
+                            <button type="submit" class="edit-button">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
                         </form>
                         <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="delete-button">Xóa</button>
+                            <button type="submit" class="delete-button">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
                         </form>
                     </td>
+                    
                     
                 </tr>
             @endforeach
