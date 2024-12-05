@@ -111,8 +111,7 @@ class CustomerController extends Controller
             $image = $request->file('profile_image');
             if ($image->isValid()) {
                 $imageName = 'profile_' . time() . '.' . $image->getClientOriginalExtension();
-                // Lưu vào thư mục public/backend/img/customer
-                $profileImagePath = 'backend/img/customer/' . $imageName;
+                $profileImagePath = $imageName;
                 $image->move(public_path('backend/img/customer'), $imageName);
             }
         }
