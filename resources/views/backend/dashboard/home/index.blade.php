@@ -79,15 +79,13 @@
     <div class="row">
 
         <div class="col-lg-5">
-            <div class="ibox-title">
-                <h5>Trạng thái yêu cầu</h5>
-{{--                <pre>{{ var_dump($requestStatusCounts) }}</pre>--}}
-
-            </div>
-            <div class="ibox-content" style="height:350px">
-                <canvas id="requestStatusPieChart" style="width: 100%; height: 500px;"></canvas>
-            </div>
+        <div class="ibox-title">
+            <h5>Trạng thái yêu cầu</h5>
         </div>
+        <div class="ibox-content" style="height:350px; "> <!-- Thêm margin-top để biểu đồ dịch xuống -->
+            <canvas id="requestStatusPieChart" style="width: 100%; height: 500px; "></canvas>
+        </div>
+    </div>
 
         <!-- Biểu đồ yêu cầu hỗ trợ -->
         <div class="col-lg-7">
@@ -118,7 +116,7 @@
 
             // Dữ liệu biểu đồ pie
             var data = {
-                labels: ["Đang xử lý", "Đã xử lý", "Hoàn thành", "Đã hủy"],  // Các nhãn cho từng trạng thái
+                labels: ["Chưa xử lý", "Đang xử lý", "Hoàn thành", "Đã hủy"],  // Các nhãn cho từng trạng thái
                 datasets: [{
                     data: [
                         requestStatusCounts.processing,
@@ -126,8 +124,8 @@
                         requestStatusCounts.completed,  // Đảm bảo dữ liệu cho "Hoàn thành" đã được truyền vào đây
                         requestStatusCounts.cancelled
                     ],
-                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF5733"],  // Màu sắc cho mỗi trạng thái
-                    hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF5733"]
+                    backgroundColor: ["#FF5733", "#FF9700", "#1AB394", "#A6A8AA"],  // Màu sắc cho mỗi trạng thái
+                    hoverBackgroundColor: ["#FF5733", "#FF9700", "#1AB394", "#A6A8AA"]
                 }]
             };
 
@@ -168,13 +166,13 @@
             const options = {
                 xaxis: {
                     ticks: [
-                        [0, "Monday"],
-                        [1, "Tuesday"],
-                        [2, "Wednesday"],
-                        [3, "Thursday"],
-                        [4, "Friday"],
-                        [5, "Saturday"],
-                        [6, "Sunday"]
+                        [0, "Thứ Hai"],
+                        [1, "Thứ Ba"],
+                        [2, "Thứ Tư"],
+                        [3, "Thứ Năm"],
+                        [4, "Thứ Sáu"],
+                        [5, "Thứ Bảy"],
+                        [6, "Chủ Nhật"]
                     ]
                 },
                 yaxis: {

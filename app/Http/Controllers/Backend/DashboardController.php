@@ -64,15 +64,6 @@ class DashboardController extends Controller
             'cancelled' => Request::where('status', 'Đã hủy')->count(),
         ];
 
-        // Kiểm tra dữ liệu đã lấy được
-        //dd($requestStatusCounts);
-        // Đảm bảo các giá trị tồn tại
-//        $requestStatusCounts['processing'] = $requestStatusCounts['processing'] ?? 0;
-//        $requestStatusCounts['handled'] = $requestStatusCounts['handled'] ?? 0;
-//        $requestStatusCounts['completed'] = $requestStatusCounts['completed'] ?? 0;
-//        $requestStatusCounts['cancelled'] = $requestStatusCounts['cancelled'] ?? 0;
-
-
         $template = 'backend.dashboard.home.index';
 
         return view('backend.dashboard.layout', compact(
