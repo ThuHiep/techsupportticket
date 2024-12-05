@@ -52,4 +52,13 @@ class Request extends Model
     {
         return $this->belongsTo(RequestType::class, 'request_type_id', 'request_type_id');
     }
+    public static function getStatusCounts() {
+        return [
+            'processing' => self::where('status', 'processing')->count(),
+            'handled' => self::where('status', 'handled')->count(),
+            'completed' => self::where('status', 'completed')->count(),
+            'cancelled' => self::where('status', 'cancelled')->count(),
+        ];
+    }
+
 }

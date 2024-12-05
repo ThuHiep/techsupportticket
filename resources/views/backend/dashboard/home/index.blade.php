@@ -80,11 +80,11 @@
         <div class="col-lg-5">
             <div class="ibox-title">
                 <h5>Trạng thái yêu cầu</h5>
+{{--                <pre>{{ var_dump($requestStatusCounts) }}</pre>--}}
+
             </div>
             <div class="ibox-content" style="height:350px">
-                <canvas id="requestStatusPieChart" style="width: 100%; height: 300px;"></canvas>
-
-
+                <canvas id="requestStatusPieChart" style="width: 100%; height: 500px;"></canvas>
             </div>
         </div>
 
@@ -106,32 +106,56 @@
     <script src="backend/js/plugins/flot/jquery.flot.js"></script>
     <script src="backend/js/plugins/flot/jquery.flot.pie.js"></script>
     <script src="backend/js/plugins/chartJs/Chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.min.js"></script>
-
 
     <script>
         $(document).ready(function () {
-            var data = [
-                { label: "Đang xử lý", data: {{ $requestStatusCounts['processing'] }} },
-                { label: "Đã xử lý", data: {{ $requestStatusCounts['handled'] }} },
-                { label: "Hoàn thành", data: {{ $requestStatusCounts['completed'] }} },
-                { label: "Đã hủy", data: {{ $requestStatusCounts['cancelled'] }} }
-            ];
+            // Chuyển mảng PHP sang JSON để sử dụng trong JavaScript
+            var requestStatusCounts = {!! json_encode($requestStatusCounts) !!};
 
-            $.plot('#requestStatusPieChart', data, {
-                series: {
-                    pie: {
-                        show: true
+            // Kiểm tra giá trị của requestStatusCounts
+            console.log(requestStatusCounts);
+
+            // Dữ liệu biểu đồ pie
+            var data = {
+                labels: ["Đang xử lý", "Đã xử lý", "Hoàn thành", "Đã hủy"],  // Các nhãn cho từng trạng thái
+                datasets: [{
+                    data: [
+                        requestStatusCounts.processing,
+                        requestStatusCounts.handled,
+                        requestStatusCounts.completed,  // Đảm bảo dữ liệu cho "Hoàn thành" đã được truyền vào đây
+                        requestStatusCounts.cancelled
+                    ],
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF5733"],  // Màu sắc cho mỗi trạng thái
+                    hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF5733"]
+                }]
+            };
+
+            // Cấu hình biểu đồ
+            var options = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + ' yêu cầu';
+                            }
+                        }
                     }
-                },
-                legend: {
-                    show: false
                 }
+            };
+
+            // Vẽ biểu đồ pie chart
+            var ctx = document.getElementById('requestStatusPieChart').getContext('2d');
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: options
             });
         });
     </script>
-
 
     <script>
         $(document).ready(function () {
