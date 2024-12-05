@@ -40,14 +40,7 @@
                     <li><a href="index.html"> <i class="fa-solid fa-tools"></i>Yêu cầu</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-chart-line"></i>Thống kê</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-newspaper"></i>Tin tức</a></li>
-                    <li><a href="{{ route('user.index') }}">Tài khoản</a></li>
-                    <li><a href="index.html">Phân quyền</a></li>
-                    <li><a href="index.html">Nhân viên</a></li>
-                    <li><a href="{{ route('backend.customer.index') }}">Khách hàng</a></li>
-                    <li><a href="index.html">Phòng ban</a></li>
-                    <li><a href="index.html">Yêu cầu</a></li>
-                    <li><a href="index.html">Thống kê</a></li>
-                    <li><a href="index.html">Tin tức</a></li>
+                    
                 </ul>
             </li>
 
