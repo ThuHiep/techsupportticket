@@ -13,8 +13,6 @@
         // Sử dụng SweetAlert2 để xác nhận xóa
         function showDeleteModal(event, formId) {
             event.preventDefault(); // Ngừng gửi form ngay lập tức
-
-            // Hiển thị SweetAlert2 xác nhận xóa
             Swal.fire({
                 title: 'Bạn có chắc chắn muốn xóa khách hàng này?',
                 text: "Hành động này không thể hoàn tác!",
