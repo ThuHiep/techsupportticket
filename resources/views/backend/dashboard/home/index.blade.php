@@ -11,7 +11,7 @@
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalCustomersToday) }}</h1>
                     <div class="stat-percent font-bold {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
-                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }} 
+                        {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 2) . '%' : $customerPercentageChange }}
                         <i class="fa {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
                     </div>
                     <small>Tổng khách hàng hôm nay</small>
@@ -67,8 +67,8 @@
                     <div class="stat-percent font-bold {{ $faqPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
                         {{ $faqPercentageChange }}
                         <i class="fa {{ $faqPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
-                    </div>                    
-                
+                    </div>
+
                     <small>Tổng bài viết hôm nay</small>
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
     <!-- Phần tiếp theo -->
     <div class="row">
-        
+
         <div class="col-lg-5">
             <div class="ibox-title">
                 <h5>Trạng thái yêu cầu</h5>
@@ -85,18 +85,9 @@
 
             </div>
             <div class="ibox-content" style="height:350px">
-<<<<<<< HEAD
                 <canvas id="requestStatusPieChart" style="width: 100%; height: 500px;"></canvas>
-=======
-                <canvas id="requestStatusPieChart" style="width:100%; height:300px;"></canvas>
-
->>>>>>> bd56c56ba60e6181419652d5b28e68963fb4c051
             </div>
         </div>
-        
-      
-        
-        
 
         <!-- Biểu đồ yêu cầu hỗ trợ -->
         <div class="col-lg-7">
@@ -119,7 +110,6 @@
 
     <script>
         $(document).ready(function () {
-<<<<<<< HEAD
             // Chuyển mảng PHP sang JSON để sử dụng trong JavaScript
             var requestStatusCounts = {!! json_encode($requestStatusCounts) !!};
 
@@ -154,19 +144,6 @@
                                 return tooltipItem.label + ': ' + tooltipItem.raw + ' yêu cầu';
                             }
                         }
-=======
-            var data = [
-                { label: "Đang xử lý", data: {{ $requestStatusCounts['processing'] }} },
-                { label: "Đã xử lý", data: {{ $requestStatusCounts['handled'] }} },
-                { label: "Hoàn thành", data: {{ $requestStatusCounts['completed'] }} },
-                { label: "Đã hủy", data: {{ $requestStatusCounts['cancelled'] }} }
-            ];
-    
-            $.plot('#requestStatusPieChart', data, {
-                series: {
-                    pie: {
-                        show: true
->>>>>>> bd56c56ba60e6181419652d5b28e68963fb4c051
                     }
                 }
             };
@@ -180,12 +157,6 @@
             });
         });
     </script>
-<<<<<<< HEAD
-
-=======
-    
-   
->>>>>>> bd56c56ba60e6181419652d5b28e68963fb4c051
     <script>
         $(document).ready(function () {
             // Dữ liệu cho biểu đồ: Thống kê yêu cầu trong tuần
