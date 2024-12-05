@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Customer; // Import Model Customer
 use App\Models\Request as SupportRequest; // Import Model Request
 use App\Models\User; // Import Model User
-
+use App\Models\FAQ; // Import Model User
 
 class DashboardController extends Controller
 {
@@ -47,14 +46,14 @@ class DashboardController extends Controller
         // Tính phần trăm thay đổi người dùng so với hôm qua
         $userPercentageChange = $this->calculatePercentageChange($totalUsersToday, $totalUsersYesterday);
 
-        // // Tổng số bài viết từ bảng faq hôm nay
-        // $totalFaqsToday = Faq::whereDate('created_at', now()->toDateString())->count();
+        // Tổng số bài viết từ bảng faq hôm nay
+        $totalFaqsToday = FAQ::whereDate('create_at', now()->toDateString())->count();
         
-        // // Tổng số bài viết từ bảng faq ngày hôm qua
-        // $totalFaqsYesterday = Faq::whereDate('created_at', now()->subDay()->toDateString())->count();
+        // Tổng số bài viết từ bảng faq ngày hôm qua
+        $totalFaqsYesterday = FAQ::whereDate('create_at', now()->subDay()->toDateString())->count();
 
-        // // Tính phần trăm thay đổi bài viết so với hôm qua
-        // $faqPercentageChange = $this->calculatePercentageChange($totalFaqsToday, $totalFaqsYesterday);
+        // Tính phần trăm thay đổi bài viết so với hôm qua
+        $faqPercentageChange = $this->calculatePercentageChange($totalFaqsToday, $totalFaqsYesterday);
     
         
         // Dữ liệu yêu cầu theo trạng thái
@@ -76,6 +75,8 @@ class DashboardController extends Controller
             'requestPercentageChange',
             'totalUsersToday',
             'userPercentageChange',
+            'totalFaqsToday',
+            'faqPercentageChange',
              'requestStatusCounts',
         ));
     }

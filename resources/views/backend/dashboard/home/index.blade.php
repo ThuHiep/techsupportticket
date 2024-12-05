@@ -63,11 +63,11 @@
                     <h5>Bài viết</h5>
                 </div>
                 <div class="ibox-content">
-                    {{-- <h1 class="no-margins">{{ number_format($totalFaqsToday) }}</h1>
+                    <h1 class="no-margins">{{ number_format($totalFaqsToday) }}</h1>
                     <div class="stat-percent font-bold {{ $faqPercentageChange === '100%+' || $faqPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
                         {{ is_numeric($faqPercentageChange) ? number_format($faqPercentageChange, 2) . '%' : $faqPercentageChange }}
                         <i class="fa {{ $faqPercentageChange === '100%+' || $faqPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
-                    </div> --}}
+                    </div>
                     <small>Tổng bài viết hôm nay</small>
                 </div>
             </div>
