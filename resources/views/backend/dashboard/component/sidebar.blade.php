@@ -29,7 +29,7 @@
                 </div>
             </li>
             <li class="active">
-                <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i> 
+                <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i>
                     <span class="nav-label">Trang Quản Trị</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="{{ route('user.index') }}">  <i class="fas fa-id-card"></i>Tài khoản</a></li>
@@ -40,6 +40,14 @@
                     <li><a href="index.html"> <i class="fa-solid fa-tools"></i>Yêu cầu</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-chart-line"></i>Thống kê</a></li>
                     <li><a href="index.html"> <i class="fa-solid fa-newspaper"></i>Tin tức</a></li>
+                    <li><a href="{{ route('user.index') }}">Tài khoản</a></li>
+                    <li><a href="index.html">Phân quyền</a></li>
+                    <li><a href="index.html">Nhân viên</a></li>
+                    <li><a href="{{ route('backend.customer.index') }}">Khách hàng</a></li>
+                    <li><a href="index.html">Phòng ban</a></li>
+                    <li><a href="index.html">Yêu cầu</a></li>
+                    <li><a href="index.html">Thống kê</a></li>
+                    <li><a href="index.html">Tin tức</a></li>
                 </ul>
             </li>
 
