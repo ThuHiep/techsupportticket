@@ -1,80 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title><?php echo $title?></title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="MEGATECH">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/styles/bootstrap4/bootstrap.min.css">
-    <link href="<?php echo $base_url; ?>/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
-    <meta name="description" content="@ViewBag.SeoDescription" />
-    <link rel="canonical" href="https://www.megatech.com/" />
-    <meta name="robots" content="index,follow,noodp" />
-    <meta name="robots" content="noarchive">
-    <meta property="og:site_name" content="MEGATECH" />
-    <meta property="og:type" content="Website" />
-    <meta property="og:locale" content="vi_VN" />
-    <meta property="og:title" itemprop="name" content="<?php echo $title?>" />
-    <meta property="og:url" itemprop="url" content="https://www.megatech.com/" />
-    <meta property="og:description" content="@ViewBag.SeoDescription" />
-    <meta content="https://cdn.24h.com.vn/upload/2-2018/images/2018-06-14/logo-chan-trang-24h.png" property="og:image" itemprop="thumbnailUrl" />
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/styles/head.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/Content/assets/styles/responsive.css">
-    <script src="<?php echo $base_url; ?>/Content/assets/js/jquery-3.2.1.min.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trang chủ SWEETSOFT</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<?php echo $base_url; ?>/Content/assets/styles/main_styles.css"
+    /><link
+    rel="stylesheet"
+    type="text/css"
+    href="<?php echo $base_url; ?>/Content/assets/styles/head.css"
+  />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<?php echo $base_url; ?>/Content/assets/styles/search_box.css"
+    />
+    <link
+      href="<?php echo $base_url; ?>/Content/assets/styles/bootstrap4/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-        <!-- Main Navigation -->
-        <div class="main_nav_container">
-                <div class="row">
-                    <div class="col-lg-12 text-right">
-                        <div class="logo_container">
-                            <a href="/">
-                                <img src="<?php echo $base_url; ?>/Images/SweetSoft-logo-light.svg" class="img-fluid" style="max-width: 250px; margin-left: 30px" alt="Logo">
-                            </a>
-                        </div>
-                        <nav class="navbar">
-                            <ul class="navbar_menu">
-                                <li>
-                                    <a href="<?php echo $base_url; ?>/trang_chu/trangchu.php">Trang Chủ</a>
-                                </li>
-                                <li>
-                                    <a href="#">Giới Thiệu</a>
-                                </li>
-                                <li>
-                                    <a href="#">Giải Đáp</a>
-                                </li>
-                                <li>
-                                    <a href="#">Liên Hệ</a>
-                                </li>
-                            </ul>
-                            <ul class="navbar_users">
-                                <li class="login">
-                                    <a href="<?php echo $base_url; ?>/trang_chu/dangnhap.php">
-                                        <i class="fa fa-user" aria-hidden="true"></i> Đăng nhập
-                                    </a>
-                                </li>
-
-                                <li class="register">
-                                    <a href="<?php echo $base_url; ?>/trang_chu/dangky.php">
-                                        <i class="fa fa-user-plus" aria-hidden="true"></i> Đăng ký
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="hamburger_container">
-                                <i class="fa fa-bars" aria-hidden="true"></i>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!--container-->
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Customer Support</title>
+      </head>
+      <body>
+        <main>
+          <section class="welcome-section">
+            <div class="left-image">
+              <img src="<?php echo $base_url; ?>/Images/trangchu.png" />
             </div>
-        </div>
+            <div class="right-container">
+              <div class="right-content">
+                <h1>
+                  Welcome to <br />
+                  Customer Support
+                </h1>
+                <div class="search-bar">
+                  <input type="text" placeholder="Search Support" />
+                  <button>
+                    <img
+                      src="<?php echo $base_url; ?>/Images/search.png"
+                      alt="Search"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Container for quick links below the welcome section -->
+          <section class="quick-links">
+            <h2>Quick Links</h2>
+            <div class="quick-links-container">
+              <a href="#form-section" class="box">
+                <img src="<?php echo $base_url; ?>/Images/form.png" alt="Form" />
+                <p>Form</p>
+              </a>
+              <a href="#faq" class="box">
+                <img src="<?php echo $base_url; ?>/Images/faq.png" alt="FAQ" />
+                <p>FAQ</p>
+              </a>
+              <a href="#support-section" class="box">
+                <img src="<?php echo $base_url; ?>/Images/support.png" alt="Support" />
+                <p>Support</p>
+              </a>
+            </div>
+          </section>
+          <!-- Divider line -->
+          <hr class="section-divider" />
 
-    </header>
-</body>
-
+          <!-- Container for FAQ list -->
+          <section class="faq-section">
+            <h1 id ="faq"> FAQ</h1>
+            <ul class="faq-list">
+              <li><a href="#">Thời gian phản hồi từ đội hỗ trợ là bao lâu?</a></li>
+              <li>
+                <a href="#">Tôi quên mật khẩu đăng nhập vào trang quản trị website, làm sao để khôi phục?</a>
+              </li>
+              <li><a href="#">Website của tôi bị hack, tôi cần làm gì?</a></li>
+              <li>
+                <a href="#"
+                  >Tôi muốn cập nhật nội dung trên website, tôi phải làm thế nào?</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  >Website có thể chịu được bao nhiêu lượt truy cập cùng lúc?</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  >Website của tôi không hiển thị đúng trên thiết bị di động, làm sao khắc phục?</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  >Tôi muốn thêm tính năng mới vào website, liệu có khả thi không?</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  >Dữ liệu trên website của tôi có được sao lưu không?</a
+                >
+              </li>
+            </ul>
+            <h1> Account Support</h1>
+            <ul class="faq-list">
+              <li>
+                <a href="#"
+                  >Tôi quên mật khẩu, làm thế nào để khôi phục tài khoản?</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  >Tại sao tài khoản của tôi bị khóa?</a
+                >
+              </li>
+            </ul>
+          </section>
+        </main>
+      </body>
+    </html>  
+  </body>
+</html>
