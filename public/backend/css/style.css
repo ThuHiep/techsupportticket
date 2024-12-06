@@ -754,8 +754,8 @@ fieldset[disabled] .btn-primary.active {
   border-color: #1dc5a3;
 }
 .btn-success {
-  background-color: #1c84c6;
-  border-color: #1c84c6;
+  background-color: #4CAF50;
+  border-color: #45a049;
   color: #FFFFFF;
 }
 .btn-success:hover,
@@ -767,8 +767,8 @@ fieldset[disabled] .btn-primary.active {
 .btn-success:active:hover,
 .btn-success.active:hover,
 .btn-success.active:focus {
-  background-color: #1a7bb9;
-  border-color: #1a7bb9;
+  background-color: #4CAF50;
+  border-color: #45a049;
   color: #FFFFFF;
 }
 .btn-success:active,
@@ -791,8 +791,8 @@ fieldset[disabled] .btn-success:hover,
 fieldset[disabled] .btn-success:focus,
 fieldset[disabled] .btn-success:active,
 fieldset[disabled] .btn-success.active {
-  background-color: #1f90d8;
-  border-color: #1f90d8;
+  background-color: #4CAF50;
+  border-color: #45a049;
 }
 .btn-info {
   background-color: #23c6c8;
@@ -1151,9 +1151,10 @@ button.dim:active:before {
   padding-right: 6px;
   text-shadow: none;
 }
+/*Đổi màu số thông báo hiển thị CHUÔNG tại đây */
 .label-primary,
 .badge-primary {
-  background-color: #1ab394;
+  background-color: #ff6f00;
   color: #FFFFFF;
 }
 .label-success,

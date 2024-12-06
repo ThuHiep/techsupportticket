@@ -8,7 +8,8 @@
             <li>
                 <span class="m-r-sm text-muted welcome-message">Chào mừng đến trang quản trị viên.</span>
             </li>
-            <li class="dropdown">
+            <!--ẨN MAILBOX-->
+            <!--<li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                     <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
                 </a>
@@ -60,7 +61,8 @@
                         </div>
                     </li>
                 </ul>
-            </li>
+            </li> -->
+
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                     <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
