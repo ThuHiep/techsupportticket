@@ -260,7 +260,7 @@
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút
 
         Swal.fire({
-            title: 'Bạn có chắc chắn muốn xóa?',
+            title: 'Bạn có chắc chắn muốn xóa khách hàng này?',
             text: "Hành động này không thể hoàn tác!",
             icon: 'warning',
             showCancelButton: true,

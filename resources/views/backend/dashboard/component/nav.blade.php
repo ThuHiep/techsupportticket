@@ -5,7 +5,6 @@
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
-
             <li>
                 <span class="m-r-sm text-muted welcome-message">Chào mừng đến trang quản trị viên.</span>
             </li>
@@ -116,3 +115,4 @@
 
     </nav>
 </div>
+
