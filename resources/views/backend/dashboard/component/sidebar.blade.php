@@ -26,7 +26,7 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" class="img-circle" src="backend/img/logo_ss.png" style="width:30px; height: 30px">
+                    <img alt="image" class="img-circle" src="backend/img/logoss.png" style="width:30px; height: 30px">
                 </div>
             </li>
             <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
