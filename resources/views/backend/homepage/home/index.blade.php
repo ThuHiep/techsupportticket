@@ -6,55 +6,57 @@
     <link
         rel="stylesheet"
         type="text/css"
-        href="<?php echo $base_url; ?>/Content/assets/styles/main_styles.css"
-    /><link
-    rel="stylesheet"
-    type="text/css"
-    href="<?php echo $base_url; ?>/Content/assets/styles/head.css"
-/>
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="<?php echo $base_url; ?>/Content/assets/styles/search_box.css"
+        href="{{ asset('Content/assets/styles/main_styles.css') }}"
     />
-    <link href="<?php echo $base_url; ?>/css/main.css" rel="stylesheet" />
-    <link
-        href="<?php echo $base_url; ?>/css/bootstrap.min.css"
-        rel="stylesheet"
-    />
-    <link
-        href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css"
-        rel="stylesheet"
-    />
-    <link
-        href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css"
-        rel="stylesheet"
-    />
-    <link
-        href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css"
-        rel="stylesheet"
-    />
-    <link
-        href="<?php echo $base_url; ?>/Content/assets/styles/responsive.css"
-        rel="stylesheet"
-    />
-    <link
-        href="<?php echo $base_url; ?>/Content/assets/styles/bootstrap4/bootstrap.min.css"
-        rel="stylesheet"
-    />
-    <link
-        href="<?php echo $base_url; ?>/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css"
-        rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
-        rel="stylesheet"
-    />
+
+{{--    <link--}}
+{{--    rel="stylesheet"--}}
+{{--    type="text/css"--}}
+{{--    href="{{aContent/assets/styles/head.css"--}}
+{{--/>--}}
+{{--    <link--}}
+{{--        rel="stylesheet"--}}
+{{--        type="text/css"--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/styles/search_box.css"--}}
+{{--    />--}}
+{{--    <link href="<?php echo $base_url; ?>/css/main.css" rel="stylesheet" />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/css/bootstrap.min.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/styles/responsive.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/styles/bootstrap4/bootstrap.min.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link--}}
+{{--        href="<?php echo $base_url; ?>/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
+{{--    <link rel="preconnect" href="https://fonts.googleapis.com" />--}}
+{{--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />--}}
+{{--    <link--}}
+{{--        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"--}}
+{{--        rel="stylesheet"--}}
+{{--    />--}}
 </head>
-<body>
-<!--container-->
+{{--<body>--}}
+{{--<!--container-->--}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +69,7 @@
 <main>
     <section class="welcome-section">
         <div class="left-image">
-            <img src="<?php echo $base_url; ?>/Images/trangchu.png" />
+            <img src="{{asset('Images/trangchu.png')}}" />
         </div>
         <div class="right-container">
             <div class="right-content">
@@ -79,7 +81,7 @@
                     <input type="text" placeholder="Search Support" />
                     <button>
                         <img
-                            src="<?php echo $base_url; ?>/Images/search.png"
+{{--                            src="<?php echo $base_url; ?>/Images/search.png"--}}
                             alt="Search"
                         />
                     </button>
@@ -92,15 +94,15 @@
         <h2>Quick Links</h2>
         <div class="quick-links-container">
             <a href="#form-section" class="box">
-                <img src="<?php echo $base_url; ?>/Images/form.png" alt="Form" />
+{{--                <img src="<?php echo $base_url; ?>/Images/form.png" alt="Form" />--}}
                 <p>Form</p>
             </a>
             <a href="#faq" class="box">
-                <img src="<?php echo $base_url; ?>/Images/faq.png" alt="FAQ" />
+{{--                <img src="<?php echo $base_url; ?>/Images/faq.png" alt="FAQ" />--}}
                 <p>FAQ</p>
             </a>
             <a href="#support-section" class="box">
-                <img src="<?php echo $base_url; ?>/Images/support.png" alt="Support" />
+{{--                <img src="<?php echo $base_url; ?>/Images/support.png" alt="Support" />--}}
                 <p>Support</p>
             </a>
         </div>
@@ -161,11 +163,11 @@
 </body>
 </html>
 
-<script src="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="<?php echo $base_url; ?>/Content/assets/plugins/easing/easing.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="<?php echo $base_url; ?>/css/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="<?php echo $base_url; ?>/Content/assets/js/jquery-3.2.1.min.js"></script>
+{{--<script src="<?php echo $base_url; ?>/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>--}}
+{{--<script src="<?php echo $base_url; ?>/Content/assets/plugins/easing/easing.js"></script>--}}
+{{--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>--}}
+{{--<script src="<?php echo $base_url; ?>/css/popper.min.js"></script>--}}
+{{--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>--}}
+{{--<script src="<?php echo $base_url; ?>/Content/assets/js/jquery-3.2.1.min.js"></script>--}}
 </body>
 </html>
