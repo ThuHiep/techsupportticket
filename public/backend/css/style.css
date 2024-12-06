@@ -235,7 +235,7 @@ ul.nav-second-level {
   background: #FFFFFF; /*Huy đã đổi màu tại đây*/
 }
 .nav > li.active {
-  border-left: 4px solid #ff6f00;
+  /*Huy đã xóa border màu cam tại đây*/
   background: #293846;
 }
 .nav.nav-second-level > li.active {
@@ -301,6 +301,7 @@ ul.nav-second-level {
 .nav-second-level li a {
   padding: 7px 10px 7px 10px;
   padding-left: 52px;
+    font-size: 15px; /*Huy chỉnh size cho chữ của dropdown active*/
 }
 .nav-third-level li a {
   padding-left: 62px;
@@ -316,8 +317,11 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-seco
   height: auto;
 }
 body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
-  font-size: 12px;
+  font-size: 15px; /*Huy chỉnh cỡ chữ của các đường link trong list được dropdown thi thu về*/
   border-radius: 3px;
+}
+body.mini-navbar .navbar-default .nav > li > .nav-second-level li{
+    width: 200px; /*Huy chỉnh độ rộng của ô chứa list được dropdown thi thu về*/
 }
 .fixed-nav .slimScrollDiv #side-menu {
   padding-bottom: 60px;
@@ -325,11 +329,13 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 .mini-navbar .nav-second-level li a {
   padding: 10px 10px 10px 15px;
 }
+
+/*List được drop của li.active sau khi thu nhỏ */
 .mini-navbar .nav .nav-second-level {
   position: absolute;
   left: 70px;
   top: 0;
-  background-color: #2f4050;
+  background-color: #ffffff;
   padding: 10px 10px 10px 10px;
   font-size: 12px;
 }
@@ -337,7 +343,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   background: #293846;
 }
 .mini-navbar li.active .nav-second-level {
-  left: 65px;
+  left: 70px; /*Huy đã chỉnh cho cả box dropdown di chuyển qua bên phải 1 chút cho đều*/
 }
 .navbar-default .special_link a {
   background: #1ab394;
@@ -468,7 +474,7 @@ body.canvas-menu .logo-element {
   display: none;
 }
 body.mini-navbar .nav-header {
-  padding: 0;
+  padding: 15px; /*Huy dã chỉnh padding cho phần thu vào sau khi click vào button 3 gạch*/
   background-color: #ffffff; /*Huy đã đổi màu*/
 }
 body.canvas-menu .nav-header {

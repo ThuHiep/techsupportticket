@@ -11,8 +11,8 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">David Williams</strong>
-                                 <b class="caret ms-2"></b>
+                                <strong class="font-bold" style="color: #2e2626">David Williams</strong>
+                                 <b class="caret ms-2" style="color: #272020"></b><!--Huy đã đổi màu tên và icon tại đây-->
                             </span>
                         </span>
                     </a>
