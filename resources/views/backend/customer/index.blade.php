@@ -91,8 +91,32 @@
         .hidden {
             display: none; /* Ẩn modal */
         }
+        .show-users-btn {
+            position: relative;
+            background-color: orange;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
 <div class="container">
@@ -106,7 +130,10 @@
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
-        <button class="show-users-btn" onclick="showUsersModal()">Hiển thị người dùng</button>
+        <button class="show-users-btn" onclick="showUsersModal()">
+            Chờ duyệt
+            <span class="badge" id="userCount">0</span>
+        </button>
     </div>
 
     <table class="table table-striped">
@@ -176,6 +203,18 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        updateUserCount(); // Cập nhật số lượng ngay khi tải trang
+    });
+
+    function updateUserCount() {
+        fetch('{{ route("backend.user.list") }}')
+            .then(response => response.json())
+            .then(data => {
+                const userCount = data.length; // Lấy số lượng người dùng từ dữ liệu
+                document.getElementById('userCount').textContent = userCount;
+            });
+    }
     function showUsersModal() {
         const modal = document.getElementById('usersModal');
         modal.classList.remove('hidden'); // Hiển thị modal
@@ -187,21 +226,24 @@
                 const userTableBody = document.getElementById('userTableBody');
                 userTableBody.innerHTML = '';
 
+                // Cập nhật số lượng
+                document.getElementById('userCount').textContent = data.length;
+
+                // Tạo hàng trong bảng
                 data.forEach(user => {
                     userTableBody.innerHTML += `
-                        <tr>
-                            <td>${user.username}</td>
-                            <td>${user.password}</td>
-                            <td>
-                                <button onclick="approveUser(${user.id})" style="color:green">Phê duyệt</button>
-                                <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
-                            </td>
-                        </tr>
-                    `;
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.password}</td>
+                        <td>
+                            <button onclick="approveUser(${user.id})" style="color:green">Phê duyệt</button>
+                            <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
+                        </td>
+                    </tr>
+                `;
                 });
             });
     }
-
     function closeUsersModal() {
         const modal = document.getElementById('usersModal');
         modal.classList.add('hidden'); // Ẩn modal
@@ -214,6 +256,26 @@
     function disapproveUser(userId) {
         Swal.fire('Không duyệt', `Đã không duyệt người dùng ID: ${userId}`, 'error');
     }
+    function showDeleteModal(event, formId) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của nút
+
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa?',
+            text: "Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
+            }
+        });
+    }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
