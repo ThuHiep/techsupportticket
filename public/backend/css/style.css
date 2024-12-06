@@ -54,6 +54,7 @@ h5 {
 .nav > li.active > a {
   color: #ff9700;
     background-color: #FFFFFF; /*Huy đã đổi màu tại đây*/
+    font-size: 17px; /*Huy chỉnh size chữ "Trang Quản Trị tại đây "*/
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
