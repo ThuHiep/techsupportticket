@@ -17,6 +17,8 @@ Route::get('/', function () {
 /*Route login cua admin*/
 Route::get('admin', [AuthController::class, 'login'])->name('auth.login');
 
+/*Route hompage */
+Route::get('homepage', [HomepageController::class, 'index'])->name('homepage.index');
 
 
 /*Route login cua user*/
@@ -27,8 +29,6 @@ Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('reg
 Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('forgot_pass');
 /*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-/*Route hompage */
-Route::get('homepage', [HomepageController::class, 'index'])->name('homepage.index');
 
 
 // Nhóm route cho phần Backend
