@@ -4,8 +4,10 @@ use App\Http\Controllers\Backend\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\HomepageController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\UserController;
+
 
 Route::get('/', function () {
     return view('home'); // Đổi 'home' thành file view có sẵn
@@ -23,10 +25,10 @@ Route::get('login', [LoginController::class, 'login'])->name('login.login');
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
 /*Route register cua user*/
 Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('forgot_pass');
-
+/*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
-
+/*Route hompage */
+Route::get('homepage', [HomepageController::class, 'index'])->name('homepage.index');
 
 
 // Nhóm route cho phần Backend
