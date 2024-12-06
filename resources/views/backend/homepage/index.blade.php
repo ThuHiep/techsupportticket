@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="backend/css/homepage/home.css?v=1">
     <link rel="stylesheet" href="backend/css/homepage/main.css?v=1">
     <link rel="stylesheet" href="backend/css/homepage/bootstrap.min.css?v=1">
-    <link href="css/main.css" rel="stylesheet" />
     <link
       href="backend/css/homepage/bootstrap.min.css"
       rel="stylesheet"
