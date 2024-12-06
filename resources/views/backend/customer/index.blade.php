@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="{{ asset('backend/css/customer/style.css') }}">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; /*Huy đã đổi font chữ tại đây*/
+            background-color: #ffffff; /*Huy đã đổi thành nền trắng*/
         }
 
         .top-bar {

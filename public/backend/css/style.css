@@ -47,6 +47,7 @@ h5 {
   color: #a7b1c2;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
+    font-size: 17px; /*Huy đã đổi font chữ Trang Quản Trị (khi chưa dropdoown) tại đây*/
 }
 .nav.navbar-right > li > a {
   color: #ffffff;  /*Huy đã sửa màu logout*/
@@ -233,7 +234,7 @@ li.nav-header {
   transition: all 0.4s;
 }
 ul.nav-second-level {
-  background: #FFFFFF; /*Huy đã đổi màu tại đây*/
+  background: #ffffff; /*Huy đã đổi màu tại đây*/
 }
 .nav > li.active {
   /*Huy đã xóa border màu cam tại đây*/
