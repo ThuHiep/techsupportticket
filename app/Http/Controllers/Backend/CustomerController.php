@@ -83,6 +83,8 @@ class CustomerController extends Controller
         $customer->address = $request->input('address');
         $customer->profile_image = $profileImagePath; // Cập nhật ảnh đại diện (hoặc ảnh cũ nếu không có ảnh mới)
         $customer->email = $request->input('email');
+        $customer->software = $request->input('software');
+        $customer->website = $request->input('website');
         $customer->company = $request->input('company');
         $customer->tax_id = $request->input('tax_id');  // Cập nhật giá trị tax_id
         $customer->create_at = now();  // Ngày tạo (vẫn giữ nguyên nếu không cần thay đổi)

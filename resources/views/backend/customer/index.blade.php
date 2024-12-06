@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0z4OJyKoBRb6QUqUJ0hB2ihYyELRJ0rokw7DtNUE6c7z8k" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('backend/css/customer/style.css') }}">
     <style>
@@ -122,11 +122,10 @@
 <body>
 <div class="container">
     <h1>Danh sách khách hàng</h1>
-
     <div class="top-bar">
-        <a href="{{ route('backend.customer.create') }}" class="add-customer-btn">Thêm mới</a>
+        <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
         <div class="search-container">
-            <form action="{{ route('backend.customer.index') }}" method="GET">
+            <form action="{{ route('customer.index') }}" method="GET">
                 <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
                 <button type="submit">Tìm kiếm</button>
             </form>
@@ -165,12 +164,12 @@
                 <td>{{ $customer->user->email ?? 'N/A' }}</td>
                 <td>{{ $customer->gender }}</td>
                 <td>
-                    <form action="{{ route('backend.customer.edit', $customer->customer_id) }}" style="display:inline;">
+                    <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
                         <button type="submit" class="edit-button">
                             <i class="fas fa-edit"></i> Sửa
                         </button>
                     </form>
-                    <form action="{{ route('backend.customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
+                    <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
                         @csrf
                         @method('DELETE')
                         <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">

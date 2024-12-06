@@ -91,7 +91,7 @@
 <body>
 <div class="container mt-4">
     <h1>Thêm khách hàng mới</h1>
-    <form action="{{ route('backend.customer.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('customer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="customer_id" class="form-label">Mã khách hàng</label>
@@ -167,7 +167,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Lưu khách hàng</button>
-        <a href="{{ route('backend.customer.index') }}" class="btn btn-secondary">Quay lại</a>
+        <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>
 </body>

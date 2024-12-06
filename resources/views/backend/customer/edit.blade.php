@@ -8,7 +8,7 @@
 <body>
 <div class="container mt-4">
     <h1 class="text-center mb-4">Chỉnh sửa thông tin khách hàng</h1>
-    <form action="{{ route('backend.customer.update', $customers->customer_id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('customer.update', $customers->customer_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -49,6 +49,20 @@
                     <label for="date_of_birth" class="form-label">Ngày sinh</label>
                     <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
                            value="{{ $customers->date_of_birth }}" required>
+                </div>
+
+                <!-- Phần mềm -->
+                <div class="mb-3">
+                    <label for="software" class="form-label">Phần mềm</label>
+                    <input type="text" id="software" name="software" class="form-control"
+                           value="{{ $customers->software }}">
+                </div>
+
+                <!-- Website -->
+                <div class="mb-3">
+                    <label for="website" class="form-label">Website</label>
+                    <input type="text" id="website" name="website" class="form-control"
+                           value="{{ $customers->website }}">
                 </div>
             </div>
 
@@ -93,13 +107,14 @@
                     <input type="text" id="company" name="company" class="form-control"
                            value="{{ $customers->company }}">
                 </div>
+
             </div>
         </div>
 
         <!-- Nút hành động -->
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn btn-success me-3">Lưu thay đổi</button>
-            <a href="{{ route('backend.customer.index') }}" class="btn btn-secondary">Hủy</a>
+            <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
         </div>
     </form>
 </div>
