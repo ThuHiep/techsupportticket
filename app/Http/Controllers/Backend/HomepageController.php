@@ -11,7 +11,7 @@ class HomepageController extends Controller
 
     }
     public function login(){
-        return view('backend.homepage.home.index');
+        return view('backend.homepage.index');
     }
 
 }

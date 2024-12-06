@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::get('admin', [AuthController::class, 'login'])->name('auth.login');
 
 /*Route hompage */
-Route::get('homepage', [HomepageController::class, 'login'])->name('homepage.home.index');
+Route::get('homepage', [HomepageController::class, 'login'])->name('homepage.index');
 
 
 /*Route login cua user*/
