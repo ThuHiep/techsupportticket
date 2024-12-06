@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\UserController;
 
 Route::get('/', function () {
     return view('home'); // Đổi 'home' thành file view có sẵn
@@ -54,4 +55,6 @@ Route::prefix('backend')->name('backend.')->group(function () {
 Route::get('/customer/index', function () {
     return redirect()->route('backend.customer.index');
 });
+Route::get('/backend/user/list', [UserController::class, 'getUserList'])->name('backend.user.list');
+
 

@@ -17,6 +17,10 @@ class UserController extends Controller
         return view('backend.dashboard.layout', compact('template'));
     }
 
-
+    public function getUserList()
+    {
+        $users = User::select('user_id', 'username', 'password')->get();
+        return response()->json($users);
+    }
 
 }
