@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="forgot">
-                    <a href="../user/quenmatkhau.blade.php">Quên mật khẩu?</a>
+                    <a href="{{ route('forgot_pass') }}" class="register-box"> Quên mật khẩu</a>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
         </form>
 
         <div class="register">
-            <span>Bạn chưa có tài khoản?<a href="../user/register.blade.php" class="register-box"> Đăng ký ngay</a></span>
+            <span>Bạn chưa có tài khoản?<a href="{{ route('register') }}" class="register-box"> Đăng ký ngay</a></span>
         </div>
     </div>
 </div>

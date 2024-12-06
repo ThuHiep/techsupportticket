@@ -13,7 +13,7 @@
 <div class="wrapper">
     <div class="notification-box">
         <p class="p1">Cập nhật mật khẩu thành công.</p>
-        <a href="../user/login.blade.php" class="back-btn">Trở về trang đăng nhập  </a>
+        <a href="login.blade.php" class="back-btn">Trở về trang đăng nhập  </a>
     </div>
 </div>
 </body>

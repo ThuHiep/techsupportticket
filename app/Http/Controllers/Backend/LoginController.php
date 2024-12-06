@@ -43,4 +43,17 @@ class LoginController extends Controller
         return view('backend.auth.login'); // Trả về view form đăng nhập
     }
 
+    /*Login cua user*/
+    public function login(){
+        return view('backend.login.login');
+    }
+    //Đăng kí tài khoản user
+    public function showRegisterForm(){
+        return view('backend.login.register');
+    }
+    // Quên mật khẩu
+    public function showForgotPass(){
+        return view('backend.login.quenmatkhau');
+    }
+
 }

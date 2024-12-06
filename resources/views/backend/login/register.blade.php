@@ -105,7 +105,7 @@
         </div>
         <!--Tro ve dang nhap-->
         <div class="login-link">
-            <span>Đã có tài khoản? <a href="../user/login.blade.php" class="login-box">Đăng nhập ngay</a></span>
+            <span>Đã có tài khoản? <a href="login.blade.php" class="login-box">Đăng nhập ngay</a></span>
         </div>
 
     </div>

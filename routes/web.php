@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Backend\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\CustomerController;
 
@@ -11,11 +11,17 @@ Route::get('/', function () {
 });
 
 
-
+/*Route login cua admin*/
 Route::get('admin', [AuthController::class, 'login'])->name('auth.login');
+
+
+
 /*Route login cua user*/
-Route::get('user', [UserController::class, 'login'])->name('user.login');
-//Route::get('users', [UserController::class, 'index'])->name('users.index');
+Route::get('login', [LoginController::class, 'login'])->name('login.login');
+/*Route register cua user*/
+Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
+/*Route register cua user*/
+Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('forgot_pass');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
