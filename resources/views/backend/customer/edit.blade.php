@@ -8,7 +8,7 @@
 <body>
 <div class="container mt-4">
     <h1 class="text-center mb-4">Chỉnh sửa thông tin khách hàng</h1>
-    <form action="{{ route('backend.customer.update', $customers->customer_id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('customer.update', $customers->customer_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -99,7 +99,7 @@
         <!-- Nút hành động -->
         <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn btn-success me-3">Lưu thay đổi</button>
-            <a href="{{ route('backend.customer.index') }}" class="btn btn-secondary">Hủy</a>
+            <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
         </div>
     </form>
 </div>
