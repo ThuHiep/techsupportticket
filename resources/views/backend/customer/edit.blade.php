@@ -50,6 +50,20 @@
                     <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
                            value="{{ $customers->date_of_birth }}" required>
                 </div>
+
+                <!-- Phần mềm -->
+                <div class="mb-3">
+                    <label for="software" class="form-label">Phần mềm</label>
+                    <input type="text" id="software" name="software" class="form-control"
+                           value="{{ $customers->software }}">
+                </div>
+
+                <!-- Website -->
+                <div class="mb-3">
+                    <label for="website" class="form-label">Website</label>
+                    <input type="text" id="website" name="website" class="form-control"
+                           value="{{ $customers->website }}">
+                </div>
             </div>
 
             <!-- Cột phải -->
@@ -93,6 +107,7 @@
                     <input type="text" id="company" name="company" class="form-control"
                            value="{{ $customers->company }}">
                 </div>
+
             </div>
         </div>
 
