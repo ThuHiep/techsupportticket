@@ -31,7 +31,7 @@
                         </a>
 
                     </li>
-                 
+
                     <li class="divider"></li>
                     <li>
                         <div class="text-center link-block">
@@ -41,10 +41,10 @@
                         </div>
                     </li>
                 </ul>
-            </li> 
+            </li>
             <li>
                 <a href="{{ route('auth.login') }}">
-                    <i class="fa fa-sign-out"></i> Log out
+                    <i class="fa fa-sign-out"></i> Đăng xuất
                 </a>
             </li>
 
