@@ -8,8 +8,6 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="backend/css/homepage/head.css?v=1">
     <link rel="stylesheet" href="backend/css/homepage/home.css?v=1">
-    <link rel="stylesheet" href="backend/css/homepage/main.css?v=1">
-    <link rel="stylesheet" href="backend/css/homepage/bootstrap.min.css?v=1">
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

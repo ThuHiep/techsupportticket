@@ -234,10 +234,9 @@ li.nav-header {
   transition: all 0.4s;
 }
 ul.nav-second-level {
-  background: #ffffff; /*Huy đã đổi màu tại đây*/
+  background: #ffffff;
 }
 .nav > li.active {
-  /*Huy đã xóa border màu cam tại đây*/
   background: #293846;
 }
 .nav.nav-second-level > li.active {
@@ -284,7 +283,7 @@ ul.nav-second-level {
   line-height: 12px;
   padding: 2px 5px;
   position: absolute;
-  right: 6px;
+  right: 2px; /*Huy đã chỉnh lai số tb của chuông*/
   top: 12px;
 }
 .arrow {
@@ -4226,7 +4225,7 @@ table.table-mail tr td {
   color: #ed5565;
 }
 .text-muted {
-  color: #ffffff;
+  color: #A6A8AA;
 }
 .text-white {
   color: #ffffff;
