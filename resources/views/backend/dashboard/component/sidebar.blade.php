@@ -31,37 +31,50 @@
             </li>
             <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
                 <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i>
-                    <span class="nav-label">Trang quản trị</span> <span class="fa arrow"></span>
+                    <span class="nav-label">Trang quản trị</span>
                 </a>
-                <ul class="nav nav-second-level">
-                    <li class="{{ Request::is('account*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fas fa-id-card"></i>Tài khoản</a>
-                    </li>
-                    <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fas fa-shield-alt"></i>Phân quyền</a>
-                    </li>
-                    <li class="{{ Request::is('staff*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fas fa-address-book"></i>Nhân viên</a>
-                    </li>
-                    <li class="{{ Request::is('customer*') ? 'active' : '' }}">
-                        <a href="{{ route('customer.index') }}"><i class="fa-solid fa-users"></i>Khách hàng</a>
-                    </li>
-                    <li class="{{ Request::is('department*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fa-solid fa-clipboard"></i>Phòng ban</a>
-                    </li>
-                    <li class="{{ Request::is('request*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fa-solid fa-tools"></i>Yêu cầu</a>
-                    </li>
-                    <li class="{{ Request::is('statistics*') ? 'active' : '' }}">
-                        <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>Thống kê</a>
-                    </li>
-                    <li class="{{ Request::is('news*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fa-solid fa-newspaper"></i>Tin tức</a>
-                    </li>
-                </ul>
+            </li>
+            <li class="{{ Request::is('account*') ? 'active' : '' }}">
+                <a href="index.html"><i class="fas fa-id-card"></i>
+                    <span class="nav-label">Tài khoản</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
+                <a href="index.html"><i class="fas fa-shield-alt"></i>
+                    <span class="nav-label">Phân quyền</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('staff*') ? 'active' : '' }}">
+                <a href="index.html"><i class="fas fa-address-book"></i>
+                    <span class="nav-label">Nhân viên</span>
+                </a>
             </li>
 
-
+            <li class="{{ Request::is('customer*') ? 'active' : '' }}">
+                <a href="{{ route('customer.index') }}"><i class="fa-solid fa-users"></i>
+                    <span class="nav-label">Khách hàng</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('department*') ? 'active' : '' }}">
+                <a href="index.html"><i class="fa-solid fa-clipboard"></i>
+                    <span class="nav-label">Phòng ban</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('request*') ? 'active' : '' }}">
+                <a href="index.html"><i class="fa-solid fa-tools"></i>
+                    <span class="nav-label">Yêu cầu</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('statistics*') ? 'active' : '' }}">
+                <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>
+                    <span class="nav-label">Thống kê</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('news*') ? 'active' : '' }}">
+                <a href="index.html"><i class="fa-solid fa-newspaper"></i>
+                    <span class="nav-label">Tin tức</span>
+                </a>
+            </li>
         </ul>
 
     </div>

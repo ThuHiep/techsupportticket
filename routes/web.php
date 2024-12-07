@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\StatisticalController;
 
 
+
 Route::get('/', function () {
     return view('home'); // Đổi 'home' thành file view có sẵn
 });
@@ -68,3 +69,6 @@ Route::get('/backend/user/list', [UserController::class, 'getUserList'])->name('
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
+
+
+

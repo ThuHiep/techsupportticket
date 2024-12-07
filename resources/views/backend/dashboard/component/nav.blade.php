@@ -1,9 +1,11 @@
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; ">
         <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
+            <button class="navbar-minimalize minimalize-styl-2 btn btn-warning" type="button">
+                <i class="fa fa-bars"></i>
+            </button>
         </div>
-
+       
         <ul class="nav navbar-top-links navbar-right">
             <li>
                 <span class="m-r-sm text-muted welcome-message">Chào mừng đến trang quản trị viên.</span>
@@ -31,7 +33,7 @@
                         </a>
 
                     </li>
-                 
+
                     <li class="divider"></li>
                     <li>
                         <div class="text-center link-block">
@@ -41,10 +43,10 @@
                         </div>
                     </li>
                 </ul>
-            </li> 
+            </li>
             <li>
                 <a href="{{ route('auth.login') }}">
-                    <i class="fa fa-sign-out"></i> Log out
+                    <i class="fa fa-sign-out"></i> Đăng xuất
                 </a>
             </li>
 
