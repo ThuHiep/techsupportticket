@@ -11,10 +11,7 @@
     <link href="backend/css/bootstrap.min.css" rel="stylesheet">
     <link href="backend/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
     <link rel="stylesheet" href="/techsupportticket/public/backend/css/login_admin.css?v=1">
-
-
     <title>Login_Admin</title>
 </head>
 <!DOCTYPE html>
@@ -49,7 +46,7 @@
                     </div>
 
                     <div class="forgot">
-                        <a href="../auth/quenmatkhau.blade.php">Quên mật khẩu?</a>
+                        <a href="{{ route('forgot_pass_admin') }}">Quên mật khẩu?</a>
                     </div>
                 </div>
 

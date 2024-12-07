@@ -13,4 +13,9 @@ class AuthController extends Controller
     public function login(){
         return view('backend.auth.login');
     }
+
+    // Quên mật khẩu
+    public function showForgotPass(){
+        return view('backend.auth.quenmatkhau');
+    }
 }
