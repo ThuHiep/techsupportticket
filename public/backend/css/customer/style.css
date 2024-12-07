@@ -1,6 +1,6 @@
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f7fc;
@@ -29,9 +29,9 @@ h1 {
 
 .add-customer-btn {
     padding: 8px 15px;
-    background-color: #4CAF50;
+    background-color: #FF9700;
     color: white;
-    border: 1px solid #4CAF50;
+    border: 1px solid #FF9700;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;

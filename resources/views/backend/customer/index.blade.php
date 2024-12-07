@@ -8,116 +8,168 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('backend/css/customer/style.css') }}">
     <style>
-        body {
-            font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif; /*Huy đã đổi font chữ tại đây*/
-            background-color: #ffffff; /*Huy đã đổi thành nền trắng*/
-        }
+        
+body {
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+}
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.container {
+    width: 1200px;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-        .add-customer-btn, .show-users-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
+h1 {
+    padding-bottom: 20px;
+    color: #FF9700;
+}
 
-        .search-container input {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+.top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-        .search-container button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.add-customer-btn {
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: auto;
+}
 
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Làm mờ nền */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+.add-customer-btn:hover {
+    background-color: #45a049;
+}
 
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 50%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-right: 350px;
+}
 
-        .modal-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+.search-container input[type="text"] {
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    outline: none;
+}
 
-        .modal-content table th, .modal-content table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
+.search-container input[type="text"]:focus {
+    border-color: #FF9700;
+}
 
-        .modal-content .close {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 20px;
-            cursor: pointer;
-        }
+.search-container button {
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        .hidden {
-            display: none; /* Ẩn modal */
-        }
-        .show-users-btn {
-            position: relative;
-            background-color: orange;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: red;
-            color: white;
-            font-size: 12px;
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-            border-radius: 50%;
-            text-align: center;
-            font-weight: bold;
-        }
+.search-container button:hover {
+    background-color: #f57c00;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+/* Hình ảnh khách hàng - Giảm kích thước */
+.customer-image {
+    width: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
+    height: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
+    border-radius: 5px; /* Bo tròn các góc của hình ảnh */
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+/* Nút Sửa - màu xanh */
+.edit-button {
+    padding: 8px 15px;
+    background-color: #007bff; /* Màu xanh cho nút Sửa */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+}
+
+/* Nút Xóa - màu đỏ */
+.delete-button {
+    padding: 8px 15px;
+    background-color: #ff0000; /* Màu đỏ cho nút Xóa */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    background-color: #0056b3;
+}
+
     </style>
-
 </head>
 <body>
 <div class="container">
