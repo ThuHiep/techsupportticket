@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\StatisticalController;
 
 
+
 Route::get('/', function () {
     return view('home'); // Đổi 'home' thành file view có sẵn
 });
@@ -69,5 +70,5 @@ Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
 
-Route::get('/api/request-types', [StatisticalController::class, 'getRequestTypes']);
+
 
