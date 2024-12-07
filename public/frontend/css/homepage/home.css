@@ -238,7 +238,7 @@ header {
   justify-content: space-between;
   padding: 10px 40px;
   background-color: #764DAA;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   height: 80px;
   top: 0;
@@ -351,4 +351,36 @@ header {
   margin: 0;
   font-size: 14px;
 }
+
+/* Button đặt câu hỏi */
+#ask-question-button {
+  background-color: #764DAA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#ask-question-button:hover {
+  background-color: #5a3c82;
+}
+
+#submit-question-button {
+  background-color: #764DAA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+#submit-question-button:hover {
+  background-color: #5a3c82;
+}
+
 

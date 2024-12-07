@@ -7,8 +7,8 @@
     <title>Trang chủ SWEETSOFT</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/techsupportticket/public/backend/css/homepage/home.css?v=1">
-    <link rel="stylesheet" href="/techsupportticket/public/backend/css/homepage/head.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/frontend/css/homepage/home.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/frontend/css/homepage/head.css?v=1">
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

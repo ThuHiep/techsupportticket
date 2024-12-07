@@ -352,6 +352,7 @@ header {
   font-size: 14px;
 }
 
+/* Button đặt câu hỏi */
 #ask-question-button {
   background-color: #764DAA;
   color: white;
@@ -363,7 +364,6 @@ header {
   transition: background-color 0.3s;
 }
 
-/* Button đặt câu hỏi */
 #ask-question-button:hover {
   background-color: #5a3c82;
 }
