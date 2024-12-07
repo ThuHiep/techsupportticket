@@ -23,7 +23,7 @@
             <input type="submit" class="input-submit" value="Gửi liên kết khôi phục qua mail">
         </div>
         <div class="back-to-login">
-            <span>Bạn đã nhớ lại mật khẩu? <a href="/admin" class="login-box">Đăng nhập</a></span>
+            <span>Bạn đã nhớ lại mật khẩu? <a href="{{ route('auth.login') }}" class="login-box">Đăng nhập</a></span>
         </div>
     </div>
 </div>

@@ -19,7 +19,7 @@
                         <a href="mailbox.html">
                             <div>
                                 <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                <span class="pull-right text-muted small">4 minutes ago</span>
+                                
                             </div>
                         </a>
                     </li>
@@ -28,7 +28,7 @@
                         <a href="profile.html">
                             <div>
                                 <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                <span class="pull-right text-muted small">12 minutes ago</span>
+                                
                             </div>
                         </a>
 
