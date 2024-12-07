@@ -109,6 +109,7 @@ $(document).ready(function () {
         SmoothlyMenu();
 
     });
+    
 
     // Tooltips demo
     $('.tooltip-demo').tooltip({

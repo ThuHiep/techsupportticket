@@ -29,11 +29,12 @@
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalRequestsToday) }}</h1>
                     <div class="stat-percent font-bold {{ $requestPercentageChange > 0 ? 'text-success' : ($requestPercentageChange < 0 ? 'text-danger' : 'text-muted') }}">
-                        {{ number_format($requestPercentageChange, 0) . '%' }}
+                        {{ is_numeric($requestPercentageChange) ? number_format($requestPercentageChange, 0) . '%' : '0%' }}
                         <i class="fa {{ $requestPercentageChange > 0 ? 'fa-level-up' : ($requestPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
-                    </div>                                       
+                    </div>                                                        
                     <small>Tổng yêu cầu hôm nay</small>
                 </div>
+
             </div>
         </div>
 

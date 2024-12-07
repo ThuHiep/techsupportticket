@@ -1,9 +1,11 @@
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; ">
         <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
+            <button class="navbar-minimalize minimalize-styl-2 btn btn-warning" type="button">
+                <i class="fa fa-bars"></i>
+            </button>
         </div>
-
+       
         <ul class="nav navbar-top-links navbar-right">
             <li>
                 <span class="m-r-sm text-muted welcome-message">Chào mừng đến trang quản trị viên.</span>
