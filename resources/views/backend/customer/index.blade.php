@@ -8,170 +8,222 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('backend/css/customer/style.css') }}">
 
-
-    
     <style>
-        
-body {
-    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f7fc;
-}
+        body {
+            font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
 
-.container {
-    width: 1200px;
-    margin-top: 22px;
-    margin-left: 12px;
-    padding: 0 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
+        .container {
+            width: 1200px;
+            max-width: 100%;
+            margin-top: 22px;
+            margin-left: 12px;
+            padding: 0 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
 
-h1 {
-    padding-bottom: 20px;
-    color: #FF9700;
-}
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 10px;  /* Thêm padding cho container trên các màn hình nhỏ */
+                padding-right: 10px;
+            }
+        }
 
-.top-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        h1 {
+            padding-bottom: 20px;
+            color: #FF9700;
+        }
 
-.add-customer-btn {
-    padding: 8px 15px;
-    background-color: #FF9700;
-    color: white;
-    border: 1px solid #FF9700;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    margin-right: auto;
-}
+        .top-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.add-customer-btn:hover {
-    background-color: #45a049;
-}
+        .add-customer-btn {
+            padding: 8px 15px;
+            background-color: #FF9700;
+            color: white;
+            border: 1px solid #FF9700;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: auto;
+        }
 
-.search-container {
-    display: flex;
-    align-items: center;
-    margin-right: 350px;
-}
+        .add-customer-btn:hover {
+            background-color: #f57c00;
+            color: #FFFFFF;
+        }
 
-.search-container input[type="text"] {
-    padding: 8px;
-    width: 300px;
-    border: 1px solid #FF9700;
-    border-radius: 5px;
-    outline: none;
-}
+        .search-container {
+            position: relative;
+            width: 320px; /* Chiều rộng tổng hợp của textbox và nút */
+        }
 
-.search-container input[type="text"]:focus {
-    border-color: #FF9700;
-}
+        .search-container input[type="text"] {
+            width: 100%;
+            padding: 10px 100px 10px 15px; /* Dành chỗ cho nút "Tìm kiếm" */
+            border: 1px solid #FF9700;
+            border-radius: 5px;
+            outline: none;
+            box-sizing: border-box;
+        }
 
-.search-container button {
-    padding: 8px 15px;
-    background-color: #FF9700;
-    color: white;
-    border: 1px solid #FF9700;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .search-container input[type="text"]:focus {
+            border-color: #FF9700;
+        }
 
-.search-container button:hover {
-    background-color: #f57c00;
-}
+        .search-container button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 90px; /* Chiều rộng của nút */
+            background-color: #FF9700;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0; /* Bo góc bên phải */
+            cursor: pointer;
+        }
 
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-}
+        .search-container button:hover {
+            background-color: #f57c00;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+        /* Chỉnh sửa nút "Chờ duyệt" */
+        .show-users-btn {
+            padding: 8px 15px;
+            background-color: #FF9700;
+            color: white;
+            border: 1px solid #FF9700;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center; /* Căn giữa nội dung theo chiều dọc */
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            position: relative;
+        }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
+        .show-users-btn:hover {
+            background-color: #f57c00;
+        }
 
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
+        .show-users-btn .badge {
+            position: absolute;
+            top: -7px;
+            right: -12px;
+            background-color: #d32f2f; /* Nền màu đỏ */
+            color: white; /* Chữ màu trắng */
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px; /* Chỉnh font-size */
+            width: 27px; /* Đảm bảo chiều rộng tối thiểu của badge */
+            height: 27px; /* Tăng chiều cao của hình tròn */
+            text-align: center; /* Căn giữa chữ trong vòng tròn */
+            line-height: 20px; /* Căn giữa theo chiều dọc */
+        }
 
-td {
-    background-color: #fff;
-}
 
-/* Hình ảnh khách hàng - Giảm kích thước */
-.customer-image {
-    width: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
-    height: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
-    border-radius: 5px; /* Bo tròn các góc của hình ảnh */
-}
+        /*Bảng hiển thị thông tin khách hàng*/
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* Cho phép cuộn ngang khi bảng quá rộng */
+        }
 
-.button-group {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-/* Nút Sửa - màu xanh */
-.edit-button {
-    padding: 8px 15px;
-    background-color: #007bff; /* Màu xanh cho nút Sửa */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        th, td {
+            padding: 20px; /* Tăng chiều cao của các ô bằng cách thêm padding */
+            text-align: center; /* Căn giữa nội dung theo chiều ngang */
+            vertical-align: middle; /* Căn giữa nội dung theo chiều dọc */
+            border: 1px solid #ddd; /* Đường viền ô */
+            font-size: 15px;
+        }
 
-.edit-button:hover {
-    background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
-}
+        th {
+            background-color: #50138d; /* Màu nền tiêu đề */
+            color: white; /* Màu chữ tiêu đề */
+            font-weight: bold;
+        }
 
-/* Nút Xóa - màu đỏ */
-.delete-button {
-    padding: 8px 15px;
-    background-color: #ff0000; /* Màu đỏ cho nút Xóa */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        tr:nth-child(odd) td {
+            background-color: #f9f9f9; /* Màu nền cho hàng lẻ */
+        }
 
-.delete-button:hover {
-    background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
-}
+        tr:nth-child(even) td {
+            background-color: #eaeaea; /* Màu nền cho hàng chẵn */
+        }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+        /* Tăng độ bo góc của hình ảnh */
+        .customer-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+        }
 
-.pagination a {
-    padding: 8px 16px;
-    margin: 0 5px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
+        .button-group {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
 
-.pagination a:hover {
-    background-color: #0056b3;
-}
+        /* Nút Sửa - màu xanh */
+        .edit-button {
+            padding: 8px 15px;
+            background-color: #007bff; /* Màu xanh cho nút Sửa */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
+        .edit-button:hover {
+            background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+        }
+
+        /* Nút Xóa - màu đỏ */
+        .delete-button {
+            padding: 8px 15px;
+            background-color: #ff0000; /* Màu đỏ cho nút Xóa */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -190,53 +242,53 @@ td {
             <span class="badge" id="userCount">0</span>
         </button>
     </div>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Mã khách hàng</th>
-            <th>Họ tên</th>
-            <th>Hình ảnh</th>
-            <th>Ngày sinh</th>
-            <th>Email</th>
-            <th>Giới tính</th>
-            <th>Thao tác</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($customers as $customer)
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>{{ $customer->customer_id }}</td>
-                <td>{{ $customer->full_name }}</td>
-                <td>
-                    @if($customer->profile_image)
-                        <img src="{{ asset('backend/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
-                    @else
-                        <img src="{{ asset('backend/img/gallery/') }}" alt="Ảnh đại diện mặc định" class="customer-image">
-                    @endif
-                </td>
-                <td>{{ $customer->date_of_birth }}</td>
-                <td>{{ $customer->user->email ?? 'N/A' }}</td>
-                <td>{{ $customer->gender }}</td>
-                <td>
-                    <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
-                        <button type="submit" class="edit-button">
-                            <i class="fas fa-edit"></i> Sửa
-                        </button>
-                    </form>
-                    <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
-                            <i class="fas fa-trash-alt"></i> Xóa
-                        </button>
-                    </form>
-                </td>
+                <th>Mã khách hàng</th>
+                <th>Họ tên</th>
+                <th>Hình ảnh</th>
+                <th>Ngày sinh</th>
+                <th>Email</th>
+                <th>Giới tính</th>
+                <th>Thao tác</th>
             </tr>
-        @endforeach
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+            @foreach ($customers as $customer)
+                <tr>
+                    <td>{{ $customer->customer_id }}</td>
+                    <td>{{ $customer->full_name }}</td>
+                    <td>
+                        @if($customer->profile_image)
+                            <img src="{{ asset('backend/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
+                        @else
+                            <img src="{{ asset('backend/img/gallery/') }}" alt="Ảnh đại diện mặc định" class="customer-image">
+                        @endif
+                    </td>
+                    <td>{{ $customer->date_of_birth }}</td>
+                    <td>{{ $customer->user->email ?? 'N/A' }}</td>
+                    <td>{{ $customer->gender }}</td>
+                    <td>
+                        <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
+                            <button type="submit" class="edit-button">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                        </form>
+                        <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
+                                <i class="fas fa-trash-alt"></i> Xóa
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
     <div id="usersModal" class="modal hidden">
         <div class="modal-content">
             <span class="close" onclick="closeUsersModal()">&times;</span>

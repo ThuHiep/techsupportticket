@@ -11,24 +11,24 @@ class StatisticalController extends Controller
     {
         $template = 'backend.statistical.index';
 
-        // Lấy thông tin ngày bắt đầu và ngày kết thúc từ request
-        $startDate = $request->input('startDate');  // Lấy giá trị từ input 'startDate'
-        $endDate = $request->input('endDate');      // Lấy giá trị từ input 'endDate'
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        $month = $request->input('month', 'all'); // Giá trị mặc định là 'all'
+        $year = $request->input('year', 'all');  // Giá trị mặc định là 'all'
 
-        // Lấy số lượng yêu cầu theo loại yêu cầu, có thể lọc theo ngày nếu có
         $query = DB::table('request_type')
             ->join('request', 'request.request_type_id', '=', 'request_type.request_type_id')
             ->select('request_type.request_type_name', DB::raw('COUNT(request.request_id) as count'))
             ->where('request_type.status', 'active');
 
+        // Lọc theo ngày bắt đầu và kết thúc
         if ($startDate && $endDate) {
-            // Lọc theo ngày nếu người dùng nhập ngày bắt đầu và ngày kết thúc
             $query->whereBetween('request.create_at', [$startDate, $endDate]);
         }
 
+        // Lấy dữ liệu sau khi lọc
         $requestTypes = $query->groupBy('request_type.request_type_name')->get();
 
-        return view('backend.dashboard.layout', compact('template', 'requestTypes', 'startDate', 'endDate'));
+        return view('backend.dashboard.layout', compact('template', 'requestTypes', 'startDate', 'endDate', 'month', 'year'));
     }
-
 }

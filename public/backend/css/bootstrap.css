@@ -2273,7 +2273,7 @@ th {
 .table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.42857143;
-  vertical-align: top;
+    vertical-align: middle; /*Huy đã chỉnh về middle để văn bản  nằm ở giữa ô cách đều trên và dưới */
   border-top: 1px solid #ddd;
 }
 .table > thead > tr > th {
