@@ -3819,8 +3819,8 @@ body.body-small .footer.fixed {
 .table > tfoot > tr > td {
   border-top: 1px solid #e7eaec;
   line-height: 1.42857;
-  padding: 8px;
-  vertical-align: top;
+    padding: 18px;
+    vertical-align: middle; /*Huy đã chỉnh chữ về giữa và tăng chiều cao của ô tại đây*/
 }
 /* PANELS */
 .panel.blank-panel {
