@@ -284,7 +284,7 @@ ul.nav-second-level {
   line-height: 12px;
   padding: 2px 5px;
   position: absolute;
-  right: 6px;
+  right: 2px; /*Huy đã chỉnh lai số tb của chuông*/
   top: 12px;
 }
 .arrow {
