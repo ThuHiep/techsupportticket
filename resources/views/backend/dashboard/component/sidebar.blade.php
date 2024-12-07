@@ -31,7 +31,7 @@
             </li>
             <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
                 <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i>
-                    <span class="nav-label">Trang quản trị</span>
+                    <span >Trang quản trị</span>
                 </a>
             </li>
             <li class="{{ Request::is('account*') ? 'active' : '' }}">
