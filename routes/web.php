@@ -68,3 +68,6 @@ Route::get('/backend/user/list', [UserController::class, 'getUserList'])->name('
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
+
+Route::get('/api/request-types', [StatisticalController::class, 'getRequestTypes']);
+
