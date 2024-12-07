@@ -5,10 +5,10 @@
                 <i class="fa fa-bars"></i>
             </button>
         </div>
-       
+
         <ul class="nav navbar-top-links navbar-right">
             <li>
-                <span class="m-r-sm text-muted welcome-message">Chào mừng đến trang quản trị viên.</span>
+                <span class="m-r-sm text-muted welcome-message" style="color: #FFFFFF; font-weight: bold">Chào mừng đến trang quản trị viên.</span>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">

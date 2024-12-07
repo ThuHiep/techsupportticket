@@ -1299,7 +1299,7 @@ button.dim:active:before {
   border: 1px solid #e5e6e7;
   border-radius: 2px;
   box-shadow: none;
-  color: #333333;
+    color: #ffffff;
   cursor: default;
   line-height: 13px;
   margin: 3px 0 3px 5px;
@@ -1318,23 +1318,22 @@ button.dim:active:before {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  background-color: #f4f4f4;
-  border-color: #DDDDDD;
-  color: inherit;
-  cursor: default;
-  z-index: 2;
+    background-color: #FF9700; /* Màu nền khi chọn */
+    color: white; /* Màu chữ trắng khi chọn */
+    cursor: default;
+    z-index: 2;
 }
 .pagination > li > a,
 .pagination > li > span {
-  background-color: #FFFFFF;
-  border: 1px solid #DDDDDD;
-  color: inherit;
-  float: left;
-  line-height: 1.42857;
-  margin-left: -1px;
-  padding: 4px 10px;
-  position: relative;
-  text-decoration: none;
+    background-color: #FF9700; /* Màu nền cho tất cả */
+    border: 1px solid #DDDDDD;
+    color: white;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 4px 10px;
+    position: relative;
+    text-decoration: none;
 }
 /* TOOLTIPS */
 .tooltip-inner {
@@ -3819,7 +3818,7 @@ body.body-small .footer.fixed {
 .table > tfoot > tr > td {
   border-top: 1px solid #e7eaec;
   line-height: 1.42857;
-    padding: 18px;
+    padding: 14px;
     vertical-align: middle; /*Huy đã chỉnh chữ về giữa và tăng chiều cao của ô tại đây*/
 }
 /* PANELS */
