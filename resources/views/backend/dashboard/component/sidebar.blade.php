@@ -53,14 +53,14 @@
                         <a href="index.html"><i class="fa-solid fa-tools"></i>Yêu cầu</a>
                     </li>
                     <li class="{{ Request::is('statistics*') ? 'active' : '' }}">
-                        <a href="index.html"><i class="fa-solid fa-chart-line"></i>Thống kê</a>
+                        <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>Thống kê</a>
                     </li>
                     <li class="{{ Request::is('news*') ? 'active' : '' }}">
                         <a href="index.html"><i class="fa-solid fa-newspaper"></i>Tin tức</a>
                     </li>
                 </ul>
             </li>
-            
+
 
         </ul>
 

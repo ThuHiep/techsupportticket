@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\HomepageController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\StatisticalController;
 
 
 Route::get('/', function () {
@@ -61,3 +62,9 @@ Route::name('customer.')->group(function () {
 Route::get('/backend/user/list', [UserController::class, 'getUserList'])->name('backend.user.list');
 
 
+
+//Nhóm thống kê:
+// Hiển thị danh sách khách hàng
+Route::name('statistical.')->group(function () {
+    Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
+});
