@@ -56,6 +56,7 @@ class DashboardController extends Controller
         // Tính phần trăm thay đổi bài viết so với hôm qua
         $faqPercentageChange = $this->calculatePercentageChange($totalFaqsToday, $totalFaqsYesterday);
 
+        
         // Dữ liệu yêu cầu theo trạng thái
         $requestStatusCounts = [
             'processing' => Request::where('status', 'Chưa xử lý')->count(),
@@ -112,12 +113,21 @@ class DashboardController extends Controller
     // Hàm tính phần trăm thay đổi
     private function calculatePercentageChange($todayCount, $yesterdayCount)
     {
-        if ($yesterdayCount == 0) {
-            return $todayCount > 0 ? 100 : 0; // Trả về số nguyên thay vì chuỗi
+        if ($yesterdayCount == 0 && $todayCount == 0) {
+            return 0; // Không thay đổi nếu cả hôm qua và hôm nay đều không có
         }
     
-        return (($todayCount - $yesterdayCount) / $yesterdayCount) * 100;
+        if ($yesterdayCount == 0) {
+            return $todayCount > 0 ? '100%' : 0; // Nếu hôm qua không có, nhưng hôm nay có
+        }
+    
+        return round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2);
     }
+    
+
+    
+    
+
     
     private function config()
     {

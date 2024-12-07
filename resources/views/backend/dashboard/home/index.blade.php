@@ -10,9 +10,9 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalCustomersToday) }}</h1>
-                    <div class="stat-percent font-bold {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
+                    <div class="stat-percent font-bold" style="color: {{ $customerPercentageChange > 0 ? '#28a745' : ($customerPercentageChange < 0 ? '#dc3545' : '#6c757d') }};">
                         {{ is_numeric($customerPercentageChange) ? number_format($customerPercentageChange, 0) . '%' : $customerPercentageChange }}
-                        <i class="fa {{ $customerPercentageChange === '100%+' || $customerPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
+                        <i class="fa {{ $customerPercentageChange > 0 ? 'fa-level-up' : ($customerPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
                     </div>
                     <small>Tổng khách hàng hôm nay</small>
                 </div>
@@ -28,10 +28,10 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalRequestsToday) }}</h1>
-                    <div class="stat-percent font-bold {{ $requestPercentageChange > 0 ? 'text-success' : ($requestPercentageChange < 0 ? 'text-danger' : 'text-muted') }}">
-                        {{ is_numeric($requestPercentageChange) ? number_format($requestPercentageChange, 0) . '%' : '0%' }}
+                    <div class="stat-percent font-bold" style="color: {{ $requestPercentageChange > 0 ? '#28a745' : ($requestPercentageChange < 0 ? '#dc3545' : '#6c757d') }};">
+                        {{ is_numeric($requestPercentageChange) ? number_format($requestPercentageChange, 0) . '%' : $requestPercentageChange }}
                         <i class="fa {{ $requestPercentageChange > 0 ? 'fa-level-up' : ($requestPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
-                    </div>                                                        
+                    </div>                                                                
                     <small>Tổng yêu cầu hôm nay</small>
                 </div>
 
@@ -47,9 +47,9 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalUsersToday) }}</h1>
-                    <div class="stat-percent font-bold {{ $userPercentageChange === '100%+' || $userPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
+                    <div class="stat-percent font-bold" style="color: {{ $userPercentageChange > 0 ? '#28a745' : ($userPercentageChange < 0 ? '#dc3545' : '#6c757d') }};">
                         {{ is_numeric($userPercentageChange) ? number_format($userPercentageChange, 0) . '%' : $userPercentageChange }}
-                        <i class="fa {{ $userPercentageChange === '100%+' || $userPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
+                        <i class="fa {{ $userPercentageChange > 0 ? 'fa-level-up' : ($userPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
                     </div>
                     <small>Tổng người dùng hôm nay</small>
                 </div>
@@ -65,11 +65,12 @@
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalFaqsToday) }}</h1>
-                    <div class="stat-percent font-bold {{ $faqPercentageChange === '100%+' || $faqPercentageChange > 0 ? 'text-success' : 'text-danger' }}">
+                    <div class="stat-percent font-bold" style="color: {{ $faqPercentageChange > 0 ? '#28a745' : ($faqPercentageChange < 0 ? '#dc3545' : '#6c757d') }};">
                         {{ is_numeric($faqPercentageChange) ? number_format($faqPercentageChange, 0) . '%' : $faqPercentageChange }}
-                        <i class="fa {{ $faqPercentageChange === '100%+' || $faqPercentageChange > 0 ? 'fa-level-up' : 'fa-level-down' }}"></i>
+                        <i class="fa {{ $faqPercentageChange > 0 ? 'fa-level-up' : ($faqPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
                     </div>
 
+                    
                     <small>Tổng bài viết hôm nay</small>
                 </div>
             </div>
