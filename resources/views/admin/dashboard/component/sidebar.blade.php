@@ -5,9 +5,9 @@
             <li class="nav-header" style="background-color: #D4D3D2" > <!--Huy đã đổi màu-->
                 <div class="dropdown profile-element " style="background-color: #D4D3D2";> <!--Huy đã xóa class "open" trong div này, đổi màu -->
                     <span>
-                    <img alt="image"  src="backend/img/logosweetsoft.png"
+                    <img alt="image"  src="admin/img/logosweetsoft.png"
                     style="width:170px; margin-top: -10px; margin-bottom: 20px">
-                        <img alt="image" class="img-circle" src="backend/img/profile_small.jpg">
+                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg">
                          </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
                         <span class="clear">
@@ -24,7 +24,7 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" class="img-circle" src="backend/img/logoss.png" style="width:30px; height: 30px">
+                    <img alt="image" class="img-circle" src="admin/img/logoss.png" style="width:30px; height: 30px">
                 </div>
             </li>
             <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">

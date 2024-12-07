@@ -104,10 +104,10 @@
     </div>
 
     <!-- Thêm script -->
-    <script src="backend/js/jquery-3.1.1.min.js"></script>
-    <script src="backend/js/plugins/flot/jquery.flot.js"></script>
-    <script src="backend/js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="backend/js/plugins/chartJs/Chart.min.js"></script>
+    <script src="admin/js/jquery-3.1.1.min.js"></script>
+    <script src="admin/js/plugins/flot/jquery.flot.js"></script>
+    <script src="admin/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="admin/js/plugins/chartJs/Chart.min.js"></script>
 
     <script>
         $(document).ready(function () {

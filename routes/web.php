@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 
 /*Route login cua admin*/
-Route::get('admin', [AuthController::class, 'login'])->name('auth.login');
+Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
 
 /*Route register cua user*/
 //Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
@@ -39,7 +39,7 @@ Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('fo
 
 
 
-// Nhóm route cho phần Backend
+// Nhóm route cho phần admin
 Route::name('customer.')->group(function () {
     // Hiển thị danh sách khách hàng
     Route::get('/customer/index', [CustomerController::class, 'index'])->name('index');
@@ -69,7 +69,6 @@ Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('ad
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
-
 
 
 

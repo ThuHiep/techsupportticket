@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/techsupportticket/public/backend/css/change_pass.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/admin/css/change_pass.css?v=1">
     <title>Thay đổi mật khẩu</title>
 
 </head>
@@ -17,7 +17,7 @@
         <div class="reset-password-header">
             <span>Đổi mật khẩu</span>
         </div>
-        <!--Backend đổi mật khẩu-->
+        <!--admin đổi mật khẩu-->
         <form action="process_change_password.php" method="POST" class="reset-password-form">
             <div class="input_box">
                 <input type="password" name="new-password" id="new-password" class="input-field" required>

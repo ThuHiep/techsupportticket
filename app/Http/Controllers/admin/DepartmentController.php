@@ -62,7 +62,7 @@ class DepartmentController extends Controller
     // Hiển thị form chỉnh sửa phòng ban
     public function edit($department_id)
     {
-        $template = 'backend.department.edit';
+        $template = 'admin.department.edit';
         $department = Department::findOrFail($department_id);
         return view('admin.dashboard.layout', compact('template', 'department'));
     }

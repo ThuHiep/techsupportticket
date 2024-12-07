@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/techsupportticket/public/backend/css/noti_changepass.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/admin/css/noti_changepass.css?v=1">
     <title>Thông báo kiểm tra mail</title>
 </head>
 
