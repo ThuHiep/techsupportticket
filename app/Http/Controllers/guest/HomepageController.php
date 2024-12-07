@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\guest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ class HomepageController extends Controller
 
     }
     public function login(){
-        return view('admin.homepage.index');
+        return view('guest.homepage.index');
     }
 
 }
