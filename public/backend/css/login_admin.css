@@ -16,7 +16,7 @@
 }
 
 body{
-    background-image: url("/techsupportticket/public/backend/img/galaxy-art.jpg");
+    background-image: url("/techsupportticket/public/backend/img/bg-login.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -217,7 +217,7 @@ input[type="checkbox"]:hover {
 .forgot a{
     font-size: 16px;
     font-weight: 550;
-    color: rgb(255, 234, 0);
+    color: rgb(255, 156, 78);
 }
 
 /*Submit Login*/
