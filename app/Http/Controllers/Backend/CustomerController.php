@@ -24,7 +24,7 @@ class CustomerController extends Controller
                     });
             })
             // Phân trang với 4 bản ghi mỗi trang
-            ->paginate(4);
+            ->paginate(3);
 
         // Trả về view với dữ liệu khách hàng
         return view('backend.dashboard.layout', compact('template','customers'));

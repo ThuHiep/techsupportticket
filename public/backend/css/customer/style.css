@@ -1,4 +1,3 @@
-
 body {
     font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     margin: 0;
@@ -8,12 +7,20 @@ body {
 
 .container {
     width: 1200px;
+    max-width: 100%;
     margin-top: 22px;
     margin-left: 12px;
     padding: 0 20px;
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
 
 h1 {
@@ -39,21 +46,25 @@ h1 {
 }
 
 .add-customer-btn:hover {
-    background-color: #45a049;
+    background-color: #f57c00;
 }
 
 .search-container {
+    position: relative;
     display: flex;
     align-items: center;
-    margin-right: 350px;
+    justify-content: center;  /* Căn giữa theo chiều ngang */
+    margin-right: auto;
+    margin-left: auto;
+    width: 320px;  /* Đặt chiều rộng cho ô tìm kiếm */
 }
-
 .search-container input[type="text"] {
-    padding: 8px;
-    width: 300px;
+    width: 100%;
+    padding: 10px 100px 10px 15px;
     border: 1px solid #FF9700;
     border-radius: 5px;
     outline: none;
+    box-sizing: border-box;
 }
 
 .search-container input[type="text"]:focus {
@@ -61,16 +72,53 @@ h1 {
 }
 
 .search-container button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 90px;
+    background-color: #FF9700;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #f57c00;
+}
+
+.show-users-btn {
     padding: 8px 15px;
     background-color: #FF9700;
     color: white;
     border: 1px solid #FF9700;
     border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-.search-container button:hover {
+.show-users-btn:hover {
     background-color: #f57c00;
+}
+
+.show-users-btn .badge {
+    position: absolute;
+    top: -7px;
+    right: -12px;
+    background-color: #d32f2f;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    width: 27px;
+    height: 27px;
+    text-align: center;
+    line-height: 20px;
 }
 
 .table-container {
@@ -87,23 +135,29 @@ table {
 th, td {
     padding: 12px;
     text-align: left;
+    vertical-align: middle;
     border: 1px solid #ddd;
+    font-size: 15px;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #50138d;
+    color: white;
     font-weight: bold;
 }
 
-td {
-    background-color: #fff;
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
 }
 
-/* Hình ảnh khách hàng - Giảm kích thước */
+tr:nth-child(even) td {
+    background-color: #eaeaea;
+}
+
 .customer-image {
-    width: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
-    height: 70px; /* Điều chỉnh kích thước nhỏ hơn cho hình ảnh */
-    border-radius: 5px; /* Bo tròn các góc của hình ảnh */
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
 }
 
 .button-group {
@@ -112,32 +166,29 @@ td {
     margin-top: 10px;
 }
 
-/* Nút Sửa - màu xanh */
-.edit-button {
+.edit-button, .delete-button {
     padding: 8px 15px;
-    background-color: #007bff; /* Màu xanh cho nút Sửa */
     color: white;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.edit-button {
+    background-color: #007bff;
+    border: none;
 }
 
 .edit-button:hover {
-    background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+    background-color: #0056b3;
 }
 
-/* Nút Xóa - màu đỏ */
 .delete-button {
-    padding: 8px 15px;
-    background-color: #ff0000; /* Màu đỏ cho nút Xóa */
-    color: white;
+    background-color: #ff0000;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .delete-button:hover {
-    background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
+    background-color: #d32f2f;
 }
 
 .pagination {
@@ -157,4 +208,12 @@ td {
 
 .pagination a:hover {
     background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+#usersModal {
+    display: block; /* Thêm cho modal khi hiển thị */
 }

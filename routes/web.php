@@ -72,3 +72,4 @@ Route::name('statistical.')->group(function () {
 
 
 
+
