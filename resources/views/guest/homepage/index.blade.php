@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/home.css?v=1">
     <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/head.css?v=1">
     <!-- Font -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
