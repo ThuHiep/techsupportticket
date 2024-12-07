@@ -1,34 +1,59 @@
-.navbar_menu li a {
-  text-decoration: none; /* Xóa gạch chân mặc định */
-}
-.navbar_menu {
-  margin-right: 200px;
-}
-.navbar_users {
+/* Default Header Styling (Desktop) */
+header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  list-style: none;
-  padding: 0;
-  margin-left: 50px;
+  padding: 15px 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
-.navbar_users li {
-  margin-right: 50px;
+.logo img {
+  height: 50px;
 }
 
-.navbar_users li a {
+.account-section {
   display: flex;
   align-items: center;
-  color: #fffffc;
+  gap: 15px;
+}
+
+.account-section a {
   text-decoration: none;
+  color: #333;
   font-size: 16px;
-  font-weight: 500;
-}
-.navbar_users li a:hover {
-  color: #a6a8aa;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.navbar_users li a i {
-  margin-right: 8px;
-  font-size: 18px;
+.account-section a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Header Styling */
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column; /* Sắp xếp theo cột */
+    align-items: center; /* Canh giữa các mục */
+    padding: 10px 20px;
+  }
+
+  .logo img {
+    height: 40px; /* Giảm kích thước logo */
+    margin-bottom: 10px; /* Thêm khoảng cách dưới logo */
+  }
+
+  .account-section {
+    flex-direction: column; /* Sắp xếp các mục theo cột */
+    gap: 10px; /* Thêm khoảng cách giữa các mục */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+
+  .account-section a {
+    font-size: 14px; /* Giảm kích thước chữ */
+    padding: 10px; /* Thêm khoảng cách dễ nhấn */
+    text-align: center; /* Canh giữa chữ */
+    width: 100%; /* Mỗi mục chiếm toàn bộ chiều rộng */
+  }
 }
