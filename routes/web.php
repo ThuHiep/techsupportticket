@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\HomepageController;
+use App\Http\Controllers\Guest\HomepageController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatisticalController;
@@ -26,6 +26,7 @@ Route::get('/forgot_pass_admin', [AuthController::class, 'showForgotPass'])->nam
 
 /*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
 /*Route hompage */
 Route::get('homepage', [HomepageController::class, 'login'])->name('homepage.index');
 
