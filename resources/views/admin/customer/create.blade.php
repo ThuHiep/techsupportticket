@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm khách hàng mới</title>
-    <link rel="stylesheet" href="{{ asset('backend/css/customer/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
     <!--<style>
         body {
             font-family: Arial, sans-serif;

@@ -6,8 +6,8 @@
     <title>Danh sách khách hàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('backend/css/customer/style.css') }}">
-    
+    <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
+
 </head>
 <body>
 <div class="container">
@@ -47,9 +47,9 @@
                     <td>{{ $customer->full_name }}</td>
                     <td>
                         @if($customer->profile_image)
-                            <img src="{{ asset('backend/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
+                            <img src="{{ asset('admin/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
                         @else
-                            <img src="{{ asset('backend/img/gallery/') }}" alt="Ảnh đại diện mặc định" class="customer-image">
+                            <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện mặc định" class="customer-image">
                         @endif
                     </td>
                     <td>{{ $customer->date_of_birth }}</td>
@@ -104,7 +104,7 @@
     });
 
     function updateUserCount() {
-        fetch('{{ route("backend.user.list") }}')
+        fetch('{{ route("admin.user.list") }}')
             .then(response => response.json())
             .then(data => {
                 const userCount = data.length; // Lấy số lượng người dùng từ dữ liệu
@@ -116,7 +116,7 @@
         modal.classList.remove('hidden'); // Hiển thị modal
 
         // Tải danh sách người dùng qua AJAX
-        fetch('{{ route("backend.user.list") }}')
+        fetch('{{ route("admin.user.list") }}')
             .then(response => response.json())
             .then(data => {
                 const userTableBody = document.getElementById('userTableBody');

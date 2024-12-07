@@ -95,7 +95,7 @@
                 <div class="mb-3">
                     <label for="profile_image" class="form-label">Hình ảnh đại diện</label>
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('backend/img/customer/' . $customers->profile_image) }}" alt="Hình đại diện"
+                        <img src="{{ asset('admin/img/customer/' . $customers->profile_image) }}" alt="Hình đại diện"
                              class="img-thumbnail me-3" style="width: 100px; height: 100px; object-fit: cover;">
                         <input type="file" id="profile_image" name="profile_image" class="form-control w-50">
                     </div>

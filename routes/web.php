@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\Backend\AuthController;
+use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\LoginController;
-use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\HomepageController;
-use App\Http\Controllers\Backend\CustomerController;
-use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\StatisticalController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\HomepageController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StatisticalController;
 
 
 
@@ -60,7 +60,7 @@ Route::name('customer.')->group(function () {
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
 });
 
-Route::get('/backend/user/list', [UserController::class, 'getUserList'])->name('backend.user.list');
+Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 
 
 
