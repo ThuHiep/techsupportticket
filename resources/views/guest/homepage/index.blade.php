@@ -26,10 +26,11 @@
     <div class="main-content" id="home">
         <div class="left">
             <img src="guest/img/trangchu.png" alt="Sample Image">
+            
         </div>
         <div class="right">
             <h1>
-                <span >Chào mừng đến trang</span>
+                <span>Chào mừng đến trang</span>
                 <span>hỗ trợ khách hàng</span>
             </h1>
             <div class="search-container">
@@ -38,6 +39,7 @@
             </div>
         </div>
     </div>
+    
         
         
     <section class="faq-section" id="faq">

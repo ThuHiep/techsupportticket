@@ -23,6 +23,27 @@
         .logo img {
             height: 40px;
         }
+    
+
+        
+         .main-content {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-top: -20px; /* Move the main content closer to the header */
+        }
+
+        .main-content .left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-content .left img {
+            display: block;
+            margin: 0 auto 10px; /* Adjusted to reduce spacing below the image */
+        }
+
         .nav-links {
             display: flex;
             gap: 20px;
