@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/techsupportticket/public/backend/css/login_user.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/guest/css/login_user.css?v=1">
     <title>Login_User</title>
 </head>
 <body>
 <div class="wrapper">
     <div class="logo_box">
-        <img src="/techsupportticket/public/backend/img/logosweetsoft.png" alt="Company Logo">
+        <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Company Logo">
     </div>
     <div class="login_box">
         <div class="login-header">
