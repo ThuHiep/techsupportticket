@@ -8,8 +8,8 @@
     <title>Trang chủ SWEETSOFT</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/guest/css/homepage/home.css?v=1">
-    <link rel="stylesheet" href="/guest/css/homepage/head.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/home.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/head.css?v=1">
     <!-- Font -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,7 +23,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="/guest/img/logosweetsoft.png" alt="Logo SweetSoft">
+            <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Logo SweetSoft">
         </div>
         <div class="account-section">
             <a href="#store"><i class="fas fa-store icon"></i>Home</a>
@@ -39,7 +39,7 @@
     <main>
         <section class="welcome-section">
             <div class="left-image">
-                <img src="/guest/img/trangchu.png" alt="Trang Chủ">
+                <img src="/techsupportticket/public/guest/img/trangchu.png" alt="Trang Chủ">
             </div>
             <div class="right-container">
                 <div class="right-content">
@@ -62,15 +62,15 @@
             <h2>Quick Links</h2>
             <div class="quick-links-container">
                 <a href="#form-section" class="box">
-                    <img src="/guest/img/form.png" alt="Form">
+                    <img src="/techsupportticket/public/guest/img/form.png" alt="Form">
                     <p>Form</p>
                 </a>
                 <a href="#faq" class="box">
-                    <img src="/guest/img/faq.png" alt="FAQ">
+                    <img src="/techsupportticket/public/guest/img/faq.png" alt="FAQ">
                     <p>FAQ</p>
                 </a>
                 <a href="#support-section" class="box">
-                    <img src="/guest/img/support.png" alt="Support">
+                    <img src="/techsupportticket/public/guest/img/support.png" alt="Support">
                     <p>Support</p>
                 </a>
             </div>
@@ -107,7 +107,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-logo">
-            <img src="/guest/img/logosweetsoft.png" alt="Logo Footer">
+            <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Logo Footer">
         </div>
         <div class="footer-content">
             <div class="footer-section contact-info">
@@ -130,7 +130,7 @@
             <div class="footer-section facebook">
                 <h4>SweetSoft trên Facebook</h4>
                 <div class="facebook-widget">
-                    <img src="/guest/img/logosweetsoft.png" alt="Facebook Logo">
+                    <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Facebook Logo">
                 </div>
             </div>
         </div>
