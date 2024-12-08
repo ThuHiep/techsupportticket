@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Guest\HomepageController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatisticalController;
 
@@ -61,7 +62,15 @@ Route::post('customer/approve/{id}', [CustomerController::class, 'approveCustome
 
 
 
-
+//Department
+Route::name('department.')->group(function () {
+    Route::get('/department/index', [DepartmentController::class, 'index'])->name('index');
+    Route::get('/department/create', [DepartmentController::class, 'create'])->name('create');
+    Route::post('/department/store', [DepartmentController::class, 'store'])->name('store');
+    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->name('edit');
+    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->name('update');
+    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->name('delete');
+});
 
 //Nhóm thống kê:
 // Hiển thị danh sách khách hàngc
