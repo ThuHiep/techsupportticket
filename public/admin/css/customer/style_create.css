@@ -3,7 +3,7 @@ body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f7fc; /* Nền sáng */
+    background-color: #ffffff; /* Nền sáng */
 }
 
 /* Container chính */
@@ -56,8 +56,8 @@ form {
     height: 40px;
     padding: 6px;
     font-size: 14px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
+    border: 2px solid #6f2f9f;
+    border-radius: 3px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -68,6 +68,10 @@ form {
     outline: none;
 }
 
+.form-control[readonly]{
+    background-color: #debff3;
+    opacity: 1;
+}
 /* Hiển thị lỗi */
 input.error, select.error {
     border-color: #dc3545; /* Màu đỏ */
@@ -96,7 +100,7 @@ input.error, select.error {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
     width: 200px; /* Đặt chiều rộng của nút */
-    margin-top: 20px; /* Khoảng cách từ các phần tử phía trên */
+
 }
 .btn-success:hover {
     background-color: #347737; /* Xanh đậm hơn */
@@ -180,15 +184,17 @@ input.error, select.error {
 
 /* Hiển thị ảnh preview */
 .image-preview {
-    margin-top: 15px;
+
     text-align: center;
     position: relative; /* Đảm bảo ảnh không ảnh hưởng đến bố cục */
     clear: both; /* Đảm bảo không có phần tử nào bên cạnh ảnh */
 }
 
 .image-preview img {
-    max-width: 100%; /* Giới hạn chiều rộng của ảnh */
-    max-height: 200px; /* Giới hạn chiều cao của ảnh */
+    min-width: 249px;
+    max-width: 250px; /* Giới hạn chiều rộng của ảnh 250px oke */
+    min-height: 157px;
+    max-height: 160px; /* Giới hạn chiều cao của ảnh */
     border-radius: 8px;
     object-fit: cover; /* Đảm bảo ảnh không bị méo */
     display: block;
