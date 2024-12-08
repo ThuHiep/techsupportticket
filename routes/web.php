@@ -66,7 +66,7 @@ Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('ad
 
 
 //Nhóm thống kê:
-// Hiển thị danh sách khách hàng
+// Hiển thị danh sách khách hàngc
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });

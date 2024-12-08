@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <title>Trang chủ SWEETSOFT</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/home.css?v=1">
-    <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/head.css?v=1">
+    <link rel="stylesheet" href="/guest/css/homepage/home.css?v=1">
+    <link rel="stylesheet" href="/guest/css/homepage/head.css?v=1">
     <!-- Font -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,7 +23,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Logo SweetSoft">
+            <img src="/guest/img/logosweetsoft.png" alt="Logo SweetSoft">
         </div>
         <div class="account-section">
             <a href="#store"><i class="fas fa-store icon"></i>Home</a>
@@ -39,7 +39,7 @@
     <main>
         <section class="welcome-section">
             <div class="left-image">
-                <img src="/techsupportticket/public/guest/img/trangchu.png" alt="Trang Chủ">
+                <img src="/guest/img/trangchu.png" alt="Trang Chủ">
             </div>
             <div class="right-container">
                 <div class="right-content">
@@ -50,7 +50,7 @@
                     <div class="search-bar">
                         <input type="text" placeholder="Search Support" />
                         <button>
-                            <img src="/techsupportticket/public/guest/img/search.png" alt="Search Icon">
+                            <img src="/guest/img/search.png" alt="Search Icon">
                         </button>
                     </div>
                 </div>
@@ -62,15 +62,15 @@
             <h2>Quick Links</h2>
             <div class="quick-links-container">
                 <a href="#form-section" class="box">
-                    <img src="/techsupportticket/public/guest/img/form.png" alt="Form">
+                    <img src="/guest/img/form.png" alt="Form">
                     <p>Form</p>
                 </a>
                 <a href="#faq" class="box">
-                    <img src="/techsupportticket/public/guest/img/faq.png" alt="FAQ">
+                    <img src="/guest/img/faq.png" alt="FAQ">
                     <p>FAQ</p>
                 </a>
                 <a href="#support-section" class="box">
-                    <img src="/techsupportticket/public/guest/img/support.png" alt="Support">
+                    <img src="/guest/img/support.png" alt="Support">
                     <p>Support</p>
                 </a>
             </div>
@@ -87,7 +87,7 @@
                 <li><a href="#">Tôi quên mật khẩu đăng nhập vào trang quản trị website, làm sao để khôi phục?</a></li>
                 <li><a href="#">Website của tôi bị hack, tôi cần làm gì?</a></li>
                 <li><a href="#">Tôi muốn cập nhật nội dung trên website, tôi phải làm thế nào?</a></li>
-                
+
             </ul>
   <!-- New Button Section -->
   <button id="ask-question-button">Đặt câu hỏi</button>
@@ -95,7 +95,7 @@
     <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5" style="width: 100%; padding: 10px;"></textarea>
     <button id="submit-question-button" style="margin-top: 10px;">Gửi câu hỏi</button>
 </div>
-            
+
             <h1>Account Support</h1>
             <ul class="faq-list">
                 <li><a href="#">Tôi quên mật khẩu, làm thế nào để khôi phục tài khoản?</a></li>
@@ -107,7 +107,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-logo">
-            <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Logo Footer">
+            <img src="/guest/img/logosweetsoft.png" alt="Logo Footer">
         </div>
         <div class="footer-content">
             <div class="footer-section contact-info">
@@ -130,7 +130,7 @@
             <div class="footer-section facebook">
                 <h4>SweetSoft trên Facebook</h4>
                 <div class="facebook-widget">
-                    <img src="/techsupportticket/public/guest/img/logosweetsoft.png" alt="Facebook Logo">
+                    <img src="/guest/img/logosweetsoft.png" alt="Facebook Logo">
                 </div>
             </div>
         </div>
