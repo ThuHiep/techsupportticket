@@ -124,6 +124,7 @@ input.error, select.error {
 
 .btn-secondary:hover {
     background-color: #ee5711;
+    color: #FFFFFF;
 }
 .btn-secondary {
     align-self: flex-start; /* Căn chỉnh các nút theo chiều dọc bắt đầu từ đầu */
