@@ -171,4 +171,20 @@ class CustomerController extends Controller
         return redirect()->route('admin.customer.index')
             ->with('success', 'Khách hàng đã được thêm thành công!');
     }
+
+    public function approveCustomer($customer_id)
+    {
+        \Log::info('Customer ID received:', ['customer_id' => $customer_id]);
+
+        $customer = Customer::where('customer_id', $customer_id)->first();
+        if ($customer) {
+            $customer->status = 'active';
+            $customer->save();
+
+            return response()->json(['message' => 'Khách hàng đã được phê duyệt!', 'status' => 'success']);
+        }
+
+        return response()->json(['message' => 'Không tìm thấy khách hàng!', 'status' => 'error']);
+    }
+
 }

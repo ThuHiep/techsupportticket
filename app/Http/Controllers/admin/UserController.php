@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -19,8 +20,12 @@ class UserController extends Controller
 
     public function getUserList()
     {
-        $users = User::select('user_id', 'username', 'password')->get();
+        $users = Customer::select('customer_id', 'full_name', 'status')
+            ->whereNull('status')
+            ->get();
+
         return response()->json($users);
     }
+
 
 }
