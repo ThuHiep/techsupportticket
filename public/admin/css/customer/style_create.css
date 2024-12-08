@@ -1,0 +1,201 @@
+/* Tổng quan */
+body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc; /* Nền sáng */
+}
+
+/* Container chính */
+.container {
+    max-width: 1200px;
+    min-height: 600px; /* Đảm bảo container luôn có chiều cao tối thiểu */
+    margin: 20px auto; /* Căn giữa */
+    padding: 20px;
+    background-color: #fff; /* Nền trắng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    border-radius: 12px; /* Bo góc mềm mại */
+    position: relative; /* Thêm thuộc tính position: relative */
+}
+
+/* Tiêu đề */
+h1 {
+    color: #FF9700; /* Màu cam nổi bật */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Container chính của form */
+form {
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử trong form xếp dọc */
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+    justify-content: flex-start; /* Căn phần tử từ trên xuống */
+}
+
+/* Mỗi form-group chiếm 3 cột (col-md-3) */
+.form-group {
+    flex: 1 1 23%; /* Đảm bảo mỗi cột chiếm tối đa 23% không gian */
+    min-width: 250px; /* Đặt chiều rộng tối thiểu cho mỗi cột */
+    max-width: 23%; /* Đặt chiều rộng tối đa cho mỗi cột */
+}
+
+/* Điều chỉnh cho label */
+.form-group label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: block;
+    line-height: 1.2;
+}
+
+/* Điều chỉnh input */
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 40px;
+    padding: 6px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #FF9700;
+    box-shadow: 0 0 6px rgba(255, 151, 0, 0.4);
+    outline: none;
+}
+
+/* Hiển thị lỗi */
+input.error, select.error {
+    border-color: #dc3545; /* Màu đỏ */
+    box-shadow: 0 0 6px rgba(220, 53, 69, 0.4); /* Ánh sáng đỏ */
+}
+
+.error-message {
+    color: #dc3545; /* Màu chữ đỏ */
+    font-size: 14px; /* Cỡ chữ nhỏ */
+    margin-top: -10px; /* Dịch lên gần input */
+    margin-bottom: 10px;
+}
+
+/* Nút Lưu*/
+.save-button {
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+}
+.btn-success {
+    padding: 12px 24px; /* Khoảng cách trong lớn hơn */
+    background-color: #18a343; /* Màu tím */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Bo góc */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 200px; /* Đặt chiều rộng của nút */
+    margin-top: 20px; /* Khoảng cách từ các phần tử phía trên */
+}
+.btn-success:hover {
+    background-color: #347737; /* Xanh đậm hơn */
+    transform: scale(1.05); /* Phóng to nhẹ */
+}
+
+.btn-success:active {
+    transform: scale(0.95); /* Nhỏ đi khi click */
+}
+
+/* Nút Quay lại */
+.btn-secondary {
+    position: absolute; /* Định vị nút Quay lại */
+    top: 20px; /* Khoảng cách từ trên */
+    right: 20px; /* Khoảng cách từ bên phải */
+    padding: 12px 24px;
+    background-color: #ff6f00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    background-color: #ee5711;
+}
+.btn-secondary {
+    align-self: flex-start; /* Căn chỉnh các nút theo chiều dọc bắt đầu từ đầu */
+    height: 50px; /* Đặt chiều cao cố định cho các nút */
+}
+.btn-success{
+    height: 50px;
+}
+
+/* Tùy chỉnh cho file upload */
+/* Đảm bảo bố cục hiển thị đẹp */
+.custom-file-upload {
+
+    display: flex;
+    flex-direction: column;
+    align-items: normal; /* Canh giữa phần tử bên trong */
+    margin-top: 10px; /* Tạo khoảng cách giữa "Hình ảnh đại diện" và nút "Chọn" */
+}
+
+/* Ẩn input file gốc */
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+/* Chỉnh sửa cho label của file */
+.custom-file-upload label {
+    display: inline-block;
+    width: auto;
+    padding: 12px 20px;
+    background-color: #50138d;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px; /* Tăng kích thước chữ */
+    font-weight: bold;
+    margin-top: 10px; /* Khoảng cách giữa chữ và nút */
+}
+
+/* Hiệu ứng hover cho nút label */
+.custom-file-upload label:hover {
+    background-color: #6f2f9f;
+}
+
+/* Tăng kích thước chữ chỉ cho "Hình ảnh đại diện" */
+.form-group label.profile-image-label{
+    font-size: 20px; /* Tăng kích thước chữ cho "Hìn    h ảnh đại diện" */
+    font-weight: bold;  /* Để chữ đậm hơn */
+    margin-bottom: 10px; /* Khoảng cách giữa nhãn và nút */
+}
+
+
+/* Hiển thị ảnh preview */
+.image-preview {
+    margin-top: 15px;
+    text-align: center;
+    position: relative; /* Đảm bảo ảnh không ảnh hưởng đến bố cục */
+    clear: both; /* Đảm bảo không có phần tử nào bên cạnh ảnh */
+}
+
+.image-preview img {
+    max-width: 100%; /* Giới hạn chiều rộng của ảnh */
+    max-height: 200px; /* Giới hạn chiều cao của ảnh */
+    border-radius: 8px;
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    display: block;
+    margin: 0 auto 20px; /* Giữ khoảng cách giữa ảnh và các phần tử khác */
+}
+/* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
+.container-img {
+    margin-top: 30px; /* Di chuyển xuống dưới một đoạn */
+    margin-left: -50px; /* Di chuyển sang trái một đoạn */
+    text-align: center;
+}
