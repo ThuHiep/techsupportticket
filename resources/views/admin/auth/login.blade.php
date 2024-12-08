@@ -11,7 +11,7 @@
     <link href="admin/css/bootstrap.min.css" rel="stylesheet">
     <link href="admin/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/techsupportticket/public/admin/css/login_admin.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/admin/css/form/login_admin.css?v=1">
     <title>Login_Admin</title>
 </head>
 <!DOCTYPE html>
