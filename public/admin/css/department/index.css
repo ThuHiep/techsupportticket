@@ -1,0 +1,229 @@
+body {
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+}
+
+.container {
+    width: 1200px;
+    max-width: 100%;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+h1 {
+    padding-bottom: 20px;
+    color: #FF9700;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-department-btn {
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: auto;
+}
+
+.add-department-btn:hover {
+    background-color: #f57c00;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    width: 320px;
+}
+
+.search-container input[type="text"] {
+    width: 100%;
+    padding: 10px 100px 10px 15px;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: #FF9700;
+}
+
+.search-container button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 90px;
+    background-color: #FF9700;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #f57c00;
+}
+
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+th {
+    background-color: #50138d;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #eaeaea;
+}
+
+.edit-button, .delete-button {
+    padding: 8px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #007bff;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700;
+    color: white;
+    text-decoration: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD;
+}
+.pagination span {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700;
+    color: white;
+    text-decoration: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD;
+}
+
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #ee5711;
+    border-color: #ddd;
+}
+
+.pagination a.active,
+.pagination span.active {
+    background-color: #FF9700;
+    border-color: #DDDDDD;
+    color: white;
+    cursor: default;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #ffffff;
+    cursor: not-allowed;
+    background-color: #FF9700;
+    border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #FF9700;
+    color: white;
+    cursor: default;
+    z-index: 2;
+}
+
+/* Sửa phần này để thêm đường viền đỏ khi active */
+.pagination > .active > span {
+    border: 2px solid darkred;
+}
+
+.hidden {
+    display: none;
+}
