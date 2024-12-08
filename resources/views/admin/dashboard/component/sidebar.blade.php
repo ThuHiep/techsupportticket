@@ -54,7 +54,7 @@
                 </a>
             </li>
             <li class="{{ Request::is('department*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fa-solid fa-clipboard"></i>
+                <a href="department/index"><i class="fa-solid fa-clipboard"></i>
                     <span class="nav-label">Phòng ban</span>
                 </a>
             </li>
