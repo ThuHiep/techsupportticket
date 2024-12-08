@@ -4,11 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách Phòng ban</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
     <link rel="stylesheet" href="{{ asset('admin/css/department/index.css') }}">
+    <style>
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
 
+        .status-dot.active {
+            background-color: green;
+        }
+
+        .status-dot.inactive {
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -36,10 +53,17 @@
             <tbody>
             @foreach ($departments as $index => $department)
                 <tr>
-                    <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td> <!-- STT -->
+                    <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
                     <td>{{ $department->department_id }}</td>
                     <td>{{ $department->department_name }}</td>
-                    <td>{{ $department->status }}</td>
+                    <td>
+                        {{ $department->status }}
+                        @if($department->status == 'active')
+                            <span class="status-dot active"></span>
+                        @else
+                            <span class="status-dot inactive"></span>
+                        @endif
+                    </td>
                     <td>
                         <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">
