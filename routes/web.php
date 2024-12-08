@@ -9,18 +9,13 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatisticalController;
 
-
-
 Route::get('/', function () {
     return view('home'); // Đổi 'home' thành file view có sẵn
 });
 
-
 /*Route login cua admin*/
 Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
 
-/*Route register cua user*/
-//Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
 /*Route register cua user*/
 Route::get('/forgot_pass_admin', [AuthController::class, 'showForgotPass'])->name('forgot_pass_admin');
 
@@ -62,6 +57,9 @@ Route::name('customer.')->group(function () {
 });
 
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
+Route::post('customer/approve/{id}', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
+
+
 
 
 

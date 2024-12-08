@@ -24,6 +24,7 @@
             Chờ duyệt
             <span class="badge" id="userCount">0</span>
         </button>
+
     </div>
     <div class="table-container">
         <table class="table table-striped">
@@ -95,7 +96,6 @@
     <div class="pagination">
         {{ $customers->links('pagination::bootstrap-4') }}
     </div>
-
 </div>
 
 <script>
@@ -148,8 +148,30 @@
     }
 
     function approveUser(userId) {
-        Swal.fire('Phê duyệt', `Đã phê duyệt người dùng ID: ${userId}`, 'success');
+        fetch('{{ route("customer.approve", ":id") }}'.replace(':id', userId), {
+            method: 'POST', // Sử dụng phương thức POST
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Token CSRF
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire('Phê duyệt', data.message, 'success');
+                    updateUserCount(); // Cập nhật số lượng
+                    showUsersModal(); // Cập nhật danh sách modal
+                } else {
+                    Swal.fire('Lỗi', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Lỗi', 'Đã xảy ra lỗi khi phê duyệt!', 'error');
+                console.error('Error:', error);
+            });
     }
+
+
 
     function disapproveUser(userId) {
         Swal.fire('Không duyệt', `Đã không duyệt người dùng ID: ${userId}`, 'error');
