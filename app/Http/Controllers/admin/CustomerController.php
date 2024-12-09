@@ -135,6 +135,8 @@ class CustomerController extends Controller
     {
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        // Sinh customer_id ngẫu nhiên
+        $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
         // Kiểm tra trùng lặp trong database
         while (Customer::where('customer_id', $randomId)->exists()) {
@@ -155,6 +157,7 @@ class CustomerController extends Controller
 
         // Tạo tài khoản User tương ứng
         $user = new User();
+        $user ->user_id = $randuserID;
         $user->username = $username;
         $user->password = bcrypt($password); // Mã hóa mật khẩu
         $user->email = $email;
@@ -164,7 +167,7 @@ class CustomerController extends Controller
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
-        $customer->user_id = $user->user_id; // Liên kết với user_id vừa tạo
+        $customer->user_id = $randuserID; // Liên kết với user_id vừa tạo
         $customer->full_name = $request->input('full_name');
         $customer->date_of_birth = $request->input('date_of_birth');
         $customer->gender = $request->input('gender');

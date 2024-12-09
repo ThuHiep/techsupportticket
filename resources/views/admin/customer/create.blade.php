@@ -160,6 +160,10 @@
                         <label for="password" class="form-label">Mật khẩu</label>
                         <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
                 </div>
             </div>
 
