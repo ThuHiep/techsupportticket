@@ -185,7 +185,7 @@ input[type="checkbox"] {
     transition: background-color 0.3s, border-color 0.3s;
 }
 input[type="checkbox"]:checked {
-    background-color: rgb(255, 66, 255);
+    background-color: rgb(255, 156, 78);
     border-color: rgb(255, 255, 255);
 }
 input[type="checkbox"]:checked::before {
@@ -199,7 +199,7 @@ input[type="checkbox"]:checked::before {
     transform: translate(-50%, -50%);
 }
 input[type="checkbox"]:hover {
-    border-color: #e213f5b3;
+    border-color: #ee5711;
 }
 /*Ghi nho tai khoan*/
 .remember-me {
@@ -218,7 +218,12 @@ input[type="checkbox"]:hover {
     font-size: 16px;
     font-weight: 550;
     color: rgb(255, 156, 78);
+    text-decoration: none;
 }
+.forgot a:hover{
+    color: rgb(238, 87, 17);
+}
+
 
 /*Submit Login*/
 .input-submit{
@@ -244,7 +249,39 @@ input[type="checkbox"]:hover {
     align-items: center;
     margin: 20px 0; /* Khoảng cách trên dưới */
 }
+/*Dang ky*/
+.register{
+    text-align: center;
+    position: relative;
+    top: 20px; /* Di chuyển xuống */
+}
+.register span{
+    font-size: 14px;
 
+}
+.register a{
+    font-weight: 500;
+    font-size: 16px;
+    margin-left: 7px;
+    color: var(--second-color);
+    text-decoration: none;
+}
+.register-box {
+    display: inline-block;
+    padding: 5px 10px; /* Thêm khoảng cách bên trong box */
+    border: 2px solid var(--second-color); /* Viền cho box */
+    border-radius: 5px; /* Bo góc box */
+    background-color: rgba(176, 255, 66, 0.1); /* Màu nền nhạt */
+    color: #ffffff; /* Màu chữ */
+    transition:.3s; /* Hiệu ứng khi hover */
+}
+
+.register-box:hover {
+    border: 2px solid rgb(255, 156, 78);
+    background-color:var(--second-color); /* Đổi màu nền khi hover */
+    color:  rgb(255, 156, 78); /* Đổi màu chữ khi hover */
+
+}
 @media only screen and (max-width: 546px){
     .wrapper{
         padding: 20px;

@@ -30,10 +30,10 @@ class DashboardController extends Controller
         $customerPercentageChange = $this->calculatePercentageChange($totalCustomersToday, $totalCustomersYesterday);
 
         // Tổng số yêu cầu từ bảng request hôm nay
-        $totalRequestsToday = SupportRequest::whereDate('received_at', now()->toDateString())->count();
+        $totalRequestsToday = SupportRequest::whereDate('create_at', now()->toDateString())->count();
 
         // Tổng số yêu cầu từ bảng request ngày hôm qua
-        $totalRequestsYesterday = SupportRequest::whereDate('received_at', now()->subDay()->toDateString())->count();
+        $totalRequestsYesterday = SupportRequest::whereDate('create_at', now()->subDay()->toDateString())->count();
 
         // Tính phần trăm thay đổi yêu cầu so với hôm qua
         $requestPercentageChange = $this->calculatePercentageChange($totalRequestsToday, $totalRequestsYesterday);
@@ -65,15 +65,15 @@ class DashboardController extends Controller
             'cancelled' => Request::where('status', 'Đã hủy')->count(),
         ];
 
-            // Số lượng yêu cầu hỗ trợ trong 7 ngày gần nhất
-        $requestsLast7Days = SupportRequest::selectRaw('DATE(received_at) as date, COUNT(*) as total')
-        ->where('received_at', '>=', now()->subDays(7))
-        ->groupBy('date')
-        ->orderBy('date', 'asc')
-        ->get();
+        //     // Số lượng yêu cầu hỗ trợ trong 7 ngày 
+        // $requestsLast7Days = SupportRequest::selectRaw('DATE(create_at) as date, COUNT(*) as total')
+        // ->where('create_at', '>=', now()->subDays(7))
+        // ->groupBy('date')
+        // ->orderBy('date', 'asc')
+        // ->get();
         // Lấy dữ liệu yêu cầu trong tuần này từ Thứ Hai đến Chủ Nhật
-        $requestsThisWeek = SupportRequest::selectRaw('WEEKDAY(received_at) as weekday, COUNT(*) as total')
-        ->whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])
+        $requestsThisWeek = SupportRequest::selectRaw('WEEKDAY(create_at) as weekday, COUNT(*) as total')
+        ->whereBetween('create_at', [now()->startOfWeek(), now()->endOfWeek()])
         ->groupBy('weekday')
         ->orderBy('weekday', 'asc')
         ->get();

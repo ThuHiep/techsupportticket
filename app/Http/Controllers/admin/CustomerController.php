@@ -15,6 +15,7 @@ class CustomerController extends Controller
         $template = 'admin.customer.index';
         $search = $request->input('search');
 
+        // Truy vấn khách hàng có status là 'active'
         $customers = Customer::with('user')
             ->when($search, function ($query) use ($search) {
                 return $query->where('customer_id', 'LIKE', "%$search%")
@@ -23,25 +24,47 @@ class CustomerController extends Controller
                         $query->where('email', 'LIKE', "%$search%");
                     });
             })
-            ->whereNull('status')
+            ->where('status', 'active')  // Lọc theo status = 'active'
             ->paginate(3);
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+
+        // Truy vấn khách hàng có status là NULL (Chờ duyệt)
+        $pendingCustomers = Customer::with('user')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('customer_id', 'LIKE', "%$search%")
+                    ->orWhere('full_name', 'LIKE', "%$search%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('email', 'LIKE', "%$search%");
+                    });
+            })
+            ->whereNull('status')  // Lọc theo status = NULL (Chờ duyệt)
+            ->paginate(3);
+
+        return view('admin.dashboard.layout', compact('template', 'customers', 'pendingCustomers'));
     }
+
 
 
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
+
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
-        // Sinh tax_id ngẫu nhiên (10 chữ số)
-        $taxId = str_pad(mt_rand(0, 999999999), 9, STR_PAD_LEFT);
 
-        // Truyền customer_id, tax_id vào view
+        // Sinh username ngẫu nhiên
+        $username = 'user' . mt_rand(100000, 999999);
+        while (User::where('username', $username)->exists()) {
+            $username = 'user' . mt_rand(100000, 999999);
+        }
+
+        // Sinh password ngẫu nhiên
+        $password = Str::random(12); // Chuỗi 12 ký tự ngẫu nhiên
+
+        // Truyền các giá trị vào view
         $template = 'admin.customer.create';
-        return view('admin.dashboard.layout', compact('template', 'randomId', 'taxId', 'customers'));
+        return view('admin.dashboard.layout', compact('template', 'randomId', 'username', 'password', 'customers'));
     }
 
 
@@ -112,31 +135,19 @@ class CustomerController extends Controller
     {
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        // Sinh customer_id ngẫu nhiên
+        $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
         // Kiểm tra trùng lặp trong database
         while (Customer::where('customer_id', $randomId)->exists()) {
             $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         }
 
-        // Sinh tax_id ngẫu nhiên (10 chữ số)
-        $taxId = str_pad(mt_rand(0, 999999999), 9, STR_PAD_LEFT);
-
-        // Sinh username dựa trên họ tên và số ngẫu nhiên
-        $fullName = $request->input('full_name');
-
-        // Loại bỏ dấu
-        $fullNameNoAccent = strtolower(Str::slug($fullName, ''));
-
-        // Tạo username
-        $username = $fullNameNoAccent . mt_rand(100, 999);
-
-        // Kiểm tra trùng username
+        // Sinh username ngẫu nhiên
+        $username = 'user' . mt_rand(100000, 999999);
         while (User::where('username', $username)->exists()) {
-            $username = $fullNameNoAccent . mt_rand(100, 999);
+            $username = 'user' . mt_rand(100000, 999999);
         }
-
-        // Sinh customer_id ngẫu nhiên
-        $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
         // Sinh password ngẫu nhiên
         $password = Str::random(12); // Chuỗi 12 ký tự ngẫu nhiên
@@ -149,35 +160,23 @@ class CustomerController extends Controller
         $user ->user_id = $randuserID;
         $user->username = $username;
         $user->password = bcrypt($password); // Mã hóa mật khẩu
-        $user->email = $email; // Lưu email
+        $user->email = $email;
         $user->role_id = 3; // Gán role_id là 3
         $user->save();
-
-        // Kiểm tra nếu có hình ảnh được upload
-        $profileImagePath = null;
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            if ($image->isValid()) {
-                $imageName = 'profile_' . time() . '.' . $image->getClientOriginalExtension();
-                $profileImagePath = $imageName;
-                $image->move(public_path('admin/img/customer'), $imageName);
-            }
-        }
 
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
         $customer->user_id = $randuserID; // Liên kết với user_id vừa tạo
-        $customer->full_name = $fullName;
+        $customer->full_name = $request->input('full_name');
         $customer->date_of_birth = $request->input('date_of_birth');
         $customer->gender = $request->input('gender');
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
-        $customer->profile_image = $profileImagePath;
         $customer->software = $request->input('software');
         $customer->website = $request->input('website');
         $customer->company = $request->input('company');
-        $customer->tax_id = $taxId;
+        $customer->tax_id = $request->input('tax_id');;
         $customer->create_at = now();
         $customer->update_at = now();
         $customer->save();
@@ -185,9 +184,7 @@ class CustomerController extends Controller
         // Trả về kết quả
         return redirect()->route('customer.index')
             ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
-
     }
-
 
 
     public function approveCustomer($customer_id)
@@ -195,20 +192,17 @@ class CustomerController extends Controller
         $customer = Customer::find($customer_id);
 
         if (!$customer) {
-            return redirect()->route('admin.customer.index')
-                ->with('error', 'Không tìm thấy khách hàng!');
+            return response()->json(['status' => 'error', 'message' => 'Không tìm thấy khách hàng!']);
         }
 
         if ($customer->status === 'active') {
-            return redirect()->route('admin.customer.index')
-                ->with('error', 'Khách hàng đã được duyệt trước đó!');
+            return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt trước đó!']);
         }
 
         // Phê duyệt khách hàng
         $customer->status = 'active';
         $customer->save();
 
-        return redirect()->route('admin.customer.index')
-            ->with('success', 'Khách hàng đã được phê duyệt thành công!');
+        return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt thành công!']);
     }
 }

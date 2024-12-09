@@ -8,7 +8,7 @@
     <title>Trang chủ Sweetsoft</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/techsupportticket/public/guest/css/homepage/homepage.css?v=1">
+    <link rel="stylesheet" href="guest/css/homepage/homepage.css?v=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,19 +22,19 @@
 
     <header>
         <div class="logo">
-            <img src="/techsupportticket/public/guest/img/swsoft_logo.svg" alt="Logo">
+            <img src="guest/img/swsoft_logo.svg" alt="Logo">
         </div>
         <nav class="nav-links">
             <a href="#home">Trang chủ</a>
             <a href="#faq">Bài viết</a>
             <a href="#ins">Hướng dẫn</a>
             <a href="#contact">Liên hệ</a>
-            <button class="login-button">Đăng nhập</button>
+            <a class="login-button" href="{{ route('auth.login') }}">Đăng nhập</a>
         </nav>
     </header>
     <div class="main-content" id="home">
         <div class="left">
-            <img src="/techsupportticket/public/guest/img/trangchu.png" alt="Sample Image">
+            <img src="guest/img/trangchu.png" alt="Sample Image">
 
         </div>
         <div class="right">
@@ -44,7 +44,7 @@
             </h1>
             <div class="search-container">
                 <input type="text" placeholder="Tìm kiếm...">
-                <button><img src='/techsupportticket/public/guest/img/search.png' alt='Search' style='width: 20px; height: 20px;'></button>
+                <button><img src='guest/img/search.png' alt='Search' style='width: 20px; height: 20px;'></button>
             </div>
         </div>
     </div>
@@ -93,17 +93,34 @@
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
-            <div class="carousel-card">Card 1</div>
-            <div class="carousel-card">Card 2</div>
-            <div class="carousel-card">Card 3</div>
-            <div class="carousel-card">Card 4</div>
-            <div class="carousel-card">Card 5</div>
+            <div class="carousel-card">
+                <img src="image1.jpg" alt="Hình ảnh 1" class="card-image">
+                <div class="card-content">Nội dung thẻ 1</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image2.jpg" alt="Hình ảnh 2" class="card-image">
+                <div class="card-content">Nội dung thẻ 2</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image3.jpg" alt="Hình ảnh 3" class="card-image">
+                <div class="card-content">Nội dung thẻ 3</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image4.jpg" alt="Hình ảnh 4" class="card-image">
+                <div class="card-content">Nội dung thẻ 4</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image5.jpg" alt="Hình ảnh 5" class="card-image">
+                <div class="card-content">Nội dung thẻ 5</div>
+            </div>
         </div>
         <div class="carousel-controls">
             <button class="carousel-button left" id="prev">&#8249;</button>
             <button class="carousel-button right" id="next">&#8250;</button>
         </div>
     </div>
+    
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const carousel = document.getElementById("carousel");
@@ -140,7 +157,7 @@
         <div style="display: flex; justify-content: space-around;">
             <!-- Column 1 -->
             <div style="flex: 1; padding: 0 10px;">
-                <img src="guest/img/logosweetsoft.png" alt="SweetSoft Logo" style="width: 350px; margin-bottom: 10px;">
+                <img src="guest/img/logosweetsoft.png" alt="SweetSoft Logo" style="width: 300px; margin-bottom: 10px;">
                 <p>Thiết kế web Nha Trang, công ty phần mềm SweetSoft</p>
                 <p>Công ty phần mềm chuyên nghiệp hàng đầu tại Nha Trang. Website đẳng cấp mang lại giá trị cao cho khách hàng.</p>
                 <p>Theo dõi chúng tôi
@@ -173,9 +190,9 @@
 
             <!-- Column 4 -->
             <div style="flex: 1; text-align: center; padding: 0 10px; position: relative; max-width: 350px; margin: 0 auto;">
-                <h4>Sweetsoft trên Facebook</h4>
+                <h2>Sweetsoft trên Facebook</h2>
 
-                <img src="/techsupportticket/public/guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
+                <img src="guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
             </div>
         </div>
 
@@ -201,8 +218,8 @@
         <h2>FORM YÊU CẦU</h2>
         <a>Hãy đăng nhập để điền FORM</a>
         <form id="registerForm">
-            <button type="submit">Đăng nhập</button>
-            <button type="submit">Đăng ký</button>
+            <a href="{{ route('login.login') }}">Đăng nhập</a>
+            <a href="{{ route('register') }}">Đăng ký</a>
             <a href="#"><br>Hướng dẫn thao tác điền FORM</a>
         </form>
     </div>

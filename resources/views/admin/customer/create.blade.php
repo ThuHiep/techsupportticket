@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="tax_id" class="form-label">Mã số thuế</label>
-                        <input type="text" id="tax_id" name="tax_id" class="form-control" value="{{ $taxId }}" readonly required>
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng</label>
@@ -126,17 +126,13 @@
                             <option value="Nữ">Nữ</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-                </div>
-                <!-- Số điện thoại + Email + Website -->
-                <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Số điện thoại</label>
                         <input type="text" id="phone" name="phone" class="form-control" required>
                     </div>
+                </div>
+                <!-- Software + Công ty -->
+                <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Software</label>
                         <input type="text" id="software" name="software" class="form-control" required>
@@ -145,8 +141,12 @@
                         <label for="company" class="form-label">Công ty</label>
                         <input type="text" id="company" name="company" class="form-control">
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="username" class="form-label">Tài khoản</label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                    </div>
                 </div>
-                <!-- Địa chỉ + Công ty + Software -->
+                <!-- Địa chỉ + Website -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="address" class="form-label">Địa chỉ</label>
@@ -156,6 +156,14 @@
                         <label for="website" class="form-label">Website</label>
                         <input type="text" id="website" name="website" class="form-control" required>
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
                 </div>
             </div>
 
@@ -164,10 +172,10 @@
             <div class="col-md-3">
                 <div class="container-img">
                     <div class="form-group">
-                        <label for="profile_image" class="form-label profile-image-label">Hình ảnh đại diện</label>
+                        <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
                         <div class="custom-file-upload">
                             <input type="file" id="profile_image" name="profile_image" class="form-control" accept="image/*" onchange="previewImage(event)">
-                            <label for="profile_image" class="custom-file-label">Chọn</label>
+                            <label for="profile_image" class="custom-file-label">Chọn mới</label>
                             <div class="image-preview">
                                 <div id="image-preview" class="image-preview">
                                     <img id="preview-img" src="" alt="Image Preview" style="display:none;">
@@ -181,7 +189,7 @@
         </div>
         <!-- Nút lưu -->
         <div class="save-button">
-            <button type="submit" class="btn btn-success">Lưu khách hàng</button>
+            <button type="submit" class="btn btn-success">Thêm mới</button>
         </div>
         <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
