@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="forgot">
-                    <a href="{{ route('forgot_pass') }}" class="register-box"> Quên mật khẩu</a>
+                    <a href="{{ route('forgot_pass') }}" > Quên mật khẩu</a>
                 </div>
             </div>
 
