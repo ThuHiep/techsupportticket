@@ -11,6 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory;
     const CREATED_AT = 'create_at';
+    protected $keyType = 'string';
     const UPDATED_AT = 'update_at';
     protected $table = 'user'; // Đảm bảo tên bảng chính xác
     protected $primaryKey = 'user_id'; // Đặt khóa chính nếu khác `id`

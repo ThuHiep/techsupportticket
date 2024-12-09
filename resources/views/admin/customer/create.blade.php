@@ -126,6 +126,10 @@
                             <option value="Nữ">Nữ</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
                 </div>
                 <!-- Số điện thoại + Email + Website -->
                 <div class="row mb-3">
