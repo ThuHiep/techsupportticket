@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function getUserList()
     {
-        $users = Customer::select('customer_id', 'full_name', 'status')
+        $users = Customer::select('customer_id', 'full_name','phone', 'status')
             ->whereNull('status')
             ->get();
 

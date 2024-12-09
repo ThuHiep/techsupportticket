@@ -11,10 +11,8 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
-        // Kiểm tra xem có yêu cầu tìm kiếm không
         $search = $request->input('search');
 
-        // Nếu có tìm kiếm, lọc dữ liệu theo tên hoặc email
         $customers = Customer::with('user')
             ->when($search, function ($query) use ($search) {
                 return $query->where('customer_id', 'LIKE', "%$search%")
@@ -23,12 +21,12 @@ class CustomerController extends Controller
                         $query->where('email', 'LIKE', "%$search%");
                     });
             })
-            // Phân trang với 4 bản ghi mỗi trang
-            ->paginate(3);
+            ->whereNull('status')
+            ->paginate(4);
 
-        // Trả về view với dữ liệu khách hàng
-        return view('admin.dashboard.layout', compact('template','customers'));
+        return view('admin.dashboard.layout', compact('template', 'customers'));
     }
+
 
     // Hiển thị form tạo khách hàng mới
     public function create()
@@ -113,20 +111,20 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         // Thực hiện kiểm tra (validation) các trường dữ liệu
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id', // Kiểm tra user_id phải tồn tại trong bảng users
-            'full_name' => 'required|string|max:255', // Kiểm tra full_name không được bỏ trống, là chuỗi và không quá 255 ký tự
-            'email' => 'required|email|unique:customers,email', // Kiểm tra email phải hợp lệ và chưa tồn tại trong bảng customers
-            'date_of_birth' => 'required|date|before:today', // Kiểm tra ngày sinh hợp lệ và trước ngày hiện tại
-            'gender' => 'required|in:Nam,Nữ', // Kiểm tra giới tính hợp lệ
-            'phone' => 'nullable|numeric|digits_between:10,15', // Kiểm tra số điện thoại nếu có, phải là số và từ 10 đến 15 chữ số
-            'address' => 'nullable|string|max:500', // Kiểm tra địa chỉ nếu có, là chuỗi và không quá 500 ký tự
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Kiểm tra nếu có hình ảnh, phải là ảnh với dung lượng không quá 2MB
-            'software' => 'required|string|max:255',
-            'website' => 'required|string|max:255',
-            'company' => 'nullable|string|max:255', // Kiểm tra tên công ty nếu có, là chuỗi và không quá 255 ký tự
-            'tax_id' => 'required|numeric|digits:9|unique:customers,tax_id', // Kiểm tra tax_id phải là số và có 9 chữ số, chưa tồn tại trong bảng customers
-        ]);
+//        $validated = $request->validate([
+//            'user_id' => 'required|exists:user,id', // Kiểm tra user_id phải tồn tại trong bảng users
+//            'full_name' => 'required|string|max:255', // Kiểm tra full_name không được bỏ trống, là chuỗi và không quá 255 ký tự
+//            'email' => 'required|email|unique:customers,email', // Kiểm tra email phải hợp lệ và chưa tồn tại trong bảng customers
+//            'date_of_birth' => 'required|date|before:today', // Kiểm tra ngày sinh hợp lệ và trước ngày hiện tại
+//            'gender' => 'required|in:Nam,Nữ', // Kiểm tra giới tính hợp lệ
+//            'phone' => 'nullable|numeric|digits_between:10,15', // Kiểm tra số điện thoại nếu có, phải là số và từ 10 đến 15 chữ số
+//            'address' => 'nullable|string|max:500', // Kiểm tra địa chỉ nếu có, là chuỗi và không quá 500 ký tự
+//            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Kiểm tra nếu có hình ảnh, phải là ảnh với dung lượng không quá 2MB
+//            'software' => 'required|string|max:255',
+//            'website' => 'required|string|max:255',
+//            'company' => 'nullable|string|max:255', // Kiểm tra tên công ty nếu có, là chuỗi và không quá 255 ký tự
+//            'tax_id' => 'required|numeric|digits:9|unique:customers,tax_id', // Kiểm tra tax_id phải là số và có 9 chữ số, chưa tồn tại trong bảng customers
+//        ]);
 
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
@@ -154,7 +152,6 @@ class CustomerController extends Controller
         $customer->customer_id = $randomId;
         $customer->user_id = $request->input('user_id');
         $customer->full_name = $request->input('full_name');
-        $customer->email = $request->input('email');
         $customer->date_of_birth = $request->input('date_of_birth');
         $customer->gender = $request->input('gender');
         $customer->phone = $request->input('phone');
@@ -174,17 +171,23 @@ class CustomerController extends Controller
 
     public function approveCustomer($customer_id)
     {
-        \Log::info('Customer ID received:', ['customer_id' => $customer_id]);
+        $customer = Customer::find($customer_id);
 
-        $customer = Customer::where('customer_id', $customer_id)->first();
-        if ($customer) {
-            $customer->status = 'active';
-            $customer->save();
-
-            return response()->json(['message' => 'Khách hàng đã được phê duyệt!', 'status' => 'success']);
+        if (!$customer) {
+            return redirect()->route('admin.customer.index')
+                ->with('error', 'Không tìm thấy khách hàng!');
         }
 
-        return response()->json(['message' => 'Không tìm thấy khách hàng!', 'status' => 'error']);
-    }
+        if ($customer->status === 'active') {
+            return redirect()->route('admin.customer.index')
+                ->with('error', 'Khách hàng đã được duyệt trước đó!');
+        }
 
+        // Phê duyệt khách hàng
+        $customer->status = 'active';
+        $customer->save();
+
+        return redirect()->route('admin.customer.index')
+            ->with('success', 'Khách hàng đã được phê duyệt thành công!');
+    }
 }
