@@ -11,9 +11,9 @@ use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home'); // Đổi 'home' thành file view có sẵn
-});
+//Route::get('/', function () {
+//    return view('guest/homegape/index'); // Đổi 'home' thành file view có sẵn
+//});
 
 /*Route login cua admin*/
 Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
@@ -25,7 +25,7 @@ Route::get('/forgot_pass_admin', [AuthController::class, 'showForgotPass'])->nam
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 /*Route hompage */
-Route::get('homepage', [HomepageController::class, 'login'])->name('homepage.index');
+Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 
 /*Route login cua user*/
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
