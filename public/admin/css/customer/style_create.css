@@ -8,9 +8,9 @@ body {
 
 /* Container chính */
 .container {
-    max-width: 1200px;
+    width: 1250px;
     min-height: 600px; /* Đảm bảo container luôn có chiều cao tối thiểu */
-    margin: 20px auto; /* Căn giữa */
+    margin: 20px 0px 20px 20px; /* Căn giữa */
     padding: 20px;
     background-color: #fff; /* Nền trắng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
@@ -116,15 +116,19 @@ input.error, select.error {
     position: absolute; /* Định vị nút Quay lại */
     top: 20px; /* Khoảng cách từ trên */
     right: 20px; /* Khoảng cách từ bên phải */
-    padding: 12px 24px;
-    background-color: #a7b1c2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
+    padding:  7px 14px; /* Khoảng cách trong nút */
+    background-color: #a7b1c2; /* Màu nền */
+    color: white; /* Màu chữ */
+    border: none; /* Bỏ đường viền */
+    border-radius: 8px; /* Bo góc */
+    text-decoration: none; /* Bỏ gạch chân */
+    font-size: 14px; /* Kích thước chữ */
+    display: flex; /* Sử dụng flexbox để căn giữa */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    text-align: center; /* Đảm bảo chữ được căn giữa */
 }
+
 
 .btn-secondary:hover {
     background-color: rgba(167, 177, 194, 0.82);
