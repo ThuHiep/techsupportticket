@@ -145,7 +145,7 @@ th:nth-child(2), td:nth-child(2) {
     width: 100px;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
 }
 th {
-    background-color: #50138d;
+    background-color: #6F2F9F;
     color: white;
     font-weight: bold;
 }

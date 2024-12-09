@@ -1,0 +1,353 @@
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Canh giữa các thành phần trong header */
+            background-color: #6F2F9F;
+            padding: 15px 30px;
+            color: black;
+            position: sticky; /* Hoặc dùng position: fixed */
+            top: 0; /* Gắn header ở đầu trang */
+            z-index: 1000; /* Giúp header luôn nằm trên các phần tử khác */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng bóng */
+        }
+
+        .logo img {
+            height: 40px;
+        }
+    
+
+        
+         .main-content {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-top: -20px; /* Move the main content closer to the header */
+        }
+
+        .main-content .left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-content .left img {
+            display: block;
+            margin: 0 auto 10px; /* Adjusted to reduce spacing below the image */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center; /* Align items in the same row */
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none !important; /* Remove underline */
+            font-size: 17px; /* Updated font size */
+            padding: 10px 0; /* Add padding to match button height */
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .login-button {
+            background-color: #6F2F9F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 17px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .login-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            background-color: #EAE8ED; /* Set body background color */
+            display: flex;
+            height: calc(100vh - 70px); /* Adjust height based on header */
+            margin-bottom: 25px;
+        }
+        .main-content .left {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-content .left img {
+            max-width: 90%; /* Increased size */
+            height: auto;
+        }
+        .main-content .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+           margin-left: 40px;
+            padding: 20px;
+        }
+        .main-content .right h1 {
+            font-size: 2em; /* Increased size */
+            text-align: left;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: black; /* Set text color to black */
+        }
+        .main-content .right h1 span {
+            display: block;
+           font-size: 45px;
+        }
+        
+        .main-content .right .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .main-content .right .search-container input[type="text"] {
+            width: 80%;
+            padding: 10px 15px; /* Adjust padding */
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 25px; /* Rounded corners */
+            transition: border-color 0.3s ease;
+        }
+        .main-content .right .search-container input[type="text"]:focus {
+            outline: none;
+            border-color: #6F2F9F; /* Change border color on focus */
+        }
+        .main-content .right .search-container button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #6F2F9F;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        section {
+            background-color: white;
+        }
+       
+        .cards {
+            display: flex;
+            justify-content: center; /* Center các card */
+            gap: 15px; /* Giảm khoảng cách giữa các card */
+            margin-top: 20px;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 200px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #764DAA;
+            transition: transform 0.3s ease;
+            margin: 0 5px; /* Khoảng cách hai bên mỗi card */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .faq-title {
+            text-align: center;
+            color: #6F2F9F;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+        }
+
+        .faq-container {
+            display: flex; /* Sử dụng flexbox để chia thành hai cột */
+            justify-content: space-between; /* Giãn đều giữa hai cột */
+            gap: 20px; /* Khoảng cách giữa các cột */
+            padding: 20px;
+            margin: 20px 40px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+       
+
+        .faq-list {
+            flex: 2; /* Cột danh sách chiếm 1 phần */
+            list-style-type: none; /* Xóa dấu đầu dòng */
+            padding: 0;
+        }
+
+        .faq-list li {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .faq-list a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .faq-list a:hover {
+            color: #764DAA;
+        }
+
+        .faq-form-container {
+            flex: 1; /* Cột form chiếm 1 phần */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Canh trái */
+            padding: 20px;
+           
+        }
+
+        #ask-question-button {
+            background-color: #6F2F9F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        #ask-question-button:hover {
+            background-color: #5b3e8c;
+            transform: scale(1.05);
+        }
+
+        #question-form {
+            display: none;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #question-form input,
+        #question-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #question-form button {
+            background-color: #6F2F9F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        #question-form button:hover {
+            background-color: #5b3e8c;
+            transform: scale(1.05);
+        }
+
+
+        /* Nút Gửi Câu Hỏi */
+        #submit-question-button {
+            background-color: #6F2F9F; /* Màu nền tím */
+            color: white; /* Màu chữ trắng */
+            border: none; /* Xóa viền */
+            padding: 10px 20px; /* Khoảng cách nội dung */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Con trỏ chuột */
+            font-size: 16px; /* Kích thước chữ */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+            transition: transform 0.2s ease, background-color 0.3s ease; /* Hiệu ứng chuyển động */
+            display: block; /* Đặt nút xuống hàng */
+            margin-top: 10px; /* Tạo khoảng cách trên */
+        }
+
+
+        #submit-question-button:hover {
+            background-color: #5b3e8c; /* Màu tím đậm hơn khi hover */
+            transform: scale(1.05); /* Phóng to nhẹ khi hover */
+        }
+        .instructions {
+            text-align: center;
+            color: #6F2F9F;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .carousel-container {
+            position: relative;
+            width: 80%;
+            margin: 30px auto;
+            overflow: hidden;
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .carousel-card {
+            min-width: 300px; /* Increased width */
+            height: 300px; /* Increased height */
+            margin: 15px; /* Increased margin */
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly bigger shadow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4em; /* Slightly larger font size */
+            font-weight: bold;
+            color: #6F2F9F;
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .carousel-button {
+            background-color: #6F2F9F;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px; /* Increased size */
+            height: 60px; /* Increased size */
+            cursor: pointer;
+            font-size: 2.5em; /* Larger font size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+            margin: 0 10px;
+        }
+        .carousel-button:hover {
+            background-color: #5b3e8c;
+        }
+        footer{
+            padding: 20px; /* Khoảng cách bên trong */
+            margin: 20px 40px; /* Cách mép trái và phải 40px */
+        }
+
+       

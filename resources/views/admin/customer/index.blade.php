@@ -71,7 +71,6 @@
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Mã khách hàng</th>
                 <th>Họ tên</th>
                 <th>Hình ảnh</th>
                 <th>Ngày sinh</th>
@@ -84,7 +83,7 @@
             @foreach ($customers as $index => $customer)
                 <tr>
                     <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td> <!-- STT -->
-                    <td>{{ $customer->customer_id }}</td>
+                    
                     <td>{{ $customer->full_name }}</td>
                     <td>
                         @if($customer->profile_image)
@@ -99,14 +98,14 @@
                     <td>
                         <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">
-                                <i class="fas fa-edit"></i> Sửa
+                                <i class="fas fa-edit"></i>
                             </button>
                         </form>
                         <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
                             @csrf
                             @method('DELETE')
                             <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
-                                <i class="fas fa-trash-alt"></i> Xóa
+                                <i class="fas fa-trash-alt"></i> 
                             </button>
                         </form>
                     </td>
