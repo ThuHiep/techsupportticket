@@ -29,7 +29,7 @@
             <a href="#faq">Bài viết</a>
             <a href="#ins">Hướng dẫn</a>
             <a href="#contact">Liên hệ</a>
-            <button class="login-button">Đăng nhập</button>
+            <a class="login-button" href="{{ route('auth.login') }}">Đăng nhập</a>
         </nav>
     </header>
     <div class="main-content" id="home">
