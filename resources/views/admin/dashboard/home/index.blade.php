@@ -69,8 +69,6 @@
                         {{ is_numeric($faqPercentageChange) ? number_format($faqPercentageChange, 0) . '%' : $faqPercentageChange }}
                         <i class="fa {{ $faqPercentageChange > 0 ? 'fa-level-up' : ($faqPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
                     </div>
-
-                    
                     <small>Tổng bài viết hôm nay</small>
                 </div>
             </div>
@@ -164,27 +162,29 @@
             var requestData = {!! json_encode($requestData) !!};
             var data = [];
             var ticks = [];
-    
+        
+            // Làm tròn dữ liệu trước khi đưa vào biểu đồ
             for (var i = 0; i < requestData.length; i++) {
-                data.push([i, requestData[i].total]);
+                var roundedTotal = parseFloat(requestData[i].total).toFixed(1); // Làm tròn số đến 1 chữ số thập phân
+                data.push([i, roundedTotal]);
                 ticks.push([i, requestData[i].day]);
             }
-    
+        
             const chartData = [
                 { label: "Yêu cầu", data: data }
             ];
-    
+        
             // Cấu hình biểu đồ
             const options = {
                 xaxis: {
                     ticks: ticks,
-                    mode: "categories",  // Đảm bảo rằng trục x được hiển thị theo dạng category (tức là hiển thị nhãn)
+                    mode: "categories", // Hiển thị trục x theo dạng category (ngày trong tuần)
                     tickLength: 0, // Giúp hiển thị nhãn dễ dàng hơn
                 },
                 yaxis: {
                     min: 0,
                     tickFormatter: function (val) {
-                        return val;
+                        return parseFloat(val).toFixed(1); // Định dạng giá trị y với 1 chữ số thập phân
                     }
                 },
                 grid: {
@@ -204,11 +204,12 @@
                     position: "ne"
                 }
             };
-    
+        
             // Vẽ biểu đồ với dữ liệu và cấu hình
             $.plot($("#flot-dashboard-chart"), chartData, options);
         });
     </script>
+    
     
     
 
