@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 /*Route login cua admin*/
-Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
+//Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
 
 /*Route register cua user*/
 Route::get('/forgot_pass_admin', [AuthController::class, 'showForgotPass'])->name('forgot_pass_admin');
@@ -61,7 +61,7 @@ Route::name('customer.')->group(function () {
 });
 
 
-Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
+Route::get('/guest/user/list', [UserController::class, 'getUserList'])->name('guest.user.list');
 
 
 //Department
