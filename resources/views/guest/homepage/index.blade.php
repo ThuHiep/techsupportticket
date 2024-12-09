@@ -8,7 +8,7 @@
     <title>Trang chủ Sweetsoft</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/guest/css/homepage/homepage.css?v=1">
+    <link rel="stylesheet" href="guest/css/homepage/homepage.css?v=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,7 +22,7 @@
 
     <header>
         <div class="logo">
-            <img src="/guest/img/swsoft_logo.svg" alt="Logo">
+            <img src="guest/img/swsoft_logo.svg" alt="Logo">
         </div>
         <nav class="nav-links">
             <a href="#home">Trang chủ</a>
@@ -34,7 +34,7 @@
     </header>
     <div class="main-content" id="home">
         <div class="left">
-            <img src="/guest/img/trangchu.png" alt="Sample Image">
+            <img src="guest/img/trangchu.png" alt="Sample Image">
 
         </div>
         <div class="right">
@@ -44,7 +44,7 @@
             </h1>
             <div class="search-container">
                 <input type="text" placeholder="Tìm kiếm...">
-                <button><img src='/guest/img/search.png' alt='Search' style='width: 20px; height: 20px;'></button>
+                <button><img src='guest/img/search.png' alt='Search' style='width: 20px; height: 20px;'></button>
             </div>
         </div>
     </div>
@@ -175,7 +175,7 @@
             <div style="flex: 1; text-align: center; padding: 0 10px; position: relative; max-width: 350px; margin: 0 auto;">
                 <h4>Sweetsoft trên Facebook</h4>
 
-                <img src="/guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
+                <img src="guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
             </div>
         </div>
 
