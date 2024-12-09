@@ -93,17 +93,34 @@
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
-            <div class="carousel-card">Card 1</div>
-            <div class="carousel-card">Card 2</div>
-            <div class="carousel-card">Card 3</div>
-            <div class="carousel-card">Card 4</div>
-            <div class="carousel-card">Card 5</div>
+            <div class="carousel-card">
+                <img src="image1.jpg" alt="Hình ảnh 1" class="card-image">
+                <div class="card-content">Nội dung thẻ 1</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image2.jpg" alt="Hình ảnh 2" class="card-image">
+                <div class="card-content">Nội dung thẻ 2</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image3.jpg" alt="Hình ảnh 3" class="card-image">
+                <div class="card-content">Nội dung thẻ 3</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image4.jpg" alt="Hình ảnh 4" class="card-image">
+                <div class="card-content">Nội dung thẻ 4</div>
+            </div>
+            <div class="carousel-card">
+                <img src="image5.jpg" alt="Hình ảnh 5" class="card-image">
+                <div class="card-content">Nội dung thẻ 5</div>
+            </div>
         </div>
         <div class="carousel-controls">
             <button class="carousel-button left" id="prev">&#8249;</button>
             <button class="carousel-button right" id="next">&#8250;</button>
         </div>
     </div>
+    
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const carousel = document.getElementById("carousel");
