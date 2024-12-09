@@ -201,8 +201,8 @@
         <h2>FORM YÊU CẦU</h2>
         <a>Hãy đăng nhập để điền FORM</a>
         <form id="registerForm">
-            <button type="submit">Đăng nhập</button>
-            <button type="submit">Đăng ký</button>
+            <a href="{{ route('login.login') }}">Đăng nhập</a>
+            <a href="{{ route('register') }}">Đăng ký</a>
             <a href="#"><br>Hướng dẫn thao tác điền FORM</a>
         </form>
     </div>
