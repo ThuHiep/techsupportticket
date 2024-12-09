@@ -167,7 +167,7 @@ input.error, select.error {
     display: inline-block;
     max-width: 100%; /* Không vượt quá chiều rộng container cha */
     padding: 12px 20px;
-    background-color: #50138d;
+    background-color: #6f2f9f;
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -179,7 +179,7 @@ input.error, select.error {
 
 /* Hiệu ứng hover cho nút label */
 .custom-file-upload label:hover {
-    background-color: #6f2f9f;
+    background-color: #50138d;
 }
 
 /* Tăng kích thước chữ chỉ cho "Hình ảnh đại diện" */
