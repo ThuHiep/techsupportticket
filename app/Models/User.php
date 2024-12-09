@@ -1,25 +1,83 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+/**
+ * Class User
+ * 
+ * @property string $user_id
+ * @property string $username
+ * @property string $password
+ * @property string $role_id
+ * @property Carbon|null $create_at
+ * @property Carbon|null $update_at
+ * @property string|null $otp
+ * @property Carbon|null $otp_expiration_time
+ * @property bool|null $otp_validation
+ * @property string|null $status
+ * 
+ * @property Role $role
+ * @property Collection|Customer[] $customers
+ * @property Collection|Employee[] $employees
+ * @property Collection|Requesthistory[] $requesthistories
+ *
+ * @package App\Models
+ */
+class User extends Model
 {
-    use HasFactory;
+    protected $table = 'user';
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+    public $timestamps = false;
 
-    protected $table = 'user'; // Đảm bảo tên bảng chính xác
-    protected $primaryKey = 'user_id'; // Đặt khóa chính nếu khác `id`
+    protected $casts = [
+        'create_at' => 'datetime',
+        'update_at' => 'datetime',
+        'otp_expiration_time' => 'datetime',
+        'otp_validation' => 'bool'
+    ];
+
+    protected $hidden = [
+        'password'
+    ];
 
     protected $fillable = [
-        'user_id', 'username', 'password', 'email', 'create_at',
-        'otp', 'otp_expiration_time', 'otp_validation', 'status'
+        'username',
+        'password',
+        'role_id',
+        'create_at',
+        'update_at',
+        'otp',
+        'otp_expiration_time',
+        'otp_validation',
+        'status'
     ];
-    public function customer()
+
+    public function role()
     {
-        return $this->hasMany(Customer::class, 'user_id');
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class,);
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class,);
+    }
+
+    public function requesthistories()
+    {
+        return $this->hasMany(Requesthistory::class, 'changed_by');
     }
 }

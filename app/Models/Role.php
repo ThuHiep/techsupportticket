@@ -1,30 +1,39 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Role
+ * 
+ * @property string $role_id
+ * @property string $role_name
+ * @property string|null $description
+ * 
+ * @property Collection|User[] $users
+ *
+ * @package App\Models
+ */
 class Role extends Model
 {
-    // Tên bảng
     protected $table = 'role';
-
-    // Khóa chính
     protected $primaryKey = 'role_id';
-
-    // Tắt chế độ tự động tăng (vì khóa chính là `varchar`)
     public $incrementing = false;
+    public $timestamps = false;
 
-    // Kiểu dữ liệu của khóa chính
-    protected $keyType = 'string';
-
-    // Các cột có thể gán dữ liệu hàng loạt
     protected $fillable = [
-        'role_id',
         'role_name',
-        'description',
+        'description'
     ];
 
-    // Tắt timestamps mặc định (sử dụng cột `created_at` tùy chỉnh)
-    public $timestamps = false;
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
