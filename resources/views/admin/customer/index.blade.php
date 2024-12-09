@@ -60,6 +60,13 @@
 <body>
 <div class="container">
     <h1>Danh sách khách hàng</h1>
+    <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
+    <div class="search-container">
+        <form action="{{ route('customer.index') }}" method="GET">
+            <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+    </div>
     <!-- Modal Chờ duyệt -->
     <button class="show-users-btn" onclick="showUsersModal()">
         Chờ duyệt
@@ -227,7 +234,6 @@
 
     // Hàm phê duyệt người dùng
     function approveCustomer(customerId) {
-        // Gửi yêu cầu phê duyệt thông qua AJAX
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         axios.post(`/customer/${customerId}/approve`, {}, {
@@ -235,29 +241,21 @@
                 'X-CSRF-TOKEN': csrfToken,
             }
         })
-
-
             .then(response => {
                 if (response.data.status === 'success') {
-                    // Cập nhật thông báo thành công
                     alert('Khách hàng đã được phê duyệt thành công!');
-
-                    // Cập nhật giao diện (xóa dòng khách hàng đã phê duyệt khỏi danh sách)
                     const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');
-                    if (row) row.remove(); // Xóa dòng sau khi phê duyệt
-
-                    // Cập nhật số lượng khách hàng chờ duyệt
+                    if (row) row.remove();
                     updateUserCount();
                 } else {
-                    alert('Lỗi: ' + response.data.message); // Thông báo lỗi nếu có
+                    alert('Lỗi: ' + response.data.message);
                 }
             })
             .catch(error => {
-                alert('Đã xảy ra lỗi khi phê duyệt: ' + error.message); // Thông báo lỗi nếu có
+                alert('Đã xảy ra lỗi khi phê duyệt: ' + error.message);
                 console.error('Error:', error);
             });
     }
-
 
     function disapproveUser(userId) {
         alert(`Đã không duyệt người dùng ID: ${userId}`); // Thông báo khi không duyệt

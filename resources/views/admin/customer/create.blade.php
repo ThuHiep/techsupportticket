@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="tax_id" class="form-label">Mã số thuế</label>
-                        <input type="text" id="tax_id" name="tax_id" class="form-control" value="{{ $taxId }}" readonly required>
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng</label>
@@ -141,6 +141,10 @@
                         <label for="company" class="form-label">Công ty</label>
                         <input type="text" id="company" name="company" class="form-control">
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="username" class="form-label">Tài khoản</label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                    </div>
                 </div>
                 <!-- Địa chỉ + Website -->
                 <div class="row mb-3">
@@ -151,6 +155,10 @@
                     <div class="form-group col-md-6">
                         <label for="website" class="form-label">Website</label>
                         <input type="text" id="website" name="website" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
                     </div>
                 </div>
             </div>
