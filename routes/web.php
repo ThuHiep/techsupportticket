@@ -11,9 +11,8 @@ use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
 use Illuminate\Support\Facades\Route;
 
-//Route::get('/', function () {
-//    return view('guest/homegape/index'); // Đổi 'home' thành file view có sẵn
-//});
+/*Route hompage */
+Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 
 /*Route login cua admin*/
 Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
@@ -24,16 +23,12 @@ Route::get('/forgot_pass_admin', [AuthController::class, 'showForgotPass'])->nam
 /*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-/*Route hompage */
-Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
-
 /*Route login cua user*/
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
 /*Route register cua user*/
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
 /*Route register cua user*/
 Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('forgot_pass');
-
 
 
 // Nhóm route cho phần admin
@@ -57,7 +52,7 @@ Route::name('customer.')->group(function () {
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
 
     // Phê duyệt khách hàng
-    Route::get('/customer/approve/{customer_id}', [CustomerController::class, 'approveCustomer'])->name('approve');
+    Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
 });
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 

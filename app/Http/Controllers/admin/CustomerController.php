@@ -210,20 +210,18 @@ class CustomerController extends Controller
         $customer = Customer::find($customer_id);
 
         if (!$customer) {
-            return redirect()->route('admin.customer.index')
-                ->with('error', 'Không tìm thấy khách hàng!');
+            return response()->json(['status' => 'error', 'message' => 'Không tìm thấy khách hàng!'], 404);
         }
 
         if ($customer->status === 'active') {
-            return redirect()->route('admin.customer.index')
-                ->with('error', 'Khách hàng đã được duyệt trước đó!');
+            return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt trước đó!'], 400);
         }
 
         // Phê duyệt khách hàng
         $customer->status = 'active';
         $customer->save();
 
-        return redirect()->route('admin.customer.index')
-            ->with('success', 'Khách hàng đã được phê duyệt thành công!');
+        return response()->json(['status' => 'success']);
     }
+
 }
