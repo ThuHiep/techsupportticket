@@ -152,6 +152,7 @@
                 document.getElementById('userCount').textContent = userCount;
             });
     }
+
     function showUsersModal() {
         const modal = document.getElementById('usersModal');
         const overlay = document.createElement('div');
@@ -173,20 +174,19 @@
                 // Tạo hàng trong bảng
                 data.forEach(user => {
                     userTableBody.innerHTML += `
-                    <tr>
-                        <td>${user.full_name}</td>
-                        <td>${user.phone}</td>
-                        <td>
-                            <button onclick="approveCustomer(${user.id})" style="color:green">Phê duyệt</button>
-                            <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
-                        </td>
-                    </tr>
-                `;
+                <tr>
+                    <td>${user.full_name}</td>
+                    <td>${user.phone}</td>
+                    <td>
+                        <button onclick="approveCustomer(${user.id})" style="color:green">Phê duyệt</button>
+                        <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
+                    </td>
+                </tr>
+            `;
                 });
             })
             .catch(error => console.error('Lỗi khi tải dữ liệu người dùng:', error));
     }
-
 
     // Đóng modal khi nhấn vào lớp nền mờ
     document.addEventListener('click', function(e) {
@@ -204,47 +204,38 @@
 
     // Hàm phê duyệt người dùng
     function approveCustomer(customerId) {
-            axios.post(`/customer/${customerId}/approve`, {}, {
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // CSRF token
+        axios.post(`/customer/${customerId}/approve`, {}, {
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // CSRF token
+            }
+        })
+            .then(response => {
+                if (response.data.status === 'success') {
+                    alert('Phê duyệt thành công!'); // Thông báo thành công
+                    const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');
+                    if (row) row.remove(); // Xóa dòng sau khi phê duyệt
+                } else {
+                    alert('Lỗi: ' + response.data.message); // Thông báo lỗi
                 }
             })
-                .then(response => {
-                    if (response.data.status === 'success') {
-                        Swal.fire('Phê duyệt', response.data.message, 'success');
-                        const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');
-                        if (row) row.remove();
-                    } else {
-                        Swal.fire('Lỗi', response.data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.fire('Lỗi', 'Đã xảy ra lỗi khi phê duyệt: ' + error.message, 'error');
-                    console.error('Error:', error);
-                });
-        }
+            .catch(error => {
+                alert('Đã xảy ra lỗi khi phê duyệt: ' + error.message); // Thông báo lỗi
+                console.error('Error:', error);
+            });
+    }
 
     function disapproveUser(userId) {
-        Swal.fire('Không duyệt', `Đã không duyệt người dùng ID: ${userId}`, 'error');
+        alert(`Đã không duyệt người dùng ID: ${userId}`); // Thông báo khi không duyệt
     }
+
     function showDeleteModal(event, formId) {
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút
 
-        Swal.fire({
-            title: 'Bạn có chắc chắn muốn xóa khách hàng này?',
-            text: "Hành động này không thể hoàn tác!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
-            }
-        });
+        if (confirm('Bạn có chắc chắn muốn xóa khách hàng này? Hành động này không thể hoàn tác!')) {
+            document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
+        }
     }
+
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
