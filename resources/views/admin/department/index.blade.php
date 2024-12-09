@@ -8,24 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
     <link rel="stylesheet" href="{{ asset('admin/css/department/index.css') }}">
-    <style>
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-
-        .status-dot.active {
-            background-color: green;
-        }
-
-        .status-dot.inactive {
-            background-color: red;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
