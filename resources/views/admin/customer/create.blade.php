@@ -116,15 +116,6 @@
                 <!-- Ngày sinh + giới tính + số điện thoại -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="user_id" class="form-label">Chọn khách hàng</label>
-                        <select id="user_id" name="user_id" class="form-control" required>
-                            <option value="" disabled selected>Chọn tên khách hàng</option>
-                            @foreach ($customers as $customer)
-                                <option value="{{ $customer->user_id }}">{{ $customer->user->username }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
                         <label for="date_of_birth" class="form-label">Ngày sinh</label>
                         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
                     </div>
@@ -135,6 +126,10 @@
                             <option value="Nữ">Nữ</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
                 </div>
                 <!-- Số điện thoại + Email + Website -->
                 <div class="row mb-3">
@@ -143,12 +138,12 @@
                         <input type="text" id="phone" name="phone" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
+                        <label for="software" class="form-label">Software</label>
+                        <input type="text" id="software" name="software" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="website" class="form-label">Website</label>
-                        <input type="text" id="website" name="website" class="form-control" required>
+                        <label for="company" class="form-label">Công ty</label>
+                        <input type="text" id="company" name="company" class="form-control">
                     </div>
                 </div>
                 <!-- Địa chỉ + Công ty + Software -->
@@ -158,12 +153,8 @@
                         <input type="text" id="address" name="address" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="company" class="form-label">Công ty</label>
-                        <input type="text" id="company" name="company" class="form-control">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="software" class="form-label">Software</label>
-                        <input type="text" id="software" name="software" class="form-control" required>
+                        <label for="website" class="form-label">Website</label>
+                        <input type="text" id="website" name="website" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -188,6 +179,11 @@
                 </div>
             </div>
         </div>
+        <!-- Nút lưu -->
+        <div class="save-button">
+            <button type="submit" class="btn btn-success">Lưu khách hàng</button>
+        </div>
+        <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>
 

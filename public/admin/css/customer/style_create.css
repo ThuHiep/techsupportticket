@@ -56,7 +56,7 @@ form {
     height: 40px;
     padding: 6px;
     font-size: 14px;
-    border: 2px solid #6f2f9f;
+    border: 3px solid #c9d1d9;
     border-radius: 3px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -117,7 +117,7 @@ input.error, select.error {
     top: 20px; /* Khoảng cách từ trên */
     right: 20px; /* Khoảng cách từ bên phải */
     padding: 12px 24px;
-    background-color: #ff6f00;
+    background-color: #a7b1c2;
     color: white;
     border: none;
     border-radius: 8px;
@@ -127,7 +127,7 @@ input.error, select.error {
 }
 
 .btn-secondary:hover {
-    background-color: #ee5711;
+    background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
 }
 .btn-secondary {

@@ -5,9 +5,9 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\StatisticalController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\LoginController;
+use App\Http\Controllers\guest\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,7 +25,6 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.
 
 /*Route hompage */
 Route::get('homepage', [HomepageController::class, 'login'])->name('homepage.index');
-
 
 /*Route login cua user*/
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
@@ -59,8 +58,6 @@ Route::name('customer.')->group(function () {
     // Phê duyệt khách hàng
     Route::get('/customer/approve/{customer_id}', [CustomerController::class, 'approveCustomer'])->name('approve');
 });
-
-
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 
 

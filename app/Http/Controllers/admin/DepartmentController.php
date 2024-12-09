@@ -17,7 +17,7 @@ class DepartmentController extends Controller
         $departments = Department::when($search, function ($query) use ($search) {
             return $query->where('department_id', 'LIKE', "%$search%")
                 ->orWhere('department_name', 'LIKE', "%$search%");
-        })->paginate(10);
+        })->paginate(4);
 
         return view('admin.dashboard.layout', compact('template', 'departments'));
     }
@@ -27,16 +27,22 @@ class DepartmentController extends Controller
     {
         $template = 'admin.department.create';
 
-        // Đếm số lượng bản ghi
-        $count = Department::count();
-        $nextNumber = $count + 1; // Số thứ tự mới
+        // Lặp đến khi tìm được mã không trùng lặp
+        do {
+            $randomNumber = mt_rand(1, 9999);
+            $nextId = 'PB' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
+            $exists = Department::where('department_id', $nextId)->exists();
+        } while ($exists); // Nếu tồn tại mã này, sinh lại
 
-        // Định dạng mã phòng ban, ví dụ PB + 4 chữ số
-        // Nếu cần 4 chữ số, ví dụ PB0001, PB0002...
-        $nextId = 'PB' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        // Nếu bạn cần thêm tax_id hoặc lấy danh sách departments:
+        // $taxId = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
+        // $departments = Department::all();
 
+        // Trả về view với $template và $nextId
         return view('admin.dashboard.layout', compact('template', 'nextId'));
     }
+
+
 
     // Lưu phòng ban mới
     public function store(Request $request)

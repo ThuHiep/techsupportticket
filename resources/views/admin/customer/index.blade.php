@@ -83,13 +83,13 @@
             @foreach ($customers as $index => $customer)
                 <tr>
                     <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td> <!-- STT -->
-                    
+
                     <td>{{ $customer->full_name }}</td>
                     <td>
                         @if($customer->profile_image)
                             <img src="{{ asset('admin/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
                         @else
-                            <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện mặc định" class="customer-image">
+                            <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện " class="customer-image">
                         @endif
                     </td>
                     <td>{{ $customer->date_of_birth }}</td>
@@ -105,7 +105,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
-                                <i class="fas fa-trash-alt"></i> 
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>
                     </td>
