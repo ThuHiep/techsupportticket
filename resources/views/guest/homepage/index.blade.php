@@ -11,8 +11,8 @@
 
 </head>
 <body>
-    
-    
+
+
     <header>
         <div class="logo">
             <img src="guest/img/logosweetsoft.png" alt="Logo">
@@ -22,13 +22,13 @@
             <a href="#faq">Bài viết</a>
             <a href="#ins">Hướng dẫn</a>
             <a href="#contact">Liên hệ</a>
-            <button class="login-button">Đăng nhập</button>
+            <a class="login-button" href="{{ route('auth.login') }}">Đăng nhập</a>
         </nav>
     </header>
     <div class="main-content" id="home">
         <div class="left">
             <img src="guest/img/trangchu.png" alt="Sample Image">
-            
+
         </div>
         <div class="right">
             <h1>
@@ -41,9 +41,9 @@
             </div>
         </div>
     </div>
-    
-        
-        
+
+
+
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
@@ -63,13 +63,13 @@
             </div>
         </div>
     </section>
-    
+
         <!-- Script -->
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const askButton = document.getElementById("ask-question-button");
                 const questionForm = document.getElementById("question-form");
-        
+
                 askButton.addEventListener("click", function() {
                     // Toggle visibility of the form
                     if (questionForm.style.display === "none" || questionForm.style.display === "") {
@@ -80,7 +80,7 @@
                 });
             });
         </script>
-        
+
 
         <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
         <div class="carousel-container" id="ins">
@@ -102,30 +102,30 @@
                 const carousel = document.getElementById("carousel");
                 const prevButton = document.getElementById("prev");
                 const nextButton = document.getElementById("next");
-    
+
                 let currentIndex = 0;
                 const totalCards = carousel.children.length;
-    
+
                 const updateCarousel = () => {
                     const offset = currentIndex * -330; // Adjusted for larger card width and margin
                     carousel.style.transform = `translateX(${offset}px)`;
                 };
-    
+
                 prevButton.addEventListener("click", function() {
                     currentIndex = (currentIndex === 0) ? totalCards - 2 : currentIndex - 1;
                     updateCarousel();
                 });
-    
+
                 nextButton.addEventListener("click", function() {
                     currentIndex = (currentIndex === totalCards - 2) ? 0 : currentIndex + 1;
                     updateCarousel();
                 });
-    
+
                 // Ensure only 2 cards are visible at a time
                 const containerWidth = 660; // Adjusted for larger cards (300px each + margin)
                 document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
             });
-        </script>  
+        </script>
         <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
         <footer class="footer" id="contact" style="background-color: #f9f9f9; padding: 20px 0;">
             <div style="display: flex; justify-content: space-around;">
@@ -140,7 +140,7 @@
                         <i class="fas fa-map-marker-alt" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
                     </p>
                 </div>
-        
+
                 <!-- Column 2 -->
                 <div style="flex: 1; padding: 0 10px;">
                     <h2>Liên hệ</h2>
@@ -149,7 +149,7 @@
                     <p>Điện thoại: 0258.3704199 - 0258.6567900</p>
                     <p>Thứ hai - Thứ sáu 7:30–17:00 Thứ bảy 7:30–11:30 <br> Cuối tuần nghỉ</p>
                 </div>
-        
+
                 <!-- Column 3 -->
                 <div style="flex: 1; padding: 0 10px;">
                     <h2>Dịch vụ của chúng tôi</h2>
@@ -161,17 +161,17 @@
                         <li style="margin-bottom: 12px; padding-left: 10px;">Dịch vụ trực tuyến</li>
                     </ul>
                 </div>
-        
+
                 <!-- Column 4 -->
                 <div style="flex: 1; text-align: center; padding: 0 10px; position: relative; max-width: 350px; margin: 0 auto;">
                     <h4>Sweetsoft trên Facebook</h4>
-                    
+
                     <img src="guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
                 </div>
             </div>
-        
+
             <!-- Bottom Bar -->
-            
+
         </footer>
         <div style="background-color: #6a1b9a; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
             <span>&copy; 2024 Công Ty Cổ Phần SweetSoft.</span>
@@ -181,7 +181,7 @@
                 <a href="#" style="color: #fff; text-decoration: none;">Sơ đồ</a>
             </span>
         </div>
-        
-        
+
+
 </body>
 </html>
