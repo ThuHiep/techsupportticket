@@ -59,7 +59,7 @@
                 </a>
             </li>
             <li class="{{ Request::is('request*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fa-solid fa-tools"></i>
+                <a href="request/index"><i class="fa-solid fa-tools"></i>
                     <span class="nav-label">Yêu cầu</span>
                 </a>
             </li>

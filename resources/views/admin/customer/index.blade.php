@@ -89,7 +89,7 @@
                         @if($customer->profile_image)
                             <img src="{{ asset('admin/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
                         @else
-                            <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện mặc định" class="customer-image">
+                            <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện " class="customer-image">
                         @endif
                     </td>
                     <td>{{ $customer->date_of_birth }}</td>
