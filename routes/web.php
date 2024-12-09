@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\LoginController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Guest\HomepageController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\guest\HomepageController;
+use App\Http\Controllers\guest\LoginController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home'); // Đổi 'home' thành file view có sẵn

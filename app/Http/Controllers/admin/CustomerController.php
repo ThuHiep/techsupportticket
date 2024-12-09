@@ -110,21 +110,6 @@ class CustomerController extends Controller
     // Lưu khách hàng mới
     public function store(Request $request)
     {
-        // Thực hiện kiểm tra (validation) các trường dữ liệu
-//        $validated = $request->validate([
-//            'user_id' => 'required|exists:user,id', // Kiểm tra user_id phải tồn tại trong bảng users
-//            'full_name' => 'required|string|max:255', // Kiểm tra full_name không được bỏ trống, là chuỗi và không quá 255 ký tự
-//            'email' => 'required|email|unique:customers,email', // Kiểm tra email phải hợp lệ và chưa tồn tại trong bảng customers
-//            'date_of_birth' => 'required|date|before:today', // Kiểm tra ngày sinh hợp lệ và trước ngày hiện tại
-//            'gender' => 'required|in:Nam,Nữ', // Kiểm tra giới tính hợp lệ
-//            'phone' => 'nullable|numeric|digits_between:10,15', // Kiểm tra số điện thoại nếu có, phải là số và từ 10 đến 15 chữ số
-//            'address' => 'nullable|string|max:500', // Kiểm tra địa chỉ nếu có, là chuỗi và không quá 500 ký tự
-//            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Kiểm tra nếu có hình ảnh, phải là ảnh với dung lượng không quá 2MB
-//            'software' => 'required|string|max:255',
-//            'website' => 'required|string|max:255',
-//            'company' => 'nullable|string|max:255', // Kiểm tra tên công ty nếu có, là chuỗi và không quá 255 ký tự
-//            'tax_id' => 'required|numeric|digits:9|unique:customers,tax_id', // Kiểm tra tax_id phải là số và có 9 chữ số, chưa tồn tại trong bảng customers
-//        ]);
 
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\guest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -45,15 +45,15 @@ class LoginController extends Controller
 
     /*Login cua user*/
     public function login(){
-        return view('admin.login.login');
+        return view('guest.login.login');
     }
     //Đăng kí tài khoản user
     public function showRegisterForm(){
-        return view('admin.login.register');
+        return view('guest.login.register');
     }
     // Quên mật khẩu
     public function showForgotPass(){
-        return view('admin.login.quenmatkhau');
+        return view('guest.login.quenmatkhau');
     }
 
 }
