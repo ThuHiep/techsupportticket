@@ -93,9 +93,7 @@
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
-            <div class="carousel-card" onclick="showImage('image1.jpg')">
-                <img src="/techsupportticket/public/guest/img/bg-forgot.svg" alt="Card 1" class="card-image">
-            </div>
+            <div class="carousel-card">Card 1</div>
             <div class="carousel-card">Card 2</div>
             <div class="carousel-card">Card 3</div>
             <div class="carousel-card">Card 4</div>
@@ -106,12 +104,6 @@
             <button class="carousel-button right" id="next">&#8250;</button>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal" id="imageModal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="fullImage" alt="Full Image">
-    </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const carousel = document.getElementById("carousel");
@@ -141,43 +133,6 @@
             document.querySelector('.carousel-container').style.width = ${containerWidth}px;
         });
 
-        // Hiển thị ảnh toàn màn hình khi click vào card
-        function showImage(imageSrc) {
-            const modal = document.getElementById('imageModal');
-            const fullImage = document.getElementById('fullImage');
-
-            fullImage.src = imageSrc; // Gắn đường dẫn ảnh
-            modal.style.display = 'flex'; // Hiển thị modal (flex để căn giữa)
-        }
-
-        // Đóng modal
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.style.display = 'none'; // Ẩn modal
-        }
-
-        // Chức năng chuyển slide (tùy chọn)
-        const carousel = document.getElementById('carousel');
-        const prevButton = document.getElementById('prev');
-        const nextButton = document.getElementById('next');
-
-        let scrollAmount = 0;
-
-        prevButton.addEventListener('click', () => {
-            scrollAmount -= 220; // Điều chỉnh bước cuộn
-            carousel.scrollTo({
-                left: scrollAmount,
-                behavior: 'smooth',
-            });
-        });
-
-        nextButton.addEventListener('click', () => {
-            scrollAmount += 220;
-            carousel.scrollTo({
-                left: scrollAmount,
-                behavior: 'smooth',
-            });
-        });
     </script>
 
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
@@ -286,4 +241,3 @@
 </body>
 
 </html>
-fonts.googleapis.com
