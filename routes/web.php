@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\LoginController;
@@ -61,7 +62,7 @@ Route::name('customer.')->group(function () {
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 
 
-//Department
+//Department Routes
 Route::name('department.')->group(function () {
     Route::get('/department/index', [DepartmentController::class, 'index'])->name('index');
     Route::get('/department/create', [DepartmentController::class, 'create'])->name('create');
@@ -69,6 +70,16 @@ Route::name('department.')->group(function () {
     Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->name('edit');
     Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->name('update');
     Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->name('delete');
+});
+
+// Request Routes
+Route::name('request.')->group(function () {
+    Route::get('/request/index', [RequestController::class, 'index'])->name('index');
+    Route::get('/request/create', [RequestController::class, 'create'])->name('create');
+    Route::post('/request/store', [RequestController::class, 'store'])->name('store');
+    Route::get('/request/edit/{request_id}', [RequestController::class, 'edit'])->name('edit');
+    Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->name('update');
+    Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->name('delete');
 });
 
 //Nhóm thống kê:
