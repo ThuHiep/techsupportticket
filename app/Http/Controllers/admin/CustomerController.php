@@ -15,6 +15,7 @@ class CustomerController extends Controller
         $template = 'admin.customer.index';
         $search = $request->input('search');
 
+        // Truy vấn khách hàng có status là 'active'
         $customers = Customer::with('user')
             ->when($search, function ($query) use ($search) {
                 return $query->where('customer_id', 'LIKE', "%$search%")
@@ -23,10 +24,24 @@ class CustomerController extends Controller
                         $query->where('email', 'LIKE', "%$search%");
                     });
             })
-            ->whereNull('status')
+            ->where('status', 'active')  // Lọc theo status = 'active'
             ->paginate(3);
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+
+        // Truy vấn khách hàng có status là NULL (Chờ duyệt)
+        $pendingCustomers = Customer::with('user')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('customer_id', 'LIKE', "%$search%")
+                    ->orWhere('full_name', 'LIKE', "%$search%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('email', 'LIKE', "%$search%");
+                    });
+            })
+            ->whereNull('status')  // Lọc theo status = NULL (Chờ duyệt)
+            ->paginate(3);
+
+        return view('admin.dashboard.layout', compact('template', 'customers', 'pendingCustomers'));
     }
+
 
 
     // Hiển thị form tạo khách hàng mới
