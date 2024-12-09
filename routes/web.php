@@ -58,8 +58,6 @@ Route::name('customer.')->group(function () {
     // Phê duyệt khách hàng
     Route::get('/customer/approve/{customer_id}', [CustomerController::class, 'approveCustomer'])->name('approve');
 });
-
-
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 
 

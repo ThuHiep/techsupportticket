@@ -55,12 +55,12 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;  /* Căn giữa theo chiều ngang */
-    margin-right: auto;
+    margin-right: 300px;
     margin-left: auto;
-    width: 320px;  /* Đặt chiều rộng cho ô tìm kiếm */
+    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
 }
 .search-container input[type="text"] {
-    width: 100%;
+    width: 440px;
     padding: 10px 100px 10px 15px;
     border: 1px solid #FF9700;
     border-radius: 5px;

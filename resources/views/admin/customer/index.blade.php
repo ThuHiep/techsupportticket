@@ -83,7 +83,7 @@
             @foreach ($customers as $index => $customer)
                 <tr>
                     <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td> <!-- STT -->
-                    
+
                     <td>{{ $customer->full_name }}</td>
                     <td>
                         @if($customer->profile_image)
@@ -105,7 +105,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
-                                <i class="fas fa-trash-alt"></i> 
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>
                     </td>
