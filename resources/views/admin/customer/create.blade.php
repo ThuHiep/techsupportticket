@@ -168,6 +168,7 @@
                 </div>
             </div>
 
+
             <!-- Cột bên phải cho hình ảnh đại diện -->
             <div class="col-md-3">
                 <div class="container-img">
@@ -183,6 +184,78 @@
                             </div>
                         </div>
                     </div>
+
+        <div class="form-group">
+            <label for="tax_id" class="form-label">Mã số thuế</label>
+            <input type="text" id="tax_id" name="tax_id" class="form-control" value="{{ $taxId }}" readonly required>
+        </div>
+
+        <div class="form-group">
+            <label for="full_name" class="form-label">Tên khách hàng</label>
+            <input type="text" id="full_name" name="full_name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="user_id" class="form-label">Chọn khách hàng</label>
+            <select id="user_id" name="user_id" class="form-control" required>
+                <option value="" disabled selected>Chọn tên khách hàng</option>
+                @foreach ($customers as $customer)
+                    <option value="{{ $customer->user_id }}">{{ $customer->user->username }}</option>
+                @endforeach
+            </select>
+        </div>
+
+{{--        <div class="form-group">--}}
+{{--            <label for="email" class="form-label">Email</label>--}}
+{{--            <input type="email" id="email" name="email" class="form-control" required>--}}
+{{--        </div>--}}
+
+        <div class="form-group">
+            <label for="website" class="form-label">Website</label>
+            <input type="text" id="website" name="website" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="software" class="form-label">Software</label>
+            <input type="text" id="software" name="software" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date_of_birth" class="form-label">Ngày sinh</label>
+            <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="gender" class="form-label">Giới tính</label>
+            <select id="gender" name="gender" class="form-control" required>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="phone" class="form-label">Số điện thoại</label>
+            <input type="text" id="phone" name="phone" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="address" class="form-label">Địa chỉ</label>
+            <input type="text" id="address" name="address" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="company" class="form-label">Công ty</label>
+            <input type="text" id="company" name="company" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="profile_image" class="form-label">Hình ảnh đại diện</label>
+            <div class="custom-file-upload">
+                <input type="file" id="profile_image" name="profile_image" class="form-control" accept="image/*" onchange="previewImage(event)">
+                <label for="profile_image" class="custom-file-label">Chọn hình ảnh</label>
+                <div id="image-preview" class="image-preview">
+                    <img id="preview-img" src="" alt="Image Preview" style="display:none;">
+
                 </div>
             </div>
         </div>
