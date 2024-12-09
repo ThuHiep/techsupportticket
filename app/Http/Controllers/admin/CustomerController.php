@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -22,8 +24,7 @@ class CustomerController extends Controller
                     });
             })
             ->whereNull('status')
-            ->paginate(4);
-
+            ->paginate(3);
         return view('admin.dashboard.layout', compact('template', 'customers'));
     }
 
@@ -107,10 +108,8 @@ class CustomerController extends Controller
     }
 
 
-    // Lưu khách hàng mới
     public function store(Request $request)
     {
-
         // Sinh customer_id ngẫu nhiên
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
 
@@ -118,11 +117,44 @@ class CustomerController extends Controller
         while (Customer::where('customer_id', $randomId)->exists()) {
             $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         }
+
         // Sinh tax_id ngẫu nhiên (10 chữ số)
         $taxId = str_pad(mt_rand(0, 999999999), 9, STR_PAD_LEFT);
 
+        // Sinh username dựa trên họ tên và số ngẫu nhiên
+        $fullName = $request->input('full_name');
+
+        // Loại bỏ dấu
+        $fullNameNoAccent = strtolower(Str::slug($fullName, ''));
+
+        // Tạo username
+        $username = $fullNameNoAccent . mt_rand(100, 999);
+
+        // Kiểm tra trùng username
+        while (User::where('username', $username)->exists()) {
+            $username = $fullNameNoAccent . mt_rand(100, 999);
+        }
+
+        // Sinh customer_id ngẫu nhiên
+        $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+
+        // Sinh password ngẫu nhiên
+        $password = Str::random(12); // Chuỗi 12 ký tự ngẫu nhiên
+
+        // Lấy email từ request
+        $email = $request->input('email');
+
+        // Tạo tài khoản User tương ứng
+        $user = new User();
+        $user ->user_id = $randuserID;
+        $user->username = $username;
+        $user->password = bcrypt($password); // Mã hóa mật khẩu
+        $user->email = $email; // Lưu email
+        $user->role_id = 3; // Gán role_id là 3
+        $user->save();
+
         // Kiểm tra nếu có hình ảnh được upload
-        $profileImagePath = null;  // Gán giá trị mặc định nếu không có hình ảnh
+        $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             if ($image->isValid()) {
@@ -135,24 +167,28 @@ class CustomerController extends Controller
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
-        $customer->user_id = $request->input('user_id');
-        $customer->full_name = $request->input('full_name');
+        $customer->user_id = $randuserID; // Liên kết với user_id vừa tạo
+        $customer->full_name = $fullName;
         $customer->date_of_birth = $request->input('date_of_birth');
         $customer->gender = $request->input('gender');
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
         $customer->profile_image = $profileImagePath;
-        $customer->software= $request->input('software');
+        $customer->software = $request->input('software');
         $customer->website = $request->input('website');
         $customer->company = $request->input('company');
-        $customer->tax_id = $taxId;  // Gán giá trị tax_id
-        $customer->create_at = now();  // Ngày tạo
-        $customer->update_at = now();  // Ngày cập nhật (ban đầu là ngày tạo)
+        $customer->tax_id = $taxId;
+        $customer->create_at = now();
+        $customer->update_at = now();
         $customer->save();
 
-        return redirect()->route('admin.customer.index')
-            ->with('success', 'Khách hàng đã được thêm thành công!');
+        // Trả về kết quả
+        return redirect()->route('customer.index')
+            ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
+
     }
+
+
 
     public function approveCustomer($customer_id)
     {

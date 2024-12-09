@@ -10,12 +10,13 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory;
-
+    const CREATED_AT = 'create_at';
+    const UPDATED_AT = 'update_at';
     protected $table = 'user'; // Đảm bảo tên bảng chính xác
     protected $primaryKey = 'user_id'; // Đặt khóa chính nếu khác `id`
 
     protected $fillable = [
-        'user_id', 'username', 'password', 'email', 'create_at',
+        'user_id', 'username','role_id', 'password', 'email', 'create_at','update_at',
         'otp', 'otp_expiration_time', 'otp_validation', 'status'
     ];
     public function customer()
