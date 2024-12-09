@@ -115,7 +115,7 @@
 
             const updateCarousel = () => {
                 const offset = currentIndex * -330; // Adjusted for larger card width and margin
-                carousel.style.transform = translateX(${offset}px);
+                carousel.style.transform = `translateX(${offset}px)`;
             };
 
             prevButton.addEventListener("click", function() {
@@ -130,9 +130,8 @@
 
             // Ensure only 2 cards are visible at a time
             const containerWidth = 660; // Adjusted for larger cards (300px each + margin)
-            document.querySelector('.carousel-container').style.width = ${containerWidth}px;
+            document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
         });
-
     </script>
 
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">

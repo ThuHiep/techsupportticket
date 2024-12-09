@@ -183,7 +183,7 @@ input[type="checkbox"] {
     transition: background-color 0.3s, border-color 0.3s;
 }
 input[type="checkbox"]:checked {
-    background-color: rgb(255, 66, 255);
+    background-color: rgb(255, 156, 78);
     border-color: rgb(255, 255, 255);
 }
 input[type="checkbox"]:checked::before {
@@ -197,7 +197,7 @@ input[type="checkbox"]:checked::before {
     transform: translate(-50%, -50%);
 }
 input[type="checkbox"]:hover {
-    border-color: #e213f5b3;
+    border-color: #ee5711;
 }
 /*Ghi nho tai khoan*/
 .remember-me {
@@ -216,6 +216,10 @@ input[type="checkbox"]:hover {
     font-size: 16px;
     font-weight: 550;
     color: rgb(255, 156, 78);
+    text-decoration: none;
+}
+.forgot a:hover{
+    color: rgb(237, 180, 130);
 }
 
 /*Submit Login*/
@@ -261,9 +265,9 @@ input[type="checkbox"]:hover {
 }
 
 .register-box:hover {
-    border: 2px solid rgb(204, 30, 204);
+    border: 2px solid rgb(255, 156, 78);
     background-color:var(--second-color); /* Đổi màu nền khi hover */
-    color:  rgb(204, 30, 204); /* Đổi màu chữ khi hover */
+    color:  rgb(255, 156, 78); /* Đổi màu chữ khi hover */
 
 }
 @media only screen and (max-width: 546px){
