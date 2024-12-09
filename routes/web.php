@@ -54,6 +54,7 @@ Route::name('customer.')->group(function () {
 
     // Xóa khách hàng
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
+
     // Phê duyệt khách hàng
     Route::get('/customer/approve/{customer_id}', [CustomerController::class, 'approveCustomer'])->name('approve');
 });
