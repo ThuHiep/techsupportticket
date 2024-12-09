@@ -38,11 +38,6 @@ class LoginController extends Controller
 
         return back()->withErrors(['login' => 'Invalid credentials.']);
     }
-//    public function showLoginForm()
-//    {
-//        return view('admin.auth.login'); // Trả về view form đăng nhập
-//    }
-
     /*Login cua user*/
     public function login(){
         return view('guest.login.login');

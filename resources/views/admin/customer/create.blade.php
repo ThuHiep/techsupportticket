@@ -188,6 +188,11 @@
                 </div>
             </div>
         </div>
+        <!-- Nút lưu -->
+        <div class="save-button">
+            <button type="submit" class="btn btn-success">Lưu khách hàng</button>
+        </div>
+        <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 </div>
 
