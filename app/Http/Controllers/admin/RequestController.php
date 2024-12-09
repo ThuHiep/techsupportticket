@@ -20,8 +20,8 @@ class RequestController extends Controller
         $search = $request->input('search');
         $statusFilter = $request->input('status');
 
-        // Định nghĩa các trạng thái có sẵn
-        $statuses = ['processing', 'handled', 'completed', 'cancelled'];
+        // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
+        $statuses = ['Đang xử lý', 'Đã xử lý', 'Hoàn thành', 'Đã hủy'];
 
         // Truy vấn các yêu cầu kèm theo quan hệ với Customer, Department, và RequestType
         $requests = SupportRequest::with(['customer', 'department', 'requestType'])
@@ -74,8 +74,8 @@ class RequestController extends Controller
             'description' => 'required',
             'received_at' => 'required|date',
             'resolved_at' => 'nullable|date',
-            'priority' => 'required|in:low,medium,high',
-            'status' => 'required|in:processing,handled,completed,cancelled',
+            'priority' => 'required|in:Thấp,Trung bình,Cao',
+            'status' => 'required|in:Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
         ]);
 
         SupportRequest::create([
@@ -125,8 +125,8 @@ class RequestController extends Controller
             'description' => 'required',
             'received_at' => 'required|date',
             'resolved_at' => 'nullable|date',
-            'priority' => 'required|in:low,medium,high',
-            'status' => 'required|in:processing,handled,completed,cancelled',
+            'priority' => 'required|in:Thấp,Trung bình,Cao',
+            'status' => 'required|in:Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
         ]);
 
         $supportRequest->update([
