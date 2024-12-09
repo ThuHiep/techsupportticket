@@ -79,7 +79,7 @@ class DashboardController extends Controller
         ->get();
 
         // Tạo mảng mặc định với số lượng yêu cầu là 0 cho cả tuần từ Thứ Hai đến Chủ Nhật
-        $weekdays = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'];
+        $weekdays = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'CN'];
         $requestData = array_fill(0, 7, ['day' => '', 'total' => 0]);
 
         foreach ($weekdays as $index => $day) {
