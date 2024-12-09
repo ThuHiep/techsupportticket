@@ -134,12 +134,12 @@
                         <input type="text" id="phone" name="phone" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
+                        <label for="software" class="form-label">Software</label>
+                        <input type="text" id="software" name="software" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="website" class="form-label">Website</label>
-                        <input type="text" id="website" name="website" class="form-control" required>
+                        <label for="company" class="form-label">Công ty</label>
+                        <input type="text" id="company" name="company" class="form-control">
                     </div>
                 </div>
                 <!-- Địa chỉ + Công ty + Software -->
@@ -149,12 +149,8 @@
                         <input type="text" id="address" name="address" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="company" class="form-label">Công ty</label>
-                        <input type="text" id="company" name="company" class="form-control">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="software" class="form-label">Software</label>
-                        <input type="text" id="software" name="software" class="form-control" required>
+                        <label for="website" class="form-label">Website</label>
+                        <input type="text" id="website" name="website" class="form-control" required>
                     </div>
                 </div>
             </div>
