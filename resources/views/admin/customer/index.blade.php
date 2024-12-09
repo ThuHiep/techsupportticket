@@ -7,65 +7,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
-<style>
-    /* Modal cơ bản */
-    .modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%); /* Căn giữa modal */
-        width: 50%; /* Bạn có thể thay đổi kích thước của modal nếu muốn */
-        background-color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000; /* Đảm bảo modal không bị che khuất */
-        display: none; /* Ẩn modal mặc định */
-        opacity: 0; /* Ẩn modal */
-        transition: opacity 0.3s ease-in-out;
-    }
+    <style>
+        /* Modal cơ bản */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
 
-    /* Hiển thị modal */
-    .modal.show {
-        display: block;
-        opacity: 1; /* Khi modal hiển thị, độ mờ sẽ trở thành 1 */
-    }
+        /* Hiển thị modal */
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
 
-    /* Nền mờ phía sau modal */
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-        z-index: 999; /* Đảm bảo nền mờ ở phía dưới modal */
-        display: none;
-    }
+        /* Nền mờ phía sau modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
 
-    /* Hiển thị nền mờ */
-    .modal-overlay.show {
-        display: block;
-    }
-
-
-</style>
+        /* Hiển thị nền mờ */
+        .modal-overlay.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <h1>Danh sách khách hàng</h1>
-    <div class="top-bar">
-        <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
-        <div class="search-container">
-            <form action="{{ route('customer.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
-                <button type="submit">Tìm kiếm</button>
-            </form>
-        </div>
-        <button class="show-users-btn" onclick="showUsersModal()">
-            Chờ duyệt
-            <span class="badge" id="userCount">0</span>
-        </button>
-
-    </div>
+    <!-- Modal Chờ duyệt -->
+    <button class="show-users-btn" onclick="showUsersModal()">
+        Chờ duyệt
+        <span class="badge" id="userCount">0</span>
+    </button>
     <div class="table-container">
         <table class="table table-striped">
             <thead>
@@ -82,8 +71,7 @@
             <tbody>
             @foreach ($customers as $index => $customer)
                 <tr>
-                    <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td> <!-- STT -->
-
+                    <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
                     <td>{{ $customer->full_name }}</td>
                     <td>
                         @if($customer->profile_image)
@@ -114,31 +102,43 @@
             </tbody>
         </table>
     </div>
+    <div class="pagination">
+        {{ $customers->links('pagination::bootstrap-4') }}
+    </div>
+    <!----------->
     <div id="usersModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeUsersModal()">&times;</span>
-            <h2>Danh sách người dùng</h2>
+            <h2>Danh sách khách hàng chờ duyệt</h2>
             <table class="user-table">
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Password</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody id="userTableBody">
-                <!-- Dữ liệu sẽ được tải bằng AJAX -->
+                @foreach ($pendingCustomers as $customer)
+                    <tr>
+                        <td>{{ $customer->full_name }}</td>
+                        <td>{{ $customer->user->email ?? 'N/A' }}</td>
+                        <td>
+                            <button onclick="approveCustomer({{ $customer->customer_id }})" style="color:green">Phê duyệt</button>
+                            <button onclick="disapproveUser({{ $customer->customer_id }})" style="color:red">Không duyệt</button>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
-
+    <!-- Phân trang cho khách hàng chờ duyệt -->
     <div class="pagination">
-        {{ $customers->links('pagination::bootstrap-4') }}
+        {{ $pendingCustomers->links('pagination::bootstrap-4') }}
     </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         updateUserCount(); // Cập nhật số lượng ngay khi tải trang
