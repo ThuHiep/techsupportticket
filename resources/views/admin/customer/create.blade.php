@@ -116,15 +116,6 @@
                 <!-- Ngày sinh + giới tính + số điện thoại -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="user_id" class="form-label">Chọn khách hàng</label>
-                        <select id="user_id" name="user_id" class="form-control" required>
-                            <option value="" disabled selected>Chọn tên khách hàng</option>
-                            @foreach ($customers as $customer)
-                                <option value="{{ $customer->user_id }}">{{ $customer->user->username }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-4">
                         <label for="date_of_birth" class="form-label">Ngày sinh</label>
                         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
                     </div>
@@ -134,6 +125,10 @@
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
                         </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
                     </div>
                 </div>
                 <!-- Số điện thoại + Email + Website -->
