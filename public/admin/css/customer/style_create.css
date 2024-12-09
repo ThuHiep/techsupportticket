@@ -30,7 +30,7 @@ h1 {
 form {
     display: flex;
     flex-direction: column; /* Đảm bảo các phần tử trong form xếp dọc */
-    gap: 20px; /* Khoảng cách giữa các phần tử */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
     justify-content: flex-start; /* Căn phần tử từ trên xuống */
 }
 
@@ -86,7 +86,7 @@ input.error, select.error {
     margin-bottom: 10px;
 }
 
-/* Nút Lưu*/
+/* Nút Thêm mới (Lưu) */
 .save-button {
     display: flex; /* Sử dụng Flexbox */
     justify-content: left; /* Căn giữa theo chiều ngang */
@@ -101,8 +101,9 @@ input.error, select.error {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
     width: 200px; /* Đặt chiều rộng của nút */
-
+    height: 50px;
 }
+
 .btn-success:hover {
     background-color: #347737; /* Xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
@@ -139,9 +140,7 @@ input.error, select.error {
     align-self: flex-start; /* Căn chỉnh các nút theo chiều dọc bắt đầu từ đầu */
     height: 50px; /* Đặt chiều cao cố định cho các nút */
 }
-.btn-success{
-    height: 50px;
-}
+
 
 /* Tùy chỉnh cho file upload */
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */

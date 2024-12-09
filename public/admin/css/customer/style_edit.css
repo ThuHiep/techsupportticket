@@ -30,7 +30,7 @@ h1 {
 form {
     display: flex;
     flex-direction: column; /* Đảm bảo các phần tử trong form xếp dọc */
-    gap: 20px; /* Khoảng cách giữa các phần tử */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
     justify-content: flex-start; /* Căn phần tử từ trên xuống */
 }
 
@@ -86,63 +86,59 @@ input.error, select.error {
     margin-bottom: 10px;
 }
 
-/* Nút Lưu*/
-.save-button {
-    display: flex; /* Sử dụng Flexbox */
-    justify-content: left; /* Căn giữa theo chiều ngang */
-    width: 100%; /* Chiếm toàn bộ chiều rộng */
+/* Container chứa hai nút */
+.button-container {
+    display: flex; /* Sử dụng Flexbox để căn chỉnh ngang */
+    justify-content: flex-start; /* Căn hai nút về phía trái */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách phía trên container */
 }
+
+/* Nút Lưu thay đổi */
 .btn-success {
     padding: 12px 24px; /* Khoảng cách trong lớn hơn */
-    background-color: #18a343; /* Màu tím */
+    background-color: #18a343; /* Màu xanh lá */
     color: white;
     border: none;
     border-radius: 8px; /* Bo góc */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
-    width: 200px; /* Đặt chiều rộng của nút */
-
+    width: 200px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
 }
+
 .btn-success:hover {
-    background-color: #347737; /* Xanh đậm hơn */
+    background-color: #347737; /* Màu xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 
 .btn-success:active {
-    transform: scale(0.95); /* Nhỏ đi khi click */
+    transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
-/* Nút Quay lại */
+/* Nút Hủy */
 .btn-secondary {
-    position: absolute; /* Định vị nút Quay lại */
-    top: 20px; /* Khoảng cách từ trên */
-    right: 20px; /* Khoảng cách từ bên phải */
-    padding:  7px 14px; /* Khoảng cách trong nút */
-    background-color: #a7b1c2; /* Màu nền */
+    padding: 12px 24px; /* Khoảng cách trong nút */
+    background-color: #a7b1c2; /* Màu nền xám */
     color: white; /* Màu chữ */
     border: none; /* Bỏ đường viền */
     border-radius: 8px; /* Bo góc */
-    text-decoration: none; /* Bỏ gạch chân */
-    font-size: 14px; /* Kích thước chữ */
-    display: flex; /* Sử dụng flexbox để căn giữa */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    text-align: center; /* Đảm bảo chữ được căn giữa */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 100px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
+    margin-left: 40px;
 }
-
 
 .btn-secondary:hover {
     background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
-}
-.btn-secondary {
-    align-self: flex-start; /* Căn chỉnh các nút theo chiều dọc bắt đầu từ đầu */
-    height: 50px; /* Đặt chiều cao cố định cho các nút */
-}
-.btn-success{
-    height: 50px;
+    transform: scale(1.05); /* Phóng to nhẹ */
 }
 
+.btn-secondary:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
+}
 /* Tùy chỉnh cho file upload */
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {

@@ -89,11 +89,11 @@
             <div class="col-md-3">
                 <div class="container-img">
                     <div class="form-group">
-                        <label for="profile_image" class="form-label profile-image-label">Hình ảnh đại diện</label>
+                        <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
                         <div class="custom-file-upload">
                             <input type="file" id="profile_image" name="profile_image" class="form-control"
                                    accept="image/*" onchange="previewImage(event)">
-                            <label for="profile_image" class="custom-file-label">Chọn</label>
+                            <label for="profile_image" class="custom-file-label">Chọn khác</label>
                             <div class="image-preview">
                                 <div id="image-preview" class="image-preview">
                                     <img id="preview-img" src="{{ asset('admin/img/customer/' . $customers->profile_image) }}"
@@ -107,7 +107,7 @@
             </div>
         </div>
         <!-- Nút hành động -->
-        <div class="save-button">
+        <div class="button-container">
             <button type="submit" class="btn btn-success me-3">Lưu thay đổi</button>
             <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
         </div>
