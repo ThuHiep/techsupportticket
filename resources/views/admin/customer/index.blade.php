@@ -45,6 +45,16 @@
         .modal-overlay.show {
             display: block;
         }
+
+        .show-users-btn {
+            float: right; /* Đưa nút sang phía bên phải */
+            margin: 10px 0; /* Thêm khoảng cách ở trên và dưới */
+            color: white; /* Màu chữ */
+            border: none; /* Bỏ viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Con trỏ chuột khi hover */
+            font-size: 16px; /* Kích thước chữ */
+        }
     </style>
 </head>
 <body>
@@ -56,6 +66,17 @@
         <span class="badge" id="userCount">0</span>
     </button>
     <div class="table-container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <table class="table table-striped">
             <thead>
             <tr>
@@ -148,10 +169,12 @@
         fetch('{{ route("admin.user.list") }}')
             .then(response => response.json())
             .then(data => {
-                const userCount = data.length; // Lấy số lượng người dùng từ dữ liệu
+                const userCount = data.length; // Lấy số lượng khách hàng chờ duyệt
                 document.getElementById('userCount').textContent = userCount;
-            });
+            })
+            .catch(error => console.error('Lỗi khi cập nhật số lượng khách hàng:', error));
     }
+
 
     function showUsersModal() {
         const modal = document.getElementById('usersModal');
@@ -204,25 +227,37 @@
 
     // Hàm phê duyệt người dùng
     function approveCustomer(customerId) {
+        // Gửi yêu cầu phê duyệt thông qua AJAX
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
         axios.post(`/customer/${customerId}/approve`, {}, {
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}', // CSRF token
+                'X-CSRF-TOKEN': csrfToken,
             }
         })
+
+
             .then(response => {
                 if (response.data.status === 'success') {
-                    alert('Phê duyệt thành công!'); // Thông báo thành công
+                    // Cập nhật thông báo thành công
+                    alert('Khách hàng đã được phê duyệt thành công!');
+
+                    // Cập nhật giao diện (xóa dòng khách hàng đã phê duyệt khỏi danh sách)
                     const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');
                     if (row) row.remove(); // Xóa dòng sau khi phê duyệt
+
+                    // Cập nhật số lượng khách hàng chờ duyệt
+                    updateUserCount();
                 } else {
-                    alert('Lỗi: ' + response.data.message); // Thông báo lỗi
+                    alert('Lỗi: ' + response.data.message); // Thông báo lỗi nếu có
                 }
             })
             .catch(error => {
-                alert('Đã xảy ra lỗi khi phê duyệt: ' + error.message); // Thông báo lỗi
+                alert('Đã xảy ra lỗi khi phê duyệt: ' + error.message); // Thông báo lỗi nếu có
                 console.error('Error:', error);
             });
     }
+
 
     function disapproveUser(userId) {
         alert(`Đã không duyệt người dùng ID: ${userId}`); // Thông báo khi không duyệt
