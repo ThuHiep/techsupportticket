@@ -55,12 +55,12 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;  /* Căn giữa theo chiều ngang */
-    margin-right: auto;
+    margin-right: 300px;
     margin-left: auto;
-    width: 320px;  /* Đặt chiều rộng cho ô tìm kiếm */
+    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
 }
 .search-container input[type="text"] {
-    width: 100%;
+    width: 440px;
     padding: 10px 100px 10px 15px;
     border: 1px solid #FF9700;
     border-radius: 5px;
@@ -134,15 +134,45 @@ table {
 }
 
 th, td {
-    padding: 12px;
+    
     text-align: center;
     vertical-align: middle;
     border: 1px solid #ddd;
     font-size: 15px;
+    white-space: nowrap; /* Ngăn nội dung xuống dòng */
 }
-
+th:nth-child(1), td:nth-child(1) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
 th:nth-child(2), td:nth-child(2) {
-    width: 100px;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
+    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(4), td:nth-child(4) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(6), td:nth-child(6) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(7), td:nth-child(7) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th {
     background-color: #6f2f9f;
@@ -268,7 +298,8 @@ tr:nth-child(even) td {
 
 /* Sửa phần này để thêm đường viền đỏ khi active */
 .pagination > .active > span {
-    border: 2px solid darkred;
+    border: none;
+    background-color: #ee5711;
 }
 
 

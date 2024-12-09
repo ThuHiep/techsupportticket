@@ -291,53 +291,68 @@ section {
     margin-bottom: 20px;
 }
 .carousel-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
     position: relative;
-    width: 80%;
-    margin: 30px auto;
-    overflow: hidden;
+    text-align: center;
 }
+
+.instructions {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
 .carousel {
     display: flex;
-    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
 }
 .carousel-card {
-    min-width: 300px; /* Increased width */
-    height: 300px; /* Increased height */
-    margin: 15px; /* Increased margin */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly bigger shadow */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.4em; /* Slightly larger font size */
-    font-weight: bold;
-    color: #6f2f9f;
+    flex: 0 0 100%; /* Mỗi card chiếm 100% chiều rộng container */
+    text-align: center;
+    transition: transform 0.5s ease;
+    padding: 20px;
+    box-sizing: border-box;
 }
+
+.card-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.card-content {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
+
 .carousel-controls {
+    margin-top: 10px;
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-.carousel-button {
-    background-color: #6f2f9f;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px; /* Increased size */
-    height: 60px; /* Increased size */
-    cursor: pointer;
-    font-size: 2.5em; /* Larger font size */
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
-    margin: 0 10px;
 }
+
+.carousel-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
 .carousel-button:hover {
-    background-color: #5b3e8c;
+    background-color: #555;
 }
+
 footer {
     padding: 20px; /* Khoảng cách bên trong */
     margin: 20px 40px; /* Cách mép trái và phải 40px */
@@ -346,7 +361,8 @@ footer {
 /* Nút floating */
 .floating-button {
     position: fixed;
-    bottom: 20px;
+    margin-bottom: 50px;
+    bottom: 50px;
     right: 20px;
     width: 50px;
     height: 50px;
