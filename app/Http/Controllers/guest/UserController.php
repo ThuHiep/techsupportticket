@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         $template = 'guest.user.index';
-        return view('admin.dashboard.layout', compact('template'));
+        return view('guest.dashboard.layout', compact('template'));
     }
 
     public function getUserList()
