@@ -7,7 +7,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
+<style>
+    /* Modal cơ bản */
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Căn giữa modal */
+        width: 50%; /* Bạn có thể thay đổi kích thước của modal nếu muốn */
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000; /* Đảm bảo modal không bị che khuất */
+        display: none; /* Ẩn modal mặc định */
+        opacity: 0; /* Ẩn modal */
+        transition: opacity 0.3s ease-in-out;
+    }
 
+    /* Hiển thị modal */
+    .modal.show {
+        display: block;
+        opacity: 1; /* Khi modal hiển thị, độ mờ sẽ trở thành 1 */
+    }
+
+    /* Nền mờ phía sau modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+        z-index: 999; /* Đảm bảo nền mờ ở phía dưới modal */
+        display: none;
+    }
+
+    /* Hiển thị nền mờ */
+    .modal-overlay.show {
+        display: block;
+    }
+
+
+</style>
 </head>
 <body>
 <div class="container">
@@ -31,7 +71,6 @@
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Mã khách hàng</th>
                 <th>Họ tên</th>
                 <th>Hình ảnh</th>
                 <th>Ngày sinh</th>
@@ -44,7 +83,7 @@
             @foreach ($customers as $index => $customer)
                 <tr>
                     <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td> <!-- STT -->
-                    <td>{{ $customer->customer_id }}</td>
+                    
                     <td>{{ $customer->full_name }}</td>
                     <td>
                         @if($customer->profile_image)
@@ -59,14 +98,14 @@
                     <td>
                         <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">
-                                <i class="fas fa-edit"></i> Sửa
+                                <i class="fas fa-edit"></i>
                             </button>
                         </form>
                         <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
                             @csrf
                             @method('DELETE')
                             <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
-                                <i class="fas fa-trash-alt"></i> Xóa
+                                <i class="fas fa-trash-alt"></i> 
                             </button>
                         </form>
                     </td>
@@ -75,7 +114,7 @@
             </tbody>
         </table>
     </div>
-    <div id="usersModal" class="modal hidden">
+    <div id="usersModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeUsersModal()">&times;</span>
             <h2>Danh sách người dùng</h2>
@@ -93,6 +132,8 @@
             </table>
         </div>
     </div>
+
+
     <div class="pagination">
         {{ $customers->links('pagination::bootstrap-4') }}
     </div>
@@ -113,9 +154,13 @@
     }
     function showUsersModal() {
         const modal = document.getElementById('usersModal');
-        modal.classList.remove('hidden'); // Hiển thị modal
+        const overlay = document.createElement('div');
+        overlay.classList.add('modal-overlay');
+        document.body.appendChild(overlay); // Thêm lớp nền mờ vào body
 
-        // Tải danh sách người dùng qua AJAX
+        modal.classList.add('show'); // Thêm lớp show vào modal
+
+        // Hiển thị danh sách người dùng qua AJAX
         fetch('{{ route("admin.user.list") }}')
             .then(response => response.json())
             .then(data => {
@@ -129,8 +174,8 @@
                 data.forEach(user => {
                     userTableBody.innerHTML += `
                     <tr>
-                        <td>${user.username}</td>
-                        <td>${user.password}</td>
+                        <td>${user.full_name}</td>
+                        <td>${user.phone}</td>
                         <td>
                             <button onclick="approveUser(${user.id})" style="color:green">Phê duyệt</button>
                             <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
@@ -142,11 +187,21 @@
             .catch(error => console.error('Lỗi khi tải dữ liệu người dùng:', error));
     }
 
+    // Đóng modal khi nhấn vào lớp nền mờ
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-overlay')) {
+            closeUsersModal();
+        }
+    });
+
     function closeUsersModal() {
         const modal = document.getElementById('usersModal');
-        modal.classList.add('hidden'); // Ẩn modal
+        const overlay = document.querySelector('.modal-overlay');
+        modal.classList.remove('show'); // Ẩn modal
+        if (overlay) overlay.remove(); // Xóa lớp nền mờ
     }
 
+    // Hàm phê duyệt người dùng
     function approveUser(userId) {
         fetch('{{ route("customer.approve", ":id") }}'.replace(':id', userId), {
             method: 'POST', // Sử dụng phương thức POST
@@ -158,18 +213,35 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    Swal.fire('Phê duyệt', data.message, 'success');
-                    updateUserCount(); // Cập nhật số lượng
-                    showUsersModal(); // Cập nhật danh sách modal
+                    Swal.fire({
+                        title: 'Phê duyệt thành công!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        updateUserCount(); // Cập nhật số lượng người dùng
+                        showUsersModal(); // Cập nhật danh sách modal
+                    });
                 } else {
-                    Swal.fire('Lỗi', data.message, 'error');
+                    Swal.fire({
+                        title: 'Lỗi',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             })
             .catch(error => {
-                Swal.fire('Lỗi', 'Đã xảy ra lỗi khi phê duyệt!', 'error');
+                Swal.fire({
+                    title: 'Lỗi',
+                    text: 'Đã xảy ra lỗi khi phê duyệt!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 console.error('Error:', error);
             });
     }
+
 
 
 
@@ -197,5 +269,82 @@
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 </html>
+{{--    <!DOCTYPE html>--}}
+{{--<html lang="en">--}}
+{{--<head>--}}
+{{--    <meta charset="UTF-8">--}}
+{{--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--}}
+{{--    <title>Danh sách khách hàng</title>--}}
+{{--    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">--}}
+{{--</head>--}}
+{{--<body>--}}
+{{--<h1>Danh sách khách hàng chưa duyệt</h1>--}}
+
+{{--@if (session('success'))--}}
+{{--    <div class="alert alert-success">{{ session('success') }}</div>--}}
+{{--@elseif (session('error'))--}}
+{{--    <div class="alert alert-danger">{{ session('error') }}</div>--}}
+{{--@endif--}}
+
+{{--<table border="1">--}}
+{{--    <thead>--}}
+{{--    <tr>--}}
+{{--        <th>STT</th>--}}
+{{--        <th>Mã khách hàng</th>--}}
+{{--        <th>Họ tên</th>--}}
+{{--        <th>Email</th>--}}
+{{--        <th>Thao tác</th>--}}
+{{--    </tr>--}}
+{{--    </thead>--}}
+{{--    <tbody>--}}
+{{--    @forelse ($customers as $index => $customer)--}}
+{{--        <tr>--}}
+{{--            <td>{{ $index + 1 }}</td>--}}
+{{--            <td>{{ $customer->customer_id }}</td>--}}
+{{--            <td>{{ $customer->full_name }}</td>--}}
+{{--            <td>{{ $customer->email }}</td>--}}
+{{--            <td>--}}
+{{--                <!-- Form phê duyệt khách hàng -->--}}
+{{--                <form action="{{ route('customer.approve', $customer->customer_id) }}" method="GET" enctype="multipart/form-data">--}}
+{{--                    @csrf--}}
+{{--                    <button type="submit">Phê duyệt</button>--}}
+{{--                </form>--}}
+{{--            </td>--}}
+{{--        </tr>--}}
+{{--    @empty--}}
+{{--        <tr>--}}
+{{--            <td colspan="5">Không có khách hàng nào cần phê duyệt.</td>--}}
+{{--        </tr>--}}
+{{--    @endforelse--}}
+{{--    </tbody>--}}
+{{--</table>--}}
+
+{{--<script>--}}
+{{--    function approveCustomer(customerId) {--}}
+{{--        axios.post(`/customer/${customerId}/approve`, {}, {--}}
+{{--            headers: {--}}
+{{--                'X-CSRF-TOKEN': '{{ csrf_token() }}', // CSRF token--}}
+{{--            }--}}
+{{--        })--}}
+{{--            .then(response => {--}}
+{{--                if (response.data.status === 'success') {--}}
+{{--                    Swal.fire('Phê duyệt', response.data.message, 'success');--}}
+{{--                    const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');--}}
+{{--                    if (row) row.remove();--}}
+{{--                } else {--}}
+{{--                    Swal.fire('Lỗi', response.data.message, 'error');--}}
+{{--                }--}}
+{{--            })--}}
+{{--            .catch(error => {--}}
+{{--                Swal.fire('Lỗi', 'Đã xảy ra lỗi khi phê duyệt: ' + error.message, 'error');--}}
+{{--                console.error('Error:', error);--}}
+{{--            });--}}
+{{--    }--}}
+{{--</script>--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
+{{--</body>--}}
+{{--</html>--}}
