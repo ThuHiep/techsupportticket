@@ -27,7 +27,8 @@ class Customer extends Model
         'company',
         'tax_id',
         'create_at',
-        'update_at'
+        'update_at',
+        'status',
     ];
 
     // Define any relationships with other models (if applicable)
