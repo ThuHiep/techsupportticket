@@ -126,17 +126,13 @@
                             <option value="Nữ">Nữ</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-                </div>
-                <!-- Số điện thoại + Email + Website -->
-                <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Số điện thoại</label>
                         <input type="text" id="phone" name="phone" class="form-control" required>
                     </div>
+                </div>
+                <!-- Software + Công ty -->
+                <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Software</label>
                         <input type="text" id="software" name="software" class="form-control" required>
@@ -146,7 +142,7 @@
                         <input type="text" id="company" name="company" class="form-control">
                     </div>
                 </div>
-                <!-- Địa chỉ + Công ty + Software -->
+                <!-- Địa chỉ + Website -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="address" class="form-label">Địa chỉ</label>
