@@ -124,7 +124,7 @@
                     data: [
                         requestStatusCounts.processing,
                         requestStatusCounts.handled,
-                        requestStatusCounts.completed,  // Đảm bảo dữ liệu cho "Hoàn thành" đã được truyền vào đây
+                        requestStatusCounts.completed,  
                         requestStatusCounts.cancelled
                     ],
                     backgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"],  // Màu sắc cho mỗi trạng thái

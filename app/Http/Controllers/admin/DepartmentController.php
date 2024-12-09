@@ -6,60 +6,59 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
 
-
 class DepartmentController extends Controller
 {
     // Hiển thị danh sách phòng ban
     public function index(Request $request)
     {
         $template = 'admin.department.index';
-        // Kiểm tra xem có yêu cầu tìm kiếm không
         $search = $request->input('search');
 
-        // Nếu có tìm kiếm, lọc dữ liệu theo mã hoặc tên phòng ban
         $departments = Department::when($search, function ($query) use ($search) {
             return $query->where('department_id', 'LIKE', "%$search%")
                 ->orWhere('department_name', 'LIKE', "%$search%");
-        })
-            // Phân trang với 10 bản ghi mỗi trang
-            ->paginate(10);
+        })->paginate(10);
 
-        // Trả về view với dữ liệu phòng ban
         return view('admin.dashboard.layout', compact('template', 'departments'));
     }
 
-    // Hiển thị form tạo phòng ban mới
+    // Hiển thị form tạo phòng ban
     public function create()
     {
         $template = 'admin.department.create';
-        // Sinh department_id ngẫu nhiên (ví dụ: PB0001)
-        $randomId = 'PB' . str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
-        return view('admin.dashboard.layout', compact('template', 'randomId'));
+        // Đếm số lượng bản ghi
+        $count = Department::count();
+        $nextNumber = $count + 1; // Số thứ tự mới
+
+        // Định dạng mã phòng ban, ví dụ PB + 4 chữ số
+        // Nếu cần 4 chữ số, ví dụ PB0001, PB0002...
+        $nextId = 'PB' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+
+        return view('admin.dashboard.layout', compact('template', 'nextId'));
     }
 
     // Lưu phòng ban mới
     public function store(Request $request)
     {
-        // Validate dữ liệu nhập vào
         $request->validate([
             'department_id' => 'required|unique:department,department_id',
             'department_name' => 'required|unique:department,department_name|max:255',
             'status' => 'required|in:active,inactive',
         ]);
 
-        // Tạo phòng ban mới
         Department::create([
             'department_id' => $request->input('department_id'),
             'department_name' => $request->input('department_name'),
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('admin.department.index')
-            ->with('success', 'Phòng ban đã được thêm thành công!');
+        // Flash message vào session
+        return redirect()->route('department.index')->with('success', 'Phòng ban đã được thêm thành công!');
     }
 
-    // Hiển thị form chỉnh sửa phòng ban
+
+    // Chỉnh sửa phòng ban
     public function edit($department_id)
     {
         $template = 'admin.department.edit';
@@ -72,19 +71,17 @@ class DepartmentController extends Controller
     {
         $department = Department::findOrFail($department_id);
 
-        // Validate dữ liệu nhập vào
         $request->validate([
             'department_name' => 'required|unique:department,department_name,' . $department->department_id . ',department_id|max:255',
             'status' => 'required|in:active,inactive',
         ]);
 
-        // Cập nhật phòng ban
         $department->update([
             'department_name' => $request->input('department_name'),
             'status' => $request->input('status'),
         ]);
 
-        return redirect()->route('admin.department.index')
+        return redirect()->route('department.index')
             ->with('success', 'Thông tin phòng ban đã được cập nhật!');
     }
 
@@ -94,7 +91,7 @@ class DepartmentController extends Controller
         $department = Department::findOrFail($department_id);
         $department->delete();
 
-        return redirect()->route('admin.department.index')
+        return redirect()->route('department.index')
             ->with('success', 'Phòng ban đã được xóa!');
     }
 }
