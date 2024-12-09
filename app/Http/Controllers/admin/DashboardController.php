@@ -30,10 +30,10 @@ class DashboardController extends Controller
         $customerPercentageChange = $this->calculatePercentageChange($totalCustomersToday, $totalCustomersYesterday);
 
         // Tổng số yêu cầu từ bảng request hôm nay
-        $totalRequestsToday = SupportRequest::whereDate('received_at', now()->toDateString())->count();
+        $totalRequestsToday = SupportRequest::whereDate('create_at', now()->toDateString())->count();
 
         // Tổng số yêu cầu từ bảng request ngày hôm qua
-        $totalRequestsYesterday = SupportRequest::whereDate('received_at', now()->subDay()->toDateString())->count();
+        $totalRequestsYesterday = SupportRequest::whereDate('create_at', now()->subDay()->toDateString())->count();
 
         // Tính phần trăm thay đổi yêu cầu so với hôm qua
         $requestPercentageChange = $this->calculatePercentageChange($totalRequestsToday, $totalRequestsYesterday);
