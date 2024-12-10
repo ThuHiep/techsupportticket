@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccountApproved;
 use App\Models\Customer; // Import Model Customer
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -185,12 +186,14 @@ class CustomerController extends Controller
             $customer->status = 'active';  // Đánh dấu tài khoản là đã duyệt
             $customer->save();
 
+            // Gửi email thông báo
+            Mail::to($customer->user->email)->send(new AccountApproved($customer));
+
             return redirect()->route('customer.index')->with([
-                'success' => 'Tài khoản đã được duyệt!',
+                'success' => 'Tài khoản đã được duyệt và email thông báo đã được gửi!',
                 'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
             ]);
         }
-
         return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
