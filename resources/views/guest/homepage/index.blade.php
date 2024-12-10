@@ -8,7 +8,7 @@
     <title>Trang chủ Sweetsoft</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="guest/css/homepage/homepage.css?v=1">
+    <link rel="stylesheet" href="/guest/css/homepage/homepage.css?v=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -119,8 +119,8 @@
             <button class="carousel-button right" id="next">&#8250;</button>
         </div>
     </div>
-    
-    
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const carousel = document.getElementById("carousel");
