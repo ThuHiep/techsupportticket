@@ -67,6 +67,7 @@ a:hover{
 .login_box{
     position: relative;
     width: 430px;
+    height: 575px; /*Huy đã giảm cho khỏi cuộn xuống dưới */
     backdrop-filter: blur(25px);
     border: 2px solid var(--primary-color);
     border-radius: 15px;
