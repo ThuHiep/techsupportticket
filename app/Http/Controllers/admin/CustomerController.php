@@ -173,7 +173,7 @@ class CustomerController extends Controller
             ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
     }
 
-    // Trong Controller
+    //Duyệt tài khoản
     public function approve($customer_id)
     {
         $customer = Customer::find($customer_id);
@@ -182,11 +182,30 @@ class CustomerController extends Controller
             $customer->status = 'active';  // Đánh dấu tài khoản là đã duyệt
             $customer->save();
 
-            return redirect()->route('customer.index')->with('success', 'Tài khoản đã được duyệt!');
+            return redirect()->route('customer.index')->with([
+                'success' => 'Tài khoản đã được duyệt!',
+                'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
+            ]);
         }
 
         return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
+
+    // Từ chối duyệt
+    public function reject($customer_id)
+    {
+        $customer = Customer::find($customer_id);
+
+        if ($customer) {
+            $customer->status = 'inactive'; // Đánh dấu tài khoản là không duyệt
+            $customer->save();
+
+            return redirect()->route('customer.index')->with('error', 'Tài khoản đã bị từ chối!');
+        }
+
+        return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
+    }
+
 
 
     public function pendingCustomers()
