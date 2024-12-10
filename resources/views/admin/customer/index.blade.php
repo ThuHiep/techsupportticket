@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách khách hàng</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
@@ -95,12 +96,16 @@
     </style>
 </head>
 <body>
+<div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+    <span id="notification-message"></span>
+</div>
+
 <div class="container">
     <h1>Danh sách khách hàng</h1>
-    <button class="show-users-btn" onclick="showUsersModal()">
+    <a href="{{ route('customer.pending') }}" class="show-users-btn">
         Chờ duyệt
         <span class="badge" id="userCount">0</span>
-    </button>
+    </a>
     <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
     <div class="search-container">
         <form action="{{ route('customer.index') }}" method="GET">
@@ -170,41 +175,8 @@
     <div class="pagination">
         {{ $customers->links('pagination::bootstrap-4') }}
     </div>
-    <!----------->
-    <div id="usersModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeUsersModal()">&times;</span>
-            <h2>Danh sách khách hàng chờ duyệt</h2>
-            <table class="user-table">
-                <thead>
-                <tr>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Thao tác</th>
-                </tr>
-                </thead>
-                <tbody id="userTableBody">
-                @foreach ($pendingCustomers as $customer)
-                    <tr>
-                        <td>{{ $customer->full_name }}</td>
-                        <td>{{ $customer->user->email ?? 'N/A' }}</td>
-                        <td>
-                            <button onclick="approveCustomer({{ $customer->customer_id }})" style="color:green">Phê duyệt</button>
-                            <button onclick="disapproveUser({{ $customer->customer_id }})" style="color:red">Không duyệt</button>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
 <script>
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('modal-overlay')) {
-            closeUsersModal();
-        }
-    });
     document.addEventListener('DOMContentLoaded', () => {
         updateUserCount(); // Cập nhật số lượng ngay khi tải trang
     });
@@ -218,104 +190,22 @@
             })
             .catch(error => console.error('Lỗi khi cập nhật số lượng khách hàng:', error));
     }
-    // Hiển thị modal danh sách khách hàng chờ duyệt
-    function showUsersModal() {
-        const modal = document.getElementById('usersModal');
-        const overlay = document.createElement('div'); // Tạo lớp nền mờ
-        overlay.classList.add('modal-overlay');
-        document.body.appendChild(overlay); // Thêm lớp nền mờ vào body
 
-        modal.classList.add('show'); // Thêm lớp show vào modal
+    function showNotification(message, backgroundColor) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
 
-        // Hiển thị danh sách người dùng qua AJAX
-        fetch('{{ route("admin.user.list") }}')
-            .then(response => response.json())
-            .then(data => {
-                const userTableBody = document.getElementById('userTableBody');
-                userTableBody.innerHTML = '';
+        // Cập nhật nội dung và màu nền
+        notificationMessage.textContent = message;
+        notification.style.backgroundColor = backgroundColor;
 
-                // Cập nhật số lượng
-                document.getElementById('userCount').textContent = data.length;
+        // Hiển thị thông báo
+        notification.style.display = 'block';
 
-                // Tạo hàng trong bảng
-                data.forEach(user => {
-                    userTableBody.innerHTML += `
-            <tr>
-                <td>${user.full_name}</td>
-                <td>${user.phone}</td>
-                <td>
-                    <button onclick="approveCustomer(${user.id})" style="color:green">Phê duyệt</button>
-                    <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
-                </td>
-            </tr>
-        `;
-                });
-            })
-            .catch(error => console.error('Lỗi khi tải dữ liệu người dùng:', error));
-    }
-
-    // Đóng modal khi nhấn vào lớp nền mờ
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('modal-overlay')) {
-            closeUsersModal();
-        }
-    });
-
-    // Đảm bảo việc phân trang không bị gián đoạn khi modal được đóng
-    function closeUsersModal() {
-        const modal = document.getElementById('usersModal');
-        const overlay = document.querySelector('.modal-overlay');
-        modal.classList.remove('show'); // Ẩn modal
-        if (overlay) overlay.remove(); // Xóa lớp nền mờ
-        // Cập nhật lại số lượng khách hàng chờ duyệt khi đóng modal
-        updateUserCount();
-    }
-
-
-
-    // Hàm phê duyệt người dùng
-    function approveCustomer(customerId) {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        axios.post(`/customer/${customerId}/approve`, {}, {
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-            }
-        })
-            .then(response => {
-                if (response.data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Phê duyệt thành công!',
-                        text: 'Khách hàng đã được phê duyệt.',
-                    });
-
-                    // Xóa dòng khách hàng khỏi danh sách
-                    const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');
-                    if (row) row.remove();
-
-                    // Cập nhật lại số lượng khách hàng chờ duyệt
-                    updateUserCount();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        text: response.data.message,
-                    });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi!',
-                    text: 'Đã xảy ra lỗi khi phê duyệt khách hàng.',
-                });
-                console.error('Error:', error);
-            });
-    }
-
-    function disapproveUser(userId) {
-        alert(`Đã không duyệt người dùng ID: ${userId}`); // Thông báo khi không duyệt
+        // Tự động ẩn sau 3 giây
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
     }
 
     function showDeleteModal(event, formId) {

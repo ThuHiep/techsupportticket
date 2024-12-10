@@ -54,8 +54,13 @@ Route::name('customer.')->group(function () {
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
 
     // Phê duyệt khách hàng
-    //Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
+    Route::post('/customer/{customerId}/approve', [CustomerController::class, 'approveCustomer']);
+
+
+    // Hiển thị danh sách khách hàng chờ duyệt
+    Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->name('pending');
 });
+
 
 //Employee
 Route::name('employee.')->group(function () {
@@ -69,7 +74,7 @@ Route::name('employee.')->group(function () {
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 
 
-Route::post('/customer/{customerId}/approve', [UserController::class, 'approveCustomer'])->name('customer.approve');
+Route::post('/customer/{customerId}/approve', [CustomerController::class, 'approveCustomer']);
 
 
 

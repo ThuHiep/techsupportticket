@@ -16,7 +16,6 @@ class UserController extends Controller
         $template = 'guest.user.index';
         return view('guest.dashboard.layout', compact('template'));
     }
-
     public function getUserList()
     {
         $users = Customer::select('customer_id', 'full_name', 'phone', 'status')
@@ -26,20 +25,13 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function approveCustomer(Request $request, $customerId)
-    {
-        $customer = Customer::find($customerId);
-
-        if ($customer) {
-            $customer->status = 'active'; // Cập nhật trạng thái thành "active"
-            $customer->save();
-
-            return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt thành công!']);
-        }
-
-        return response()->json(['status' => 'error', 'message' => 'Không tìm thấy khách hàng này.']);
-    }
-
-
+//    public function getUserList()
+//    {
+//        $users = Customer::select('customer_id', 'full_name', 'username','password', 'status')
+//            ->whereNull('status') // Chỉ lấy các tài khoản chưa được phê duyệt
+//            ->get();
+//
+//        return response()->json($users);
+//    }
 
 }
