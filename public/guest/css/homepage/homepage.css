@@ -283,6 +283,8 @@ section {
     background-color: #5b3e8c; /* Màu tím đậm hơn khi hover */
     transform: scale(1.05); /* Phóng to nhẹ khi hover */
 }
+
+/* Card hướng dẫn */
 .instructions {
     text-align: center;
     color: #6f2f9f;
@@ -301,17 +303,27 @@ section {
     transition: transform 0.3s ease-in-out;
 }
 .carousel-card {
-    min-width: 300px; /* Increased width */
-    height: 300px; /* Increased height */
-    margin: 15px; /* Increased margin */
+    min-width: 300px; /* Width of the card */
+    height: 300px; /* Increased height to accommodate image and text */
+    margin: 15px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly bigger shadow */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.4em; /* Slightly larger font size */
+    flex-direction: column; /* Stack image and text vertically */
+}
+.carousel-card img {
+    width: 100%;
+    height: 60%; /* Reserve 60% of the card height for the image */
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.carousel-card .content {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2em;
     font-weight: bold;
     color: #6f2f9f;
 }
@@ -325,14 +337,14 @@ section {
     color: white;
     border: none;
     border-radius: 50%;
-    width: 60px; /* Increased size */
-    height: 60px; /* Increased size */
+    width: 60px;
+    height: 60px;
     cursor: pointer;
-    font-size: 2.5em; /* Larger font size */
+    font-size: 2.5em;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     margin: 0 10px;
 }
 .carousel-button:hover {
@@ -346,7 +358,8 @@ footer {
 /* Nút floating */
 .floating-button {
     position: fixed;
-    bottom: 20px;
+    margin-bottom: 50px;
+    bottom: 50px;
     right: 20px;
     width: 50px;
     height: 50px;
