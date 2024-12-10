@@ -102,17 +102,21 @@
 
 <div class="container">
     <h1>Danh sách khách hàng</h1>
-    <a href="{{ route('customer.pending') }}" class="show-users-btn">
-        Chờ duyệt
-        <span class="badge" id="userCount">0</span>
-    </a>
-    <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
-    <div class="search-container">
-        <form action="{{ route('customer.index') }}" method="GET">
-            <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
-            <button type="submit">Tìm kiếm</button>
-        </form>
+    <div class="top-bar">
+        
+        <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
+        <div class="search-container">
+            <form action="{{ route('customer.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+        <a href="{{ route('customer.pending') }}" class="show-users-btn">
+            Chờ duyệt
+            <span class="badge" id="userCount">0</span>
+        </a>
     </div>
+    
     <!-- Modal Chờ duyệt -->
     <div class="table-container">
         @if (session('success'))
