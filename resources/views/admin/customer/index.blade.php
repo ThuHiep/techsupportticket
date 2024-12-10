@@ -55,11 +55,52 @@
             cursor: pointer; /* Con trỏ chuột khi hover */
             font-size: 16px; /* Kích thước chữ */
         }
+        /* Giảm kích thước modal */
+        .modal {
+            width: 30%; /* Giảm chiều rộng xuống 30% */
+            max-width: 660px; /* Giới hạn chiều rộng tối đa */
+            height: auto; /* Tự động điều chỉnh chiều cao */
+            padding: 20px; /* Thêm khoảng cách bên trong */
+            border-radius: 10px; /* Bo góc cho hộp */
+        }
+
+        /* Giảm kích thước nội dung bên trong */
+        .modal-content {
+            font-size: 14px; /* Thu nhỏ kích thước chữ */
+            line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
+        }
+
+        /* Thu nhỏ bảng trong modal */
+        .user-table {
+            width: 100%; /* Bảng chiếm toàn bộ chiều ngang của modal */
+            font-size: 13px; /* Kích thước chữ nhỏ hơn */
+            border-collapse: collapse; /* Loại bỏ khoảng cách giữa các đường kẻ */
+        }
+
+        .user-table th, .user-table td {
+            padding: 5px 10px; /* Thu nhỏ khoảng cách trong ô */
+            text-align: left; /* Canh trái nội dung */
+        }
+
+        .user-table th {
+            background-color: #f4f4f4; /* Màu nền cho tiêu đề bảng */
+        }
+
+        /* Chỉnh nút trong modal */
+        .modal button {
+            font-size: 13px; /* Thu nhỏ chữ của nút */
+            padding: 5px 10px; /* Thu nhỏ kích thước nút */
+            margin: 5px 0; /* Thêm khoảng cách giữa các nút */
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Danh sách khách hàng</h1>
+    <button class="show-users-btn" onclick="showUsersModal()">
+        Chờ duyệt
+        <span class="badge" id="userCount">0</span>
+    </button>
     <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
     <div class="search-container">
         <form action="{{ route('customer.index') }}" method="GET">
@@ -68,10 +109,6 @@
         </form>
     </div>
     <!-- Modal Chờ duyệt -->
-    <button class="show-users-btn" onclick="showUsersModal()">
-        Chờ duyệt
-        <span class="badge" id="userCount">0</span>
-    </button>
     <div class="table-container">
         @if (session('success'))
             <div class="alert alert-success">
@@ -161,13 +198,13 @@
             </table>
         </div>
     </div>
-
-    <!-- Phân trang cho khách hàng chờ duyệt -->
-    <div class="pagination">
-        {{ $pendingCustomers->links('pagination::bootstrap-4') }}
-    </div>
 </div>
 <script>
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-overlay')) {
+            closeUsersModal();
+        }
+    });
     document.addEventListener('DOMContentLoaded', () => {
         updateUserCount(); // Cập nhật số lượng ngay khi tải trang
     });
@@ -181,11 +218,10 @@
             })
             .catch(error => console.error('Lỗi khi cập nhật số lượng khách hàng:', error));
     }
-
-
+    // Hiển thị modal danh sách khách hàng chờ duyệt
     function showUsersModal() {
         const modal = document.getElementById('usersModal');
-        const overlay = document.createElement('div');
+        const overlay = document.createElement('div'); // Tạo lớp nền mờ
         overlay.classList.add('modal-overlay');
         document.body.appendChild(overlay); // Thêm lớp nền mờ vào body
 
@@ -204,15 +240,15 @@
                 // Tạo hàng trong bảng
                 data.forEach(user => {
                     userTableBody.innerHTML += `
-                <tr>
-                    <td>${user.full_name}</td>
-                    <td>${user.phone}</td>
-                    <td>
-                        <button onclick="approveCustomer(${user.id})" style="color:green">Phê duyệt</button>
-                        <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
-                    </td>
-                </tr>
-            `;
+            <tr>
+                <td>${user.full_name}</td>
+                <td>${user.phone}</td>
+                <td>
+                    <button onclick="approveCustomer(${user.id})" style="color:green">Phê duyệt</button>
+                    <button onclick="disapproveUser(${user.id})" style="color:red">Không duyệt</button>
+                </td>
+            </tr>
+        `;
                 });
             })
             .catch(error => console.error('Lỗi khi tải dữ liệu người dùng:', error));
@@ -225,12 +261,17 @@
         }
     });
 
+    // Đảm bảo việc phân trang không bị gián đoạn khi modal được đóng
     function closeUsersModal() {
         const modal = document.getElementById('usersModal');
         const overlay = document.querySelector('.modal-overlay');
         modal.classList.remove('show'); // Ẩn modal
         if (overlay) overlay.remove(); // Xóa lớp nền mờ
+        // Cập nhật lại số lượng khách hàng chờ duyệt khi đóng modal
+        updateUserCount();
     }
+
+
 
     // Hàm phê duyệt người dùng
     function approveCustomer(customerId) {
@@ -243,16 +284,32 @@
         })
             .then(response => {
                 if (response.data.status === 'success') {
-                    alert('Khách hàng đã được phê duyệt thành công!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Phê duyệt thành công!',
+                        text: 'Khách hàng đã được phê duyệt.',
+                    });
+
+                    // Xóa dòng khách hàng khỏi danh sách
                     const row = document.querySelector(`button[onclick="approveCustomer(${customerId})"]`).closest('tr');
                     if (row) row.remove();
+
+                    // Cập nhật lại số lượng khách hàng chờ duyệt
                     updateUserCount();
                 } else {
-                    alert('Lỗi: ' + response.data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: response.data.message,
+                    });
                 }
             })
             .catch(error => {
-                alert('Đã xảy ra lỗi khi phê duyệt: ' + error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Đã xảy ra lỗi khi phê duyệt khách hàng.',
+                });
                 console.error('Error:', error);
             });
     }
@@ -268,7 +325,6 @@
             document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
         }
     }
-
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

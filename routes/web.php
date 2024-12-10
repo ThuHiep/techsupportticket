@@ -52,9 +52,12 @@ Route::name('customer.')->group(function () {
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
 
     // Phê duyệt khách hàng
-    Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
+    //Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
 });
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
+
+Route::post('/customer/{customerId}/approve', [UserController::class, 'approveCustomer'])->name('customer.approve');
+
 
 
 //Department Routes
