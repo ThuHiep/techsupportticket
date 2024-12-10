@@ -166,12 +166,14 @@ class CustomerController extends Controller
         $customer->update_at = now();
         $customer->save();
 
-        // Gửi email
-        Mail::to($email)->send(new CustomerCreated($username, $password, $email));
-
-        // Trả về kết quả
-        return redirect()->route('customer.index')
-            ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
+        try {
+            Mail::to($email)->send(new CustomerCreated($username, $password, $email));
+            return redirect()->route('customer.index')
+                ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password . ' và email đã được gửi.');
+        } catch (\Exception $e) {
+            return redirect()->route('customer.index')
+                ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
+        }
     }
 
     //Duyệt tài khoản
