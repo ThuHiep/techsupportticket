@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountApproved;
+use App\Mail\AccountRejected;
 use App\Models\Customer; // Import Model Customer
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -205,8 +206,13 @@ class CustomerController extends Controller
         if ($customer) {
             $customer->status = 'inactive'; // Đánh dấu tài khoản là không duyệt
             $customer->save();
+            // Gửi email thông báo
+            Mail::to($customer->user->email)->send(new AccountRejected($customer));
 
-            return redirect()->route('customer.index')->with('error', 'Tài khoản đã bị từ chối!');
+            return redirect()->route('customer.index')->with([
+                'error' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
+                'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
+            ]);
         }
 
         return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
