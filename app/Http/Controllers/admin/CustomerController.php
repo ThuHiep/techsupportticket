@@ -10,6 +10,19 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
+//    public function index(Request $request)
+//    {
+//        $search = $request->input('search');
+//
+//        $customers = Customer::where('status', 'active') // Chỉ lấy khách hàng đã được phê duyệt
+//        ->when($search, function ($query, $search) {
+//            return $query->where('full_name', 'LIKE', '%' . $search . '%');
+//        })
+//            ->paginate(10); // Phân trang
+//
+//        return view('admin.customer.index', compact('customers'));
+//    }
+
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
@@ -25,7 +38,7 @@ class CustomerController extends Controller
                     });
             })
             ->where('status', 'active')  // Lọc theo status = 'active'
-            ->paginate(3);
+            ->paginate(4);
 
         // Truy vấn khách hàng có status là NULL (Chờ duyệt)
         $pendingCustomers = Customer::with('user')
@@ -187,22 +200,22 @@ class CustomerController extends Controller
     }
 
 
-    public function approveCustomer($customer_id)
-    {
-        $customer = Customer::find($customer_id);
-
-        if (!$customer) {
-            return response()->json(['status' => 'error', 'message' => 'Không tìm thấy khách hàng!']);
-        }
-
-        if ($customer->status === 'active') {
-            return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt trước đó!']);
-        }
-
-        // Phê duyệt khách hàng
-        $customer->status = 'active';
-        $customer->save();
-
-        return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt thành công!']);
-    }
+//    public function approveCustomer($customer_id)
+//    {
+//        $customer = Customer::find($customer_id);
+//
+//        if (!$customer) {
+//            return response()->json(['status' => 'error', 'message' => 'Không tìm thấy khách hàng!']);
+//        }
+//
+//        if ($customer->status === 'active') {
+//            return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt trước đó!']);
+//        }
+//
+//        // Phê duyệt khách hàng
+//        $customer->status = 'active';
+//        $customer->save();
+//
+//        return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt thành công!']);
+//    }
 }

@@ -1,19 +1,18 @@
-
 <nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header" style="background-color: #fff" > <!--Huy đã đổi màu-->
-                <div class="dropdown profile-element " ;> <!--Huy đã xóa class "open" trong div này, đổi màu -->
+            <li class="nav-header" style="background-color: #D4D3D2"> <!--Huy đã đổi màu-->
+                <div class="dropdown profile-element " style="background-color: #D4D3D2" ;> <!--Huy đã xóa class "open" trong div này, đổi màu -->
                     <span>
-                    <img alt="image"  src="admin/img/logosweetsoft.png"
-                    style="width:170px; margin-top: -10px; margin-bottom: 20px">
-                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg" style="margin-left:50px">
-                         </span>
+                        <img alt="image" src="admin/img/logosweetsoft.png"
+                            style="width:170px; margin-top: -10px; margin-bottom: 20px">
+                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg">
+                    </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold" style="color: #2e2626; margin-left:25px">David Williams</strong>
-                                 <b class="caret ms-2" style="color: #272020"></b><!--Huy đã đổi màu tên và icon tại đây-->
+                                <strong class="font-bold" style="color: #2e2626">David Williams</strong>
+                                <b class="caret ms-2" style="color: #272020"></b><!--Huy đã đổi màu tên và icon tại đây-->
                             </span>
                         </span>
                     </a>
@@ -29,12 +28,7 @@
             </li>
             <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
                 <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i>
-                    <span >Trang quản trị</span>
-                </a>
-            </li>
-            <li class="{{ Request::is('account*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fas fa-id-card"></i>
-                    <span class="nav-label">Tài khoản</span>
+                    <span>Trang quản trị</span>
                 </a>
             </li>
             <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
@@ -42,8 +36,8 @@
                     <span class="nav-label">Phân quyền</span>
                 </a>
             </li>
-            <li class="{{ Request::is('staff*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fas fa-address-book"></i>
+            <li class="{{ Request::is('employee*') ? 'active' : '' }}">
+                <a href="{{ route('employee.index') }}"><i class="fas fa-address-book"></i>
                     <span class="nav-label">Nhân viên</span>
                 </a>
             </li>
