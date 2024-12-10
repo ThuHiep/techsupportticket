@@ -39,11 +39,10 @@
                     <td>{{ $department->department_id }}</td>
                     <td>{{ $department->department_name }}</td>
                     <td>
-                        {{ $department->status }}
                         @if($department->status == 'active')
-                            <span class="status-dot active"></span>
+                            <span class="status-dot active"></span> Hoạt động
                         @else
-                            <span class="status-dot inactive"></span>
+                            <span class="status-dot inactive"></span> Không hoạt động
                         @endif
                     </td>
                     <td>
