@@ -74,8 +74,6 @@ Route::post('/customer/{customerId}/approve', [UserController::class, 'approveCu
 
 
 //Department Routes
-
-//Department
 Route::name('department.')->group(function () {
     Route::get('/department/index', [DepartmentController::class, 'index'])->name('index');
     Route::get('/department/create', [DepartmentController::class, 'create'])->name('create');
