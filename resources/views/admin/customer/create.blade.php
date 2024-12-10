@@ -172,10 +172,10 @@
             <div class="col-md-3">
                 <div class="container-img">
                     <div class="form-group">
-                        <label for="profile_image" class="form-label profile-image-label">Hình ảnh đại diện</label>
+                        <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
                         <div class="custom-file-upload">
                             <input type="file" id="profile_image" name="profile_image" class="form-control" accept="image/*" onchange="previewImage(event)">
-                            <label for="profile_image" class="custom-file-label">Chọn</label>
+                            <label for="profile_image" class="custom-file-label">Chọn mới</label>
                             <div class="image-preview">
                                 <div id="image-preview" class="image-preview">
                                     <img id="preview-img" src="" alt="Image Preview" style="display:none;">
@@ -189,7 +189,7 @@
         </div>
         <!-- Nút lưu -->
         <div class="save-button">
-            <button type="submit" class="btn btn-success">Lưu khách hàng</button>
+            <button type="submit" class="btn btn-success">Thêm mới</button>
         </div>
         <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>

@@ -156,7 +156,7 @@
         <div style="display: flex; justify-content: space-around;">
             <!-- Column 1 -->
             <div style="flex: 1; padding: 0 10px;">
-                <img src="/guest/img/logosweetsoft.png" alt="SweetSoft Logo" style="width: 350px; margin-bottom: 10px;">
+                <img src="guest/img/logosweetsoft.png" alt="SweetSoft Logo" style="width: 300px; margin-bottom: 10px;">
                 <p>Thiết kế web Nha Trang, công ty phần mềm SweetSoft</p>
                 <p>Công ty phần mềm chuyên nghiệp hàng đầu tại Nha Trang. Website đẳng cấp mang lại giá trị cao cho khách hàng.</p>
                 <p>Theo dõi chúng tôi
@@ -189,7 +189,7 @@
 
             <!-- Column 4 -->
             <div style="flex: 1; text-align: center; padding: 0 10px; position: relative; max-width: 350px; margin: 0 auto;">
-                <h4>Sweetsoft trên Facebook</h4>
+                <h2>Sweetsoft trên Facebook</h2>
 
                 <img src="guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
             </div>

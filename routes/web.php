@@ -4,17 +4,20 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
-use App\Http\Controllers\Admin\RequestController;
+use App\Http\Controllers\admin\EmployeeController;
 use App\Http\Controllers\Admin\StatisticalController;
+
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*Route hompage */
-Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
+Route::get('/', function () {
+    return view(''); // Đổi 'home' thành file view có sẵn
+});
 
 /*Route login cua admin*/
+
 Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
 
 /*Route register cua user*/
@@ -54,13 +57,26 @@ Route::name('customer.')->group(function () {
     // Phê duyệt khách hàng
     //Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
 });
+
+//Employee
+Route::name('employee.')->group(function () {
+    Route::get('admin/employee/index', [EmployeeController::class, 'index'])->name('index');
+    Route::post('admin/employee', [EmployeeController::class, 'createEmployee'])->name('create');
+    Route::get('/admin/employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
+    Route::put('/admin/employee/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
+    Route::delete('/admin/employee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete');
+});
+
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
+
 
 Route::post('/customer/{customerId}/approve', [UserController::class, 'approveCustomer'])->name('customer.approve');
 
 
 
 //Department Routes
+
+//Department
 Route::name('department.')->group(function () {
     Route::get('/department/index', [DepartmentController::class, 'index'])->name('index');
     Route::get('/department/create', [DepartmentController::class, 'create'])->name('create');
@@ -85,6 +101,3 @@ Route::name('request.')->group(function () {
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
-
-
-
