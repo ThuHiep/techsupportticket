@@ -10,11 +10,10 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
+use App\Http\Controllers\admin\RequestController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view(''); // Đổi 'home' thành file view có sẵn
-});
+//Cấm đụng cái này
+Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 
 /*Route login cua admin*/
 

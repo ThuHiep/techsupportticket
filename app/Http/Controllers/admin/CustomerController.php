@@ -117,7 +117,6 @@ class CustomerController extends Controller
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
         $customer->profile_image = $profileImagePath; // Cập nhật ảnh đại diện (hoặc ảnh cũ nếu không có ảnh mới)
-        $customer->email = $request->input('email');
         $customer->software = $request->input('software');
         $customer->website = $request->input('website');
         $customer->company = $request->input('company');
@@ -129,7 +128,7 @@ class CustomerController extends Controller
         $customer->save();
 
         // Quay lại trang danh sách khách hàng với thông báo thành công
-        return redirect()->route('admin.customer.index')
+        return redirect()->route('customer.index')
             ->with('success', 'Thông tin khách hàng đã được cập nhật!');
     }
 
@@ -139,7 +138,7 @@ class CustomerController extends Controller
         $customers = Customer::findOrFail($customer_id);
         $customers->delete();
 
-        return redirect()->route('admin.customer.index')
+        return redirect()->route('customer.index')
             ->with('success', 'Khách hàng đã được xóa!');
     }
 
