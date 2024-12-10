@@ -7,6 +7,8 @@ use App\Models\Customer; // Import Model Customer
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Mail\CustomerCreated;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
 {
@@ -124,31 +126,26 @@ class CustomerController extends Controller
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         // Sinh customer_id ngẫu nhiên
         $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-
         // Kiểm tra trùng lặp trong database
         while (Customer::where('customer_id', $randomId)->exists()) {
             $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         }
-
         // Sinh username ngẫu nhiên
         $username = 'user' . mt_rand(100000, 999999);
         while (User::where('username', $username)->exists()) {
             $username = 'user' . mt_rand(100000, 999999);
         }
-
         // Sinh password ngẫu nhiên
         $password = Str::random(12); // Chuỗi 12 ký tự ngẫu nhiên
-
         // Lấy email từ request
         $email = $request->input('email');
-
         // Tạo tài khoản User tương ứng
         $user = new User();
         $user ->user_id = $randuserID;
         $user->username = $username;
         $user->password = bcrypt($password); // Mã hóa mật khẩu
         $user->email = $email;
-        $user->role_id = 3; // Gán role_id là 3
+        $user->role_id = 3; // Gán role_id là 3 vì đây là tạo cho khách hàng nên role_id = 3 mặc định
         $user->save();
 
         // Tạo khách hàng mới
@@ -157,6 +154,7 @@ class CustomerController extends Controller
         $customer->user_id = $randuserID; // Liên kết với user_id vừa tạo
         $customer->full_name = $request->input('full_name');
         $customer->date_of_birth = $request->input('date_of_birth');
+        $customer->profile_image = 'profile_' . Str::random(10) . '.jpg';
         $customer->gender = $request->input('gender');
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
@@ -167,6 +165,9 @@ class CustomerController extends Controller
         $customer->create_at = now();
         $customer->update_at = now();
         $customer->save();
+
+        // Gửi email
+        Mail::to($email)->send(new CustomerCreated($username, $password, $email));
 
         // Trả về kết quả
         return redirect()->route('customer.index')
@@ -205,8 +206,6 @@ class CustomerController extends Controller
 
         return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
-
-
 
     public function pendingCustomers()
     {
