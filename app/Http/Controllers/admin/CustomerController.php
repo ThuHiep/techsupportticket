@@ -174,21 +174,18 @@ class CustomerController extends Controller
     }
 
     // Trong Controller
-    public function approveCustomer($customerId)
+    public function approve($customer_id)
     {
-        // Tìm khách hàng theo ID
-        $customer = Customer::findOrFail($customerId);
+        $customer = Customer::find($customer_id);
 
-        // Kiểm tra nếu khách hàng chưa được phê duyệt
-        if ($customer->status === null) {
-            // Cập nhật trạng thái của khách hàng, ví dụ là 'active'
-            $customer->status = 'active';
+        if ($customer) {
+            $customer->status = 'active';  // Đánh dấu tài khoản là đã duyệt
             $customer->save();
 
-            return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt.']);
+            return redirect()->route('customer.index')->with('success', 'Tài khoản đã được duyệt!');
         }
 
-        return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt hoặc không có trạng thái phù hợp.']);
+        return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
 
@@ -198,8 +195,8 @@ class CustomerController extends Controller
 
         // Lọc khách hàng có status là null và lấy thông tin user liên quan
         $customers = Customer::whereNull('status')
-            ->with('user') // Eager load mối quan hệ với bảng users
-            ->paginate(4); // Lọc khách hàng có status là null
+            ->with('user')
+            ->paginate(4);
 
         return view('admin.dashboard.layout', compact('template', 'customers'));
     }

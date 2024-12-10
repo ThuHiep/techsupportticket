@@ -18,7 +18,7 @@ class UserController extends Controller
     }
     public function getUserList()
     {
-        $users = Customer::select('customer_id', 'full_name', 'phone', 'status')
+        $users = Customer::select('customer_id', 'full_name', 'status')
             ->whereNull('status') // Chỉ lấy các tài khoản chưa được phê duyệt
             ->get();
 
