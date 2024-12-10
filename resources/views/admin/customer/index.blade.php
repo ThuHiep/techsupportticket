@@ -135,6 +135,7 @@
                 <th>Ngày sinh</th>
                 <th>Email</th>
                 <th>Giới tính</th>
+                <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
@@ -153,6 +154,12 @@
                     <td>{{ $customer->date_of_birth }}</td>
                     <td>{{ $customer->user->email ?? 'N/A' }}</td>
                     <td>{{ $customer->gender }}</td>
+                    <td>
+                        @if ($customer->status === 'active')
+                            <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
+                            <span style="vertical-align: middle;">Đang hoạt động</span>
+                        @endif
+                    </td>
                     <td>
                         <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">
