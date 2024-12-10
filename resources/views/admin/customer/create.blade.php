@@ -87,10 +87,23 @@
         }
 
     </style> --> <!--ẨN STYLE GỐC-->
+    <style>
+        /* Khi sidebar ở trạng thái bình thường */
+        body .container {
+            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 
 </head>
 <body>
-<div class="container mt-4">
+<div class="container">
     <h1 style="text-align: left">Thêm khách hàng mới</h1>
     <form action="{{ route('customer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -207,14 +220,15 @@
     }
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-            });
-        }
-    });
+     document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.querySelector('.navbar-minimalize');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle('mini-navbar');
+            console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
+        });
+    }
+});
 </script>
 </body>
 

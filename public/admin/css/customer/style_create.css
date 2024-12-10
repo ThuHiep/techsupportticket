@@ -9,8 +9,8 @@ body {
 
 /* Container chính */
 .container {
-    max-width: 1250px; /* Chiều rộng tối đa */
-    width: 100%; /* Co dãn theo kích thước màn hình */
+    width: 1200px;
+    max-width: 100%;
     margin: 20px auto; /* Căn giữa container */
     padding: 20px;
     background-color: #fff;

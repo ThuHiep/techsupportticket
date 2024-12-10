@@ -7,9 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_edit.css') }}">
     <title>Chỉnh sửa khách hàng</title>
+    <style>
+        /* Khi sidebar ở trạng thái bình thường */
+        body .container {
+            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-4">
+<div class="container">
     <h1 style="text-align: left">Chỉnh sửa thông tin khách hàng</h1>
     <form action="{{ route('customer.update', $customers->customer_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -114,8 +127,6 @@
     </form>
 </div>
 
-</div>
-
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -130,14 +141,15 @@
     }
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-            });
-        }
-    });
+     document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.querySelector('.navbar-minimalize');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle('mini-navbar');
+            console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
+        });
+    }
+});
 </script>
 </body>
 </html>
