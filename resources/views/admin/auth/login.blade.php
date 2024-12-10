@@ -8,10 +8,10 @@
     <!-- Captcha -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Boxicons -->
-    <link href="admin/css/bootstrap.min.css" rel="stylesheet">
-    <link href="admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/techsupportticket/public/admin/css/form/login_admin.css?v=1">
+    <link rel="stylesheet" href="/admin/css/form/login_admin.css?v=1">
     <title>Login_Admin</title>
 </head>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
 <div class="wrapper">
     <div class="logo_login_container">
         <div class="logo_box">
-            <img src="/techsupportticket/public/admin/img/logosweetsoft.png" alt="Company Logo">
+            <img src="/admin/img/logosweetsoft.png" alt="Company Logo">
         </div>
         <div class="login_box">
             <div class="login-header">
