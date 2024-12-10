@@ -80,8 +80,6 @@ Route::post('/customer/{customerId}/approve', [CustomerController::class, 'appro
 
 
 //Department Routes
-
-//Department
 Route::name('department.')->group(function () {
     Route::get('/department/index', [DepartmentController::class, 'index'])->name('index');
     Route::get('/department/create', [DepartmentController::class, 'create'])->name('create');
@@ -113,5 +111,5 @@ Route::name('statistical.')->group(function () {
 
 // FAQ Routes
 Route::name('faq.')->group(function () {
-    Route::get('/faq/index', [FaqController::class, 'login'])->name('index');
+    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
 });

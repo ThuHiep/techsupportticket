@@ -215,7 +215,7 @@
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="modal" id="registrationForm">
         <h2>FORM YÊU CẦU</h2>
-        <a>Hãy đăng nhập để điền FORM</a>
+        <p style="color: red; ">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
         <form id="registerForm">
             <a href="{{ route('login.login') }}">Đăng nhập</a>
             <a href="{{ route('register') }}">Đăng ký</a>
