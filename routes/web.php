@@ -57,8 +57,7 @@ Route::name('customer.')->group(function () {
     // Phê duyệt khách hàng
     Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approve'])->name('approve');
     Route::post('/customer/{customer_id}/reject', [CustomerController::class, 'reject'])->name('reject');
-
-
+    
     // Hiển thị danh sách khách hàng chờ duyệt
     Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->name('pending');
 });
