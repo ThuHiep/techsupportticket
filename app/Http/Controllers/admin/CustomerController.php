@@ -10,19 +10,6 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
-//    public function index(Request $request)
-//    {
-//        $search = $request->input('search');
-//
-//        $customers = Customer::where('status', 'active') // Chỉ lấy khách hàng đã được phê duyệt
-//        ->when($search, function ($query, $search) {
-//            return $query->where('full_name', 'LIKE', '%' . $search . '%');
-//        })
-//            ->paginate(10); // Phân trang
-//
-//        return view('admin.customer.index', compact('customers'));
-//    }
-
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
@@ -38,21 +25,9 @@ class CustomerController extends Controller
                     });
             })
             ->where('status', 'active')  // Lọc theo status = 'active'
-            ->paginate(4);
-
-        // Truy vấn khách hàng có status là NULL (Chờ duyệt)
-        $pendingCustomers = Customer::with('user')
-            ->when($search, function ($query) use ($search) {
-                return $query->where('customer_id', 'LIKE', "%$search%")
-                    ->orWhere('full_name', 'LIKE', "%$search%")
-                    ->orWhereHas('user', function ($query) use ($search) {
-                        $query->where('email', 'LIKE', "%$search%");
-                    });
-            })
-            ->whereNull('status')  // Lọc theo status = NULL (Chờ duyệt)
             ->paginate(3);
 
-        return view('admin.dashboard.layout', compact('template', 'customers', 'pendingCustomers'));
+        return view('admin.dashboard.layout', compact('template', 'customers'));
     }
 
 
@@ -198,23 +173,36 @@ class CustomerController extends Controller
             ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
     }
 
+    // Trong Controller
+    public function approveCustomer($customerId)
+    {
+        // Tìm khách hàng theo ID
+        $customer = Customer::findOrFail($customerId);
 
-//    public function approveCustomer($customer_id)
-//    {
-//        $customer = Customer::find($customer_id);
-//
-//        if (!$customer) {
-//            return response()->json(['status' => 'error', 'message' => 'Không tìm thấy khách hàng!']);
-//        }
-//
-//        if ($customer->status === 'active') {
-//            return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt trước đó!']);
-//        }
-//
-//        // Phê duyệt khách hàng
-//        $customer->status = 'active';
-//        $customer->save();
-//
-//        return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt thành công!']);
-//    }
+        // Kiểm tra nếu khách hàng chưa được phê duyệt
+        if ($customer->status === null) {
+            // Cập nhật trạng thái của khách hàng, ví dụ là 'active'
+            $customer->status = 'active';
+            $customer->save();
+
+            return response()->json(['status' => 'success', 'message' => 'Khách hàng đã được phê duyệt.']);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'Khách hàng đã được duyệt hoặc không có trạng thái phù hợp.']);
+    }
+
+
+    public function pendingCustomers()
+    {
+        $template = 'admin.customer.pending';
+
+        // Lọc khách hàng có status là null và lấy thông tin user liên quan
+        $customers = Customer::whereNull('status')
+            ->with('user') // Eager load mối quan hệ với bảng users
+            ->paginate(4); // Lọc khách hàng có status là null
+
+        return view('admin.dashboard.layout', compact('template', 'customers'));
+    }
+
+
 }

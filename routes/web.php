@@ -11,6 +11,7 @@ use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
 use App\Http\Controllers\admin\RequestController;
+use App\Http\Controllers\admin\FAQController;
 use Illuminate\Support\Facades\Route;
 //Cấm đụng cái này
 Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
@@ -54,12 +55,17 @@ Route::name('customer.')->group(function () {
     Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
 
     // Phê duyệt khách hàng
-    //Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approveCustomer'])->name('customer.approve');
+    Route::post('/customer/{customerId}/approve', [CustomerController::class, 'approveCustomer']);
+
+
+    // Hiển thị danh sách khách hàng chờ duyệt
+    Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->name('pending');
 });
+
 
 //Employee
 Route::name('employee.')->group(function () {
-    Route::get('admin/employee/index', [EmployeeController::class, 'index'])->name('index');
+    Route::get('employee/index', [EmployeeController::class, 'index'])->name('index');
     Route::post('admin/employee', [EmployeeController::class, 'createEmployee'])->name('create');
     Route::get('/admin/employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
     Route::put('/admin/employee/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
@@ -69,7 +75,7 @@ Route::name('employee.')->group(function () {
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
 
 
-Route::post('/customer/{customerId}/approve', [UserController::class, 'approveCustomer'])->name('customer.approve');
+Route::post('/customer/{customerId}/approve', [CustomerController::class, 'approveCustomer']);
 
 
 
@@ -97,4 +103,13 @@ Route::name('request.')->group(function () {
 // Hiển thị danh sách khách hàngc
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
+});
+
+
+
+
+
+// FAQ Routes
+Route::name('faq.')->group(function () {
+    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
 });

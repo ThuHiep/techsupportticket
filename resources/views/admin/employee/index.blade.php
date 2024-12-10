@@ -1,81 +1,89 @@
-{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<link rel="stylesheet" href="{{ asset('admin/css/employee/styles.css') }}">
 <style>
     .modal.show {
         display: block !important;
         opacity: 1 !important;
     }
 </style>
-
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="card">
+<body>
+    <section class="container">
+        <!-- Default box -->
         <div class="card-header align-items-center justify-content-between">
-            <h1 class="card-title">Danh sách nhân viên</h1>
-            <div class="d-flex align-items-center justify-content-between">
-                <div class="card-tools">
-                    <button class="btn btn-outline-danger mx-2 text-left" data-bs-toggle="modal" data-bs-target="#createEmployeeModal">Thêm mới</button>
-                </div>
-            </div>
+            <h1>Danh sách nhân viên</h1>
+            <a href="{{ route('employee.create') }}" class="add-customer-btn">Thêm mới</a>
         </div>
-        <div class="card-body">
-            <table class="table table-hover">
+        <div class="search-container">
+            <form action="{{ route('employee.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Nhập tên nhân viên cần tìm" value="{{ request()->query('search') }}">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+        <div class="table-container">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+    
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="text-center">Mã tài khoản</th>
-                        <th class="text-center">Tên người dùng</th>
-                        <th class="text-center">Tên tài khoản</th>
-                        <th class="text-center">Ảnh đại diện</th>
-                        <th class="text-center">Email</th>
-                        <th class="text-center">Vai trò</th>
-                        <th class="text-center">Trạng thái</th>
-                        <th class="text-center" style="width:160px">Chức năng</th>
+                        <th>STT</th>
+                        <th>Tên người dùng</th>
+                        <th>Tên tài khoản</th>
+                        <th>Ảnh đại diện</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                        <th>Chức năng</th>        
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($employees as $employee)
-                    <tr class="text-center">
-                        <td class="align-middle">{{ $employee->user_id }}</td>
-                        <td class="align-middle">{{ $employee->full_name }}</td>
-                        <td class="align-middle">{{ $employee->username }}</td>
-                        <td class="align-middle">
-                            <img src="{{ asset('admin/img/employee/' . $employee->profile_image) }}" style="width: 70px;width: 70px;object-fit: cover;" alt="Hình ảnh khách hàng" class="employee-image">
-                        </td>
-                        <td class="align-middle">{{ $employee->email }}</td>
-                        <td class="align-middle">{{ $employee->role_name }}</td>
-                        <td class="align-middle">{{ $employee->status }}</td>
-                        <td class="align-middle">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary btn-sm mx-1" onclick="editEmployee('{{ $employee->employee_id }}')">Chỉnh sửa</button>
-
-                                <button class="btn btn-danger btn-sm mx-1" onclick="deleteConfirm('{{ $employee->user_id }}')">Xóa</button>
-
-                                <form id="delete-form-{{ $employee->user_id }}" method="POST" action="{{ route('employee.delete', $employee->user_id) }}" style="display: none;">
+                        <tr class="text-center">
+                            <td>{{ $employee->user_id }}</td>
+                            <td>{{ $employee->full_name }}</td>
+                            <td>{{ $employee->username }}</td>
+                            <td>
+                                <img src="{{ asset('admin/img/employee/' . $employee->profile_image) }}" alt="Hình ảnh khách hàng" class="employee-image">
+                            </td>
+                            <td>{{ $employee->email }}</td>
+                            <td>{{ $employee->role_name }}</td>
+                            <td>{{ $employee->status }}</td>
+                            <td>
+                                <form action="{{ route('customer.edit', $employee->employee_id) }}" style="display:inline;">
+                                    <button type="submit" class="edit-button">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
+                                <form action="{{ route('customer.delete', $employee->user_id ) }}" method="POST" style="display:inline;" id="deleteForm{{ $employee->user_id  }}">
                                     @csrf
                                     @method('DELETE')
+                                    <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $employee->user_id  }}')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
             </table>
         </div>
-        <!-- /.card-body -->
         <div class="d-flex justify-content-center">
             {{ $employees->links('pagination::bootstrap-4') }}
         </div>
-    </div>
-    <!-- /.card -->
-    @include('admin.employee.edit')
-    @include('admin.employee.create')
-
-</section>
+            
+    </section>
+</body>
+<!-- Main content -->
 <script>
     function deleteConfirm(userId) {
         Swal.fire({

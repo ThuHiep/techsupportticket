@@ -406,12 +406,6 @@ footer {
     padding: 20px;
 }
 
-.modal a{
-    text-decoration: none;
-}
-.modal a:hover{
-    color:#5b3e8c;
-}
 
 /* Overlay cho modal */
 .modal-overlay {
