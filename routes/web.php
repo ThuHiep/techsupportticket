@@ -113,5 +113,5 @@ Route::name('statistical.')->group(function () {
 
 // FAQ Routes
 Route::name('faq.')->group(function () {
-    Route::get('/faq/index', [FaqController::class, 'login'])->name('index');
+    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
 });
