@@ -406,6 +406,9 @@ footer {
     padding: 20px;
 }
 
+.modal a{
+    text-decoration: none;
+}
 
 /* Overlay cho modal */
 .modal-overlay {
