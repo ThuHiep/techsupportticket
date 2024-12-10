@@ -94,6 +94,7 @@
             margin: 5px 0; /* Thêm khoảng cách giữa các nút */
         }
     </style>
+    
 </head>
 <body>
 <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
@@ -102,17 +103,21 @@
 
 <div class="container">
     <h1>Danh sách khách hàng</h1>
-    <a href="{{ route('customer.pending') }}" class="show-users-btn">
-        Chờ duyệt
-        <span class="badge" id="userCount">0</span>
-    </a>
-    <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
-    <div class="search-container">
-        <form action="{{ route('customer.index') }}" method="GET">
-            <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
-            <button type="submit">Tìm kiếm</button>
-        </form>
+    <div class="top-bar">
+        
+        <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
+        <div class="search-container">
+            <form action="{{ route('customer.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+        <a href="{{ route('customer.pending') }}" class="show-users-btn">
+            Chờ duyệt
+            <span class="badge" id="userCount">0</span>
+        </a>
     </div>
+    
     <!-- Modal Chờ duyệt -->
     <div class="table-container">
         @if (session('success'))
@@ -224,6 +229,17 @@
     }
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButton = document.querySelector('.navbar-minimalize');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', function () {
+                document.body.classList.toggle('mini-navbar');
+            });
+        }
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
