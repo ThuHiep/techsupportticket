@@ -11,6 +11,7 @@ use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
 use App\Http\Controllers\admin\RequestController;
+use App\Http\Controllers\admin\FAQController;
 use Illuminate\Support\Facades\Route;
 //Cấm đụng cái này
 Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
@@ -112,5 +113,5 @@ Route::name('statistical.')->group(function () {
 
 // FAQ Routes
 Route::name('faq.')->group(function () {
-    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
+    Route::get('/faq/index', [FaqController::class, 'login'])->name('index');
 });
