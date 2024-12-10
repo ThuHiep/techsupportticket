@@ -94,6 +94,7 @@
             margin: 5px 0; /* Thêm khoảng cách giữa các nút */
         }
     </style>
+    
 </head>
 <body>
 <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
@@ -228,6 +229,17 @@
     }
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButton = document.querySelector('.navbar-minimalize');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', function () {
+                document.body.classList.toggle('mini-navbar');
+            });
+        }
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
