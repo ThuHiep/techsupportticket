@@ -64,7 +64,7 @@ Route::name('customer.')->group(function () {
 
 //Employee
 Route::name('employee.')->group(function () {
-    Route::get('admin/employee/index', [EmployeeController::class, 'index'])->name('index');
+    Route::get('employee/index', [EmployeeController::class, 'index'])->name('index');
     Route::post('admin/employee', [EmployeeController::class, 'createEmployee'])->name('create');
     Route::get('/admin/employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
     Route::put('/admin/employee/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
@@ -104,4 +104,13 @@ Route::name('request.')->group(function () {
 // Hiển thị danh sách khách hàngc
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
+});
+
+
+
+
+
+// FAQ Routes
+Route::name('faq.')->group(function () {
+    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
 });

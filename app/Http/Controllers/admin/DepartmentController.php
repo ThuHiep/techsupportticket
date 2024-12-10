@@ -13,13 +13,21 @@ class DepartmentController extends Controller
     {
         $template = 'admin.department.index';
         $search = $request->input('search');
+        $statusFilter = $request->input('status');
 
-        $departments = Department::when($search, function ($query) use ($search) {
-            return $query->where('department_id', 'LIKE', "%$search%")
-                ->orWhere('department_name', 'LIKE', "%$search%");
-        })->paginate(4);
+        // Lọc phòng ban theo tìm kiếm và trạng thái
+        $departments = Department::when($search, function($query) use ($search){
+            return $query->where('department_name', 'LIKE', "%$search%");
+        })
+            ->when($statusFilter, function($query) use ($statusFilter){
+                return $query->where('status', $statusFilter);
+            })
+            ->paginate(4);
 
-        return view('admin.dashboard.layout', compact('template', 'departments'));
+        // Định nghĩa các trạng thái có sẵn
+        $statuses = ['active', 'inactive'];
+
+        return view('admin.dashboard.layout', compact('template', 'departments', 'statuses'));
     }
 
     // Hiển thị form tạo phòng ban

@@ -4,7 +4,6 @@ body {
     padding: 0;
     background-color: #ffffff;
 }
-
 .container {
     width: 1200px;
     max-width: 100%;
@@ -15,19 +14,10 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
-
-
 h1 {
     padding-bottom: 20px;
     color: #FF9700;
 }
-
-.top-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
 .add-customer-btn {
     padding: 8px 15px;
     background-color: #FF9700;
@@ -82,39 +72,6 @@ h1 {
 
 .search-container button:hover {
     background-color: #f57c00;
-}
-
-.show-users-btn {
-    padding: 8px 15px;
-    background-color: #FF9700;
-    color: white;
-    border: 1px solid #FF9700;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.show-users-btn:hover {
-    background-color: #f57c00;
-}
-
-.show-users-btn .badge {
-    position: absolute;
-    top: -7px;
-    right: -12px;
-    background-color: #d32f2f;
-    color: white;
-    border-radius: 50%;
-    padding: 4px 8px;
-    font-size: 12px;
-    width: 27px;
-    height: 27px;
-    text-align: center;
-    line-height: 20px;
 }
 
 .table-container {
@@ -182,8 +139,7 @@ tr:nth-child(odd) td {
 tr:nth-child(even) td {
     background-color: #eaeaea;
 }
-
-.customer-image {
+.employee-image {
     width: 70px;
     height: 70px;
     border-radius: 10px;
@@ -220,88 +176,3 @@ tr:nth-child(even) td {
     background-color: #d32f2f;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center; /* Căn giữa các phần tử trong phân trang */
-    margin-top: 20px;
-}
-
-.pagination a {
-    padding: 10px 16px;
-    margin: 0 8px;
-    background-color: #FF9700; /* Màu nền khi không chọn */
-    color: white; /* Màu chữ trắng */
-    text-decoration: none;
-    border-radius: 50%; /* Đảm bảo hình tròn */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 1px solid #DDDDDD; /* Thêm đường viền */
-}
-.pagination span {
-    padding: 10px 16px;
-    margin: 0 8px;
-    background-color: #FF9700; /* Màu nền khi không chọn */
-    color: white; /* Màu chữ trắng */
-    text-decoration: none;
-    border-radius: 50%; /* Đảm bảo hình tròn */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 1px solid #DDDDDD; /* Thêm đường viền */
-}
-
-.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
-    z-index: 2;
-    color: #ffffff;
-    background-color: #ee5711;
-    border-color: #ddd;
-}
-
-.pagination a.active,
-.pagination span.active {
-    background-color: #FF9700; /* Màu nền khi chọn */
-    border-color: #DDDDDD;
-    color: white;
-    cursor: default;
-}
-.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
-    color: #ffffff;
-    cursor: not-allowed;
-    background-color: #FF9700;
-    border-color: #ddd;
-}
-.pagination > .active > a,
-.pagination > .active > span,
-.pagination > .active > a:hover,
-.pagination > .active > span:hover,
-.pagination > .active > a:focus,
-.pagination > .active > span:focus {
-    background-color: #FF9700; /* Màu nền khi chọn */
-    color: white; /* Màu chữ trắng */
-    cursor: default;
-    z-index: 2;
-}
-
-/* Sửa phần này để thêm đường viền đỏ khi active */
-.pagination > .active > span {
-    border: none;
-    background-color: #ee5711;
-}
-
-
-.hidden {
-    display: none;
-}
-
-#usersModal {
-    display: block; /* Thêm cho modal khi hiển thị */
-}

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/techsupportticket/public/guest/css/register_user.css?v=1">
+    <link rel="stylesheet" href="/techsupportticket/public/guest/css/form/register_user.css?v=1">
     <title>Register</title>
 
 </head>
@@ -105,7 +105,7 @@
         </div>
         <!--Tro ve dang nhap-->
         <div class="login-link">
-            <span>Đã có tài khoản? <a href="login.blade.php" class="login-box">Đăng nhập ngay</a></span>
+            <span>Đã có tài khoản? <a href="{{ route('login.login') }}" class="login-box">Đăng nhập ngay</a></span>
         </div>
 
     </div>
