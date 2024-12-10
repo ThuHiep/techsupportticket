@@ -8,93 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
-    <style>
-        /* Modal cơ bản */
-        .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50%;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        /* Hiển thị modal */
-        .modal.show {
-            display: block;
-            opacity: 1;
-        }
-
-        /* Nền mờ phía sau modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-
-        /* Hiển thị nền mờ */
-        .modal-overlay.show {
-            display: block;
-        }
-
-        .show-users-btn {
-            float: right; /* Đưa nút sang phía bên phải */
-            margin: 10px 0; /* Thêm khoảng cách ở trên và dưới */
-            color: white; /* Màu chữ */
-            border: none; /* Bỏ viền */
-            border-radius: 5px; /* Bo góc */
-            cursor: pointer; /* Con trỏ chuột khi hover */
-            font-size: 16px; /* Kích thước chữ */
-        }
-        /* Giảm kích thước modal */
-        .modal {
-            width: 30%; /* Giảm chiều rộng xuống 30% */
-            max-width: 660px; /* Giới hạn chiều rộng tối đa */
-            height: auto; /* Tự động điều chỉnh chiều cao */
-            padding: 20px; /* Thêm khoảng cách bên trong */
-            border-radius: 10px; /* Bo góc cho hộp */
-        }
-
-        /* Giảm kích thước nội dung bên trong */
-        .modal-content {
-            font-size: 14px; /* Thu nhỏ kích thước chữ */
-            line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
-        }
-
-        /* Thu nhỏ bảng trong modal */
-        .user-table {
-            width: 100%; /* Bảng chiếm toàn bộ chiều ngang của modal */
-            font-size: 13px; /* Kích thước chữ nhỏ hơn */
-            border-collapse: collapse; /* Loại bỏ khoảng cách giữa các đường kẻ */
-        }
-
-        .user-table th, .user-table td {
-            padding: 5px 10px; /* Thu nhỏ khoảng cách trong ô */
-            text-align: left; /* Canh trái nội dung */
-        }
-
-        .user-table th {
-            background-color: #f4f4f4; /* Màu nền cho tiêu đề bảng */
-        }
-
-        /* Chỉnh nút trong modal */
-        .modal button {
-            font-size: 13px; /* Thu nhỏ chữ của nút */
-            padding: 5px 10px; /* Thu nhỏ kích thước nút */
-            margin: 5px 0; /* Thêm khoảng cách giữa các nút */
-        }
-    </style>
-    
 </head>
 <body>
 <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
@@ -104,7 +17,7 @@
 <div class="container">
     <h1>Danh sách khách hàng</h1>
     <div class="top-bar">
-        
+
         <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('customer.index') }}" method="GET">
@@ -117,7 +30,7 @@
             <span class="badge" id="userCount">0</span>
         </a>
     </div>
-    
+
     <!-- Modal Chờ duyệt -->
     <div class="table-container">
         @if (session('success'))
