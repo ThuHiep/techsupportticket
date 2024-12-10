@@ -10,13 +10,15 @@ body {
 /* Container chính */
 .container {
     width: 1200px;
-    max-width: 100%;
-    margin: 20px auto; /* Căn giữa container */
-    padding: 20px;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     position: relative;
+
+    
 }
 
 /* Tiêu đề */
