@@ -62,8 +62,8 @@
                     <span class="nav-label">Thống kê</span>
                 </a>
             </li>
-            <li class="{{ Request::is('news*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fa-solid fa-newspaper"></i>
+            <li class="{{ Request::is('faq*') ? 'active' : '' }}">
+                <a href="{{ route('faq.index') }}"><i class="fa-solid fa-newspaper"></i>
                     <span class="nav-label">Tin tức</span>
                 </a>
             </li>

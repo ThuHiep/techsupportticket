@@ -100,3 +100,12 @@ Route::name('request.')->group(function () {
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
+
+
+
+
+
+// FAQ Routes
+Route::name('faq.')->group(function () {
+    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
+});
