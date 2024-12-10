@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
+    <style>
+        /* Khi sidebar ở trạng thái bình thường */
+        body .container {
+            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
@@ -143,14 +156,15 @@
 
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-            });
-        }
-    });
+     document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.querySelector('.navbar-minimalize');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle('mini-navbar');
+            console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
+        });
+    }
+});
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

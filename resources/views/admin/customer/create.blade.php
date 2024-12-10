@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm khách hàng mới</title>
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
+    
 </head>
 <body>
-<div class="container mt-4">
+<div class="container">
     <h1 style="text-align: left">Thêm khách hàng mới</h1>
     <form action="{{ route('customer.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -124,14 +125,15 @@
     }
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-            });
-        }
-    });
+     document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.querySelector('.navbar-minimalize');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle('mini-navbar');
+            console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
+        });
+    }
+});
 </script>
 </body>
 

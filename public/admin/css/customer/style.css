@@ -7,7 +7,6 @@ body {
 
 .container {
     width: 1200px;
-    max-width: 100%;
     margin-top: 22px;
     margin-left: 12px;
     padding: 0 20px;
@@ -145,7 +144,7 @@ th:nth-child(2), td:nth-child(2) {
     width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
 }
 th:nth-child(3), td:nth-child(3) {
-    width: 100; /* Đặt chiều rộng cụ thể cho cột Email */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
