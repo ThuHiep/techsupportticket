@@ -8,6 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/department/create.css') }}">
     <!-- Có thể dùng luôn file CSS của create nếu style tương tự -->
+    <style>
+        /* Khi sidebar ở trạng thái bình thường */
+        body .container {
+            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -55,7 +68,16 @@
         </div>
     </form>
 </div>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButton = document.querySelector('.navbar-minimalize');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', function () {
+                document.body.classList.toggle('mini-navbar');
+            });
+        }
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

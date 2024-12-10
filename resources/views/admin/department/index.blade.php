@@ -8,7 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
     <link rel="stylesheet" href="{{ asset('admin/css/department/index.css') }}">
-    
+    <style>
+        /* Khi sidebar ở trạng thái bình thường */
+        body .container {
+            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -102,6 +114,19 @@
         });
     });
     @endif
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.querySelector('.navbar-minimalize');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle('mini-navbar');
+            console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
+        });
+    }
+});
+
 </script>
 </body>
 </html>
