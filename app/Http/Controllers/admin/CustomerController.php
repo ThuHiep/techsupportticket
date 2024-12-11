@@ -37,8 +37,6 @@ class CustomerController extends Controller
     }
 
 
-
-
     // Hiển thị form tạo khách hàng mới
     public function create()
     {
@@ -152,14 +150,19 @@ class CustomerController extends Controller
         $user->email = $email;
         $user->role_id = 3; // Gán role_id là 3 vì đây là tạo cho khách hàng nên role_id = 3 mặc định
         $user->save();
-
+        // Xử lý upload ảnh
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $profileImageName = 'profile_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('admin/img/customer'), $profileImageName); // Lưu vào thư mục
+        }
         // Tạo khách hàng mới
         $customer = new Customer();
         $customer->customer_id = $randomId;
         $customer->user_id = $randuserID; // Liên kết với user_id vừa tạo
         $customer->full_name = $request->input('full_name');
         $customer->date_of_birth = $request->input('date_of_birth');
-        $customer->profile_image = 'profile_' . Str::random(10) . '.jpg';
+        $customer->profile_image = $profileImageName;
         $customer->gender = $request->input('gender');
         $customer->phone = $request->input('phone');
         $customer->address = $request->input('address');
