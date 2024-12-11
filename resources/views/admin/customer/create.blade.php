@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm khách hàng mới</title>
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Khi sidebar ở trạng thái bình thường */
         body .container {
@@ -20,6 +21,11 @@
         .required {
             color: red; /* Màu đỏ cho dấu sao */
             font-size: 14px; /* Kích thước của dấu sao */
+        }
+        .btn-secondary.btn-sm {
+            padding: 5px 10px; /* Giảm kích thước padding */
+            font-size: 12px; /* Kích thước font nhỏ hơn */
+            margin-left: 10px; /* Khoảng cách bên trái */
         }
     </style>
 
@@ -105,7 +111,10 @@
 
                 <div class="form-group col-md-6">
                     <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
-                    <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                    <input type="text" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                    <button type="button" class="btn btn-secondary btn-sm" id="reset-password">
+                        <i class="fas fa-sync-alt"></i> <!-- Biểu tượng đồng bộ -->
+                    </button>
                 </div>
                 <div class="container-img">
                     <div class="form-group">
@@ -130,7 +139,6 @@
         </div>
     </form>
 </div>
-
 <script>
     function previewImage(event) {
         var reader = new FileReader();
@@ -141,8 +149,7 @@
         };
         reader.readAsDataURL(event.target.files[0]); /* Đọc file ảnh */
     }
-</script>
-<script>
+    //
     document.addEventListener('DOMContentLoaded', function () {
         const toggleButton = document.querySelector('.navbar-minimalize');
         if (toggleButton) {
@@ -152,8 +159,7 @@
             });
         }
     });
-</script>
-<script>
+
     // Cảnh báo ngưười dùng
     document.getElementById('tax_id').addEventListener('input', function (event) {
         this.value = this.value.replace(/[^0-9]/g, ''); // Loại bỏ ký tự không phải số
@@ -170,7 +176,12 @@
             alert('Số điện thoại chỉ được phép tối đa 10 chữ số!');
         }
     });
+    // Reset mật khẩu
+    document.getElementById('reset-password').addEventListener('click', function () {
+        // Tạo mật khẩu mới ngẫu nhiên
+        const newPassword = Math.random().toString(36).slice(-8); // Tạo mật khẩu mới 8 ký tự
+        document.getElementById('password').value = newPassword; // Cập nhật trường mật khẩu
+    });
 </script>
 </body>
-
 </html>
