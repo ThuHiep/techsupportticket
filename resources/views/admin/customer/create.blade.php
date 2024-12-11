@@ -24,6 +24,9 @@
             font-size: 12px;
             margin-left: 10px;
         }
+        .is-invalid {
+            border-color: red; /* Đổi màu biên ô nhập thành đỏ */
+        }
     </style>
 </head>
 <body>
@@ -41,10 +44,12 @@
                     <div class="form-group col-md-4">
                         <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
                         <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số">
+                        <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
-                        <input type="text" id="full_name" name="full_name" class="form-control" required >
+                        <input type="text" id="full_name" name="full_name" class="form-control" required>
+                        <small id="name-error" class="text-danger" style="display: none;">Vui lòng nhập tên khách hàng!</small>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -62,36 +67,41 @@
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                         <input type="text" id="phone" name="phone" class="form-control" required pattern="\d{10}" title="Số điện thoại phải gồm 10 chữ số">
+                        <small id="phone-error" class="text-danger" style="display: none;">Vui lòng nhập đúng số điện thoại!</small>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
                         <input type="email" id="email" name="email" class="form-control" required>
+                        <small id="email-error" class="text-danger" style="display: none;">Email chưa đúng định dạng!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Software<span class="required">*</span></label>
-                        <input type="text" id="software" name="software" class="form-control" required pattern="^[A-Za-z].*" title="Software phải bắt đầu bằng chữ">
+                        <input type="text" id="software" name="software" class="form-control" required>
+                        <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập software!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="company" class="form-label">Công ty<span class="required">*</span></label>
-                        <input type="text" id="company" name="company" class="form-control" required pattern="^[A-Za-z].*" title="Công ty phải bắt đầu bằng chữ">
+                        <input type="text" id="company" name="company" class="form-control" required>
+                        <small id="company-error" class="text-danger" style="display: none;">Vui lòng nhập công ty!</small>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
-                        <input type="text" id="address" name="address" class="form-control" required pattern=".*[0-9].*" title="Địa chỉ phải có ít nhất một số">
+                        <input type="text" id="address" name="address" class="form-control" required>
+                        <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-md-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
-                        <input type="url" id="website" name="website" class="form-control" required pattern="^[A-Za-z].*" title="Website phải bắt đầu bằng chữ">
+                        <input type="url" id="website" name="website" class="form-control" required>
+                        <small id="website-error" class="text-danger" style="display: none;">Vui lòng nhập website!</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 grouped-fields">
             <!-- Cột bên phải cho hình ảnh đại diện -->
-            <div class="col-md-3 grouped-fields ">
                 <div class="form-group row row1">
                     <div class="col-md-6 col-username">
                         <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
@@ -127,35 +137,6 @@
         </div>
     </form>
 </div>
-<script>
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var output = document.getElementById('preview-img');
-            output.src = reader.result;
-            output.style.display = 'block';
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-
-    document.getElementById('tax_id').addEventListener('input', function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
-    document.getElementById('full_name').addEventListener('input', function () {
-        this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Chỉ cho phép chữ cái và khoảng trắng
-    });
-    document.getElementById('company').addEventListener('input', function () {
-        this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Chỉ cho phép chữ cái và khoảng trắng
-    });
-
-    document.getElementById('phone').addEventListener('input', function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
-
-    document.getElementById('reset-password').addEventListener('click', function () {
-        const newPassword = Math.random().toString(36).slice(-8);
-        document.getElementById('password').value = newPassword;
-    });
-</script>
+<script src="{{asset('admin/js/customer/script.js')}}"></script>
 </body>
 </html>
