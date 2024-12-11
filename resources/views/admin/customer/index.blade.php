@@ -70,11 +70,7 @@
                         <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
                         <td>{{ $customer->full_name }}</td>
                         <td>
-<<<<<<< HEAD
                             <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="customer-image">
-=======
-                            <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('https://via.placeholder.com/50') }}" alt="Hình ảnh khách hàng" class="customer-image">
->>>>>>> 993bc364fa6bf30575f021296bd11b6c34e48d3a
                         </td>
                         <td>{{ $customer->date_of_birth }}</td>
                         <td>{{ $customer->user->email ?? 'N/A' }}</td>
