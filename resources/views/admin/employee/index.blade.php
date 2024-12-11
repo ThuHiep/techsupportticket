@@ -77,16 +77,19 @@
                         <td>{{ $employee->full_name }}</td>
                         <td>{{ $employee->username }}</td>
                         <td>
-                            <img src="{{ asset('admin/img/employee/' . $employee->profile_image) }}" alt="Hình ảnh khách hàng" class="employee-image">
+                            <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
                         </td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->role_name }}</td>
+    
                         <td>
-                            <select class="form-select" id="status" name="status" required>
-                                <option value="active" {{ $employee->status   == 'active' ? 'selected' : '' }}>Đang kích hoạt</option>
-                                <option value="inactive" {{ $employee->status  == 'inactive' ? 'selected' : '' }}>Ngừng kích hoạt</option>
-                            </select>
+                            @if($employee->status  == 'active')
+                                <span class="status-dot active"></span> Đang kích hoạt
+                            @else
+                                <span class="status-dot inactive"></span> Ngừng kích hoạt
+                            @endif
                         </td>
+
                         <td>
                             <form action="{{ route('employee.edit', $employee->employee_id) }}" style="display:inline;">
                                 <button type="submit" class="edit-button">
