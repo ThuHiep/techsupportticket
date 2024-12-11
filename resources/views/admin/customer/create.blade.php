@@ -5,88 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm khách hàng mới</title>
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
-    <!--<style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fc;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        h1 {
-            color: #FF9700;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 300px;
-            max-width: 48%;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #FF9700;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .btn-secondary {
-            padding: 10px 20px;
-            background-color: #ccc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 20px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #aaa;
-        }
-
-    </style> --> <!--ẨN STYLE GỐC-->
     <style>
         /* Khi sidebar ở trạng thái bình thường */
         body .container {
@@ -189,17 +107,6 @@
                     <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
                     <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
                 </div>
-               <div class="form-group row ">
-                   <div class="col-md-6">
-                       <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
-                       <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
-                   </div>
-
-                   <div class="col-md-6">
-                       <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
-                       <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
-                   </div>
-               </div>
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
