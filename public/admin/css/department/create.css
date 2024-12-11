@@ -1,12 +1,13 @@
+
 body {
     font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f7fc;
+    background-color: #ffffff;
 }
 
 .container {
-    width: 600px;
+    width: 1200px;
     max-width: 100%;
     margin: 30px auto;
     padding: 20px 30px;
@@ -28,12 +29,20 @@ h1 {
     background-color: #dff0d8;
 }
 
-.form-group {
+.form-group-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    gap: 10px;
+}
+
+.form-group-row .form-group {
+    flex: 1;
 }
 
 .form-group label {
-    display: inline-block;
+    display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
@@ -63,9 +72,9 @@ h1 {
 
 .button-group {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+    justify-content: center; /* Căn giữa nút */
+    gap: 20px; /* Khoảng cách giữa các nút */
+    margin-top: 30px; /* Tăng khoảng cách so với nội dung trên */
 }
 
 .add-department-btn,
@@ -99,8 +108,9 @@ h1 {
 .cancel-btn:hover {
     background-color: #bbb;
 }
+
 input[readonly] {
-    background-color: #eaeaea;
+    background-color: #DEBFF3;
     color: #555;
     border: 1px solid #ccc;
 }

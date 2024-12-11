@@ -15,7 +15,7 @@
 }
 
 body{
-    background-image: url("/techsupportticket/public/guest/img/bg-login.png");
+    background-image: url("guest/img/bg-login.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

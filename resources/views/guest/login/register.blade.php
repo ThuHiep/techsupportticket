@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/techsupportticket/public/guest/css/form/register_user.css?v=1">
+    <link rel="stylesheet" href="guest/css/form/register_user.css?v=1">
     <title>Register</title>
 
 </head>

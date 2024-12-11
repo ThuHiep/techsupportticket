@@ -54,8 +54,8 @@
         <div class="form-group">
             <label for="status">Trạng thái:</label>
             <select name="status" id="status">
-                <option value="active" {{ old('status', $department->status) == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ old('status', $department->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                <option value="active" {{ old('status', $department->status) == 'active' ? 'selected' : '' }}>Hoạt động</option>
+                <option value="inactive" {{ old('status', $department->status) == 'inactive' ? 'selected' : '' }}>Không hoạt động</option>
             </select>
             @error('status')
             <div class="error">{{ $message }}</div>
