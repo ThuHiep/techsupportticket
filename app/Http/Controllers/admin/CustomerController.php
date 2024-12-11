@@ -21,18 +21,21 @@ class CustomerController extends Controller
 
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::with('user')
+            ->where('status', 'active') // Lọc theo status = 'active'
             ->when($search, function ($query) use ($search) {
-                return $query->where('customer_id', 'LIKE', "%$search%")
-                    ->orWhere('full_name', 'LIKE', "%$search%")
-                    ->orWhereHas('user', function ($query) use ($search) {
-                        $query->where('email', 'LIKE', "%$search%");
-                    });
+                return $query->where(function ($query) use ($search) {
+                    $query->where('customer_id', 'LIKE', "%$search%")
+                        ->orWhere('full_name', 'LIKE', "%$search%")
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('email', 'LIKE', "%$search%");
+                        });
+                });
             })
-            ->where('status', 'active')  // Lọc theo status = 'active'
             ->paginate(3);
 
         return view('admin.dashboard.layout', compact('template', 'customers'));
     }
+
 
 
 
