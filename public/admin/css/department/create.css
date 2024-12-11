@@ -75,40 +75,54 @@ h1 {
     justify-content: center; /* Căn giữa nút */
     gap: 20px; /* Khoảng cách giữa các nút */
     margin-top: 30px; /* Tăng khoảng cách so với nội dung trên */
-}
 
+}
 .add-department-btn,
 .cancel-btn {
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 12px 24px;
+    border-radius: 8px;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
     font-weight: bold;
     border: none;
     display: inline-block;
+    font-size: 15px;
 }
 
 .add-department-btn {
-    background-color: #FF9700;
     color: #fff;
     border: 1px solid #FF9700;
+    background-color: #FF9700; /* Màu cam lá */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 150px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
 }
 
 .add-department-btn:hover {
-    background-color: #f57c00;
+    background-color: #ee5711; /* Màu cam đậm hơn */
+    transform: scale(1.05); /* Phóng to nhẹ */
 }
-
+.add-department-btn:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
+}
 .cancel-btn {
-    background-color: #ccc;
-    color: #333;
-    border: 1px solid #ccc;
+    background-color: #a7b1c2; /* Màu nền xám */
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 150px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
+    margin-left: 40px;
 }
 
 .cancel-btn:hover {
-    background-color: #bbb;
+    background-color: rgba(167, 177, 194, 0.82);
+    color: #FFFFFF;
+    transform: scale(1.05); /* Phóng to nhẹ */
 }
-
+.cancel-btn:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
+}
 input[readonly] {
     background-color: #DEBFF3;
     color: #555;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách Phòng ban</title>
+    <title>Danh sách phòng ban</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
@@ -25,7 +25,7 @@
 <body>
     <div class="wrapper wrapper-content">
         <div class="container">
-            <h1>Danh sách Phòng ban</h1>
+            <h1>Danh sách phòng ban</h1>
             <div class="top-bar">
                 <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
                 <div class="search-container">
