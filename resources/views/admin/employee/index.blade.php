@@ -4,16 +4,19 @@
 <style>
     /* Khi sidebar ở trạng thái bình thường */
     body .container {
-        width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+        width: calc(98%);
+        /* Độ rộng sau khi trừ sidebar */
         transition: all 0.3s ease-in-out;
     }
 
     /* Khi sidebar thu nhỏ */
     body.mini-navbar .container {
-        width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+        width: calc(98%);
+        /* Mở rộng nội dung khi sidebar thu nhỏ */
         transition: all 0.3s ease-in-out;
     }
 </style>
+
 <body>
     <section class="container">
         <!-- Default box -->
@@ -43,18 +46,23 @@
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
-    
-    
+
+
         <div class="table-container">
             @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
             @endif
-    
+
             @if (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
+            </div>
+            @endif
+            @if (session('search'))
+            <div class="alert alert-danger">
+                {{ session('search') }}
             </div>
             @endif
             <table class="table table-striped">
@@ -73,20 +81,20 @@
                 <tbody>
                     @foreach($employees as $employee)
                     <tr class="text-center">
-                        <td>{{ $employee->user_id }}</td>
+                        <td>{{ $employee->employee_id }}</td>
                         <td>{{ $employee->full_name }}</td>
                         <td>{{ $employee->username }}</td>
                         <td>
                             <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
                         </td>
                         <td>{{ $employee->email }}</td>
-                        <td>{{ $employee->role_name }}</td>
-    
+                        <td>{{ $employee->description }}</td>
+
                         <td>
-                            @if($employee->status  == 'active')
-                                <span class="status-dot active"></span> Đang kích hoạt
+                            @if($employee->status == 'active')
+                            <span class="status-dot active"></span> Đang kích hoạt
                             @else
-                                <span class="status-dot inactive"></span> Ngừng kích hoạt
+                            <span class="status-dot inactive"></span> Ngừng kích hoạt
                             @endif
                         </td>
 
@@ -112,7 +120,7 @@
         <div class="d-flex justify-content-center">
             {{ $employees->links('pagination::bootstrap-4') }}
         </div>
-    
+
     </section>
 </body>
 

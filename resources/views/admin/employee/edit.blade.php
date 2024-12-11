@@ -4,23 +4,26 @@
 <style>
     /* Khi sidebar ở trạng thái bình thường */
     body .container {
-        width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+        width: calc(98%);
+        /* Độ rộng sau khi trừ sidebar */
         transition: all 0.3s ease-in-out;
     }
 
     /* Khi sidebar thu nhỏ */
     body.mini-navbar .container {
-        width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+        width: calc(98%);
+        /* Mở rộng nội dung khi sidebar thu nhỏ */
         transition: all 0.3s ease-in-out;
     }
 </style>
+
 <body>
     <div class="container">
         <h1 style="text-align: left">Chỉnh sửa thông tin nhân viên</h1>
         <form action="{{ route('employee.update', $employee->employee_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-    
+
             <!-- Cột bên trái (3/4) và cột bên phải (1/4) -->
             <div class="row mb-3">
                 <!-- Cột bên trái -->
@@ -43,7 +46,7 @@
                                 value="{{ $employee->email }}" required>
                         </div>
                     </div>
-    
+
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
                             <label for="date_of_birth" class="form-label">Ngày sinh</label>
@@ -64,6 +67,18 @@
                                 <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-4">
+                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                value="{{ $employee->phone }}" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" id="address" name="address" class="form-control"
+                                value="{{ $employee->address }}" required>
+                        </div>
                         <div class="form-group col-md-4">
                             <label for="status" class="form-label">Trạng thái</label>
                             <select class="form-control" id="status" name="status" required>
@@ -71,19 +86,9 @@
                                 <option value="inactive" {{ $employee->user->status  == 'inactive' ? 'selected' : '' }}>Ngừng kích hoạt</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="text" id="phone" name="phone" class="form-control"
-                                value="{{ $employee->phone }}" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="address" class="form-label">Địa chỉ</label>
-                            <input type="text" id="address" name="address" class="form-control"
-                                value="{{ $employee->address }}" required>
-                        </div>
                     </div>
                 </div>
-    
+
                 <!-- Cột bên phải cho hình ảnh đại diện -->
                 <div class="col-md-3">
                     <div class="container-img">
