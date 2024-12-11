@@ -108,7 +108,7 @@ table {
 } */
 th, td {
     padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
-    text-align: left; /* Căn trái thay vì căn giữa */
+    text-align: center; /* Căn trái thay vì căn giữa */
     vertical-align: middle;
     font-size: 14px; /* Điều chỉnh kích thước chữ */
     border: 1px solid #ddd;
@@ -159,17 +159,17 @@ tr:nth-child(even) td {
 
 .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Căn giữa các phần tử trong phân trang */
     margin-top: 20px;
 }
 
 .pagination a {
     padding: 10px 16px;
     margin: 0 8px;
-    background-color: #FF9700;
-    color: white;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
     text-decoration: none;
-    border-radius: 50%;
+    border-radius: 50%; /* Đảm bảo hình tròn */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,15 +177,15 @@ tr:nth-child(even) td {
     width: 40px;
     height: 40px;
     text-align: center;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
 }
 .pagination span {
     padding: 10px 16px;
     margin: 0 8px;
-    background-color: #FF9700;
-    color: white;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
     text-decoration: none;
-    border-radius: 50%;
+    border-radius: 50%; /* Đảm bảo hình tròn */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -193,7 +193,7 @@ tr:nth-child(even) td {
     width: 40px;
     height: 40px;
     text-align: center;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
 }
 
 .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
@@ -205,7 +205,7 @@ tr:nth-child(even) td {
 
 .pagination a.active,
 .pagination span.active {
-    background-color: #FF9700;
+    background-color: #FF9700; /* Màu nền khi chọn */
     border-color: #DDDDDD;
     color: white;
     cursor: default;
@@ -222,15 +222,16 @@ tr:nth-child(even) td {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-    background-color: #FF9700;
-    color: white;
+    background-color: #FF9700; /* Màu nền khi chọn */
+    color: white; /* Màu chữ trắng */
     cursor: default;
     z-index: 2;
 }
 
 /* Sửa phần này để thêm đường viền đỏ khi active */
 .pagination > .active > span {
-    border: 2px solid darkred;
+    border: none;
+    background-color: #ee5711;
 }
 
 .hidden {

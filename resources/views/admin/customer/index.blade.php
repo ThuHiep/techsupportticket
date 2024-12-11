@@ -23,9 +23,24 @@
     </style>
 </head>
 <body>
-    <div class="wrapper wrapper-content">
-        <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
-            <span id="notification-message"></span>
+    <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+        <span id="notification-message"></span>
+    </div>
+    <div class="container">
+        <h1>Danh sách khách hàng</h1>
+        <div class="top-bar">
+
+            <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
+            <div class="search-container">
+                <form action="{{ route('customer.index') }}" method="GET">
+                    <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+            <a href="{{ route('customer.pending') }}" class="show-users-btn">
+                Chờ duyệt
+                <span class="badge" id="userCount">0</span>
+            </a>
         </div>
         <div class="container">
             <h1>Danh sách khách hàng</h1>
@@ -59,15 +74,67 @@
                 @endif
                 <table class="table table-striped">
                     <thead>
+
+        <!-- Modal Chờ duyệt -->
+        <div class="table-container">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ tên</th>
+                    <th>Hình ảnh</th>
+                    <th>Ngày sinh</th>
+                    <th>Email</th>
+                    <th>Giới tính</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($customers as $index => $customer)
                     <tr>
-                        <th>STT</th>
-                        <th>Họ tên</th>
-                        <th>Hình ảnh</th>
-                        <th>Ngày sinh</th>
-                        <th>Email</th>
-                        <th>Giới tính</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
+                        <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
+                        <td>{{ $customer->full_name }}</td>
+                        <td>
+                            <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('https://via.placeholder.com/50') }}"
+                                 alt="Hình ảnh khách hàng"
+                                 class="customer-image">
+                        </td>
+
+                        <td>{{ $customer->date_of_birth }}</td>
+                        <td>{{ $customer->user->email ?? 'N/A' }}</td>
+                        <td>{{ $customer->gender }}</td>
+                        <td>
+                            @if ($customer->status === 'active')
+                                <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
+                                <span style="vertical-align: middle;">Hoạt động</span>
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
+                                <button type="submit" class="edit-button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form>
+                            <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     </thead>
                     <tbody>
@@ -119,8 +186,15 @@
             <div class="pagination">
                 {{ $customers->links('pagination::bootstrap-4') }}
             </div>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            {{ $customers->links('pagination::bootstrap-4') }}
         </div>
     </div>
+
 
 
 

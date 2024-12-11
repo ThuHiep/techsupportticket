@@ -30,8 +30,12 @@ h1 {
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 20px;
+.form-group-row {
+    display: flex; /* Kích hoạt Flexbox */
+    justify-content: space-between; /* Căn đều các trường */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 20px; /* Khoảng cách giữa các trường */
+    margin-bottom: 20px; /* Khoảng cách bên dưới */
 }
 
 .form-group label {

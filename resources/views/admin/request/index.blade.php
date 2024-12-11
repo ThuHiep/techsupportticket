@@ -65,14 +65,14 @@
                     <td>
                         <form action="{{ route('request.edit', $req->request_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">
-                                <i class="fas fa-edit"></i> Sửa
+                                <i class="fas fa-edit"></i>
                             </button>
                         </form>
                         <form action="{{ route('request.delete', $req->request_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $req->request_id }}">
                             @csrf
                             @method('DELETE')
                             <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $req->request_id }}')">
-                                <i class="fas fa-trash-alt"></i> Xóa
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>
                     </td>

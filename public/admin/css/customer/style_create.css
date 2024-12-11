@@ -253,9 +253,10 @@ input.error, select.error {
 }
 
 .image-preview img {
-    width: 100%; /* Ảnh sẽ chiếm toàn bộ chiều rộng container cha */
-    max-width: 250px; /* Giới hạn kích thước tối đa */
-    height: auto; /* Tự động điều chỉnh chiều cao */
+    width: 251px;
+    max-width: 251px;
+    height: 200px;
+    max-height: 200px;
     border-radius: 8px;
     object-fit: cover;
     display: block;
