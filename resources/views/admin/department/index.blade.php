@@ -23,69 +23,66 @@
     </style>
 </head>
 <body>
-  
-        <div class="container">
-            <h1>Danh sách phòng ban</h1>
-            <div class="top-bar">
-                <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
-                <div class="search-container">
-                    <form action="{{ route('department.index') }}" method="GET">
-                        <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
-                        <button type="submit">Tìm kiếm</button>
-                    </form>
-                </div>
+    <div class="container">
+        <h1>Danh sách phòng ban</h1>
+        <div class="top-bar">
+            <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
+            <div class="search-container">
+                <form action="{{ route('department.index') }}" method="GET">
+                    <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
+                    <button type="submit">Tìm kiếm</button>
+                </form>
             </div>
-            <div class="table-container">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã phòng ban</th>
-                        <th>Tên phòng ban</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($departments as $index => $department)
-                        <tr>
-                            <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
-                            <td>{{ $department->department_id }}</td>
-                            <td>{{ $department->department_name }}</td>
-                            <td>
-                                @if($department->status == 'active')
-                                    <span class="status-dot active"></span> Hoạt động
-                                @else
-                                    <span class="status-dot inactive"></span> Không hoạt động
-                                @endif
-                            </td>
-                            <td>
-                                <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
-                                    <button type="submit" class="edit-button">
-                                        <i class="fas fa-edit"></i> 
-                                    </button>
-                                </form>
-                                <form action="{{ route('department.delete', $department->department_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $department->department_id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $department->department_id }}')">
-                                        <i class="fas fa-trash-alt"></i> 
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination">
-                {{ $departments->links('pagination::bootstrap-4') }}
-            </div>
-        
         </div>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã phòng ban</th>
+                    <th>Tên phòng ban</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($departments as $index => $department)
+                    <tr>
+                        <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
+                        <td>{{ $department->department_id }}</td>
+                        <td>{{ $department->department_name }}</td>
+                        <td>
+                            @if($department->status == 'active')
+                                <span class="status-dot active"></span> Hoạt động
+                            @else
+                                <span class="status-dot inactive"></span> Không hoạt động
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
+                                <button type="submit" class="edit-button">
+                                    <i class="fas fa-edit"></i> 
+                                </button>
+                            </form>
+                            <form action="{{ route('department.delete', $department->department_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $department->department_id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $department->department_id }}')">
+                                    <i class="fas fa-trash-alt"></i> 
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            {{ $departments->links('pagination::bootstrap-4') }}
+        </div>
+    
+    </div>
    
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function showDeleteModal(event, formId) {
