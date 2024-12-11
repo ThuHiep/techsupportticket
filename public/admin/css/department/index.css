@@ -67,6 +67,7 @@ h1 {
     border-radius: 5px;
     outline: none;
     box-sizing: border-box;
+    margin-left: -105px;
 }
 
 .search-container input[type="text"]:focus {
@@ -76,7 +77,7 @@ h1 {
 .search-container button {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 53px;
     height: 100%;
     width: 90px;
     background-color: #FF9700;
@@ -118,7 +119,7 @@ th, td {
     border: 1px solid #ddd;
 }
 
-tr td:nth-child(4) { 
+tr td:nth-child(4) {
     text-align: center; /* Riêng trạng thái căn giữa */
 }
 
