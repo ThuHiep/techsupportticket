@@ -91,7 +91,15 @@
                         <input type="text" id="company" name="company" class="form-control"
                                value="{{ $customers->company }}">
                     </div>
-
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control"
+                               value="{{ $customers->user->email }}">
+                    </div>
+                </div>
+                <!-- Địa chỉ + Website -->
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
                 </div>
                 <!-- Địa chỉ + Website -->
                 <div class="row mb-3 address-website-container ">
@@ -100,6 +108,7 @@
                         <input type="text" id="address" name="address" class="form-control"
                                value="{{ $customers->address }}" required>
                     </div>
+                    <div class="form-group col-md-6">
                     <div class="form-group col-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control"

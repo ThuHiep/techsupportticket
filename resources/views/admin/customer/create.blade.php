@@ -180,6 +180,15 @@
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
             <div class="col-md-3 grouped-fields">
+                <div class="form-group col-md-6">
+                    <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
+                    <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
+                    <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                </div>
                <div class="form-group row ">
                    <div class="col-md-6">
                        <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
@@ -191,7 +200,6 @@
                        <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
                    </div>
                </div>
-
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
