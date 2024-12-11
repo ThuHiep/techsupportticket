@@ -31,16 +31,24 @@ class EmployeeController extends Controller
                         });
                 });
             })
-            ->select('employee.*', 'user.*', 'role.role_name')
-            ->orderBy('user.user_id')
+            ->select('employee.*', 'user.*', 'role.description')
+            ->orderBy('employee.employee_id')
             ->paginate(3);
+        if (!$employees || $employees->isEmpty()) {
+            return back()->with(['search' => 'Không có kết quả tìm kiếm!']);
+        }
 
         return view('admin.dashboard.layout', compact('template', 'employees', 'search'));
     }
     public function createEmployee()
     {
         $template = 'admin.employee.create';
-        return view('admin.dashboard.layout', compact('template'));
+        // Sinh employee_id và user_id
+        $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (Employee::where('employee_id', $randomId)->exists()) {
+            $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+        return view('admin.dashboard.layout', compact('template', 'randomId'));
     }
 
     public function saveEmployee(Request $request)
@@ -54,12 +62,6 @@ class EmployeeController extends Controller
             'address' => 'required|string|max:225',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
-
-        // Sinh employee_id và user_id
-        $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        }
 
         $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         while (User::where('user_id', $randomUserId)->exists()) {
@@ -90,7 +92,7 @@ class EmployeeController extends Controller
 
         // Tạo nhân viên mới
         $employee = new Employee();
-        $employee->employee_id = $randomId;
+        $employee->employee_id = $request->input('employee_id');
         $employee->user_id = $randomUserId;
         $employee->full_name = $request->input('full_name');
         $employee->email = $request->input('email');
@@ -123,7 +125,6 @@ class EmployeeController extends Controller
     // Cập nhật thông tin nhân viên
     public function updateEmployee(Request $request, $employee_id)
     {
-        // Lấy thông tin khách hàng cũ
         $employee = Employee::findOrFail($employee_id);
         $user = User::findOrFail($employee->user_id);
 
@@ -163,7 +164,7 @@ class EmployeeController extends Controller
         $user->save();
 
         return redirect()->route('employee.index')
-            ->with('success', 'Thông tin khách hàng đã được cập nhật!');
+            ->with('success', 'Thông tin nhân viên đã được cập nhật!');
     }
 
     public function deleteEmployee($id)
@@ -174,6 +175,6 @@ class EmployeeController extends Controller
 
         session()->flash('message', 'The employee was successfully deleted!');
 
-        return redirect()->route('employee.index')->with('success', 'Tài khoản đã được xóa.');
+        return redirect()->route('employee.index')->with('success', 'Tài khoản đã được xóa thành công.');
     }
 }

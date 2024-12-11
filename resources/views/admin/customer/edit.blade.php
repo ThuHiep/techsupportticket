@@ -114,8 +114,10 @@
                             <label for="profile_image" class="custom-file-label">Chọn khác</label>
                             <div class="image-preview">
                                 <div id="image-preview" class="image-preview">
-                                    <img id="preview-img" src="{{ asset('admin/img/customer/' . $customers->profile_image) }}" alt="Hình đại diện" style="display:block; width:100%; object-fit:cover;">
-                                </div>
+                                    <img id="preview-img" 
+                                         src="{{ $customers->profile_image ? asset('admin/img/customer/' . $customers->profile_image) : asset('admin/img/customer/default.png') }}" 
+                                         alt="Hình đại diện">
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -125,9 +127,10 @@
 
         <!-- Nút hành động -->
         <div class="button-container">
-            <button type="submit" class="btn btn-success me-3">Lưu thay đổi</button>
+            <button type="submit" class="btn btn-success me-3">Cập nhật</button>
             <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
         </div>
+        
     </form>
 
     <!-- Bootstrap JS -->

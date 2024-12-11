@@ -176,3 +176,19 @@ tr:nth-child(even) td {
     background-color: #d32f2f;
 }
 
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.status-dot.active {
+    background-color: green;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}
