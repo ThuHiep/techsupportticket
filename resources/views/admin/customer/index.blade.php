@@ -76,19 +76,18 @@
                             <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
                             <td>{{ $customer->full_name }}</td>
                             <td>
-                                @if($customer->profile_image)
-                                    <img src="{{ asset('admin/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
-                                @else
-                                    <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện " class="customer-image">
-                                @endif
+                                <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('https://via.placeholder.com/50') }}" 
+                                     alt="Hình ảnh khách hàng" 
+                                     class="customer-image">
                             </td>
+                            
                             <td>{{ $customer->date_of_birth }}</td>
                             <td>{{ $customer->user->email ?? 'N/A' }}</td>
                             <td>{{ $customer->gender }}</td>
                             <td>
                                 @if ($customer->status === 'active')
                                     <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
-                                    <span style="vertical-align: middle;">Đang hoạt động</span>
+                                    <span style="vertical-align: middle;">Hoạt động</span>
                                 @endif
                             </td>
                             <td>
