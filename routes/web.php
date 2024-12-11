@@ -70,11 +70,11 @@ Route::name('customer.')->group(function () {
 //Employee
 Route::name('employee.')->group(function () {
     Route::get('employee/index', [EmployeeController::class, 'index'])->name('index');
-    Route::get('admin/employee', [EmployeeController::class, 'createEmployee'])->name('create');
-    Route::post('admin/employee', [EmployeeController::class, 'saveEmployee'])->name('save');
-    Route::get('/admin/employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
-    Route::put('/admin/employee/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
-    Route::delete('/admin/employee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete');
+    Route::get('/employee/create', [EmployeeController::class, 'createEmployee'])->name('create');
+    Route::post('/employee/save', [EmployeeController::class, 'saveEmployee'])->name('save');
+    Route::get('/employee/edit/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
+    Route::put('/employee/update/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
+    Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete');
 });
 
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
