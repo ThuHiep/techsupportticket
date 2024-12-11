@@ -54,8 +54,8 @@
         <div class="form-group">
             <label for="status">Trạng thái:</label>
             <select name="status" id="status">
-                <option value="active" {{ old('status', $department->status) == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ old('status', $department->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                <option value="active" {{ old('status', $department->status) == 'active' ? 'selected' : '' }}>Hoạt động</option>
+                <option value="inactive" {{ old('status', $department->status) == 'inactive' ? 'selected' : '' }}>Không hoạt động</option>
             </select>
             @error('status')
             <div class="error">{{ $message }}</div>
@@ -68,16 +68,7 @@
         </div>
     </form>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-            });
-        }
-    });
-</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

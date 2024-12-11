@@ -5,88 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm khách hàng mới</title>
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
-    <!--<style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fc;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        h1 {
-            color: #FF9700;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 300px;
-            max-width: 48%;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #FF9700;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .btn-secondary {
-            padding: 10px 20px;
-            background-color: #ccc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 20px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #aaa;
-        }
-
-    </style> --> <!--ẨN STYLE GỐC-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Khi sidebar ở trạng thái bình thường */
         body .container {
@@ -102,6 +21,11 @@
         .required {
             color: red; /* Màu đỏ cho dấu sao */
             font-size: 14px; /* Kích thước của dấu sao */
+        }
+        .btn-secondary.btn-sm {
+            padding: 5px 10px; /* Giảm kích thước padding */
+            font-size: 12px; /* Kích thước font nhỏ hơn */
+            margin-left: 10px; /* Khoảng cách bên trái */
         }
     </style>
 
@@ -180,17 +104,20 @@
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
             <div class="col-md-3 grouped-fields">
-               <div class="form-group row ">
-                   <div class="col-md-6">
-                       <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
-                       <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
-                   </div>
+                <div class="form-group row row1">
+                    <div class=" col-md-6 col-username">
+                        <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                    </div>
 
-                   <div class="col-md-6">
-                       <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
-                       <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
-                   </div>
-               </div>
+                    <div class=" col-md-6 col-password">
+                        <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
+                        <input type="text" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                        <button type="button" class="btn btn-secondary btn-sm" id="reset-password">
+                            <i class="fas fa-sync-alt"></i> <!-- Biểu tượng đồng bộ -->
+                        </button>
+                    </div>
+                </div>
 
                 <div class="container-img">
                     <div class="form-group">
@@ -215,7 +142,6 @@
         </div>
     </form>
 </div>
-
 <script>
     function previewImage(event) {
         var reader = new FileReader();
@@ -226,19 +152,8 @@
         };
         reader.readAsDataURL(event.target.files[0]); /* Đọc file ảnh */
     }
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-                console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
-            });
-        }
-    });
-</script>
-<script>
+    //
+
     // Cảnh báo ngưười dùng
     document.getElementById('tax_id').addEventListener('input', function (event) {
         this.value = this.value.replace(/[^0-9]/g, ''); // Loại bỏ ký tự không phải số
@@ -255,7 +170,12 @@
             alert('Số điện thoại chỉ được phép tối đa 10 chữ số!');
         }
     });
+    // Reset mật khẩu
+    document.getElementById('reset-password').addEventListener('click', function () {
+        // Tạo mật khẩu mới ngẫu nhiên
+        const newPassword = Math.random().toString(36).slice(-8); // Tạo mật khẩu mới 8 ký tự
+        document.getElementById('password').value = newPassword; // Cập nhật trường mật khẩu
+    });
 </script>
 </body>
-
 </html>

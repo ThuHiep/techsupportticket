@@ -11,6 +11,8 @@ class DepartmentController extends Controller
     // Hiển thị danh sách phòng ban
     public function index(Request $request)
     {
+       
+        
         $template = 'admin.department.index';
         $search = $request->input('search');
         $statusFilter = $request->input('status');
@@ -108,4 +110,5 @@ class DepartmentController extends Controller
         return redirect()->route('department.index')
             ->with('success', 'Phòng ban đã được xóa!');
     }
+    
 }

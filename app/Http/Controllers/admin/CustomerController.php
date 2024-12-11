@@ -142,38 +142,6 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email',
-            'phone' => 'required|digits:10|numeric',
-            'address' => 'nullable|string|max:500',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'required|in:Nam,Nữ',
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'software' => 'nullable|string|max:255',
-            'website' => 'nullable|url|max:255',
-            'company' => 'nullable|string|max:255',
-            'tax_id' => 'nullable|numeric',
-        ], [
-            'full_name.required' => 'Tên khách hàng không được để trống.',
-            'full_name.string' => 'Tên khách hàng phải là chuỗi ký tự.',
-            'email.required' => 'Email không được để trống.',
-            'email.email' => 'Địa chỉ email không hợp lệ.',
-            'email.unique' => 'Email này đã được sử dụng.',
-            'phone.required' => 'Số điện thoại không được để trống.',
-            'phone.digits' => 'Số điện thoại phải có đúng 10 chữ số.',
-            'phone.numeric' => 'Số điện thoại chỉ được chứa các ký tự số.',
-            'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
-            'date_of_birth.date' => 'Ngày sinh không hợp lệ.',
-            'gender.required' => 'Giới tính không được để trống.',
-            'profile_image.image' => 'Ảnh đại diện phải là hình ảnh.',
-            'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpg, jpeg, hoặc png.',
-            'profile_image.max' => 'Ảnh đại diện không được vượt quá 2MB.',
-            'software.string' => 'Software phải là chuỗi ký tự.',
-            'website.url' => 'Website không hợp lệ.',
-            'company.string' => 'Công ty phải là chuỗi ký tự.',
-            'tax_id.numeric' => 'Mã số thuế phải là số.',
-        ]);
 
         // Sinh các giá trị ngẫu nhiên như trước
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
@@ -194,7 +162,7 @@ class CustomerController extends Controller
         $user->user_id = $randuserID;
         $user->username = $username;
         $user->password = bcrypt($password);
-        $user->email = $validatedData['email'];
+        $user->email = $request['email'];
         $user->role_id = 3;
         $user->save();
 
@@ -202,22 +170,22 @@ class CustomerController extends Controller
         $customer = new Customer();
         $customer->customer_id = $randomId;
         $customer->user_id = $randuserID;
-        $customer->full_name = $validatedData['full_name'];
-        $customer->date_of_birth = $validatedData['date_of_birth'] ?? null;
+        $customer->full_name = $request['full_name'];
+        $customer->date_of_birth = $request['date_of_birth'] ?? null;
         $customer->profile_image = $profileImageName;
-        $customer->gender = $validatedData['gender'] ?? null;
-        $customer->phone = $validatedData['phone'] ?? null;
-        $customer->address = $validatedData['address'] ?? null;
-        $customer->software = $validatedData['software'] ?? null;
-        $customer->website = $validatedData['website'] ?? null;
-        $customer->company = $validatedData['company'] ?? null;
-        $customer->tax_id = $validatedData['tax_id'] ?? null;
+        $customer->gender = $request['gender'] ?? null;
+        $customer->phone = $request['phone'] ?? null;
+        $customer->address = $request['address'] ?? null;
+        $customer->software = $request['software'] ?? null;
+        $customer->website = $request['website'] ?? null;
+        $customer->company = $request['company'] ?? null;
+        $customer->tax_id = $request['tax_id'] ?? null;
         $customer->create_at = now();
         $customer->update_at = now();
         $customer->save();
 
         try {
-            Mail::to($validatedData['email'])->send(new CustomerCreated($username, $password, $validatedData['email']));
+            Mail::to($request['email'])->send(new CustomerCreated($username, $password, $request['email']));
             return redirect()->route('customer.index')
                 ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password . ' và email đã được gửi.');
         } catch (\Exception $e) {

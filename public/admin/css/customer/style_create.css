@@ -73,6 +73,39 @@ form {
     background-color: #debff3;
     opacity: 1;
 }
+
+.col-md-6 input#username {
+    width: 190%;
+}
+.col-username{
+    margin-left: -105px;
+}
+.col-md-6 input#password {
+    width: 217%;
+}
+.col-password{
+    margin-left: 70px;
+}
+#reset-password {
+    padding: 2px 6px; /* Giảm khoảng cách bên trong nút */
+    font-size: 12px; /* Giảm kích thước chữ và biểu tượng */
+    line-height: 1; /* Giảm khoảng cách giữa các dòng trong nút */
+    border-radius: 3px; /* Tùy chỉnh góc bo tròn */
+    width: 45px;
+    height: 40px;
+    margin-left: 165px;
+    margin-top: -60px;
+    background-color: #ee5711;
+    color: #FFFFFF;
+}
+#reset-password:hover{
+    background-color: #ff9700;
+    color: #FFFFFF;
+}
+#reset-password i {
+    font-size: 15px; /* Giảm kích thước biểu tượng */
+}
+
 /* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
 .address-website-container {
     display: flex; /* Sử dụng Flexbox */
@@ -155,6 +188,7 @@ input.error, select.error {
     display: flex; /* Sử dụng Flexbox để bố trí ngang */
     flex-direction: column; /* Sắp xếp các trường theo chiều dọc */
     margin-left: -65px; /* Dịch chuyển nhóm gần về phía bên trái */
+    margin-top: -1px;
 }
 
 /* Điều chỉnh chiều rộng cho các trường trong nhóm */
