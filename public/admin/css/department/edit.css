@@ -58,7 +58,7 @@ h1 {
 }
 
 input[readonly] {
-    background-color: #eaeaea !important;
+    background-color: #DEBFF3 !important;
     color: #555;
     border: 1px solid #ccc;
 }
@@ -68,13 +68,13 @@ input[readonly] {
     font-size: 13px;
     margin-top: 5px;
 }
-
 .button-group {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+    justify-content: center; /* Căn giữa các nút */
+    gap: 20px; /* Tạo khoảng cách giữa các nút */
+    margin-top: 30px; /* Tăng khoảng cách so với phần trên */
 }
+
 
 .add-department-btn,
 .cancel-btn {
