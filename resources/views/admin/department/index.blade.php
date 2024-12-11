@@ -23,7 +23,7 @@
     </style>
 </head>
 <body>
-    <div class="wrapper wrapper-content">
+  
         <div class="container">
             <h1>Danh sách phòng ban</h1>
             <div class="top-bar">
@@ -83,7 +83,7 @@
             </div>
         
         </div>
-    </div>
+   
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
