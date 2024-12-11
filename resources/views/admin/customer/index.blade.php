@@ -40,12 +40,6 @@
     </div>
 
     <div class="table-container">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
         <table class="table table-striped">
             <thead>
             <tr>
@@ -132,10 +126,43 @@
 
     function showDeleteModal(event, formId) {
         event.preventDefault();
-        if (confirm('Bạn có chắc chắn muốn xóa khách hàng này? Hành động này không thể hoàn tác!')) {
-            document.getElementById(formId).submit();
-        }
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: "Hành động này sẽ xóa khách hàng và không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit();
+            }
+        });
     }
+    // Thông báo cập nhật
+        document.addEventListener('DOMContentLoaded', () => {
+        updateUserCount(); // Cập nhật số lượng ngay khi tải trang
+
+        // Hiển thị thông báo cập nhật thành công
+        @if (session('success'))
+        Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: '{{ session('success') }}',
+        confirmButtonText: 'Đồng ý'
+    });
+        @endif
+
+        // Hiển thị thông báo duyệt thành công
+        @if (session('approved'))
+        Swal.fire({
+        icon: 'success',
+        title: 'Đã duyệt!',
+        text: '{{ session('approved') }}',
+        confirmButtonText: 'Đồng ý'
+    });
+        @endif
+    });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

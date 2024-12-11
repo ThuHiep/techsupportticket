@@ -137,7 +137,7 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->route('customer.index')
-            ->with('success', 'Khách hàng và dữ liệu liên kết trong bảng user đã được xóa!');
+            ->with('success', 'Khách hàng đã được xóa!');
     }
 
     public function store(Request $request)
