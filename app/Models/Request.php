@@ -35,7 +35,7 @@ class Request extends Model
     // Đặt giá trị mặc định cho các cột
     protected $attributes = [
         'status' => 'Chưa xử lý', // Đặt mặc định là "Chưa xử lý"
-        'resolved_at' => null, // Đặt mặc định là null
+        'resolved_at' => null,    // Đặt mặc định là null
     ];
 
     // Định dạng ngày
