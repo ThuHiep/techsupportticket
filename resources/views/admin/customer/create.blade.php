@@ -99,6 +99,10 @@
             width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
             transition: all 0.3s ease-in-out;
         }
+        .required {
+            color: red; /* Màu đỏ cho dấu sao */
+            font-size: 14px; /* Kích thước của dấu sao */
+        }
     </style>
 
 </head>
@@ -114,48 +118,48 @@
                 <!-- Mã KH + Mã số thuế + Chọn KH -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="customer_id" class="form-label">Mã khách hàng</label>
+                        <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
                         <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ $randomId }}" readonly required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="tax_id" class="form-label">Mã số thuế</label>
+                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
                         <input type="text" id="tax_id" name="tax_id" class="form-control" required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="full_name" class="form-label">Tên khách hàng</label>
+                        <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" required>
                     </div>
                 </div>
                 <!-- Ngày sinh + giới tính + số điện thoại -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="date_of_birth" class="form-label">Ngày sinh</label>
+                        <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="gender" class="form-label">Giới tính</label>
+                        <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                         <select id="gender" name="gender" class="form-control" required>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                         <input type="text" id="phone" name="phone" class="form-control" required>
                     </div>
                 </div>
                 <!-- Software + Công ty -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="software" class="form-label">Software</label>
+                        <label for="software" class="form-label">Software<span class="required">*</span></label>
                         <input type="text" id="software" name="software" class="form-control" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="company" class="form-label">Công ty</label>
+                        <label for="company" class="form-label">Công ty<span class="required">*</span></label>
                         <input type="text" id="company" name="company" class="form-control">
                     </div>
 
@@ -163,11 +167,11 @@
                 <!-- Địa chỉ + Website -->
                 <div class="row mb-3 address-website-container ">
                     <div class="form-group col-6">
-                        <label for="address" class="form-label">Địa chỉ</label>
+                        <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" required>
                     </div>
                     <div class="form-group col-6">
-                        <label for="website" class="form-label">Website</label>
+                        <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control" required>
                     </div>
                 </div>
@@ -177,12 +181,12 @@
             <!-- Cột bên phải cho hình ảnh đại diện -->
             <div class="col-md-3 grouped-fields">
                 <div class="form-group col-md-6">
-                    <label for="username" class="form-label">Tài khoản</label>
+                    <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
                     <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="password" class="form-label">Mật khẩu</label>
+                    <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
                     <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
                 </div>
 
@@ -229,6 +233,24 @@
                 document.body.classList.toggle('mini-navbar');
                 console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
             });
+        }
+    });
+</script>
+<script>
+    // Cảnh báo ngưười dùng
+    document.getElementById('tax_id').addEventListener('input', function (event) {
+        this.value = this.value.replace(/[^0-9]/g, ''); // Loại bỏ ký tự không phải số
+        if (this.value.length > 9) {
+            alert('Mã số thuế chỉ được phép tối đa 9 số!');
+        }
+    });
+    document.getElementById('phone').addEventListener('input', function (event) {
+        // Loại bỏ ký tự không phải số
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+        // Kiểm tra nếu độ dài số điện thoại vượt quá 10 ký tự
+        if (this.value.length > 10) {
+            alert('Số điện thoại chỉ được phép tối đa 10 chữ số!');
         }
     });
 </script>
