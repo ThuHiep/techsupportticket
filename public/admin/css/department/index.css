@@ -108,7 +108,7 @@ table {
 } */
 th, td {
     padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
-    text-align: left; /* Căn trái thay vì căn giữa */
+    text-align: center; /* Căn trái thay vì căn giữa */
     vertical-align: middle;
     font-size: 14px; /* Điều chỉnh kích thước chữ */
     border: 1px solid #ddd;
