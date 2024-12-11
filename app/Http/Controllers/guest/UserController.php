@@ -24,14 +24,9 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-
-//    public function getUserList()
-//    {
-//        $users = Customer::select('customer_id', 'full_name', 'username','password', 'status')
-//            ->whereNull('status') // Chỉ lấy các tài khoản chưa được phê duyệt
-//            ->get();
-//
-//        return response()->json($users);
-//    }
+    public function indexAccount()
+    {
+        return view('guest.account.index');
+    }
 
 }
