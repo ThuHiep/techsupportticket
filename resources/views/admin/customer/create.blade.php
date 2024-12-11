@@ -103,7 +103,7 @@
 
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
-            <div class="col-md-3 grouped-fields">
+            <div class="col-md-3 grouped-fields ">
                 <div class="form-group row row1">
                     <div class=" col-md-6 col-username">
                         <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
