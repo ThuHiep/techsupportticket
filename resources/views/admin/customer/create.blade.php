@@ -104,18 +104,21 @@
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
             <div class="col-md-3 grouped-fields">
-                <div class="form-group col-md-6">
-                    <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
-                    <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                <div class="form-group row">
+                    <div class=" col-md-6">
+                        <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                    </div>
+
+                    <div class=" col-md-6">
+                        <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
+                        <input type="text" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                        <button type="button" class="btn btn-secondary btn-sm" id="reset-password">
+                            <i class="fas fa-sync-alt"></i> <!-- Biểu tượng đồng bộ -->
+                        </button>
+                    </div>
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
-                    <input type="text" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
-                    <button type="button" class="btn btn-secondary btn-sm" id="reset-password">
-                        <i class="fas fa-sync-alt"></i> <!-- Biểu tượng đồng bộ -->
-                    </button>
-                </div>
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
