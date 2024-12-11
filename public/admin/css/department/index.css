@@ -103,12 +103,23 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+/* th, td {
     padding: 12px;
     text-align: center;
     vertical-align: middle;
     border: 1px solid #ddd;
     font-size: 15px;
+} */
+th, td {
+    padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
+    text-align: left; /* Căn trái thay vì căn giữa */
+    vertical-align: middle;
+    font-size: 14px; /* Điều chỉnh kích thước chữ */
+    border: 1px solid #ddd;
+}
+
+tr td:nth-child(4) { 
+    text-align: center; /* Riêng trạng thái căn giữa */
 }
 
 th {
