@@ -18,7 +18,7 @@ body {
     border-radius: 12px;
     position: relative;
 
-    
+
 }
 
 /* Tiêu đề */
@@ -74,6 +74,21 @@ form {
 .form-control[readonly]{
     background-color: #debff3;
     opacity: 1;
+}
+/* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
+.address-website-container {
+    display: flex; /* Sử dụng Flexbox */
+    gap: 10px; /* Khoảng cách giữa các trường */
+    flex-wrap: wrap; /* Các trường xuống dòng nếu không đủ chỗ */
+    width: 741px;
+    margin-left: -10px;
+}
+
+/* Mỗi trường chiếm 50% chiều rộng */
+.address-website-container .form-group {
+    flex: 1; /* Mỗi trường chiếm không gian đều */
+    min-width: 0; /* Đảm bảo các input không bị tràn */
+    max-width: 50%; /* Mỗi trường chiếm tối đa 50% */
 }
 /* Hiển thị lỗi */
 input.error, select.error {
