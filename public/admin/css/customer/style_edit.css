@@ -106,17 +106,19 @@ input.error, select.error {
 
 /* Container chứa hai nút */
 .button-container {
-    display: flex; /* Sử dụng Flexbox để căn chỉnh ngang */
-    justify-content: flex-start; /* Căn hai nút về phía trái */
-    gap: 10px; /* Khoảng cách giữa các nút */
-    margin-top: 20px; /* Khoảng cách phía trên container */
-    margin-bottom: 25px;
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: center; /* Căn giữa các nút theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
+    gap: 20px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách phía trên */
+    margin-bottom: 25px; /* Khoảng cách phía dưới */
 }
+
 
 /* Nút Lưu thay đổi */
 .btn-success {
     padding: 12px 24px; /* Khoảng cách trong lớn hơn */
-    background-color: #18a343; /* Màu xanh lá */
+    background-color: #FF9700; /* Màu xanh lá */
     color: white;
     border: none;
     border-radius: 8px; /* Bo góc */
@@ -127,7 +129,7 @@ input.error, select.error {
 }
 
 .btn-success:hover {
-    background-color: #347737; /* Màu xanh đậm hơn */
+    background-color: #FF6F00; /* Màu xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 
@@ -162,7 +164,7 @@ input.error, select.error {
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {
     max-width: 100%; /* Đảm bảo container-img không lớn hơn container chính */
-    margin: 30px 15px; /* Căn giữa container-img trong container */
+    
     text-align: center;
 }
 /* Đảm bảo bố cục hiển thị đẹp */

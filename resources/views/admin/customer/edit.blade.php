@@ -39,7 +39,7 @@
         <!-- Cột bên trái (3/4) và cột bên phải (1/4) -->
         <div class="row mb-3">
             <!-- Cột bên trái -->
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <!-- Mã KH + Mã số thuế + Tên KH -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
@@ -105,7 +105,7 @@
             </div>
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện<span class="required">*</span></label>
@@ -125,9 +125,10 @@
 
         <!-- Nút hành động -->
         <div class="button-container">
-            <button type="submit" class="btn btn-success me-3">Lưu thay đổi</button>
+            <button type="submit" class="btn btn-success me-3">Cập nhật</button>
             <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
         </div>
+        
     </form>
 
     <!-- Bootstrap JS -->
