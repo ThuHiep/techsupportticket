@@ -75,7 +75,8 @@
                         <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
                         <td>{{ $customer->full_name }}</td>
                         <td>
-                            <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('https://via.placeholder.com/50') }}" 
+                            <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : 
+                            asset('admin/img/customer/default.png') }}" 
                                  alt="Hình ảnh khách hàng" 
                                  class="customer-image">
                         </td>
