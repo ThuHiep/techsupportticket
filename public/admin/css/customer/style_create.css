@@ -162,6 +162,7 @@ input.error, select.error {
 .grouped-fields .form-group {
     margin-bottom: 15px; /* Khoảng cách giữa các trường */
 }
+
 /* Tùy chỉnh cho file upload */
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {
