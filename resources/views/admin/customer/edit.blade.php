@@ -19,6 +19,10 @@
             width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
             transition: all 0.3s ease-in-out;
         }
+        .required {
+            color: red; /* Màu đỏ cho dấu sao */
+            font-size: 14px; /* Kích thước của dấu sao */
+        }
     </style>
 </head>
 <body>
@@ -35,17 +39,17 @@
                 <!-- Mã KH + Mã số thuế + Tên KH -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="customer_id" class="form-label">Mã khách hàng</label>
+                        <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
                         <input type="text" id="customer_id" name="customer_id" class="form-control"
                                value="{{ $customers->customer_id }}" readonly required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="tax_id" class="form-label">Mã số thuế</label>
+                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
                         <input type="text" id="tax_id" name="tax_id" class="form-control"
                                value="{{ $customers->tax_id }}" required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="full_name" class="form-label">Tên khách hàng</label>
+                        <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control"
                                value="{{ $customers->full_name }}" required>
                     </div>
@@ -53,19 +57,19 @@
                 <!-- Ngày sinh + giới tính + số điện thoại -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="date_of_birth" class="form-label">Ngày sinh</label>
+                        <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
                                value="{{ $customers->date_of_birth }}" required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="gender" class="form-label">Giới tính</label>
+                        <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                         <select id="gender" name="gender" class="form-control" required>
                             <option value="Nam" {{ $customers->gender == 'Nam' ? 'selected' : '' }}>Nam</option>
                             <option value="Nữ" {{ $customers->gender == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                         <input type="text" id="phone" name="phone" class="form-control"
                                value="{{ $customers->phone }}" required>
                     </div>
@@ -73,25 +77,30 @@
                 <!-- Software + Công ty -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
-                        <label for="software" class="form-label">Software</label>
+                        <label for="software" class="form-label">Software<span class="required">*</span></label>
                         <input type="text" id="software" name="software" class="form-control"
                                value="{{ $customers->software }}">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="company" class="form-label">Công ty</label>
+                        <label for="company" class="form-label">Công ty<span class="required">*</span></label>
                         <input type="text" id="company" name="company" class="form-control"
                                value="{{ $customers->company }}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control"
+                               value="{{ $customers->user->email }}">
                     </div>
                 </div>
                 <!-- Địa chỉ + Website -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
-                        <label for="address" class="form-label">Địa chỉ</label>
+                        <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control"
                                value="{{ $customers->address }}" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="website" class="form-label">Website</label>
+                        <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control"
                                value="{{ $customers->website }}">
                     </div>
@@ -102,7 +111,7 @@
             <div class="col-md-3">
                 <div class="container-img">
                     <div class="form-group">
-                        <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
+                        <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện<span class="required">*</span></label>
                         <div class="custom-file-upload">
                             <input type="file" id="profile_image" name="profile_image" class="form-control"
                                    accept="image/*" onchange="previewImage(event)">

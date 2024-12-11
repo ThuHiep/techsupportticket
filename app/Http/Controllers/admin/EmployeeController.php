@@ -13,19 +13,37 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $template = 'admin.employee.index';
+        $search = $request->input('search');
+
         $employees = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
             ->join('role', 'role.role_id', '=', 'user.role_id')
+            ->where('role.role_id', '=', 2)
+            ->where('status', 'active')
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($query) use ($search) {
+                    $query->where('employee_id', 'LIKE', "%$search%")
+                        ->orWhere('full_name', 'LIKE', "%$search%")
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('email', 'LIKE', "%$search%");
+                        });
+                });
+            })
             ->select('employee.*', 'user.*', 'role.role_name')
             ->orderBy('user.user_id')
-            ->paginate('4');
+            ->paginate(3);
 
-        return view('admin.dashboard.layout', compact('template', 'employees'));
+        return view('admin.dashboard.layout', compact('template', 'employees', 'search'));
+    }
+    public function createEmployee()
+    {
+        $template = 'admin.employee.create';
+        return view('admin.dashboard.layout', compact('template'));
     }
 
-    public function createEmployee(Request $request)
+    public function saveEmployee(Request $request)
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
@@ -95,20 +113,11 @@ class EmployeeController extends Controller
 
     public function editEmployee($employee_id)
     {
-        //Tìm và trả về thông tin nhân viên
+        $template = 'admin.employee.edit';
         $employee = Employee::with(['user.role'])
             ->where('employee_id', '=', $employee_id)
             ->first();
-        if ($employee) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $employee
-            ]);
-        }
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Employee not found'
-        ], 404);
+        return view('admin.dashboard.layout', compact('template', 'employee'));
     }
 
     // Cập nhật thông tin nhân viên

@@ -70,112 +70,154 @@ class CustomerController extends Controller
     }
     public function update(Request $request, $customer_id)
     {
-        // Lấy thông tin khách hàng cũ
+
         $customer = Customer::findOrFail($customer_id);
-
-        // Kiểm tra nếu có hình ảnh được upload
-        $profileImagePath = $customer->profile_image;  // Lưu ảnh cũ, nếu có
+        // Xử lý ảnh đại diện
+        $profileImagePath = $customer->profile_image;
         if ($request->hasFile('profile_image')) {
-            // Xóa ảnh cũ nếu có
             if ($profileImagePath && file_exists(public_path('admin/img/customer/' . $profileImagePath))) {
-                unlink(public_path('admin/img/customer/' . $profileImagePath)); // Xóa file ảnh cũ
+                unlink(public_path('admin/img/customer/' . $profileImagePath));
             }
-
-            // Lưu ảnh mới
             $image = $request->file('profile_image');
-            if ($image->isValid()) {
-                $imageName = 'update_' . time() . '.' . $image->getClientOriginalExtension();
-                $profileImagePath = $imageName;  // Cập nhật đường dẫn ảnh mới
-                $image->move(public_path('admin/img/customer'), $imageName);  // Di chuyển ảnh mới vào thư mục
-            }
+            $profileImageName = 'update_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('admin/img/customer'), $profileImageName);
+            $profileImagePath = $profileImageName;
         }
 
         // Cập nhật thông tin khách hàng
-        $customer->full_name = $request->input('full_name');
-        $customer->date_of_birth = $request->input('date_of_birth');
-        $customer->gender = $request->input('gender');
-        $customer->phone = $request->input('phone');
-        $customer->address = $request->input('address');
-        $customer->profile_image = $profileImagePath; // Cập nhật ảnh đại diện (hoặc ảnh cũ nếu không có ảnh mới)
-        $customer->software = $request->input('software');
-        $customer->website = $request->input('website');
-        $customer->company = $request->input('company');
-        $customer->tax_id = $request->input('tax_id');  // Cập nhật giá trị tax_id
-        $customer->create_at = now();  // Ngày tạo (vẫn giữ nguyên nếu không cần thay đổi)
-        $customer->update_at = now();  // Ngày cập nhật (thay đổi khi cập nhật)
-
-        // Lưu thông tin khách hàng vào database
+        $customer->full_name = $request['full_name'];
+        $customer->date_of_birth = $request['date_of_birth'] ?? null;
+        $customer->gender = $request['gender'] ?? null;
+        $customer->phone = $request['phone'] ?? null;
+        $customer->address = $request['address'] ?? null;
+        $customer->profile_image = $profileImagePath;
+        $customer->software = $request['software'] ?? null;
+        $customer->website = $request['website'] ?? null;
+        $customer->company = $request['company'] ?? null;
+        $customer->tax_id = $request['tax_id'] ?? null;
+        $customer->update_at = now();
         $customer->save();
 
-        // Quay lại trang danh sách khách hàng với thông báo thành công
-        return redirect()->route('customer.index')
-            ->with('success', 'Thông tin khách hàng đã được cập nhật!');
+        // Cập nhật email trong bảng user
+        $user = $customer->user; // Lấy đối tượng User từ mối quan hệ
+        if ($user) {
+            $user->email = $request['email']; // Cập nhật email
+            $user->save();
+        } else {
+            // Xử lý nếu không tìm thấy user liên quan
+            return redirect()->route('customer.index')->with('error', 'Không tìm thấy người dùng liên kết với khách hàng!');
+        }
+        // Sau khi cập nhật thành công, quay lại danh sách khách hàng
+        return redirect()->route('customer.index')->with('success', 'Thông tin khách hàng đã được cập nhật thành công.');
     }
 
     // Xóa khách hàng
     public function destroy($customer_id)
     {
-        $customers = Customer::findOrFail($customer_id);
-        $customers->delete();
+        // Tìm khách hàng dựa trên customer_id
+        $customer = Customer::findOrFail($customer_id);
+
+        // Kiểm tra và xóa ảnh đại diện nếu có
+        if ($customer->profile_image) {
+            $imagePath = public_path('admin/img/customer/' . $customer->profile_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // Xóa file khỏi thư mục
+            }
+        }
+
+        // Tìm và xóa người dùng liên kết với khách hàng qua user_id
+        if ($customer->user_id) {
+            $user = User::find($customer->user_id); // Tìm bản ghi trong bảng users
+            if ($user) {
+                $user->delete(); // Xóa người dùng
+            }
+        }
+
+        // Xóa khách hàng khỏi cơ sở dữ liệu
+        $customer->delete();
 
         return redirect()->route('customer.index')
-            ->with('success', 'Khách hàng đã được xóa!');
+            ->with('success', 'Khách hàng và dữ liệu liên kết trong bảng user đã được xóa!');
     }
-
 
     public function store(Request $request)
     {
-        // Sinh customer_id ngẫu nhiên
+        $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:user,email',
+            'phone' => 'required|digits:10|numeric',
+            'address' => 'nullable|string|max:500',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'required|in:Nam,Nữ',
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'software' => 'nullable|string|max:255',
+            'website' => 'nullable|url|max:255',
+            'company' => 'nullable|string|max:255',
+            'tax_id' => 'nullable|numeric',
+        ], [
+            'full_name.required' => 'Tên khách hàng không được để trống.',
+            'full_name.string' => 'Tên khách hàng phải là chuỗi ký tự.',
+            'email.required' => 'Email không được để trống.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
+            'email.unique' => 'Email này đã được sử dụng.',
+            'phone.required' => 'Số điện thoại không được để trống.',
+            'phone.digits' => 'Số điện thoại phải có đúng 10 chữ số.',
+            'phone.numeric' => 'Số điện thoại chỉ được chứa các ký tự số.',
+            'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
+            'date_of_birth.date' => 'Ngày sinh không hợp lệ.',
+            'gender.required' => 'Giới tính không được để trống.',
+            'profile_image.image' => 'Ảnh đại diện phải là hình ảnh.',
+            'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpg, jpeg, hoặc png.',
+            'profile_image.max' => 'Ảnh đại diện không được vượt quá 2MB.',
+            'software.string' => 'Software phải là chuỗi ký tự.',
+            'website.url' => 'Website không hợp lệ.',
+            'company.string' => 'Công ty phải là chuỗi ký tự.',
+            'tax_id.numeric' => 'Mã số thuế phải là số.',
+        ]);
+
+        // Sinh các giá trị ngẫu nhiên như trước
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        // Sinh customer_id ngẫu nhiên
         $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        // Kiểm tra trùng lặp trong database
-        while (Customer::where('customer_id', $randomId)->exists()) {
-            $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        }
-        // Sinh username ngẫu nhiên
         $username = 'user' . mt_rand(100000, 999999);
-        while (User::where('username', $username)->exists()) {
-            $username = 'user' . mt_rand(100000, 999999);
-        }
-        // Sinh password ngẫu nhiên
-        $password = Str::random(12); // Chuỗi 12 ký tự ngẫu nhiên
-        // Lấy email từ request
-        $email = $request->input('email');
-        // Tạo tài khoản User tương ứng
-        $user = new User();
-        $user ->user_id = $randuserID;
-        $user->username = $username;
-        $user->password = bcrypt($password); // Mã hóa mật khẩu
-        $user->email = $email;
-        $user->role_id = 3; // Gán role_id là 3 vì đây là tạo cho khách hàng nên role_id = 3 mặc định
-        $user->save();
-        // Xử lý upload ảnh
+        $password = Str::random(12);
+
+        // Xử lý lưu ảnh
+        $profileImageName = null;
         if ($request->hasFile('profile_image')) {
             $file = $request->file('profile_image');
             $profileImageName = 'profile_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('admin/img/customer'), $profileImageName); // Lưu vào thư mục
+            $file->move(public_path('admin/img/customer'), $profileImageName);
         }
-        // Tạo khách hàng mới
+
+        // Tạo tài khoản User
+        $user = new User();
+        $user->user_id = $randuserID;
+        $user->username = $username;
+        $user->password = bcrypt($password);
+        $user->email = $validatedData['email'];
+        $user->role_id = 3;
+        $user->save();
+
+        // Tạo khách hàng
         $customer = new Customer();
         $customer->customer_id = $randomId;
-        $customer->user_id = $randuserID; // Liên kết với user_id vừa tạo
-        $customer->full_name = $request->input('full_name');
-        $customer->date_of_birth = $request->input('date_of_birth');
+        $customer->user_id = $randuserID;
+        $customer->full_name = $validatedData['full_name'];
+        $customer->date_of_birth = $validatedData['date_of_birth'] ?? null;
         $customer->profile_image = $profileImageName;
-        $customer->gender = $request->input('gender');
-        $customer->phone = $request->input('phone');
-        $customer->address = $request->input('address');
-        $customer->software = $request->input('software');
-        $customer->website = $request->input('website');
-        $customer->company = $request->input('company');
-        $customer->tax_id = $request->input('tax_id');;
+        $customer->gender = $validatedData['gender'] ?? null;
+        $customer->phone = $validatedData['phone'] ?? null;
+        $customer->address = $validatedData['address'] ?? null;
+        $customer->software = $validatedData['software'] ?? null;
+        $customer->website = $validatedData['website'] ?? null;
+        $customer->company = $validatedData['company'] ?? null;
+        $customer->tax_id = $validatedData['tax_id'] ?? null;
         $customer->create_at = now();
         $customer->update_at = now();
         $customer->save();
 
         try {
-            Mail::to($email)->send(new CustomerCreated($username, $password, $email));
+            Mail::to($validatedData['email'])->send(new CustomerCreated($username, $password, $validatedData['email']));
             return redirect()->route('customer.index')
                 ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password . ' và email đã được gửi.');
         } catch (\Exception $e) {
@@ -183,6 +225,7 @@ class CustomerController extends Controller
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
         }
     }
+
 
     //Duyệt tài khoản
     public function approve($customer_id)

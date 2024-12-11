@@ -70,7 +70,8 @@ Route::name('customer.')->group(function () {
 //Employee
 Route::name('employee.')->group(function () {
     Route::get('employee/index', [EmployeeController::class, 'index'])->name('index');
-    Route::post('admin/employee', [EmployeeController::class, 'createEmployee'])->name('create');
+    Route::get('admin/employee', [EmployeeController::class, 'createEmployee'])->name('create');
+    Route::post('admin/employee', [EmployeeController::class, 'saveEmployee'])->name('save');
     Route::get('/admin/employee/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
     Route::put('/admin/employee/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
     Route::delete('/admin/employee/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete');
