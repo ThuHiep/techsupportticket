@@ -74,8 +74,13 @@
                                value="{{ $customers->phone }}" required>
                     </div>
                 </div>
-                <!-- Software + Công ty -->
+                <!-- Email + Software + Công ty -->
                 <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control"
+                               value="{{ $customers->user->email }}">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Software<span class="required">*</span></label>
                         <input type="text" id="software" name="software" class="form-control"
@@ -95,11 +100,16 @@
                 <!-- Địa chỉ + Website -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
+                </div>
+                <!-- Địa chỉ + Website -->
+                <div class="row mb-3 address-website-container ">
+                    <div class="form-group col-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control"
                                value="{{ $customers->address }}" required>
                     </div>
                     <div class="form-group col-md-6">
+                    <div class="form-group col-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control"
                                value="{{ $customers->website }}">

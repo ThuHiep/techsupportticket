@@ -115,7 +115,7 @@
         <div class="row mb-3">
             <!-- Cột bên trái -->
             <div class="col-md-9">
-                <!-- Mã KH + Mã số thuế + Chọn KH -->
+                <!-- Mã KH + Mã số thuế + Tên KH -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
                         <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
@@ -148,7 +148,7 @@
                         <input type="text" id="phone" name="phone" class="form-control" required>
                     </div>
                 </div>
-                <!-- Software + Công ty -->
+                <!-- Email + Software + Công ty -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
@@ -189,7 +189,17 @@
                     <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
                     <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
                 </div>
+               <div class="form-group row ">
+                   <div class="col-md-6">
+                       <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
+                       <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                   </div>
 
+                   <div class="col-md-6">
+                       <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
+                       <input type="password" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
+                   </div>
+               </div>
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>

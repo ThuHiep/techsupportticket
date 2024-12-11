@@ -11,8 +11,6 @@ body {
 .container {
     max-width: 1250px; /* Chiều rộng tối đa */
     width: 100%; /* Co dãn theo kích thước màn hình */
-    height: 600px;
-    max-height: 650px;
     margin: 20px auto; /* Căn giữa container */
     padding: 20px;
     background-color: #fff;
@@ -109,6 +107,7 @@ input.error, select.error {
     justify-content: center; /* Căn hai nút về phía trái */
     gap: 10px; /* Khoảng cách giữa các nút */
     margin-top: 20px; /* Khoảng cách phía trên container */
+    margin-bottom: 25px;
 }
 /* Nút Thêm mới (Lưu) */
 .btn-success {
@@ -162,6 +161,7 @@ input.error, select.error {
 .grouped-fields .form-group {
     margin-bottom: 15px; /* Khoảng cách giữa các trường */
 }
+
 /* Tùy chỉnh cho file upload */
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {
