@@ -1,0 +1,185 @@
+/* admin/css/request/edit.css */
+
+/* Biến CSS để dễ dàng quản lý màu sắc và font */
+:root {
+    --primary-color: #FF9700;
+    --primary-hover: #f57c00;
+    --secondary-color: #6F2F9F;
+    --text-color: #333333;
+    --background-color: #ffffff;
+    --border-color: #dddddd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-size-base: 14px;
+    --radius: 5px;
+    --transition-speed: 0.3s;
+}
+
+/* Cấu hình chung cho body và container */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc; /* Giống như department */
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 1200px;
+    max-width: 100%;
+    margin: 30px auto; /* Tương tự như department */
+    padding: 20px 30px;
+    background-color: var(--background-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border-radius: 8px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 2em; /* Tăng kích thước để nổi bật */
+}
+
+/* Container cho form */
+.form-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Group các trường trong hàng */
+.form-group-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px; /* Tăng khoảng cách giữa các trường */
+}
+
+.form-group-row .form-group {
+    flex: 1; /* Chia đều không gian cho các trường trong hàng */
+    min-width: 250px; /* Đảm bảo trường không bị co lại quá nhỏ */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius);
+    font-size: var(--font-size-base);
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color var(--transition-speed) ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-hover);
+}
+
+.form-group textarea {
+    resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+    min-height: 100px; /* Đặt chiều cao tối thiểu */
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Group nút Submit và Cancel */
+.button-group {
+    display: flex;
+    justify-content: center; /* Căn giữa nút */
+    gap: 20px; /* Khoảng cách giữa các nút */
+    margin-top: 30px; /* Tăng khoảng cách so với nội dung trên */
+}
+
+.submit-button,
+.cancel-button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    display: inline-block;
+    font-size: var(--font-size-base);
+}
+
+.submit-button {
+    background-color: #007bff; /* Màu xanh dương cho nút Submit */
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+.cancel-button {
+    background-color: #6c757d; /* Màu xám đậm cho nút Cancel */
+    color: #fff;
+    border: 1px solid #6c757d;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+}
+
+/* Style cho input readonly */
+input[readonly] {
+    background-color: #DEBFF3;
+    color: #555;
+    border: 1px solid #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .form-group-row {
+        flex-direction: column;
+    }
+
+    .form-group-row .form-group {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px 20px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .submit-button,
+    .cancel-button {
+        width: 100%;
+    }
+}
