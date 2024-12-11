@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmployeeCreatedMail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -23,7 +27,6 @@ class EmployeeController extends Controller
 
     public function createEmployee(Request $request)
     {
-        // Thực hiện kiểm tra các trường dữ liệu
         $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:employee,email',
@@ -34,22 +37,18 @@ class EmployeeController extends Controller
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Sinh employee_id ngẫu nhiên
-        $randomId = 'NV' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
-
-        // Kiểm tra trùng lặp trong database
+        // Sinh employee_id và user_id
+        $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomId = 'NV' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
-        }
-        // Sinh user_id ngẫu nhiên
-        $randomUserId = 'TK' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
-
-        // Kiểm tra trùng lặp trong database
-        while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomUserId = 'TK' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
+            $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
 
-        // Kiểm tra nếu có hình ảnh được upload
+        $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('user_id', $randomUserId)->exists()) {
+            $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+
+        // Upload profile image
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
@@ -59,12 +58,12 @@ class EmployeeController extends Controller
                 $image->move(public_path('admin/img/employee'), $imageName);
             }
         }
-
-        //Tạo user mới cho nhân viên
+        $password = Str::random(11);
+        // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;
         $user->username = $request->input('username');
-        $user->password = "HHHHHHHHHH";
+        $user->password = Hash::make($password);
         $user->role_id = "2";
         $user->status = "active";
         $user->create_at = now();
@@ -86,9 +85,13 @@ class EmployeeController extends Controller
         $employee->update_at = now();
         $employee->save();
 
+        // Gửi email thông báo
+        Mail::to($employee->email)->send(new EmployeeCreatedMail($employee, $user->user_id, $user->username, $password));
+
         return redirect()->route('employee.index')
-            ->with('success', 'Nhân viên đã được thêm thành công!');
+            ->with('success', 'Nhân viên đã được thêm thành công và email đã được gửi!');
     }
+
 
     public function editEmployee($employee_id)
     {
