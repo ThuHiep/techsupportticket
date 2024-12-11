@@ -1,0 +1,423 @@
+/* admin/css/request/index.css */
+
+/* Biến CSS để dễ dàng quản lý màu sắc và font */
+:root {
+    --primary-color: #FF9700;
+    --primary-hover: #f57c00;
+    --secondary-color: #6F2F9F;
+    --text-color: #333333;
+    --background-color: #ffffff;
+    --border-color: #dddddd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-size-base: 14px;
+    --radius: 5px;
+    --transition-speed: 0.3s;
+}
+
+/* Cấu hình chung cho body và container */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 1200px;
+    max-width: 100%;
+    margin: 22px auto 0;
+    padding: 0 20px;
+    background-color: var(--background-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    border-radius: 8px;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+}
+
+/* Tiêu đề trang */
+h1 {
+    padding-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 2em;
+}
+
+/* Thanh trên cùng chứa nút thêm mới và thanh tìm kiếm */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+/* Nút thêm mới yêu cầu */
+.add-department-btn {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color var(--transition-speed) ease;
+    font-size: var(--font-size-base);
+}
+
+.add-department-btn:hover,
+.add-department-btn:focus {
+    background-color: var(--primary-hover);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Container cho thanh tìm kiếm */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Tăng max-width từ 440px lên 600px */
+    margin-top: 10px;
+}
+
+@media (min-width: 769px) {
+    .search-container {
+        margin-top: 0;
+    }
+}
+
+/* Style cho form tìm kiếm */
+.search-container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .search-container form {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Style cho ô nhập tìm kiếm */
+.search-container input[type="text"] {
+    flex: 3; /* Tăng flex-grow từ 1 lên 3 */
+    padding: 10px 15px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius);
+    outline: none;
+    box-sizing: border-box;
+    font-size: var(--font-size-base);
+    transition: border-color var(--transition-speed) ease;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: var(--primary-hover);
+}
+
+/* Style cho ô chọn trạng thái */
+.search-container select {
+    flex: 1; /* Giữ flex-grow ở mức thấp hơn */
+    padding: 10px 15px;
+    margin-top: 10px;
+    margin-left: 0;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius);
+    outline: none;
+    box-sizing: border-box;
+    font-size: var(--font-size-base);
+    background-color: var(--background-color);
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M7%2010l5%205%205-5H7z%22/%3E%3C/svg%3E%0A');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    transition: border-color var(--transition-speed) ease;
+}
+
+.search-container select:focus {
+    border-color: var(--primary-hover);
+}
+
+@media (min-width: 576px) {
+    .search-container select {
+        margin-top: 0;
+        margin-left: 10px;
+    }
+}
+
+/* Style cho nút tìm kiếm */
+.search-container button {
+    flex: 0 0 auto; /* Không cho nút thay đổi kích thước */
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    transition: background-color var(--transition-speed) ease;
+    margin-top: 10px;
+    margin-left: 0;
+}
+
+@media (min-width: 576px) {
+    .search-container button {
+        margin-top: 0;
+        margin-left: 10px;
+    }
+}
+
+.search-container button:hover,
+.search-container button:focus {
+    background-color: var(--primary-hover);
+    color: #ffffff;
+}
+
+/* Container cho bảng */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Cho trải nghiệm cuộn mượt trên thiết bị di động */
+}
+
+/* Các bảng */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    min-width: 800px; /* Đảm bảo bảng không bị co lại quá nhỏ */
+}
+
+/* Thay đổi padding và căn lề cho các ô */
+th, td {
+    padding: 12px 10px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: var(--font-size-base);
+    border: 1px solid var(--border-color);
+}
+
+/* Style cho tiêu đề bảng */
+th {
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Xử lý màu nền cho hàng bảng */
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #eaeaea;
+}
+
+tr:hover td {
+    background-color: #f1f1f1;
+}
+
+/* Căn giữa cho cột Phòng ban (thứ tự cột 4) */
+tr td:nth-child(4) {
+    text-align: center;
+}
+
+/* Style cho các nút hành động */
+.edit-button, .delete-button {
+    padding: 8px 12px;
+    color: #ffffff;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: none;
+    font-size: var(--font-size-base);
+    transition: background-color var(--transition-speed) ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-button {
+    background-color: #007bff;
+}
+
+.edit-button:hover,
+.edit-button:focus {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    margin-left: 5px;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+    background-color: #d32f2f;
+}
+
+/* Đảm bảo biểu tượng Font Awesome hiển thị đúng */
+.edit-button i, .delete-button i {
+    pointer-events: none;
+}
+
+/* Style cho phân trang (Bootstrap 4) */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.pagination .page-item {
+    margin: 5px;
+}
+
+.pagination .page-link {
+    padding: 10px 16px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-base);
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.pagination .page-link:hover,
+.pagination .page-link:focus {
+    background-color: #ee5711;
+    color: #ffffff;
+}
+
+.pagination .active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--border-color);
+    color: #ffffff;
+    cursor: default;
+}
+
+.pagination .disabled .page-link {
+    color: #ffffff;
+    cursor: not-allowed;
+    background-color: var(--primary-color);
+    border-color: var(--border-color);
+}
+
+/* Đánh dấu trạng thái bằng các điểm màu */
+.status-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* Các màu sắc cho các trạng thái khác nhau */
+.status-dot.completed {
+    background-color: green;
+}
+
+.status-dot.processing {
+    background-color: blue;
+}
+
+.status-dot.cancelled {
+    background-color: red;
+}
+
+.status-dot.handled {
+    background-color: orange;
+}
+
+/* Accessibility: Focus styles cho các thành phần tương tác */
+.add-department-btn:focus,
+.edit-button:focus,
+.delete-button:focus,
+.search-container button:focus,
+.pagination .page-link:focus {
+    outline: 2px dashed var(--primary-hover);
+    outline-offset: 2px;
+}
+
+/* Responsive cải tiến cho bảng trên các thiết bị nhỏ */
+@media (max-width: 768px) {
+    th, td {
+        padding: 8px 5px;
+        font-size: 12px;
+    }
+
+    .add-department-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .search-container input[type="text"],
+    .search-container select,
+    .search-container button {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .edit-button, .delete-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .pagination .page-link {
+        padding: 8px 12px;
+        font-size: 12px;
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Ẩn các cột ít quan trọng */
+    .hide-on-mobile {
+        display: none;
+    }
+}
+
+/* Tooltip cho mô tả (tùy chọn) */
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--text-color);
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 105%;
+    transform: translateY(-50%);
+}
+
+td {
+    position: relative;
+}
+
+td:hover .tooltip-text {
+    visibility: visible;
+}
