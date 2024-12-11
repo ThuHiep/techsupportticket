@@ -153,15 +153,6 @@
         reader.readAsDataURL(event.target.files[0]); /* Đọc file ảnh */
     }
     //
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-                console.log('Body class list:', document.body.className); // Debug xem lớp mini-navbar có được thêm
-            });
-        }
-    });
 
     // Cảnh báo ngưười dùng
     document.getElementById('tax_id').addEventListener('input', function (event) {

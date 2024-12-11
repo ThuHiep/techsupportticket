@@ -69,15 +69,5 @@
         </div>
     </form>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButton = document.querySelector('.navbar-minimalize');
-        if (toggleButton) {
-            toggleButton.addEventListener('click', function () {
-                document.body.classList.toggle('mini-navbar');
-            });
-        }
-    });
-</script>
 </body>
 </html>
