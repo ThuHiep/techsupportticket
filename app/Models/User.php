@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class User
- * 
+ *
  * @property string $user_id
  * @property string $username
  * @property string $password
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $otp_expiration_time
  * @property bool|null $otp_validation
  * @property string|null $status
- * 
+ *
  * @property Role $role
  * @property Collection|Customer[] $customers
  * @property Collection|Employee[] $employees
@@ -37,6 +37,7 @@ class User extends Model
     protected $primaryKey = 'user_id';
     public $incrementing = false;
     public $timestamps = false;
+    protected $keyType = 'string';
 
     protected $casts = [
         'create_at' => 'datetime',

@@ -70,41 +70,8 @@ class CustomerController extends Controller
     }
     public function update(Request $request, $customer_id)
     {
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email,' . $customer_id, // Chỉ kiểm tra duy nhất email cho customer_id hiện tại
-            'phone' => 'required|digits:10|numeric',
-            'address' => 'nullable|string|max:500',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'required|in:Nam,Nữ',
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'software' => 'nullable|string|max:255',
-            'website' => 'nullable|url|max:255',
-            'company' => 'nullable|string|max:255',
-            'tax_id' => 'nullable|numeric',
-        ], [
-            'full_name.required' => 'Tên khách hàng không được để trống.',
-            'full_name.string' => 'Tên khách hàng phải là chuỗi ký tự.',
-            'email.required' => 'Email không được để trống.',
-            'email.email' => 'Địa chỉ email không hợp lệ.',
-            'email.unique' => 'Email này đã được sử dụng.',
-            'phone.required' => 'Số điện thoại không được để trống.',
-            'phone.digits' => 'Số điện thoại phải có đúng 10 chữ số.',
-            'phone.numeric' => 'Số điện thoại chỉ được chứa các ký tự số.',
-            'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
-            'date_of_birth.date' => 'Ngày sinh không hợp lệ.',
-            'gender.required' => 'Giới tính không được để trống.',
-            'profile_image.image' => 'Ảnh đại diện phải là hình ảnh.',
-            'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpg, jpeg, hoặc png.',
-            'profile_image.max' => 'Ảnh đại diện không được vượt quá 2MB.',
-            'software.string' => 'Software phải là chuỗi ký tự.',
-            'website.url' => 'Website không hợp lệ.',
-            'company.string' => 'Công ty phải là chuỗi ký tự.',
-            'tax_id.numeric' => 'Mã số thuế phải là số.',
-        ]);
 
         $customer = Customer::findOrFail($customer_id);
-
         // Xử lý ảnh đại diện
         $profileImagePath = $customer->profile_image;
         if ($request->hasFile('profile_image')) {
@@ -118,29 +85,31 @@ class CustomerController extends Controller
         }
 
         // Cập nhật thông tin khách hàng
-        $customer->full_name = $validatedData['full_name'];
-        $customer->date_of_birth = $validatedData['date_of_birth'] ?? null;
-        $customer->gender = $validatedData['gender'] ?? null;
-        $customer->phone = $validatedData['phone'] ?? null;
-        $customer->address = $validatedData['address'] ?? null;
+        $customer->full_name = $request['full_name'];
+        $customer->date_of_birth = $request['date_of_birth'] ?? null;
+        $customer->gender = $request['gender'] ?? null;
+        $customer->phone = $request['phone'] ?? null;
+        $customer->address = $request['address'] ?? null;
         $customer->profile_image = $profileImagePath;
-        $customer->software = $validatedData['software'] ?? null;
-        $customer->website = $validatedData['website'] ?? null;
-        $customer->company = $validatedData['company'] ?? null;
-        $customer->tax_id = $validatedData['tax_id'] ?? null;
+        $customer->software = $request['software'] ?? null;
+        $customer->website = $request['website'] ?? null;
+        $customer->company = $request['company'] ?? null;
+        $customer->tax_id = $request['tax_id'] ?? null;
         $customer->update_at = now();
         $customer->save();
 
         // Cập nhật email trong bảng user
-        $user = User::findOrFail($customer->user_id); // Tìm user liên quan đến customer
-        $user->email = $validatedData['email']; // Cập nhật email
-        $user->save();
-
-        return redirect()->route('customer.index')
-            ->with('success', 'Thông tin khách hàng đã được cập nhật!');
+        $user = $customer->user; // Lấy đối tượng User từ mối quan hệ
+        if ($user) {
+            $user->email = $request['email']; // Cập nhật email
+            $user->save();
+        } else {
+            // Xử lý nếu không tìm thấy user liên quan
+            return redirect()->route('customer.index')->with('error', 'Không tìm thấy người dùng liên kết với khách hàng!');
+        }
+        // Sau khi cập nhật thành công, quay lại danh sách khách hàng
+        return redirect()->route('customer.index')->with('success', 'Thông tin khách hàng đã được cập nhật thành công.');
     }
-
-
 
     // Xóa khách hàng
     public function destroy($customer_id)
