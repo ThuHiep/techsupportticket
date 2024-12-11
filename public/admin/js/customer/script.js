@@ -15,12 +15,29 @@ document.getElementById('full_name').addEventListener('input', function () {
     this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
 });
 document.getElementById('company').addEventListener('input', function () {
-    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Chỉ cho phép chữ cái và khoảng trắng
+});
+document.getElementById('software').addEventListener('input', function () {
+    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Chỉ cho phép chữ cái và khoảng trắng
 });
 document.getElementById('phone').addEventListener('input', function () {
     this.value = this.value.replace(/[^0-9]/g, '');
 });
 
+// Ràng buộc cho trường website
+document.getElementById('website').addEventListener('input', function () {
+    // Chỉ cho phép chữ cái, số, dấu '.' và không bắt đầu bằng số
+    this.value = this.value.replace(/^[0-9]/g, ''); // Không cho phép bắt đầu bằng số
+    this.value = this.value.replace(/[^a-zA-Z0-9.\-]/g, ''); // Cho phép chữ cái, số, dấu '.' và '-'
+});
+
+// Ràng buộc cho trường email
+document.getElementById('email').addEventListener('input', function () {
+    // Chỉ cho phép ký tự hợp lệ trong email
+    this.value = this.value.replace(/[^a-zA-Z0-9.@]/g, ''); // Chỉ cho phép chữ cái, số, '@', '.'
+});
+
+// Reset mật khẩu
 document.getElementById('reset-password').addEventListener('click', function () {
     const newPassword = Math.random().toString(36).slice(-8);
     document.getElementById('password').value = newPassword;
