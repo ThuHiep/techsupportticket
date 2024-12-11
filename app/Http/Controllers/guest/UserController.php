@@ -24,5 +24,9 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+    public function indexAccount()
+    {
+        return view('guest.account.index');
+    }
 
 }

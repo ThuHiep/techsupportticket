@@ -117,3 +117,8 @@ Route::name('statistical.')->group(function () {
 Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
 });
+
+
+
+//Account
+Route::get('account', [UserController::class, 'indexAccount'])->name('indexAccount');
