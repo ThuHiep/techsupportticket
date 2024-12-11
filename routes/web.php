@@ -104,7 +104,7 @@ Route::name('request.')->group(function () {
 });
 
 //Nhóm thống kê:
-// Hiển thị danh sách khách hàngc
+// Hiển thị danh sách khách hàng
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
