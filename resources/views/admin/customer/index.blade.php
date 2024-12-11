@@ -38,8 +38,12 @@
             <span class="badge" id="userCount">0</span>
         </a>
     </div>
-
     <div class="table-container">
+        @if(isset($message) && request()->query('search'))
+            <div id="search-message" class="alert alert-success" style="margin-top: 10px;">
+                {{ $message }}
+            </div>
+        @endif
         <table class="table table-striped">
             <thead>
             <tr>
@@ -97,7 +101,15 @@
         {{ $customers->links('pagination::bootstrap-4') }}
     </div>
 </div>
-
+<script>
+    // Tự động ẩn thông báo sau 5 giây
+    setTimeout(function() {
+        var message = document.getElementById('search-message');
+        if (message) {
+            message.style.display = 'none';
+        }
+    }, 5000);
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         updateUserCount(); // Cập nhật số lượng ngay khi tải trang

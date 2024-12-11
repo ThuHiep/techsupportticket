@@ -21,7 +21,7 @@ class CustomerController extends Controller
 
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::with('user')
-            ->where('status', 'active') // Lọc theo status = 'active'
+            ->where('status', 'active')
             ->when($search, function ($query) use ($search) {
                 return $query->where(function ($query) use ($search) {
                     $query->where('customer_id', 'LIKE', "%$search%")
@@ -33,7 +33,13 @@ class CustomerController extends Controller
             })
             ->paginate(3);
 
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+        // Tạo thông báo nếu có kết quả tìm kiếm
+        $message = null;
+        if ($customers->count() > 0) {
+            $message = "Tìm thấy " . $customers->count() . " khách hàng có tên là '{$search}'";
+        }
+
+        return view('admin.dashboard.layout', compact('template', 'customers', 'message'));
     }
 
 

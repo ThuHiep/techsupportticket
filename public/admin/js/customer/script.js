@@ -15,10 +15,12 @@ document.getElementById('full_name').addEventListener('input', function () {
     this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
 });
 document.getElementById('company').addEventListener('input', function () {
-    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Chỉ cho phép chữ cái và khoảng trắng
+    this.value = this.value.replace(/^[0-9]/g, ''); // Không cho phép bắt đầu bằng số
+    this.value = this.value.replace(/[^a-zA-Z0-9.\-]/g, ''); // Cho phép chữ cái, số, dấu '.' và '-'
 });
 document.getElementById('software').addEventListener('input', function () {
-    this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Chỉ cho phép chữ cái và khoảng trắng
+    this.value = this.value.replace(/^[0-9]/g, ''); // Không cho phép bắt đầu bằng số
+    this.value = this.value.replace(/[^a-zA-Z0-9.\-]/g, ''); // Cho phép chữ cái, số, dấu '.' và '-'
 });
 document.getElementById('phone').addEventListener('input', function () {
     this.value = this.value.replace(/[^0-9]/g, '');
