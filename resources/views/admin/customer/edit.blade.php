@@ -74,7 +74,7 @@
                                value="{{ $customers->phone }}" required>
                     </div>
                 </div>
-                <!-- Software + Công ty -->
+                <!-- Email + Software + Công ty -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
