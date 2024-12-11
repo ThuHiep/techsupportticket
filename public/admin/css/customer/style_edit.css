@@ -162,7 +162,7 @@ input.error, select.error {
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {
     max-width: 100%; /* Đảm bảo container-img không lớn hơn container chính */
-    margin: 30px -10px; /* Căn giữa container-img trong container */
+    margin: 30px 15px; /* Căn giữa container-img trong container */
     text-align: center;
 }
 /* Đảm bảo bố cục hiển thị đẹp */
