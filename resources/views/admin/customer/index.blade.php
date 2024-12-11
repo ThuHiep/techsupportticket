@@ -30,7 +30,7 @@
         <div class="container">
             <h1>Danh sách khách hàng</h1>
             <div class="top-bar">
-        
+
                 <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
                 <div class="search-container">
                     <form action="{{ route('customer.index') }}" method="GET">
@@ -43,7 +43,7 @@
                     <span class="badge" id="userCount">0</span>
                 </a>
             </div>
-        
+
             <!-- Modal Chờ duyệt -->
             <div class="table-container">
                 @if (session('success'))
@@ -51,7 +51,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
-        
+
                 @if (session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
@@ -71,42 +71,48 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($customers as $index => $customer)
+                    @if ($customers->isEmpty())
                         <tr>
-                            <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
-                            <td>{{ $customer->full_name }}</td>
-                            <td>
-                                @if($customer->profile_image)
-                                    <img src="{{ asset('admin/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
-                                @else
-                                    <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện " class="customer-image">
-                                @endif
-                            </td>
-                            <td>{{ $customer->date_of_birth }}</td>
-                            <td>{{ $customer->user->email ?? 'N/A' }}</td>
-                            <td>{{ $customer->gender }}</td>
-                            <td>
-                                @if ($customer->status === 'active')
-                                    <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
-                                    <span style="vertical-align: middle;">Đang hoạt động</span>
-                                @endif
-                            </td>
-                            <td>
-                                <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
-                                    <button type="submit" class="edit-button">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </form>
-                                <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            <td colspan="8" style="text-align: center; color: red;">Không có kết quả tìm kiếm</td>
                         </tr>
-                    @endforeach
+                    @else
+                        @foreach ($customers as $index => $customer)
+                            <tr>
+                                <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
+                                <td>{{ $customer->full_name }}</td>
+                                <td>
+                                    @if($customer->profile_image)
+                                        <img src="{{ asset('admin/img/customer/' . $customer->profile_image) }}" alt="Hình ảnh khách hàng" class="customer-image">
+                                    @else
+                                        <img src="{{ asset('admin/img/gallery/') }}" alt="Ảnh đại diện " class="customer-image">
+                                    @endif
+                                </td>
+                                <td>{{ $customer->date_of_birth }}</td>
+                                <td>{{ $customer->user->email ?? 'N/A' }}</td>
+                                <td>{{ $customer->gender }}</td>
+                                <td>
+                                    @if ($customer->status === 'active')
+                                        <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
+                                        <span style="vertical-align: middle;">Đang hoạt động</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <form action="{{ route('customer.edit', $customer->customer_id) }}" style="display:inline;">
+                                        <button type="submit" class="edit-button">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('customer.delete', $customer->customer_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $customer->customer_id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $customer->customer_id }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -159,8 +165,6 @@
     }
 
 </script>
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
