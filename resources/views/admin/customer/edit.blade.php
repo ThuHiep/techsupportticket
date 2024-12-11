@@ -92,12 +92,12 @@
                 </div>
 
                 <!-- Địa chỉ + Website -->
-                <div class="row mb-3">
-                    <div class="form-group col-md-3">
+                <div class="row mb-3 address-website-container">
+                    <div class="form-group col-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" value="{{ $customers->address }}" required>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control" value="{{ $customers->website }}">
                     </div>

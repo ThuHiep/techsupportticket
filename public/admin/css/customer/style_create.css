@@ -91,14 +91,19 @@ form {
     font-size: 12px; /* Giảm kích thước chữ và biểu tượng */
     line-height: 1; /* Giảm khoảng cách giữa các dòng trong nút */
     border-radius: 3px; /* Tùy chỉnh góc bo tròn */
-    width: 41px;
+    width: 45px;
     height: 40px;
     margin-left: 165px;
     margin-top: -60px;
+    background-color: #ee5711;
+    color: #FFFFFF;
 }
-
+#reset-password:hover{
+    background-color: #ff9700;
+    color: #FFFFFF;
+}
 #reset-password i {
-    font-size: 10px; /* Giảm kích thước biểu tượng */
+    font-size: 15px; /* Giảm kích thước biểu tượng */
 }
 
 /* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
