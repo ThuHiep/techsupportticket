@@ -32,7 +32,10 @@ Route::get('login', [LoginController::class, 'login'])->name('login.login');
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
 /*Route register cua user*/
 Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('forgot_pass');
-
+/*Route thay đổi mật khẩu cua user*/
+Route::get('auth/changePass/{user_id}', [AuthController::class, 'changePass'])->name('auth.changePass');
+/*Route update mật khẩu cua user*/
+Route::put('auth/updatePass/{user_id}', [AuthController::class, 'updatePass'])->name('auth.updatePass');
 
 // Nhóm route cho phần admin
 Route::name('customer.')->group(function () {
