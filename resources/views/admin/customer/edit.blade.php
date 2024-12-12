@@ -79,7 +79,7 @@
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{ $customers->user->email }}">
+                        <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Software<span class="required">*</span></label>
@@ -114,10 +114,10 @@
                             <label for="profile_image" class="custom-file-label">Chọn khác</label>
                             <div class="image-preview">
                                 <div id="image-preview" class="image-preview">
-                                    <img id="preview-img" 
-                                         src="{{ $customers->profile_image ? asset('admin/img/customer/' . $customers->profile_image) : asset('admin/img/customer/default.png') }}" 
+                                    <img id="preview-img"
+                                         src="{{ $customers->profile_image ? asset('admin/img/customer/' . $customers->profile_image) : asset('admin/img/customer/default.png') }}"
                                          alt="Hình đại diện">
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
             <button type="submit" class="btn btn-success me-3">Cập nhật</button>
             <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
         </div>
-        
+
     </form>
 
     <!-- Bootstrap JS -->

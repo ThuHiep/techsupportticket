@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\AccountApproved;
 use App\Mail\AccountRejected;
+use App\Mail\CustomerUpdated;
 use App\Models\Customer; // Import Model Customer
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -100,21 +101,20 @@ class CustomerController extends Controller
         $customer->software = $request['software'] ?? null;
         $customer->website = $request['website'] ?? null;
         $customer->company = $request['company'] ?? null;
+        $customer->email = $request['email'] ?? null;
         $customer->tax_id = $request['tax_id'] ?? null;
         $customer->update_at = now();
         $customer->save();
 
-        // Cập nhật email trong bảng user
-        $user = $customer->user; // Lấy đối tượng User từ mối quan hệ
-        if ($user) {
-            $user->email = $request['email']; // Cập nhật email
-            $user->save();
-        } else {
-            // Xử lý nếu không tìm thấy user liên quan
-            return redirect()->route('customer.index')->with('error', 'Không tìm thấy người dùng liên kết với khách hàng!');
+        // Gửi email thông báo
+        try {
+            Mail::to($customer->email)->send(new CustomerUpdated($customer));
+            return redirect()->route('customer.index')
+                ->with('success', 'Khách hàng đã được cập nhật thành công và email thông báo đã được gửi!');
+        } catch (\Exception $e) {
+            return redirect()->route('customer.index')
+                ->with('error', 'Khách hàng đã được cập nhật, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
         }
-        // Sau khi cập nhật thành công, quay lại danh sách khách hàng
-        return redirect()->route('customer.index')->with('success', 'Thông tin khách hàng đã được cập nhật thành công.');
     }
 
     // Xóa khách hàng
@@ -168,7 +168,6 @@ class CustomerController extends Controller
         $user->user_id = $randuserID;
         $user->username = $username;
         $user->password = bcrypt($password);
-        $user->email = $request['email'];
         $user->role_id = 3;
         $user->save();
 
@@ -182,6 +181,7 @@ class CustomerController extends Controller
         $customer->gender = $request['gender'] ?? null;
         $customer->phone = $request['phone'] ?? null;
         $customer->address = $request['address'] ?? null;
+        $customer->email = $request['email'] ?? null;
         $customer->software = $request['software'] ?? null;
         $customer->website = $request['website'] ?? null;
         $customer->company = $request['company'] ?? null;
@@ -207,17 +207,22 @@ class CustomerController extends Controller
         $customer = Customer::find($customer_id);
 
         if ($customer) {
-            // Kiểm tra status của user
+            // Check status of the user
             if ($customer->user->status === null) {
-                $customer->status = 'active';  // Đánh dấu tài khoản là đã duyệt
+                $customer->status = 'active';  // Mark account as approved
                 $customer->save();
 
-                // Cập nhật status của user
-                $customer->user->status = 'active'; // Đánh dấu user là đã duyệt
+                // Update user status
+                $customer->user->status = 'active'; // Mark user as approved
                 $customer->user->save();
 
-                // Gửi email thông báo
-                Mail::to($customer->user->email)->send(new AccountApproved($customer));
+                // Check if email is available
+                if (!empty($customer->email)) {
+                    // Send notification email
+                    Mail::to($customer->email)->send(new AccountApproved($customer));
+                } else {
+                    return redirect()->route('customer.index')->with('error', 'Email không hợp lệ.');
+                }
 
                 return redirect()->route('customer.index')->with([
                     'success' => 'Tài khoản đã được duyệt và email thông báo đã được gửi!',
