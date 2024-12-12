@@ -68,6 +68,9 @@ class EmployeeController extends Controller
             $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
 
+
+        
+
         // Upload profile image
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {

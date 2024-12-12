@@ -39,6 +39,7 @@
                             <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                             <input type="username" id="username" name="username" class="form-control" required>
                         </div>
+                        
                     </div>
 
                     <div class="row mb-3">
