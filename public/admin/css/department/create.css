@@ -30,34 +30,36 @@ h1 {
     background-color: #dff0d8;
 }
 
+
 .form-group-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 10px;
+    justify-content: space-between; /* Phân phối đều các mục */
+    align-items: flex-start; /* Căn chỉnh các mục về phía trên cùng */
+    gap: 10px; /* Khoảng cách giữa các mục */
 }
 
 .form-group-row .form-group {
-    flex: 1;
+    flex: 1; /* Đảm bảo mỗi mục có chiều rộng bằng nhau */
+    display: flex;
+    flex-direction: column; /* Đặt label và input theo chiều dọc */
+    box-sizing: border-box; /* Đảm bảo padding không làm ảnh hưởng chiều rộng */
+}
+
+.form-group-row .form-group input,
+.form-group-row .form-group select {
+    height: 45px; /* Đặt chiều cao đồng nhất */
+    padding: 10px; /* Đảm bảo khoảng cách bên trong hợp lý */
+    border: 3px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%; /* Đảm bảo input/ select chiếm đủ chiều rộng */
+    box-sizing: border-box;
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
-}
-
-.form-group input[type="text"],
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 3px solid #c9d1d9;
-    border-radius: 3px;
-    font-size: 14px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input[type="text"]:focus,
