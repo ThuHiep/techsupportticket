@@ -95,7 +95,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
-                        <input type="url" id="website" name="website" class="form-control" required>
+                        <input type="text" id="website" name="website" class="form-control" required>
                         <small id="website-error" class="text-danger" style="display: none;">Vui lòng nhập website!</small>
                     </div>
                 </div>

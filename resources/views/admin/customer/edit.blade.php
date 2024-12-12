@@ -79,7 +79,7 @@
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{ $customers->user->email }}">
+                        <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Software<span class="required">*</span></label>
