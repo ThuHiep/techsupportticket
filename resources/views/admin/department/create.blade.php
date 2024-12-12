@@ -46,6 +46,7 @@
                 <div class="error">{{ $message }}</div>
                 @enderror
             </div>
+        
 
             <div class="form-group">
                 <label for="department_name">Tên phòng ban:<span class="required">*</span></label>
