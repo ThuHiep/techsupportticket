@@ -30,7 +30,18 @@ document.getElementById('software').addEventListener('input', function () {
     this.value = this.value.replace(/[^a-zA-Z0-9.\-]/g, ''); // Cho phép chữ cái, số, dấu '.' và '-'
 });
 document.getElementById('phone').addEventListener('input', function () {
+    // Chỉ cho phép nhập số
     this.value = this.value.replace(/[^0-9]/g, '');
+
+    // Nếu nhập số, kiểm tra xem có bắt đầu bằng 0 không
+    if (this.value.length > 0 && this.value[0] !== '0') {
+        this.value = '0' + this.value; // Thêm 0 vào đầu nếu chưa có
+    }
+
+    // Chặn nhập nếu có hơn 10 chữ số
+    if (this.value.length > 10) {
+        this.value = this.value.slice(0, 10); // Giới hạn chỉ còn 10 chữ số
+    }
 });
 
 // Ràng buộc cho trường website
@@ -91,11 +102,13 @@ validateField('website', 'website-error');
 validateField('software', 'software-error');
 validateField('address', 'address-error');
 
+// Kiểm tra độ dài và hiển thị cảnh báo khi mất tiêu điểm (blur)
 document.getElementById('phone').addEventListener('blur', function () {
     const phoneInput = this;
     const phoneError = document.getElementById('phone-error');
 
-    if (phoneInput.value.length !== 10) {
+    // Cần có đúng 10 chữ số và bắt đầu bằng 0
+    if (phoneInput.value.length !== 10 || phoneInput.value[0] !== '0') {
         phoneInput.classList.add('is-invalid');
         phoneError.style.display = 'block';
     } else {
