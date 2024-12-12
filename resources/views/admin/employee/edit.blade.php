@@ -101,7 +101,7 @@
                             <div class="custom-file-upload">
                                 <input type="file" id="profile_image" name="profile_image" class="form-control"
                                     accept="image/*" onchange="previewImage(event)">
-                                <label for="profile_image" class="custom-file-label">Chọn ảnh khác</label>
+                                <label for="profile_image" class="custom-file-label">Chọn khác</label>
                                 <div class="image-preview">
                                     <div id="image-preview" class="image-preview">
                                         <img id="preview-img" src="{{ asset('admin/img/employee/' . $employee->profile_image) }}"
@@ -116,7 +116,7 @@
             </div>
             <!-- Nút hành động -->
             <div class="button-container">
-                <button type="submit" class="btn btn-success me-3">Lưu thay đổi</button>
+                <button type="submit" class="btn btn-success me-3">Cập nhật</button>
                 <a href="{{ route('employee.index') }}" class="btn btn-secondary">Hủy</a>
             </div>
         </form>

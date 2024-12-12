@@ -19,6 +19,10 @@
             width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
             transition: all 0.3s ease-in-out;
         }
+        .required {
+            color: red;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +40,7 @@
         <!-- Row chứa các trường trên cùng 1 dòng -->
         <div class="form-group-row">
             <div class="form-group">
-                <label for="department_id">Mã phòng ban:</label>
+                <label for="department_id">Mã phòng ban:<span class="required">*</span></label>
                 <input type="text" name="department_id" id="department_id" value="{{ $nextId ?? '' }}" readonly>
                 @error('department_id')
                 <div class="error">{{ $message }}</div>
@@ -44,7 +48,7 @@
             </div>
 
             <div class="form-group">
-                <label for="department_name">Tên phòng ban:</label>
+                <label for="department_name">Tên phòng ban:<span class="required">*</span></label>
                 <input type="text" name="department_name" id="department_name" value="{{ old('department_name') }}" required>
                 @error('department_name')
                 <div class="error">{{ $message }}</div>
@@ -52,7 +56,7 @@
             </div>
 
             <div class="form-group">
-                <label for="status">Trạng thái:</label>
+                <label for="status">Trạng thái:<span class="required">*</span></label>
                 <select name="status" id="status">
                     <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Hoạt động</option>
                     <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Không hoạt động</option>
