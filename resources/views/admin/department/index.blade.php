@@ -8,19 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
     <link rel="stylesheet" href="{{ asset('admin/css/department/index.css') }}">
-    <style>
-        /* Khi sidebar ở trạng thái bình thường */
-        body .container {
-            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Khi sidebar thu nhỏ */
-        body.mini-navbar .container {
-            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
-            transition: all 0.3s ease-in-out;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -32,25 +19,25 @@
                 <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
                 <button type="submit">Tìm kiếm</button>
             </form>
-            {{-- Hiển thị thông báo nếu không tìm thấy kết quả hoặc bỏ trống tìm kiếm --}}
-            @if(isset($searchPerformed) && $searchPerformed && $departments->isEmpty())
-                <div class="no-results-message">Không có kết quả tìm kiếm</div>
-            @endif
         </div>
     </div>
     <div class="table-container">
-        @if(!$departments->isEmpty())
-            <table class="table table-striped">
-                <thead>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã phòng ban</th>
+                <th>Tên phòng ban</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if ($departments->isEmpty())
                 <tr>
-                    <th>STT</th>
-                    <th>Mã phòng ban</th>
-                    <th>Tên phòng ban</th>
-                    <th>Trạng thái</th>
-                    <th>Thao tác</th>
+                    <td colspan="5" style="text-align: center; color: red;">Không có kết quả tìm kiếm</td>
                 </tr>
-                </thead>
-                <tbody>
+            @else
                 @foreach ($departments as $index => $department)
                     <tr>
                         <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
@@ -79,9 +66,9 @@
                         </td>
                     </tr>
                 @endforeach
-                </tbody>
-            </table>
-        @endif
+            @endif
+            </tbody>
+        </table>
     </div>
     <div class="pagination">
         {{ $departments->links('pagination::bootstrap-4') }}
