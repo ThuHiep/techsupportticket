@@ -49,7 +49,7 @@
             <tr>
                 <th>STT</th>
                 <th>Họ tên</th>
-                <th>Hình ảnh</th>
+                <th>Ảnh đại diện</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
                 <th>Giới tính</th>

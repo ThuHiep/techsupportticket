@@ -207,17 +207,27 @@ class CustomerController extends Controller
         $customer = Customer::find($customer_id);
 
         if ($customer) {
-            $customer->status = 'active';  // Đánh dấu tài khoản là đã duyệt
-            $customer->save();
+            // Kiểm tra status của user
+            if ($customer->user->status === null) {
+                $customer->status = 'active';  // Đánh dấu tài khoản là đã duyệt
+                $customer->save();
 
-            // Gửi email thông báo
-            Mail::to($customer->user->email)->send(new AccountApproved($customer));
+                // Cập nhật status của user
+                $customer->user->status = 'active'; // Đánh dấu user là đã duyệt
+                $customer->user->save();
 
-            return redirect()->route('customer.index')->with([
-                'success' => 'Tài khoản đã được duyệt và email thông báo đã được gửi!',
-                'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
-            ]);
+                // Gửi email thông báo
+                Mail::to($customer->user->email)->send(new AccountApproved($customer));
+
+                return redirect()->route('customer.index')->with([
+                    'success' => 'Tài khoản đã được duyệt và email thông báo đã được gửi!',
+                    'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
+                ]);
+            } else {
+                return redirect()->route('customer.index')->with('error', 'Tài khoản không trong trạng thái cần duyệt');
+            }
         }
+
         return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
