@@ -23,16 +23,17 @@
     <div class="wrapper">
         <div class="logo_login_container">
             <div class="logo_box">
-                <img src="/admin/img/logosweetsoft.png" alt="Company Logo">
+                <img src="admin/img/logosweetsoft.png" alt="Company Logo">
             </div>
             <div class="login_box">
                 <div class="login-header">
                     <span>Đăng nhập</span>
                 </div>
-                <form action="process_login.php" method="POST">
+                <form action="{{route('loginProcess')}}" method="POST">
+                    @csrf
                     <div class="input_box">
                         <input type="text" name="username" id="user" class="input-field" required>
-                        <label for="user" class="label">Tên đăng nhập (email)</label>
+                        <label for="user" class="label">Tên đăng nhập</label>
                         <i class="bx bx-user icon"></i>
                     </div>
 
@@ -62,6 +63,9 @@
                         <input type="submit" class="input-submit" value="Đăng nhập">
                     </div>
                 </form>
+                <div class="register">
+                    <span>Bạn chưa có tài khoản?<a href="{{ route('register') }}" class="register-box"> Đăng ký ngay</a></span>
+                </div>
             </div>
         </div>
     </div>

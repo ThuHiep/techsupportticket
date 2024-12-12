@@ -15,6 +15,7 @@
         /* Mở rộng nội dung khi sidebar thu nhỏ */
         transition: all 0.3s ease-in-out;
     }
+
     .required {
         color: red;
         font-size: 14px;
@@ -65,30 +66,23 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="role_name" class="form-label">Vị trí<span class="required">*</span></label>
-                            <select class="form-control" id="role_name" name="role_name" required>
-                                <option value="1" {{ $employee->user->role_id == '1' ? 'selected' : '' }}>Admin</option>
-                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-md-4">
-                            <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
-                            <input type="text" id="phone" name="phone" class="form-control"
-                                value="{{ $employee->phone }}" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
-                            <input type="text" id="address" name="address" class="form-control"
-                                value="{{ $employee->address }}" required>
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
                             <select class="form-control" id="status" name="status" required>
                                 <option value="active" {{ $employee->user->status  == 'active' ? 'selected' : '' }}>Đang kích hoạt</option>
                                 <option value="inactive" {{ $employee->user->status  == 'inactive' ? 'selected' : '' }}>Ngừng kích hoạt</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                value="{{ $employee->phone }}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
+                            <input type="text" id="address" name="address" class="form-control"
+                                value="{{ $employee->address }}" required>
                         </div>
                     </div>
                 </div>
@@ -103,11 +97,11 @@
                                     accept="image/*" onchange="previewImage(event)">
                                 <label for="profile_image" class="custom-file-label">Chọn khác</label>
                                 <div class="image-preview">
-                                    
+
                                     <div id="image-preview" class="image-preview">
                                         <img id="preview-img"
-                                             src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/customer/default.png') }}"
-                                             alt="Hình đại diện">
+                                            src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/customer/default.png') }}"
+                                            alt="Hình đại diện">
                                     </div>
                                 </div>
                             </div>

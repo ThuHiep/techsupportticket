@@ -2,7 +2,7 @@
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header" style="background-color: #fff"> <!--Huy đã đổi màu-->
-                <div class="dropdown profile-element ";> <!--Huy đã xóa class "open" trong div này, đổi màu -->
+                <div class="dropdown profile-element " ;> <!--Huy đã xóa class "open" trong div này, đổi màu -->
                     <span>
                         <img alt="image" src="admin/img/logosweetsoft.png"
                             style="width:170px; margin-top: -10px; margin-bottom: 20px">
@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="profile.html">Hồ sơ</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ route('auth.login') }}">Đăng xuất</a></li>
+                        <li><a href="{{ route('login') }}">Đăng xuất</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">

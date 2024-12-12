@@ -11,13 +11,13 @@
                 <span class="m-r-sm text-muted welcome-message" style="color: #FFFFFF; font-weight: bold">Chào mừng đến trang quản trị viên.</span>
             </li>
             <li class="dropdown">
-                <a class="dropdown-toggle count-info "  data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell"></i>  <span class="label label-warning" id="userCountt">0</span>
+                <a class="dropdown-toggle count-info " data-toggle="dropdown" href="#">
+                    <i class="fa fa-bell"></i> <span class="label label-warning" id="userCountt">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
                     <li>
                         <a href="{{ route('customer.pending') }}">
-                            <div >
+                            <div>
                                 <i class="fa fa-envelope fa-fw"></i> Có <span id="customerCount">0</span> khách hàng chờ duyệt
                             </div>
                         </a>
@@ -34,7 +34,7 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ route('auth.login') }}">
+                <a href="{{ route('login') }}">
                     <i class="fa fa-sign-out"></i> Đăng xuất
                 </a>
             </li>

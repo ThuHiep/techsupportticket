@@ -13,6 +13,7 @@
         /* Mở rộng nội dung khi sidebar thu nhỏ */
         transition: all 0.3s ease-in-out;
     }
+
     .required {
         color: red;
         font-size: 14px;
@@ -36,22 +37,17 @@
                             <input type="text" id="full_name" name="full_name" class="form-control" required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
-                            <input type="username" id="username" name="username" class="form-control" required>
-                        </div>
-                        
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="form-group col-md-4">
                             <label for="email" class="form-label">Email<span class="required">*</span></label>
                             <input type="email" id="email" name="email" class="form-control" required>
                         </div>
-                        <div class="form-group col-md-4">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
                             <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                             <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                             <select id="gender" name="gender" class="form-control" required>
                                 <option value="Nam">Nam</option>

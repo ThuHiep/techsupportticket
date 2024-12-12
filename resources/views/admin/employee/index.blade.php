@@ -79,9 +79,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($employees as $employee)
+                    @foreach($employees as $idx => $employee)
                     <tr class="text-center">
-                        <td>{{ $employee->employee_id }}</td>
+                        <td>{{ $employees->firstItem() + $idx }}</td>
                         <td>{{ $employee->full_name }}</td>
                         <td>{{ $employee->username }}</td>
                         <td>

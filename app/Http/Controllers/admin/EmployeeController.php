@@ -68,9 +68,6 @@ class EmployeeController extends Controller
             $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
 
-
-        
-
         // Upload profile image
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
@@ -81,11 +78,15 @@ class EmployeeController extends Controller
                 $image->move(public_path('admin/img/employee'), $imageName);
             }
         }
+        $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('username', $randomUserName)->exists()) {
+            $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
         $password = Str::random(11);
         // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;
-        $user->username = $request->input('username');
+        $user->username = $randomUserName;
         $user->password = Hash::make($password);
         $user->role_id = "2";
         $user->status = "active";

@@ -1,41 +1,44 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\admin\EmployeeController;
+use App\Http\Controllers\admin\RequestController;
+use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\Admin\StatisticalController;
 
 use App\Http\Controllers\guest\HomepageController;
-use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\UserController;
-use App\Http\Controllers\admin\RequestController;
-use App\Http\Controllers\admin\FAQController;
+
+use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
 //Cấm đụng cái này
 Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 
-/*Route login cua admin*/
-
-Route::get('admin/login', [AuthController::class, 'login'])->name('auth.login');
-
-/*Route register cua user*/
-Route::get('/forgot_pass_admin', [AuthController::class, 'showForgotPass'])->name('forgot_pass_admin');
-
 /*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-/*Route login cua user*/
-Route::get('login', [LoginController::class, 'login'])->name('login.login');
+/*Route login*/
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('/loginProcess', [AuthController::class, 'LoginProcess'])->name('loginProcess');
 /*Route register cua user*/
-Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
-/*Route register cua user*/
-Route::get('/forgot_pass', [LoginController::class, 'showForgotPass'])->name('forgot_pass');
-/*Route thay đổi mật khẩu cua user*/
-Route::get('auth/changePass/{user_id}', [AuthController::class, 'changePass'])->name('auth.changePass');
-/*Route update mật khẩu cua user*/
-Route::put('auth/updatePass/{user_id}', [AuthController::class, 'updatePass'])->name('auth.updatePass');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/registerProcess', [AuthController::class, 'registerProcess'])->name('registerProcess');
+/*Router xử lý ForgotPass*/
+Route::get('/forgotPass', [AuthController::class, 'forgotPass'])->name('forgotPass');
+Route::post('/forgotPassProcess', [AuthController::class, 'forgotPassProcess'])->name('forgotPassProcess');
+
+Route::get('/verifyOTP/{user_id}', [AuthController::class, 'verifyOTP'])->name('verifyOTP');
+Route::post('/verifyOTPProcess/{user_id}', [AuthController::class, 'verifyOTPProcess'])->name('verifyOTPProcess');
+
+Route::get('/changePass/{user_id}', [AuthController::class, 'changePass'])->name('changePass');
+Route::put('/updatePass/{user_id}', [AuthController::class, 'updatePass'])->name('updatePass');
+
+/*Route thay đổi mật khẩu từ email*/
+Route::get('/changePassEmail/{user_id}', [AuthController::class, 'changePassEmail'])->name('changePassEmail');
+/*Route update mật khẩu từ email*/
+Route::put('/updatePassEmail/{user_id}', [AuthController::class, 'updatePassEmail'])->name('updatePassEmail');
 
 // Nhóm route cho phần admin
 Route::name('customer.')->group(function () {
@@ -108,7 +111,6 @@ Route::name('request.')->group(function () {
 // Hiển thị danh sách khách hàng
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
-    
 });
 
 
@@ -123,7 +125,6 @@ Route::name('faq.')->group(function () {
     Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->name('edit');
     Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->name('update');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->name('delete');
-
 });
 
 
