@@ -47,9 +47,10 @@
                         <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ $customers->customer_id }}" readonly required>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
-                        <input type="text" id="tax_id" name="tax_id" class="form-control" value="{{ $customers->tax_id }}" required>
+                        <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $customers->username }}" required>
                     </div>
+
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" value="{{ $customers->full_name }}" required>
@@ -78,17 +79,19 @@
                 <!-- Email + Software + Công ty -->
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="software" class="form-label">Software<span class="required">*</span></label>
-                        <input type="text" id="software" name="software" class="form-control" value="{{ $customers->software }}">
-                    </div>
-                    <div class="form-group col-md-6">
                         <label for="company" class="form-label">Công ty<span class="required">*</span></label>
                         <input type="text" id="company" name="company" class="form-control" value="{{ $customers->company }}">
                     </div>
+                    <div class="form-group col-md-4">
+                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" value="{{ $customers->tax_id }}" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
+                        <input type="text" id="software" name="software" class="form-control" value="{{ $customers->software }}">
+                    </div>
+                    
                 </div>
 
                 <!-- Địa chỉ + Website -->
@@ -96,6 +99,10 @@
                     <div class="form-group col-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" value="{{ $customers->address }}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
                     </div>
                     <div class="form-group col-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
