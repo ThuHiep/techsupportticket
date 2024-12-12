@@ -11,7 +11,8 @@ class FaqController extends Controller
 
     }
     public function index(){
-        return view('admin.faq.index');
+        $template = 'admin.faq.index';
+        return view('admin.dashboard.layout', compact('template'));
     }
 
 }
