@@ -9,10 +9,17 @@ function previewImage(event) {
 }
 
 document.getElementById('tax_id').addEventListener('input', function () {
+    // Chỉ cho phép nhập số
     this.value = this.value.replace(/[^0-9]/g, '');
+
+    // Chặn nhập nếu có hơn 9 chữ số
+    if (this.value.length > 9) {
+        this.value = this.value.slice(0, 9); // Giới hạn chỉ còn 9 chữ số
+    }
 });
 document.getElementById('full_name').addEventListener('input', function () {
-    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+    // Thay thế tất cả các ký tự số
+    this.value = this.value.replace(/[0-9]/g, '');
 });
 document.getElementById('company').addEventListener('input', function () {
     this.value = this.value.replace(/^[0-9]/g, ''); // Không cho phép bắt đầu bằng số
