@@ -107,6 +107,7 @@ Route::name('request.')->group(function () {
 // Hiển thị danh sách khách hàng
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
+    
 });
 
 
@@ -116,6 +117,10 @@ Route::name('statistical.')->group(function () {
 // FAQ Routes
 Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
+    Route::get('/faq/create', [FaqController::class, 'create'])->name('create');
+    Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->name('edit');
+    Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->name('delete');
+
 });
 
 
