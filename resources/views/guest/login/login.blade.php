@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="guest/css/form/login_user.css?v=1">
+    <link rel="stylesheet" href="{{ asset('guest/css/form/login_user.css') }}">
     <title>Login_User</title>
 </head>
 <body>

@@ -21,7 +21,7 @@
 <div class="wrapper">
     <div class="logo_login_container">
         <div class="logo_box">
-            <img src="admin/img/logosweetsoft.png" alt="Company Logo">
+            <img src="/admin/img/logosweetsoft.png" alt="Company Logo">
         </div>
         <div class="login_box">
             <div class="login-header">

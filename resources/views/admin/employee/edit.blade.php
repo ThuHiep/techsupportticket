@@ -103,10 +103,11 @@
                                     accept="image/*" onchange="previewImage(event)">
                                 <label for="profile_image" class="custom-file-label">Chọn khác</label>
                                 <div class="image-preview">
+                                    
                                     <div id="image-preview" class="image-preview">
-                                        <img id="preview-img" src="{{ asset('admin/img/employee/' . $employee->profile_image) }}"
-                                            alt="Hình đại diện"
-                                            style="display:block; width:100%; object-fit:cover;">
+                                        <img id="preview-img"
+                                             src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/customer/default.png') }}"
+                                             alt="Hình đại diện">
                                     </div>
                                 </div>
                             </div>
