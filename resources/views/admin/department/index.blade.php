@@ -23,18 +23,23 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Danh sách phòng ban</h1>
-        <div class="top-bar">
-            <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
-            <div class="search-container">
-                <form action="{{ route('department.index') }}" method="GET">
-                    <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
-                    <button type="submit">Tìm kiếm</button>
-                </form>
-            </div>
+<div class="container">
+    <h1>Danh sách phòng ban</h1>
+    <div class="top-bar">
+        <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
+        <div class="search-container">
+            <form action="{{ route('department.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
+                <button type="submit">Tìm kiếm</button>
+            </form>
+            {{-- Hiển thị thông báo nếu không tìm thấy kết quả hoặc bỏ trống tìm kiếm --}}
+            @if(isset($searchPerformed) && $searchPerformed && $departments->isEmpty())
+                <div class="no-results-message">Không có kết quả tìm kiếm</div>
+            @endif
         </div>
-        <div class="table-container">
+    </div>
+    <div class="table-container">
+        @if(!$departments->isEmpty())
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -61,14 +66,14 @@
                         <td>
                             <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
                                 <button type="submit" class="edit-button">
-                                    <i class="fas fa-edit"></i> 
+                                    <i class="fas fa-edit"></i>
                                 </button>
                             </form>
                             <form action="{{ route('department.delete', $department->department_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $department->department_id }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $department->department_id }}')">
-                                    <i class="fas fa-trash-alt"></i> 
+                                    <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
                         </td>
@@ -76,13 +81,13 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>
-        <div class="pagination">
-            {{ $departments->links('pagination::bootstrap-4') }}
-        </div>
-    
+        @endif
     </div>
-   
+    <div class="pagination">
+        {{ $departments->links('pagination::bootstrap-4') }}
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function showDeleteModal(event, formId) {
@@ -115,6 +120,5 @@
     });
     @endif
 </script>
-
 </body>
 </html>
