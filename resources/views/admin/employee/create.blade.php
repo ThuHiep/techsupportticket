@@ -17,7 +17,7 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: left">Thêm khách hàng mới</h1>
+        <h1 style="text-align: left">Thêm nhân viên mới</h1>
         <form action="{{ route('employee.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
