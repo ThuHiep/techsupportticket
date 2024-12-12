@@ -207,7 +207,7 @@ table {
 /* Thay đổi padding và căn lề cho các ô */
 th, td {
     padding: 12px 10px;
-    text-align: left;
+    text-align: center;
     vertical-align: middle;
     font-size: var(--font-size-base);
     border: 1px solid var(--border-color);

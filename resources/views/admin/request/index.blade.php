@@ -55,7 +55,8 @@
                             <span class="status-dot handled"></span>
                         @endif
                     </td>
-                    <td>{{ $req->received_at }}</td>
+                    
+                    <td>{{ \Carbon\Carbon::parse($req->received_at)->format('d/m/Y H:i') }}</td>
                     <td>
                         <form action="{{ route('request.edit', $req->request_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">

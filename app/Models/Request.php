@@ -40,10 +40,10 @@ class Request extends Model
 
     // Định dạng ngày
     protected $casts = [
-        'received_at' => 'date',
-        'resolved_at' => 'date',
+        'received_at' => 'datetime',
+        'resolved_at' => 'datetime',
     ];
-
+  
     // Tắt timestamps mặc định (sử dụng các cột `create_at` và `update_at` tùy chỉnh)
     public $timestamps = false;
 
