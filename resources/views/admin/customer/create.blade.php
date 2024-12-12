@@ -41,11 +41,12 @@
                         <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
                         <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ $randomId }}" readonly required>
                     </div>
+
                     <div class="form-group col-md-4">
-                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
-                        <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số">
-                        <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
+                        <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
                     </div>
+                
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" required>
@@ -72,26 +73,32 @@
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                        <small id="email-error" class="text-danger" style="display: none;">Email chưa đúng định dạng!</small>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="software" class="form-label">Software<span class="required">*</span></label>
-                        <input type="text" id="software" name="software" class="form-control" required>
-                        <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập software!</small>
-                    </div>
-                    <div class="form-group col-md-6">
                         <label for="company" class="form-label">Công ty<span class="required">*</span></label>
                         <input type="text" id="company" name="company" class="form-control" required>
                         <small id="company-error" class="text-danger" style="display: none;">Vui lòng nhập công ty!</small>
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số">
+                        <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
+                        <input type="text" id="software" name="software" class="form-control" required>
+                        <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập software!</small>
+                    </div>
+                    
                 </div>
                 <div class="row mb-3 address-website-container">
                     <div class="form-group col-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" required>
                         <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>
+                    </div>
+                     <div class="form-group col-md-6">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                        <small id="email-error" class="text-danger" style="display: none;">Email chưa đúng định dạng!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
@@ -102,19 +109,6 @@
             </div>
             <div class="col-md-3 grouped-fields">
             <!-- Cột bên phải cho hình ảnh đại diện -->
-                <div class="form-group row row1">
-                    <div class="col-md-6 col-username">
-                        <label for="username" class="form-label">Tài khoản<span class="required">*</span></label>
-                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
-                    </div>
-                    <div class="col-md-6 col-password">
-                        <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
-                        <input type="text" id="password" name="password" class="form-control" value="{{ $password }}" readonly required>
-                        <button type="button" class="btn btn-secondary btn-sm" id="reset-password">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </div>
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
