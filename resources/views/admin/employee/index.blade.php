@@ -117,7 +117,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center pagination">
             {{ $employees->links('pagination::bootstrap-4') }}
         </div>
 

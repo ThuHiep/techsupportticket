@@ -20,6 +20,10 @@
             width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
             transition: all 0.3s ease-in-out;
         }
+        .required {
+            color: red;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -34,27 +38,27 @@
     <form action="{{ route('department.update', $department->department_id) }}" method="POST">
         @csrf
         @method('PUT')
-    
+
         <!-- Các trường trên cùng một hàng -->
         <div class="form-group-row">
             <div class="form-group">
-                <label for="department_id">Mã phòng ban:</label>
+                <label for="department_id">Mã phòng ban:<span class="required">*</span></label>
                 <input type="text" name="department_id" id="department_id" value="{{ $department->department_id }}" readonly>
                 @error('department_id')
                 <div class="error">{{ $message }}</div>
                 @enderror
             </div>
-    
+
             <div class="form-group">
-                <label for="department_name">Tên phòng ban:</label>
+                <label for="department_name">Tên phòng ban:<span class="required">*</span></label>
                 <input type="text" name="department_name" id="department_name" value="{{ old('department_name', $department->department_name) }}" required>
                 @error('department_name')
                 <div class="error">{{ $message }}</div>
                 @enderror
             </div>
-    
+
             <div class="form-group">
-                <label for="status">Trạng thái:</label>
+                <label for="status">Trạng thái:<span class="required">*</span></label>
                 <select name="status" id="status">
                     <option value="active" {{ old('status', $department->status) == 'active' ? 'selected' : '' }}>Hoạt động</option>
                     <option value="inactive" {{ old('status', $department->status) == 'inactive' ? 'selected' : '' }}>Không hoạt động</option>
@@ -64,14 +68,14 @@
                 @enderror
             </div>
         </div>
-    
+
         <!-- Các nút hành động -->
         <div class="button-group">
             <button type="submit" class="add-department-btn">Cập nhật</button>
             <a href="{{ route('department.index') }}" class="cancel-btn">Hủy</a>
         </div>
     </form>
-    
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

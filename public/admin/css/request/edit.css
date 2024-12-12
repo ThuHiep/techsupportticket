@@ -20,7 +20,7 @@ body {
     font-family: var(--font-family);
     margin: 0;
     padding: 0;
-    background-color: #f4f7fc; /* Giống như department */
+    background-color: #ffffff; /* Giống như department */
     color: var(--text-color);
     line-height: 1.6;
 }
