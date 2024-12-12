@@ -29,4 +29,5 @@ class UserController extends Controller
         return view('guest.account.index');
     }
 
+
 }

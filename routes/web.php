@@ -77,7 +77,8 @@ Route::name('employee.')->group(function () {
     Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete');
 });
 
-Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('admin.user.list');
+Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('guest.user.list');
+Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->name('admin.customer.list');
 
 
 

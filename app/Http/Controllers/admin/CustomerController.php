@@ -21,15 +21,11 @@ class CustomerController extends Controller
         $search = $request->input('search');
 
         // Truy vấn khách hàng có status là 'active'
-        $customers = Customer::with('user')
-            ->where('status', 'active')
+        $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
                 return $query->where(function ($query) use ($search) {
                     $query->where('customer_id', 'LIKE', "%$search%")
-                        ->orWhere('full_name', 'LIKE', "%$search%")
-                        ->orWhereHas('user', function ($query) use ($search) {
-                            $query->where('email', 'LIKE', "%$search%");
-                        });
+                        ->orWhere('full_name', 'LIKE', "%$search%");
                 });
             })
             ->paginate(3);
@@ -38,6 +34,8 @@ class CustomerController extends Controller
         $message = null;
         if ($customers->count() > 0) {
             $message = "Tìm thấy " . $customers->count() . " khách hàng có tên là '{$search}'";
+        } else {
+            $message = "Không tìm thấy khách hàng nào với tên hoặc ID '{$search}'";
         }
 
         return view('admin.dashboard.layout', compact('template', 'customers', 'message'));
@@ -268,5 +266,14 @@ class CustomerController extends Controller
         return view('admin.dashboard.layout', compact('template', 'customers'));
     }
 
+    //Số lượng người dùng theo ngày
+    public function getUserList()
+    {
+        $users = Customer::select('customer_id', 'full_name', 'status')
+            ->whereNull('status') // Chỉ lấy các tài khoản chưa được phê duyệt
+            ->get();
+
+        return response()->json($users);
+    }
 
 }

@@ -116,7 +116,7 @@
     });
 
     function updateUserCount() {
-        fetch('{{ route("admin.user.list") }}')
+        fetch('{{ route("guest.user.list") }}')
             .then(response => response.json())
             .then(data => {
                 const userCount = data.length;
