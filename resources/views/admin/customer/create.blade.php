@@ -46,7 +46,7 @@
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                         <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
                     </div>
-                
+
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" required>
@@ -87,7 +87,7 @@
                         <input type="text" id="software" name="software" class="form-control" required>
                         <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập software!</small>
                     </div>
-                    
+
                 </div>
                 <div class="row mb-3 address-website-container">
                     <div class="form-group col-6">

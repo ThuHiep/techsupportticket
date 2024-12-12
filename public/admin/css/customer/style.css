@@ -137,20 +137,20 @@ th, td {
     white-space: nowrap; /* Ngăn nội dung xuống dòng */
 }
 th:nth-child(1), td:nth-child(1) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột STT */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(2), td:nth-child(2) {
-    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
+    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Họ tên) */
 }
 th:nth-child(3), td:nth-child(3) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Avatar */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(4), td:nth-child(4) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Ngày Sinh */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
@@ -160,12 +160,17 @@ th:nth-child(5), td:nth-child(5) {
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(6), td:nth-child(6) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột giới tính */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(7), td:nth-child(7) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Trạng thái */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(8), td:nth-child(8) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Thao tác  */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
