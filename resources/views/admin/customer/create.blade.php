@@ -87,7 +87,7 @@
                         <small id="company-error" class="text-danger" style="display: none;">Vui lòng nhập công ty!</small>
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3 address-website-container">
                     <div class="form-group col-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" required>

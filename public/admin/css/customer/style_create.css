@@ -109,10 +109,10 @@ form {
 /* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
 .address-website-container {
     display: flex; /* Sử dụng Flexbox */
-    gap: 10px; /* Khoảng cách giữa các trường */
+    gap: 0px; /* Khoảng cách giữa các trường */
     flex-wrap: wrap; /* Các trường xuống dòng nếu không đủ chỗ */
     width: 741px;
-    margin-left: -10px;
+    margin-left: 0px;
 }
 
 /* Mỗi trường chiếm 50% chiều rộng */
