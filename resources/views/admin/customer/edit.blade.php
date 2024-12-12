@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
-                        <input type="text" id="username" name="username" class="form-control" value="{{ $customers->username }}" required>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ $customers->user->username }}" required>
                     </div>
 
                     <div class="form-group col-md-4">
@@ -91,7 +91,7 @@
                         <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
                         <input type="text" id="software" name="software" class="form-control" value="{{ $customers->software }}">
                     </div>
-                    
+
                 </div>
 
                 <!-- Địa chỉ + Website -->
