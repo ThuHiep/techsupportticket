@@ -131,3 +131,20 @@ input[readonly] {
     color: #555;
     border: 1px solid #ccc;
 }
+/* Đánh dấu trường không hợp lệ */
+input:invalid {
+    border-color: red;
+}
+
+/* Thêm màu sắc cho thông báo lỗi client-side và đặt min-height */
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+    min-height: 18px; /* Điều chỉnh chiều cao phù hợp với kích thước font */
+    visibility: hidden; /* Ẩn thông báo lỗi mặc định */
+}
+
+.error.visible {
+    visibility: visible; /* Hiển thị thông báo lỗi khi có lỗi */
+}

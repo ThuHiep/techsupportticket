@@ -34,6 +34,11 @@ class FAQ extends Model
     // Tắt timestamps (do bảng không có cột `created_at` và `updated_at`)
     public $timestamps = false;
 
+    // Chuyển đổi kiểu dữ liệu cho cột
+    protected $casts = [
+        'create_at' => 'datetime',
+    ];
+
     /**
      * Định nghĩa quan hệ với bảng `employee`.
      */

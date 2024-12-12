@@ -30,16 +30,6 @@
 
                             </div>
                         </a>
-
-                    </li>
-
-                    <li class="divider"></li>
-                    <li>
-                        <div class="text-center link-block">
-                            <a href="mailbox.html">
-                                <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                            </a>
-                        </div>
                     </li>
                 </ul>
             </li>
