@@ -208,7 +208,7 @@ tr:nth-child(even) td {
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
     background-color: #FF9700; /* Màu nền khi chọn */
-    color: white; /* Màu chữ trắng */
+    color: white;
     cursor: default;
     z-index: 2;
 }
