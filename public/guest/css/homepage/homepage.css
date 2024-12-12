@@ -385,7 +385,7 @@ footer {
     font-size: 24px;
     cursor: pointer;
     z-index: 1000;
-    background-image: url("/techsupportticket/public/guest/img/maybay.png");
+    background-image: url("/guest/img/maybay.png");
     background-size: cover;
     background-color: #6f2f9f;
 }

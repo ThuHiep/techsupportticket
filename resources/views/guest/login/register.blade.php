@@ -14,7 +14,7 @@
 <div class="wrapper">
     <div class="register_box">
         <div class="register-header">
-            <span>Đăng ký tài khoản</span>
+            <span>Đăng ký</span>
         </div>
         <!--Input field-->
         <form action="process_register.php" method="POST">
