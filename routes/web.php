@@ -119,7 +119,9 @@ Route::name('statistical.')->group(function () {
 Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
     Route::get('/faq/create', [FaqController::class, 'create'])->name('create');
+    Route::post('/faq/store', [FaqController::class, 'store'])->name('store');
     Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->name('edit');
+    Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->name('update');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->name('delete');
 
 });

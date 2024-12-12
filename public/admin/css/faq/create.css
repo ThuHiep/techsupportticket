@@ -1,4 +1,3 @@
-
 body {
     font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     margin: 0;
@@ -30,40 +29,50 @@ h1 {
     background-color: #dff0d8;
 }
 
-
+/* Cập nhật .form-group-row để sử dụng Flexbox */
 .form-group-row {
     display: flex;
-    justify-content: space-between; /* Phân phối đều các mục */
-    align-items: flex-start; /* Căn chỉnh các mục về phía trên cùng */
-    gap: 10px; /* Khoảng cách giữa các mục */
+    flex-wrap: wrap; /* Cho phép các trường xuống dòng nếu màn hình nhỏ */
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px; /* Khoảng cách giữa các trường */
 }
 
-.form-group-row .form-group {
-    flex: 1; /* Đảm bảo mỗi mục có chiều rộng bằng nhau */
-    display: flex;
-    flex-direction: column; /* Đặt label và input theo chiều dọc */
-    box-sizing: border-box; /* Đảm bảo padding không làm ảnh hưởng chiều rộng */
+/* Điều chỉnh .form-group để phù hợp với Flexbox */
+.form-group {
+    flex: 1; /* Các trường sẽ chia đều không gian */
+    min-width: 200px; /* Đặt chiều rộng tối thiểu để đảm bảo hiển thị tốt */
 }
 
-.form-group-row .form-group input,
-.form-group-row .form-group select {
-    height: 45px; /* Đặt chiều cao đồng nhất */
-    padding: 10px; /* Đảm bảo khoảng cách bên trong hợp lý */
-    border: 3px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    width: 100%; /* Đảm bảo input/ select chiếm đủ chiều rộng */
-    box-sizing: border-box;
+/* Kiểm soát chiều rộng cụ thể nếu cần */
+.form-group.half-width {
+    flex: 0 0 48%; /* Chiếm khoảng 48% không gian để có khoảng cách */
 }
 
 .form-group label {
+    display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
 }
 
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 3px solid #c9d1d9;
+    border-radius: 3px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 .form-group input[type="text"]:focus,
-.form-group select:focus {
+.form-group input[type="email"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: #FF9700;
     box-shadow: 0 0 6px rgba(255, 151, 0, 0.4);
     outline: none;
@@ -73,6 +82,12 @@ h1 {
     color: red;
     font-size: 13px;
     margin-top: 5px;
+    min-height: 18px; /* Điều chỉnh chiều cao phù hợp với kích thước font */
+    visibility: hidden; /* Ẩn thông báo lỗi mặc định */
+}
+
+.error.visible {
+    visibility: visible; /* Hiển thị thông báo lỗi khi có lỗi */
 }
 
 .button-group {
@@ -80,9 +95,9 @@ h1 {
     justify-content: center; /* Căn giữa nút */
     gap: 20px; /* Khoảng cách giữa các nút */
     margin-top: 30px; /* Tăng khoảng cách so với nội dung trên */
-
 }
-.add-department-btn,
+
+.add-faq-btn,
 .cancel-btn {
     padding: 12px 24px;
     border-radius: 8px;
@@ -95,29 +110,30 @@ h1 {
     font-size: 15px;
 }
 
-.add-department-btn {
+.add-faq-btn {
     color: #fff;
     border: 1px solid #FF9700;
-    background-color: #FF9700; /* Màu cam lá */
+    background-color: #FF9700; /* Màu cam */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
     width: 150px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
 }
 
-.add-department-btn:hover {
+.add-faq-btn:hover {
     background-color: #ee5711; /* Màu cam đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
 }
-.add-department-btn:active {
+
+.add-faq-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
+
 .cancel-btn {
     background-color: #a7b1c2; /* Màu nền xám */
     color: white;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
     width: 150px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
-    margin-left: 40px;
 }
 
 .cancel-btn:hover {
@@ -125,28 +141,15 @@ h1 {
     color: #FFFFFF;
     transform: scale(1.05); /* Phóng to nhẹ */
 }
+
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
+
 input[readonly] {
     background-color: #DEBFF3;
     color: #555;
     border: 1px solid #ccc;
 }
+
 /* Đánh dấu trường không hợp lệ */
-input:invalid {
-    border-color: red;
-}
-
-/* Thêm màu sắc cho thông báo lỗi client-side và đặt min-height */
-.error {
-    color: red;
-    font-size: 13px;
-    margin-top: 5px;
-    min-height: 18px; /* Điều chỉnh chiều cao phù hợp với kích thước font */
-    visibility: hidden; /* Ẩn thông báo lỗi mặc định */
-}
-
-.error.visible {
-    visibility: visible; /* Hiển thị thông báo lỗi khi có lỗi */
-}
