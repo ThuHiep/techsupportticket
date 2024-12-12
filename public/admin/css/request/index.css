@@ -17,7 +17,7 @@
 
 /* Cấu hình chung cho body và container */
 body {
-    font-family: var(--font-family);
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
