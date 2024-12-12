@@ -95,7 +95,7 @@
                         <input type="text" id="address" name="address" class="form-control" required>
                         <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>
                     </div>
-                     <div class="form-group col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
                         <input type="email" id="email" name="email" class="form-control" required>
                         <small id="email-error" class="text-danger" style="display: none;">Email chưa đúng định dạng!</small>
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="col-md-3 grouped-fields">
-            <!-- Cột bên phải cho hình ảnh đại diện -->
+                <!-- Cột bên phải cho hình ảnh đại diện -->
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
