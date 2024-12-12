@@ -16,8 +16,6 @@ body {
     border-radius: 8px;
 }
 
-
-
 h1 {
     padding-bottom: 20px;
     color: #FF9700;
@@ -26,10 +24,14 @@ h1 {
 .top-bar {
     display: flex;
     align-items: center;
+    justify-content: center; /* Căn giữa nội dung bên trong */
+    position: relative; /* Để định vị add-department-btn */
     margin-bottom: 20px;
 }
 
 .add-department-btn {
+    position: absolute;
+    left: 0;
     padding: 8px 15px;
     background-color: #FF9700;
     color: white;
@@ -37,7 +39,6 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    margin-right: auto;
 }
 
 .add-department-btn:hover {
@@ -45,24 +46,26 @@ h1 {
     color: #FFFFFF;
 }
 
-
 .search-container {
-    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;  /* Căn giữa theo chiều ngang */
-    margin-right: 300px;
-    margin-left: auto;
-    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
-}
-.search-container input[type="text"] {
+    justify-content: center;
     width: 440px;
-    padding: 10px 100px 10px 15px;
+}
+
+.search-container form {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng của search-container */
+}
+
+.search-container input[type="text"] {
+    flex: 1; /* Chiếm toàn bộ không gian còn lại */
+    padding: 10px 15px;
     border: 1px solid #FF9700;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px; /* Xoay góc trái của input */
     outline: none;
     box-sizing: border-box;
-    margin-left: -105px;
 }
 
 .search-container input[type="text"]:focus {
@@ -70,15 +73,11 @@ h1 {
 }
 
 .search-container button {
-    position: absolute;
-    top: 0;
-    right: 53px;
-    height: 100%;
-    width: 90px;
+    padding: 10px 15px;
     background-color: #FF9700;
     color: white;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0; /* Xoay góc phải của button */
     cursor: pointer;
 }
 
@@ -87,6 +86,13 @@ h1 {
     color: #FFFFFF;
 }
 
+.no-results-message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+    width: 100%; /* Đảm bảo thông báo chiếm toàn bộ chiều rộng của search-container */
+    text-align: center; /* Căn giữa nội dung thông báo */
+}
 
 .table-container {
     width: 100%;
@@ -99,16 +105,9 @@ table {
     margin-top: 20px;
 }
 
-/* th, td {
-    padding: 12px;
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    font-size: 15px;
-} */
 th, td {
     padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
-    text-align: center; /* Căn trái thay vì căn giữa */
+    text-align: center; /* Căn giữa */
     vertical-align: middle;
     font-size: 14px; /* Điều chỉnh kích thước chữ */
     border: 1px solid #ddd;
@@ -163,23 +162,7 @@ tr:nth-child(even) td {
     margin-top: 20px;
 }
 
-.pagination a {
-    padding: 10px 16px;
-    margin: 0 8px;
-    background-color: #FF9700; /* Màu nền khi không chọn */
-    color: white; /* Màu chữ trắng */
-    text-decoration: none;
-    border-radius: 50%; /* Đảm bảo hình tròn */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 1px solid #DDDDDD; /* Thêm đường viền */
-}
-.pagination span {
+.pagination a, .pagination span {
     padding: 10px 16px;
     margin: 0 8px;
     background-color: #FF9700; /* Màu nền khi không chọn */
@@ -210,12 +193,14 @@ tr:nth-child(even) td {
     color: white;
     cursor: default;
 }
+
 .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
     color: #ffffff;
     cursor: not-allowed;
     background-color: #FF9700;
     border-color: #ddd;
 }
+
 .pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,
@@ -223,7 +208,7 @@ tr:nth-child(even) td {
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
     background-color: #FF9700; /* Màu nền khi chọn */
-    color: white; /* Màu chữ trắng */
+    color: white;
     cursor: default;
     z-index: 2;
 }
@@ -237,6 +222,7 @@ tr:nth-child(even) td {
 .hidden {
     display: none;
 }
+
 .status-dot {
     display: inline-block;
     width: 8px;

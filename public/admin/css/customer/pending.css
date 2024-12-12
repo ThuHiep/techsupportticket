@@ -9,7 +9,7 @@ body {
 
 /* Container chính */
 .container {
-    width: 1200px;
+    width: 1260px;
     margin-top: 22px;
     margin-left: 12px;
     padding: 0 20px;
@@ -29,7 +29,7 @@ h1 {
 a.btn {
     display: inline-block;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 15px 20px;
     margin-bottom: 20px;
     color: #fff;
     background-color: #6c757d;
@@ -42,64 +42,121 @@ a.btn:hover {
     background-color: #5a6268;
 }
 
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 30px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    margin-top: 20px;
 }
 
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 12px;
+th, td {
+
     text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    white-space: nowrap; /* Ngăn nội dung xuống dòng */
 }
-
-table th {
-    background-color: #4caf50;
+th {
+    background-color: #6f2f9f;
     color: white;
-    text-transform: uppercase;
+    font-weight: bold;
 }
 
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #eaeaea;
 }
 
 table tr:hover {
     background-color: #f1f1f1;
 }
+th:nth-child(1), td:nth-child(1) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột STT */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(2), td:nth-child(2) {
+    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Họ tên) */
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Avatar */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(4), td:nth-child(4) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Ngày Sinh */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+/* Nút Quay lại */
+.btn-secondary {
+    padding: 12px 24px; /* Khoảng cách trong nút */
+    background-color: #a7b1c2; /* Màu nền xám */
+    color: white; /* Màu chữ */
+    border: none; /* Bỏ đường viền */
+    border-radius: 8px; /* Bo góc */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 100px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
+    margin-left: 0px;
+}
+.btn-secondary:hover {
+    background-color: rgba(167, 177, 194, 0.82);
+    color: #FFFFFF;
+    transform: scale(1.05); /* Phóng to nhẹ */
+}
+.btn-secondary:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
+}
+/* Định dạng chung cho vùng chứa */
 .action-buttons {
-    display: flex;
-    justify-content: center;
+    display: flex; /* Sử dụng Flexbox để căn nút trên cùng một hàng */
+    justify-content: space-around; /* Hoặc space-between nếu muốn căn đều */
+    align-items: center; /* Căn giữa theo chiều dọc */
     gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 0px;
 }
 
-.action-buttons form {
-    display: inline-block;
-}
-
-button {
-    padding: 10px 20px;
+/* Định dạng chung cho các nút */
+.action-buttons button {
+    padding: 8px 15px;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
 }
 
-button[type="submit"] {
-    color: white;
+/* Nút phê duyệt */
+.action-buttons .green {
+    background-color: #28a745; /* Màu xanh lá */
 }
 
-button[type="submit"]:hover {
-    opacity: 0.9;
+.action-buttons .green:hover {
+    background-color: #218838; /* Xanh lá đậm hơn khi hover */
 }
 
-button[style*="blue"] {
-    background-color: #007bff;
+/* Nút không duyệt */
+.action-buttons .red {
+    background-color: #dc3545; /* Màu đỏ */
 }
 
-button[style*="red"] {
-    background-color: #dc3545;
+.action-buttons .red:hover {
+    background-color: #c82333; /* Đỏ đậm hơn khi hover */
 }
+
