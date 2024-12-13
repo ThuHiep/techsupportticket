@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
 </head>
 <body>
 <div class="container">
@@ -67,12 +67,24 @@
                             @endfor
                         </select>
                     </div>
-                    <input type="date" name="startDate" value="{{ request('startDate') }}" placeholder="Ngày bắt đầu">
-                    <input type="date" name="endDate" value="{{ request('endDate') }}" placeholder="Ngày kết thúc">
+                    <div class="row_start_end">
+                        <div class="col-lg-6">
+                            <div class="date-container">
+                                <label for="startDate">Ngày bắt đầu</label>
+                                <input type="date" id="startDate" name="startDate" value="{{ request('startDate') }}" placeholder="Ngày bắt đầu">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="date-container">
+                                <label for="endDate">Ngày kết thúc</label>
+                                <input type="date" id="endDate" name="endDate" value="{{ request('endDate') }}" placeholder="Ngày kết thúc">
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit">Thống kê</button>
                 </form>
                 <div class="chart-container">
-                    <canvas id="requestTypeReport"></canvas>
+                    <canvas id="requestTypeReport" style="margin-bottom: 15px;"></canvas>
                 </div>
             </div>
         </div>
