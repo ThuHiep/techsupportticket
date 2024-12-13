@@ -90,8 +90,8 @@
                         <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập phần mềm!</small>
                     </div>
                 </div>
-                <div class="row mb-3 address-website-container">
-                    <div class="form-group col-6">
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" required>
                         <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>

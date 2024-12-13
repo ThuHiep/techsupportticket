@@ -31,6 +31,7 @@ class FAQ extends Model
         'status'
     ];
 
+
     // Tắt timestamps (do bảng không có cột `created_at` và `updated_at`)
     public $timestamps = false;
 
@@ -38,6 +39,11 @@ class FAQ extends Model
     protected $casts = [
         'create_at' => 'datetime',
     ];
+
+    public function setAnswerAttribute($value)
+    {
+        $this->attributes['answer'] = $value ?: null; // Gán NULL nếu giá trị trống
+    }
 
     /**
      * Định nghĩa quan hệ với bảng `employee`.

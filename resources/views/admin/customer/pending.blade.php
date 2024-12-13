@@ -8,7 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/pending.css') }}">
     <style>
-
+        body .container {
+            width: calc(98%);
+            transition: all 0.3s ease-in-out;
+        }
+        body.mini-navbar .container {
+            width: calc(98%);
+            transition: all 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body>
