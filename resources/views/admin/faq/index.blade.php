@@ -16,6 +16,20 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
+        
+
+        .search-result-message.success {
+            text-align: center;
+            font-weight: 600;
+            color: #28a745; /* Màu xanh khi tìm thấy kết quả */
+        }
+
+        .search-result-message.error {
+            text-align: center;
+            font-weight: 600;
+        color: #dc3545; /* Màu đỏ khi không tìm thấy kết quả */
+        }
+
     </style>
 </head>
 <body>
@@ -30,6 +44,20 @@
                 </form>
             </div>
         </div>
+        <div class="search-result-message 
+            @if(request()->query('search'))
+                {{ $totalResults > 0 ? 'success' : 'error' }}
+            @endif">
+            @if(request()->query('search'))
+                @if($totalResults > 0)
+                    Tìm thấy {{ $totalResults }} câu hỏi có từ khóa "{{ request()->query('search') }}".
+                @else
+                    Không tìm thấy câu hỏi có từ khóa "{{ request()->query('search') }}".
+                @endif
+            @endif
+        </div>
+
+        
         <div class="table-container">
             <table class="table table-striped">
                 <thead>
