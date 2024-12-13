@@ -19,7 +19,7 @@ body {
 h1 {
     padding-bottom: 20px;
     color: #FF9700;
-    text-align: center; /* Căn giữa tiêu đề */
+    text-align: left; /* Căn giữa tiêu đề */
 }
 
 .top-bar {
@@ -74,7 +74,7 @@ h1 {
 }
 
 .search-container button {
-    padding: 10px 15px;
+    padding: 11px 15px;
     background-color: #FF9700;
     color: white;
     border: none;

@@ -41,7 +41,9 @@
                 <form action="{{ route('faq.index') }}" method="GET">
                     <input type="text" name="search" placeholder="Nhập câu hỏi cần tìm" value="{{ request()->query('search') }}">
                     <button type="submit">Tìm kiếm</button>
+                    
                 </form>
+                
             </div>
         </div>
         <div class="search-result-message 
