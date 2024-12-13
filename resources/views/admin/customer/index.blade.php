@@ -72,7 +72,7 @@
                         <td>
                             <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="customer-image">
                         </td>
-                        <td>{{ $customer->date_of_birth }}</td>
+                        <td>{{ \Carbon\Carbon::parse($customer->date_of_birth )->format('d/m/Y') }}</td>
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer->gender }}</td>
                         <td>

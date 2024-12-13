@@ -17,25 +17,49 @@ class RequestController extends Controller
     public function index(HttpRequest $request)
     {
         $template = 'admin.request.index';
-        $search = $request->input('search');
+
+        // Các biến nhập liệu mới
+        $customerId = $request->input('customer_id');
+        $departmentId = $request->input('department_id');
+        $requestDate = $request->input('request_date');
         $statusFilter = $request->input('status');
 
         // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
-        $statuses = ['Chưa xử lý','Đang xử lý', 'Hoàn thành',];
+        $statuses = ['Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy'];
 
         // Truy vấn các yêu cầu kèm theo quan hệ với Customer, Department, và RequestType
-        $requests = SupportRequest::with(['customer', 'department', 'requestType'])
-            ->when($search, function ($query) use ($search) {
-                return $query->where('request_id', 'LIKE', "%$search%")
-                    ->orWhere('subject', 'LIKE', "%$search%")
-                    ->orWhere('description', 'LIKE', "%$search%");
-            })
-            ->when($statusFilter, function ($query) use ($statusFilter) {
-                return $query->where('status', $statusFilter);
-            })
-            ->paginate(10); // Phân trang 10 yêu cầu mỗi trang
+        $query = SupportRequest::with(['customer', 'department', 'requestType']);
 
-        return view('admin.dashboard.layout', compact('template', 'requests', 'statuses'));
+        // Áp dụng điều kiện tìm kiếm nếu có
+        if (!empty($customerId)) {
+            $query->where('customer_id', $customerId);
+        }
+
+        if (!empty($departmentId)) {
+            $query->where('department_id', $departmentId);
+        }
+
+        if (!empty($requestDate)) {
+            $query->whereDate('received_at', $requestDate);
+        }
+
+        if (!empty($statusFilter)) {
+            $query->where('status', $statusFilter);
+        }
+
+        // Phân trang kết quả với 10 yêu cầu mỗi trang và giữ lại các tham số truy vấn
+        $requests = $query->paginate(10)->appends($request->all());
+
+        // Lấy tổng số kết quả
+        $count = $requests->total();
+
+        // Lấy danh sách cho các dropdown
+        $customers = Customer::all();
+        $departments = Department::all();
+        $requestTypes = RequestType::all();
+        $priorities = ['Thấp', 'Trung bình', 'Cao']; // Các giá trị ưu tiên từ bảng
+
+        return view('admin.dashboard.layout', compact('template', 'requests', 'statuses', 'count', 'customers', 'departments', 'requestTypes', 'priorities'));
     }
 
     /**
@@ -128,7 +152,7 @@ class RequestController extends Controller
             'description' => 'required',
             'received_at' => 'required|date',
             'priority' => 'required|in:Thấp,Trung bình,Cao',
-            'status' => 'required|in:Chưa xử lý,Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
+            'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
         ]);
 
         $supportRequest->update([
