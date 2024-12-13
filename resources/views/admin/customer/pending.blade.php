@@ -142,7 +142,7 @@
                         <td>{{ $customer->full_name }}</td>
                         <td>{{ $customer->user->username }}</td>
                         <td>{{ $customer->user->password }}</td>
-                        <td>{{ \Carbon\Carbon::parse($customer->created_at)->format('d/m/Y H:i') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($customer->create_at)->format('d/m/Y') }}</td>
                         <td>
                             <div class="action-buttons">
                                 <form action="{{ route('customer.approve', ['customer_id' => $customer->customer_id]) }}" method="POST">
