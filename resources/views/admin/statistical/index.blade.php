@@ -3,64 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .report-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .report-section h3 {
-            margin-bottom: 15px;
-            font-size: 24px;
-            color: #333;
-        }
-        .chart-container {
-            width: 100%;
-            max-width: 700px;
-            margin: auto;
-        }
-        .filter-container {
-            margin-bottom: 20px;
-        }
-        button, input[type="submit"] {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        button:hover, input[type="submit"]:hover {
-            background-color: #1abc9c;
-            transform: scale(1.05);
-        }
-        button:active, input[type="submit"]:active {
-            background-color: #2980b9;
-            transform: scale(0.95);
-        }
-        select, input[type="date"] {
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-        select:focus, input[type="date"]:focus {
-            border-color: #3498db;
-        }
-    </style>
+    
 </head>
 <body>
 <div class="container">
