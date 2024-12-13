@@ -16,19 +16,6 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
-        
-
-        .search-result-message.success {
-            text-align: center;
-            font-weight: 600;
-            color: #28a745; /* Màu xanh khi tìm thấy kết quả */
-        }
-
-        .search-result-message.error {
-            text-align: center;
-            font-weight: 600;
-        color: #dc3545; /* Màu đỏ khi không tìm thấy kết quả */
-        }
 
     </style>
 </head>
@@ -40,22 +27,49 @@
             <div class="search-container">
                 <form action="{{ route('faq.index') }}" method="GET">
                     <input type="text" name="search" placeholder="Nhập câu hỏi cần tìm" value="{{ request()->query('search') }}">
+                    
+                    <select name="status">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="Đã phản hồi" {{ request()->query('status') == 'Đã phản hồi' ? 'selected' : '' }}>Đã phản hồi</option>
+                        <option value="Chưa phản hồi" {{ request()->query('status') == 'Chưa phản hồi' ? 'selected' : '' }}>Chưa phản hồi</option>
+                    </select>
+                    
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
         </div>
+
         <div class="search-result-message 
-            @if(request()->query('search'))
+            @if(request()->query('search') || request()->query('status'))
                 {{ $totalResults > 0 ? 'success' : 'error' }}
             @endif">
-            @if(request()->query('search'))
+            @if(request()->query('search') || request()->query('status'))
                 @if($totalResults > 0)
-                    Tìm thấy {{ $totalResults }} câu hỏi có từ khóa "{{ request()->query('search') }}".
+                    <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+                        Tìm thấy {{ $totalResults }} câu hỏi
+                   
+                        @if(request()->query('search'))
+                            có từ khóa "{{ request()->query('search') }}"
+                        @endif
+                        @if(request()->query('status'))
+                            với trạng thái "{{ request()->query('status') }}"
+                        @endif.
+                    </div>
                 @else
-                    Không tìm thấy câu hỏi có từ khóa "{{ request()->query('search') }}".
+                    <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+                        Không tìm thấy câu hỏi 
+                        @if(request()->query('search'))
+                            có từ khóa "{{ request()->query('search') }}"
+                        @endif
+                        @if(request()->query('status'))
+                            với trạng thái "{{ request()->query('status') }}"
+                        @endif.
+                    </div>
                 @endif
             @endif
         </div>
+
+
 
         
         <div class="table-container">

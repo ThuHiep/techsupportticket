@@ -19,7 +19,7 @@ class CustomerController extends Controller
     {
         $template = 'admin.customer.index';
         $search = $request->input('search');
-
+        $searchPerformed = $search !== null && $search !== ''; 
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
@@ -28,14 +28,10 @@ class CustomerController extends Controller
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
-        $message = null;
-        if ($customers->count() > 0) {
-            $message = "Tìm thấy " . $customers->count() . " khách hàng có từ khóa '{$search}'";
-        } else {
-            $message = "Không tìm thấy khách hàng nào với từ khóa '{$search}'";
-        }
 
-        return view('admin.dashboard.layout', compact('template', 'customers', 'message'));
+        $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
+
+        return view('admin.dashboard.layout', compact('template','customers', 'searchPerformed', 'search', 'totalResults'));
     }
 
     // Hiển thị form tạo khách hàng mới
