@@ -29,7 +29,18 @@
         <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('customer.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                <div style="position: relative;">
+                    <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                    @if($search)
+                    <a
+                        href="{{ route('customer.index') }}"
+                        id="clearButton"
+                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                        ✖
+                    </a>
+                    @endif
+                </div>
+               
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
