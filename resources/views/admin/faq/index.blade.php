@@ -40,24 +40,44 @@
             <div class="search-container">
                 <form action="{{ route('faq.index') }}" method="GET">
                     <input type="text" name="search" placeholder="Nhập câu hỏi cần tìm" value="{{ request()->query('search') }}">
-                    <button type="submit">Tìm kiếm</button>
                     
+                    <select name="status">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="Đã phản hồi" {{ request()->query('status') == 'Đã phản hồi' ? 'selected' : '' }}>Đã phản hồi</option>
+                        <option value="Chưa phản hồi" {{ request()->query('status') == 'Chưa phản hồi' ? 'selected' : '' }}>Chưa phản hồi</option>
+                    </select>
+                    
+                    <button type="submit">Tìm kiếm</button>
                 </form>
-                
             </div>
         </div>
+
         <div class="search-result-message 
-            @if(request()->query('search'))
+            @if(request()->query('search') || request()->query('status'))
                 {{ $totalResults > 0 ? 'success' : 'error' }}
             @endif">
-            @if(request()->query('search'))
+            @if(request()->query('search') || request()->query('status'))
                 @if($totalResults > 0)
-                    Tìm thấy {{ $totalResults }} câu hỏi có từ khóa "{{ request()->query('search') }}".
+                    Tìm thấy {{ $totalResults }} câu hỏi 
+                    @if(request()->query('search'))
+                        có từ khóa "{{ request()->query('search') }}"
+                    @endif
+                    @if(request()->query('status'))
+                        với trạng thái "{{ request()->query('status') }}"
+                    @endif.
                 @else
-                    Không tìm thấy câu hỏi có từ khóa "{{ request()->query('search') }}".
+                    Không tìm thấy câu hỏi 
+                    @if(request()->query('search'))
+                        có từ khóa "{{ request()->query('search') }}"
+                    @endif
+                    @if(request()->query('status'))
+                        với trạng thái "{{ request()->query('status') }}"
+                    @endif.
                 @endif
             @endif
         </div>
+
+
 
         
         <div class="table-container">
