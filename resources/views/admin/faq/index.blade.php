@@ -29,6 +29,7 @@
                     
                     <input type="text" name="search" placeholder="Nhập câu hỏi cần tìm" value="{{ request()->query('search') }}">
                     
+                    
                     <select name="status">
                         <option value="">Tất cả trạng thái</option>
                         <option value="Đã phản hồi" {{ request()->query('status') == 'Đã phản hồi' ? 'selected' : '' }}>Đã phản hồi</option>
