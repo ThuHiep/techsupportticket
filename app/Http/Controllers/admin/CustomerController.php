@@ -183,7 +183,7 @@ class CustomerController extends Controller
         $customer->gender = $request['gender'] ?? null;
         $customer->phone = $request['phone'] ?? null;
         $customer->address = $request['address'] ?? null;
-        $customer->email = $request['email'];
+        $customer->email = $request['email']?? null;
         $customer->software = $request['software'] ?? null;
         $customer->website = $request['website'] ?? null;
         $customer->company = $request['company'] ?? null;
