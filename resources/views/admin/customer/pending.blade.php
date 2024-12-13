@@ -6,6 +6,7 @@
     <title>Danh sách khách hàng</title>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/pending.css') }}">
     <style>
         body .container {
@@ -55,11 +56,11 @@
                             <div class="action-buttons">
                                 <form action="{{ route('customer.approve', ['customer_id' => $customer->customer_id]) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="green">Phê duyệt</button>
+                                    <button type="submit" class="green"><i class="fas fa-check-circle fa-lg"></i></button>
                                 </form>
                                 <form action="{{ route('customer.reject', ['customer_id' => $customer->customer_id]) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="red">Không duyệt</button>
+                                    <button type="submit" class="red"><i class="fas fa-times-circle fa-lg"></i></button>
                                 </form>
                             </div>
                         </td>
