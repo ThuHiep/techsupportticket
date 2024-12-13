@@ -14,7 +14,7 @@
         <li><strong>Mật khẩu:</strong> {{ $password }}</li>
     </ul>
     <p>Vui lòng đăng nhập và đổi mật khẩu để bảo mật tài khoản.</p>
-    <p>Hoặc ấn vào đường dẫn này để thay đổi mật khẩu của bạn ngay (<a href="{{route('auth.changePass',$user_id)}}">link thay đổi mật khẩu</a>)</p>
+    <p>Hoặc ấn vào đường dẫn này để thay đổi mật khẩu của bạn ngay (<a href="{{route('changePassEmail',$user_id)}}">link thay đổi mật khẩu</a>)</p>
     <p>Trân trọng,</p>
     <p>Đội ngũ quản lý</p>
 </body>

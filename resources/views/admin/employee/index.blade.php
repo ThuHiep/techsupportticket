@@ -49,22 +49,6 @@
 
 
         <div class="table-container">
-            @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif
-            @if (session('search'))
-            <div class="alert alert-danger">
-                {{ session('search') }}
-            </div>
-            @endif
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -133,4 +117,47 @@
             document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
         }
     }
+</script>
+<script>
+    function deleteConfirm(event, formId) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của nút
+
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa nhân viên này?',
+            text: "Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit();
+            }
+        });
+    }
+
+    // Thông báo thành công
+    @if(session('success'))
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Thành công!',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+    @endif
+    // Thông báo thành công
+    @if(session('error'))
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Tìm kiếm không thành công',
+            text: "{{ session('error') }}",
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+    @endif
 </script>

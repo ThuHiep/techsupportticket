@@ -19,6 +19,14 @@ class DashboardController extends Controller
     public function index()
     {
         $config = $this->config();
+        // Số bài viết chưa phản hồi hôm nay
+        $unansweredFaqsToday = FAQ::where('status', 'Chưa phản hồi')
+        ->whereDate('create_at', now()->toDateString())
+        ->count();
+
+
+
+
 
         // Số khách hàng hôm nay
         $totalCustomersToday = Customer::whereDate('create_at', now()->toDateString())->count();
@@ -90,6 +98,7 @@ class DashboardController extends Controller
         return view('admin.dashboard.layout', compact(
             'template',
             'config',
+            'unansweredFaqsToday',
             'totalCustomersToday',
             'customerPercentageChange',
             'totalRequestsToday',

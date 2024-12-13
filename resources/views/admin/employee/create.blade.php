@@ -35,10 +35,16 @@
                         <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control" required>
+                            @error('full_name')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="email" class="form-label">Email<span class="required">*</span></label>
                             <input type="email" id="email" name="email" class="form-control" required>
+                            @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -46,6 +52,9 @@
                         <div class="form-group col-md-6">
                             <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                             <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+                            @error('date_of_birth')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
@@ -59,10 +68,16 @@
                         <div class="form-group col-md-6">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control" required>
+                            @error('phone')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                             <input type="text" id="address" name="address" class="form-control" required>
+                            @error('address')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -82,6 +97,9 @@
                                         <img id="preview-img" src="" alt="Image Preview" style="display:none;">
                                     </div>
                                 </div>
+                                @error('profile_image')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>

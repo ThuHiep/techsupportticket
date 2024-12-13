@@ -18,28 +18,48 @@ class EmployeeController extends Controller
         $template = 'admin.employee.index';
         $search = $request->input('search');
 
-        $employees = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
+        // Khởi tạo query cơ bản
+        $query = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('role.role_id', '=', 2)
-            ->where('status', 'active')
-            ->when($search, function ($query) use ($search) {
-                return $query->where(function ($query) use ($search) {
-                    $query->where('employee_id', 'LIKE', "%$search%")
-                        ->orWhere('full_name', 'LIKE', "%$search%")
-                        ->orWhereHas('user', function ($query) use ($search) {
-                            $query->where('email', 'LIKE', "%$search%");
-                        });
-                });
-            })
-            ->select('employee.*', 'user.*', 'role.description')
+            ->where('status', 'active');
+
+        // Kiểm tra nếu có từ khóa tìm kiếm
+        if ($search) {
+            // Thực hiện tìm kiếm theo các điều kiện
+            $query->where(function ($query) use ($search) {
+                $query->where('employee_id', 'LIKE', "%$search%")
+                    ->orWhere('full_name', 'LIKE', "%$search%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('email', 'LIKE', "%$search%");
+                    });
+            });
+
+            // Đếm tổng số nhân viên tìm thấy
+            $totalEmployees = $query->count();
+
+            // Thực hiện phân trang sau khi tìm kiếm
+            $employees = $query->select('employee.*', 'user.*', 'role.description')
+                ->orderBy('employee.employee_id')
+                ->paginate(3);
+
+            // Kiểm tra nếu không có kết quả tìm kiếm
+            if ($employees->isEmpty()) {
+                return redirect()->route('employee.index')->with('error', 'Không có kết quả tìm kiếm!');
+            } else {
+                session()->flash('success', "Tìm thấy $totalEmployees nhân viên phù hợp với từ khóa $search");
+            }
+        }
+
+        // Nếu không có tìm kiếm, lấy tất cả nhân viên
+        $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3);
-        if (!$employees || $employees->isEmpty()) {
-            return back()->with(['search' => 'Không có kết quả tìm kiếm!']);
-        }
 
         return view('admin.dashboard.layout', compact('template', 'employees', 'search'));
     }
+
+
     public function createEmployee()
     {
         $template = 'admin.employee.create';
@@ -53,14 +73,21 @@ class EmployeeController extends Controller
 
     public function saveEmployee(Request $request)
     {
+        // Validate inputs
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:employee,email',
-            'date_of_birth' => 'required|date|before:today',
-            'gender' => 'required|in:Nam,Nữ',
-            'phone' => 'required|numeric|digits_between:10,20',
-            'address' => 'required|string|max:225',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:employee,email', 'unique:customer,email'],
+            'date_of_birth' => ['required', 'date', 'before:today'],
+            'phone' => ['required', 'digits_between:9,11'],
+            'address' => ['required', 'string', 'max:255'],
+            'profile_image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif'],
+        ], [
+            'full_name.max' => 'Tên nhân viên không được vượt quá 225 kí tự',
+            'email.unique' => 'Email đã tồn tại',
+            'date_of_birth.before' => 'Ngày sinh không hợp lệ',
+            'phone.digits_between' => 'Số điện thoại phải có độ dài từ 9 đến 11 số',
+            'address.max' => 'Địa chỉ không được vượt quá 225 kí tự',
+            'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, hoặc gif',
         ]);
 
         $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
@@ -98,12 +125,12 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $employee->employee_id = $request->input('employee_id');
         $employee->user_id = $randomUserId;
-        $employee->full_name = $request->input('full_name');
+        $employee->full_name = preg_replace('/\s+/', ' ', trim($request->input('full_name')));
         $employee->email = $request->input('email');
         $employee->date_of_birth = $request->input('date_of_birth');
         $employee->gender = $request->input('gender');
         $employee->phone = $request->input('phone');
-        $employee->address = $request->input('address');
+        $employee->address = preg_replace('/\s+/', ' ', trim($request->input('address')));
         $employee->profile_image = $profileImagePath;
         $employee->create_at = now();
         $employee->update_at = now();
@@ -160,7 +187,6 @@ class EmployeeController extends Controller
         $employee->update_at = now();
 
         $user->username = $request->input('username');
-        $user->role_id = $request->input('role_name');
         $user->status = $request->input('status');
         $user->update_at = now();
         // Lưu thông tin nhân viên vào database
