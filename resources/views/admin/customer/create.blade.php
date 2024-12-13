@@ -57,6 +57,8 @@
                     <div class="form-group col-md-4">
                         <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                         <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+                        <small id="date-error" class="text-danger" style="display: none;">Bạn phải đủ 18 tuổi!</small>
+                        <small id="date-incomplete-error" class="text-danger" style="display: none;">Vui lòng nhập đầy đủ ngày, tháng và năm!</small>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
@@ -85,9 +87,8 @@
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
                         <input type="text" id="software" name="software" class="form-control" required>
-                        <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập software!</small>
+                        <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập phần mềm!</small>
                     </div>
-
                 </div>
                 <div class="row mb-3 address-website-container">
                     <div class="form-group col-6">
@@ -108,7 +109,6 @@
                 </div>
             </div>
             <div class="col-md-3 grouped-fields">
-                <!-- Cột bên phải cho hình ảnh đại diện -->
                 <div class="container-img">
                     <div class="form-group">
                         <label for="profile_image" class="form-label profile-image-label">Ảnh đại diện</label>
