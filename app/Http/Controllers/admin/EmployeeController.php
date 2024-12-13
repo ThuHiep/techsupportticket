@@ -18,28 +18,48 @@ class EmployeeController extends Controller
         $template = 'admin.employee.index';
         $search = $request->input('search');
 
-        $employees = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
+        // Khởi tạo query cơ bản
+        $query = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('role.role_id', '=', 2)
-            ->where('status', 'active')
-            ->when($search, function ($query) use ($search) {
-                return $query->where(function ($query) use ($search) {
-                    $query->where('employee_id', 'LIKE', "%$search%")
-                        ->orWhere('full_name', 'LIKE', "%$search%")
-                        ->orWhereHas('user', function ($query) use ($search) {
-                            $query->where('email', 'LIKE', "%$search%");
-                        });
-                });
-            })
-            ->select('employee.*', 'user.*', 'role.description')
+            ->where('status', 'active');
+
+        // Kiểm tra nếu có từ khóa tìm kiếm
+        if ($search) {
+            // Thực hiện tìm kiếm theo các điều kiện
+            $query->where(function ($query) use ($search) {
+                $query->where('employee_id', 'LIKE', "%$search%")
+                    ->orWhere('full_name', 'LIKE', "%$search%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('email', 'LIKE', "%$search%");
+                    });
+            });
+
+            // Đếm tổng số nhân viên tìm thấy
+            $totalEmployees = $query->count();
+
+            // Thực hiện phân trang sau khi tìm kiếm
+            $employees = $query->select('employee.*', 'user.*', 'role.description')
+                ->orderBy('employee.employee_id')
+                ->paginate(3);
+
+            // Kiểm tra nếu không có kết quả tìm kiếm
+            if ($employees->isEmpty()) {
+                return redirect()->route('employee.index')->with('error', 'Không có kết quả tìm kiếm!');
+            } else {
+                session()->flash('success', "Tìm thấy $totalEmployees nhân viên phù hợp với từ khóa $search");
+            }
+        }
+
+        // Nếu không có tìm kiếm, lấy tất cả nhân viên
+        $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3);
-        if (!$employees || $employees->isEmpty()) {
-            return back()->with(['search' => 'Không có kết quả tìm kiếm!']);
-        }
 
         return view('admin.dashboard.layout', compact('template', 'employees', 'search'));
     }
+
+
     public function createEmployee()
     {
         $template = 'admin.employee.create';

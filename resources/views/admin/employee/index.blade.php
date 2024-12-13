@@ -150,12 +150,12 @@
     });
     @endif
     // Thông báo thành công
-    @if(session('search'))
+    @if(session('error'))
     document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
             title: 'Tìm kiếm không thành công',
-            text: "{{ session('search') }}",
-            icon: 'search',
+            text: "{{ session('error') }}",
+            icon: 'error',
             confirmButtonText: 'OK'
         });
     });
