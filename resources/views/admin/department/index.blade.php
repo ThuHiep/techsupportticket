@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
     <link rel="stylesheet" href="{{ asset('admin/css/department/index.css') }}">
-    <style>
-        /* Khi sidebar ở trạng thái bình thường */
-        body .container {
-            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Khi sidebar thu nhỏ */
-        body.mini-navbar .container {
-            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
-            transition: all 0.3s ease-in-out;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -34,6 +21,20 @@
             </form>
         </div>
     </div>
+
+    {{-- Hiển thị thông báo tìm kiếm --}}
+    @if ($searchPerformed && $search !== '')
+        @if ($count > 0)
+            <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+                Tìm thấy {{ $count }} phòng ban có từ khóa "{{ $search }}"
+            </div>
+        @else
+            <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+                Không tìm thấy phòng ban có từ khóa "{{ $search }}"
+            </div>
+        @endif
+    @endif
+
     <div class="table-container">
         <table class="table table-striped">
             <thead>
@@ -47,9 +48,8 @@
             </thead>
             <tbody>
             @if ($departments->isEmpty())
-                <tr>
-                    <td colspan="5" style="text-align: center; color: red;">Không có kết quả tìm kiếm</td>
-                </tr>
+                @if ($searchPerformed && $search !== '')
+                @endif
             @else
                 @foreach ($departments as $index => $department)
                     <tr>

@@ -1,5 +1,5 @@
 body {
-    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
@@ -19,6 +19,7 @@ body {
 h1 {
     padding-bottom: 20px;
     color: #FF9700;
+    text-align: center; /* Căn giữa tiêu đề */
 }
 
 .top-bar {
@@ -86,12 +87,65 @@ h1 {
     color: #FFFFFF;
 }
 
-.no-results-message {
-    color: red;
-    margin-top: 10px;
-    font-weight: bold;
-    width: 100%; /* Đảm bảo thông báo chiếm toàn bộ chiều rộng của search-container */
-    text-align: center; /* Căn giữa nội dung thông báo */
+/* Định dạng cho các thông báo tìm kiếm */
+.alert-success, .alert-danger {
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Thêm biểu tượng vào thông báo thành công */
+.alert-success::before {
+    content: "\f058"; /* Font Awesome check icon */
+    font-family: "Font Awesome 5 Free"; /* Đảm bảo Font Awesome đã được tải */
+    font-weight: 900;
+    margin-right: 10px;
+    color: #28a745;
+    font-size: 20px;
+}
+
+/* Thêm biểu tượng vào thông báo lỗi */
+.alert-danger::before {
+    content: "\f06a"; /* Font Awesome exclamation icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #dc3545;
+    font-size: 20px;
+}
+
+/* Định dạng màu sắc và nền cho thông báo thành công */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Định dạng màu sắc và nền cho thông báo lỗi */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Hiệu ứng chuyển động khi thông báo xuất hiện */
+.alert-success, .alert-danger {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeInDown 0.5s forwards;
+}
+
+/* Keyframes cho hiệu ứng fadeInDown */
+@keyframes fadeInDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .table-container {
@@ -238,4 +292,16 @@ tr:nth-child(even) td {
 
 .status-dot.inactive {
     background-color: red;
+}
+
+/* Khi sidebar ở trạng thái bình thường */
+body .container {
+    width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Khi sidebar thu nhỏ */
+body.mini-navbar .container {
+    width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+    transition: all 0.3s ease-in-out;
 }
