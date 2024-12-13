@@ -32,39 +32,34 @@
             margin-bottom: 20px;
         }
         button, input[type="submit"] {
-            background-color: #3498db; /* Màu nền */
-            color: white; /* Màu chữ */
-            border: none; /* Loại bỏ viền */
-            padding: 8px 15px; /* Kích thước nút */
-            border-radius: 5px; /* Bo góc */
-            font-size: 14px; /* Kích thước chữ */
-            cursor: pointer; /* Thay đổi con trỏ */
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-
         button:hover, input[type="submit"]:hover {
-            background-color: #1abc9c; /* Màu khi hover */
-            transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+            background-color: #1abc9c;
+            transform: scale(1.05);
         }
-
         button:active, input[type="submit"]:active {
-            background-color: #2980b9; /* Màu khi bấm */
-            transform: scale(0.95); /* Hiệu ứng thu nhỏ */
+            background-color: #2980b9;
+            transform: scale(0.95);
         }
-
         select, input[type="date"] {
-            padding: 8px; /* Kích thước */
-            font-size: 14px; /* Kích thước chữ */
-            border: 1px solid #ccc; /* Viền */
-            border-radius: 5px; /* Bo góc */
-            outline: none; /* Loại bỏ đường viền khi focus */
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
             transition: border-color 0.3s ease;
         }
-
         select:focus, input[type="date"]:focus {
-            border-color: #3498db; /* Đổi màu viền khi focus */
+            border-color: #3498db;
         }
-
     </style>
 </head>
 <body>
@@ -77,13 +72,13 @@
         <div class="col-lg-6">
             <div class="report-section">
                 <h3>Báo cáo theo khách hàng</h3>
-                <p>Báo cáo này tổng hợp số lượng yêu cầu hỗ trợ kỹ thuật của từng khách hàng.</p>
+                <p>Báo cáo này tổng hợp số lượng yêu cầu hỗ trợ kỹ thuật của từng khách hàng đang hoạt động.</p>
                 <div class="filter-container">
                     <select id="customerFilter" onchange="updateCustomerReport()">
                         <option value="all">Tất cả khách hàng</option>
-                        <option value="A">Khách hàng A</option>
-                        <option value="B">Khách hàng B</option>
-                        <option value="C">Khách hàng C</option>
+                        @foreach ($activeCustomers as $customer)
+                            <option value="{{ $customer->full_name }}">{{ $customer->full_name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="chart-container">
@@ -100,13 +95,12 @@
                 <form method="GET" action="{{ route('statistical.index') }}">
                     <div class="filter-container">
                         <select id="requestTypeFilter" name="requestTypeFilter" onchange="updateRequestTypeReport()">
-                        <option value="all">Tất cả loại yêu cầu</option>
+                            <option value="all">Tất cả loại yêu cầu</option>
                             @foreach ($requestTypes as $type)
                                 <option value="{{ $type->request_type_name }}">{{ $type->request_type_name }}</option>
                             @endforeach
                         </select>
 
-                        <!-- Dropdown chọn tháng -->
                         <select id="monthFilter" name="month">
                             <option value="all">Tất cả tháng</option>
                             @for ($i = 1; $i <= 12; $i++)
@@ -116,7 +110,6 @@
                             @endfor
                         </select>
 
-                        <!-- Dropdown chọn năm -->
                         <select id="yearFilter" name="year">
                             <option value="all">Tất cả năm</option>
                             @for ($year = 2020; $year <= date('Y'); $year++)
@@ -126,7 +119,6 @@
                             @endfor
                         </select>
                     </div>
-                    <!-- Bộ chọn ngày -->
                     <input type="date" name="startDate" value="{{ request('startDate') }}" placeholder="Ngày bắt đầu">
                     <input type="date" name="endDate" value="{{ request('endDate') }}" placeholder="Ngày kết thúc">
                     <button type="submit">Thống kê</button>
@@ -134,23 +126,36 @@
                 <div class="chart-container">
                     <canvas id="requestTypeReport"></canvas>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    // Dữ liệu ban đầu cho báo cáo khách hàng
+    const customerData = {
+        @foreach($activeCustomers as $customer)
+        '{{ $customer->full_name }}': {{ $customer->requests_count }},
+        @endforeach
+    };
+
+    // Màu sắc cho từng khách hàng
+    const customerColors = {
+        @foreach($activeCustomers as $index => $customer)
+        '{{ $customer->full_name }}': '{{ $customerColors[$index] }}', // hoặc màu bạn muốn
+        @endforeach
+    };
+
     // Báo cáo theo khách hàng
     const customerCtx = document.getElementById('customerReport').getContext('2d');
     let customerChart = new Chart(customerCtx, {
         type: 'bar',
         data: {
-            labels: ['Khách hàng A', 'Khách hàng B', 'Khách hàng C'],
+            labels: Object.keys(customerData), // Tên khách hàng
             datasets: [{
                 label: 'Số yêu cầu',
-                data: [12, 19, 7],
-                backgroundColor: ['#3498db', '#1abc9c', '#9b59b6']
+                data: Object.values(customerData), // Số yêu cầu
+                backgroundColor: Object.keys(customerData).map(name => customerColors[name]) // Màu sắc tương ứng
             }]
         }
     });
@@ -158,30 +163,35 @@
     // Cập nhật báo cáo theo khách hàng
     function updateCustomerReport() {
         const selectedCustomer = document.getElementById('customerFilter').value;
-        let data = [12, 19, 7]; // Dữ liệu mặc định
+        let data = [];
+        let labels = [];
 
-        if (selectedCustomer === 'A') {
-            data = [12];
-        } else if (selectedCustomer === 'B') {
-            data = [19];
-        } else if (selectedCustomer === 'C') {
-            data = [7];
+        if (selectedCustomer === 'all') {
+            data = Object.values(customerData); // Lấy tất cả số yêu cầu
+            labels = Object.keys(customerData); // Nhãn cho tất cả khách hàng
+        } else {
+            // Lấy dữ liệu cho khách hàng đã chọn
+            data = [customerData[selectedCustomer]]; // Lấy số yêu cầu của khách hàng đã chọn
+            labels = [selectedCustomer]; // Nhãn cho khách hàng đã chọn
         }
 
         customerChart.data.datasets[0].data = data;
-        customerChart.update();
+
+        // Cập nhật màu sắc cho biểu đồ
+        customerChart.data.datasets[0].backgroundColor = selectedCustomer === 'all' ?
+            Object.keys(customerData).map(name => customerColors[name]) :
+            [customerColors[selectedCustomer]]; // Màu sắc của khách hàng đã chọn
+
+        customerChart.data.labels = labels; // Cập nhật nhãn
+        customerChart.update(); // Cập nhật biểu đồ
     }
 
     // Báo cáo theo loại yêu cầu
     document.addEventListener('DOMContentLoaded', function () {
-        // Lấy dữ liệu từ server
         const requestTypes = @json($requestTypes);
-
-        // Chuẩn bị dữ liệu cho biểu đồ
         const labels = requestTypes.map(item => item.request_type_name);
         const data = requestTypes.map(item => item.count);
 
-        // Khởi tạo biểu đồ
         const ctx = document.getElementById('requestTypeReport').getContext('2d');
         const requestTypeChart = new Chart(ctx, {
             type: 'pie',
@@ -194,26 +204,21 @@
             }
         });
 
-        // Hàm cập nhật biểu đồ khi thay đổi bộ lọc
         window.updateRequestTypeReport = function () {
             const selectedType = document.getElementById('requestTypeFilter').value;
 
             if (selectedType === 'all') {
-                // Hiển thị toàn bộ dữ liệu
                 requestTypeChart.data.labels = labels;
                 requestTypeChart.data.datasets[0].data = data;
             } else {
-                // Lọc dữ liệu theo loại yêu cầu
                 const filteredData = requestTypes.filter(item => item.request_type_name === selectedType);
                 requestTypeChart.data.labels = filteredData.map(item => item.request_type_name);
                 requestTypeChart.data.datasets[0].data = filteredData.map(item => item.count);
             }
 
-            // Cập nhật biểu đồ
             requestTypeChart.update();
         };
     });
-
 </script>
 </body>
 </html>

@@ -43,14 +43,14 @@ class Request extends Model
         'received_at' => 'datetime',
         'resolved_at' => 'datetime',
     ];
-  
+
     // Tắt timestamps mặc định (sử dụng các cột `create_at` và `update_at` tùy chỉnh)
     public $timestamps = false;
 
     // Định nghĩa quan hệ với bảng Customer
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     // Định nghĩa quan hệ với bảng Department
@@ -64,4 +64,5 @@ class Request extends Model
     {
         return $this->belongsTo(RequestType::class, 'request_type_id', 'request_type_id');
     }
+
 }
