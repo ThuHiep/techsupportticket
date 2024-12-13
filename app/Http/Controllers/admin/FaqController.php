@@ -13,13 +13,16 @@ class FaqController extends Controller
         $template = 'admin.faq.index';
         $search = $request->input('search');
         $statusFilter = $request->input('status');
-    
+        $date = $request->input('date');
         // Lọc câu hỏi
         $faqs = Faq::when($search, function ($query) use ($search) {
             return $query->where('question', 'LIKE', "%$search%");
         })
         ->when($statusFilter, function ($query) use ($statusFilter) {
             return $query->where('status', $statusFilter);
+        })
+        ->when($date, function ($query) use ($date) {
+            return $query->whereDate('create_at', $date);
         })
         ->paginate(4);
     
@@ -97,5 +100,18 @@ class FaqController extends Controller
         $faq->delete();
 
         return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được xóa!');
+    }
+
+    public function unansweredByDate(Request $request)
+    {
+        // Lấy ngày từ request, nếu không có thì lấy ngày hiện tại
+        $date = $request->input('date', now()->toDateString());
+
+        // Đếm số lượng câu hỏi chưa phản hồi theo ngày
+        $count = FAQ::where('status', 'Chưa phản hồi')
+                    ->whereDate('create_at', $date)
+                    ->count();
+
+        return response()->json(['count' => $count]);
     }
 }
