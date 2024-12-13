@@ -38,7 +38,7 @@
                     <a
                         href="{{ route('employee.index') }}"
                         id="clearButton"
-                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: black; font-size: 18px; cursor: pointer;">
+                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
                         ✖
                     </a>
                     @endif
@@ -54,7 +54,7 @@
                     <tr>
                         <th>STT</th>
                         <th>Tên người dùng</th>
-                        <th>Tên tài khoản</th>
+                        {{-- <th>Tên tài khoản</th> --}}
                         <th>Ảnh đại diện</th>
                         <th>Email</th>
                         <th>Vai trò</th>
@@ -67,7 +67,7 @@
                     <tr class="text-center">
                         <td>{{ $employees->firstItem() + $idx }}</td>
                         <td>{{ $employee->full_name }}</td>
-                        <td>{{ $employee->username }}</td>
+                        {{-- <td>{{ $employee->username }}</td> --}}
                         <td>
                             <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
                         </td>

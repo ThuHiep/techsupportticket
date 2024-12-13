@@ -3,76 +3,117 @@
 <div class="container">
     <h1>Danh sách yêu cầu hỗ trợ Kỹ thuật</h1>
     <div class="top-bar">
-        <a href="{{ route('request.create') }}" class="add-department-btn">Thêm mới</a>
+        <!-- Xóa bỏ nút "Thêm mới" -->
+        <!-- Chèn các trường tìm kiếm vào vị trí này -->
         <div class="search-container">
             <form action="{{ route('request.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Nhập nội dung tìm kiếm (tiêu đề, mô tả)" value="{{ request()->query('search') }}">
-                <select name="status">
-                    <option value="">--Trạng thái--</option>
-                    @foreach($statuses as $stt)
-                        <option value="{{ $stt }}" {{ request()->query('status') == $stt ? 'selected' : '' }}>
-                            {{ ucfirst($stt) }}
+                <!-- Dropdown Khách hàng -->
+                <select name="customer_id">
+                    <option value="">--Khách hàng--</option>
+                    @foreach($customers as $customer)
+                        <option value="{{ $customer->customer_id }}" {{ request()->query('customer_id') == $customer->customer_id ? 'selected' : '' }}>
+                            {{ $customer->full_name }}
                         </option>
                     @endforeach
                 </select>
+
+                <!-- Dropdown Phòng ban -->
+                <select name="department_id">
+                    <option value="">--Phòng ban tiếp nhận--</option>
+                    @foreach($departments as $department)
+                        <option value="{{ $department->department_id }}" {{ request()->query('department_id') == $department->department_id ? 'selected' : '' }}>
+                            {{ $department->department_name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <!-- Input Ngày nhận -->
+                <input type="date" name="request_date" placeholder="Ngày nhận yêu cầu" value="{{ request()->query('request_date') }}">
+
+                <!-- Dropdown Trạng thái -->
+                <select name="status">
+                    <option value="">--Trạng thái--</option>
+                    @foreach($statuses as $status)
+                        <option value="{{ $status }}" {{ request()->query('status') == $status ? 'selected' : '' }}>
+                            {{ $status }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <!-- Nút Tìm kiếm -->
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
     </div>
+
+    <!-- Thông báo kết quả tìm kiếm -->
+    @if (request()->filled('customer_id') || request()->filled('department_id') || request()->filled('request_date') || request()->filled('status'))
+        @if ($count > 0)
+            <div class="alert alert-success">
+                Đã tìm thấy {{ $count }} yêu cầu hỗ trợ phù hợp với các tiêu chí tìm kiếm.
+            </div>
+        @else
+            <div class="alert alert-danger">
+                Không tìm thấy yêu cầu hỗ trợ nào phù hợp với các tiêu chí tìm kiếm.
+            </div>
+        @endif
+    @endif
+
     <div class="table-container">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>STT</th>
                 <th>Khách hàng</th>
-                <th>Phòng ban</th>
+                <th>Phòng ban tiếp nhận</th>
                 <th>Loại yêu cầu</th>
                 <th>Tiêu đề</th>
                 <th>Ưu tiên</th>
-                <th>Trạng thái</th>
                 <th>Ngày nhận</th>
+                <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
             <tbody>
-            @foreach ($requests as $index => $req)
+            @forelse ($requests as $index => $req)
                 <tr>
                     <td>{{ ($requests->currentPage() - 1) * $requests->perPage() + $index + 1 }}</td>
                     <td>{{ $req->customer->full_name ?? 'N/A' }}</td>
                     <td>{{ $req->department->department_name ?? 'N/A' }}</td>
                     <td>{{ $req->requestType->request_type_name ?? 'N/A' }}</td>
                     <td>{{ $req->subject }}</td>
-                    <td>{{ ucfirst($req->priority) }}</td>
+                    <td>{{ $req->priority }}</td>
+                    <td>{{ \Carbon\Carbon::parse($req->received_at)->format('d/m/Y') }}</td>
                     <td>
-                        {{ ucfirst($req->status) }}
-                        @if($req->status == 'completed')
-                            <span class="status-dot completed"></span>
-                        @elseif($req->status == 'processing')
-                            <span class="status-dot processing"></span>
-                        @elseif($req->status == 'cancelled')
-                            <span class="status-dot cancelled"></span>
-                        @elseif($req->status == 'handled')
-                            <span class="status-dot handled"></span>
-                        @endif
+                        {{ $req->status }}
+                        <span class="status-dot
+                            @if($req->status == 'Chưa xử lý') chưa-xử-lý
+                            @elseif($req->status == 'Đang xử lý') đang-xử-lý
+                            @elseif($req->status == 'Hoàn thành') hoàn-thành
+                            @elseif($req->status == 'Đã hủy') đã-hủy
+                            @endif
+                        " title="{{ $req->status }}"></span>
                     </td>
-                    
-                    <td>{{ \Carbon\Carbon::parse($req->received_at)->format('d/m/Y H:i') }}</td>
                     <td>
                         <form action="{{ route('request.edit', $req->request_id) }}" style="display:inline;">
-                            <button type="submit" class="edit-button">
+                            <button type="submit" class="edit-button" title="Chỉnh sửa">
                                 <i class="fas fa-edit"></i>
                             </button>
                         </form>
                         <form action="{{ route('request.delete', $req->request_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $req->request_id }}">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $req->request_id }}')">
+                            <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $req->request_id }}')" title="Xóa">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="9" class="text-center text-danger">Không tìm thấy yêu cầu hỗ trợ nào phù hợp với các tiêu chí tìm kiếm.</td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </div>
@@ -114,5 +155,15 @@
         });
     });
     @endif
-</script>
 
+    @if(session('error'))
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Thất bại!',
+            text: "{{ session('error') }}",
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+    @endif
+</script>

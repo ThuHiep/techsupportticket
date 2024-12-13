@@ -116,7 +116,66 @@ h1 {
     text-align: center;
     line-height: 20px;
 }
+/* Định dạng cho các thông báo tìm kiếm */
+.alert-success, .alert-danger {
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+/* Thêm biểu tượng vào thông báo thành công */
+.alert-success::before {
+    content: "\f058"; /* Font Awesome check icon */
+    font-family: "Font Awesome 5 Free"; /* Đảm bảo Font Awesome đã được tải */
+    font-weight: 900;
+    margin-right: 10px;
+    color: #28a745;
+    font-size: 20px;
+}
+
+/* Thêm biểu tượng vào thông báo lỗi */
+.alert-danger::before {
+    content: "\f06a"; /* Font Awesome exclamation icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #dc3545;
+    font-size: 20px;
+}
+
+/* Định dạng màu sắc và nền cho thông báo thành công */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Định dạng màu sắc và nền cho thông báo lỗi */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Hiệu ứng chuyển động khi thông báo xuất hiện */
+.alert-success, .alert-danger {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeInDown 0.5s forwards;
+}
+
+/* Keyframes cho hiệu ứng fadeInDown */
+@keyframes fadeInDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -189,8 +248,8 @@ tr:nth-child(even) td {
 }
 
 .customer-image {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 10px;
 }
 

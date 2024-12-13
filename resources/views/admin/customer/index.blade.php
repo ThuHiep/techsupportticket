@@ -29,7 +29,18 @@
         <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('customer.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                <div style="position: relative;">
+                    <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                    @if($search)
+                    <a
+                        href="{{ route('customer.index') }}"
+                        id="clearButton"
+                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                        ✖
+                    </a>
+                    @endif
+                </div>
+               
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
@@ -38,12 +49,19 @@
             <span class="badge" id="userCount">0</span>
         </a>
     </div>
-    <div class="table-container">
-        @if(isset($message) && request()->query('search'))
-            <div id="search-message" class="alert alert-success" style="margin-top: 10px;">
-                {{ $message }}
-            </div>
+        {{-- Hiển thị thông báo tìm kiếm --}}
+        @if ($searchPerformed && $search !== '')
+            @if ($totalResults > 0)
+                <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                    Tìm thấy {{ $totalResults }} khách hàng có từ khóa "{{ $search }}"
+                </div>
+            @else
+                <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                    Không tìm thấy khách hàng có từ khóa "{{ $search }}"
+                </div>
+            @endif
         @endif
+    <div class="table-container">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -58,11 +76,6 @@
             </tr>
             </thead>
             <tbody>
-            @if ($customers->isEmpty())
-                <tr>
-                    <td colspan="8" style="text-align: center; color: red;">Không có kết quả tìm kiếm</td>
-                </tr>
-            @else
                 @foreach ($customers as $index => $customer)
                     <tr>
                         <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
@@ -70,7 +83,7 @@
                         <td>
                             <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="customer-image">
                         </td>
-                        <td>{{ $customer->date_of_birth }}</td>
+                        <td>{{ \Carbon\Carbon::parse($customer->date_of_birth )->format('d/m/Y') }}</td>
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer->gender }}</td>
                         <td>
@@ -93,7 +106,6 @@
                         </td>
                     </tr>
                 @endforeach
-            @endif
             </tbody>
         </table>
     </div>

@@ -17,18 +17,107 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 300px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-container input[type="date"] {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 200px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-container input[type="text"]:focus,
+        .search-container input[type="date"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .search-container button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: orange;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: coral;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1 style="text-align: left">Danh sách khách hàng chưa duyệt</h1>
     <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
+
+    <form action="{{ route('customer.pending') }}" method="GET">
+        <div class="search-container">
+            <input type="text" id="searchName" name="name" placeholder="Tìm kiếm theo tên khách hàng" value="{{ request('name') }}" />
+            <input type="date" id="searchDate" name="date" placeholder="Tìm kiếm theo ngày" value="{{ request('date') }}" />
+            <button type="submit">Tìm kiếm</button>
+        </div>
+    </form>
+
     <div class="table-container">
         @if (session('success'))
             <div class="alert alert-success" id="success-alert">{{ session('success') }}</div>
         @endif
         @if (session('error'))
             <div class="alert alert-danger" id="error-alert">{{ session('error') }}</div>
+        @endif
+        @if ($searchPerformed)
+            @if ($searchName && !$searchDate)
+                @if ($totalResults > 0)
+                    <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
+                        Tìm thấy {{ $totalResults }} khách hàng có từ khóa "{{ $searchName }}"
+                    </div>
+                @else
+                    <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
+                        Không tìm thấy khách hàng có từ khóa "{{ $searchName }}"
+                    </div>
+                @endif
+            @elseif ($searchDate && !$searchName)
+                @if ($totalResults > 0)
+                    <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
+                        Tìm thấy {{ $totalResults }} khách hàng vào ngày "{{ $searchDate }}"
+                    </div>
+                @else
+                    <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
+                        Không tìm thấy khách hàng vào ngày "{{ $searchDate }}"
+                    </div>
+                @endif
+            @elseif ($searchName && $searchDate)
+                @if ($totalResults > 0)
+                    <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
+                        Tìm thấy {{ $totalResults }} khách hàng có từ khóa "{{ $searchName }}" vào ngày "{{ $searchDate }}"
+                    </div>
+                @else
+                    <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
+                        Không tìm thấy khách hàng có từ khóa "{{ $searchName }}" vào ngày "{{ $searchDate }}"
+                    </div>
+                @endif
+            @endif
         @endif
         <table class="table table-striped">
             <thead>
@@ -37,13 +126,14 @@
                 <th>Họ tên</th>
                 <th>Tài khoản</th>
                 <th>Mật khẩu</th>
+                <th>Ngày tạo</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
             <tbody>
             @if ($customers->isEmpty())
                 <tr>
-                    <td colspan="5" style="text-align: center; font-weight: bold;">Không có khách hàng cần duyệt</td>
+                    <td colspan="6" style="text-align: center; font-weight: bold;">Không có khách hàng cần duyệt</td>
                 </tr>
             @else
                 @foreach ($customers as $index => $customer)
@@ -52,6 +142,7 @@
                         <td>{{ $customer->full_name }}</td>
                         <td>{{ $customer->user->username }}</td>
                         <td>{{ $customer->user->password }}</td>
+                        <td>{{ \Carbon\Carbon::parse($customer->create_at)->format('d/m/Y') }}</td>
                         <td>
                             <div class="action-buttons">
                                 <form action="{{ route('customer.approve', ['customer_id' => $customer->customer_id]) }}" method="POST">
@@ -70,15 +161,25 @@
             </tbody>
         </table>
     </div>
-
 </div>
 
 <script>
-    const duration = {{ session('notification_duration', 500) }};
-    setTimeout(() => {
-        document.getElementById('success-alert')?.remove();
-        document.getElementById('error-alert')?.remove();
-    }, duration);
+    // Set duration to 5000ms (5 seconds)
+    const duration = 5000;
+    // Check for success alert
+    const successAlert = document.getElementById('success-alert');
+    if (successAlert) {
+        setTimeout(() => {
+            successAlert.remove();
+        }, duration);
+    }
+    // Check for error alert
+    const errorAlert = document.getElementById('error-alert');
+    if (errorAlert) {
+        setTimeout(() => {
+            errorAlert.remove();
+        }, duration);
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

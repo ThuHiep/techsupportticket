@@ -127,7 +127,6 @@
                         <option value="">--Chọn trạng thái--</option>
                         <option value="Chưa xử lý" {{ (old('status', $requestData->status) == 'Chưa xử lý') ? 'selected' : '' }}>Chưa xử lý</option>
                         <option value="Đang xử lý" {{ (old('status', $requestData->status) == 'Đang xử lý') ? 'selected' : '' }}>Đang xử lý</option>
-                        <option value="Đã xử lý" {{ (old('status', $requestData->status) == 'Đã xử lý') ? 'selected' : '' }}>Đã xử lý</option>
                         <option value="Hoàn thành" {{ (old('status', $requestData->status) == 'Hoàn thành') ? 'selected' : '' }}>Hoàn thành</option>
                         <option value="Đã hủy" {{ (old('status', $requestData->status) == 'Đã hủy') ? 'selected' : '' }}>Đã hủy</option>
                     </select>

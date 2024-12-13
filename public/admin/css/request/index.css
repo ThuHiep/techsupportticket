@@ -59,12 +59,14 @@ h1 {
 .top-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* Thay đổi từ space-between sang center để căn giữa thanh tìm kiếm */
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
 /* Nút thêm mới yêu cầu */
+/* Không xóa các quy tắc CSS ban đầu, chỉ cần đảm bảo rằng nút được xóa khỏi Blade */
+
 .add-department-btn {
     padding: 10px 20px;
     background-color: var(--primary-color);
@@ -90,7 +92,7 @@ h1 {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 600px; /* Tăng max-width từ 440px lên 600px */
+    max-width: 100%; /* Đặt lại max-width để chiếm toàn bộ không gian */
     margin-top: 10px;
 }
 
@@ -111,28 +113,14 @@ h1 {
     .search-container form {
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
     }
 }
 
-/* Style cho ô nhập tìm kiếm */
-.search-container input[type="text"] {
-    flex: 3; /* Tăng flex-grow từ 1 lên 3 */
-    padding: 10px 15px;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--radius);
-    outline: none;
-    box-sizing: border-box;
-    font-size: var(--font-size-base);
-    transition: border-color var(--transition-speed) ease;
-}
-
-.search-container input[type="text"]:focus {
-    border-color: var(--primary-hover);
-}
-
-/* Style cho ô chọn trạng thái */
-.search-container select {
-    flex: 1; /* Giữ flex-grow ở mức thấp hơn */
+/* Style cho ô chọn */
+.search-container select,
+.search-container input[type="date"] {
+    flex: 1; /* Chia đều không gian cho các trường */
     padding: 10px 15px;
     margin-top: 10px;
     margin-left: 0;
@@ -148,16 +136,20 @@ h1 {
     background-position: right 10px center;
     background-size: 16px 16px;
     transition: border-color var(--transition-speed) ease;
+    margin-bottom: 10px;
 }
 
-.search-container select:focus {
+.search-container select:focus,
+.search-container input[type="date"]:focus {
     border-color: var(--primary-hover);
 }
 
 @media (min-width: 576px) {
-    .search-container select {
+    .search-container select,
+    .search-container input[type="date"] {
         margin-top: 0;
         margin-left: 10px;
+        margin-bottom: 0;
     }
 }
 
@@ -233,8 +225,8 @@ tr:hover td {
     background-color: #f1f1f1;
 }
 
-/* Căn giữa cho cột Phòng ban (thứ tự cột 4) */
-tr td:nth-child(4) {
+/* Căn giữa cho cột Phòng ban tiếp nhận (thứ tự cột 3) */
+tr td:nth-child(3) {
     text-align: center;
 }
 
@@ -335,20 +327,20 @@ tr td:nth-child(4) {
 }
 
 /* Các màu sắc cho các trạng thái khác nhau */
-.status-dot.completed {
-    background-color: green;
+.status-dot.chưa-xử-lý {
+    background-color: gray;
 }
 
-.status-dot.processing {
+.status-dot.đang-xử-lý {
     background-color: blue;
 }
 
-.status-dot.cancelled {
-    background-color: red;
+.status-dot.hoàn-thành {
+    background-color: green;
 }
 
-.status-dot.handled {
-    background-color: orange;
+.status-dot.đã-hủy {
+    background-color: red;
 }
 
 /* Accessibility: Focus styles cho các thành phần tương tác */
@@ -373,8 +365,8 @@ tr td:nth-child(4) {
         font-size: 12px;
     }
 
-    .search-container input[type="text"],
     .search-container select,
+    .search-container input[type="date"],
     .search-container button {
         padding: 8px 10px;
         font-size: 12px;
@@ -395,6 +387,19 @@ tr td:nth-child(4) {
     /* Ẩn các cột ít quan trọng */
     .hide-on-mobile {
         display: none;
+    }
+
+    /* Điều chỉnh các trường tìm kiếm trên thiết bị nhỏ */
+    .search-container form {
+        flex-direction: column;
+    }
+
+    .search-container select,
+    .search-container input[type="date"],
+    .search-container button {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
     }
 }
 
@@ -420,4 +425,27 @@ td {
 
 td:hover .tooltip-text {
     visibility: visible;
+}
+
+/* Chỉnh sửa thêm các trường tìm kiếm để phù hợp */
+.search-container select {
+    width: 150px; /* Thay đổi theo nhu cầu */
+}
+
+.search-container input[type="date"] {
+    width: 150px; /* Thay đổi theo nhu cầu */
+}
+
+/* Thêm các quy tắc cho responsive nếu cần */
+@media (max-width: 768px) {
+    .search-container form {
+        flex-direction: column;
+    }
+
+    .search-container select,
+    .search-container input[type="date"],
+    .search-container button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }

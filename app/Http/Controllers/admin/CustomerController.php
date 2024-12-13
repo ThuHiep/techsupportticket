@@ -19,7 +19,7 @@ class CustomerController extends Controller
     {
         $template = 'admin.customer.index';
         $search = $request->input('search');
-
+        $searchPerformed = $search !== null && $search !== '';
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
@@ -28,14 +28,10 @@ class CustomerController extends Controller
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
-        $message = null;
-        if ($customers->count() > 0) {
-            $message = "Tìm thấy " . $customers->count() . " khách hàng có từ khóa '{$search}'";
-        } else {
-            $message = "Không tìm thấy khách hàng nào với từ khóa '{$search}'";
-        }
 
-        return view('admin.dashboard.layout', compact('template', 'customers', 'message'));
+        $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
+
+        return view('admin.dashboard.layout', compact('template','customers', 'searchPerformed', 'search', 'totalResults'));
     }
 
     // Hiển thị form tạo khách hàng mới
@@ -150,7 +146,11 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-
+        $request->validate([
+            'email' => ['required', 'email', 'unique:customer,email'],
+        ], [
+            'email.unique' => 'Email đã tồn tại',
+        ]);
         // Sinh các giá trị ngẫu nhiên như trước
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
@@ -183,7 +183,7 @@ class CustomerController extends Controller
         $customer->gender = $request['gender'] ?? null;
         $customer->phone = $request['phone'] ?? null;
         $customer->address = $request['address'] ?? null;
-        $customer->email = $request['email'] ?? null;
+        $customer->email = $request['email']?? null;
         $customer->software = $request['software'] ?? null;
         $customer->website = $request['website'] ?? null;
         $customer->company = $request['company'] ?? null;
@@ -258,16 +258,35 @@ class CustomerController extends Controller
         return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
-    public function pendingCustomers()
+    public function pendingCustomers(Request $request)
     {
         $template = 'admin.customer.pending';
+
+        // Xóa khách hàng không duyệt lâu hơn 30 ngày
+        Customer::whereNull('status')
+            ->where('create_at', '<', now()->subDays(2))
+            ->delete();
+
+        // Lấy các tham số tìm kiếm
+        $searchName = $request->input('name');
+        $searchDate = $request->input('date');
 
         // Lọc khách hàng có status là null và lấy thông tin user liên quan
         $customers = Customer::whereNull('status')
             ->with('user')
+            ->when($searchName, function ($query) use ($searchName) {
+                return $query->where('full_name', 'LIKE', "%$searchName%");
+            })
+            ->when($searchDate, function ($query) use ($searchDate) {
+                return $query->whereDate('created_at', $searchDate);
+            })
             ->paginate(4);
 
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+        // Đếm số kết quả tìm kiếm
+        $totalResults = $customers->total();
+        $searchPerformed = $searchName || $searchDate;
+
+        return view('admin.dashboard.layout', compact('template', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
     }
 
     //Số lượng người dùng theo ngày
