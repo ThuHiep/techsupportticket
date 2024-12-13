@@ -23,24 +23,20 @@ class CustomerController extends Controller
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
-                return $query->where(function ($query) use ($search) {
-                    $query->where('customer_id', 'LIKE', "%$search%")
-                        ->orWhere('full_name', 'LIKE', "%$search%");
-                });
+                return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
             })
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
         $message = null;
         if ($customers->count() > 0) {
-            $message = "Tìm thấy " . $customers->count() . " khách hàng có tên là '{$search}'";
+            $message = "Tìm thấy " . $customers->count() . " khách hàng có từ khóa '{$search}'";
         } else {
-            $message = "Không tìm thấy khách hàng nào với tên hoặc ID '{$search}'";
+            $message = "Không tìm thấy khách hàng nào với từ khóa '{$search}'";
         }
 
         return view('admin.dashboard.layout', compact('template', 'customers', 'message'));
     }
-
 
     // Hiển thị form tạo khách hàng mới
     public function create()
