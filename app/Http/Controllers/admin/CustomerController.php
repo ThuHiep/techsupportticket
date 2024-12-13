@@ -77,6 +77,14 @@ class CustomerController extends Controller
     {
 
         $customer = Customer::findOrFail($customer_id);
+        // Cập nhật thông tin người dùng
+        $user = $customer->user; // Lấy người dùng liên kết với khách hàng
+
+        // Cập nhật username nếu có
+        if ($request->has('username')) {
+            $user->username = $request->input('username');
+            $user->save(); // Lưu thay đổi
+        }
         // Xử lý ảnh đại diện
         $profileImagePath = $customer->profile_image;
         if ($request->hasFile('profile_image')) {
