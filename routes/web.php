@@ -126,7 +126,7 @@ Route::name('faq.')->group(function () {
     Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->name('edit');
     Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->name('update');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->name('delete');
-    
+
     // Route for unansweredByDate
     Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->name('unansweredByDate');
 });
