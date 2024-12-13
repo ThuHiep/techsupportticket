@@ -16,7 +16,19 @@
         <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('department.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
+                <div style="position: relative;">
+                    <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
+                    @if($search)
+                    <a
+                        href="{{ route('department.index') }}"
+                        id="clearButton"
+                        style="position: absolute; right: 2%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                        ✖
+                    </a>
+
+                    @endif
+                </div>
+                
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
