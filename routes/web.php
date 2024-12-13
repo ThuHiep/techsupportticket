@@ -118,6 +118,7 @@ Route::name('statistical.')->group(function () {
 
 
 // FAQ Routes
+// FAQ Routes
 Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
     Route::get('/faq/create', [FaqController::class, 'create'])->name('create');
@@ -125,7 +126,11 @@ Route::name('faq.')->group(function () {
     Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->name('edit');
     Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->name('update');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->name('delete');
+    
+    // Route for unansweredByDate
+    Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->name('unansweredByDate');
 });
+
 
 
 
