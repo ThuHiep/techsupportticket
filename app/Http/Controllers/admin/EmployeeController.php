@@ -68,7 +68,11 @@ class EmployeeController extends Controller
         while (Employee::where('employee_id', $randomId)->exists()) {
             $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
-        return view('admin.dashboard.layout', compact('template', 'randomId'));
+        $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('username', $randomUserName)->exists()) {
+            $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+        return view('admin.dashboard.layout', compact('template', 'randomId', 'randomUserName'));
     }
 
     public function saveEmployee(Request $request)
@@ -105,15 +109,12 @@ class EmployeeController extends Controller
                 $image->move(public_path('admin/img/employee'), $imageName);
             }
         }
-        $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        while (User::where('username', $randomUserName)->exists()) {
-            $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        }
+
         $password = Str::random(11);
         // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;
-        $user->username = $randomUserName;
+        $user->username = $request->input('username');
         $user->password = Hash::make($password);
         $user->role_id = "2";
         $user->status = "active";
