@@ -36,4 +36,9 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'customer_id');
+    }
 }
