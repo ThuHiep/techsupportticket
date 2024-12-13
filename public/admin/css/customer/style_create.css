@@ -9,10 +9,10 @@ body {
 
 /* Container chính */
 .container {
-    max-width: 1250px; /* Chiều rộng tối đa */
-    width: 100%; /* Co dãn theo kích thước màn hình */
-    margin: 20px auto; /* Căn giữa container */
-    padding: 20px;
+    width: 1200px;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
@@ -73,6 +73,54 @@ form {
     background-color: #debff3;
     opacity: 1;
 }
+
+.col-md-6 input#username {
+    width: 190%;
+}
+.col-username{
+    margin-left: -105px;
+}
+.col-md-6 input#password {
+    width: 217%;
+}
+.col-password{
+    margin-left: 70px;
+}
+#reset-password {
+    padding: 2px 6px; /* Giảm khoảng cách bên trong nút */
+    font-size: 12px; /* Giảm kích thước chữ và biểu tượng */
+    line-height: 1; /* Giảm khoảng cách giữa các dòng trong nút */
+    border-radius: 3px; /* Tùy chỉnh góc bo tròn */
+    width: 45px;
+    height: 40px;
+    margin-left: 165px;
+    margin-top: -60px;
+    background-color: #ee5711;
+    color: #FFFFFF;
+}
+#reset-password:hover{
+    background-color: #ff9700;
+    color: #FFFFFF;
+}
+#reset-password i {
+    font-size: 15px; /* Giảm kích thước biểu tượng */
+}
+
+/* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
+.address-website-container {
+    display: flex; /* Sử dụng Flexbox */
+    gap: 0px; /* Khoảng cách giữa các trường */
+    flex-wrap: wrap; /* Các trường xuống dòng nếu không đủ chỗ */
+    width: 741px;
+    margin-left: 0px;
+}
+
+/* Mỗi trường chiếm 50% chiều rộng */
+.address-website-container .form-group {
+    flex: 1; /* Mỗi trường chiếm không gian đều */
+    min-width: 0; /* Đảm bảo các input không bị tràn */
+    max-width: 50%; /* Mỗi trường chiếm tối đa 50% */
+}
 /* Hiển thị lỗi */
 input.error, select.error {
     border-color: #dc3545; /* Màu đỏ */
@@ -86,67 +134,73 @@ input.error, select.error {
     margin-bottom: 10px;
 }
 
-/* Nút Thêm mới (Lưu) */
-.save-button {
-    display: flex; /* Sử dụng Flexbox */
-    justify-content: left; /* Căn giữa theo chiều ngang */
-    width: 100%; /* Chiếm toàn bộ chiều rộng */
+/* Container chứa hai nút */
+.button-container {
+    display: flex; /* Sử dụng Flexbox để căn chỉnh ngang */
+    justify-content: center; /* Căn hai nút về phía trái */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách phía trên container */
+    margin-bottom: 25px;
 }
+/* Nút Thêm mới (Lưu) */
 .btn-success {
     padding: 12px 24px; /* Khoảng cách trong lớn hơn */
-    background-color: #18a343; /* Màu tím */
+    background-color: #FF9700; /* Màu cam lá */
     color: white;
     border: none;
     border-radius: 8px; /* Bo góc */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
-    width: 200px; /* Đặt chiều rộng của nút */
-    height: 50px;
+    width: 200px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
 }
-
 .btn-success:hover {
-    background-color: #347737; /* Xanh đậm hơn */
+    background-color: #ee5711; /* Màu cam đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
 }
-
 .btn-success:active {
-    transform: scale(0.95); /* Nhỏ đi khi click */
+    transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
 /* Nút Quay lại */
 .btn-secondary {
-    position: absolute; /* Định vị nút Quay lại */
-    top: 20px; /* Khoảng cách từ trên */
-    right: 20px; /* Khoảng cách từ bên phải */
-    padding:  7px 14px; /* Khoảng cách trong nút */
-    background-color: #a7b1c2; /* Màu nền */
+    padding: 12px 24px; /* Khoảng cách trong nút */
+    background-color: #a7b1c2; /* Màu nền xám */
     color: white; /* Màu chữ */
     border: none; /* Bỏ đường viền */
     border-radius: 8px; /* Bo góc */
-    text-decoration: none; /* Bỏ gạch chân */
-    font-size: 14px; /* Kích thước chữ */
-    display: flex; /* Sử dụng flexbox để căn giữa */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    text-align: center; /* Đảm bảo chữ được căn giữa */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 100px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
+    margin-left: 40px;
 }
-
-
 .btn-secondary:hover {
     background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
+    transform: scale(1.05); /* Phóng to nhẹ */
 }
-.btn-secondary {
-    align-self: flex-start; /* Căn chỉnh các nút theo chiều dọc bắt đầu từ đầu */
-    height: 50px; /* Đặt chiều cao cố định cho các nút */
+.btn-secondary:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
+/* Nhóm 3 trường "Tài khoản", "Mật khẩu" và "Ảnh đại diện" */
+.grouped-fields {
+    display: flex; /* Sử dụng Flexbox để bố trí ngang */
+    flex-direction: column; /* Sắp xếp các trường theo chiều dọc */
+    margin-left: -65px; /* Dịch chuyển nhóm gần về phía bên trái */
+    margin-top: -1px;
+}
+
+/* Điều chỉnh chiều rộng cho các trường trong nhóm */
+.grouped-fields .form-group {
+    margin-bottom: 15px; /* Khoảng cách giữa các trường */
+}
 
 /* Tùy chỉnh cho file upload */
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {
     max-width: 100%; /* Đảm bảo container-img không lớn hơn container chính */
-    margin: 30px -10px; /* Căn giữa container-img trong container */
+    margin: 0px; /* Căn giữa container-img trong container */
     text-align: center;
 }
 /* Đảm bảo bố cục hiển thị đẹp */
@@ -199,9 +253,10 @@ input.error, select.error {
 }
 
 .image-preview img {
-    width: 100%; /* Ảnh sẽ chiếm toàn bộ chiều rộng container cha */
-    max-width: 250px; /* Giới hạn kích thước tối đa */
-    height: auto; /* Tự động điều chỉnh chiều cao */
+    width: 251px;
+    max-width: 251px;
+    height: 200px;
+    max-height: 200px;
     border-radius: 8px;
     object-fit: cover;
     display: block;
@@ -231,6 +286,9 @@ input.error, select.error {
 
     .btn-success {
         width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
+    }
+    .grouped-fields .form-group {
+        max-width: 100%; /* Mỗi trường chiếm 100% chiều rộng trên màn hình nhỏ */
     }
 }
 

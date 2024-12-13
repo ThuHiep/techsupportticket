@@ -6,24 +6,53 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmployeeCreatedMail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $template = 'admin.employee.index';
+        $search = $request->input('search');
+
         $employees = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
             ->join('role', 'role.role_id', '=', 'user.role_id')
-            ->select('employee.*', 'user.*', 'role.role_name')
-            ->orderBy('user.user_id')
-            ->paginate('4');
+            ->where('role.role_id', '=', 2)
+            ->where('status', 'active')
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($query) use ($search) {
+                    $query->where('employee_id', 'LIKE', "%$search%")
+                        ->orWhere('full_name', 'LIKE', "%$search%")
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('email', 'LIKE', "%$search%");
+                        });
+                });
+            })
+            ->select('employee.*', 'user.*', 'role.description')
+            ->orderBy('employee.employee_id')
+            ->paginate(3);
+        if (!$employees || $employees->isEmpty()) {
+            return back()->with(['search' => 'Không có kết quả tìm kiếm!']);
+        }
 
-        return view('admin.dashboard.layout', compact('template', 'employees'));
+        return view('admin.dashboard.layout', compact('template', 'employees', 'search'));
+    }
+    public function createEmployee()
+    {
+        $template = 'admin.employee.create';
+        // Sinh employee_id và user_id
+        $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (Employee::where('employee_id', $randomId)->exists()) {
+            $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+        return view('admin.dashboard.layout', compact('template', 'randomId'));
     }
 
-    public function createEmployee(Request $request)
+    public function saveEmployee(Request $request)
     {
-        // Thực hiện kiểm tra các trường dữ liệu
         $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:employee,email',
@@ -34,22 +63,12 @@ class EmployeeController extends Controller
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // Sinh employee_id ngẫu nhiên
-        $randomId = 'NV' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
-
-        // Kiểm tra trùng lặp trong database
-        while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomId = 'NV' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
-        }
-        // Sinh user_id ngẫu nhiên
-        $randomUserId = 'TK' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
-
-        // Kiểm tra trùng lặp trong database
-        while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomUserId = 'TK' . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9);
+        $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('user_id', $randomUserId)->exists()) {
+            $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
 
-        // Kiểm tra nếu có hình ảnh được upload
+        // Upload profile image
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
@@ -59,12 +78,16 @@ class EmployeeController extends Controller
                 $image->move(public_path('admin/img/employee'), $imageName);
             }
         }
-
-        //Tạo user mới cho nhân viên
+        $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('username', $randomUserName)->exists()) {
+            $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+        $password = Str::random(11);
+        // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;
-        $user->username = $request->input('username');
-        $user->password = "HHHHHHHHHH";
+        $user->username = $randomUserName;
+        $user->password = Hash::make($password);
         $user->role_id = "2";
         $user->status = "active";
         $user->create_at = now();
@@ -73,7 +96,7 @@ class EmployeeController extends Controller
 
         // Tạo nhân viên mới
         $employee = new Employee();
-        $employee->employee_id = $randomId;
+        $employee->employee_id = $request->input('employee_id');
         $employee->user_id = $randomUserId;
         $employee->full_name = $request->input('full_name');
         $employee->email = $request->input('email');
@@ -86,32 +109,26 @@ class EmployeeController extends Controller
         $employee->update_at = now();
         $employee->save();
 
+        // Gửi email thông báo
+        Mail::to($employee->email)->send(new EmployeeCreatedMail($employee, $user->user_id, $user->username, $password));
+
         return redirect()->route('employee.index')
-            ->with('success', 'Nhân viên đã được thêm thành công!');
+            ->with('success', 'Nhân viên đã được thêm thành công và email đã được gửi!');
     }
+
 
     public function editEmployee($employee_id)
     {
-        //Tìm và trả về thông tin nhân viên
+        $template = 'admin.employee.edit';
         $employee = Employee::with(['user.role'])
             ->where('employee_id', '=', $employee_id)
             ->first();
-        if ($employee) {
-            return response()->json([
-                'status' => 'success',
-                'data' => $employee
-            ]);
-        }
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Employee not found'
-        ], 404);
+        return view('admin.dashboard.layout', compact('template', 'employee'));
     }
 
     // Cập nhật thông tin nhân viên
     public function updateEmployee(Request $request, $employee_id)
     {
-        // Lấy thông tin khách hàng cũ
         $employee = Employee::findOrFail($employee_id);
         $user = User::findOrFail($employee->user_id);
 
@@ -151,7 +168,7 @@ class EmployeeController extends Controller
         $user->save();
 
         return redirect()->route('employee.index')
-            ->with('success', 'Thông tin khách hàng đã được cập nhật!');
+            ->with('success', 'Thông tin nhân viên đã được cập nhật!');
     }
 
     public function deleteEmployee($id)
@@ -162,6 +179,6 @@ class EmployeeController extends Controller
 
         session()->flash('message', 'The employee was successfully deleted!');
 
-        return redirect()->route('employee.index')->with('success', 'Tài khoản đã được xóa.');
+        return redirect()->route('employee.index')->with('success', 'Tài khoản đã được xóa thành công.');
     }
 }

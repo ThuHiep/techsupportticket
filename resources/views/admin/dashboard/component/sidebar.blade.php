@@ -1,17 +1,17 @@
 <nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header" style="background-color: #D4D3D2"> <!--Huy đã đổi màu-->
-                <div class="dropdown profile-element " style="background-color: #D4D3D2" ;> <!--Huy đã xóa class "open" trong div này, đổi màu -->
+            <li class="nav-header" style="background-color: #fff"> <!--Huy đã đổi màu-->
+                <div class="dropdown profile-element " ;> <!--Huy đã xóa class "open" trong div này, đổi màu -->
                     <span>
                         <img alt="image" src="admin/img/logosweetsoft.png"
                             style="width:170px; margin-top: -10px; margin-bottom: 20px">
-                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg">
+                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg" style="margin-left:50px">
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold" style="color: #2e2626">David Williams</strong>
+                                <strong class="font-bold" style="color: #2e2626; margin-left:30px">David Williams</strong>
                                 <b class="caret ms-2" style="color: #272020"></b><!--Huy đã đổi màu tên và icon tại đây-->
                             </span>
                         </span>
@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="profile.html">Hồ sơ</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ route('auth.login') }}">Đăng xuất</a></li>
+                        <li><a href="{{ route('login') }}">Đăng xuất</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
@@ -62,8 +62,8 @@
                     <span class="nav-label">Thống kê</span>
                 </a>
             </li>
-            <li class="{{ Request::is('news*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fa-solid fa-newspaper"></i>
+            <li class="{{ Request::is('faq*') ? 'active' : '' }}">
+                <a href="{{ route('faq.index') }}"><i class="fa-solid fa-newspaper"></i>
                     <span class="nav-label">Tin tức</span>
                 </a>
             </li>

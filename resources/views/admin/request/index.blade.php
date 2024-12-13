@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ asset('admin/css/request/index.css') }}">
 
 <div class="container">
-    <h1>Danh sách Yêu cầu Hỗ trợ Kỹ thuật</h1>
+    <h1>Danh sách yêu cầu hỗ trợ Kỹ thuật</h1>
     <div class="top-bar">
         <a href="{{ route('request.create') }}" class="add-department-btn">Thêm mới</a>
         <div class="search-container">
@@ -24,16 +24,13 @@
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Mã yêu cầu</th>
                 <th>Khách hàng</th>
                 <th>Phòng ban</th>
                 <th>Loại yêu cầu</th>
                 <th>Tiêu đề</th>
-                <th>Mô tả</th>
                 <th>Ưu tiên</th>
                 <th>Trạng thái</th>
                 <th>Ngày nhận</th>
-                <th>Ngày hoàn thành</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
@@ -41,12 +38,10 @@
             @foreach ($requests as $index => $req)
                 <tr>
                     <td>{{ ($requests->currentPage() - 1) * $requests->perPage() + $index + 1 }}</td>
-                    <td>{{ $req->request_id }}</td>
                     <td>{{ $req->customer->full_name ?? 'N/A' }}</td>
                     <td>{{ $req->department->department_name ?? 'N/A' }}</td>
                     <td>{{ $req->requestType->request_type_name ?? 'N/A' }}</td>
                     <td>{{ $req->subject }}</td>
-                    <td>{{ Str::limit($req->description, 50) }}</td>
                     <td>{{ ucfirst($req->priority) }}</td>
                     <td>
                         {{ ucfirst($req->status) }}
@@ -60,19 +55,19 @@
                             <span class="status-dot handled"></span>
                         @endif
                     </td>
-                    <td>{{ $req->received_at }}</td>
-                    <td>{{ $req->resolved_at ?? 'N/A' }}</td>
+                    
+                    <td>{{ \Carbon\Carbon::parse($req->received_at)->format('d/m/Y H:i') }}</td>
                     <td>
                         <form action="{{ route('request.edit', $req->request_id) }}" style="display:inline;">
                             <button type="submit" class="edit-button">
-                                <i class="fas fa-edit"></i> Sửa
+                                <i class="fas fa-edit"></i>
                             </button>
                         </form>
                         <form action="{{ route('request.delete', $req->request_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $req->request_id }}">
                             @csrf
                             @method('DELETE')
                             <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $req->request_id }}')">
-                                <i class="fas fa-trash-alt"></i> Xóa
+                                <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>
                     </td>

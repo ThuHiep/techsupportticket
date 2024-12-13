@@ -21,7 +21,7 @@ class RequestController extends Controller
         $statusFilter = $request->input('status');
 
         // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
-        $statuses = ['Đang xử lý', 'Đã xử lý', 'Hoàn thành', 'Đã hủy'];
+        $statuses = ['Chưa xử lý','Đang xử lý', 'Hoàn thành',];
 
         // Truy vấn các yêu cầu kèm theo quan hệ với Customer, Department, và RequestType
         $requests = SupportRequest::with(['customer', 'department', 'requestType'])
@@ -73,9 +73,9 @@ class RequestController extends Controller
             'subject' => 'required|max:255',
             'description' => 'required',
             'received_at' => 'required|date',
-            'resolved_at' => 'nullable|date',
             'priority' => 'required|in:Thấp,Trung bình,Cao',
-            'status' => 'required|in:Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
+            // Loại bỏ 'status' khỏi validation
+            // Loại bỏ 'resolved_at' khỏi validation vì đã loại bỏ trường từ form
         ]);
 
         SupportRequest::create([
@@ -86,13 +86,16 @@ class RequestController extends Controller
             'subject' => $request->input('subject'),
             'description' => $request->input('description'),
             'received_at' => $request->input('received_at'),
-            'resolved_at' => $request->input('resolved_at'),
+            'resolved_at' => null, // Đặt mặc định là null
             'priority' => $request->input('priority'),
-            'status' => $request->input('status'),
+            'status' => 'Chưa xử lý', // Đặt mặc định là "Chưa xử lý"
         ]);
 
         return redirect()->route('request.index')->with('success', 'Yêu cầu đã được thêm thành công!');
     }
+
+
+
 
     /**
      * Hiển thị form chỉnh sửa yêu cầu
@@ -124,9 +127,8 @@ class RequestController extends Controller
             'subject' => 'required|max:255',
             'description' => 'required',
             'received_at' => 'required|date',
-            'resolved_at' => 'nullable|date',
             'priority' => 'required|in:Thấp,Trung bình,Cao',
-            'status' => 'required|in:Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
+            'status' => 'required|in:Chưa xử lý,Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
         ]);
 
         $supportRequest->update([
@@ -144,6 +146,7 @@ class RequestController extends Controller
         return redirect()->route('request.index')->with('success', 'Thông tin yêu cầu đã được cập nhật!');
     }
 
+
     /**
      * Xóa yêu cầu khỏi cơ sở dữ liệu
      */
@@ -152,6 +155,7 @@ class RequestController extends Controller
         $supportRequest = SupportRequest::findOrFail($request_id);
         $supportRequest->delete();
 
-        return redirect()->route('request.index')->with('success', 'Yêu cầu đã được xóa!');
+        return redirect()->route('request.index')->with('success', 'Yêu cầu đã được xóa thành công!');
     }
+
 }

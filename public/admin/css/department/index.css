@@ -16,13 +16,6 @@ body {
     border-radius: 8px;
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-}
-
 h1 {
     padding-bottom: 20px;
     color: #FF9700;
@@ -31,10 +24,14 @@ h1 {
 .top-bar {
     display: flex;
     align-items: center;
+    justify-content: center; /* Căn giữa nội dung bên trong */
+    position: relative; /* Để định vị add-department-btn */
     margin-bottom: 20px;
 }
 
 .add-department-btn {
+    position: absolute;
+    left: 0;
     padding: 8px 15px;
     background-color: #FF9700;
     color: white;
@@ -42,7 +39,6 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    margin-right: auto;
 }
 
 .add-department-btn:hover {
@@ -50,21 +46,24 @@ h1 {
     color: #FFFFFF;
 }
 
-
 .search-container {
-    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;  /* Căn giữa theo chiều ngang */
-    margin-right: 300px;
-    margin-left: auto;
-    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
-}
-.search-container input[type="text"] {
+    justify-content: center;
     width: 440px;
-    padding: 10px 100px 10px 15px;
+}
+
+.search-container form {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng của search-container */
+}
+
+.search-container input[type="text"] {
+    flex: 1; /* Chiếm toàn bộ không gian còn lại */
+    padding: 10px 15px;
     border: 1px solid #FF9700;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px; /* Xoay góc trái của input */
     outline: none;
     box-sizing: border-box;
 }
@@ -74,15 +73,11 @@ h1 {
 }
 
 .search-container button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 90px;
+    padding: 10px 15px;
     background-color: #FF9700;
     color: white;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0; /* Xoay góc phải của button */
     cursor: pointer;
 }
 
@@ -91,6 +86,13 @@ h1 {
     color: #FFFFFF;
 }
 
+.no-results-message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+    width: 100%; /* Đảm bảo thông báo chiếm toàn bộ chiều rộng của search-container */
+    text-align: center; /* Căn giữa nội dung thông báo */
+}
 
 .table-container {
     width: 100%;
@@ -104,11 +106,15 @@ table {
 }
 
 th, td {
-    padding: 12px;
-    text-align: center;
+    padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
+    text-align: center; /* Căn giữa */
     vertical-align: middle;
+    font-size: 14px; /* Điều chỉnh kích thước chữ */
     border: 1px solid #ddd;
-    font-size: 15px;
+}
+
+tr td:nth-child(4) {
+    text-align: center; /* Riêng trạng thái căn giữa */
 }
 
 th {
@@ -152,17 +158,17 @@ tr:nth-child(even) td {
 
 .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Căn giữa các phần tử trong phân trang */
     margin-top: 20px;
 }
 
-.pagination a {
+.pagination a, .pagination span {
     padding: 10px 16px;
     margin: 0 8px;
-    background-color: #FF9700;
-    color: white;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
     text-decoration: none;
-    border-radius: 50%;
+    border-radius: 50%; /* Đảm bảo hình tròn */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -170,23 +176,7 @@ tr:nth-child(even) td {
     width: 40px;
     height: 40px;
     text-align: center;
-    border: 1px solid #DDDDDD;
-}
-.pagination span {
-    padding: 10px 16px;
-    margin: 0 8px;
-    background-color: #FF9700;
-    color: white;
-    text-decoration: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
 }
 
 .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
@@ -198,24 +188,26 @@ tr:nth-child(even) td {
 
 .pagination a.active,
 .pagination span.active {
-    background-color: #FF9700;
+    background-color: #FF9700; /* Màu nền khi chọn */
     border-color: #DDDDDD;
     color: white;
     cursor: default;
 }
+
 .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
     color: #ffffff;
     cursor: not-allowed;
     background-color: #FF9700;
     border-color: #ddd;
 }
+
 .pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-    background-color: #FF9700;
+    background-color: #FF9700; /* Màu nền khi chọn */
     color: white;
     cursor: default;
     z-index: 2;
@@ -223,12 +215,14 @@ tr:nth-child(even) td {
 
 /* Sửa phần này để thêm đường viền đỏ khi active */
 .pagination > .active > span {
-    border: 2px solid darkred;
+    border: none;
+    background-color: #ee5711;
 }
 
 .hidden {
     display: none;
 }
+
 .status-dot {
     display: inline-block;
     width: 8px;

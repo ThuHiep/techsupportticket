@@ -16,7 +16,7 @@
 }
 
 body{
-    background-image: url("/techsupportticket/public/admin/img/bg-login.png");
+    background-image: url("/admin/img/bg-login.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -67,6 +67,7 @@ a:hover{
 .login_box{
     position: relative;
     width: 430px;
+    height: 575px; /*Huy đã giảm cho khỏi cuộn xuống dưới */
     backdrop-filter: blur(25px);
     border: 2px solid var(--primary-color);
     border-radius: 15px;

@@ -1,0 +1,255 @@
+body {
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.container {
+    width: 1200px;
+    max-width: 100%;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+
+h1 {
+    padding-bottom: 20px;
+    color: #FF9700;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-faq-btn {
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: auto;
+}
+
+.add-faq-btn:hover {
+    background-color: #f57c00;
+    color: #FFFFFF;
+}
+
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Căn giữa theo chiều ngang */
+    margin-right: 300px;
+    margin-left: auto;
+    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
+}
+.search-container input[type="text"] {
+    width: 440px;
+    padding: 10px 100px 10px 15px;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    margin-left: -105px;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: #FF9700;
+}
+
+.search-container button {
+    position: absolute;
+    top: 0;
+    right: 53px;
+    height: 100%;
+    width: 90px;
+    background-color: #FF9700;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #f57c00;
+    color: #FFFFFF;
+}
+
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* th, td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-size: 15px;
+} */
+th, td {
+    padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
+    text-align: center; /* Căn trái thay vì căn giữa */
+    vertical-align: middle;
+    font-size: 14px; /* Điều chỉnh kích thước chữ */
+    border: 1px solid #ddd;
+}
+
+tr td:nth-child(4) {
+    text-align: center; /* Riêng trạng thái căn giữa */
+}
+
+th {
+    background-color: #6F2F9F;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #eaeaea;
+}
+
+.edit-button, .delete-button {
+    padding: 8px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #007bff;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa các phần tử trong phân trang */
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+.pagination span {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #ee5711;
+    border-color: #ddd;
+}
+
+.pagination a.active,
+.pagination span.active {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    border-color: #DDDDDD;
+    color: white;
+    cursor: default;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #ffffff;
+    cursor: not-allowed;
+    background-color: #FF9700;
+    border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    color: white; /* Màu chữ trắng */
+    cursor: default;
+    z-index: 2;
+}
+
+/* Sửa phần này để thêm đường viền đỏ khi active */
+.pagination > .active > span {
+    border: none;
+    background-color: #ee5711;
+}
+
+.hidden {
+    display: none;
+}
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.status-dot.active {
+    background-color: green;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}

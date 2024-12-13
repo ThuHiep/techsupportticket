@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DepartmentController extends Controller
 {
@@ -12,14 +13,43 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.department.index';
-        $search = $request->input('search');
+        $search = trim($request->input('search'));
+        $statusFilter = $request->input('status');
 
-        $departments = Department::when($search, function ($query) use ($search) {
-            return $query->where('department_id', 'LIKE', "%$search%")
-                ->orWhere('department_name', 'LIKE', "%$search%");
-        })->paginate(4);
+        // Kiểm tra xem người dùng có thực hiện tìm kiếm hay không
+        $searchPerformed = $request->has('search');
 
-        return view('admin.dashboard.layout', compact('template', 'departments'));
+        if ($searchPerformed) {
+            if ($search !== '') {
+                // Thực hiện tìm kiếm chính xác theo tên phòng ban
+                $query = Department::where('department_name', $search);
+
+                // Áp dụng bộ lọc trạng thái nếu có
+                if ($statusFilter) {
+                    $query->where('status', $statusFilter);
+                }
+
+                $departments = $query->paginate(4)->appends($request->all());
+            } else {
+                // Người dùng đã thực hiện tìm kiếm nhưng để trống từ khóa
+                // Tạo một paginator rỗng
+                $departments = Department::whereRaw('0 = 1')->paginate(4)->appends($request->all());
+            }
+        } else {
+            // Không có tìm kiếm nào được thực hiện, hiển thị tất cả phòng ban
+            $query = Department::query();
+
+            if ($statusFilter) {
+                $query->where('status', $statusFilter);
+            }
+
+            $departments = $query->paginate(4)->appends($request->all());
+        }
+
+        // Định nghĩa các trạng thái có sẵn
+        $statuses = ['active', 'inactive'];
+
+        return view('admin.dashboard.layout', compact('template', 'departments', 'statuses', 'searchPerformed', 'search'));
     }
 
     // Hiển thị form tạo phòng ban
@@ -100,4 +130,5 @@ class DepartmentController extends Controller
         return redirect()->route('department.index')
             ->with('success', 'Phòng ban đã được xóa!');
     }
+
 }

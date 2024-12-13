@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách Phòng ban</title>
+    <title>Danh sách phòng ban</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     {{-- Thay đổi CSS phù hợp với department --}}
     <link rel="stylesheet" href="{{ asset('admin/css/department/index.css') }}">
+    <style>
+        /* Khi sidebar ở trạng thái bình thường */
+        body .container {
+            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>Danh sách Phòng ban</h1>
+    <h1>Danh sách phòng ban</h1>
     <div class="top-bar">
         <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
         <div class="search-container">
@@ -33,42 +46,46 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($departments as $index => $department)
+            @if ($departments->isEmpty())
                 <tr>
-                    <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
-                    <td>{{ $department->department_id }}</td>
-                    <td>{{ $department->department_name }}</td>
-                    <td>
-                        {{ $department->status }}
-                        @if($department->status == 'active')
-                            <span class="status-dot active"></span>
-                        @else
-                            <span class="status-dot inactive"></span>
-                        @endif
-                    </td>
-                    <td>
-                        <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
-                            <button type="submit" class="edit-button">
-                                <i class="fas fa-edit"></i> Sửa
-                            </button>
-                        </form>
-                        <form action="{{ route('department.delete', $department->department_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $department->department_id }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $department->department_id }}')">
-                                <i class="fas fa-trash-alt"></i> Xóa
-                            </button>
-                        </form>
-                    </td>
+                    <td colspan="5" style="text-align: center; color: red;">Không có kết quả tìm kiếm</td>
                 </tr>
-            @endforeach
+            @else
+                @foreach ($departments as $index => $department)
+                    <tr>
+                        <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
+                        <td>{{ $department->department_id }}</td>
+                        <td>{{ $department->department_name }}</td>
+                        <td>
+                            @if($department->status == 'active')
+                                <span class="status-dot active"></span> Hoạt động
+                            @else
+                                <span class="status-dot inactive"></span> Không hoạt động
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
+                                <button type="submit" class="edit-button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form>
+                            <form action="{{ route('department.delete', $department->department_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $department->department_id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $department->department_id }}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
         </table>
     </div>
     <div class="pagination">
         {{ $departments->links('pagination::bootstrap-4') }}
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
