@@ -62,6 +62,7 @@ h1 {
 
 .search-container input[type="text"] {
     flex: 1; /* Chiếm toàn bộ không gian còn lại */
+    width: 300px;
     padding: 10px 15px;
     border: 1px solid #FF9700;
     border-radius: 5px 0 0 5px; /* Xoay góc trái của input */
