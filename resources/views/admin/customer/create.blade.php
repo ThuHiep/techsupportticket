@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="button-container">
-            <button type="submit" class="btn btn-success me-3">Thêm mới</button>
+            <button type="submit" class="btn btn-add-cus me-3">Thêm mới</button>
             <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
         </div>
     </form>

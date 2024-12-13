@@ -54,7 +54,7 @@
                     <tr>
                         <th>STT</th>
                         <th>Tên người dùng</th>
-                        <th>Tên tài khoản</th>
+                        {{-- <th>Tên tài khoản</th> --}}
                         <th>Ảnh đại diện</th>
                         <th>Email</th>
                         <th>Vai trò</th>
@@ -67,7 +67,7 @@
                     <tr class="text-center">
                         <td>{{ $employees->firstItem() + $idx }}</td>
                         <td>{{ $employee->full_name }}</td>
-                        <td>{{ $employee->username }}</td>
+                        {{-- <td>{{ $employee->username }}</td> --}}
                         <td>
                             <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
                         </td>
@@ -150,12 +150,12 @@
     });
     @endif
     // Thông báo thành công
-    @if(session('search'))
+    @if(session('error'))
     document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
             title: 'Tìm kiếm không thành công',
-            text: "{{ session('search') }}",
-            icon: 'search',
+            text: "{{ session('error') }}",
+            icon: 'error',
             confirmButtonText: 'OK'
         });
     });
