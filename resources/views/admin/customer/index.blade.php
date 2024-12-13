@@ -50,9 +50,6 @@
                 </div>
             @endif
         @endif
-    
-
-
     <div class="table-container">
         <table class="table table-striped">
             <thead>
