@@ -13,19 +13,24 @@ class FaqController extends Controller
         $template = 'admin.faq.index';
         $search = $request->input('search');
         $statusFilter = $request->input('status');
-
+    
+        // Lọc câu hỏi
         $faqs = Faq::when($search, function ($query) use ($search) {
             return $query->where('question', 'LIKE', "%$search%");
         })
-            ->when($statusFilter, function ($query) use ($statusFilter) {
-                return $query->where('status', $statusFilter);
-            })
-            ->paginate(4);
-
+        ->when($statusFilter, function ($query) use ($statusFilter) {
+            return $query->where('status', $statusFilter);
+        })
+        ->paginate(4);
+    
+        // Đếm số lượng kết quả tìm thấy
+        $totalResults = $faqs->total();
+    
         $statuses = ['Đã phản hồi', 'Chưa phản hồi'];
-
-        return view('admin.dashboard.layout', compact('template', 'faqs', 'statuses'));
+    
+        return view('admin.dashboard.layout', compact('template', 'faqs', 'statuses', 'search', 'totalResults'));
     }
+    
 
     public function create()
     {
