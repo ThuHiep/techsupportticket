@@ -53,14 +53,21 @@ class EmployeeController extends Controller
 
     public function saveEmployee(Request $request)
     {
+        // Validate inputs
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:employee,email',
-            'date_of_birth' => 'required|date|before:today',
-            'gender' => 'required|in:Nam,Nữ',
-            'phone' => 'required|numeric|digits_between:10,20',
-            'address' => 'required|string|max:225',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'full_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:employee,email', 'unique:customer,email'],
+            'date_of_birth' => ['required', 'date', 'before:today'],
+            'phone' => ['required', 'digits_between:9,11'],
+            'address' => ['required', 'string', 'max:255'],
+            'profile_image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif'],
+        ], [
+            'full_name.max' => 'Tên nhân viên không được vượt quá 225 kí tự',
+            'email.unique' => 'Email đã tồn tại',
+            'date_of_birth.before' => 'Ngày sinh không hợp lệ',
+            'phone.digits_between' => 'Số điện thoại phải có độ dài từ 9 đến 11 số',
+            'address.max' => 'Địa chỉ không được vượt quá 225 kí tự',
+            'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, hoặc gif',
         ]);
 
         $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
@@ -98,12 +105,12 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $employee->employee_id = $request->input('employee_id');
         $employee->user_id = $randomUserId;
-        $employee->full_name = $request->input('full_name');
+        $employee->full_name = preg_replace('/\s+/', ' ', trim($request->input('full_name')));
         $employee->email = $request->input('email');
         $employee->date_of_birth = $request->input('date_of_birth');
         $employee->gender = $request->input('gender');
         $employee->phone = $request->input('phone');
-        $employee->address = $request->input('address');
+        $employee->address = preg_replace('/\s+/', ' ', trim($request->input('address')));
         $employee->profile_image = $profileImagePath;
         $employee->create_at = now();
         $employee->update_at = now();
@@ -160,7 +167,6 @@ class EmployeeController extends Controller
         $employee->update_at = now();
 
         $user->username = $request->input('username');
-        $user->role_id = $request->input('role_name');
         $user->status = $request->input('status');
         $user->update_at = now();
         // Lưu thông tin nhân viên vào database
