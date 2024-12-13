@@ -38,7 +38,7 @@
                     <a
                         href="{{ route('employee.index') }}"
                         id="clearButton"
-                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: black; font-size: 18px; cursor: pointer;">
+                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
                         ✖
                     </a>
                     @endif

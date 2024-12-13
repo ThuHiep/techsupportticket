@@ -111,8 +111,8 @@
             </div>
             <!-- Nút hành động -->
             <div class="button-container">
-                <button type="submit" class="btn btn-success me-3">Thêm mới</button>
-                <a href="{{ route('employee.index') }}" class="btn btn-secondary">Hủy</a>
+                <button type="submit" class="btn btn-add-cus me-3">Thêm mới</button>
+                <a href="{{ route('employee.index') }}" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
     </div>
