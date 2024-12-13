@@ -262,6 +262,11 @@ class CustomerController extends Controller
     {
         $template = 'admin.customer.pending';
 
+        // Xóa khách hàng không duyệt lâu hơn 30 ngày
+        Customer::whereNull('status')
+            ->where('create_at', '<', now()->subDays(2))
+            ->delete();
+
         // Lấy các tham số tìm kiếm
         $searchName = $request->input('name');
         $searchDate = $request->input('date');
@@ -273,7 +278,7 @@ class CustomerController extends Controller
                 return $query->where('full_name', 'LIKE', "%$searchName%");
             })
             ->when($searchDate, function ($query) use ($searchDate) {
-                return $query->whereDate('create_at', $searchDate);
+                return $query->whereDate('created_at', $searchDate);
             })
             ->paginate(4);
 
@@ -281,7 +286,7 @@ class CustomerController extends Controller
         $totalResults = $customers->total();
         $searchPerformed = $searchName || $searchDate;
 
-        return view('admin.dashboard.layout', compact('template', 'customers', 'searchPerformed', 'totalResults', 'searchName','searchDate'));
+        return view('admin.dashboard.layout', compact('template', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
     }
 
     //Số lượng người dùng theo ngày
