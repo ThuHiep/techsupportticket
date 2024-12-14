@@ -22,8 +22,6 @@ class FAQ extends Model
     protected $fillable = [
         'faq_id',
         'email',
-        'full_name',
-        'phone',
         'employee_id',
         'question',
         'answer',
