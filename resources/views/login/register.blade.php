@@ -107,7 +107,7 @@
             </div>
             <!--Tro ve dang nhap-->
             <div class="login-link">
-                <span>Đã có tài khoản? <a href="{{ route('login') }}" class="login-box">Đăng nhập ngay</a></span>
+                <span>Đã có tài khoản? <a href="{{ route('login.login') }}" class="login-box">Đăng nhập ngay</a></span>
             </div>
 
         </div>
