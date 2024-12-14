@@ -20,15 +20,15 @@
         transition: all 0.3s ease-in-out;
     }
 
-    /* Khi sidebar thu nhỏ */
-    body.mini-navbar .container {
-        width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
-        transition: all 0.3s ease-in-out;
-    }
-    .required {
-        color: red;
-        font-size: 14px;
-    }
+        /* Khi sidebar thu nhỏ */
+        body.mini-navbar .container {
+            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
+            transition: all 0.3s ease-in-out;
+        }
+        .required {
+            color: red;
+            font-size: 14px;
+        }
     </style>
     
 </head>
@@ -115,9 +115,9 @@
     {{--                <div class="chart-container">--}}
     {{--                    <canvas id="yearlyReport"></canvas>--}}
     {{--                </div>--}}
-                </div>
+                {{-- </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 <script>
