@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\CustomerCreated;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
@@ -18,20 +19,21 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
+        $logged_user = Auth::user();
         $search = $request->input('search');
         $searchPerformed = $search !== null && $search !== '';
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
                 return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"])
-                             ->orWhere('customer_id', 'LIKE', "%$search%");
+                    ->orWhere('customer_id', 'LIKE', "%$search%");
             })
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
         $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
 
-        return view('admin.dashboard.layout', compact('template','customers', 'searchPerformed', 'search', 'totalResults'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults'));
     }
 
     // Hiển thị form tạo khách hàng mới
@@ -54,7 +56,8 @@ class CustomerController extends Controller
 
         // Truyền các giá trị vào view
         $template = 'admin.customer.create';
-        return view('admin.dashboard.layout', compact('template', 'randomId', 'username', 'password', 'customers'));
+        $logged_user = Auth::user();
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'username', 'password', 'customers'));
     }
 
 
@@ -62,8 +65,9 @@ class CustomerController extends Controller
     public function edit($customer_id)
     {
         $template = 'admin.customer.edit';
+        $logged_user = Auth::user();
         $customers = Customer::findOrFail($customer_id);
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers'));
     }
     public function update(Request $request, $customer_id)
     {
@@ -183,7 +187,7 @@ class CustomerController extends Controller
         $customer->gender = $request['gender'] ?? null;
         $customer->phone = $request['phone'] ?? null;
         $customer->address = $request['address'] ?? null;
-        $customer->email = $request['email']?? null;
+        $customer->email = $request['email'] ?? null;
         $customer->software = $request['software'] ?? null;
         $customer->website = $request['website'] ?? null;
         $customer->company = $request['company'] ?? null;
@@ -261,7 +265,7 @@ class CustomerController extends Controller
     public function pendingCustomers(Request $request)
     {
         $template = 'admin.customer.pending';
-
+        $logged_user = Auth::user();
         // Xóa khách hàng không duyệt lâu hơn 30 ngày
         Customer::whereNull('status')
             ->where('create_at', '<', now()->subDays(2))
@@ -286,7 +290,7 @@ class CustomerController extends Controller
         $totalResults = $customers->total();
         $searchPerformed = $searchName || $searchDate;
 
-        return view('admin.dashboard.layout', compact('template', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
     }
 
     //Số lượng người dùng theo ngày
@@ -298,5 +302,4 @@ class CustomerController extends Controller
 
         return response()->json($users);
     }
-
 }

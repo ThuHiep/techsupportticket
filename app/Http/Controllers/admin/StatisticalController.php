@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Support\Facades\DB;  // Thêm dòng này để sử dụng DB\
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StatisticalController extends Controller
 {
     public function index(Request $request)
     {
         $template = 'admin.statistical.index';
+        $logged_user = Auth::user();
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
         $month = $request->input('month', 'all');
@@ -39,6 +42,6 @@ class StatisticalController extends Controller
         $activeCustomers = Customer::where('status', 'active')->withCount('requests')->get(['customer_id', 'full_name']);
         $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
 
-        return view('admin.dashboard.layout', compact('template', 'activeCustomers', 'requestTypes', 'startDate', 'endDate', 'month', 'year', 'customerColors'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'activeCustomers', 'requestTypes', 'startDate', 'endDate', 'month', 'year', 'customerColors'));
     }
 }

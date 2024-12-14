@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -19,6 +20,7 @@ class DepartmentController extends Controller
         ]);
 
         $template = 'admin.department.index';
+        $logged_user = Auth::user();
         $search = trim($request->input('search'));
         $statusFilter = $request->input('status');
 
@@ -62,14 +64,14 @@ class DepartmentController extends Controller
         // Định nghĩa các trạng thái có sẵn
         $statuses = ['active', 'inactive'];
 
-        return view('admin.dashboard.layout', compact('template', 'departments', 'statuses', 'searchPerformed', 'search', 'count'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'departments', 'statuses', 'searchPerformed', 'search', 'count'));
     }
 
     // Hiển thị form tạo phòng ban
     public function create()
     {
         $template = 'admin.department.create';
-
+        $logged_user = Auth::user();
         // Lặp đến khi tìm được mã không trùng lặp
         do {
             $randomNumber = mt_rand(1, 9999);
@@ -82,7 +84,7 @@ class DepartmentController extends Controller
         // $departments = Department::all();
 
         // Trả về view với $template và $nextId
-        return view('admin.dashboard.layout', compact('template', 'nextId'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));
     }
 
 
@@ -111,8 +113,9 @@ class DepartmentController extends Controller
     public function edit($department_id)
     {
         $template = 'admin.department.edit';
+        $logged_user = Auth::user();
         $department = Department::findOrFail($department_id);
-        return view('admin.dashboard.layout', compact('template', 'department'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'department'));
     }
 
     // Cập nhật phòng ban
@@ -143,5 +146,4 @@ class DepartmentController extends Controller
         return redirect()->route('department.index')
             ->with('success', 'Phòng ban đã được xóa!');
     }
-
 }
