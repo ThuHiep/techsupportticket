@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 <body>
 <div class="container">
@@ -42,14 +41,14 @@
                 <p>Báo cáo này cung cấp thông tin về số lượng yêu cầu hỗ trợ theo từng loại yêu cầu.</p>
                 <form method="GET" action="{{ route('statistical.index') }}">
                     <div class="filter-container">
-                        <select id="requestTypeFilter" name="requestTypeFilter" onchange="updateRequestTypeReport()">
+                        <select id="requestTypeFilter" name="requestTypeFilter" onchange="updateRequestTypeChart()">
                             <option value="all">Tất cả loại yêu cầu</option>
                             @foreach ($requestTypes as $type)
                                 <option value="{{ $type->request_type_name }}">{{ $type->request_type_name }}</option>
                             @endforeach
                         </select>
 
-                        <select id="monthFilter" name="month">
+                        <select id="monthFilter" name="month" onchange="updateMonthlyChart()">
                             <option value="all">Tất cả tháng</option>
                             @for ($i = 1; $i <= 12; $i++)
                                 <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
@@ -58,7 +57,7 @@
                             @endfor
                         </select>
 
-                        <select id="yearFilter" name="year">
+                        <select id="yearFilter" name="year" onchange="updateYearlyChart()">
                             <option value="all">Tất cả năm</option>
                             @for ($year = 2020; $year <= date('Y'); $year++)
                                 <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
@@ -71,20 +70,26 @@
                         <div class="col-lg-6">
                             <div class="date-container">
                                 <label for="startDate">Ngày bắt đầu</label>
-                                <input type="date" id="startDate" name="startDate" value="{{ request('startDate') }}" placeholder="Ngày bắt đầu">
+                                <input type="date" id="startDate" name="startDate" value="{{ request('startDate') }}">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="date-container">
                                 <label for="endDate">Ngày kết thúc</label>
-                                <input type="date" id="endDate" name="endDate" value="{{ request('endDate') }}" placeholder="Ngày kết thúc">
+                                <input type="date" id="endDate" name="endDate" value="{{ request('endDate') }}">
                             </div>
                         </div>
                     </div>
                     <button type="submit">Thống kê</button>
                 </form>
                 <div class="chart-container">
-                    <canvas id="requestTypeReport" style="margin-bottom: 15px;"></canvas>
+                    <canvas id="requestTypeChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="monthlyReport"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="yearlyReport"></canvas>
                 </div>
             </div>
         </div>
@@ -102,7 +107,7 @@
     // Màu sắc cho từng khách hàng
     const customerColors = {
         @foreach($activeCustomers as $index => $customer)
-        '{{ $customer->full_name }}': '{{ $customerColors[$index] }}', // hoặc màu bạn muốn
+        '{{ $customer->full_name }}': '{{ $customerColors[$index] }}',
         @endforeach
     };
 
@@ -111,11 +116,11 @@
     let customerChart = new Chart(customerCtx, {
         type: 'bar',
         data: {
-            labels: Object.keys(customerData), // Tên khách hàng
+            labels: Object.keys(customerData),
             datasets: [{
                 label: 'Số yêu cầu',
-                data: Object.values(customerData), // Số yêu cầu
-                backgroundColor: Object.keys(customerData).map(name => customerColors[name]) // Màu sắc tương ứng
+                data: Object.values(customerData),
+                backgroundColor: Object.keys(customerData).map(name => customerColors[name])
             }]
         }
     });
@@ -127,58 +132,168 @@
         let labels = [];
 
         if (selectedCustomer === 'all') {
-            data = Object.values(customerData); // Lấy tất cả số yêu cầu
-            labels = Object.keys(customerData); // Nhãn cho tất cả khách hàng
+            data = Object.values(customerData);
+            labels = Object.keys(customerData);
         } else {
-            // Lấy dữ liệu cho khách hàng đã chọn
-            data = [customerData[selectedCustomer]]; // Lấy số yêu cầu của khách hàng đã chọn
-            labels = [selectedCustomer]; // Nhãn cho khách hàng đã chọn
+            data = [customerData[selectedCustomer]];
+            labels = [selectedCustomer];
         }
 
         customerChart.data.datasets[0].data = data;
-
-        // Cập nhật màu sắc cho biểu đồ
+        customerChart.data.labels = labels;
         customerChart.data.datasets[0].backgroundColor = selectedCustomer === 'all' ?
             Object.keys(customerData).map(name => customerColors[name]) :
-            [customerColors[selectedCustomer]]; // Màu sắc của khách hàng đã chọn
+            [customerColors[selectedCustomer]];
 
-        customerChart.data.labels = labels; // Cập nhật nhãn
-        customerChart.update(); // Cập nhật biểu đồ
+        customerChart.update();
     }
 
-    // Báo cáo theo loại yêu cầu
-    document.addEventListener('DOMContentLoaded', function () {
-        const requestTypes = @json($requestTypes);
-        const labels = requestTypes.map(item => item.request_type_name);
-        const data = requestTypes.map(item => item.count);
-
-        const ctx = document.getElementById('requestTypeReport').getContext('2d');
-        const requestTypeChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: ['#3498db', '#1abc9c', '#e74c3c', '#f1c40f', '#9b59b6']
-                }]
-            }
-        });
-
-        window.updateRequestTypeReport = function () {
-            const selectedType = document.getElementById('requestTypeFilter').value;
-
-            if (selectedType === 'all') {
-                requestTypeChart.data.labels = labels;
-                requestTypeChart.data.datasets[0].data = data;
-            } else {
-                const filteredData = requestTypes.filter(item => item.request_type_name === selectedType);
-                requestTypeChart.data.labels = filteredData.map(item => item.request_type_name);
-                requestTypeChart.data.datasets[0].data = filteredData.map(item => item.count);
-            }
-
-            requestTypeChart.update();
-        };
+    // Biểu đồ loại yêu cầu (Pie Chart)
+    const requestTypeCtx = document.getElementById('requestTypeChart').getContext('2d');
+    let requestTypeChart = new Chart(requestTypeCtx, {
+        type: 'pie',
+        data: {
+            labels: [], // Tên loại yêu cầu
+            datasets: [{
+                label: 'Số yêu cầu theo loại',
+                data: [], // Số yêu cầu
+                backgroundColor: [] // Màu sắc
+            }]
+        }
     });
+
+    function updateRequestTypeChart() {
+        const selectedType = document.getElementById('requestTypeFilter').value;
+        fetch(`/api/request-types?type=${selectedType}`)
+            .then(response => response.json())
+            .then(responseData => {
+                const data = responseData.data;
+                requestTypeChart.data.labels = Object.keys(data);
+                requestTypeChart.data.datasets[0].data = Object.values(data);
+                requestTypeChart.data.datasets[0].backgroundColor = Object.keys(data).map(() => getRandomColor());
+                requestTypeChart.update();
+            });
+    }
+
+    // Biểu đồ theo tháng (Line Chart)
+    const monthlyCtx = document.getElementById('monthlyReport').getContext('2d');
+    let monthlyChart = new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: [], // Dates
+            datasets: [] // Datasets
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function updateMonthlyChart() {
+        const selectedMonth = document.getElementById('monthFilter').value;
+        const selectedYear = document.getElementById('yearFilter').value;
+
+        fetch(`/api/requests/monthly?month=${selectedMonth}&year=${selectedYear}`)
+            .then(response => response.json())
+            .then(responseData => {
+                const data = responseData.data;
+                const labels = Object.keys(data);
+                const datasets = [];
+
+                for (const [date, types] of Object.entries(data)) {
+                    for (const [type, count] of Object.entries(types)) {
+                        if (!datasets.find(dataset => dataset.label === type)) {
+                            datasets.push({
+                                label: type,
+                                data: [],
+                                borderColor: getRandomColor(),
+                                fill: false
+                            });
+                        }
+                        const dataset = datasets.find(dataset => dataset.label === type);
+                        dataset.data.push({ x: date, y: count });
+                    }
+                }
+
+                monthlyChart.data.labels = labels;
+                monthlyChart.data.datasets = datasets;
+                monthlyChart.update();
+            });
+    }
+
+    // Biểu đồ theo năm (Line Chart)
+    const yearlyCtx = document.getElementById('yearlyReport').getContext('2d');
+    let yearlyChart = new Chart(yearlyCtx, {
+        type: 'line',
+        data: {
+            labels: [], // Dates
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function updateYearlyChart() {
+        const selectedYear = document.getElementById('yearFilter').value;
+
+        fetch(`/api/requests/yearly?year=${selectedYear}`)
+            .then(response => response.json())
+            .then(responseData => {
+                const data = responseData.data;
+                const labels = Object.keys(data);
+                const datasets = [];
+
+                for (const [month, types] of Object.entries(data)) {
+                    for (const [type, count] of Object.entries(types)) {
+                        if (!datasets.find(dataset => dataset.label === type)) {
+                            datasets.push({
+                                label: type,
+                                data: [],
+                                borderColor: getRandomColor(),
+                                fill: false
+                            });
+                        }
+                        const dataset = datasets.find(dataset => dataset.label === type);
+                        dataset.data.push({ x: month, y: count });
+                    }
+                }
+
+                yearlyChart.data.labels = labels;
+                yearlyChart.data.datasets = datasets;
+                yearlyChart.update();
+            });
+    }
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 </script>
 </body>
 </html>

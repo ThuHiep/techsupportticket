@@ -30,7 +30,7 @@
         <div class="search-container">
             <form action="{{ route('customer.index') }}" method="GET">
                 <div style="position: relative;">
-                    <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                    <input type="text" name="search" placeholder="Nhập tên khách hàng hoặc mã khách hàng cần tìm" value="{{ request()->query('search') }}">
                     @if($search)
                     <a
                         href="{{ route('customer.index') }}"
@@ -40,7 +40,7 @@
                     </a>
                     @endif
                 </div>
-               
+
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
@@ -66,6 +66,7 @@
             <thead>
             <tr>
                 <th>STT</th>
+                <th>Mã khách hàng</th>
                 <th>Họ tên</th>
                 <th>Ảnh đại diện</th>
                 <th>Ngày sinh</th>
@@ -79,6 +80,7 @@
                 @foreach ($customers as $index => $customer)
                     <tr>
                         <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
+                        <td>{{ $customer->customer_id }}</td>
                         <td>{{ $customer->full_name }}</td>
                         <td>
                             <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="customer-image">
