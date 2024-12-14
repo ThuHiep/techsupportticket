@@ -11,37 +11,49 @@ use Illuminate\Support\Facades\Auth;
 class FaqController extends Controller
 {
     public function index(Request $request)
-    {
-        $template = 'admin.faq.index';
-        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        $search = $request->input('search');
-        $statusFilter = $request->input('status');
-        $date = $request->input('date');
-        // Lọc câu hỏi
-        $faqs = Faq::when($search, function ($query) use ($search) {
-            if (str_starts_with($search, 'FAQ')) {
-                return $query->where('faq_id', 'LIKE', "%$search%");
-            } else {
-                return $query->where('question', 'LIKE', "%$search%");
-            }
-        })
-            ->when($statusFilter, function ($query) use ($statusFilter) {
-                return $query->where('status', $statusFilter);
-            })
-            ->when($date, function ($query) use ($date) {
-                return $query->whereDate('create_at', $date);
-            })
-            ->paginate(4);
-    
+{
+    $template = 'admin.faq.index';
+    $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-        // Đếm số lượng kết quả tìm thấy
-        $totalResults = $faqs->total();
+    // Lấy các tham số tìm kiếm
+    $search = $request->input('search'); // Từ khóa hoặc mã FAQ
+    $statusFilter = $request->input('status'); // Trạng thái câu hỏi
 
-        $statuses = ['Đã phản hồi', 'Chưa phản hồi'];
-        $isSearchById = $search && str_starts_with($search, 'FAQ');
+    // Kiểm tra xem từ khóa là mã FAQ (định dạng FAQxxxx)
+    $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'faqs', 'statuses', 'search', 'totalResults', 'isSearchById'));
-    }
+    // Tìm kiếm FAQ
+    $faqs = Faq::when($isSearchById, function ($query) use ($search) {
+        return $query->where('faq_id', $search);
+    })
+    ->when(!$isSearchById && $search, function ($query) use ($search) {
+        return $query->where('question', 'LIKE', "%$search%");
+    })
+    ->when($statusFilter, function ($query) use ($statusFilter) {
+        return $query->where('status', $statusFilter);
+    })
+    ->paginate(4);
+
+    // Đếm số lượng kết quả tìm thấy
+    $totalResults = $faqs->total();
+
+    // Xác định các tiêu chí tìm kiếm
+    $isSearchWithStatus = $search && $statusFilter; // Cả từ khóa và trạng thái
+    $isSearchPerformed = $search || $statusFilter; // Có thực hiện tìm kiếm
+
+    return view('admin.dashboard.layout', compact(
+        'template',
+        'logged_user',
+        'faqs',
+        'search',
+        'statusFilter',
+        'totalResults',
+        'isSearchById',
+        'isSearchWithStatus',
+        'isSearchPerformed'
+    ));
+}
+
 
 
     public function create()

@@ -27,7 +27,7 @@ class DashboardController extends Controller
             ->whereDate('create_at', now()->toDateString())
             ->count();
 
-
+    
 
 
 
@@ -103,6 +103,7 @@ class DashboardController extends Controller
             'logged_user',
             'config',
             'unansweredFaqsToday',
+            'pendingCustomerToday',
             'totalCustomersToday',
             'customerPercentageChange',
             'totalRequestsToday',
@@ -116,6 +117,7 @@ class DashboardController extends Controller
 
         ));
     }
+    
 
     // Hàm tính phần trăm thay đổi
     private function calculatePercentageChange($todayCount, $yesterdayCount)
