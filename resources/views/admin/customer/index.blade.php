@@ -17,6 +17,9 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
+        #notification-message {
+            font-size: 1.8em; /* Adjust the font size as needed */
+        }
     </style>
 </head>
 <body>
