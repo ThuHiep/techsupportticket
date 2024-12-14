@@ -31,27 +31,33 @@
                     <span>Trang quản trị</span>
                 </a>
             </li>
+            @if ($logged_user->role_id == 1)
             <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
                 <a href="index.html"><i class="fas fa-shield-alt"></i>
                     <span class="nav-label">Phân quyền</span>
                 </a>
             </li>
+            @endif
+            @if ($logged_user->role_id == 1)
             <li class="{{ Request::is('employee*') ? 'active' : '' }}">
                 <a href="{{ route('employee.index') }}"><i class="fas fa-address-book"></i>
                     <span class="nav-label">Nhân viên</span>
                 </a>
             </li>
+            @endif
 
             <li class="{{ Request::is('customer*') ? 'active' : '' }}">
                 <a href="{{ route('customer.index') }}"><i class="fa-solid fa-users"></i>
                     <span class="nav-label">Khách hàng</span>
                 </a>
             </li>
+            @if ($logged_user->role_id == 1)
             <li class="{{ Request::is('department*') ? 'active' : '' }}">
                 <a href="department/index"><i class="fa-solid fa-clipboard"></i>
                     <span class="nav-label">Phòng ban</span>
                 </a>
             </li>
+            @endif
             <li class="{{ Request::is('request*') ? 'active' : '' }}">
                 <a href="request/index"><i class="fa-solid fa-tools"></i>
                     <span class="nav-label">Yêu cầu</span>

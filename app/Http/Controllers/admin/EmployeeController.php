@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmployeeCreatedMail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,6 +17,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.employee.index';
+        $logged_user = Auth::user();
         $search = $request->input('search');
 
         // Khởi tạo query cơ bản
@@ -29,10 +31,7 @@ class EmployeeController extends Controller
             // Thực hiện tìm kiếm theo các điều kiện
             $query->where(function ($query) use ($search) {
                 $query->where('employee_id', 'LIKE', "%$search%")
-                    ->orWhere('full_name', 'LIKE', "%$search%")
-                    ->orWhereHas('user', function ($query) use ($search) {
-                        $query->where('email', 'LIKE', "%$search%");
-                    });
+                    ->orWhere('full_name', 'LIKE', "%$search%");
             });
 
             // Đếm tổng số nhân viên tìm thấy
@@ -51,18 +50,18 @@ class EmployeeController extends Controller
             }
         }
 
-        // Nếu không có tìm kiếm, lấy tất cả nhân viên
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3);
 
-        return view('admin.dashboard.layout', compact('template', 'employees', 'search'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search'));
     }
 
 
     public function createEmployee()
     {
         $template = 'admin.employee.create';
+        $logged_user = Auth::user();
         // Sinh employee_id và user_id
         $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         while (Employee::where('employee_id', $randomId)->exists()) {
@@ -72,12 +71,11 @@ class EmployeeController extends Controller
         while (User::where('username', $randomUserName)->exists()) {
             $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
-        return view('admin.dashboard.layout', compact('template', 'randomId', 'randomUserName'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'randomUserName'));
     }
 
     public function saveEmployee(Request $request)
     {
-        // Validate inputs
         $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:employee,email', 'unique:customer,email'],
@@ -99,7 +97,6 @@ class EmployeeController extends Controller
             $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
 
-        // Upload profile image
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
@@ -148,10 +145,11 @@ class EmployeeController extends Controller
     public function editEmployee($employee_id)
     {
         $template = 'admin.employee.edit';
+        $logged_user = Auth::user();
         $employee = Employee::with(['user.role'])
             ->where('employee_id', '=', $employee_id)
             ->first();
-        return view('admin.dashboard.layout', compact('template', 'employee'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employee'));
     }
 
     // Cập nhật thông tin nhân viên

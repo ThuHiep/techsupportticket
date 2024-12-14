@@ -8,6 +8,7 @@ use App\Models\Request;
 use App\Models\Request as SupportRequest; // Import Model Request
 use App\Models\User; // Import Model User
 use App\Models\FAQ; // Import Model User
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -18,11 +19,12 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $logged_user = Auth::user();
         $config = $this->config();
         // Số bài viết chưa phản hồi hôm nay
         $unansweredFaqsToday = FAQ::where('status', 'Chưa phản hồi')
-        ->whereDate('create_at', now()->toDateString())
-        ->count();
+            ->whereDate('create_at', now()->toDateString())
+            ->count();
 
 
 
@@ -75,28 +77,29 @@ class DashboardController extends Controller
 
         // Lấy dữ liệu yêu cầu trong tuần này từ Thứ Hai đến Chủ Nhật
         $requestsThisWeek = SupportRequest::selectRaw('WEEKDAY(create_at) as weekday, COUNT(*) as total')
-        ->whereBetween('create_at', [now()->startOfWeek(), now()->endOfWeek()])
-        ->groupBy('weekday')
-        ->orderBy('weekday', 'asc')
-        ->get();
+            ->whereBetween('create_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->groupBy('weekday')
+            ->orderBy('weekday', 'asc')
+            ->get();
 
         // Tạo mảng mặc định với số lượng yêu cầu là 0 cho cả tuần từ Thứ Hai đến Chủ Nhật
         $weekdays = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'CN'];
         $requestData = array_fill(0, 7, ['day' => '', 'total' => 0]);
 
         foreach ($weekdays as $index => $day) {
-        $requestData[$index]['day'] = $day;
+            $requestData[$index]['day'] = $day;
         }
 
         // Cập nhật dữ liệu thực tế từ $requestsThisWeek
         foreach ($requestsThisWeek as $request) {
-        $requestData[$request->weekday]['total'] = $request->total;
+            $requestData[$request->weekday]['total'] = $request->total;
         }
 
         $template = 'admin.dashboard.home.index';
 
         return view('admin.dashboard.layout', compact(
             'template',
+            'logged_user',
             'config',
             'unansweredFaqsToday',
             'totalCustomersToday',
@@ -107,8 +110,8 @@ class DashboardController extends Controller
             'userPercentageChange',
             'totalFaqsToday',
             'faqPercentageChange',
-             'requestStatusCounts',
-             'requestData',
+            'requestStatusCounts',
+            'requestData',
 
         ));
     }
@@ -130,7 +133,7 @@ class DashboardController extends Controller
     {
         return [
             'js' => [
-                
+
                 'admin/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
                 'admin/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
                 'admin/js/plugins/easypiechart/jquery.easypiechart.js',
@@ -138,6 +141,5 @@ class DashboardController extends Controller
                 'admin/js/demo/sparkline-demo.js',
             ],
         ];
-
     }
 }
