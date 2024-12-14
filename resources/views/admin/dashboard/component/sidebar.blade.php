@@ -60,7 +60,7 @@
                     <span class="nav-label">Yêu cầu</span>
                 </a>
             </li>
-            <li class="{{ Request::is('statistics*') ? 'active' : '' }}">
+            <li class="{{ Request::is('statistical*') ? 'active' : '' }}">
                 <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>
                     <span class="nav-label">Thống kê</span>
                 </a>
