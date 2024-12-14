@@ -183,27 +183,27 @@
         });
     }
     // Thông báo cập nhật
-        document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
         updateUserCount(); // Cập nhật số lượng ngay khi tải trang
 
         // Hiển thị thông báo cập nhật thành công
         @if (session('success'))
         Swal.fire({
-        icon: 'success',
-        title: 'Thành công!',
-        text: '{{ session('success') }}',
-        confirmButtonText: 'Đồng ý'
-    });
+            icon: 'success',
+            title: 'Thành công!',
+            html: '{!! session('success') !!}', // Use html to allow line breaks
+            confirmButtonText: 'Đồng ý'
+        });
         @endif
 
         // Hiển thị thông báo duyệt thành công
         @if (session('approved'))
         Swal.fire({
-        icon: 'success',
-        title: 'Đã duyệt!',
-        text: '{{ session('approved') }}',
-        confirmButtonText: 'Đồng ý'
-    });
+            icon: 'success',
+            title: 'Đã duyệt!',
+            text: '{{ session('approved') }}',
+            confirmButtonText: 'Đồng ý'
+        });
         @endif
     });
 </script>
