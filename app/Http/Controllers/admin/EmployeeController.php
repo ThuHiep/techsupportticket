@@ -29,10 +29,7 @@ class EmployeeController extends Controller
             // Thực hiện tìm kiếm theo các điều kiện
             $query->where(function ($query) use ($search) {
                 $query->where('employee_id', 'LIKE', "%$search%")
-                    ->orWhere('full_name', 'LIKE', "%$search%")
-                    ->orWhereHas('user', function ($query) use ($search) {
-                        $query->where('email', 'LIKE', "%$search%");
-                    });
+                    ->orWhere('full_name', 'LIKE', "%$search%");
             });
 
             // Đếm tổng số nhân viên tìm thấy
@@ -51,7 +48,6 @@ class EmployeeController extends Controller
             }
         }
 
-        // Nếu không có tìm kiếm, lấy tất cả nhân viên
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3);
