@@ -23,12 +23,12 @@ class CustomerController extends Controller
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
-                return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
+                return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"])
+                             ->orWhere('customer_id', 'LIKE', "%$search%");
             })
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
-
         $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
 
         return view('admin.dashboard.layout', compact('template','customers', 'searchPerformed', 'search', 'totalResults'));

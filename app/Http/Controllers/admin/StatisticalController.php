@@ -21,19 +21,24 @@ class StatisticalController extends Controller
             ->select('request_type.request_type_name', DB::raw('COUNT(request.request_id) as count'))
             ->where('request_type.status', 'active');
 
-        // Lọc theo ngày bắt đầu và kết thúc
+        // Filter by date range
         if ($startDate && $endDate) {
-            $query->whereBetween('request.created_at', [$startDate, $endDate]);
+            $query->whereBetween('request.create_at', [$startDate, $endDate]);
         }
 
-        // Truy vấn khách hàng và đếm số yêu cầu hỗ trợ
-        // Đếm số lượng khách hàng có status là active
+        // Filter by month and year
+        if ($month !== 'all') {
+            $query->whereMonth('request.create_at', $month);
+        }
+        if ($year !== 'all') {
+            $query->whereYear('request.create_at', $year);
+        }
+
+        // Fetch data
+        $requestTypes = $query->groupBy('request_type.request_type_name')->get();
         $activeCustomers = Customer::where('status', 'active')->withCount('requests')->get(['customer_id', 'full_name']);
         $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
 
-        // Lấy dữ liệu sau khi lọc
-        $requestTypes = $query->groupBy('request_type.request_type_name')->get();
-
-        return view('admin.dashboard.layout', compact('template', 'activeCustomers', 'requestTypes', 'startDate', 'endDate', 'month', 'year','customerColors'));
+        return view('admin.dashboard.layout', compact('template', 'activeCustomers', 'requestTypes', 'startDate', 'endDate', 'month', 'year', 'customerColors'));
     }
 }

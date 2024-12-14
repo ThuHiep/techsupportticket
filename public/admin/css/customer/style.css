@@ -51,10 +51,10 @@ h1 {
     margin-right: 300px;
     margin-top: -4px;
     margin-left: auto;
-    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
+    width: 500px;  /* Đặt chiều rộng cho ô tìm kiếm */
 }
 .search-container input[type="text"] {
-    width: 440px;
+    width: 500px;
     padding: 10px 100px 10px 15px;
     border: 1px solid #FF9700;
     border-radius: 5px;
