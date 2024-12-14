@@ -7,6 +7,7 @@ use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request as SupportRequest;
 use App\Models\Customer;
 use App\Models\Department;
+use App\Models\Employee;
 use App\Models\RequestType;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,7 @@ class RequestController extends Controller
     public function index(HttpRequest $request)
     {
         $template = 'admin.request.index';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Các biến nhập liệu mới
         $customerId = $request->input('customer_id');
         $departmentId = $request->input('department_id');
@@ -69,7 +70,7 @@ class RequestController extends Controller
     public function create()
     {
         $template = 'admin.request.create';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Lặp đến khi tìm được mã không trùng lặp
         do {
             $randomNumber = mt_rand(1, 9999);
@@ -128,7 +129,7 @@ class RequestController extends Controller
     public function edit($request_id)
     {
         $template = 'admin.request.edit';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $requestData = SupportRequest::findOrFail($request_id);
 
         // Lấy danh sách khách hàng, phòng ban, và loại yêu cầu để tạo các lựa chọn trong form

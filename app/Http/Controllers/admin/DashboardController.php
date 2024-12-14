@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
+use App\Models\Employee;
 use App\Models\Request;
 use App\Models\Request as SupportRequest; // Import Model Request
 use App\Models\User; // Import Model User
@@ -19,7 +20,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $config = $this->config();
         // Số bài viết chưa phản hồi hôm nay
         $unansweredFaqsToday = FAQ::where('status', 'Chưa phản hồi')

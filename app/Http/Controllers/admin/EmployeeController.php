@@ -17,7 +17,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.employee.index';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = $request->input('search');
 
         // Khởi tạo query cơ bản
@@ -61,7 +61,7 @@ class EmployeeController extends Controller
     public function createEmployee()
     {
         $template = 'admin.employee.create';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Sinh employee_id và user_id
         $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         while (Employee::where('employee_id', $randomId)->exists()) {
@@ -79,14 +79,14 @@ class EmployeeController extends Controller
         $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:employee,email', 'unique:customer,email'],
-            'date_of_birth' => ['required', 'date', 'before:today'],
+            'date_of_birth' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'phone' => ['required', 'digits_between:9,11'],
             'address' => ['required', 'string', 'max:255'],
             'profile_image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,gif'],
         ], [
             'full_name.max' => 'Tên nhân viên không được vượt quá 225 kí tự',
             'email.unique' => 'Email đã tồn tại',
-            'date_of_birth.before' => 'Ngày sinh không hợp lệ',
+            'date_of_birth.before_or_equal' => 'Ngày sinh phải đủ 18 tuổi',
             'phone.digits_between' => 'Số điện thoại phải có độ dài từ 9 đến 11 số',
             'address.max' => 'Địa chỉ không được vượt quá 225 kí tự',
             'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, hoặc gif',
@@ -145,7 +145,7 @@ class EmployeeController extends Controller
     public function editEmployee($employee_id)
     {
         $template = 'admin.employee.edit';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $employee = Employee::with(['user.role'])
             ->where('employee_id', '=', $employee_id)
             ->first();

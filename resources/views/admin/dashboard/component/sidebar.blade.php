@@ -6,20 +6,17 @@
                     <span>
                         <img alt="image" src="admin/img/logosweetsoft.png"
                             style="width:170px; margin-top: -10px; margin-bottom: 20px">
-                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg" style="margin-left:50px">
+                        <img alt="image" class="img-circle" src="{{$logged_user->profile_image ? asset('admin/img/employee/' .  $logged_user->profile_image) : asset('admin/img/employee/default.png') }}" style="margin-left:50px; width: 80px;height: 80px;">
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
-                        <span class="clear">
+                        <span class="clear text-align: center;">
                             <span class="block m-t-xs">
-                                <strong class="font-bold" style="color: #2e2626; margin-left:30px">David Williams</strong>
-                                <b class="caret ms-2" style="color: #272020"></b><!--Huy đã đổi màu tên và icon tại đây-->
+                                <strong class="font-bold" style="color: #2e2626; display: inline-block; text-align: center; width: 100%;">{{$logged_user->full_name}} <b class="caret ms-2" style="color: #272020"></b></strong>
                             </span>
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="profile.html">Hồ sơ</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{{ route('login') }}">Đăng xuất</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
@@ -31,14 +28,14 @@
                     <span>Trang quản trị</span>
                 </a>
             </li>
-            @if ($logged_user->role_id == 1)
+            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
                 <a href="index.html"><i class="fas fa-shield-alt"></i>
                     <span class="nav-label">Phân quyền</span>
                 </a>
             </li>
             @endif
-            @if ($logged_user->role_id == 1)
+            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('employee*') ? 'active' : '' }}">
                 <a href="{{ route('employee.index') }}"><i class="fas fa-address-book"></i>
                     <span class="nav-label">Nhân viên</span>
@@ -51,7 +48,7 @@
                     <span class="nav-label">Khách hàng</span>
                 </a>
             </li>
-            @if ($logged_user->role_id == 1)
+            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('department*') ? 'active' : '' }}">
                 <a href="department/index"><i class="fa-solid fa-clipboard"></i>
                     <span class="nav-label">Phòng ban</span>

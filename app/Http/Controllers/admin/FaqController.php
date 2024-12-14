@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ class FaqController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.faq.index';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = $request->input('search');
         $statusFilter = $request->input('status');
         $date = $request->input('date');
@@ -40,7 +41,7 @@ class FaqController extends Controller
     public function create()
     {
         $template = 'admin.faq.create';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         do {
             $randomNumber = mt_rand(1, 9999);
             $nextId = 'FAQ' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
@@ -72,7 +73,7 @@ class FaqController extends Controller
     public function edit($faq_id)
     {
         $template = 'admin.faq.edit';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $faq = Faq::findOrFail($faq_id);
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'faq'));
     }
