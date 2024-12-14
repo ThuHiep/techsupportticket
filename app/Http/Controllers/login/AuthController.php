@@ -49,9 +49,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
-                return redirect()->route('dashboard.index');
+                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('dashboard.index')->with('success', "Chào mừng $logged_user->full_name đến với trang quản trị");
             } elseif (Auth::user()->role_id == 3) {
-                return redirect()->route('homepage.index');
+                $logged_user = Customer::with(['user'])->where('user_id', '=', Auth::user()->user_id);
+                return redirect()->route('homepage.index')->with('success', "Chào mừng $logged_user->full_name đến với trang khách hàng");
             } else {
                 return back()->with('error', 'Error to find your role');
             }

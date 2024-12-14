@@ -84,11 +84,6 @@
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
-            <li>
-                <span class="m-r-sm text-muted welcome-message" style="color: #FFFFFF; font-weight: bold">
-                    Chào mừng đến trang quản trị viên.
-                </span>
-            </li>
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                     <i class="fa fa-bell"></i> <span class="label label-warning" id="userCountt">0</span>
@@ -112,19 +107,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle m-r-sm text-muted welcome-message" data-toggle="dropdown" href="#" style="color: #FFFFFF; font-weight: bold">
-                    {{$logged_user->username}}
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-menu" href="{{route('logout')}}">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            <li><a href="{{route('logout')}}">Đăng xuất</a></li>
         </ul>
     </nav>
 </div>

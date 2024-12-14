@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\CustomerCreated;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -19,7 +20,7 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = $request->input('search');
         $searchPerformed = $search !== null && $search !== '';
 
@@ -65,7 +66,7 @@ class CustomerController extends Controller
 
         // Truyền các giá trị vào view
         $template = 'admin.customer.create';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'username', 'password', 'customers'));
     }
 
@@ -74,7 +75,7 @@ class CustomerController extends Controller
     public function edit($customer_id)
     {
         $template = 'admin.customer.edit';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $customers = Customer::findOrFail($customer_id);
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers'));
     }
@@ -286,7 +287,7 @@ class CustomerController extends Controller
     public function pendingCustomers(Request $request)
     {
         $template = 'admin.customer.pending';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Xóa khách hàng không duyệt lâu hơn 30 ngày
         Customer::whereNull('status')
             ->where('create_at', '<', now()->subDays(2))

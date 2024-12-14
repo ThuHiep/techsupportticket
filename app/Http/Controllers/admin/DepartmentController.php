@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,7 @@ class DepartmentController extends Controller
         ]);
 
         $template = 'admin.department.index';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = trim($request->input('search'));
         $statusFilter = $request->input('status');
 
@@ -71,7 +72,7 @@ class DepartmentController extends Controller
     public function create()
     {
         $template = 'admin.department.create';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Lặp đến khi tìm được mã không trùng lặp
         do {
             $randomNumber = mt_rand(1, 9999);
@@ -113,7 +114,7 @@ class DepartmentController extends Controller
     public function edit($department_id)
     {
         $template = 'admin.department.edit';
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $department = Department::findOrFail($department_id);
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'department'));
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
+use App\Models\Employee;
 use App\Models\Request;
 use App\Models\Request as SupportRequest; // Import Model Request
 use App\Models\User; // Import Model User
@@ -19,14 +20,14 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $logged_user = Auth::user();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $config = $this->config();
         // Số bài viết chưa phản hồi hôm nay
         $unansweredFaqsToday = FAQ::where('status', 'Chưa phản hồi')
             ->whereDate('create_at', now()->toDateString())
             ->count();
 
-
+    
 
 
 
@@ -102,6 +103,7 @@ class DashboardController extends Controller
             'logged_user',
             'config',
             'unansweredFaqsToday',
+            'pendingCustomerToday',
             'totalCustomersToday',
             'customerPercentageChange',
             'totalRequestsToday',
@@ -115,6 +117,7 @@ class DashboardController extends Controller
 
         ));
     }
+    
 
     // Hàm tính phần trăm thay đổi
     private function calculatePercentageChange($todayCount, $yesterdayCount)
@@ -127,8 +130,12 @@ class DashboardController extends Controller
             return $todayCount > 0 ? '100%' : 0; // Nếu hôm qua không có, nhưng hôm nay có
         }
 
-        return round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2);
+        $percentageChange = round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2);
+
+        // Giới hạn phần trăm tối đa là 100%
+        return $percentageChange > 100 ? 100 : $percentageChange;
     }
+
     private function config()
     {
         return [
