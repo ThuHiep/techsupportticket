@@ -247,19 +247,26 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($customer_id);
 
+        // Check if the customer exists
         if ($customer) {
-            $customer->status = 'inactive'; // Đánh dấu tài khoản là không duyệt
+            // Update the customer's status to inactive
+            $customer->status = 'inactive';
             $customer->save();
-            // Gửi email thông báo
-            Mail::to($customer->email)->send(new AccountRejected($customer));
 
-            return redirect()->route('customer.index')->with([
-                'error' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
-                'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
-            ]);
+            // Check if the email is available
+            if (!empty($customer->email)) {
+                // Send notification email
+                Mail::to($customer->email)->send(new AccountRejected($customer));
+                return redirect()->route('customer.index')->with([
+                    'success' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
+                    'notification_duration' => 500 // Duration for displaying the notification (ms)
+                ]);
+            } else {
+                return redirect()->route('customer.index')->with('error', 'Email không hợp lệ.');
+            }
+        } else {
+            return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng.');
         }
-
-        return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
     public function pendingCustomers(Request $request)
