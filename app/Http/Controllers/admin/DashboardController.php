@@ -128,8 +128,12 @@ class DashboardController extends Controller
             return $todayCount > 0 ? '100%' : 0; // Nếu hôm qua không có, nhưng hôm nay có
         }
 
-        return round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2);
+        $percentageChange = round((($todayCount - $yesterdayCount) / $yesterdayCount) * 100, 2);
+
+        // Giới hạn phần trăm tối đa là 100%
+        return $percentageChange > 100 ? 100 : $percentageChange;
     }
+
     private function config()
     {
         return [

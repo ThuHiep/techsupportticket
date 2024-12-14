@@ -6,7 +6,7 @@
                     <span>
                         <img alt="image" src="admin/img/logosweetsoft.png"
                             style="width:170px; margin-top: -10px; margin-bottom: 20px">
-                        <img alt="image" class="img-circle" src="{{$logged_user->profile_image ? asset('admin/img/employee/' .  $logged_user->profile_image) : asset('admin/img/employee/default.png') }}" style="margin-left:50px; width: 80px;height: 80px;">
+                        <img alt="image" class="img-circle" src="{{$logged_user->profile_image ? asset('admin/img/employee/' .  $logged_user->profile_image) : asset('admin/img/employee/default.png') }}" style="margin-left:50px; width: 60px;height: 60px;">
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
                         <span class="clear text-align: center;">
