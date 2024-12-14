@@ -53,11 +53,11 @@
         @if ($searchPerformed && $search !== '')
             @if ($totalResults > 0)
                 <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                    Tìm thấy {{ $totalResults }} khách hàng có từ khóa "{{ $search }}"
+                    Tìm thấy {{ $totalResults }} khách hàng có tên "{{ $search }}"
                 </div>
             @else
                 <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                    Không tìm thấy khách hàng có từ khóa "{{ $search }}"
+                    Không tìm thấy khách hàng có tên "{{ $search }}"
                 </div>
             @endif
         @endif
