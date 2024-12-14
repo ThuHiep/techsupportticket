@@ -55,6 +55,26 @@ h1 {
 .form-column-left, .form-column-right {
     flex: 1;
 }
+.form-group {
+    flex: 1; /* Chia đều chiều rộng giữa các trường */
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px;
+    border: 3px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+
+.form-group textarea {
+    resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
+    min-height: 100px; /* Đặt chiều cao tối thiểu */
+}
+
 /* Group các trường trong hàng */
 .form-group-row {
     display: flex;
@@ -70,7 +90,7 @@ h1 {
 }
 .row_left {
     display: flex;
-    gap: 10px; /* Khoảng cách giữa các trường */
+    gap: 17px; /* Khoảng cách giữa các trường */
     margin-bottom: 60px; /* Khoảng cách giữa các hàng */
 }
 .form-column-left .form-group {
@@ -113,35 +133,91 @@ h1 {
 }
 /* Hiển thị label trên cột trái */
 .form-column-left .form-group label {
+    font-size: 14px;
     font-weight: bold;
     color: #333333;
     margin-bottom: 5px;
     display: block;
 }
-.form-group {
-    flex: 1; /* Chia đều chiều rộng giữa các trường */
-    display: flex;
-    flex-direction: column;
+/* Cột phải có style tương tự */
+.form-column-right .form-group input,
+.form-column-right .form-group select,
+.form-column-right .form-group textarea {
+    padding: 10px;
+    border: 3px solid #c9d1d9;
+    border-radius: var(--radius);
+    font-size: var(--font-size-base);
+    outline: none;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.form-group label {
+/* Khi hover vào trường input, select, hoặc textarea */
+.form-column-right .form-group input:hover,
+.form-column-right .form-group select:hover,
+.form-column-right .form-group textarea:hover {
+    border-color: var(--primary-color); /* Sử dụng màu phụ cho cột phải */
+}
+
+/* Khi trường được focus */
+.form-column-right .form-group input:focus,
+.form-column-right .form-group select:focus,
+.form-column-right .form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(255, 151, 0, 0.6); /* Ánh sáng màu secondary */
+}
+
+/* Khi trường đang active */
+.form-column-right .form-group input:active,
+.form-column-right .form-group select:active,
+.form-column-right .form-group textarea:active {
+    border-color: var(--primary-hover);
+}
+
+/* Hiển thị label cho cột phải */
+.form-column-right .form-group label {
+    font-size: 14px;
     font-weight: bold;
+    color: #333333;
     margin-bottom: 5px;
+    display: block;
 }
-.form-group input,
- .form-group select {
-     padding: 8px;
-     border: 3px solid #ccc;
-     border-radius: 5px;
-     width: 100%;
- }
+/* Nhóm "Ngày nhận" và "Ngày hoàn thành" */
+.form-group-row.date-group {
+    display: flex;
+    gap: 45px; /* Khoảng cách giữa "Ngày nhận" và "Ngày hoàn thành" */
+    width: 100%;
+    margin-left: 0px;
 
-
-.form-group textarea {
-    resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
-    min-height: 100px; /* Đặt chiều cao tối thiểu */
 }
 
+/* Cấu trúc chung cho các trường trong nhóm */
+.form-group-row.date-group .form-group {
+    flex: 1;
+    min-width: 200px; /* Đảm bảo không gian cho các trường */
+}
+
+/* Kiểu dáng cho các input trong nhóm */
+.form-group-row.date-group .form-group input {
+    padding: 10px;
+    border: 3px solid #c9d1d9;
+    border-radius: var(--radius);
+    font-size: var(--font-size-base);
+    outline: none;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    width: 100%;
+}
+
+/* Hover và focus cho các input trong nhóm */
+.form-group-row.date-group .form-group input:hover {
+    border-color: var(--primary-color);
+}
+
+.form-group-row.date-group .form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(255, 151, 0, 0.6);
+}
 
 .error {
     color: red;
@@ -153,7 +229,7 @@ h1 {
 .button-group {
     display: flex;
     justify-content: center; /* Căn giữa nút */
-    gap: 20px; /* Khoảng cách giữa các nút */
+    gap: 55px; /* Khoảng cách giữa các nút */
     margin-top: 30px; /* Tăng khoảng cách so với nội dung trên */
 }
 
@@ -171,13 +247,12 @@ h1 {
 }
 
 .submit-button {
-    background-color: #007bff; /* Màu xanh dương cho nút Submit */
+    background-color: #FF9700; /* Màu xanh dương cho nút Submit */
     color: #fff;
-    border: 1px solid #007bff;
 }
 
 .submit-button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover);
 }
 
 .cancel-button {
@@ -188,6 +263,7 @@ h1 {
 
 .cancel-button:hover {
     background-color: #5a6268;
+    color: #fff;
 }
 
 /* Style cho input readonly */

@@ -77,15 +77,19 @@
 
                     <!-- Hàng 3: Ngày nhận + Ngày hoàn thành -->
                     <div class="row_left">
-                        <div class="form-group">
-                            <label for="received_at">Ngày nhận</label>
-                            <input type="date" id="received_at" name="received_at" value="{{ old('received_at', $requestData->received_at ? $requestData->received_at->format('Y-m-d') : '') }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="resolved_at">Ngày hoàn thành</label>
-                            <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $requestData->resolved_at ? $requestData->resolved_at->format('Y-m-d') : '') }}">
+                        <!-- Nhóm "Ngày nhận" và "Ngày hoàn thành" -->
+                        <div class="form-group-row date-group">
+                            <div class="form-group">
+                                <label for="received_at">Ngày nhận</label>
+                                <input type="date" id="received_at" name="received_at" value="{{ old('received_at', $requestData->received_at ? $requestData->received_at->format('Y-m-d') : '') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="resolved_at">Ngày hoàn thành</label>
+                                <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $requestData->resolved_at ? $requestData->resolved_at->format('Y-m-d') : '') }}">
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
                 <!-- Cột phải -->
