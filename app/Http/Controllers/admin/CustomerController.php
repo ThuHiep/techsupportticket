@@ -324,4 +324,17 @@ class CustomerController extends Controller
 
         return response()->json($users);
     }
+
+
+
+    public function getPendingAccounts(Request $request)
+    {
+        $date = $request->input('date', now()->toDateString());
+        $pendingAccounts = Customer::where('status', 'pending')
+            ->whereDate('create_at', $date)
+            ->count();
+
+        return response()->json(['count' => $pendingAccounts]);
+    }
+
 }
