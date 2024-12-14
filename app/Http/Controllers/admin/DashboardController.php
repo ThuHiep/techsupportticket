@@ -26,12 +26,10 @@ class DashboardController extends Controller
         $unansweredFaqsToday = FAQ::where('status', 'Chưa phản hồi')
             ->whereDate('create_at', now()->toDateString())
             ->count();
-        $pendingCustomerToday = Customer::where('status', 'pending')
-            ->whereDate('create_at', now()->toDateString())
+
+        $pendingCustomerToday = Customer::whereDate('create_at', now()->toDateString())
             ->count();
 
-
-    
 
 
 
@@ -107,7 +105,6 @@ class DashboardController extends Controller
             'logged_user',
             'config',
             'unansweredFaqsToday',
-            'pendingCustomerToday', // Biến này cần được khai báo ở trên
             'totalCustomersToday',
             'customerPercentageChange',
             'totalRequestsToday',
@@ -117,9 +114,9 @@ class DashboardController extends Controller
             'totalFaqsToday',
             'faqPercentageChange',
             'requestStatusCounts',
-            'requestData'
+            'requestData',
+
         ));
-        
     }
     
 

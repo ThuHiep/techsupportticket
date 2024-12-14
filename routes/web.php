@@ -68,7 +68,7 @@ Route::name('customer.')->group(function () {
 
     // Hiển thị danh sách khách hàng chờ duyệt
     Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->middleware('customersp')->name('pending');
-    Route::get('/customer/pendingToday', [CustomerController::class, 'getPendingAccounts'])->middleware('customersp')->name('admin.customer.pending');
+
 
 });
 
