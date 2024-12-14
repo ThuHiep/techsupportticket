@@ -18,7 +18,11 @@ class FaqController extends Controller
         $date = $request->input('date');
         // Lọc câu hỏi
         $faqs = Faq::when($search, function ($query) use ($search) {
-            return $query->where('question', 'LIKE', "%$search%");
+            if (str_starts_with($search, 'FAQ')) {
+                return $query->where('faq_id', 'LIKE', "%$search%");
+            } else {
+                return $query->where('question', 'LIKE', "%$search%");
+            }
         })
             ->when($statusFilter, function ($query) use ($statusFilter) {
                 return $query->where('status', $statusFilter);
@@ -27,13 +31,15 @@ class FaqController extends Controller
                 return $query->whereDate('create_at', $date);
             })
             ->paginate(4);
+    
 
         // Đếm số lượng kết quả tìm thấy
         $totalResults = $faqs->total();
 
         $statuses = ['Đã phản hồi', 'Chưa phản hồi'];
+        $isSearchById = $search && str_starts_with($search, 'FAQ');
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'faqs', 'statuses', 'search', 'totalResults'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'faqs', 'statuses', 'search', 'totalResults', 'isSearchById'));
     }
 
 
