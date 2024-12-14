@@ -78,6 +78,7 @@ class DashboardController extends Controller
             'cancelled' => Request::where('status', 'Đã hủy')->count(),
         ];
 
+        
         // Lấy dữ liệu yêu cầu trong tuần này từ Thứ Hai đến Chủ Nhật
         $requestsThisWeek = SupportRequest::selectRaw('WEEKDAY(create_at) as weekday, COUNT(*) as total')
             ->whereBetween('create_at', [now()->startOfWeek(), now()->endOfWeek()])
