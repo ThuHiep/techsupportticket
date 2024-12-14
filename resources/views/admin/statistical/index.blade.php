@@ -9,7 +9,6 @@
     <title>Báo cáo thống kê</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        
         .chart-container {
             width: 300px; /* Set desired width */
             height: 300px; /* Set desired height */
@@ -30,7 +29,7 @@
             font-size: 14px;
         }
     </style>
-    
+
 </head>
 <body>
     <div class="container">
