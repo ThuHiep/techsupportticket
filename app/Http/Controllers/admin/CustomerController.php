@@ -282,7 +282,7 @@ class CustomerController extends Controller
                 return $query->where('full_name', 'LIKE', "%$searchName%");
             })
             ->when($searchDate, function ($query) use ($searchDate) {
-                return $query->whereDate('created_at', $searchDate);
+                return $query->whereDate('create_at', $searchDate);
             })
             ->paginate(4);
 
