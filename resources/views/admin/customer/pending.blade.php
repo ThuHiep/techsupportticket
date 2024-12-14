@@ -143,7 +143,7 @@
                 <th>Họ tên</th>
                 <th>Tài khoản</th>
                 <th>Mật khẩu</th>
-                <th>Ngày tạo</th>
+                <th>Ngày đăng ký</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
