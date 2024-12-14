@@ -20,7 +20,7 @@ Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 /*Route login*/
-Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::get('login', [AuthController::class, 'login'])->name('login.login'); // mới sửa
 Route::post('/loginProcess', [AuthController::class, 'LoginProcess'])->name('loginProcess');
 /*Route register cua user*/
 Route::get('/register', [AuthController::class, 'register'])->name('register');
@@ -112,6 +112,8 @@ Route::name('request.')->group(function () {
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
 });
+// routes/api.php
+Route::get('/requests', [StatisticalController::class, 'getRequests']);
 
 
 

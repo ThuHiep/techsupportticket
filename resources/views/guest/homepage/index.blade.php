@@ -29,7 +29,7 @@
             <a href="#faq">Bài viết</a>
             <a href="#ins">Hướng dẫn</a>
             <a href="#contact">Liên hệ</a>
-            <a class="login-button" href="{{ route('auth.login') }}">Đăng nhập</a>
+            <a class="login-button" href="{{ route('login.login') }}">Đăng nhập</a>
         </nav>
     </header>
     <div class="main-content" id="home">
@@ -220,13 +220,13 @@
             <div>
                 <button type="button" onclick="window.location.href='{{ route('login.login') }}'" style="padding: 10px 20px; background-color: #6F2F9F; color: white; border: none; border-radius: 5px; cursor: pointer;">
                     Đăng nhập
-                </button>   
+                </button>
             </div>
             <a href="#" style="display: block; margin-top: 10px;">Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
         </form>
-        
+
     </div>
-    
+
 
     <script>
         // Lấy các phần tử HTML

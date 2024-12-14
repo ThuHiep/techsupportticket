@@ -15,6 +15,7 @@ class StatisticalController extends Controller
         $endDate = $request->input('endDate');
         $month = $request->input('month', 'all');
         $year = $request->input('year', 'all');
+        $selectedType = $request->input('requestTypeFilter', 'all');
 
         $query = DB::table('request_type')
             ->join('request', 'request.request_type_id', '=', 'request_type.request_type_id')
@@ -26,7 +27,7 @@ class StatisticalController extends Controller
             $query->whereBetween('request.create_at', [$startDate, $endDate]);
         }
 
-        // Filter by month and year
+        // Additional filters
         if ($month !== 'all') {
             $query->whereMonth('request.create_at', $month);
         }
@@ -34,11 +35,22 @@ class StatisticalController extends Controller
             $query->whereYear('request.create_at', $year);
         }
 
+        // Filter by request type
+        if ($selectedType !== 'all') {
+            $query->where('request_type.request_type_name', $selectedType);
+        }
+
         // Fetch data
         $requestTypes = $query->groupBy('request_type.request_type_name')->get();
         $activeCustomers = Customer::where('status', 'active')->withCount('requests')->get(['customer_id', 'full_name']);
         $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
 
-        return view('admin.dashboard.layout', compact('template', 'activeCustomers', 'requestTypes', 'startDate', 'endDate', 'month', 'year', 'customerColors'));
+        return view('admin.dashboard.layout', compact('template', 'activeCustomers', 'requestTypes', 'startDate', 'endDate', 'month', 'year', 'customerColors', 'selectedType'));
+    }
+
+    public function getRequests()
+    {
+        $requests = Request::all(['request_id', 'request_type_name']);
+        return response()->json($requests);
     }
 }
