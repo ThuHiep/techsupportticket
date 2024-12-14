@@ -26,10 +26,10 @@ body {
 }
 
 .container {
-    width: 1200px;
+    width: 1255px;
     max-width: 100%;
-    margin: 30px auto; /* Tương tự như department */
-    padding: 20px 30px;
+    margin: 20px auto; /* Tương tự như department */
+    padding: 20px 20px;
     background-color: var(--background-color);
     box-shadow: 0 2px 10px var(--shadow-color);
     border-radius: 8px;
@@ -45,9 +45,16 @@ h1 {
 /* Container cho form */
 .form-container {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 40px;
+}
+.form-columns {
+    display: flex;
+    gap: 40px;
 }
 
+.form-column-left, .form-column-right {
+    flex: 1;
+}
 /* Group các trường trong hàng */
 .form-group-row {
     display: flex;
@@ -61,17 +68,30 @@ h1 {
     flex: 1; /* Chia đều không gian cho các trường trong hàng */
     min-width: 250px; /* Đảm bảo trường không bị co lại quá nhỏ */
 }
-
+.row_left {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các trường */
+    margin-bottom: 60px; /* Khoảng cách giữa các hàng */
+}
+.form-column-left .form-group {
+    margin-bottom: 20px; /* Tăng khoảng cách giữa các phần tử */
+}
 .form-group {
-    margin-bottom: 20px;
+    flex: 1; /* Chia đều chiều rộng giữa các trường */
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
     font-weight: bold;
-    color: #333;
-}
+    margin-bottom: 5px;
+}.form-group input,
+ .form-group select {
+     padding: 8px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     width: 100%;
+ }
 
 .form-group input[type="text"],
 .form-group input[type="date"],
@@ -98,6 +118,7 @@ h1 {
     resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
     min-height: 100px; /* Đặt chiều cao tối thiểu */
 }
+
 
 .error {
     color: red;
