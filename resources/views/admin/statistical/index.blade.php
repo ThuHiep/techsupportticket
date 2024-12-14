@@ -9,12 +9,15 @@
     <title>Báo cáo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        
         .chart-container {
             width: 300px; /* Set desired width */
             height: 300px; /* Set desired height */
             margin: auto; /* Center the chart */
         }
+        
     </style>
+    
 </head>
 <body>
 <div class="container">
