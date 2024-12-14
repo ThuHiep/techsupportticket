@@ -11,7 +11,7 @@
             <div class="form-columns">
                 <!-- Cột trái -->
                 <div class="form-column-left">
-                    <!-- Hàng 1: Mã yêu cầu + Khách hàng + Phòng ban -->
+                    <!-- Hàng 1: Mã yêu cầu + Khách hàng + Trạng thái -->
                     <div class="row_left">
                         <div class="form-group">
                             <label for="request_id">Mã yêu cầu</label>
@@ -29,6 +29,20 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="status">Trạng thái</label>
+                            <select id="status" name="status" required>
+                                <option value="">--Chọn trạng thái--</option>
+                                <option value="Chưa xử lý" {{ (old('status', $requestData->status) == 'Chưa xử lý') ? 'selected' : '' }}>Chưa xử lý</option>
+                                <option value="Đang xử lý" {{ (old('status', $requestData->status) == 'Đang xử lý') ? 'selected' : '' }}>Đang xử lý</option>
+                                <option value="Hoàn thành" {{ (old('status', $requestData->status) == 'Hoàn thành') ? 'selected' : '' }}>Hoàn thành</option>
+                                <option value="Đã hủy" {{ (old('status', $requestData->status) == 'Đã hủy') ? 'selected' : '' }}>Đã hủy</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Hàng 2: Phòng ban + Loại yêu cầu + Ưu tiên -->
+                    <div class="row_left">
+                        <div class="form-group">
                             <label for="department_id">Phòng ban</label>
                             <select id="department_id" name="department_id" required>
                                 <option value="">--Chọn phòng ban--</option>
@@ -39,10 +53,6 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-
-                    <!-- Hàng 2: Loại yêu cầu + Ưu tiên + Trạng thái -->
-                    <div class="row_left">
                         <div class="form-group">
                             <label for="request_type_id">Loại yêu cầu</label>
                             <select id="request_type_id" name="request_type_id" required>
@@ -63,16 +73,7 @@
                                 <option value="Cao" {{ (old('priority', $requestData->priority) == 'Cao') ? 'selected' : '' }}>Cao</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="status">Trạng thái</label>
-                            <select id="status" name="status" required>
-                                <option value="">--Chọn trạng thái--</option>
-                                <option value="Chưa xử lý" {{ (old('status', $requestData->status) == 'Chưa xử lý') ? 'selected' : '' }}>Chưa xử lý</option>
-                                <option value="Đang xử lý" {{ (old('status', $requestData->status) == 'Đang xử lý') ? 'selected' : '' }}>Đang xử lý</option>
-                                <option value="Hoàn thành" {{ (old('status', $requestData->status) == 'Hoàn thành') ? 'selected' : '' }}>Hoàn thành</option>
-                                <option value="Đã hủy" {{ (old('status', $requestData->status) == 'Đã hủy') ? 'selected' : '' }}>Đã hủy</option>
-                            </select>
-                        </div>
+
                     </div>
 
                     <!-- Hàng 3: Ngày nhận + Ngày hoàn thành -->
