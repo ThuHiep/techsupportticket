@@ -41,7 +41,7 @@
                 </div>
             </form>
             <div class="back-to-login">
-                <a href="{{ route('login') }}" class="login-box">Quay lại trang đăng nhập</a>
+                <a href="{{ route('login.login') }}" class="login-box">Quay lại trang đăng nhập</a>
             </div>
         </div>
     </div>
