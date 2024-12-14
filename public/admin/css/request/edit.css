@@ -76,6 +76,48 @@ h1 {
 .form-column-left .form-group {
     margin-bottom: 20px; /* Tăng khoảng cách giữa các phần tử */
 }
+/* Style form các phần tử ở cột trái */
+.form-column-left .form-group input,
+.form-column-left .form-group select,
+.form-column-left .form-group textarea {
+    padding: 10px;
+    border: 3px solid #c9d1d9; /* Viền bình thường */
+    border-radius: var(--radius);
+    font-size: var(--font-size-base);
+    outline: none;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Khi hover vào trường input, select, hoặc textarea */
+.form-column-left .form-group input:hover,
+.form-column-left .form-group select:hover,
+.form-column-left .form-group textarea:hover {
+    border-color: var(--primary-color); /* Viền đổi màu thành #FF9700 */
+}
+
+/* Khi trường được focus */
+.form-column-left .form-group input:focus,
+.form-column-left .form-group select:focus,
+.form-column-left .form-group textarea:focus {
+    border-color: var(--primary-color); /* Viền đổi màu thành #FF9700 */
+    box-shadow: 0 0 5px rgba(255, 151, 0, 0.6); /* Hiệu ứng ánh sáng */
+}
+
+/* Khi trường đang active */
+.form-column-left .form-group input:active,
+.form-column-left .form-group select:active,
+.form-column-left .form-group textarea:active {
+    border-color: var(--primary-hover); /* Đậm hơn chút khi active */
+}
+/* Hiển thị label trên cột trái */
+.form-column-left .form-group label {
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 5px;
+    display: block;
+}
 .form-group {
     flex: 1; /* Chia đều chiều rộng giữa các trường */
     display: flex;
@@ -85,34 +127,15 @@ h1 {
 .form-group label {
     font-weight: bold;
     margin-bottom: 5px;
-}.form-group input,
+}
+.form-group input,
  .form-group select {
      padding: 8px;
-     border: 1px solid #ccc;
+     border: 3px solid #ccc;
      border-radius: 5px;
      width: 100%;
  }
 
-.form-group input[type="text"],
-.form-group input[type="date"],
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--radius);
-    font-size: var(--font-size-base);
-    box-sizing: border-box;
-    outline: none;
-    transition: border-color var(--transition-speed) ease;
-}
-
-.form-group input[type="text"]:focus,
-.form-group input[type="date"]:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: var(--primary-hover);
-}
 
 .form-group textarea {
     resize: vertical; /* Cho phép người dùng thay đổi chiều cao */
