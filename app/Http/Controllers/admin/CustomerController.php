@@ -199,7 +199,7 @@ class CustomerController extends Controller
         try {
             Mail::to($request['email'])->send(new CustomerCreated($username, $password, $request['email']));
             return redirect()->route('customer.index')
-                ->with('success', 'Khách hàng đã được thêm thành công! và Email đã được gửi. Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
+                ->with('success', 'Khách hàng đã được thêm thành công! Email đã được gửi. Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
         } catch (\Exception $e) {
             return redirect()->route('customer.index')
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
@@ -249,21 +249,26 @@ class CustomerController extends Controller
 
         // Check if the customer exists
         if ($customer) {
-            // Update the customer's status to inactive
-            $customer->status = 'inactive';
-            $customer->save();
-
-            // Check if the email is available
+            // Send notification email if email is available
             if (!empty($customer->email)) {
-                // Send notification email
                 Mail::to($customer->email)->send(new AccountRejected($customer));
-                return redirect()->route('customer.index')->with([
-                    'success' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
-                    'notification_duration' => 500 // Duration for displaying the notification (ms)
-                ]);
-            } else {
-                return redirect()->route('customer.index')->with('error', 'Email không hợp lệ.');
             }
+
+            // Get the associated user ID and delete the user
+            $userId = $customer->user_id; // Assuming you have a user_id field in the Customer model
+
+            // Delete the customer record
+            $customer->delete();
+
+            // Delete the associated user record from the User table
+            if ($userId) {
+                User::find($userId)->delete();
+            }
+
+            return redirect()->route('customer.index')->with([
+                'success' => 'Tài khoản đã bị từ chối và đã bị xóa!',
+                'notification_duration' => 500 // Duration for displaying the notification (ms)
+            ]);
         } else {
             return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng.');
         }
