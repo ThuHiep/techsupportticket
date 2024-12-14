@@ -23,18 +23,27 @@ class CustomerController extends Controller
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = $request->input('search');
         $searchPerformed = $search !== null && $search !== '';
+
+        // Kiểm tra nếu tìm kiếm là mã khách hàng (KH + 8 số)
+        $isSearchById = preg_match('/^KH\d{8}$/', $search);
+
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
-            ->when($search, function ($query) use ($search) {
-                return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"])
-                    ->orWhere('customer_id', 'LIKE', "%$search%");
+            ->when($search, function ($query) use ($search, $isSearchById) {
+                if ($isSearchById) {
+                    // Tìm kiếm theo mã khách hàng
+                    return $query->where('customer_id', $search);
+                } else {
+                    // Tìm kiếm theo tên khách hàng
+                    return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
+                }
             })
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
-        $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
+        $totalResults = $customers->total();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults', 'isSearchById'));
     }
 
     // Hiển thị form tạo khách hàng mới
@@ -200,7 +209,7 @@ class CustomerController extends Controller
         try {
             Mail::to($request['email'])->send(new CustomerCreated($username, $password, $request['email']));
             return redirect()->route('customer.index')
-                ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password . ' và email đã được gửi.');
+                ->with('success', 'Khách hàng đã được thêm thành công! Email đã được gửi. Tài khoản: ' . $username . ', Mật khẩu: ' . $password);
         } catch (\Exception $e) {
             return redirect()->route('customer.index')
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
@@ -248,19 +257,31 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($customer_id);
 
+        // Check if the customer exists
         if ($customer) {
-            $customer->status = 'inactive'; // Đánh dấu tài khoản là không duyệt
-            $customer->save();
-            // Gửi email thông báo
-            Mail::to($customer->user->email)->send(new AccountRejected($customer));
+            // Send notification email if email is available
+            if (!empty($customer->email)) {
+                Mail::to($customer->email)->send(new AccountRejected($customer));
+            }
+
+            // Get the associated user ID and delete the user
+            $userId = $customer->user_id; // Assuming you have a user_id field in the Customer model
+
+            // Delete the customer record
+            $customer->delete();
+
+            // Delete the associated user record from the User table
+            if ($userId) {
+                User::find($userId)->delete();
+            }
 
             return redirect()->route('customer.index')->with([
-                'error' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
-                'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
+                'success' => 'Tài khoản đã bị từ chối và đã bị xóa!',
+                'notification_duration' => 500 // Duration for displaying the notification (ms)
             ]);
+        } else {
+            return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng.');
         }
-
-        return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
     public function pendingCustomers(Request $request)
@@ -283,7 +304,7 @@ class CustomerController extends Controller
                 return $query->where('full_name', 'LIKE', "%$searchName%");
             })
             ->when($searchDate, function ($query) use ($searchDate) {
-                return $query->whereDate('created_at', $searchDate);
+                return $query->whereDate('create_at', $searchDate);
             })
             ->paginate(4);
 
