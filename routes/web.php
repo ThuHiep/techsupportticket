@@ -20,7 +20,7 @@ Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('customersp')->name('dashboard.index');
 
 /*Route login*/
-Route::get('login', [AuthController::class, 'login'])->name('login.login'); // mới sửa
+Route::get('login', [AuthController::class, 'login'])->name('login'); // mới sửa
 Route::post('/loginProcess', [AuthController::class, 'LoginProcess'])->name('loginProcess');
 /*Route logout*/
 Route::get('/logout', [AuthController::class, 'Logout'])->name('logout');
