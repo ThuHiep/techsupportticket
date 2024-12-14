@@ -251,7 +251,7 @@ class CustomerController extends Controller
             $customer->status = 'inactive'; // Đánh dấu tài khoản là không duyệt
             $customer->save();
             // Gửi email thông báo
-            Mail::to($customer->user->email)->send(new AccountRejected($customer));
+            Mail::to($customer->email)->send(new AccountRejected($customer));
 
             return redirect()->route('customer.index')->with([
                 'error' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
