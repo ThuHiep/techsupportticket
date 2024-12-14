@@ -22,18 +22,27 @@ class CustomerController extends Controller
         $logged_user = Auth::user();
         $search = $request->input('search');
         $searchPerformed = $search !== null && $search !== '';
+
+        // Kiểm tra nếu tìm kiếm là mã khách hàng (KH + 8 số)
+        $isSearchById = preg_match('/^KH\d{8}$/', $search);
+
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
-            ->when($search, function ($query) use ($search) {
-                return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"])
-                    ->orWhere('customer_id', 'LIKE', "%$search%");
+            ->when($search, function ($query) use ($search, $isSearchById) {
+                if ($isSearchById) {
+                    // Tìm kiếm theo mã khách hàng
+                    return $query->where('customer_id', $search);
+                } else {
+                    // Tìm kiếm theo tên khách hàng
+                    return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
+                }
             })
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
-        $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
+        $totalResults = $customers->total();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults', 'isSearchById'));
     }
 
     // Hiển thị form tạo khách hàng mới

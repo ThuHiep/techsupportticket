@@ -35,7 +35,7 @@
                     <a
                         href="{{ route('customer.index') }}"
                         id="clearButton"
-                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                        style="position: absolute; right: 20%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
                         ✖
                     </a>
                     @endif
@@ -49,18 +49,32 @@
             <span class="badge" id="userCount">0</span>
         </a>
     </div>
-        {{-- Hiển thị thông báo tìm kiếm --}}
-        @if ($searchPerformed && $search !== '')
-            @if ($totalResults > 0)
-                <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+       {{-- Hiển thị thông báo tìm kiếm --}}
+    @if ($searchPerformed && $search !== '')
+        @if ($totalResults > 0)
+            @php
+                // Kiểm tra nếu $search là mã khách hàng có định dạng KH + 8 chữ số
+                $isSearchById = preg_match('/^KH\d{8}$/', $search);
+            @endphp
+
+            <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                @if ($isSearchById)
+                    Tìm thấy {{ $totalResults }} khách hàng có mã "{{ $search }}"
+                @else
                     Tìm thấy {{ $totalResults }} khách hàng có tên "{{ $search }}"
-                </div>
-            @else
-                <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                @endif
+            </div>
+        @else
+            <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                @if ($isSearchById)
+                    Không tìm thấy khách hàng có mã "{{ $search }}"
+                @else
                     Không tìm thấy khách hàng có tên "{{ $search }}"
-                </div>
-            @endif
+                @endif
+            </div>
         @endif
+    @endif
+
     <div class="table-container">
         <table class="table table-striped">
             <thead>
