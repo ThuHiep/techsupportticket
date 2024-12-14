@@ -73,7 +73,17 @@
 
     <form action="{{ route('customer.pending') }}" method="GET">
         <div class="search-container">
-            <input type="text" id="searchName" name="name" placeholder="Tìm kiếm theo tên khách hàng" value="{{ request('name') }}" />
+            <div style="position: relative;">
+                <input type="text" id="searchName" name="name" placeholder="Tìm kiếm theo tên khách hàng" value="{{ request('name') }}" />
+                @if($searchPerformed)
+                <a
+                    href="{{ route('customer.pending') }}"
+                    id="clearButton"
+                    style="position: absolute; right: 3%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                    ✖
+                </a>
+                @endif
+            </div>
             <input type="date" id="searchDate" name="date" placeholder="Tìm kiếm theo ngày" value="{{ request('date') }}" />
             <button type="submit">Tìm kiếm</button>
         </div>
@@ -89,32 +99,39 @@
         @if ($searchPerformed)
             @if ($searchName && !$searchDate)
                 @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} khách hàng có từ khóa "{{ $searchName }}"
+    
+                <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                        Tìm thấy {{ $totalResults }} tài khoản có tên "{{ $searchName }}"
                     </div>
                 @else
-                    <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
-                        Không tìm thấy khách hàng có từ khóa "{{ $searchName }}"
+                    <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                        Không tìm thấy tài khoản có tên "{{ $searchName }}"
                     </div>
                 @endif
             @elseif ($searchDate && !$searchName)
+                @php
+                    $formattedDate = \Carbon\Carbon::parse($searchDate)->format('d/m/Y');
+                @endphp
                 @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} khách hàng vào ngày "{{ $searchDate }}"
+                    <div class="alert alert-success">
+                        Tìm thấy {{ $totalResults }} tài khoản vào ngày "{{ $formattedDate }}"
                     </div>
                 @else
                     <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
-                        Không tìm thấy khách hàng vào ngày "{{ $searchDate }}"
+                        Không tìm thấy tài khoản vào ngày "{{ $formattedDate }}"
                     </div>
                 @endif
             @elseif ($searchName && $searchDate)
+                @php
+                    $formattedDate = \Carbon\Carbon::parse($searchDate)->format('d/m/Y');
+                @endphp
                 @if ($totalResults > 0)
                     <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} khách hàng có từ khóa "{{ $searchName }}" vào ngày "{{ $searchDate }}"
+                        Tìm thấy {{ $totalResults }} tài khoản có tên "{{ $searchName }}" vào ngày "{{ $formattedDate }}"
                     </div>
                 @else
                     <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
-                        Không tìm thấy khách hàng có từ khóa "{{ $searchName }}" vào ngày "{{ $searchDate }}"
+                        Không tìm thấy tài khoản có tên "{{ $searchName }}" vào ngày "{{ $formattedDate }}"
                     </div>
                 @endif
             @endif
@@ -126,7 +143,7 @@
                 <th>Họ tên</th>
                 <th>Tài khoản</th>
                 <th>Mật khẩu</th>
-                <th>Ngày tạo</th>
+                <th>Ngày đăng ký</th>
                 <th>Thao tác</th>
             </tr>
             </thead>

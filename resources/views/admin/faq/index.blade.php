@@ -79,6 +79,7 @@
                 <thead>
                 <tr>
                     <th>STT</th>
+                    <th>Mã câu hỏi</th>
                     <th>Email</th>
                     <th>Câu hỏi</th>
                     <th>Trạng thái</th>
@@ -90,6 +91,7 @@
                 @foreach ($faqs as $index => $faq)
                     <tr>
                         <td>{{ ($faqs->currentPage() - 1) * $faqs->perPage() + $index + 1 }}</td>
+                        <td>{{ $faq->faq_id }}</td>
                         <td>{{ $faq->email }}</td>
                         <td>{{ Str::limit($faq->question, 50) }}</td>
                     
