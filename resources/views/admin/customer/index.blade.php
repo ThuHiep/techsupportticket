@@ -88,7 +88,7 @@
                 <th>Ảnh đại diện</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
-                <th>Giới tính</th>
+                {{-- <th>Ngày sinh</th> --}}
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
@@ -104,7 +104,7 @@
                         </td>
                         <td>{{ \Carbon\Carbon::parse($customer->date_of_birth )->format('d/m/Y') }}</td>
                         <td>{{ $customer->email }}</td>
-                        <td>{{ $customer->gender }}</td>
+                        {{-- <td>{{ $customer->gender }}</td> --}}
                         <td>
                             @if ($customer->status === 'active')
                                 <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
