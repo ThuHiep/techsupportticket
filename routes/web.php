@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\admin\EmployeeController;
 use App\Http\Controllers\admin\RequestController;
 use App\Http\Controllers\admin\FAQController;
+use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
 
 use App\Http\Controllers\guest\HomepageController;
@@ -20,7 +21,7 @@ Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('customersp')->name('dashboard.index');
 
 /*Route login*/
-Route::get('login', [AuthController::class, 'login'])->name('login'); // mới sửa
+Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('/loginProcess', [AuthController::class, 'LoginProcess'])->name('loginProcess');
 /*Route logout*/
 Route::get('/logout', [AuthController::class, 'Logout'])->name('logout');
@@ -68,8 +69,6 @@ Route::name('customer.')->group(function () {
 
     // Hiển thị danh sách khách hàng chờ duyệt
     Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->middleware('customersp')->name('pending');
-
-
 });
 
 
@@ -84,6 +83,15 @@ Route::name('employee.')->group(function () {
     Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->middleware('admin')->name('delete');
 });
 
+//Permission
+Route::name('permission.')->group(function () {
+    Route::get('permission/index', [PermissionController::class, 'index'])->middleware('admin')->name('index');
+    Route::get('/permission/create', [PermissionController::class, 'createAdmin'])->middleware('admin')->name('create');
+    Route::post('/permission/save', [PermissionController::class, 'saveAdmin'])->middleware('admin')->name('save');
+    Route::get('/permission/edit/{id}', [PermissionController::class, 'editPermission'])->middleware('admin')->name('edit');
+    Route::put('/permission/update/{id}', [PermissionController::class, 'updatePermission'])->middleware('admin')->name('update');
+    Route::delete('/permission/delete/{id}', [PermissionController::class, 'deletePermission'])->middleware('admin')->name('delete');
+});
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('guest.user.list');
 Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->middleware('customersp')->name('admin.customer.list');
 

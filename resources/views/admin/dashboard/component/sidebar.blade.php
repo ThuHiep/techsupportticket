@@ -30,7 +30,7 @@
             </li>
             @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fas fa-shield-alt"></i>
+                <a href="{{ route('permission.index') }}"><i class="fas fa-shield-alt"></i>
                     <span class="nav-label">Phân quyền</span>
                 </a>
             </li>

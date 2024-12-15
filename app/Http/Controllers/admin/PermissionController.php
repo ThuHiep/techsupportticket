@@ -12,17 +12,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
-class EmployeeController extends Controller
+class PermissionController extends Controller
 {
     public function index(Request $request)
     {
-        $template = 'admin.employee.index';
+        $template = 'admin.permission.index';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = $request->input('search');
 
         $query = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
             ->join('role', 'role.role_id', '=', 'user.role_id')
-            ->where('role.role_id', '=', 2)
             ->where('status', 'active');
 
         // Kiểm tra nếu có từ khóa tìm kiếm
@@ -43,9 +42,9 @@ class EmployeeController extends Controller
 
             // Kiểm tra nếu không có kết quả tìm kiếm
             if ($employees->isEmpty()) {
-                return redirect()->route('employee.index')->with('error', 'Không có kết quả tìm kiếm!');
+                return redirect()->route('permission.index')->with('error', 'Không có kết quả tìm kiếm!');
             } else {
-                session()->flash('success', "Tìm thấy $totalEmployees nhân viên phù hợp với từ khóa $search");
+                session()->flash('success', "Tìm thấy $totalEmployees tài khoản phù hợp với từ khóa $search");
             }
         }
 
@@ -57,23 +56,23 @@ class EmployeeController extends Controller
     }
 
 
-    public function createEmployee()
+    public function createAdmin()
     {
-        $template = 'admin.employee.create';
+        $template = 'admin.permission.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Sinh employee_id và username ngẫu nhiên
-        $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomId = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomId = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+            $randomId = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
-        $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomUserName = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         while (User::where('username', $randomUserName)->exists()) {
-            $randomUserName = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+            $randomUserName = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'randomUserName'));
     }
 
-    public function saveEmployee(Request $request)
+    public function saveAdmin(Request $request)
     {
         $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
@@ -112,7 +111,7 @@ class EmployeeController extends Controller
         $user->user_id = $randomUserId;
         $user->username = $request->input('username');
         $user->password = Hash::make($password);
-        $user->role_id = "2";
+        $user->role_id = "1";
         $user->status = "active";
         $user->create_at = now();
         $user->update_at = now();
@@ -136,14 +135,14 @@ class EmployeeController extends Controller
         // Gửi email thông báo
         Mail::to($employee->email)->send(new EmployeeCreatedMail($employee, $user->user_id, $user->username, $password));
 
-        return redirect()->route('employee.index')
-            ->with('success', 'Nhân viên đã được thêm thành công và email đã được gửi!');
+        return redirect()->route('permission.index')
+            ->with('success', 'Admin đã được thêm thành công và email đã được gửi!');
     }
 
 
-    public function editEmployee($employee_id)
+    public function editPermission($employee_id)
     {
-        $template = 'admin.employee.edit';
+        $template = 'admin.permission.edit';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $employee = Employee::with(['user.role'])
             ->where('employee_id', '=', $employee_id)
@@ -152,7 +151,7 @@ class EmployeeController extends Controller
     }
 
     // Cập nhật thông tin nhân viên
-    public function updateEmployee(Request $request, $employee_id)
+    public function updatePermission(Request $request, $employee_id)
     {
         $employee = Employee::findOrFail($employee_id);
         $user = User::findOrFail($employee->user_id);
@@ -185,22 +184,23 @@ class EmployeeController extends Controller
         $employee->update_at = now();
 
         $user->username = $request->input('username');
+        $user->role_id = $request->input('role_id');
         $user->status = $request->input('status');
         $user->update_at = now();
         // Lưu thông tin nhân viên vào database
         $employee->save();
         $user->save();
 
-        return redirect()->route('employee.index')
-            ->with('success', 'Thông tin nhân viên đã được cập nhật!');
+        return redirect()->route('permission.index')
+            ->with('success', 'Thông tin tài khoản đã được cập nhật!');
     }
 
-    public function deleteEmployee($id)
+    public function deletePermission($id)
     {
         // Xóa Employee và User liên quan
         Employee::where('user_id', $id)->delete();
         User::where('user_id', $id)->delete();
 
-        return redirect()->route('employee.index')->with('success', 'Tài khoản đã được xóa thành công.');
+        return redirect()->route('permission.index')->with('success', 'Tài khoản đã được xóa thành công.');
     }
 }
