@@ -31,9 +31,17 @@ class Customer extends Model
         'status',
     ];
 
+    protected $casts = [
+        'date_of_birth' => 'date',
+    ];
     // Define any relationships with other models (if applicable)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'customer_id');
     }
 }

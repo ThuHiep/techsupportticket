@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -45,16 +46,26 @@ class AuthController extends Controller
         // Process login here
         // Example: Authenticate user
         if (Auth::attempt($request->only('username', 'password'))) {
-            if (auth()->user()->role_id == 1 || auth()->user()->role_id == 2) {
-                return redirect()->route('dashboard.index');
-            } elseif (auth()->user()->role_id == 3) {
-                return redirect()->route('homepage.index');
+            $request->session()->regenerate();
+
+            if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
+                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('dashboard.index')->with('success', "Chào mừng $logged_user->full_name đến với trang quản trị");
+            } elseif (Auth::user()->role_id == 3) {
+                $logged_user = Customer::with(['user'])->where('user_id', '=', Auth::user()->user_id);
+                return redirect()->route('homepage.index')->with('success', "Chào mừng $logged_user->full_name đến với trang khách hàng");
             } else {
                 return back()->with('error', 'Error to find your role');
             }
         }
 
         return back()->withErrors(['login' => 'Invalid credentials.']);
+    }
+    public function Logout(Request $request)
+    {
+        Session::flush();
+        Auth::logout();
+        return redirect()->route('login');
     }
     //Đăng kí tài khoản customer
     public function register()
@@ -64,7 +75,20 @@ class AuthController extends Controller
     // Xử lý form đăng kí tài khoản
     public function registerProcess(Request $request)
     {
-        return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công, vui lòng chờ tài khoản được kích hoạt!');
+        $request->validate([
+            'username' => 'required|unique:users,username',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => 3, // Role mặc định cho khách hàng
+        ]);
+
+        return redirect()->route('login')->with('success', 'Đăng ký thành công! Hãy chờ kích hoạt tài khoản.');
     }
     // Quên mật khẩu
     public function forgotPass()

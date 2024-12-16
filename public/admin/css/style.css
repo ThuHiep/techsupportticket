@@ -466,7 +466,7 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav-second-level {
   display: none;
 }
 body.mini-navbar .navbar-default .nav > li > a {
-  font-size: 17px;
+  font-size: 22px; /*Tăng kích cỡ icon khi thu thanh nav vào */
 }
 body.mini-navbar .logo-element {
   display: block;

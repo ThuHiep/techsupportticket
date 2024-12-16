@@ -11,10 +11,6 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
-        body.mini-navbar .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
         .required {
             color: red;
             font-size: 14px;
@@ -39,71 +35,73 @@
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
                         <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
-                        <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ $randomId }}" readonly required>
+                        <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ old('customer_id', $randomId) }}" readonly required>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
-                        <input type="text" id="username" name="username" class="form-control" value="{{ $username }}" readonly required>
+                        <input type="text" id="username" name="username" class="form-control" value="{{ old('username', $username) }}" readonly required>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
-                        <input type="text" id="full_name" name="full_name" class="form-control" required>
+                        <input type="text" id="full_name" name="full_name" class="form-control" value="{{ old('full_name') }}" required>
                         <small id="name-error" class="text-danger" style="display: none;">Vui lòng nhập tên khách hàng!</small>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
                         <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
-                        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+                        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" value="{{ old('date_of_birth') }}" required>
                         <small id="date-error" class="text-danger" style="display: none;">Bạn phải đủ 18 tuổi!</small>
                         <small id="date-incomplete-error" class="text-danger" style="display: none;">Vui lòng nhập đầy đủ ngày, tháng và năm!</small>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                         <select id="gender" name="gender" class="form-control" required>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
+                            <option value="Nam" {{ old('gender') == 'Nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="Nữ" {{ old('gender') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
-                        <input type="text" id="phone" name="phone" class="form-control" required pattern="\d{10}" title="Số điện thoại phải gồm 10 chữ số">
+                        <input type="text" id="phone" name="phone" class="form-control" required pattern="\d{10}" title="Số điện thoại phải gồm 10 chữ số" value="{{ old('phone') }}">
                         <small id="phone-error" class="text-danger" style="display: none;">Vui lòng nhập đúng số điện thoại!</small>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-md-6">
                         <label for="company" class="form-label">Công ty<span class="required">*</span></label>
-                        <input type="text" id="company" name="company" class="form-control" required>
+                        <input type="text" id="company" name="company" class="form-control" required value="{{ old('company') }}">
                         <small id="company-error" class="text-danger" style="display: none;">Vui lòng nhập công ty!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
-                        <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số">
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số" value="{{ old('tax_id') }}">
                         <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
-                        <input type="text" id="software" name="software" class="form-control" required>
+                        <input type="text" id="software" name="software" class="form-control" required value="{{ old('software') }}">
                         <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập phần mềm!</small>
                     </div>
                 </div>
-                <div class="row mb-3 address-website-container">
-                    <div class="form-group col-6">
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
-                        <input type="text" id="address" name="address" class="form-control" required>
+                        <input type="text" id="address" name="address" class="form-control" required value="{{ old('address') }}">
                         <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                        <small id="email-error" class="text-danger" style="display: none;">Email chưa đúng định dạng!</small>
+                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" required value="{{ old('email') }}">
+                        @error('email')
+                        <small id="email-error" class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <div class="form-group col-md-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
-                        <input type="text" id="website" name="website" class="form-control" required>
+                        <input type="text" id="website" name="website" class="form-control" required value="{{ old('website') }}">
                         <small id="website-error" class="text-danger" style="display: none;">Vui lòng nhập website!</small>
                     </div>
                 </div>
@@ -126,7 +124,7 @@
             </div>
         </div>
         <div class="button-container">
-            <button type="submit" class="btn btn-success me-3">Thêm mới</button>
+            <button type="submit" class="btn btn-add-cus me-3">Thêm mới</button>
             <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
         </div>
     </form>

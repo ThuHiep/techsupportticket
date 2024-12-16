@@ -7,7 +7,9 @@ use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request as SupportRequest;
 use App\Models\Customer;
 use App\Models\Department;
+use App\Models\Employee;
 use App\Models\RequestType;
+use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
@@ -17,25 +19,49 @@ class RequestController extends Controller
     public function index(HttpRequest $request)
     {
         $template = 'admin.request.index';
-        $search = $request->input('search');
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        // Các biến nhập liệu mới
+        $customerId = $request->input('customer_id');
+        $departmentId = $request->input('department_id');
+        $requestDate = $request->input('request_date');
         $statusFilter = $request->input('status');
 
         // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
-        $statuses = ['Chưa xử lý','Đang xử lý', 'Hoàn thành',];
+        $statuses = ['Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy'];
 
         // Truy vấn các yêu cầu kèm theo quan hệ với Customer, Department, và RequestType
-        $requests = SupportRequest::with(['customer', 'department', 'requestType'])
-            ->when($search, function ($query) use ($search) {
-                return $query->where('request_id', 'LIKE', "%$search%")
-                    ->orWhere('subject', 'LIKE', "%$search%")
-                    ->orWhere('description', 'LIKE', "%$search%");
-            })
-            ->when($statusFilter, function ($query) use ($statusFilter) {
-                return $query->where('status', $statusFilter);
-            })
-            ->paginate(10); // Phân trang 10 yêu cầu mỗi trang
+        $query = SupportRequest::with(['customer', 'department', 'requestType']);
 
-        return view('admin.dashboard.layout', compact('template', 'requests', 'statuses'));
+        // Áp dụng điều kiện tìm kiếm nếu có
+        if (!empty($customerId)) {
+            $query->where('customer_id', $customerId);
+        }
+
+        if (!empty($departmentId)) {
+            $query->where('department_id', $departmentId);
+        }
+
+        if (!empty($requestDate)) {
+            $query->whereDate('received_at', $requestDate);
+        }
+
+        if (!empty($statusFilter)) {
+            $query->where('status', $statusFilter);
+        }
+
+        // Phân trang kết quả với 10 yêu cầu mỗi trang và giữ lại các tham số truy vấn
+        $requests = $query->paginate(10)->appends($request->all());
+
+        // Lấy tổng số kết quả
+        $count = $requests->total();
+
+        // Lấy danh sách cho các dropdown
+        $customers = Customer::all();
+        $departments = Department::all();
+        $requestTypes = RequestType::all();
+        $priorities = ['Thấp', 'Trung bình', 'Cao']; // Các giá trị ưu tiên từ bảng
+
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requests', 'statuses', 'count', 'customers', 'departments', 'requestTypes', 'priorities'));
     }
 
     /**
@@ -44,7 +70,7 @@ class RequestController extends Controller
     public function create()
     {
         $template = 'admin.request.create';
-
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Lặp đến khi tìm được mã không trùng lặp
         do {
             $randomNumber = mt_rand(1, 9999);
@@ -57,7 +83,7 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-        return view('admin.dashboard.layout', compact('template', 'nextId', 'customers', 'departments', 'requestTypes'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId', 'customers', 'departments', 'requestTypes'));
     }
 
     /**
@@ -103,6 +129,7 @@ class RequestController extends Controller
     public function edit($request_id)
     {
         $template = 'admin.request.edit';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $requestData = SupportRequest::findOrFail($request_id);
 
         // Lấy danh sách khách hàng, phòng ban, và loại yêu cầu để tạo các lựa chọn trong form
@@ -110,7 +137,7 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-        return view('admin.dashboard.layout', compact('template', 'requestData', 'customers', 'departments', 'requestTypes'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requestData', 'customers', 'departments', 'requestTypes'));
     }
 
     /**
@@ -128,7 +155,7 @@ class RequestController extends Controller
             'description' => 'required',
             'received_at' => 'required|date',
             'priority' => 'required|in:Thấp,Trung bình,Cao',
-            'status' => 'required|in:Chưa xử lý,Đang xử lý,Đã xử lý,Hoàn thành,Đã hủy',
+            'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
         ]);
 
         $supportRequest->update([
@@ -157,5 +184,4 @@ class RequestController extends Controller
 
         return redirect()->route('request.index')->with('success', 'Yêu cầu đã được xóa thành công!');
     }
-
 }

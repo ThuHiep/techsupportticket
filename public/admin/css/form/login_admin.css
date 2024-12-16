@@ -1,12 +1,9 @@
-/*Poppins Font*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap');
-/*Poppins Font*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 /*Color variables*/
 :root{
@@ -71,7 +68,7 @@ a:hover{
     backdrop-filter: blur(25px);
     border: 2px solid var(--primary-color);
     border-radius: 15px;
-    padding: 8.5em 2.5em 5em 2.5em ;
+    padding: 8.5em 2.5em 33.5em 2.5em ;
     color:var(--second-color);
     box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
     margin-top: 100px; /* Điều chỉnh giá trị để tạo khoảng cách */
@@ -120,7 +117,7 @@ a:hover{
     display: flex;
     flex-direction: column;
     margin: 20px 0;
-    bottom: 40px;
+    bottom: 24px;
 }
 .input_box_submit{
     position: relative;
@@ -148,17 +145,19 @@ a:hover{
     left: 20px;
     transition: .2s;
     font-size: 15px;
+    line-height: inherit;
+    font-weight: normal;
 }
 .input-field:focus ~ .label,
 .input-field:not(:placeholder-shown) ~ .label{
     position: absolute;
-    top: -10px;
+    top: -13px;
     left: 20px;
-    font-size: 14px;
+    font-size: 15px;
     background-color: var(--primary-color);
     border-radius: 30px;
     color:var(--black-color);
-    padding: 0 10px;
+    padding: 2px 16px;
 }
 .icon{
     position: absolute;
@@ -172,7 +171,7 @@ a:hover{
     display: flex;
     justify-content: space-between;
     font-size: 15px;
-    margin-top: -40px;
+    margin-top: -25px;
 }
 /* Checkbox remember */
 input[type="checkbox"] {
@@ -201,6 +200,9 @@ input[type="checkbox"]:checked::before {
 }
 input[type="checkbox"]:hover {
     border-color: #ee5711;
+}
+input[type=checkbox]:focus{
+    outline: none;
 }
 /*Ghi nho tai khoan*/
 .remember-me {
@@ -254,7 +256,7 @@ input[type="checkbox"]:hover {
 .register{
     text-align: center;
     position: relative;
-    top: 20px; /* Di chuyển xuống */
+    top: 5px; /* Di chuyển xuống */
 }
 .register span{
     font-size: 14px;
@@ -263,7 +265,7 @@ input[type="checkbox"]:hover {
 .register a{
     font-weight: 500;
     font-size: 16px;
-    margin-left: 7px;
+    margin-left: 25px;
     color: var(--second-color);
     text-decoration: none;
 }

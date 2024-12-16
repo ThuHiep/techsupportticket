@@ -31,14 +31,14 @@
                         type="text"
                         name="search"
                         id="searchInput"
-                        placeholder="Nhập tên nhân viên cần tìm"
+                        placeholder="Nhập mã nhân viên hoặc tên nhân viên cần tìm"
                         value="{{ $search }}"
                         style="padding-right: 30px;">
                     @if($search)
                     <a
                         href="{{ route('employee.index') }}"
                         id="clearButton"
-                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: black; font-size: 18px; cursor: pointer;">
+                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
                         ✖
                     </a>
                     @endif
@@ -49,28 +49,13 @@
 
 
         <div class="table-container">
-            @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif
-            @if (session('search'))
-            <div class="alert alert-danger">
-                {{ session('search') }}
-            </div>
-            @endif
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>STT</th>
+                        <th>Mã nhân viên</th>
                         <th>Tên người dùng</th>
-                        <th>Tên tài khoản</th>
+                        {{-- <th>Tên tài khoản</th> --}}
                         <th>Ảnh đại diện</th>
                         <th>Email</th>
                         <th>Vai trò</th>
@@ -82,8 +67,9 @@
                     @foreach($employees as $idx => $employee)
                     <tr class="text-center">
                         <td>{{ $employees->firstItem() + $idx }}</td>
+                        <td>{{ $employee->employee_id }}</td>
                         <td>{{ $employee->full_name }}</td>
-                        <td>{{ $employee->username }}</td>
+                        {{-- <td>{{ $employee->username }}</td> --}}
                         <td>
                             <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
                         </td>
@@ -133,4 +119,47 @@
             document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
         }
     }
+</script>
+<script>
+    function deleteConfirm(event, formId) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của nút
+
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa nhân viên này?',
+            text: "Hành động này không thể hoàn tác!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit();
+            }
+        });
+    }
+
+    // Thông báo thành công
+    @if(session('success'))
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Thành công!',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    });
+    @endif
+    // Thông báo thành công
+    @if(session('error'))
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Tìm kiếm không thành công',
+            text: "{{ session('error') }}",
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+    @endif
 </script>

@@ -17,6 +17,9 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
+        #notification-message {
+            font-size: 1.8em; /* Adjust the font size as needed */
+        }
     </style>
 </head>
 <body>
@@ -29,7 +32,18 @@
         <a href="{{ route('customer.create') }}" class="add-customer-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('customer.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
+                <div style="position: relative;">
+                    <input type="text" name="search" placeholder="Nhập tên khách hàng hoặc mã khách hàng cần tìm" value="{{ request()->query('search') }}">
+                    @if($search)
+                    <a
+                        href="{{ route('customer.index') }}"
+                        id="clearButton"
+                        style="position: absolute; right: 20%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                        ✖
+                    </a>
+                    @endif
+                </div>
+
                 <button type="submit">Tìm kiếm</button>
             </form>
         </div>
@@ -38,41 +52,59 @@
             <span class="badge" id="userCount">0</span>
         </a>
     </div>
-    <div class="table-container">
-        @if(isset($message) && request()->query('search'))
-            <div id="search-message" class="alert alert-success" style="margin-top: 10px;">
-                {{ $message }}
+       {{-- Hiển thị thông báo tìm kiếm --}}
+    @if ($searchPerformed && $search !== '')
+        @if ($totalResults > 0)
+            @php
+                // Kiểm tra nếu $search là mã khách hàng có định dạng KH + 8 chữ số
+                $isSearchById = preg_match('/^KH\d{8}$/', $search);
+            @endphp
+
+            <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                @if ($isSearchById)
+                    Tìm thấy {{ $totalResults }} khách hàng có mã "{{ $search }}"
+                @else
+                    Tìm thấy {{ $totalResults }} khách hàng có tên "{{ $search }}"
+                @endif
+            </div>
+        @else
+            <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                @if ($isSearchById)
+                    Không tìm thấy khách hàng có mã "{{ $search }}"
+                @else
+                    Không tìm thấy khách hàng có tên "{{ $search }}"
+                @endif
             </div>
         @endif
+    @endif
+
+    <div class="table-container">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>STT</th>
+                <th>Mã khách hàng</th>
                 <th>Họ tên</th>
                 <th>Ảnh đại diện</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
-                <th>Giới tính</th>
+                {{-- <th>Ngày sinh</th> --}}
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
             </thead>
             <tbody>
-            @if ($customers->isEmpty())
-                <tr>
-                    <td colspan="8" style="text-align: center; color: red;">Không có kết quả tìm kiếm</td>
-                </tr>
-            @else
                 @foreach ($customers as $index => $customer)
                     <tr>
                         <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
+                        <td>{{ $customer->customer_id }}</td>
                         <td>{{ $customer->full_name }}</td>
                         <td>
                             <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="customer-image">
                         </td>
-                        <td>{{ $customer->date_of_birth }}</td>
+                        <td>{{ \Carbon\Carbon::parse($customer->date_of_birth )->format('d/m/Y') }}</td>
                         <td>{{ $customer->email }}</td>
-                        <td>{{ $customer->gender }}</td>
+                        {{-- <td>{{ $customer->gender }}</td> --}}
                         <td>
                             @if ($customer->status === 'active')
                                 <span style="color:green; font-size: 40px; margin-right: 2px; vertical-align: middle;">&#8226;</span>
@@ -93,7 +125,6 @@
                         </td>
                     </tr>
                 @endforeach
-            @endif
             </tbody>
         </table>
     </div>
@@ -152,27 +183,27 @@
         });
     }
     // Thông báo cập nhật
-        document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
         updateUserCount(); // Cập nhật số lượng ngay khi tải trang
 
         // Hiển thị thông báo cập nhật thành công
         @if (session('success'))
         Swal.fire({
-        icon: 'success',
-        title: 'Thành công!',
-        text: '{{ session('success') }}',
-        confirmButtonText: 'Đồng ý'
-    });
+            icon: 'success',
+            title: 'Thành công!',
+            html: '{!! session('success') !!}', // Use html to allow line breaks
+            confirmButtonText: 'Đồng ý'
+        });
         @endif
 
         // Hiển thị thông báo duyệt thành công
         @if (session('approved'))
         Swal.fire({
-        icon: 'success',
-        title: 'Đã duyệt!',
-        text: '{{ session('approved') }}',
-        confirmButtonText: 'Đồng ý'
-    });
+            icon: 'success',
+            title: 'Đã duyệt!',
+            text: '{{ session('approved') }}',
+            confirmButtonText: 'Đồng ý'
+        });
         @endif
     });
 </script>

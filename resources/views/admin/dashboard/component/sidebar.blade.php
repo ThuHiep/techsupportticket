@@ -6,20 +6,17 @@
                     <span>
                         <img alt="image" src="admin/img/logosweetsoft.png"
                             style="width:170px; margin-top: -10px; margin-bottom: 20px">
-                        <img alt="image" class="img-circle" src="admin/img/profile_small.jpg" style="margin-left:50px">
+                        <img alt="image" class="img-circle" src="{{$logged_user->profile_image ? asset('admin/img/employee/' .  $logged_user->profile_image) : asset('admin/img/employee/default.png') }}" style="margin-left:50px; width: 60px;height: 60px;">
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
-                        <span class="clear">
+                        <span class="clear text-align: center;">
                             <span class="block m-t-xs">
-                                <strong class="font-bold" style="color: #2e2626; margin-left:30px">David Williams</strong>
-                                <b class="caret ms-2" style="color: #272020"></b><!--Huy đã đổi màu tên và icon tại đây-->
+                                <strong class="font-bold" style="color: #2e2626; display: inline-block; text-align: center; width: 100%;">{{$logged_user->full_name}} <b class="caret ms-2" style="color: #272020"></b></strong>
                             </span>
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="profile.html">Hồ sơ</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{{ route('login') }}">Đăng xuất</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
@@ -31,33 +28,39 @@
                     <span>Trang quản trị</span>
                 </a>
             </li>
-            <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fas fa-shield-alt"></i>
-                    <span class="nav-label">Phân quyền</span>
+            @if ($logged_user->user->role_id == 1)
+            <li class="{{ Request::is('permission*') ? 'active' : '' }}">
+                <a href="{{ route('permission.index') }}"><i class="fas fa-shield-alt"></i>
+                    <span class="nav-label">Tài khoản</span>
                 </a>
             </li>
+            @endif
+            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('employee*') ? 'active' : '' }}">
                 <a href="{{ route('employee.index') }}"><i class="fas fa-address-book"></i>
                     <span class="nav-label">Nhân viên</span>
                 </a>
             </li>
+            @endif
 
             <li class="{{ Request::is('customer*') ? 'active' : '' }}">
                 <a href="{{ route('customer.index') }}"><i class="fa-solid fa-users"></i>
                     <span class="nav-label">Khách hàng</span>
                 </a>
             </li>
+            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('department*') ? 'active' : '' }}">
-                <a href="department/index"><i class="fa-solid fa-clipboard"></i>
+                <a href="{{ route('department.index') }}"><i class="fa-solid fa-clipboard"></i>
                     <span class="nav-label">Phòng ban</span>
                 </a>
             </li>
+            @endif
             <li class="{{ Request::is('request*') ? 'active' : '' }}">
-                <a href="request/index"><i class="fa-solid fa-tools"></i>
+                <a href="{{ route('request.index') }}"><i class="fa-solid fa-tools"></i>
                     <span class="nav-label">Yêu cầu</span>
                 </a>
             </li>
-            <li class="{{ Request::is('statistics*') ? 'active' : '' }}">
+            <li class="{{ Request::is('statistical*') ? 'active' : '' }}">
                 <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>
                     <span class="nav-label">Thống kê</span>
                 </a>
@@ -68,6 +71,5 @@
                 </a>
             </li>
         </ul>
-
     </div>
 </nav>
