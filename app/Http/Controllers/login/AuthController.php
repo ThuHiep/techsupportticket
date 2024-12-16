@@ -22,26 +22,26 @@ class AuthController extends Controller
     }
     public function loginProcess(Request $request)
     {
-         $request->validate([
-             'username' => 'required',
-             'password' => 'required',
-             'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
-         ]);
-
-         $recaptchaResponse = $request->input('g-recaptcha-response');
-         $secretKey = env('6Lcrz4kqAAAAAOljTaUh9OaofqlL1AUBZeOsKn9r'); // Store your secret key in .env
-
-         // Verify reCaptcha response with Google
-         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-             'secret' => $secretKey,
-             'response' => $recaptchaResponse,
-         ]);
-
-         $responseBody = $response->json();
-
-         if (!$responseBody['success']) {
-             return back()->withErrors(['captcha' => 'Captcha verification failed. Please try again.']);
-         }
+//         $request->validate([
+//             'username' => 'required',
+//             'password' => 'required',
+//             'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
+//         ]);
+//
+//         $recaptchaResponse = $request->input('g-recaptcha-response');
+//         $secretKey = env('6Lcrz4kqAAAAAOljTaUh9OaofqlL1AUBZeOsKn9r'); // Store your secret key in .env
+//
+//         // Verify reCaptcha response with Google
+//         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+//             'secret' => $secretKey,
+//             'response' => $recaptchaResponse,
+//         ]);
+//
+//         $responseBody = $response->json();
+//
+//         if (!$responseBody['success']) {
+//             return back()->withErrors(['captcha' => 'Captcha verification failed. Please try again.']);
+//         }
 
         // Process login here
         // Example: Authenticate user
@@ -76,17 +76,42 @@ class AuthController extends Controller
     public function registerProcess(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
+            'username' => 'required|unique:user,username',
+            'email' => 'required|email|unique:customer,email',
+        ], [
+            'required' => ':attribute là bắt buộc.',
+            'email.unique' => 'Email đã tồn tại',
         ]);
 
-        User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => 3, // Role mặc định cho khách hàng
-        ]);
+        // Tạo ID ngẫu nhiên cho người dùng theo định dạng NDxxxxxxx
+        $randUserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+
+        // Tạo tài khoản người dùng
+        $user = new User();
+        $user->user_id = $randUserID;
+        $user->username = $request->username;
+        $user->password = bcrypt($request->password);
+        $user->role_id = 3;
+        $user->save();
+
+        // Tạo ID ngẫu nhiên cho khách hàng
+        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+
+        // Tạo khách hàng
+        $customer = new Customer();
+        $customer->customer_id = $randomId;
+        $customer->user_id = $randUserID;
+        $customer->full_name = $request['full_name'];
+        $customer->date_of_birth = $request['date_of_birth'] ?? null;
+        $customer->gender = $request['gender'] ?? null;
+        $customer->phone = $request['phone'] ?? null;
+        $customer->address = $request['address'] ?? null;
+        $customer->email = $request['email'] ?? null;
+        $customer->company = $request['company'] ?? null;
+        $customer->create_at = now();
+        $customer->update_at = now();
+        $customer->save();
+        dd($customer);
 
         return redirect()->route('login')->with('success', 'Đăng ký thành công! Hãy chờ kích hoạt tài khoản.');
     }

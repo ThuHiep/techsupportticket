@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function customers()
     {
-        return $this->hasMany(Customer::class,);
+        return $this->hasMany(Customer::class,'user_id', 'user_id');
     }
 
     public function employees()
