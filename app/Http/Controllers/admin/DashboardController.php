@@ -51,14 +51,7 @@ class DashboardController extends Controller
         // Tính phần trăm thay đổi yêu cầu so với hôm qua
         $requestPercentageChange = $this->calculatePercentageChange($totalRequestsToday, $totalRequestsYesterday);
 
-        // Tổng số người dùng từ bảng user hôm nay
-        $totalUsersToday = User::whereDate('create_at', now()->toDateString())->count();
 
-        // Tổng số người dùng từ bảng user ngày hôm qua
-        $totalUsersYesterday = User::whereDate('create_at', now()->subDay()->toDateString())->count();
-
-        // Tính phần trăm thay đổi người dùng so với hôm qua
-        $userPercentageChange = $this->calculatePercentageChange($totalUsersToday, $totalUsersYesterday);
 
         // Tổng số bài viết từ bảng faq hôm nay
         $totalFaqsToday = FAQ::whereDate('create_at', now()->toDateString())->count();
@@ -110,8 +103,6 @@ class DashboardController extends Controller
             'customerPercentageChange',
             'totalRequestsToday',
             'requestPercentageChange',
-            'totalUsersToday',
-            'userPercentageChange',
             'totalFaqsToday',
             'faqPercentageChange',
             'requestStatusCounts',
