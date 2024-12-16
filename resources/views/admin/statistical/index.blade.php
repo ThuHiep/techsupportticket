@@ -85,9 +85,9 @@
     </div>
 
     <!-- Biểu đồ theo tháng -->
-    <div class="chart-container" id="monthlyChartContainer" style="display: none;">
-        <canvas id="monthlyReport"></canvas>
-    </div>
+{{--    <div class="chart-container" id="monthlyChartContainer" style="display: none;">--}}
+{{--        <canvas id="monthlyReport"></canvas>--}}
+{{--    </div>--}}
 </div>
 
 <script>
