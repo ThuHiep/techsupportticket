@@ -111,7 +111,6 @@ class AuthController extends Controller
         $customer->create_at = now();
         $customer->update_at = now();
         $customer->save();
-        dd($customer);
 
         return redirect()->route('login')->with('success', 'Đăng ký thành công! Hãy chờ kích hoạt tài khoản.');
     }
