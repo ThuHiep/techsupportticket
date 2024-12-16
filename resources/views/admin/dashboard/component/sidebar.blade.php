@@ -50,13 +50,13 @@
             </li>
             @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('department*') ? 'active' : '' }}">
-                <a href="department/index"><i class="fa-solid fa-clipboard"></i>
+                <a href="{{ route('department.index') }}"><i class="fa-solid fa-clipboard"></i>
                     <span class="nav-label">Phòng ban</span>
                 </a>
             </li>
             @endif
             <li class="{{ Request::is('request*') ? 'active' : '' }}">
-                <a href="request/index"><i class="fa-solid fa-tools"></i>
+                <a href="{{ route('request.index') }}"><i class="fa-solid fa-tools"></i>
                     <span class="nav-label">Yêu cầu</span>
                 </a>
             </li>

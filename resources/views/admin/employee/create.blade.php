@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/css/employee/style_create.css') }}">
 <style>
     /* Khi sidebar ở trạng thái bình thường */
     body .container {
