@@ -42,7 +42,7 @@ class RequestController extends Controller
         }
 
         if (!empty($requestDate)) {
-            $query->whereDate('received_at', $requestDate);
+            $query->whereDate('create_at', $requestDate);
         }
 
         if (!empty($statusFilter)) {
@@ -59,9 +59,9 @@ class RequestController extends Controller
         $customers = Customer::all();
         $departments = Department::all();
         $requestTypes = RequestType::all();
-        $priorities = ['Thấp', 'Trung bình', 'Cao']; // Các giá trị ưu tiên từ bảng
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requests', 'statuses', 'count', 'customers', 'departments', 'requestTypes', 'priorities'));
+
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requests', 'statuses', 'count', 'customers', 'departments', 'requestTypes'));
     }
 
     /**
@@ -98,8 +98,7 @@ class RequestController extends Controller
             'request_type_id' => 'required|exists:request_type,request_type_id',
             'subject' => 'required|max:255',
             'description' => 'required',
-            'received_at' => 'required|date',
-            'priority' => 'required|in:Thấp,Trung bình,Cao',
+            'create_at' => 'required|date',
             // Loại bỏ 'status' khỏi validation
             // Loại bỏ 'resolved_at' khỏi validation vì đã loại bỏ trường từ form
         ]);
@@ -111,9 +110,8 @@ class RequestController extends Controller
             'request_type_id' => $request->input('request_type_id'),
             'subject' => $request->input('subject'),
             'description' => $request->input('description'),
-            'received_at' => $request->input('received_at'),
+            'create_at' => $request->input('create_at'),
             'resolved_at' => null, // Đặt mặc định là null
-            'priority' => $request->input('priority'),
             'status' => 'Chưa xử lý', // Đặt mặc định là "Chưa xử lý"
         ]);
 
@@ -153,8 +151,7 @@ class RequestController extends Controller
             'request_type_id' => 'required|exists:request_type,request_type_id',
             'subject' => 'required|max:255',
             'description' => 'required',
-            'received_at' => 'required|date',
-            'priority' => 'required|in:Thấp,Trung bình,Cao',
+            'create_at' => 'required|date',
             'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
         ]);
 
@@ -164,9 +161,8 @@ class RequestController extends Controller
             'request_type_id' => $request->input('request_type_id'),
             'subject' => $request->input('subject'),
             'description' => $request->input('description'),
-            'received_at' => $request->input('received_at'),
+            'create_at' => $request->input('create_at'),
             'resolved_at' => $request->input('resolved_at'),
-            'priority' => $request->input('priority'),
             'status' => $request->input('status'),
         ]);
 

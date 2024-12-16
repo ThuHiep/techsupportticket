@@ -76,19 +76,15 @@ Route::name('customer.')->group(function () {
 
 //Employee
 Route::name('employee.')->group(function () {
-    Route::get('employee/index', [EmployeeController::class, 'index'])->middleware('admin')->name('index');
-    Route::get('/employee/create', [EmployeeController::class, 'createEmployee'])->middleware('admin')->name('create');
-    Route::post('/employee/save', [EmployeeController::class, 'saveEmployee'])->middleware('admin')->name('save');
-    Route::get('/employee/edit/{id}', [EmployeeController::class, 'editEmployee'])->middleware('admin')->name('edit');
-    Route::put('/employee/update/{id}', [EmployeeController::class, 'updateEmployee'])->middleware('admin')->name('update');
-    Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->middleware('admin')->name('delete');
+    Route::get('/employee/editProfile', [EmployeeController::class, 'editProfile'])->middleware('customersp')->name('editProfile');
+    Route::put('/employee/updateProfile', [EmployeeController::class, 'updateProfile'])->middleware('customersp')->name('updateProfile');
 });
 
 //Permission
 Route::name('permission.')->group(function () {
-    Route::get('permission/index', [PermissionController::class, 'index'])->middleware('admin')->name('index');
-    Route::get('/permission/create', [PermissionController::class, 'createAdmin'])->middleware('admin')->name('create');
-    Route::post('/permission/save', [PermissionController::class, 'saveAdmin'])->middleware('admin')->name('save');
+    Route::get('permission/index', [PermissionController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/permission/create', [PermissionController::class, 'create'])->middleware('admin')->name('create');
+    Route::post('/permission/save', [PermissionController::class, 'save'])->middleware('admin')->name('save');
     Route::get('/permission/edit/{id}', [PermissionController::class, 'editPermission'])->middleware('admin')->name('edit');
     Route::put('/permission/update/{id}', [PermissionController::class, 'updatePermission'])->middleware('admin')->name('update');
     Route::delete('/permission/delete/{id}', [PermissionController::class, 'deletePermission'])->middleware('admin')->name('delete');

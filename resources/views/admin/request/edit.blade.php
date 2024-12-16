@@ -24,7 +24,7 @@
             <form action="{{ route('request.update', $requestData->request_id) }}" method="POST">
                 @csrf
                 @method('PUT')
-    
+
                 <div class="form-columns">
                     <!-- Cột trái -->
                     <div class="form-column-left">
@@ -56,8 +56,8 @@
                                 </select>
                             </div>
                         </div>
-    
-                        <!-- Hàng 2: Phòng ban + Loại yêu cầu + Ưu tiên -->
+
+                        <!-- Hàng 2: Phòng ban + Loại yêu cầu -->
                         <div class="row_left">
                             <div class="form-group">
                                 <label for="department_id">Phòng ban</label>
@@ -81,25 +81,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="priority">Ưu tiên</label>
-                                <select id="priority" name="priority" required>
-                                    <option value="">--Chọn ưu tiên--</option>
-                                    <option value="Thấp" {{ (old('priority', $requestData->priority) == 'Thấp') ? 'selected' : '' }}>Thấp</option>
-                                    <option value="Trung bình" {{ (old('priority', $requestData->priority) == 'Trung bình') ? 'selected' : '' }}>Trung bình</option>
-                                    <option value="Cao" {{ (old('priority', $requestData->priority) == 'Cao') ? 'selected' : '' }}>Cao</option>
-                                </select>
-                            </div>
-    
                         </div>
-    
+
                         <!-- Hàng 3: Ngày nhận + Ngày hoàn thành -->
                         <div class="row_left">
                             <!-- Nhóm "Ngày nhận" và "Ngày hoàn thành" -->
                             <div class="form-group-row date-group">
                                 <div class="form-group">
-                                    <label for="received_at">Ngày nhận</label>
-                                    <input type="date" id="received_at" name="received_at" value="{{ old('received_at', $requestData->received_at ? $requestData->received_at->format('Y-m-d') : '') }}" required>
+                                    <label for="create_at">Ngày tạo</label>
+                                    <input type="date" id="create_at" name="create_at" value="{{ old('create_at', $requestData->create_at ? $requestData->create_at->format('Y-m-d') : '') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="resolved_at">Ngày hoàn thành</label>
@@ -107,9 +97,9 @@
                                 </div>
                             </div>
                         </div>
-    
+
                     </div>
-    
+
                     <!-- Cột phải -->
                     <div class="form-column-right">
                         {{-- Tiêu đề --}}
@@ -120,7 +110,7 @@
                             <div class="error">{{ $message }}</div>
                             @enderror
                         </div>
-    
+
                         {{-- Mô tả --}}
                         <div class="form-group">
                             <label for="description">Mô tả</label>
@@ -131,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-    
+
                 {{-- Nhóm nút Submit và Cancel --}}
                 <div class="button-group">
                     <button type="submit" class="submit-button">Cập nhật Yêu cầu</button>
