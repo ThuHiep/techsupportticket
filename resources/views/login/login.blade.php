@@ -39,8 +39,8 @@
 
                     <!-- Trường Mật khẩu cũ được thay thế bởi input mới -->
                     <div class="input_box">
-                        <input type="password" class="input-field" id="pass" required>
-                        <label class="label" for="pass">Mật khẩu</label>
+                        <input type="password" name="password" class="input-field" id="password" required>
+                        <label class="label" for="password">Mật khẩu</label>
                         <span class="icon" id="togglePassword">
                             <i class="fa fa-eye-slash"></i> <!-- Mắt nhắm mặc định -->
                         </span>
@@ -75,7 +75,7 @@
     <script>
         // Tìm phần tử và thêm sự kiện click vào biểu tượng mắt
         const togglePassword = document.getElementById("togglePassword");
-        const passwordField = document.getElementById("pass"); // Sử dụng đúng id "pass"
+        const passwordField = document.getElementById("password"); // Sử dụng đúng id "pass"
 
         togglePassword.addEventListener("click", function () {
             // Kiểm tra nếu mật khẩu đang bị ẩn, chuyển sang hiển thị
