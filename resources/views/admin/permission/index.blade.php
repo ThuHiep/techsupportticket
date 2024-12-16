@@ -21,8 +21,10 @@
     <section class="container">
         <!-- Default box -->
         <div class="card-header align-items-center justify-content-between">
-            <h1>Danh sách tài khoản</h1>
+            <h1>Danh sách người dùng</h1>
+            @if ($logged_user->user->role_id == 1)
             <a href="{{ route('permission.create') }}" class="add-customer-btn">Thêm mới</a>
+            @endif
         </div>
         <div class="search-container">
             <form action="{{ route('permission.index') }}" method="GET">
@@ -31,7 +33,7 @@
                         type="text"
                         name="search"
                         id="searchInput"
-                        placeholder="Nhập mã hoặc tên tài khoản cần tìm"
+                        placeholder="Nhập mã hoặc tên người dùng cần tìm"
                         value="{{ $search }}"
                         style="padding-right: 30px;">
                     @if($search)
@@ -47,6 +49,18 @@
             </form>
         </div>
 
+        {{-- Hiển thị thông báo tìm kiếm --}}
+        @if ($search)
+        @if ($count > 0)
+        <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+            Tìm thấy {{ $count }} người dùng có từ khóa "{{ $search }}"
+        </div>
+        @else
+        <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+            Không tìm thấy người dùng có từ khóa "{{ $search }}"
+        </div>
+        @endif
+        @endif
 
         <div class="table-container">
             <table class="table table-striped">
@@ -60,7 +74,9 @@
                         <th>Email</th>
                         <th>Vai trò</th>
                         <th>Trạng thái</th>
+                        @if ($logged_user->user->role_id == 1)
                         <th>Chức năng</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +87,7 @@
                         <td>{{ $employee->full_name }}</td>
                         {{-- <td>{{ $employee->username }}</td> --}}
                         <td>
-                            <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
+                            <img src="{{$employee->profile_image ? asset('admin/img/employee/' .  $employee->profile_image) : asset('admin/img/employee/default.png') }}" alt="Hình ảnh nhân viên" class="employee-image">
                         </td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->description }}</td>
@@ -84,6 +100,7 @@
                             @endif
                         </td>
 
+                        @if ($logged_user->user->role_id == 1)
                         <td>
                             <form action="{{ route('permission.edit', $employee->employee_id) }}" style="display:inline;">
                                 <button type="submit" class="edit-button">
@@ -98,28 +115,19 @@
                                 </button>
                             </form>
                         </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-center pagination">
+        <div class="pagination">
             {{ $employees->links('pagination::bootstrap-4') }}
         </div>
 
     </section>
 </body>
 
-<!-- Main content -->
-<script>
-    function deleteConfirm(event, formId) {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của nút
-
-        if (confirm('Bạn có chắc chắn muốn xóa tài khoản này? Hành động này không thể hoàn tác!')) {
-            document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
-        }
-    }
-</script>
 <script>
     function deleteConfirm(event, formId) {
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút

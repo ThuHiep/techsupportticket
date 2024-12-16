@@ -24,55 +24,47 @@ class PermissionController extends Controller
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('status', 'active');
 
-        // Kiểm tra nếu có từ khóa tìm kiếm
-        if ($search) {
-            // Thực hiện tìm kiếm theo các điều kiện
-            $query->where(function ($query) use ($search) {
-                $query->where('employee_id', 'LIKE', "%$search%")
-                    ->orWhere('full_name', 'LIKE', "%$search%");
-            });
+        $query->where(function ($query) use ($search) {
+            $query->where('employee_id', 'LIKE', "%$search%")
+                ->orWhere('full_name', 'LIKE', "%$search%");
+        });
 
-            // Đếm tổng số nhân viên tìm thấy
-            $totalEmployees = $query->count();
-
-            // Thực hiện phân trang sau khi tìm kiếm
-            $employees = $query->select('employee.*', 'user.*', 'role.description')
-                ->orderBy('employee.employee_id')
-                ->paginate(3);
-
-            // Kiểm tra nếu không có kết quả tìm kiếm
-            if ($employees->isEmpty()) {
-                return redirect()->route('permission.index')->with('error', 'Không có kết quả tìm kiếm!');
-            } else {
-                session()->flash('success', "Tìm thấy $totalEmployees tài khoản phù hợp với từ khóa $search");
-            }
-        }
+        $count = $query->count();
 
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
-            ->paginate(3);
+            ->paginate(3)->appends($request->all());
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count'));
     }
 
 
-    public function createAdmin()
+    public function create()
     {
         $template = 'admin.permission.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        // Sinh employee_id và username ngẫu nhiên
-        $randomId = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        while (Employee::where('employee_id', $randomId)->exists()) {
-            $randomId = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        // Sinh employee_id và username ngẫu nhiên cho admin
+        $randomIdAD = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (Employee::where('employee_id', $randomIdAD)->exists()) {
+            $randomIdAD = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
-        $randomUserName = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        while (User::where('username', $randomUserName)->exists()) {
-            $randomUserName = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('username', $randomUserNameAD)->exists()) {
+            $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
         }
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'randomUserName'));
+        // Sinh employee_id và username ngẫu nhiên cho nhân viên
+        $randomIdEM = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (Employee::where('employee_id', $randomIdEM)->exists()) {
+            $randomIdEM = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+        $randomUserNameEM = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        while (User::where('username', $randomUserNameEM)->exists()) {
+            $randomUserNameEM = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        }
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomIdAD', 'randomUserNameAD', 'randomIdEM', 'randomUserNameEM'));
     }
 
-    public function saveAdmin(Request $request)
+    public function save(Request $request)
     {
         $request->validate([
             'full_name' => ['required', 'string', 'max:255'],
@@ -111,7 +103,7 @@ class PermissionController extends Controller
         $user->user_id = $randomUserId;
         $user->username = $request->input('username');
         $user->password = Hash::make($password);
-        $user->role_id = "1";
+        $user->role_id = $request->input('role_id');
         $user->status = "active";
         $user->create_at = now();
         $user->update_at = now();
@@ -136,7 +128,7 @@ class PermissionController extends Controller
         Mail::to($employee->email)->send(new EmployeeCreatedMail($employee, $user->user_id, $user->username, $password));
 
         return redirect()->route('permission.index')
-            ->with('success', 'Admin đã được thêm thành công và email đã được gửi!');
+            ->with('success', 'Người dùng đã được thêm thành công và email đã được gửi!');
     }
 
 

@@ -16,7 +16,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="profile.html">Hồ sơ</a></li>
+                        <li><a href="{{ route('employee.editProfile', $logged_user->employee_id) }}">Hồ sơ</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
@@ -28,21 +28,11 @@
                     <span>Trang quản trị</span>
                 </a>
             </li>
-            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('permission*') ? 'active' : '' }}">
-                <a href="{{ route('permission.index') }}"><i class="fas fa-shield-alt"></i>
-                    <span class="nav-label">Tài khoản</span>
+                <a href="{{ route('permission.index') }}"><i class="fas fa-address-book"></i>
+                    <span class="nav-label">Người dùng</span>
                 </a>
             </li>
-            @endif
-            @if ($logged_user->user->role_id == 1)
-            <li class="{{ Request::is('employee*') ? 'active' : '' }}">
-                <a href="{{ route('employee.index') }}"><i class="fas fa-address-book"></i>
-                    <span class="nav-label">Nhân viên</span>
-                </a>
-            </li>
-            @endif
-
             <li class="{{ Request::is('customer*') ? 'active' : '' }}">
                 <a href="{{ route('customer.index') }}"><i class="fa-solid fa-users"></i>
                     <span class="nav-label">Khách hàng</span>
