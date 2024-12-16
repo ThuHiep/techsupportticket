@@ -29,9 +29,9 @@
                 </a>
             </li>
             @if ($logged_user->user->role_id == 1)
-            <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
-                <a href="index.html"><i class="fas fa-shield-alt"></i>
-                    <span class="nav-label">Phân quyền</span>
+            <li class="{{ Request::is('permission*') ? 'active' : '' }}">
+                <a href="{{ route('permission.index') }}"><i class="fas fa-shield-alt"></i>
+                    <span class="nav-label">Tài khoản</span>
                 </a>
             </li>
             @endif

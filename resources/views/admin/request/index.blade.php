@@ -100,7 +100,7 @@
                         <td>{{ $req->requestType->request_type_name ?? 'N/A' }}</td>
                         <td>{{ $req->subject }}</td>
                         <td>{{ $req->priority }}</td>
-                        <td>{{ \Carbon\Carbon::parse($req->received_at)->format('d/m/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($req->create_at)->format('d/m/Y') }}</td>
                         <td>
                             {{ $req->status }}
                             <span class="status-dot
