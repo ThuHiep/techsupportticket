@@ -94,7 +94,7 @@ Route::name('permission.')->group(function () {
     Route::delete('/permission/delete/{id}', [PermissionController::class, 'deletePermission'])->middleware('admin')->name('delete');
 });
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('guest.user.list');
-Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->middleware('customersp')->name('admin.customer.list');
+Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->name('admin.customer.list');
 
 
 

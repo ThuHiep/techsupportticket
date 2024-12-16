@@ -315,17 +315,14 @@ class CustomerController extends Controller
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
     }
 
-    //Số lượng người dùng theo ngày
-    public function getUserList()
+    public function getUserList(Request $request)
     {
-        $users = Customer::select('customer_id', 'full_name', 'status')
+        $date = $request->input('date', now()->toDateString()); // Nếu không có ngày, sử dụng ngày hôm nay
+        $users = Customer::select('customer_id', 'full_name', 'status', 'create_at')
             ->whereNull('status') // Chỉ lấy các tài khoản chưa được phê duyệt
+            ->whereDate('create_at', $date) // Lọc theo ngày
             ->get();
 
         return response()->json($users);
     }
-
-
-
-
 }

@@ -156,8 +156,13 @@ updateCounts(selectedDate); // Cập nhật số lượng bài viết theo ngày
         let customerCount = 0;
         let unansweredCount = 0;
 
+        // Nếu không có ngày, sử dụng ngày hôm nay
+        const today = date || new Date().toISOString().split('T')[0];
+
         // Cập nhật số lượng khách hàng chờ duyệt
-        fetch('{{ route("admin.customer.list") }}')
+        const customerUrl = `{{ route('admin.customer.list') }}?date=${today}`;
+
+        fetch(customerUrl)
             .then(response => response.json())
             .then(data => {
                 customerCount = data.length; // Giả sử dữ liệu trả về là mảng khách hàng
@@ -168,7 +173,7 @@ updateCounts(selectedDate); // Cập nhật số lượng bài viết theo ngày
 
         // Cập nhật số lượng bài viết chưa phản hồi
         const unansweredUrl = date ?
-            `{{ route('faq.unansweredByDate') }}?date=${date}` :
+            `{{ route('faq.unansweredByDate') }}?date=${today}` :
             '{{ route("faq.unansweredByDate") }}';
 
         fetch(unansweredUrl)
