@@ -10,6 +10,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\RequestType;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class RequestController extends Controller
 {
@@ -19,12 +20,15 @@ class RequestController extends Controller
     public function index(HttpRequest $request)
     {
         $template = 'admin.request.index';
-        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        // Các biến nhập liệu mới
+        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+
+        // Lấy các input từ request
+        $subject = $request->input('subject'); // Lấy input 'subject'
+        $searchField = $request->input('search_field');
         $customerId = $request->input('customer_id');
         $departmentId = $request->input('department_id');
-        $requestDate = $request->input('request_date');
-        $statusFilter = $request->input('status');
+        $requestDate = $request->input('request_date_search'); // Đổi tên để khớp với Blade
+        $statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
 
         // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
         $statuses = ['Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy'];
@@ -32,21 +36,62 @@ class RequestController extends Controller
         // Truy vấn các yêu cầu kèm theo quan hệ với Customer, Department, và RequestType
         $query = SupportRequest::with(['customer', 'department', 'requestType']);
 
-        // Áp dụng điều kiện tìm kiếm nếu có
-        if (!empty($customerId)) {
-            $query->where('customer_id', $customerId);
+        $searchPerformed = false;
+        $searchType = null;
+        $search = '';
+        $additionalSearchType = null;
+        $additionalSearchValue = null;
+
+        // Xử lý tìm kiếm bằng subject
+        if (!empty($subject)) {
+            $query->where('subject', 'like', '%' . $subject . '%');
+            $searchPerformed = true;
+            $searchType = 'subject';
+            $search = $subject;
         }
 
-        if (!empty($departmentId)) {
-            $query->where('department_id', $departmentId);
-        }
-
-        if (!empty($requestDate)) {
-            $query->whereDate('create_at', $requestDate);
-        }
-
-        if (!empty($statusFilter)) {
-            $query->where('status', $statusFilter);
+        // Xử lý tìm kiếm bổ sung
+        if (!empty($searchField)) {
+            switch ($searchField) {
+                case 'customer':
+                    if (!empty($customerId)) {
+                        $query->where('customer_id', $customerId);
+                        $searchPerformed = true;
+                        $customer = Customer::find($customerId);
+                        $additionalSearchType = 'customer';
+                        $additionalSearchValue = $customer ? $customer->full_name : 'N/A';
+                    }
+                    break;
+                case 'department':
+                    if (!empty($departmentId)) {
+                        $query->where('department_id', $departmentId);
+                        $searchPerformed = true;
+                        $department = Department::find($departmentId);
+                        $additionalSearchType = 'department';
+                        $additionalSearchValue = $department ? $department->department_name : 'N/A';
+                    }
+                    break;
+                case 'request_date':
+                    if (!empty($requestDate)) {
+                        $query->whereDate('create_at', $requestDate);
+                        $searchPerformed = true;
+                        $formattedDate = Carbon::parse($requestDate)->format('d/m/Y');
+                        $additionalSearchType = 'request_date';
+                        $additionalSearchValue = $formattedDate;
+                    }
+                    break;
+                case 'status':
+                    if (!empty($statusFilter)) {
+                        $query->where('status', $statusFilter);
+                        $searchPerformed = true;
+                        $additionalSearchType = 'status';
+                        $additionalSearchValue = $statusFilter;
+                    }
+                    break;
+                default:
+                    // Không làm gì nếu không khớp
+                    break;
+            }
         }
 
         // Phân trang kết quả với 10 yêu cầu mỗi trang và giữ lại các tham số truy vấn
@@ -60,9 +105,25 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requests', 'statuses', 'count', 'customers', 'departments', 'requestTypes'));
+        // Truyền thêm các biến vào view
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'requests',
+            'statuses',
+            'count',
+            'customers',
+            'departments',
+            'requestTypes',
+            'searchPerformed',
+            'searchType',
+            'search',
+            'additionalSearchType',
+            'additionalSearchValue'
+        ));
     }
+
+
 
     /**
      * Hiển thị form tạo yêu cầu mới
