@@ -36,6 +36,12 @@
                     <!-- Mã KH + Mã số thuế + Tên KH -->
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
+                            <label for="user_id" class="form-label">Mã nhân viên<span class="required">*</span></label>
+                            <input type="text" id="user_id" name="user_id" class="form-control"
+                                value="{{ $employee->user_id }}" readonly required>
+                        </div>
+
+                        <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control"
                                 value="{{ $employee->full_name }}" required>
@@ -45,14 +51,15 @@
                             <input type="text" id="username" name="username" class="form-control"
                                 value="{{ $employee->user->username }}" required>
                         </div>
+                        
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="form-group col-md-4">
                             <label for="email" class="form-label">Email<span class="required">*</span></label>
                             <input type="text" id="email" name="email" class="form-control"
                                 value="{{ $employee->email }}" required>
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
                         <div class="form-group col-md-4">
                             <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                             <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
@@ -65,24 +72,25 @@
                                 <option value="Nữ" {{ $employee->gender == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                             </select>
                         </div>
+                        
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-4">
+                            <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                value="{{ $employee->phone }}" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
+                            <input type="text" id="address" name="address" class="form-control"
+                                value="{{ $employee->address }}" required>
+                        </div>
                         <div class="form-group col-md-4">
                             <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
                             <select class="form-control" id="status" name="status" required>
                                 <option value="active" {{ $employee->user->status  == 'active' ? 'selected' : '' }}>Đang kích hoạt</option>
                                 <option value="inactive" {{ $employee->user->status  == 'inactive' ? 'selected' : '' }}>Ngừng kích hoạt</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-md-6">
-                            <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
-                            <input type="text" id="phone" name="phone" class="form-control"
-                                value="{{ $employee->phone }}" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
-                            <input type="text" id="address" name="address" class="form-control"
-                                value="{{ $employee->address }}" required>
                         </div>
                     </div>
                 </div>

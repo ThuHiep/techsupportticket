@@ -6,7 +6,9 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\admin\EmployeeController;
 use App\Http\Controllers\admin\RequestController;
 use App\Http\Controllers\admin\FAQController;
+use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
@@ -17,11 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 
 /*Route dashboard cho admin*/
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware('customersp')->name('dashboard.index');
 
 /*Route login*/
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('/loginProcess', [AuthController::class, 'LoginProcess'])->name('loginProcess');
+/*Route logout*/
+Route::get('/logout', [AuthController::class, 'Logout'])->name('logout');
 /*Route register cua user*/
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerProcess', [AuthController::class, 'registerProcess'])->name('registerProcess');
@@ -43,43 +47,52 @@ Route::put('/updatePassEmail/{user_id}', [AuthController::class, 'updatePassEmai
 // Nhóm route cho phần admin
 Route::name('customer.')->group(function () {
     // Hiển thị danh sách khách hàng
-    Route::get('/customer/index', [CustomerController::class, 'index'])->name('index');
+    Route::get('/customer/index', [CustomerController::class, 'index'])->middleware('customersp')->name('index');
 
     // Hiển thị form tạo khách hàng mới
-    Route::get('/customer/create', [CustomerController::class, 'create'])->name('create');
+    Route::get('/customer/create', [CustomerController::class, 'create'])->middleware('customersp')->name('create');
 
     // Lưu khách hàng mới
-    Route::post('/customer/store', [CustomerController::class, 'store'])->name('store');
+    Route::post('/customer/store', [CustomerController::class, 'store'])->middleware('customersp')->name('store');
 
     // Chỉnh sửa khách hàng
-    Route::get('/customer/edit/{customer_id}', [CustomerController::class, 'edit'])->name('edit');
+    Route::get('/customer/edit/{customer_id}', [CustomerController::class, 'edit'])->middleware('customersp')->name('edit');
 
     // Route cho cập nhật khách hàng
-    Route::put('/customer/update/{customer_id}', [CustomerController::class, 'update'])->name('update');
+    Route::put('/customer/update/{customer_id}', [CustomerController::class, 'update'])->middleware('customersp')->name('update');
 
     // Xóa khách hàng
-    Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->name('delete');
+    Route::delete('/customer/delete/{customer_id}', [CustomerController::class, 'destroy'])->middleware('customersp')->name('delete');
 
     // Phê duyệt khách hàng
-    Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approve'])->name('approve');
-    Route::post('/customer/{customer_id}/reject', [CustomerController::class, 'reject'])->name('reject');
+    Route::post('/customer/{customer_id}/approve', [CustomerController::class, 'approve'])->middleware('customersp')->name('approve');
+    Route::post('/customer/{customer_id}/reject', [CustomerController::class, 'reject'])->middleware('customersp')->name('reject');
 
     // Hiển thị danh sách khách hàng chờ duyệt
-    Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->name('pending');
+    Route::get('/customer/pending', [CustomerController::class, 'pendingCustomers'])->middleware('customersp')->name('pending');
 });
 
 
 
 //Employee
 Route::name('employee.')->group(function () {
-    Route::get('employee/index', [EmployeeController::class, 'index'])->name('index');
-    Route::get('/employee/create', [EmployeeController::class, 'createEmployee'])->name('create');
-    Route::post('/employee/save', [EmployeeController::class, 'saveEmployee'])->name('save');
-    Route::get('/employee/edit/{id}', [EmployeeController::class, 'editEmployee'])->name('edit');
-    Route::put('/employee/update/{id}', [EmployeeController::class, 'updateEmployee'])->name('update');
-    Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('delete');
+    Route::get('employee/index', [EmployeeController::class, 'index'])->middleware('admin')->name('index');
+    Route::get('/employee/create', [EmployeeController::class, 'createEmployee'])->middleware('admin')->name('create');
+    Route::post('/employee/save', [EmployeeController::class, 'saveEmployee'])->middleware('admin')->name('save');
+    Route::get('/employee/edit/{id}', [EmployeeController::class, 'editEmployee'])->middleware('admin')->name('edit');
+    Route::put('/employee/update/{id}', [EmployeeController::class, 'updateEmployee'])->middleware('admin')->name('update');
+    Route::delete('/employee/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->middleware('admin')->name('delete');
 });
 
+//Permission
+Route::name('permission.')->group(function () {
+    Route::get('permission/index', [PermissionController::class, 'index'])->middleware('admin')->name('index');
+    Route::get('/permission/create', [PermissionController::class, 'createAdmin'])->middleware('admin')->name('create');
+    Route::post('/permission/save', [PermissionController::class, 'saveAdmin'])->middleware('admin')->name('save');
+    Route::get('/permission/edit/{id}', [PermissionController::class, 'editPermission'])->middleware('admin')->name('edit');
+    Route::put('/permission/update/{id}', [PermissionController::class, 'updatePermission'])->middleware('admin')->name('update');
+    Route::delete('/permission/delete/{id}', [PermissionController::class, 'deletePermission'])->middleware('admin')->name('delete');
+});
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('guest.user.list');
 Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->name('admin.customer.list');
 
@@ -89,29 +102,39 @@ Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->
 
 //Department Routes
 Route::name('department.')->group(function () {
-    Route::get('/department/index', [DepartmentController::class, 'index'])->name('index');
-    Route::get('/department/create', [DepartmentController::class, 'create'])->name('create');
-    Route::post('/department/store', [DepartmentController::class, 'store'])->name('store');
-    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->name('edit');
-    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->name('update');
-    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->name('delete');
+    Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('admin')->name('index');
+    Route::get('/department/create', [DepartmentController::class, 'create'])->middleware('admin')->name('create');
+    Route::post('/department/store', [DepartmentController::class, 'store'])->middleware('admin')->name('store');
+    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->middleware('admin')->name('edit');
+    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->middleware('admin')->name('update');
+    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->middleware('admin')->name('delete');
 });
 
 // Request Routes
 Route::name('request.')->group(function () {
-    Route::get('/request/index', [RequestController::class, 'index'])->name('index');
-    Route::get('/request/create', [RequestController::class, 'create'])->name('create');
-    Route::post('/request/store', [RequestController::class, 'store'])->name('store');
-    Route::get('/request/edit/{request_id}', [RequestController::class, 'edit'])->name('edit');
-    Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->name('update');
-    Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->name('delete');
+    Route::get('/request/index', [RequestController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/request/create', [RequestController::class, 'create'])->middleware('customersp')->name('create');
+    Route::post('/request/store', [RequestController::class, 'store'])->middleware('customersp')->name('store');
+    Route::get('/request/edit/{request_id}', [RequestController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->middleware('customersp')->name('update');
+    Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
 
 //Nhóm thống kê:
 // Hiển thị danh sách khách hàng
 Route::name('statistical.')->group(function () {
-    Route::get('/statistical/index', [StatisticalController::class, 'index'])->name('index');
+    Route::get('/statistical/index', [StatisticalController::class, 'index'])->middleware('customersp')->name('index');
 });
+// Route cho API lấy dữ liệu yêu cầu
+Route::get('/api/requests', [StatisticalController::class, 'getRequests']);
+
+
+//Test Nhóm thống kê
+// Route cho trang thống kê
+Route::get('/admin/statistical', [ReportController::class, 'index'])->name('statistical.static_index');
+
+// Route cho API lấy dữ liệu yêu cầu
+Route::get('/api/requests', [ReportController::class, 'getRequests']);
 
 
 
@@ -120,15 +143,15 @@ Route::name('statistical.')->group(function () {
 // FAQ Routes
 // FAQ Routes
 Route::name('faq.')->group(function () {
-    Route::get('/faq/index', [FaqController::class, 'index'])->name('index');
-    Route::get('/faq/create', [FaqController::class, 'create'])->name('create');
-    Route::post('/faq/store', [FaqController::class, 'store'])->name('store');
-    Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->name('edit');
-    Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->name('update');
-    Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->name('delete');
+    Route::get('/faq/index', [FaqController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/faq/create', [FaqController::class, 'create'])->middleware('customersp')->name('create');
+    Route::post('/faq/store', [FaqController::class, 'store'])->middleware('customersp')->name('store');
+    Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->middleware('customersp')->name('update');
+    Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->middleware('customersp')->name('delete');
 
     // Route for unansweredByDate
-    Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->name('unansweredByDate');
+    Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->middleware('customersp')->name('unansweredByDate');
 });
 
 

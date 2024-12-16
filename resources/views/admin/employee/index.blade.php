@@ -31,14 +31,14 @@
                         type="text"
                         name="search"
                         id="searchInput"
-                        placeholder="Nhập tên nhân viên cần tìm"
+                        placeholder="Nhập mã nhân viên hoặc tên nhân viên cần tìm"
                         value="{{ $search }}"
                         style="padding-right: 30px;">
                     @if($search)
                     <a
                         href="{{ route('employee.index') }}"
                         id="clearButton"
-                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: black; font-size: 18px; cursor: pointer;">
+                        style="position: absolute; right: 22%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
                         ✖
                     </a>
                     @endif
@@ -53,6 +53,7 @@
                 <thead>
                     <tr>
                         <th>STT</th>
+                        <th>Mã nhân viên</th>
                         <th>Tên người dùng</th>
                         {{-- <th>Tên tài khoản</th> --}}
                         <th>Ảnh đại diện</th>
@@ -66,6 +67,7 @@
                     @foreach($employees as $idx => $employee)
                     <tr class="text-center">
                         <td>{{ $employees->firstItem() + $idx }}</td>
+                        <td>{{ $employee->employee_id }}</td>
                         <td>{{ $employee->full_name }}</td>
                         {{-- <td>{{ $employee->username }}</td> --}}
                         <td>

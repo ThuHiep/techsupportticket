@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\CustomerCreated;
+use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class CustomerController extends Controller
@@ -18,20 +20,30 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $search = $request->input('search');
-        $searchPerformed = $search !== null && $search !== ''; 
+        $searchPerformed = $search !== null && $search !== '';
+
+        // Kiểm tra nếu tìm kiếm là mã khách hàng (KH + 8 số)
+        $isSearchById = preg_match('/^KH\d{8}$/', $search);
+
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
-            ->when($search, function ($query) use ($search) {
-                return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
+            ->when($search, function ($query) use ($search, $isSearchById) {
+                if ($isSearchById) {
+                    // Tìm kiếm theo mã khách hàng
+                    return $query->where('customer_id', $search);
+                } else {
+                    // Tìm kiếm theo tên khách hàng
+                    return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
+                }
             })
             ->paginate(3);
 
         // Tạo thông báo nếu có kết quả tìm kiếm
+        $totalResults = $customers->total();
 
-        $totalResults = $customers->total(); // Tổng số kết quả tìm kiếm
-
-        return view('admin.dashboard.layout', compact('template','customers', 'searchPerformed', 'search', 'totalResults'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults', 'isSearchById'));
     }
 
     // Hiển thị form tạo khách hàng mới
@@ -54,7 +66,8 @@ class CustomerController extends Controller
 
         // Truyền các giá trị vào view
         $template = 'admin.customer.create';
-        return view('admin.dashboard.layout', compact('template', 'randomId', 'username', 'password', 'customers'));
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'username', 'password', 'customers'));
     }
 
 
@@ -62,8 +75,9 @@ class CustomerController extends Controller
     public function edit($customer_id)
     {
         $template = 'admin.customer.edit';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $customers = Customer::findOrFail($customer_id);
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers'));
     }
     public function update(Request $request, $customer_id)
     {
@@ -146,7 +160,11 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-
+        $request->validate([
+            'email' => ['required', 'email', 'unique:customer,email'],
+        ], [
+            'email.unique' => 'Email đã tồn tại',
+        ]);
         // Sinh các giá trị ngẫu nhiên như trước
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
@@ -191,7 +209,7 @@ class CustomerController extends Controller
         try {
             Mail::to($request['email'])->send(new CustomerCreated($username, $password, $request['email']));
             return redirect()->route('customer.index')
-                ->with('success', 'Khách hàng đã được thêm thành công! Tài khoản: ' . $username . ', Mật khẩu: ' . $password . ' và email đã được gửi.');
+                ->with('success', 'Thêm khách hàng thành công! Email đã được gửi.<br>Tài khoản: ' . $username . '<br>Mật khẩu: ' . $password);
         } catch (\Exception $e) {
             return redirect()->route('customer.index')
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
@@ -239,41 +257,72 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($customer_id);
 
+        // Check if the customer exists
         if ($customer) {
-            $customer->status = 'inactive'; // Đánh dấu tài khoản là không duyệt
-            $customer->save();
-            // Gửi email thông báo
-            Mail::to($customer->user->email)->send(new AccountRejected($customer));
+            // Send notification email if email is available
+            if (!empty($customer->email)) {
+                Mail::to($customer->email)->send(new AccountRejected($customer));
+            }
+
+            // Get the associated user ID and delete the user
+            $userId = $customer->user_id; // Assuming you have a user_id field in the Customer model
+
+            // Delete the customer record
+            $customer->delete();
+
+            // Delete the associated user record from the User table
+            if ($userId) {
+                User::find($userId)->delete();
+            }
 
             return redirect()->route('customer.index')->with([
-                'error' => 'Tài khoản đã bị từ chối và email thông báo đã được gửi!',
-                'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
+                'success' => 'Tài khoản đã bị từ chối và đã bị xóa!',
+                'notification_duration' => 500 // Duration for displaying the notification (ms)
             ]);
+        } else {
+            return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng.');
         }
-
-        return redirect()->route('customer.index')->with('error', 'Không tìm thấy khách hàng');
     }
 
-    public function pendingCustomers()
+    public function pendingCustomers(Request $request)
     {
         $template = 'admin.customer.pending';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        // Xóa khách hàng không duyệt lâu hơn 30 ngày
+        Customer::whereNull('status')
+            ->where('create_at', '<', now()->subDays(2))
+            ->delete();
+
+        // Lấy các tham số tìm kiếm
+        $searchName = $request->input('name');
+        $searchDate = $request->input('date');
 
         // Lọc khách hàng có status là null và lấy thông tin user liên quan
         $customers = Customer::whereNull('status')
             ->with('user')
+            ->when($searchName, function ($query) use ($searchName) {
+                return $query->where('full_name', 'LIKE', "%$searchName%");
+            })
+            ->when($searchDate, function ($query) use ($searchDate) {
+                return $query->whereDate('create_at', $searchDate);
+            })
             ->paginate(4);
 
-        return view('admin.dashboard.layout', compact('template', 'customers'));
+        // Đếm số kết quả tìm kiếm
+        $totalResults = $customers->total();
+        $searchPerformed = $searchName || $searchDate;
+
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
     }
 
-    //Số lượng người dùng theo ngày
-    public function getUserList()
+    public function getUserList(Request $request)
     {
-        $users = Customer::select('customer_id', 'full_name', 'status')
+        $date = $request->input('date', now()->toDateString()); // Nếu không có ngày, sử dụng ngày hôm nay
+        $users = Customer::select('customer_id', 'full_name', 'status', 'create_at')
             ->whereNull('status') // Chỉ lấy các tài khoản chưa được phê duyệt
+            ->whereDate('create_at', $date) // Lọc theo ngày
             ->get();
 
         return response()->json($users);
     }
-
 }
