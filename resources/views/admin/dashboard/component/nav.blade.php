@@ -13,15 +13,15 @@
                     <i class="fa fa-bell"></i> <span class="label label-warning" id="userCountt">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
-                    <li>
+                    <li id="customerNotification" style="display: none;">
                         <a href="{{ route('customer.pending', ['date' => now()->toDateString()]) }}">
                             <div>
                                 <i class="fa fa-envelope fa-fw"></i> Có <span id="customerCount">0</span> khách hàng chờ duyệt
                             </div>
                         </a>
                     </li>
-                    <li class="divider"></li>
-                    <li>
+                    <li class="divider" id="customerDivider" style="display: none;"></li>
+                    <li id="faqNotification" style="display: none;">
                         <a href="{{ route('faq.index', ['status' => 'Chưa phản hồi', 'date' => now()->toDateString()]) }}">
                             <div>
                                 <i class="fa fa-question-circle fa-fw"></i>
@@ -30,6 +30,7 @@
                         </a>
                     </li>
                 </ul>
+                
             </li>
             
             <li><a href="{{route('logout')}}">Đăng xuất</a></li>
@@ -38,57 +39,77 @@
 </div>
 
 <script>
-    function updateCounts(date = null) {
-        let customerCount = 0;
-        let unansweredCount = 0;
+function updateCounts(date = null) {
+    let customerCount = 0;
+    let unansweredCount = 0;
 
-        // Nếu không có ngày, sử dụng ngày hôm nay
-        const today = date || new Date().toISOString().split('T')[0];
+    const today = date || new Date().toISOString().split('T')[0];
 
-        // Cập nhật số lượng khách hàng chờ duyệt
-        const customerUrl = `{{ route('admin.customer.list') }}?date=${today}`;
+    // Cập nhật số lượng khách hàng chờ duyệt
+    const customerUrl = `{{ route('admin.customer.list') }}?date=${today}`;
+    fetch(customerUrl)
+        .then(response => response.json())
+        .then(data => {
+            customerCount = data.length || 0; // Dữ liệu giả định là mảng khách hàng
+            document.getElementById('customerCount').textContent = customerCount;
 
-        fetch(customerUrl)
-            .then(response => response.json())
-            .then(data => {
-                customerCount = data.length; // Giả sử dữ liệu trả về là mảng khách hàng
-                document.getElementById('customerCount').textContent = customerCount;
-                updateBellCount(customerCount, unansweredCount); // Gọi hàm tính tổng
-            })
-            .catch(error => console.error('Lỗi khi cập nhật số lượng khách hàng:', error));
+            // Ẩn/Hiện thông báo khách hàng
+            toggleNotification('customerNotification', 'customerDivider', customerCount);
 
-        // Cập nhật số lượng bài viết chưa phản hồi
-        const unansweredUrl = date ?
-            `{{ route('faq.unansweredByDate') }}?date=${today}` :
-            '{{ route("faq.unansweredByDate") }}';
+            // Cập nhật tổng số trên chuông
+            updateBellCount(customerCount, unansweredCount);
+        })
+        .catch(error => console.error('Lỗi khi cập nhật số lượng khách hàng:', error));
 
-        fetch(unansweredUrl)
-            .then(response => response.json())
-            .then(data => {
-                unansweredCount = data.count; // Dữ liệu trả về từ API
-                document.getElementById('unansweredCount').textContent = unansweredCount;
-                updateBellCount(customerCount, unansweredCount); // Gọi hàm tính tổng
-            })
-            .catch(error => console.error('Lỗi khi cập nhật số lượng bài viết chưa phản hồi:', error));
+    // Cập nhật số lượng bài viết chưa phản hồi
+    const unansweredUrl = `{{ route('faq.unansweredByDate') }}?date=${today}`;
+    fetch(unansweredUrl)
+        .then(response => response.json())
+        .then(data => {
+            unansweredCount = data.count || 0; // Dữ liệu giả định chứa 'count'
+            document.getElementById('unansweredCount').textContent = unansweredCount;
+
+            // Ẩn/Hiện thông báo bài viết
+            toggleNotification('faqNotification', null, unansweredCount);
+
+            // Cập nhật tổng số trên chuông
+            updateBellCount(customerCount, unansweredCount);
+        })
+        .catch(error => console.error('Lỗi khi cập nhật số lượng bài viết chưa phản hồi:', error));
+}
+
+// Hàm ẩn/hiện thông báo
+function toggleNotification(notificationId, dividerId, count) {
+    const notification = document.getElementById(notificationId);
+    const divider = dividerId ? document.getElementById(dividerId) : null;
+
+    if (count > 0) {
+        notification.style.display = 'block';
+        if (divider) divider.style.display = 'block';
+    } else {
+        notification.style.display = 'none';
+        if (divider) divider.style.display = 'none';
     }
+}
 
-    // Hàm tính tổng và cập nhật số lượng trên chuông
-    function updateBellCount(customerCount, unansweredCount) {
-        const totalCount = customerCount + unansweredCount;
-        document.getElementById('userCountt').textContent = totalCount;
+// Hàm tính tổng và cập nhật số lượng trên chuông
+function updateBellCount(customerCount, unansweredCount) {
+    const totalCount = customerCount + unansweredCount;
+    document.getElementById('userCountt').textContent = totalCount;
+}
+
+// Gọi hàm khi trang được tải
+document.addEventListener('DOMContentLoaded', () => {
+    updateCounts();
+
+    const datePicker = document.getElementById('datePicker');
+    if (datePicker) {
+        datePicker.addEventListener('change', () => {
+            const selectedDate = datePicker.value;
+            updateCounts(selectedDate);
+        });
     }
+});
 
-    // Gọi hàm khi trang được tải
-    document.addEventListener('DOMContentLoaded', () => {
-        updateCounts(); // Cập nhật ngay khi tải trang
 
-        // Nếu có input chọn ngày, thêm sự kiện thay đổi
-        const datePicker = document.getElementById('datePicker');
-        if (datePicker) {
-            datePicker.addEventListener('change', () => {
-                const selectedDate = datePicker.value;
-                updateCounts(selectedDate); // Cập nhật số lượng theo ngày
-            });
-        }
-    });
 </script>
