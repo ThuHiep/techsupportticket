@@ -154,4 +154,4 @@ Route::name('faq.')->group(function () {
 
 
 //Account
-Route::get('account', [UserController::class, 'indexAccount'])->name('indexAccount');
+Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
