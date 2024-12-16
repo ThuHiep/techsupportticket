@@ -62,7 +62,7 @@
 
         <div class="col-lg-5">
         <div class="ibox-title">
-          {{-- <span class="label label-warning pull-right" style="font-size: 12px">Hằng ngày</span> --}}
+          <span class="label label-warning pull-right" style="font-size: 12px">Hằng tuần</span>
             <h5>Trạng thái yêu cầu</h5>
         </div>
         <div class="ibox-content" style="height:350px; "> <!-- Thêm margin-top để biểu đồ dịch xuống -->
