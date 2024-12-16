@@ -90,7 +90,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
                     <li>
-                        <a href="{{ route('customer.pending') }}">
+                        <a href="{{ route('customer.pending', ['date' => now()->toDateString()]) }}">
                             <div>
                                 <i class="fa fa-envelope fa-fw"></i> Có <span id="customerCount">0</span> khách hàng chờ duyệt
                             </div>
