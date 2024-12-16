@@ -344,14 +344,14 @@ tr td:nth-child(3) {
 }
 
 /* Accessibility: Focus styles cho các thành phần tương tác */
-.add-department-btn:focus,
-.edit-button:focus,
-.delete-button:focus,
-.search-container button:focus,
-.pagination .page-link:focus {
-    outline: 2px dashed var(--primary-hover);
-    outline-offset: 2px;
-}
+/*.add-department-btn:focus,*/
+/*.edit-button:focus,*/
+/*.delete-button:focus,*/
+/*.search-container button:focus,*/
+/*.pagination .page-link:focus {*/
+/*    outline: 2px dashed var(--primary-hover);*/
+/*    outline-offset: 2px;*/
+/*}*/
 
 /* Responsive cải tiến cho bảng trên các thiết bị nhỏ */
 @media (max-width: 768px) {

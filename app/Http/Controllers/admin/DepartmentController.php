@@ -14,34 +14,34 @@ class DepartmentController extends Controller
     // Hiển thị danh sách phòng ban
     public function index(Request $request)
     {
-        // Xác thực dữ liệu nhập vào (nếu cần)
+        // Xác thực dữ liệu nhập vào (bỏ 'status' vì không cần tìm kiếm theo trạng thái)
         $request->validate([
             'search' => 'nullable|string|max:255',
-            'status' => 'nullable|in:active,inactive',
+            // 'status' => 'nullable|in:active,inactive', // Bỏ nếu không cần
         ]);
-
-        $template = 'admin.department.index';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        $template = 'admin.department.index';
         $search = trim($request->input('search'));
-        $statusFilter = $request->input('status');
+        // $statusFilter = $request->input('status'); // Bỏ nếu không cần
 
         // Kiểm tra xem người dùng có thực hiện tìm kiếm hay không và ô tìm kiếm không trống
         $searchPerformed = $request->filled('search');
 
         if ($searchPerformed) {
-            // Xây dựng truy vấn tìm kiếm với 'LIKE %search%'
+            // Xây dựng truy vấn tìm kiếm với 'LIKE %search%' trên cả 'department_name' và 'department_id'
             $query = Department::query();
 
-            // Áp dụng điều kiện tìm kiếm nếu có
             if ($search !== '') {
-                // Sử dụng WHERE LIKE để tìm kiếm không phân biệt chữ hoa chữ thường
-                $query->whereRaw('LOWER(department_name) LIKE ?', ['%' . strtolower($search) . '%']);
+                $query->where(function($q) use ($search) {
+                    $q->where('department_name', 'LIKE', "%{$search}%")
+                        ->orWhere('department_id', 'LIKE', "%{$search}%");
+                });
             }
 
-            // Áp dụng bộ lọc trạng thái nếu có
-            if ($statusFilter) {
-                $query->where('status', $statusFilter);
-            }
+            // Bỏ bộ lọc trạng thái nếu không cần
+            // if ($statusFilter) {
+            //     $query->where('status', $statusFilter);
+            // }
 
             // Phân trang với 4 mục mỗi trang
             $departments = $query->paginate(4)->appends($request->all());
@@ -50,22 +50,16 @@ class DepartmentController extends Controller
             $count = $departments->total();
         } else {
             // Không có tìm kiếm nào được thực hiện hoặc ô tìm kiếm trống, hiển thị tất cả phòng ban
-            $query = Department::query();
-
-            if ($statusFilter) {
-                $query->where('status', $statusFilter);
-            }
-
-            $departments = $query->paginate(4)->appends($request->all());
+            $departments = Department::paginate(4)->appends($request->all());
 
             // Lấy tổng số kết quả
             $count = $departments->total();
         }
 
-        // Định nghĩa các trạng thái có sẵn
-        $statuses = ['active', 'inactive'];
+        // Định nghĩa các trạng thái có sẵn (nếu vẫn cần hiển thị)
+        // $statuses = ['active', 'inactive'];
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'departments', 'statuses', 'searchPerformed', 'search', 'count'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user','departments', /* 'statuses', */ 'searchPerformed', 'search', 'count'));
     }
 
     // Hiển thị form tạo phòng ban

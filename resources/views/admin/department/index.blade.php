@@ -16,20 +16,9 @@
         <a href="{{ route('department.create') }}" class="add-department-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('department.index') }}" method="GET">
-                <div style="position: relative;">
-                    <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
-                    @if($search)
-                    <a
-                        href="{{ route('department.index') }}"
-                        id="clearButton"
-                        style="position: absolute; right: 2%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
-                        ✖
-                    </a>
-
-                    @endif
-                </div>
-                
-                <button type="submit">Tìm kiếm</button>
+                <!-- Ô nhập tìm kiếm tên hoặc mã phòng ban -->
+                <input type="text" name="search" placeholder="Nhập tên hoặc mã phòng ban cần tìm" value="{{ request()->query('search') }}">
+                <button type="submit" style="padding: 10.9px 15px">Tìm kiếm</button>
             </form>
         </div>
     </div>
@@ -60,13 +49,14 @@
             </thead>
             <tbody>
             @if ($departments->isEmpty())
-                @if ($searchPerformed && $search !== '')
-                @endif
+                <tr>
+                    <td colspan="5" style="text-align: center;">Không có dữ liệu để hiển thị.</td>
+                </tr>
             @else
                 @foreach ($departments as $index => $department)
                     <tr>
                         <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
-                        <td>{{ $department->department_id }}</td>
+                        <td>{{ $department->department_id }}</td> <!-- Thay đổi từ department_id sang department_id -->
                         <td>{{ $department->department_name }}</td>
                         <td>
                             @if($department->status == 'active')
@@ -77,7 +67,7 @@
                         </td>
                         <td>
                             <form action="{{ route('department.edit', $department->department_id) }}" style="display:inline;">
-                                <button type="submit" class="edit-button">
+                                <button type="submit" class="edit-button" title="Sửa phòng ban">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </form>
