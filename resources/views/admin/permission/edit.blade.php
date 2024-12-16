@@ -24,7 +24,7 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: left">Chỉnh sửa thông tin tài khoản</h1>
+        <h1 style="text-align: left">Chỉnh sửa thông tin người dùng</h1>
         <form action="{{ route('permission.update', $employee->employee_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
