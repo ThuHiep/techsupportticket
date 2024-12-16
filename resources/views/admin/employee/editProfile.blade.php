@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('admin/css/employee/style_edit.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('admin/css/employee/style_edit.css') }}">
 <style>
     /* Khi sidebar ở trạng thái bình thường */
     body .container {
@@ -28,7 +31,6 @@
         <form action="{{ route('employee.updateProfile') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-
             <!-- Cột bên trái (3/4) và cột bên phải (1/4) -->
             <div class="row mb-3">
                 <!-- Cột bên trái -->
@@ -40,6 +42,7 @@
                             <input type="text" id="user_id" name="user_id" class="form-control"
                                 value="{{ $logged_user->user_id }}" readonly required>
                         </div>
+
 
                         <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
@@ -97,7 +100,11 @@
                                 <input type="file" id="profile_image" name="profile_image" class="form-control"
                                     accept="image/*" onchange="previewImage(event)">
                                 <label for="profile_image" class="custom-file-label">Chọn khác</label>
+                                <input type="file" id="profile_image" name="profile_image" class="form-control"
+                                    accept="image/*" onchange="previewImage(event)">
+                                <label for="profile_image" class="custom-file-label">Chọn khác</label>
                                 <div class="image-preview">
+
 
                                     <div id="image-preview" class="image-preview">
                                         <img id="preview-img"

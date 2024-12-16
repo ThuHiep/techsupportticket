@@ -33,7 +33,7 @@
                             </option>
                         @endforeach
                     </select>
-    
+
                     <!-- Dropdown Phòng ban -->
                     <select name="department_id">
                         <option value="">--Phòng ban tiếp nhận--</option>
@@ -43,10 +43,10 @@
                             </option>
                         @endforeach
                     </select>
-    
+
                     <!-- Input Ngày nhận -->
                     <input type="date" name="request_date" placeholder="Ngày nhận yêu cầu" value="{{ request()->query('request_date') }}">
-    
+
                     <!-- Dropdown Trạng thái -->
                     <select name="status">
                         <option value="">--Trạng thái--</option>
@@ -56,13 +56,13 @@
                             </option>
                         @endforeach
                     </select>
-    
+
                     <!-- Nút Tìm kiếm -->
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
         </div>
-    
+
         <!-- Thông báo kết quả tìm kiếm -->
         @if (request()->filled('customer_id') || request()->filled('department_id') || request()->filled('request_date') || request()->filled('status'))
             @if ($count > 0)
@@ -75,14 +75,13 @@
                 </div>
             @endif
         @endif
-    
+
         <div class="table-container">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>STT</th>
                     <th>Khách hàng</th>
-                    <th>Phòng ban tiếp nhận</th>
                     <th>Loại yêu cầu</th>
                     <th>Tiêu đề</th>
                     <th>Ưu tiên</th>
@@ -96,7 +95,6 @@
                     <tr>
                         <td>{{ ($requests->currentPage() - 1) * $requests->perPage() + $index + 1 }}</td>
                         <td>{{ $req->customer->full_name ?? 'N/A' }}</td>
-                        <td>{{ $req->department->department_name ?? 'N/A' }}</td>
                         <td>{{ $req->requestType->request_type_name ?? 'N/A' }}</td>
                         <td>{{ $req->subject }}</td>
                         <td>{{ $req->priority }}</td>

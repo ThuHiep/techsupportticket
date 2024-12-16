@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\RequestController;
 use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
+use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
@@ -89,7 +90,7 @@ Route::name('permission.')->group(function () {
     Route::delete('/permission/delete/{id}', [PermissionController::class, 'deletePermission'])->middleware('admin')->name('delete');
 });
 Route::get('/admin/user/list', [UserController::class, 'getUserList'])->name('guest.user.list');
-Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->middleware('customersp')->name('admin.customer.list');
+Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->name('admin.customer.list');
 
 
 
@@ -120,8 +121,16 @@ Route::name('request.')->group(function () {
 Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [StatisticalController::class, 'index'])->middleware('customersp')->name('index');
 });
-// routes/api.php
-Route::get('/requests', [StatisticalController::class, 'getRequests']);
+// Route cho API lấy dữ liệu yêu cầu
+Route::get('/api/requests', [StatisticalController::class, 'getRequests']);
+
+
+//Test Nhóm thống kê
+// Route cho trang thống kê
+Route::get('/admin/statistical', [ReportController::class, 'index'])->name('statistical.static_index');
+
+// Route cho API lấy dữ liệu yêu cầu
+Route::get('/api/requests', [ReportController::class, 'getRequests']);
 
 
 

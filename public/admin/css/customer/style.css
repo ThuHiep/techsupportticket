@@ -17,14 +17,14 @@ body {
 
 
 h1 {
-    padding-bottom: 20px;
+    padding-bottom: 12px;
     color: #FF9700;
 }
 
 .top-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+
 }
 
 .add-customer-btn {

@@ -2,7 +2,7 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <!-- Khách hàng -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-warning pull-right">Hằng ngày</span>
@@ -20,7 +20,7 @@
         </div>
 
         <!-- Yêu cầu -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-warning pull-right">Hằng ngày</span>
@@ -38,26 +38,8 @@
             </div>
         </div>
 
-        <!-- Người dùng -->
-        <div class="col-lg-3">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <span class="label label-warning pull-right">Hằng ngày</span>
-                    <h5>Người dùng</h5>
-                </div>
-                <div class="ibox-content">
-                    <h1 class="no-margins">{{ number_format($totalUsersToday) }}</h1>
-                    <div class="stat-percent font-bold" style="color: {{ $userPercentageChange > 0 ? '#28a745' : ($userPercentageChange < 0 ? '#dc3545' : '#6c757d') }};">
-                        {{ is_numeric($userPercentageChange) ? number_format($userPercentageChange, 0) . '%' : $userPercentageChange }}
-                        <i class="fa {{ $userPercentageChange > 0 ? 'fa-level-up' : ($userPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
-                    </div>
-                    <small>Tổng người dùng hôm nay</small>
-                </div>
-            </div>
-        </div>
-
         <!-- Bài viết -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-warning pull-right">Hằng ngày</span>
@@ -80,7 +62,7 @@
 
         <div class="col-lg-5">
         <div class="ibox-title">
-          {{-- <span class="label label-warning pull-right" style="font-size: 12px">Hằng ngày</span> --}}
+          <span class="label label-warning pull-right" style="font-size: 12px">Hằng tuần</span>
             <h5>Trạng thái yêu cầu</h5>
         </div>
         <div class="ibox-content" style="height:350px; "> <!-- Thêm margin-top để biểu đồ dịch xuống -->
