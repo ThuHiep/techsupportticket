@@ -10,23 +10,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .chart-container {
-            width: 100%; /* Full width for responsiveness */
+            width: 300px; /* Set desired width */
             height: 300px; /* Set desired height */
-            margin: auto; /* Center the chart */
-        }
-        body .container {
-            width: calc(98%); /* Width after sidebar */
-            transition: all 0.3s ease-in-out;
-        }
-        .required {
-            color: red;
             font-size: 14px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Báo cáo thống kê</h1>
+    <div>
+        <h1>Báo cáo thống kê</h1>
+    </div>
     <div class="row">
         <!-- Báo cáo theo khách hàng -->
         <div class="col-lg-6">
@@ -51,59 +45,74 @@
         <div class="col-lg-6">
             <div class="report-section">
                 <h3>Báo cáo theo loại yêu cầu</h3>
-                <form id="filterForm" method="GET" action="{{ route('statistical.index') }}">
+                <p>Báo cáo này cung cấp thông tin về số lượng yêu cầu hỗ trợ theo từng loại yêu cầu.</p>
+                <form method="GET" action="{{ route('statistical.index') }}">
                     <div class="filter-container">
-                        <select id="requestTypeFilter" name="requestTypeFilter" onchange="updateReports()">
+                        <select id="requestTypeFilter" name="requestTypeFilter" onchange="updateRequestTypeChart()">
                             <option value="all">Tất cả loại yêu cầu</option>
                             @foreach ($requestTypes as $type)
                                 <option value="{{ $type->request_type_name }}">{{ $type->request_type_name }}</option>
                             @endforeach
                         </select>
 
-                        <select id="monthFilter" name="month" onchange="updateReports()">
+                        <select id="monthFilter" name="month">
                             <option value="all">Tất cả tháng</option>
                             @for ($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>Tháng {{ $i }}</option>
+                                <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
+                                    Tháng {{ $i }}
+                                </option>
                             @endfor
                         </select>
 
-                        <select id="yearFilter" name="year" onchange="updateReports()">
+                        <select id="yearFilter" name="year">
                             <option value="all">Tất cả năm</option>
                             @for ($year = 2020; $year <= date('Y'); $year++)
-                                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                                    {{ $year }}
+                                </option>
                             @endfor
                         </select>
-                        <!-- Nút Thống Kê -->
-                        <button id="statisticButton" onclick="updateReports()">Thống kê</button>
                     </div>
+                    <div class="row_start_end">
+                        <div class="col-lg-6">
+                            <div class="date-container">
+                                <label for="startDate">Ngày bắt đầu</label>
+                                <input type="date" id="startDate" name="startDate" value="{{ request('startDate') }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="date-container">
+                                <label for="endDate">Ngày kết thúc</label>
+                                <input type="date" id="endDate" name="endDate" value="{{ request('endDate') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">Thống kê</button>
                 </form>
-                <div class="chart-container" id="requestTypeChartContainer">
+                <div class="chart-container">
                     <canvas id="requestTypeChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Biểu đồ theo tháng -->
-    <div class="chart-container" id="monthlyChartContainer" style="display: none;">
-        <canvas id="monthlyReport"></canvas>
-    </div>
 </div>
 
 <script>
-    // Initializing Customer Chart
+    // Dữ liệu ban đầu cho báo cáo khách hàng
     const customerData = {
         @foreach($activeCustomers as $customer)
         '{{ $customer->full_name }}': {{ $customer->requests_count }},
         @endforeach
     };
 
+    // Màu sắc cho từng khách hàng
     const customerColors = {
         @foreach($activeCustomers as $index => $customer)
         '{{ $customer->full_name }}': '{{ $customerColors[$index] }}',
         @endforeach
     };
 
+    // Báo cáo theo khách hàng
     const customerCtx = document.getElementById('customerReport').getContext('2d');
     let customerChart = new Chart(customerCtx, {
         type: 'bar',
@@ -117,156 +126,83 @@
         }
     });
 
-    // Request Type Chart - Line Chart
+    // Cập nhật báo cáo theo khách hàng
+    function updateCustomerReport() {
+        const selectedCustomer = document.getElementById('customerFilter').value;
+        let data = [];
+        let labels = [];
+
+        if (selectedCustomer === 'all') {
+            data = Object.values(customerData);
+            labels = Object.keys(customerData);
+        } else {
+            data = [customerData[selectedCustomer]];
+            labels = [selectedCustomer];
+        }
+
+        customerChart.data.datasets[0].data = data;
+        customerChart.data.labels = labels;
+        customerChart.data.datasets[0].backgroundColor = selectedCustomer === 'all' ?
+            Object.keys(customerData).map(name => customerColors[name]) :
+            [customerColors[selectedCustomer]];
+
+        customerChart.update();
+    }
+
+    // Biểu đồ loại yêu cầu (Pie Chart)
     const requestTypeCtx = document.getElementById('requestTypeChart').getContext('2d');
     let requestTypeChart = new Chart(requestTypeCtx, {
-        type: 'line',
+        type: 'pie',
         data: {
-            labels: [
-                @foreach($requestTypes as $type)
-                    '{{ $type->request_type_name }}',
-                @endforeach
-            ],
+            labels: [], // Tên loại yêu cầu
             datasets: [{
                 label: 'Số yêu cầu theo loại',
-                data: [
-                    @foreach($requestTypes as $type)
-                        {{ $type->count }},
-                    @endforeach
-                ],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false,
-                tension: 0.4 // To make the line curve
+                data: [], // Số yêu cầu
+                backgroundColor: [], // Màu sắc
             }]
         },
         options: {
             responsive: true,
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Loại yêu cầu'
-                    }
+            maintainAspectRatio: false, // Allow manual control of aspect ratio
+            plugins: {
+                legend: {
+                    position: 'top',
                 },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Số yêu cầu'
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.label}: ${tooltipItem.raw}`; // Display label with count
+                        }
                     }
                 }
             }
         }
     });
 
-    function updateReports() {
-        const selectedType = document.getElementById('requestTypeFilter').value;
-        const selectedMonth = document.getElementById('monthFilter').value;
-        const selectedYear = document.getElementById('yearFilter').value;
-
-        // Gọi API để lấy dữ liệu theo các bộ lọc đã chọn
-        fetch(`/api/requests?type=${selectedType}&month=${selectedMonth}&year=${selectedYear}`)
-            .then(response => response.json())
-            .then(responseData => {
-                const labels = responseData.length ? responseData.map(item => item.request_type_name) : ['Không có dữ liệu'];
-                const data = responseData.length ? responseData.map(item => item.count) : [0];
-
-                requestTypeChart.data.labels = labels;
-                requestTypeChart.data.datasets[0].data = data;
-                requestTypeChart.update(); // Cập nhật biểu đồ
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }
-
-    // Event listener for form submission
-    document.querySelector('#filterForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-        updateReports(); // Update the chart based on selected filters
-    });
-
-    // Gọi hàm cập nhật khi trang tải
     document.addEventListener('DOMContentLoaded', function() {
-        updateCustomerReport(); // Cập nhật báo cáo khách hàng
-        updateReports(); // Cập nhật báo cáo loại yêu cầu
+        const initialData = {
+            @foreach($requestTypes as $type)
+            '{{ $type->request_type_name }}': {{ $type->count }},
+            @endforeach
+        };
+
+        const initialLabels = Object.keys(initialData);
+        const initialValues = Object.values(initialData);
+
+        requestTypeChart.data.labels = initialLabels;
+        requestTypeChart.data.datasets[0].data = initialValues;
+        requestTypeChart.data.datasets[0].backgroundColor = initialLabels.map(() => getRandomColor()); // Assign colors
+        requestTypeChart.update();
     });
 
-    // Request Type Chart - Line Chart
-    // const requestTypeCtx = document.getElementById('requestTypeChart').getContext('2d');
-    // let requestTypeChart = new Chart(requestTypeCtx, {
-    //     type: 'line',
-    //     data: {
-    //         labels: [], // Sẽ được cập nhật trong updateReports
-    //         datasets: [] // Sẽ được cập nhật trong updateReports
-    //     },
-    //     options: {
-    //         responsive: true,
-    //         scales: {
-    //             x: {
-    //                 title: {
-    //                     display: true,
-    //                     text: 'Ngày'
-    //                 }
-    //             },
-    //             y: {
-    //                 beginAtZero: true,
-    //                 title: {
-    //                     display: true,
-    //                     text: 'Số yêu cầu'
-    //                 }
-    //             }
-    //         },
-    //         plugins: {
-    //             tooltip: {
-    //                 mode: 'index',
-    //                 intersect: false
-    //             }
-    //         },
-    //         elements: {
-    //             line: {
-    //                 tension: 0.4 // Để làm cho đường cong
-    //             },
-    //             point: {
-    //                 radius: 5 // Kích thước điểm
-    //             }
-    //         }
-    //     }
-    // });
-    //
-    // function updateReports() {
-    //     const selectedType = document.getElementById('requestTypeFilter').value;
-    //     const selectedMonth = document.getElementById('monthFilter').value;
-    //     const selectedYear = document.getElementById('yearFilter').value;
-    //
-    //     fetch(`/api/requests?type=${selectedType}&month=${selectedMonth}&year=${selectedYear}`)
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             const labels = Array.from({ length: 31 }, (_, i) => (i + 1).toString()); // Ngày từ 1 đến 31
-    //             const datasets = [];
-    //
-    //             // Giả sử data.request_types có cấu trúc như sau:
-    //             // data.request_types = [{ request_type_name: 'Type 1', counts: [0, 1, 2, ...] }, ...]
-    //             data.request_types.forEach(item => {
-    //                 datasets.push({
-    //                     label: item.request_type_name,
-    //                     data: item.counts, // Chắc chắn counts là mảng chứa dữ liệu cho từng ngày
-    //                     borderColor: getRandomColor(),
-    //                     backgroundColor: 'rgba(0, 255, 255, 0.2)',
-    //                     fill: true,
-    //                     tension: 0.4
-    //                 });
-    //             });
-    //
-    //             requestTypeChart.data.labels = labels;
-    //             requestTypeChart.data.datasets = datasets;
-    //             requestTypeChart.update();
-    //         })
-    //         .catch(error => console.error('Error fetching data:', error));
-    // }
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 </script>
 </body>
 </html>
