@@ -188,6 +188,7 @@ select option {
     margin-top: 15px;
     margin-left: 20px;
     line-height: 1.5;
+    margin-bottom: 15px;
 }
 
 .hint-list ul {
