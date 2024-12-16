@@ -57,7 +57,7 @@
                             </div>
                         </div>
 
-                        <!-- Hàng 2: Phòng ban + Loại yêu cầu + Ưu tiên -->
+                        <!-- Hàng 2: Phòng ban + Loại yêu cầu -->
                         <div class="row_left">
                             <div class="form-group">
                                 <label for="department_id">Phòng ban</label>
@@ -81,16 +81,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="priority">Ưu tiên</label>
-                                <select id="priority" name="priority" required>
-                                    <option value="">--Chọn ưu tiên--</option>
-                                    <option value="Thấp" {{ (old('priority', $requestData->priority) == 'Thấp') ? 'selected' : '' }}>Thấp</option>
-                                    <option value="Trung bình" {{ (old('priority', $requestData->priority) == 'Trung bình') ? 'selected' : '' }}>Trung bình</option>
-                                    <option value="Cao" {{ (old('priority', $requestData->priority) == 'Cao') ? 'selected' : '' }}>Cao</option>
-                                </select>
-                            </div>
-
                         </div>
 
                         <!-- Hàng 3: Ngày nhận + Ngày hoàn thành -->
@@ -98,8 +88,8 @@
                             <!-- Nhóm "Ngày nhận" và "Ngày hoàn thành" -->
                             <div class="form-group-row date-group">
                                 <div class="form-group">
-                                    <label for="received_at">Ngày nhận</label>
-                                    <input type="date" id="received_at" name="received_at" value="{{ old('received_at', $requestData->received_at ? $requestData->received_at->format('Y-m-d') : '') }}" required>
+                                    <label for="create_at">Ngày tạo</label>
+                                    <input type="date" id="create_at" name="create_at" value="{{ old('create_at', $requestData->create_at ? $requestData->create_at->format('Y-m-d') : '') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="resolved_at">Ngày hoàn thành</label>

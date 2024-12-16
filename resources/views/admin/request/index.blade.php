@@ -45,7 +45,7 @@
                     </select>
 
                     <!-- Input Ngày nhận -->
-                    <input type="date" name="request_date" placeholder="Ngày nhận yêu cầu" value="{{ request()->query('request_date') }}">
+                    <input type="date" name="request_date" placeholder="Ngày tạo yêu cầu" value="{{ request()->query('request_date') }}">
 
                     <!-- Dropdown Trạng thái -->
                     <select name="status">
@@ -84,8 +84,7 @@
                     <th>Khách hàng</th>
                     <th>Loại yêu cầu</th>
                     <th>Tiêu đề</th>
-                    <th>Ưu tiên</th>
-                    <th>Ngày nhận</th>
+                    <th>Ngày tạo</th>
                     <th>Trạng thái</th>
                     <th>Thao tác</th>
                 </tr>
@@ -97,7 +96,6 @@
                         <td>{{ $req->customer->full_name ?? 'N/A' }}</td>
                         <td>{{ $req->requestType->request_type_name ?? 'N/A' }}</td>
                         <td>{{ $req->subject }}</td>
-                        <td>{{ $req->priority }}</td>
                         <td>{{ \Carbon\Carbon::parse($req->create_at)->format('d/m/Y') }}</td>
                         <td>
                             {{ $req->status }}
