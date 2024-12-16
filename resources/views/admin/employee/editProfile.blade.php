@@ -100,9 +100,7 @@
                                 <input type="file" id="profile_image" name="profile_image" class="form-control"
                                     accept="image/*" onchange="previewImage(event)">
                                 <label for="profile_image" class="custom-file-label">Chọn khác</label>
-                                <input type="file" id="profile_image" name="profile_image" class="form-control"
-                                    accept="image/*" onchange="previewImage(event)">
-                                <label for="profile_image" class="custom-file-label">Chọn khác</label>
+                                
                                 <div class="image-preview">
 
 
