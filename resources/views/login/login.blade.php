@@ -37,10 +37,13 @@
                         <i class="bx bx-user icon"></i>
                     </div>
 
+                    <!-- Trường Mật khẩu cũ được thay thế bởi input mới -->
                     <div class="input_box">
-                        <input type="password" name="password" id="pass" class="input-field" required>
-                        <label for="pass" class="label">Mật khẩu</label>
-                        <i class="bx bx-lock-alt icon"></i>
+                        <input type="password" class="input-field" id="pass" required>
+                        <label class="label" for="pass">Mật khẩu</label>
+                        <span class="icon" id="togglePassword">
+                            <i class="fa fa-eye-slash"></i> <!-- Mắt nhắm mặc định -->
+                        </span>
                     </div>
 
                     <div class="remember-forgot">
@@ -69,6 +72,24 @@
             </div>
         </div>
     </div>
+    <script>
+        // Tìm phần tử và thêm sự kiện click vào biểu tượng mắt
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordField = document.getElementById("pass"); // Sử dụng đúng id "pass"
+
+        togglePassword.addEventListener("click", function () {
+            // Kiểm tra nếu mật khẩu đang bị ẩn, chuyển sang hiển thị
+            if (passwordField.type === "password") {
+                passwordField.type = "text"; // Đổi loại input thành 'text' để hiển thị mật khẩu
+                togglePassword.innerHTML = '<i class="fa fa-eye"></i>'; // Thay đổi biểu tượng thành mắt mở
+            } else {
+                passwordField.type = "password"; // Đổi lại loại input thành 'password' để ẩn mật khẩu
+                togglePassword.innerHTML = '<i class="fa fa-eye-slash"></i>'; // Thay đổi biểu tượng thành mắt nhắm
+            }
+        });
+
+    </script>
+
 </body>
 
 </html>

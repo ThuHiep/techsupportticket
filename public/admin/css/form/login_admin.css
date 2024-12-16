@@ -159,11 +159,22 @@ a:hover{
     color:var(--black-color);
     padding: 2px 16px;
 }
+/* Cập nhật biểu tượng mắt trong .icon */
 .icon{
     position: absolute;
     top: 21px;
     right: 25px;
     font-size: 20px;
+    cursor: pointer;
+}
+
+/* Thêm hiệu ứng chuyển đổi icon mắt khi mật khẩu được hiển thị */
+.show-password .fa-eye-slash {
+    display: none;
+}
+
+.show-password .fa-eye {
+    display: block;
 }
 
 /*Remember Forgot*/
