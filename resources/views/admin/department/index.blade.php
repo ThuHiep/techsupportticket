@@ -17,7 +17,17 @@
         <div class="search-container">
             <form action="{{ route('department.index') }}" method="GET">
                 <!-- Ô nhập tìm kiếm tên hoặc mã phòng ban -->
-                <input type="text" name="search" placeholder="Nhập tên hoặc mã phòng ban cần tìm" value="{{ request()->query('search') }}">
+                <div style="position: relative;">
+                    <input type="text" name="search" placeholder="Nhập tên hoặc mã phòng ban cần tìm" value="{{ request()->query('search') }}">
+                    @if($search)
+                    <a
+                        href="{{ route('department.index') }}"
+                        id="clearButton"
+                        style="position: absolute; right: 3%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                        ✖
+                    </a>
+                    @endif
+                </div>
                 <button type="submit" style="padding: 10.9px 15px">Tìm kiếm</button>
             </form>
         </div>
