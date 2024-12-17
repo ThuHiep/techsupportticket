@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/css/form.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}?v={{ time() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('guest/css/form/guiyeucaukythuat.css') }}">
     <title>FORM</title>
@@ -24,7 +24,7 @@
         </div>
 
         <!-- Form Input -->
-        <form method="POST" action="" enctype="multipart/form-data">
+        <form method="POST" action=""  enctype="multipart/form-data">
             <div class="input-container">
                 <!-- Row 1 -->
                 <div class="input_row">
@@ -50,7 +50,7 @@
                     <div class="input_box">
                         <select id="request-type" name="request-type" class="input-field" required>
                             <option value="" disabled selected>Chọn loại yêu cầu</option>
-                        
+
                         </select>
                         <label for="request-type" class="label">Loại yêu cầu</label>
                     </div>
