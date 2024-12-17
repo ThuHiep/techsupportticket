@@ -23,7 +23,7 @@
 
                     <!-- Select chọn trường tìm kiếm bổ sung -->
                     <select name="search_field" id="search_field">
-                        <option value="">--Chọn trường tìm kiếm bổ sung--</option>
+                        <option value="">--Chọn tiêu chí cần tìm kiếm--</option>
                         <option value="customer" {{ request()->query('search_field') == 'customer' ? 'selected' : '' }}>Tên khách hàng</option>
                         <option value="department" {{ request()->query('search_field') == 'department' ? 'selected' : '' }}>Phòng ban</option>
                         <option value="request_date" {{ request()->query('search_field') == 'request_date' ? 'selected' : '' }}>Ngày tạo</option>
@@ -190,9 +190,7 @@
                     </td>
                 </tr>
             @empty
-                <tr>
-                    <td colspan="7" class="text-center text-danger">Không tìm thấy yêu cầu hỗ trợ nào phù hợp với các tiêu chí tìm kiếm.</td>
-                </tr>
+                
             @endforelse
             </tbody>
         </table>

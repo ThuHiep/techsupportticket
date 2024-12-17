@@ -134,8 +134,8 @@ class RequestController extends Controller
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Lặp đến khi tìm được mã không trùng lặp
         do {
-            $randomNumber = mt_rand(1, 9999);
-            $nextId = 'RQ' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
+            $randomNumber = mt_rand(1, 9999999);
+            $nextId = 'RQ' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
             $exists = SupportRequest::where('request_id', $nextId)->exists();
         } while ($exists); // Nếu tồn tại mã này, sinh lại
 
