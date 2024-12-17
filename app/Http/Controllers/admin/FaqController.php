@@ -18,19 +18,27 @@ class FaqController extends Controller
     // Lấy các tham số tìm kiếm
     $search = $request->input('search'); // Từ khóa hoặc mã FAQ
     $statusFilter = $request->input('status'); // Trạng thái câu hỏi
+    $date = $request->input('date'); // Ngày cụ thể (nếu có)
+
+    $isTodaySearch = false;
 
     // Kiểm tra xem từ khóa là mã FAQ (định dạng FAQxxxx)
     $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
 
-    // Tìm kiếm FAQ
+     // Tìm kiếm FAQ
     $faqs = Faq::when($isSearchById, function ($query) use ($search) {
         return $query->where('faq_id', $search);
     })
     ->when(!$isSearchById && $search, function ($query) use ($search) {
         return $query->where('question', 'LIKE', "%$search%");
     })
-    ->when($statusFilter, function ($query) use ($statusFilter) {
-        return $query->where('status', $statusFilter);
+    ->when($statusFilter, function ($query) use ($statusFilter, $date, &$isTodaySearch) {
+        $query->where('status', $statusFilter);
+
+        if ($statusFilter === 'Chưa phản hồi' && $date) {
+            $query->whereDate('create_at', $date);
+            $isTodaySearch = true; // Đặt trạng thái lọc hôm nay thành true
+        }
     })
     ->paginate(4);
 
@@ -50,7 +58,8 @@ class FaqController extends Controller
         'totalResults',
         'isSearchById',
         'isSearchWithStatus',
-        'isSearchPerformed'
+        'isSearchPerformed',
+        'isTodaySearch',
     ));
 }
 
