@@ -31,7 +31,7 @@
                     <div class="stat-percent font-bold" style="color: {{ $requestPercentageChange > 0 ? '#28a745' : ($requestPercentageChange < 0 ? '#dc3545' : '#6c757d') }};">
                         {{ is_numeric($requestPercentageChange) ? number_format($requestPercentageChange, 0) . '%' : $requestPercentageChange }}
                         <i class="fa {{ $requestPercentageChange > 0 ? 'fa-level-up' : ($requestPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
-                    </div>                                                                
+                    </div>
                     <small>Tổng yêu cầu hôm nay</small>
                 </div>
 
@@ -59,7 +59,6 @@
 
     <!-- Phần tiếp theo -->
     <div class="row">
-
         <div class="col-lg-5">
         <div class="ibox-title">
           <span class="label label-warning pull-right" style="font-size: 12px">Hằng tuần</span>
@@ -105,7 +104,7 @@
                     data: [
                         requestStatusCounts.processing,
                         requestStatusCounts.handled,
-                        requestStatusCounts.completed,  
+                        requestStatusCounts.completed,
                         requestStatusCounts.cancelled
                     ],
                     backgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"],  // Màu sắc cho mỗi trạng thái
@@ -145,18 +144,18 @@
             var requestData = {!! json_encode($requestData) !!};
             var data = [];
             var ticks = [];
-        
+
             // Làm tròn dữ liệu trước khi đưa vào biểu đồ
             for (var i = 0; i < requestData.length; i++) {
                 var roundedTotal = parseFloat(requestData[i].total).toFixed(1); // Làm tròn số đến 1 chữ số thập phân
                 data.push([i, roundedTotal]);
                 ticks.push([i, requestData[i].day]);
             }
-        
+
             const chartData = [
                 { label: "Yêu cầu", data: data }
             ];
-        
+
             // Cấu hình biểu đồ
             const options = {
                 xaxis: {
@@ -187,13 +186,9 @@
                     position: "ne"
                 }
             };
-        
+
             // Vẽ biểu đồ với dữ liệu và cấu hình
             $.plot($("#flot-dashboard-chart"), chartData, options);
         });
     </script>
-    
-    
-    
-
 </div>
