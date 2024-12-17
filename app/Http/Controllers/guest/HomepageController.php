@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
 
@@ -19,7 +20,8 @@ class HomepageController extends Controller
 
     public function login(){
         $faqs = $this->getFaqs();
-        return view('guest.homepage.index', compact('faqs'));
+        $articles = Article::all(); // Lấy tất cả bài viết
+        return view('guest.homepage.index', compact('faqs', 'articles'));
     }
 
 }

@@ -15,6 +15,43 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet" />
+    <style>
+        .carousel-card {
+            transition: transform 0.3s ease; /* Hiệu ứng chuyển động */
+            cursor: pointer; /* Con trỏ chuột */
+            position: relative; /* Định vị cho các phần tử con */
+        }
+
+        .carousel-card.expanded {
+            transform: scale(1.4); /* Phóng to lên 40% */
+            z-index: 10; /* Đưa card lên trên cùng */
+        }
+
+        .article-details {
+            position: absolute; /* Định vị tuyệt đối để hiển thị bên trong card */
+            bottom: 10px; /* Cách đáy */
+            left: 10px; /* Cách bên trái */
+            color: #333; /* Màu chữ */
+            background: rgba(255, 255, 255, 0.8); /* Nền mờ */
+            padding: 10px;
+            border-radius: 5px;
+            transition: opacity 0.3s ease; /* Hiệu ứng mờ */
+        }
+        .close {
+            position: absolute; /* Định vị tuyệt đối */
+            top: 10px; /* Khoảng cách từ trên xuống */
+            right: 15px; /* Khoảng cách từ bên phải */
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa; /* Màu sắc */
+        }
+        .close:hover,
+        .close:focus {
+            color: black; /* Màu khi hover */
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -74,7 +111,7 @@
                     <p id="modal-answer"></p>
                 </div>
             </div>
-            
+
             <div class="faq-form-container">
                 <button id="ask-question-button">Đặt câu hỏi</button>
                 <div id="question-form">
@@ -132,7 +169,7 @@
 
     </script>
 
-    
+
 
 
 
@@ -161,32 +198,72 @@
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
-            <div class="carousel-card">
-                <img src="image1.jpg" alt="Hình ảnh 1" class="card-image">
-                <div class="card-content">Nội dung thẻ 1</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image2.jpg" alt="Hình ảnh 2" class="card-image">
-                <div class="card-content">Nội dung thẻ 2</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image3.jpg" alt="Hình ảnh 3" class="card-image">
-                <div class="card-content">Nội dung thẻ 3</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image4.jpg" alt="Hình ảnh 4" class="card-image">
-                <div class="card-content">Nội dung thẻ 4</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image5.jpg" alt="Hình ảnh 5" class="card-image">
-                <div class="card-content">Nội dung thẻ 5</div>
-            </div>
+            @foreach($articles as $article)
+                <div class="carousel-card" onclick="toggleCard(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
+                    <h3 class="article-title">{{ $article->title }}</h3>
+                    <div class="article-details" style="display: none;">
+                        <p class="article-content"></p>
+                        <p class="article-date"></p>
+                    </div>
+                </div>
+            @endforeach
         </div>
         <div class="carousel-controls">
             <button class="carousel-button left" id="prev">&#8249;</button>
             <button class="carousel-button right" id="next">&#8250;</button>
         </div>
     </div>
+
+    <!-- Modal để hiển thị thông tin chi tiết -->
+    <!-- Modal -->
+    <div id="articleModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()" style="cursor: pointer;">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalContent"></p>
+            <p id="modalDate"></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleCard(cardElement, title, content, date) {
+            const isExpanded = cardElement.classList.contains('expanded');
+
+            // Đóng tất cả các card khác
+            const cards = document.querySelectorAll('.carousel-card');
+            cards.forEach(card => {
+                card.classList.remove('expanded');
+                card.querySelector('.article-details').style.display = 'none'; // Ẩn thông tin chi tiết
+            });
+
+            // Nếu card chưa phóng to, phóng to card đã nhấn
+            if (!isExpanded) {
+                cardElement.classList.add('expanded');
+                const details = cardElement.querySelector('.article-details');
+                details.querySelector('.article-content').innerText = content;
+                details.querySelector('.article-date').innerText = date;
+                details.style.display = 'block'; // Hiển thị thông tin chi tiết
+            }
+        }
+        function showArticleDetails(title, content, date) {
+            console.log(title, content, date); // Kiểm tra dữ liệu đầu vào
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalContent').innerText = content;
+            document.getElementById('modalDate').innerText = date;
+
+            const modal = document.getElementById('articleModal');
+            modal.style.display = "block";
+            modal.classList.add('show'); // Thêm lớp 'show' để hiển thị hiệu ứng
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('articleModal');
+            modal.classList.remove('show'); // Loại bỏ lớp 'show' để áp dụng hiệu ứng thu nhỏ
+            setTimeout(() => {
+                modal.style.display = "none"; // Ẩn modal sau khi hiệu ứng hoàn tất
+            }, 300); // Thời gian trùng với thời gian hiệu ứng
+        }
+    </script>
 
 
     <script>

@@ -16,7 +16,7 @@ class Article extends Model
     public $incrementing = false;
 
     // Kiểu dữ liệu của khóa chính
-    protected $keyType = 'string';
+    //protected $keyType = 'string';
 
     // Cột có thể gán dữ liệu hàng loạt
     protected $fillable = [
@@ -29,6 +29,10 @@ class Article extends Model
     // Tắt timestamps (bảng không sử dụng `created_at` và `updated_at` mặc định)
     public $timestamps = false;
 
+    public function getContent()
+    {
+        return $this->content;
+    }
     /**
      * Định nghĩa quan hệ với bảng `employee`.
      */
