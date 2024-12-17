@@ -65,10 +65,12 @@ class AuthController extends Controller
             $user = Auth::user();
             if ($user->role_id == 1 || $user->role_id == 2) {
                 // Đối với Admin hoặc Quản lý
-                return redirect()->route('dashboard.index')->with('success', "Chào mừng {$user->full_name} đến với trang quản trị");
+                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
             } elseif ($user->role_id == 3) {
                 // Đối với Khách hàng
-                return redirect()->route('indexAccount')->with('success', "Chào mừng {$user->full_name} đến với trang khách hàng");
+                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
             } else {
                 return back()->with('error', 'Không tìm thấy vai trò của bạn.');
             }
