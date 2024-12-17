@@ -24,10 +24,10 @@ class PermissionController extends Controller
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('status', 'active');
 
-            $query = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
+        $query = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('status', 'active');
-        
+
         if ($search) {
             if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
                 // Tìm theo mã admin hoặc nhân viên
@@ -62,10 +62,9 @@ class PermissionController extends Controller
             ->orderBy('employee.employee_id')
             ->paginate(3)->appends($request->all());
 
-            return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
-
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
     }
-    
+
 
 
 
@@ -158,7 +157,7 @@ class PermissionController extends Controller
         Mail::to($employee->email)->send(new EmployeeCreatedMail($employee, $user->user_id, $user->username, $password));
 
         return redirect()->route('permission.index')
-            ->with('success', "Người dùng đã được thêm thành công và email đã được gửi!<br>Tài khoản: ' . $request->input('username') . '<br>Mật khẩu: ' . $password");
+            ->with('success', "Người dùng đã được thêm thành công và email đã được gửi! Tài khoản: $user->username. Mật khẩu: $password");
     }
 
 
