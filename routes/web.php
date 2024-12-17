@@ -167,6 +167,6 @@ Route::get('account', [UserController::class, 'indexAccount'])->middleware('cust
 
 // Xem yêu cầu test
 // Route xem yêu cầu test
-Route::get('test-request', [LoginController::class, 'showFormRequest'])->name('showFormRequest');
+Route::get('pend-request', [LoginController::class, 'showFormRequest'])->name('showFormRequest');
 
 

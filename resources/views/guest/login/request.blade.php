@@ -7,7 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('css/form.css') }}?v={{ time() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('guest/css/form/guiyeucaukythuat.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/form/guiyeucaukythuat.css') }}">
     <title>FORM</title>
 </head>
 <body>
@@ -48,20 +48,22 @@
                 <!-- Row 3 -->
                 <div class="input_row">
                     <div class="input_box">
+                        <input type="text" id="company-name" name="company-name" class="input-field" required>
+                        <label for="company-name" class="label">Tên công ty</label>
+                        <i class="bx bx-buildings icon"></i>
+                    </div>
+                    <div class="input_box">
                         <select id="request-type" name="request-type" class="input-field" required>
                             <option value="" disabled selected>Chọn loại yêu cầu</option>
 
                         </select>
                         <label for="request-type" class="label">Loại yêu cầu</label>
                     </div>
-                    <div class="input_box">
-                        <input type="text" id="company-name" name="company-name" class="input-field" required>
-                        <label for="company-name" class="label">Tên công ty</label>
-                        <i class="bx bx-buildings icon"></i>
-                    </div>
+                    
                 </div>
 
                 <!-- Row 4 -->
+                
                 <div class="input_box description-box">
                     <textarea id="description" name="description" class="input-field description-field" rows="10" required></textarea>
                     <label for="description" class="label">Mô tả vấn đề</label>
