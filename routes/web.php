@@ -94,8 +94,6 @@ Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->
 
 
 
-
-
 //Department Routes
 Route::name('department.')->group(function () {
     Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('admin')->name('index');
@@ -154,4 +152,4 @@ Route::name('faq.')->group(function () {
 
 
 //Account
-Route::get('account', [UserController::class, 'indexAccount'])->name('indexAccount');
+Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');

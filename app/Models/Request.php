@@ -26,6 +26,7 @@ class Request extends Model
         'request_type_id',
         'subject',
         'description',
+        'create_at',
         'received_at',
         'resolved_at',
         'priority',
@@ -40,6 +41,7 @@ class Request extends Model
 
     // Định dạng ngày
     protected $casts = [
+        'create_at' => 'datetime',
         'received_at' => 'datetime',
         'resolved_at' => 'datetime',
     ];

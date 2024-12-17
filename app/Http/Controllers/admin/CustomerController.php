@@ -216,7 +216,6 @@ class CustomerController extends Controller
         }
     }
 
-
     //Duyệt tài khoản
     public function approve($customer_id)
     {

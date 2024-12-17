@@ -12,106 +12,114 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="register_box">
-            <div class="register-header">
-                <span>Đăng ký tài khoản</span>
-            </div>
-            <!--Input field-->
-            <form action="process_register.php" method="POST">
-                @csrf
-                <div class="input-container">
-                    <!-- Cột trái -->
-                    <div class="column">
-                        <div class="input_box">
-                            <input type="text" id="fullname" name="fullname" class="input-field" required>
-                            <label for="fullname" class="label">Họ và tên <span class="required">*</span></label>
-                            <i class="bx bx-user icon"></i>
-                        </div>
-
-                        <div class="input_box">
-                            <input type="text" id="phone" name="phone" class="input-field" required>
-                            <label for="phone" class="label">Số điện thoại <span class="required">*</span></label>
-                            <i class="bx bx-phone icon"></i>
-                        </div>
-
-                        <div class="input_box">
-                            <select id="gender" name="gender" class="input-field" required>
-                                <option value="male">Nam</option>
-                                <option value="female">Nữ</option>
-                            </select>
-                            <label for="gender" class="label">Giới tính <span class="required">*</span></label>
-                        </div>
-
-                        <div class="input_box">
-                            <input type="date" id="dob" name="dob" class="input-field" required>
-                            <label for="dob" class="label">Ngày sinh <span class="required">*</span></label>
-                        </div>
-
-                        <div class="input_box">
-                            <input type="text" id="address" name="address" class="input-field" required>
-                            <label for="address" class="label">Địa chỉ <span class="required">*</span></label>
-                            <i class="bx bx-map icon"></i>
-                        </div>
-
-                        <div class="input_box">
-                            <input type="text" id="company" name="company" class="input-field" required>
-                            <label for="company" class="label">Tên công ty <span class="required">*</span></label>
-                            <i class="bx bx-buildings icon"></i>
-                        </div>
+<div class="wrapper">
+    <div class="register_box">
+        <div class="register-header">
+            <span>Đăng ký tài khoản</span>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
+        <!--Input field-->
+        <form action="{{ route('registerProcess') }}" method="POST">
+            @csrf
+            <div class="input-container">
+                <!-- Cột trái -->
+                <div class="column">
+                    <div class="input_box">
+                        <input type="text" id="full_name" name="full_name" class="input-field" required>
+                        <label for="full_name" class="label">Họ và tên <span class="required">*</span></label>
+                        <i class="bx bx-user icon"></i>
                     </div>
-                    <!-- Cột phải -->
-                    <div class="column">
-                        <div class="input_box">
-                            <input type="email" id="email" name="email" class="input-field" required>
-                            <label for="email" class="label">Email <span class="required">*</span></label>
-                            <i class="bx bx-envelope icon"></i>
-                        </div>
 
-                        <div class="input_box">
-                            <input type="text" id="username" name="username" class="input-field" required>
-                            <label for="username" class="label">Tên đăng nhập <span class="required">*</span></label>
-                            <i class="bx bx-user-circle icon"></i>
-                        </div>
+                    <div class="input_box">
+                        <input type="text" id="phone" name="phone" class="input-field" required>
+                        <label for="phone" class="label">Số điện thoại <span class="required">*</span></label>
+                        <i class="bx bx-phone icon"></i>
+                    </div>
 
-                        <div class="input_box">
-                            <input type="password" id="password" name="password" class="input-field" required>
-                            <label for="password" class="label">Mật khẩu <span class="required">*</span></label>
-                            <i class="bx bx-lock-alt icon"></i>
-                            <div class="password-hint">
-                                <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
-                                <div class="hint-list">
-                                    <ul>
-                                        <li>Tối thiểu 8 ký tự</li>
-                                        <li>1 số</li>
-                                        <li>1 chữ in hoa</li>
-                                        <li>1 ký tự đặc biệt</li>
-                                        <li>1 chữ thường</li>
-                                        <li>Ví dụ: @Aa123456</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="input_box">
+                        <select id="gender" name="gender" class="input-field" required>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                        <label for="gender" class="label">Giới tính <span class="required">*</span></label>
+                    </div>
 
-                        <div class="input_box">
-                            <input type="password" id="password_confirm" name="password_confirm" class="input-field" required>
-                            <label for="password_confirm" class="label">Xác nhận mật khẩu <span class="required">*</span></label>
-                            <i class="bx bx-repeat icon"></i>
-                        </div>
+                    <div class="input_box">
+                        <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" required>
+                        <label for="date_of_birth" class="label">Ngày sinh <span class="required">*</span></label>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="text" id="address" name="address" class="input-field" required>
+                        <label for="address" class="label">Địa chỉ <span class="required">*</span></label>
+                        <i class="bx bx-map icon"></i>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="text" id="company" name="company" class="input-field" required>
+                        <label for="company" class="label">Tên công ty <span class="required">*</span></label>
+                        <i class="bx bx-buildings icon"></i>
                     </div>
                 </div>
-            </form>
+                <!-- Cột phải -->
+                <div class="column">
+                    <div class="input_box">
+                        <input type="email" id="email" name="email" class="input-field" required>
+                        <label for="email" class="label">Email <span class="required">*</span></label>
+                        <i class="bx bx-envelope icon"></i>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="text" id="username" name="username" class="input-field" required>
+                        <label for="username" class="label">Tên đăng nhập <span class="required">*</span></label>
+                        <i class="bx bx-user-circle icon"></i>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="password" id="password" name="password" class="input-field" required>
+                        <label for="password" class="label">Mật khẩu <span class="required">*</span></label>
+                        <i class="bx bx-lock-alt icon"></i>
+                        <div class="password-hint">
+                            <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
+                            <div class="hint-list">
+                                <ul>
+                                    <li>Tối thiểu 8 ký tự</li>
+                                    <li>1 số</li>
+                                    <li>1 chữ in hoa</li>
+                                    <li>1 ký tự đặc biệt</li>
+                                    <li>1 chữ thường</li>
+                                    <li>Ví dụ: @Aa123456</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input_box">
+                        <input type="password" id="password_confirm" name="password_confirmation" class="input-field" required>
+                        <label for="password_confirm" class="label">Xác nhận mật khẩu <span class="required">*</span></label>
+                        <i class="bx bx-repeat icon"></i>
+                    </div>
+                </div>
+            </div>
             <!--Submit đăng ký-->
             <div class="input-box-submit">
                 <input type="submit" class="input-submit" value="Đăng ký">
             </div>
-            <!--Tro ve dang nhap-->
-            <div class="login-link">
-                <span>Đã có tài khoản? <a href="{{ route('login.login') }}" class="login-box">Đăng nhập ngay</a></span>
-            </div>
-
+        </form>
+        <!--Tro ve dang nhap-->
+        <div class="login-link">
+            <span>Đã có tài khoản? <a href="{{ route('login') }}" class="login-box">Đăng nhập ngay</a></span>
         </div>
     </div>
+</div>
 </body>
 
 </html>

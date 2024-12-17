@@ -36,15 +36,28 @@
     {{-- Hiển thị thông báo tìm kiếm --}}
     @if ($searchPerformed && $search !== '')
         @if ($count > 0)
-            <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
-                Tìm thấy {{ $count }} phòng ban có từ khóa "{{ $search }}"
-            </div>
+            @if (is_numeric($search))
+                <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+                    Tìm thấy {{ $count }} phòng ban có mã "{{ $search }}"
+                </div>
+            @else
+                <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+                    Tìm thấy {{ $count }} phòng ban có từ khóa "{{ $search }}"
+                </div>
+            @endif
         @else
-            <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
-                Không tìm thấy phòng ban có từ khóa "{{ $search }}"
-            </div>
+            @if (is_numeric($search))
+                <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+                    Không tìm thấy phòng ban có mã "{{ $search }}"
+                </div>
+            @else
+                <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+                    Không tìm thấy phòng ban có từ khóa "{{ $search }}"
+                </div>
+            @endif
         @endif
     @endif
+
 
     <div class="table-container">
         <table class="table table-striped">
