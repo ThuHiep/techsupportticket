@@ -67,10 +67,18 @@
             <div id="faq-answer-container" style="display: none;">
                 <h3>Trả lời:</h3><p id="faq-answer"></p>
             </div>
+            <div id="faqModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
+                    <h3 id="modal-question"></h3>
+                    <p id="modal-answer"></p>
+                </div>
+            </div>
+            
             <div class="faq-form-container">
                 <button id="ask-question-button">Đặt câu hỏi</button>
                 <div id="question-form">
-                    <input id="question-name" type="text" placeholder="Nhập tên của bạn" />
+                    <input id="question-name" type="text" placeholder="Nhập email của bạn" />
                     <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5"></textarea>
                     <button id="submit-question-button">Gửi</button>
                 </div>
@@ -78,35 +86,50 @@
         </div>
     </section>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const faqQuestions = document.querySelectorAll(".faq-question");
+        document.addEventListener("DOMContentLoaded", function () {
+    const faqQuestions = document.querySelectorAll(".faq-question");
+    const modal = document.getElementById("faqModal");
+    const modalQuestion = document.getElementById("modal-question");
+    const modalAnswer = document.getElementById("modal-answer");
+    const closeModal = document.getElementById("closeModal");
 
-            faqQuestions.forEach(question => {
-                question.addEventListener("click", function(event) {
-                    event.preventDefault();
+    faqQuestions.forEach(question => {
+        question.addEventListener("click", function (event) {
+            event.preventDefault();
 
-                    const faqId = this.getAttribute("data-id");
-                    const answerContainer = document.getElementById("faq-answer-container");
-                    const answerText = document.getElementById("faq-answer");
+            const faqId = this.getAttribute("data-id");
 
-                    // Gọi AJAX để lấy câu trả lời
-                    fetch(`/faq/answer/${faqId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                answerText.textContent = data.answer; // Hiển thị câu trả lời
-                                answerContainer.style.display = "block";
-                            } else {
-                                alert(data.message); // Hiển thị thông báo nếu lỗi
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Lỗi khi lấy dữ liệu:", error);
-                            alert("Có lỗi xảy ra, vui lòng thử lại.");
-                        });
+            fetch(`/faq/answer/${faqId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        modalQuestion.textContent = this.textContent; // Hiển thị câu hỏi
+                        modalAnswer.textContent = data.answer || "Chưa có câu trả lời."; // Hiển thị câu trả lời
+                        modal.style.display = "block"; // Hiển thị modal
+                    } else {
+                        alert("Không tìm thấy câu trả lời.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi khi gọi API:", error);
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
                 });
-            });
         });
+    });
+
+    // Đóng modal khi click vào nút đóng
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Đóng modal khi click ra ngoài
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
     </script>
 
 
