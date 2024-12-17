@@ -150,6 +150,8 @@ Route::name('faq.')->group(function () {
     // trả lời trên homepage
     Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
 
+    
+
 
 
 
