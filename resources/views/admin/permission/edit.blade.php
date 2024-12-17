@@ -24,7 +24,7 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: left">Chỉnh sửa thông tin người dùng</h1>
+        <h1 style="text-align: left">Chỉnh sửa thông tin tài khoản</h1>
         <form action="{{ route('permission.update', $employee->employee_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -96,7 +96,7 @@
                             <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
                             <select class="form-select" id="role_id" name="role_id" required>
                                 <option value="1" {{ $employee->user->role_id  == '1' ? 'selected' : '' }}>Quản trị viên hệ thống</option>
-                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên hỗ trợ khách hàng</option>
+                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên hỗ trợ </option>
                             </select>
                         </div>
                     </div>

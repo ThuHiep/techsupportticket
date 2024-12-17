@@ -22,30 +22,26 @@ class AuthController extends Controller
     }
     public function loginProcess(Request $request)
     {
-        // Xác thực yêu cầu đầu vào
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-            'g-recaptcha-response' => 'required',
-        ]);
+        //  $request->validate([
+        //      'username' => 'required',
+        //      'password' => 'required',
+        //      'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
+        //  ]);
 
-        // Kiểm tra reCAPTCHA
-        $secretKey = env('NOCAPTCHA_SECRET');
-        $responseKey = $request->input('g-recaptcha-response');
+        //  $recaptchaResponse = $request->input('g-recaptcha-response');
+        //  $secretKey = env('6Lcrz4kqAAAAAOljTaUh9OaofqlL1AUBZeOsKn9r'); // Store your secret key in .env
 
-        // Gửi yêu cầu xác thực reCAPTCHA
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $secretKey,
-            'response' => $responseKey,
-            'remoteip' => $request->ip(),
-        ]);
+        //  // Verify reCaptcha response with Google
+        //  $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        //      'secret' => $secretKey,
+        //      'response' => $recaptchaResponse,
+        //  ]);
 
-        $responseBody = $response->json();
+        //  $responseBody = $response->json();
 
-        // Kiểm tra kết quả xác thực reCAPTCHA
-        if (!$responseBody['success']) {
-            return back()->withErrors(['captcha' => 'Vui lòng xác minh CAPTCHA!']);
-        }
+        //  if (!$responseBody['success']) {
+        //      return back()->withErrors(['captcha' => 'Captcha verification failed. Please try again.']);
+        //  }
 
         // Kiểm tra mật khẩu
         //$password = $request->input('password');

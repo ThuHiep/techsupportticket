@@ -30,7 +30,7 @@
             </li>
             <li class="{{ Request::is('permission*') ? 'active' : '' }}">
                 <a href="{{ route('permission.index') }}"><i class="fas fa-address-book"></i>
-                    <span class="nav-label">Người dùng</span>
+                    <span class="nav-label">Tài khoản</span>
                 </a>
             </li>
             <li class="{{ Request::is('customer*') ? 'active' : '' }}">

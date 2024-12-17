@@ -24,19 +24,49 @@ class PermissionController extends Controller
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('status', 'active');
 
-        $query->where(function ($query) use ($search) {
-            $query->where('employee_id', 'LIKE', "%$search%")
-                ->orWhere('full_name', 'LIKE', "%$search%");
-        });
+            $query = Employee::join('user', 'user.user_id', '=', 'employee.user_id')
+            ->join('role', 'role.role_id', '=', 'user.role_id')
+            ->where('status', 'active');
+        
+        if ($search) {
+            if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
+                // Tìm theo mã admin hoặc nhân viên
+                $query->where('employee_id', '=', $search);
+            } else {
+                // Tìm theo tên
+                $query->where('full_name', 'LIKE', "%$search%");
+            }
+        }
+        $count = $query->count();
+        $resultMessage = '';
 
         $count = $query->count();
+        $resultMessage = '';
+
+        if ($count > 0) {
+            if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
+                $resultMessage = "Tìm thấy {$count} người dùng có mã: {$search}";
+            } else {
+                $resultMessage = "Tìm thấy {$count} người dùng có tên chứa từ khóa: {$search}";
+            }
+        } else {
+            if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
+                $resultMessage = "Không tìm thấy người dùng có mã: {$search}";
+            } else {
+                $resultMessage = "Không tìm thấy người dùng có tên chứa từ khóa: {$search}";
+            }
+        }
+
 
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3)->appends($request->all());
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count'));
+            return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
+
     }
+    
+
 
 
     public function create()
@@ -44,22 +74,22 @@ class PermissionController extends Controller
         $template = 'admin.permission.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Sinh employee_id và username ngẫu nhiên cho admin
-        $randomIdAD = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomIdAD = 'AD' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         while (Employee::where('employee_id', $randomIdAD)->exists()) {
-            $randomIdAD = 'AD' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+            $randomIdAD = 'AD' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         }
-        $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         while (User::where('username', $randomUserNameAD)->exists()) {
-            $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+            $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         }
         // Sinh employee_id và username ngẫu nhiên cho nhân viên
-        $randomIdEM = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomIdEM = 'NV' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         while (Employee::where('employee_id', $randomIdEM)->exists()) {
-            $randomIdEM = 'NV' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+            $randomIdEM = 'NV' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         }
-        $randomUserNameEM = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $randomUserNameEM = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         while (User::where('username', $randomUserNameEM)->exists()) {
-            $randomUserNameEM = 'support' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+            $randomUserNameEM = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         }
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomIdAD', 'randomUserNameAD', 'randomIdEM', 'randomUserNameEM'));
     }
