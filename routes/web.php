@@ -94,8 +94,6 @@ Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->
 
 
 
-
-
 //Department Routes
 Route::name('department.')->group(function () {
     Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('admin')->name('index');

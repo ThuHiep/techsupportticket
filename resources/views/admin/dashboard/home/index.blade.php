@@ -60,14 +60,14 @@
     <!-- Phần tiếp theo -->
     <div class="row">
         <div class="col-lg-5">
-        <div class="ibox-title">
-          <span class="label label-warning pull-right" style="font-size: 12px">Hằng tuần</span>
-            <h5>Trạng thái yêu cầu</h5>
+            <div class="ibox-title">
+                <span class="label label-warning pull-right" style="font-size: 12px">Hằng tuần</span>
+                <h5>Trạng thái yêu cầu</h5>
+            </div>
+            <div class="ibox-content" style="height:350px;">
+                <canvas id="requestStatusPieChart" style="width: 100%; height: 500px;"></canvas>
+            </div>
         </div>
-        <div class="ibox-content" style="height:350px; "> <!-- Thêm margin-top để biểu đồ dịch xuống -->
-            <canvas id="requestStatusPieChart" style="width: 100%; height: 500px; "></canvas>
-        </div>
-    </div>
 
         <!-- Biểu đồ yêu cầu hỗ trợ -->
         <div class="col-lg-7">
