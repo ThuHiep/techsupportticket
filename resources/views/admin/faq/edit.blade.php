@@ -24,7 +24,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Sửa thông tin FAQ</h1>
+    <h1>Sửa thông tin câu hỏi</h1>
     @if(session('success'))
         <div class="alert alert-success" style="color: green; margin-bottom: 20px;">
             {{ session('success') }}
@@ -38,7 +38,7 @@
         <!-- Dòng chứa các trường chính -->
         <div class="form-group-row">
             <!-- Mã FAQ -->
-            <div class="form-group">
+            <div class="form-group  half-width">
                 <label for="faq_id">Mã câu hỏi:<span class="required">*</span></label>
                 <input type="text" name="faq_id" id="faq_id" value="{{ $faq->faq_id }}" readonly>
                 @error('faq_id')
@@ -47,7 +47,7 @@
             </div>
 
             <!-- Email -->
-            <div class="form-group">
+            <div class="form-group  half-width">
                 <label for="email">Email người gửi:<span class="required">*</span></label>
                 <input type="email" name="email" id="email" value="{{ old('email', $faq->email) }}" required>
                 @error('email')
@@ -56,22 +56,7 @@
             </div>
 
             <!-- Họ và tên -->
-            <div class="form-group">
-                <label for="full_name">Họ và tên:</label>
-                <input type="text" name="full_name" id="full_name" value="{{ old('full_name', $faq->full_name) }}">
-                @error('full_name')
-                <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <!-- Số điện thoại -->
-            <div class="form-group">
-                <label for="phone">Số điện thoại:</label>
-                <input type="text" name="phone" id="phone" value="{{ old('phone', $faq->phone) }}" >
-                @error('phone')
-                <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
+            
         </div>
 
         <!-- Dòng chứa Câu hỏi và Câu trả lời -->
