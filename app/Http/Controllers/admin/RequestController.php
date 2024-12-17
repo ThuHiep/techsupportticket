@@ -29,6 +29,7 @@ class RequestController extends Controller
         $departmentId = $request->input('department_id');
         $requestDate = $request->input('request_date_search'); // Đổi tên để khớp với Blade
         $statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
+        $requestTypeId = $request->input('request_type_id'); // Thêm input 'request_type_id'
 
         // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
         $statuses = ['Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy'];
@@ -73,7 +74,7 @@ class RequestController extends Controller
                     break;
                 case 'request_date':
                     if (!empty($requestDate)) {
-                        $query->whereDate('create_at', $requestDate);
+                        $query->whereDate('received_at', $requestDate);
                         $searchPerformed = true;
                         $formattedDate = Carbon::parse($requestDate)->format('d/m/Y');
                         $additionalSearchType = 'request_date';
@@ -86,6 +87,15 @@ class RequestController extends Controller
                         $searchPerformed = true;
                         $additionalSearchType = 'status';
                         $additionalSearchValue = $statusFilter;
+                    }
+                    break;
+                case 'request_type':
+                    if (!empty($requestTypeId)) {
+                        $query->where('request_type_id', $requestTypeId);
+                        $searchPerformed = true;
+                        $requestType = RequestType::find($requestTypeId);
+                        $additionalSearchType = 'request_type';
+                        $additionalSearchValue = $requestType ? $requestType->request_type_name : 'N/A';
                     }
                     break;
                 default:
@@ -103,7 +113,7 @@ class RequestController extends Controller
         // Lấy danh sách cho các dropdown
         $customers = Customer::all();
         $departments = Department::all();
-        $requestTypes = RequestType::all();
+        $requestTypes = RequestType::where('status', 'active')->get(); // Chỉ lấy loại yêu cầu đang hoạt động
 
         // Truyền thêm các biến vào view
         return view('admin.dashboard.layout', compact(
