@@ -1,13 +1,10 @@
-<?php
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Captcha -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Boxicons -->
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
     <link href="/admin/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -17,8 +14,6 @@
     <title>Login_Admin</title>
 </head>
 <!DOCTYPE html>
-<html>
-
 <body>
     <div class="wrapper">
         <div class="logo_login_container">
@@ -88,8 +83,10 @@
             }
         });
 
+
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </body>
-
 </html>
+

@@ -22,44 +22,59 @@ class AuthController extends Controller
     }
     public function loginProcess(Request $request)
     {
-//         $request->validate([
-//             'username' => 'required',
-//             'password' => 'required',
-//             'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
-//         ]);
-//
-//         $recaptchaResponse = $request->input('g-recaptcha-response');
-//         $secretKey = env('6Lcrz4kqAAAAAOljTaUh9OaofqlL1AUBZeOsKn9r'); // Store your secret key in .env
-//
-//         // Verify reCaptcha response with Google
-//         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-//             'secret' => $secretKey,
-//             'response' => $recaptchaResponse,
-//         ]);
-//
-//         $responseBody = $response->json();
-//
-//         if (!$responseBody['success']) {
-//             return back()->withErrors(['captcha' => 'Captcha verification failed. Please try again.']);
-//         }
+        // Xác thực yêu cầu đầu vào
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'g-recaptcha-response' => 'required',
+        ]);
 
-        // Process login here
-        // Example: Authenticate user
+        // Kiểm tra reCAPTCHA
+        $secretKey = env('NOCAPTCHA_SECRET');
+        $responseKey = $request->input('g-recaptcha-response');
+
+        // Gửi yêu cầu xác thực reCAPTCHA
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secretKey,
+            'response' => $responseKey,
+            'remoteip' => $request->ip(),
+        ]);
+
+        $responseBody = $response->json();
+
+        // Kiểm tra kết quả xác thực reCAPTCHA
+        if (!$responseBody['success']) {
+            return back()->withErrors(['captcha' => 'Vui lòng xác minh CAPTCHA!']);
+        }
+
+        // Kiểm tra mật khẩu
+        //$password = $request->input('password');
+//        if (strlen($password) > 5) {
+//            return back()->withErrors(['password' => 'Mật khẩu không được ngắn quá 10 ký tự!']);
+//        } elseif (!preg_match('/[A-Z]/', $password)) {
+//            return back()->withErrors(['password' => 'Mật khẩu phải có ít nhất một chữ cái viết hoa!']);
+//        } elseif (!preg_match('/[\W_]/', $password)) {
+//            return back()->withErrors(['password' => 'Mật khẩu phải có ít nhất một kí tự đặc biệt!']);
+//        }
+
+        // Thực hiện đăng nhập
         if (Auth::attempt($request->only('username', 'password'))) {
             $request->session()->regenerate();
 
-            if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
-                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-                return redirect()->route('dashboard.index')->with('success', "Chào mừng $logged_user->full_name đến với trang quản trị");
-            } elseif (Auth::user()->role_id == 3) {
-                $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-                return redirect()->route('indexAccount')->with('success', "Chào mừng $logged_user->full_name đến với trang khách hàng");
+            // Phân quyền người dùng
+            $user = Auth::user();
+            if ($user->role_id == 1 || $user->role_id == 2) {
+                // Đối với Admin hoặc Quản lý
+                return redirect()->route('dashboard.index')->with('success', "Chào mừng {$user->full_name} đến với trang quản trị");
+            } elseif ($user->role_id == 3) {
+                // Đối với Khách hàng
+                return redirect()->route('indexAccount')->with('success', "Chào mừng {$user->full_name} đến với trang khách hàng");
             } else {
-                return back()->with('error', 'Error to find your role');
+                return back()->with('error', 'Không tìm thấy vai trò của bạn.');
             }
         }
 
-        return back()->withErrors(['login' => 'Invalid credentials.']);
+        return back()->withErrors(['login' => 'Tên đăng nhập hoặc mật khẩu không đúng!']);
     }
     public function Logout(Request $request)
     {
