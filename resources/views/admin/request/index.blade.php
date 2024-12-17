@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách yêu cầu hỗ trợ Kỹ thuật</title>
+    <title>Danh sách yêu cầu hỗ trợ kỹ thuật</title>
     <link rel="stylesheet" href="{{ asset('admin/css/request/index.css') }}">
     <!-- Font Awesome CDN để hiển thị biểu tượng -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Danh sách yêu cầu hỗ trợ Kỹ thuật</h1>
+    <h1>Danh sách yêu cầu hỗ trợ kỹ thuật</h1>
     <div class="top-bar">
         <!-- Container cho thanh tìm kiếm -->
         <div class="search-container">
