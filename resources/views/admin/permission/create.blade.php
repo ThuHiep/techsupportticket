@@ -22,7 +22,7 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: left">Thêm nhân viên mới</h1>
+        <h1 style="text-align: left">Thêm tài khoản mới</h1>
         <form action="{{ route('permission.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
@@ -87,7 +87,7 @@
                             <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
                             <select class="form-select" id="role_id" name="role_id" required>
                                 <option value="1">Quản trị viên hệ thống</option>
-                                <option value="2">Nhân viên hỗ trợ khách hàng</option>
+                                <option value="2">Nhân viên hỗ trợ</option>
                             </select>
                         </div>
                     </div>

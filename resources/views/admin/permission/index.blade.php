@@ -21,7 +21,7 @@
     <section class="container">
         <!-- Default box -->
         <div class="card-header align-items-center justify-content-between">
-            <h1>Danh sách người dùng</h1>
+            <h1>Danh sách tài khoản</h1>
             @if ($logged_user->user->role_id == 1)
             <a href="{{ route('permission.create') }}" class="add-customer-btn">Thêm mới</a>
             @endif
@@ -52,11 +52,11 @@
         {{-- Hiển thị thông báo tìm kiếm --}}
         @if ($search)
         @if ($count > 0)
-        <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+        <div class="alert alert-success" style="color: green; margin-top: 10px; font-size: 16px;">
             Tìm thấy {{ $count }} người dùng có từ khóa "{{ $search }}"
         </div>
         @else
-        <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+        <div class="alert alert-danger" style=" color: red; margin-top: 10px; font-size: 16px;">
             Không tìm thấy người dùng có từ khóa "{{ $search }}"
         </div>
         @endif
