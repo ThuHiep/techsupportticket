@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
+use App\Http\Controllers\guest\LoginController;
 
 use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -149,7 +150,7 @@ Route::name('faq.')->group(function () {
     // trả lời trên homepage
     Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
 
-    
+
 
 
 
@@ -161,3 +162,11 @@ Route::name('faq.')->group(function () {
 
 //Account
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
+
+
+
+// Xem yêu cầu test
+// Route xem yêu cầu test
+Route::get('test-request', [LoginController::class, 'showFormRequest'])->name('showFormRequest');
+
+
