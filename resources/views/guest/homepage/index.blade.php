@@ -54,7 +54,7 @@
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
-            
+
             <ul class="faq-list">
                 @forelse ($faqs as $faq)
                     <li>
@@ -76,19 +76,19 @@
                 </div>
             </div>
         </div>
-    </section> 
+    </section>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const faqQuestions = document.querySelectorAll(".faq-question");
-    
+
             faqQuestions.forEach(question => {
                 question.addEventListener("click", function(event) {
                     event.preventDefault();
-    
+
                     const faqId = this.getAttribute("data-id");
                     const answerContainer = document.getElementById("faq-answer-container");
                     const answerText = document.getElementById("faq-answer");
-    
+
                     // Gọi AJAX để lấy câu trả lời
                     fetch(`/faq/answer/${faqId}`)
                         .then(response => response.json())
@@ -108,12 +108,12 @@
             });
         });
     </script>
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     <!-- Script -->
     <script>
@@ -265,6 +265,10 @@
                 <button type="button" onclick="window.location.href='{{ route('login') }}'" style="padding: 10px 20px; background-color: #6F2F9F; color: white; border: none; border-radius: 5px; cursor: pointer;">
                     Đăng nhập
                 </button>
+                <!-- Kiểm tra trạng thái đăng nhập, nếu đã đăng nhập thì hiển thị nút yêu cầu hỗ trợ -->
+                <button type="button" id="request-button" style="padding: 10px 20px; background-color: #6F2F9F; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">
+                    Gửi yêu cầu
+                </button>
             </div>
             <a href="#" style="display: block; margin-top: 10px;">Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
         </form>
@@ -299,6 +303,46 @@
             overlay.style.display = 'none';
             registerForm.reset(); // Reset form sau khi gửi
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const openFormButton = document.getElementById('openForm');
+            const modal = document.getElementById('registrationForm');
+            const overlay = document.getElementById('modalOverlay');
+            const loginButton = document.getElementById('login-button');
+            const requestButton = document.getElementById('request-button');
+            const loginPrompt = document.getElementById('login-prompt');
+
+            // Giả sử bạn có thể kiểm tra trạng thái đăng nhập từ session, ví dụ từ Laravel session
+            const isLoggedIn = {!! Auth::check() ? 'true' : 'false' !!}; // Laravel Check (nếu bạn sử dụng Laravel)
+
+            // Mở form khi ấn nút
+            openFormButton.addEventListener('click', () => {
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+
+                if (isLoggedIn) {
+                    loginPrompt.style.display = 'none';
+                    requestButton.style.display = 'block';
+                    loginButton.style.display = 'none';
+                } else {
+                    loginPrompt.style.display = 'block';
+                    requestButton.style.display = 'none';
+                    loginButton.style.display = 'block';
+                }
+            });
+
+            // Đóng form khi ấn ra ngoài
+            overlay.addEventListener('click', () => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+
+            // Khi người dùng nhấn "Gửi yêu cầu", chuyển hướng đến trang yêu cầu
+            requestButton.addEventListener('click', function() {
+                window.location.href = '{{ route('showFormRequest') }}'; // Điều hướng đến trang yêu cầu
+            });
+        });
+
     </script>
 
 
