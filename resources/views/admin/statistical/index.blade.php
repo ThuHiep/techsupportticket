@@ -8,12 +8,23 @@
     <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo thống kê</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
     <style>
+        body .container {
+            width: calc(98%);
+            transition: all 0.3s ease-in-out;
+        }
+        body.mini-navbar .container {
+            width: calc(98%);
+            transition: all 0.3s ease-in-out;
+        }
         .chart-container {
             width: 300px; /* Set desired width */
             height: 300px; /* Set desired height */
             font-size: 14px;
         }
+
     </style>
 </head>
 <body>
