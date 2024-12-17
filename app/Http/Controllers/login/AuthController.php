@@ -65,7 +65,7 @@ class AuthController extends Controller
                 return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
             } elseif ($user->role_id == 3) {
                 // Đối với Khách hàng
-                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
                 return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
             } else {
                 return back()->with('error', 'Không tìm thấy vai trò của bạn.');

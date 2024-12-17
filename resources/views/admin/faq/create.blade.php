@@ -66,36 +66,7 @@
             </div>
         
             <!-- Họ và tên -->
-            <div class="form-group">
-                <label for="full_name">Họ và tên:</label>
-                <input
-                    type="text"
-                    name="full_name"
-                    id="full_name"
-                    value="{{ old('full_name') }}"
-                    placeholder="Nhập họ và tên (không bắt buộc)"
-                >
-                @error('full_name')
-                <div class="error visible">{{ $message }}</div>
-                @enderror
-            </div>
-        
-            <!-- Số điện thoại -->
-            <div class="form-group">
-                <label for="phone">Số điện thoại:</label>
-                <input
-                    type="text"
-                    name="phone"
-                    id="phone"
-                    value="{{ old('phone') }}"
-                    placeholder="Nhập số điện thoại (không bắt buộc)"
-                    pattern="^[0-9]{10,15}$"
-                    title="Số điện thoại phải từ 10 đến 15 chữ số."
-                >
-                @error('phone')
-                <div class="error visible">{{ $message }}</div>
-                @enderror
-            </div>
+            
         </div>
         <div class="form-group-row">
             <!-- Câu hỏi -->
