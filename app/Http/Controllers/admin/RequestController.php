@@ -191,8 +191,9 @@ class RequestController extends Controller
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $requestData = SupportRequest::findOrFail($request_id);
 
-        // Lấy danh sách khách hàng, phòng ban, và loại yêu cầu để tạo các lựa chọn trong form
-        $customers = Customer::all();
+        // Chỉ lấy khách hàng có status là "active"
+        $customers = Customer::where('status', 'active')->get();
+
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
