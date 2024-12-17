@@ -22,26 +22,26 @@ class AuthController extends Controller
     }
     public function loginProcess(Request $request)
     {
-         $request->validate([
-             'username' => 'required',
-             'password' => 'required',
-             'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
-         ]);
+        //  $request->validate([
+        //      'username' => 'required',
+        //      'password' => 'required',
+        //      'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
+        //  ]);
 
-         $recaptchaResponse = $request->input('g-recaptcha-response');
-         $secretKey = env('6Lcrz4kqAAAAAOljTaUh9OaofqlL1AUBZeOsKn9r'); // Store your secret key in .env
+        //  $recaptchaResponse = $request->input('g-recaptcha-response');
+        //  $secretKey = env('6Lcrz4kqAAAAAOljTaUh9OaofqlL1AUBZeOsKn9r'); // Store your secret key in .env
 
-         // Verify reCaptcha response with Google
-         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-             'secret' => $secretKey,
-             'response' => $recaptchaResponse,
-         ]);
+        //  // Verify reCaptcha response with Google
+        //  $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        //      'secret' => $secretKey,
+        //      'response' => $recaptchaResponse,
+        //  ]);
 
-         $responseBody = $response->json();
+        //  $responseBody = $response->json();
 
-         if (!$responseBody['success']) {
-             return back()->withErrors(['captcha' => 'Captcha verification failed. Please try again.']);
-         }
+        //  if (!$responseBody['success']) {
+        //      return back()->withErrors(['captcha' => 'Captcha verification failed. Please try again.']);
+        //  }
 
         // Process login here
         // Example: Authenticate user
