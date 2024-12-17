@@ -29,7 +29,7 @@
                 <div class="col-md-9">
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
-                            <label for="employee_id" class="form-label">Mã nhân viên<span class="required">*</span></label>
+                            <label for="employee_id" class="form-label">Mã người dùng<span class="required">*</span></label>
                             <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ $randomIdAD }}" readonly required>
                         </div>
                         <div class="form-group col-md-4">
@@ -37,7 +37,7 @@
                             <input type="username" id="username" name="username" class="form-control" value="{{$randomUserNameAD}}" readonly required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
+                            <label for="full_name" class="form-label">Tên người dùng<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control {{ $errors->has('full_name') ? 'is-invalid' : '' }}" value="{{ old('full_name') }}" required>
                             @error('full_name')
                             <div class="text-danger">{{ $message }}</div>

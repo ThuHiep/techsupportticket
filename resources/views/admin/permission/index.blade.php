@@ -50,7 +50,7 @@
         </div>
 
         {{-- Hiển thị thông báo tìm kiếm --}}
-        @if ($search)
+        {{-- @if ($search)
         @if ($count > 0)
         <div class="alert alert-success" style="color: green; margin-top: 10px; font-size: 16px;">
             Tìm thấy {{ $count }} người dùng có từ khóa "{{ $search }}"
@@ -60,8 +60,23 @@
             Không tìm thấy người dùng có từ khóa "{{ $search }}"
         </div>
         @endif
+        @endif --}}
+        <!-- Thông báo -->
+        @if ($search)
+            @if ($count > 0)
+                <div class="alert alert-success" style="color: green; margin-top: 10px; font-size: 16px;">
+                    {{ $resultMessage }}
+                </div>
+            @else
+                <div class="alert alert-danger" style="color: red; margin-top: 10px; font-size: 16px;">
+                    {{ $resultMessage }}
+                </div>
+            @endif
         @endif
 
+
+
+    
         <div class="table-container">
             <table class="table table-striped">
                 <thead>
