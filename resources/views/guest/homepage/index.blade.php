@@ -54,12 +54,19 @@
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
+            
             <ul class="faq-list">
-                <li><a href="#">Thời gian phản hồi từ đội hỗ trợ là bao lâu?</a></li>
-                <li><a href="#">Tôi quên mật khẩu đăng nhập vào trang quản trị website, làm sao để khôi phục?</a></li>
-                <li><a href="#">Website của tôi bị hack, tôi cần làm gì?</a></li>
-                <li><a href="#">Tôi muốn cập nhật nội dung trên website, tôi phải làm thế nào?</a></li>
+                @forelse ($faqs as $faq)
+                    <li>
+                        <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
+                    </li>
+                @empty
+                    <li>Không có câu hỏi nào được phản hồi.</li>
+                @endforelse
             </ul>
+            <div id="faq-answer-container" style="display: none;">
+                <h3>Trả lời:</h3><p id="faq-answer"></p>
+            </div>
             <div class="faq-form-container">
                 <button id="ask-question-button">Đặt câu hỏi</button>
                 <div id="question-form">
@@ -69,7 +76,44 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const faqQuestions = document.querySelectorAll(".faq-question");
+    
+            faqQuestions.forEach(question => {
+                question.addEventListener("click", function(event) {
+                    event.preventDefault();
+    
+                    const faqId = this.getAttribute("data-id");
+                    const answerContainer = document.getElementById("faq-answer-container");
+                    const answerText = document.getElementById("faq-answer");
+    
+                    // Gọi AJAX để lấy câu trả lời
+                    fetch(`/faq/answer/${faqId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                answerText.textContent = data.answer; // Hiển thị câu trả lời
+                                answerContainer.style.display = "block";
+                            } else {
+                                alert(data.message); // Hiển thị thông báo nếu lỗi
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Lỗi khi lấy dữ liệu:", error);
+                            alert("Có lỗi xảy ra, vui lòng thử lại.");
+                        });
+                });
+            });
+        });
+    </script>
+    
+    
+    
+    
+    
+    
 
     <!-- Script -->
     <script>

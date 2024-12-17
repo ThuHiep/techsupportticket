@@ -136,4 +136,26 @@ class FaqController extends Controller
 
         return response()->json(['count' => $count]);
     }
+
+    public function getAnswer($faq_id)
+    {
+        $faq = FAQ::find($faq_id);
+        if ($faq) {
+            return response()->json([
+                'success' => true,
+                'answer' => $faq->answer,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy câu trả lời.',
+        ]);
+    }
+
+
+
+    
+
+
 }

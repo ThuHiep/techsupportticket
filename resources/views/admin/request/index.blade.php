@@ -37,6 +37,7 @@
                         <option value="">--Chọn tiêu chí cần tìm kiếm--</option>
                         <option value="customer" {{ request()->query('search_field') == 'customer' ? 'selected' : '' }}>Tên khách hàng</option>
                         <option value="department" {{ request()->query('search_field') == 'department' ? 'selected' : '' }}>Phòng ban</option>
+                        <option value="request_type" {{ request()->query('search_field') == 'request_type' ? 'selected' : '' }}>Loại Yêu Cầu</option>
                         <option value="request_date" {{ request()->query('search_field') == 'request_date' ? 'selected' : '' }}>Ngày tạo</option>
                         <option value="status" {{ request()->query('search_field') == 'status' ? 'selected' : '' }}>Trạng thái</option>
                     </select>
@@ -63,6 +64,18 @@
                             @foreach($departments as $department)
                                 <option value="{{ $department->department_id }}" {{ request()->query('department_id') == $department->department_id ? 'selected' : '' }}>
                                     {{ $department->department_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Tìm kiếm theo Loại Yêu Cầu -->
+                    <div class="search-field" id="search_request_type">
+                        <select name="request_type_id">
+                            <option value="">--Loại Yêu Cầu--</option>
+                            @foreach($requestTypes as $type)
+                                <option value="{{ $type->request_type_id }}" {{ request()->query('request_type_id') == $type->request_type_id ? 'selected' : '' }}>
+                                    {{ $type->request_type_name }}
                                 </option>
                             @endforeach
                         </select>
@@ -107,6 +120,8 @@
                         được tạo vào ngày "{{ $additionalSearchValue }}"
                     @elseif ($additionalSearchType == 'status')
                         có trạng thái "{{ $additionalSearchValue }}"
+                    @elseif ($additionalSearchType == 'request_type')
+                        thuộc loại yêu cầu "{{ $additionalSearchValue }}"
                     @endif
                 @elseif ($search !== '')
                     có tiêu đề "{{ $search }}"
@@ -119,6 +134,8 @@
                         được tạo vào ngày "{{ $additionalSearchValue }}"
                     @elseif ($additionalSearchType == 'status')
                         có trạng thái "{{ $additionalSearchValue }}"
+                    @elseif ($additionalSearchType == 'request_type')
+                        thuộc loại yêu cầu "{{ $additionalSearchValue }}"
                     @endif
                 @endif
             </div>
@@ -201,7 +218,7 @@
                     </td>
                 </tr>
             @empty
-                
+
             @endforelse
             </tbody>
         </table>
