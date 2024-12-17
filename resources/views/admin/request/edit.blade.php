@@ -19,7 +19,7 @@
 </style>
 <body>
     <div class="container">
-        <h1>Chỉnh sửa Yêu cầu Hỗ trợ Kỹ thuật</h1>
+        <h1>Chỉnh sửa yêu cầu hỗ trợ kỹ thuật</h1>
         <div class="form-container">
             <form action="{{ route('request.update', $requestData->request_id) }}" method="POST">
                 @csrf

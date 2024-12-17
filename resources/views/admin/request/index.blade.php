@@ -2,16 +2,27 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách yêu cầu hỗ trợ Kỹ thuật</title>
+    <title>Danh sách yêu cầu hỗ trợ kỹ thuật</title>
     <link rel="stylesheet" href="{{ asset('admin/css/request/index.css') }}">
     <!-- Font Awesome CDN để hiển thị biểu tượng -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body .container {
+            width: calc(98%);
+            transition: all 0.3s ease-in-out;
+        }
+        body.mini-navbar .container {
+            width: calc(98%);
+            transition: all 0.3s ease-in-out;
+        }
+
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>Danh sách yêu cầu hỗ trợ Kỹ thuật</h1>
+    <h1>Danh sách yêu cầu hỗ trợ kỹ thuật</h1>
     <div class="top-bar">
         <!-- Container cho thanh tìm kiếm -->
         <div class="search-container">
@@ -23,7 +34,7 @@
 
                     <!-- Select chọn trường tìm kiếm bổ sung -->
                     <select name="search_field" id="search_field">
-                        <option value="">--Chọn trường tìm kiếm bổ sung--</option>
+                        <option value="">--Chọn tiêu chí cần tìm kiếm--</option>
                         <option value="customer" {{ request()->query('search_field') == 'customer' ? 'selected' : '' }}>Tên khách hàng</option>
                         <option value="department" {{ request()->query('search_field') == 'department' ? 'selected' : '' }}>Phòng ban</option>
                         <option value="request_date" {{ request()->query('search_field') == 'request_date' ? 'selected' : '' }}>Ngày tạo</option>
@@ -190,9 +201,7 @@
                     </td>
                 </tr>
             @empty
-                <tr>
-                    <td colspan="7" class="text-center text-danger">Không tìm thấy yêu cầu hỗ trợ nào phù hợp với các tiêu chí tìm kiếm.</td>
-                </tr>
+                
             @endforelse
             </tbody>
         </table>
