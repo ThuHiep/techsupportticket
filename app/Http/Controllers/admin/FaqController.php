@@ -31,11 +31,7 @@ class FaqController extends Controller
                 $q->where('faq_id', $search)
                     ->orWhere('question', 'LIKE', "%$search%");
             });
-            
         })
-            ->when($date, function ($query) use ($date) {
-                return $query->whereDate('create_at', $date);
-            })
             ->where('status', 'Chưa phản hồi')
             ->paginate(4);
 
@@ -44,8 +40,8 @@ class FaqController extends Controller
         $totalResults = $faqs->total();
 
         // Xác định các tiêu chí tìm kiếm
-        $isSearchWithDate = $search && $date;// Cả từ khóa và trạng thái
-        $isSearchPerformed = $search || $date; // Có thực hiện tìm kiếm
+        $isSearchWithStatus = $search && $statusFilter; // Cả từ khóa và trạng thái
+        $isSearchPerformed = $search || $statusFilter; // Có thực hiện tìm kiếm
 
         return view('admin.dashboard.layout', compact(
             'template',
@@ -55,9 +51,8 @@ class FaqController extends Controller
             'statusFilter',
             'totalResults',
             'isSearchById',
-            'date',
+            'isSearchWithStatus',
             'isSearchPerformed',
-            'isSearchWithDate',
             'isTodaySearch',
         ));
     }
@@ -152,11 +147,13 @@ class FaqController extends Controller
 
     public function getAnswer($faq_id)
     {
-        $faq = FAQ::find($faq_id);
+        $faq = FAQ::with('employee')->where("faq_id", "=", $faq_id)->first();
+
         if ($faq) {
             return response()->json([
                 'success' => true,
-                'answer' => $faq->answer,
+                'employee' => 'Người trả lời: ' . $faq->employee->full_name,
+                'answer' => 'Câu trả lời: ' . $faq->answer
             ]);
         }
 

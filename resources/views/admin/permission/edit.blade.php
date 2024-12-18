@@ -115,7 +115,7 @@
 
                                     <div id="image-preview" class="image-preview">
                                         <img id="preview-img"
-                                            src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/customer/default.png') }}"
+                                            src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/employee/default.png') }}"
                                             alt="Hình đại diện">
                                     </div>
                                 </div>

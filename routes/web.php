@@ -151,7 +151,7 @@ Route::name('faq.')->group(function () {
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->middleware('customersp')->name('delete');
 
     // Route for unansweredByDate
-    Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->middleware('customersp')->name('unansweredByDate');
+    Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->name('unansweredByDate');
     Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
 });
 
@@ -160,7 +160,7 @@ Route::name('faq.')->group(function () {
 
 //Account
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
-
+Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
 
 // Route xem yêu cầu test
-Route::get('pend-request', [LoginController::class, 'showFormRequest'])->name('showFormRequest');
+Route::get('pend-request', [HomepageController::class, 'showFormRequest'])->name('showFormRequest');
