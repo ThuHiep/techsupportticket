@@ -193,14 +193,14 @@
                     <td>{{ $req->subject }}</td>
                     <td>{{ \Carbon\Carbon::parse($req->create_at)->format('d/m/Y') }}</td>
                     <td>
-                        {{ $req->status }}
-                        <span class="status-dot
+                        <span style="width: 8px; height: 8px" class="status-dot
                                 @if($req->status == 'Chưa xử lý') chưa-xử-lý
                                 @elseif($req->status == 'Đang xử lý') đang-xử-lý
                                 @elseif($req->status == 'Hoàn thành') hoàn-thành
                                 @elseif($req->status == 'Đã hủy') đã-hủy
                                 @endif
                             " title="{{ $req->status }}"></span>
+                        {{ $req->status }}
                     </td>
                     <td>
                         <form action="{{ route('request.edit', $req->request_id) }}" style="display:inline;">
