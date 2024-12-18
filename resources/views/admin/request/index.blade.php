@@ -30,7 +30,7 @@
                 <!-- Phần Tìm Kiếm Chính -->
                 <div class="primary-search">
                     <!-- Ô input tìm kiếm Subject -->
-                    <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề" value="{{ request()->query('subject') }}">
+                    <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề yêu cầu hỗ trợ" value="{{ request()->query('subject') }}">
 
                     <!-- Select chọn trường tìm kiếm bổ sung -->
                     <select name="search_field" id="search_field">

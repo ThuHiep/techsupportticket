@@ -275,52 +275,85 @@ tr:hover td {
     pointer-events: none;
 }
 
-/* Style cho phân trang (Bootstrap 4) */
 .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Căn giữa các phần tử trong phân trang */
     margin-top: 20px;
-    flex-wrap: wrap;
 }
 
-.pagination .page-item {
-    margin: 5px;
-}
-
-.pagination .page-link {
+.pagination a {
     padding: 10px 16px;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 50%;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--font-size-base);
+    font-size: 14px;
     width: 40px;
     height: 40px;
     text-align: center;
-    transition: background-color var(--transition-speed) ease;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+.pagination span {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
 }
 
-.pagination .page-link:hover,
-.pagination .page-link:focus {
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #ffffff;
     background-color: #ee5711;
-    color: #ffffff;
+    border-color: #ddd;
 }
 
-.pagination .active .page-link {
-    background-color: var(--primary-color);
-    border-color: var(--border-color);
-    color: #ffffff;
+.pagination a.active,
+.pagination span.active {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    border-color: #DDDDDD;
+    color: white;
     cursor: default;
 }
-
-.pagination .disabled .page-link {
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
     color: #ffffff;
     cursor: not-allowed;
-    background-color: var(--primary-color);
-    border-color: var(--border-color);
+    background-color: #FF9700;
+    border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    color: white; /* Màu chữ trắng */
+    cursor: default;
+    z-index: 2;
+}
+
+/* Sửa phần này để thêm đường viền đỏ khi active */
+.pagination > .active > span {
+    border: none;
+    background-color: #ee5711;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Đánh dấu trạng thái bằng các điểm màu */

@@ -99,7 +99,7 @@ class AuthController extends Controller
         ]);
 
         // Tạo ID ngẫu nhiên cho người dùng theo định dạng NDxxxxxxx
-        $randUserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        $randUserID = 'TK' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
 
         // Tạo tài khoản người dùng
         $user = new User();
