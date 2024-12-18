@@ -118,7 +118,7 @@
             <div class="col-lg-4">
               <img
                 id="profile-img"
-                src="assets/img/my-profile-img.jpg"
+                src="admin/img/a2.jpg"
                 class="img-fluid"
                 alt=""
               />
