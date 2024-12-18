@@ -54,52 +54,63 @@
         </div>
     
         @if ($isSearchPerformed)
+    {{-- Trường hợp lọc bài viết chưa phản hồi vào ngày hôm nay --}}
+    @if ($isTodaySearch)
+    <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày hôm nay.
+        </div>
+    @else
         {{-- Trường hợp tìm theo mã FAQ --}}
-            @if ($isSearchById)
-                @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                        Tìm thấy câu hỏi với mã "{{ $search }}"
-                    </div>
-                @else
-                    <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                        Không tìm thấy câu hỏi với mã "{{ $search }}"
-                    </div>
-                @endif
-            {{-- Trường hợp tìm theo từ khóa và trạng thái --}}
-            @elseif ($isSearchWithStatus)
-                @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
-                    </div>
-                @else
-                    <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                        Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
-                    </div>
-                @endif
-            {{-- Trường hợp chỉ tìm theo trạng thái --}}
-            @elseif ($statusFilter)
-                @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} câu hỏi có trạng thái "{{ $statusFilter }}"
-                    </div>
-                @else
-                    <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                        Không tìm thấy câu hỏi có trạng thái "{{ $statusFilter }}"
-                    </div>
-                @endif
-            {{-- Trường hợp chỉ tìm theo từ khóa --}}
-            @elseif ($search)
-                @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}"
-                    </div>
-                @else
-                    <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                        Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}"
-                    </div>
-                @endif
+        @if ($isSearchById)
+            @if ($totalResults > 0)
+                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                    Tìm thấy câu hỏi với mã "{{ $search }}"
+                </div>
+            @else
+                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                    Không tìm thấy câu hỏi với mã "{{ $search }}"
+                </div>
+            @endif
+
+        {{-- Trường hợp tìm theo từ khóa và trạng thái --}}
+        @elseif ($isSearchWithStatus)
+            @if ($totalResults > 0)
+                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                    Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
+                </div>
+            @else
+                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                    Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
+                </div>
+            @endif
+
+        {{-- Trường hợp chỉ tìm theo trạng thái --}}
+        @elseif ($statusFilter)
+            @if ($totalResults > 0)
+                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                    Tìm thấy {{ $totalResults }} câu hỏi có trạng thái "{{ $statusFilter }}"
+                </div>
+            @else
+                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                    Không tìm thấy câu hỏi có trạng thái "{{ $statusFilter }}"
+                </div>
+            @endif
+
+        {{-- Trường hợp chỉ tìm theo từ khóa --}}
+        @elseif ($search)
+            @if ($totalResults > 0)
+                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                    Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}"
+                </div>
+            @else
+                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                    Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}"
+                </div>
             @endif
         @endif
+    @endif
+@endif
+
         <!-- Bảng danh sách câu hỏi -->
         <div class="table-container">
             <table class="table table-striped">

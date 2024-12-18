@@ -51,4 +51,9 @@ class LoginController extends Controller
         return view('guest.login.quenmatkhau');
     }
 
+    // Xem form yêu cầu
+    public function showFormRequest()
+    {
+        return view('guest.login.request');
+    }
 }

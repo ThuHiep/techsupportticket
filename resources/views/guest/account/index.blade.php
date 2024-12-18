@@ -48,6 +48,7 @@
         <li><a href="#about" class="active"><i class="bi bi-house navicon"></i>HỒ SƠ</a></li>
         <li><a href="#portfolio"><i class="bi bi-person navicon"></i>YÊU CẦU</a></li>
         <li><a href="#contact"><i class="bi bi-images navicon"></i> THÔNG BÁO</a></li>
+        <li><a href="{{ route('homepage.index') }}"><i class="bi bi-arrow-left navicon"></i> QUAY LẠI</a></li>
       </ul>
     </nav>
   </header>
@@ -59,7 +60,7 @@
         <h2>ABOUT</h2>
         <p id="description">Magnam dolores commodi suscipit...</p>
       </div>
-    
+
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-4 justify-content-center">
           <div class="col-lg-4">
@@ -98,7 +99,7 @@
                         <span>Khác</span>
                       </label>
                     </div>
-                  </div> --> 
+                  </div> -->
                 </ul>
               </div>
         </div>
@@ -127,7 +128,7 @@
             <li data-filter=".filter-books">Books</li>
           </ul><!-- End Portfolio Filters -->
 
-      
+
 
           </div><!-- End Portfolio Container -->
 

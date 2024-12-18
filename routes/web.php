@@ -9,9 +9,11 @@ use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ArticlesController;
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
+use App\Http\Controllers\guest\LoginController;
 
 use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -146,10 +148,35 @@ Route::name('faq.')->group(function () {
 
     // Route for unansweredByDate
     Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->middleware('customersp')->name('unansweredByDate');
+    // trả lời trên homepage
+    Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
+
+
+
+
+
+
+
+
 });
 
 
+// Hướng dẫn
+Route::name('articles.')->group(function () {
+    Route::get('/articles', [ArticlesController::class, 'index'])->name('index'); // Đặt tên route
+    Route::post('/articles', [ArticlesController::class, 'store'])->name('store');
+    Route::put('/articles/{id}', [ArticlesController::class, 'update'])->name('update');
+    Route::delete('/articles/{id}', [ArticlesController::class, 'destroy'])->name('destroy');
+});
 
 
 //Account
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
+
+
+
+// Xem yêu cầu test
+// Route xem yêu cầu test
+Route::get('pend-request', [LoginController::class, 'showFormRequest'])->name('showFormRequest');
+
+
