@@ -74,7 +74,7 @@
     <form action="{{ route('customer.pending') }}" method="GET">
         <div class="search-container">
             <div style="position: relative;">
-                <input type="text" id="searchName" name="name" placeholder="Tìm kiếm theo tên khách hàng" value="{{ request('name') }}" />
+                <input type="text" id="searchName" name="name" placeholder="Nhập tên khách hàng cần tìm" value="{{ request('name') }}" />
                 @if($searchPerformed)
                 <a
                     href="{{ route('customer.pending') }}"
@@ -101,11 +101,11 @@
                 @if ($totalResults > 0)
     
                 <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                        Tìm thấy {{ $totalResults }} tài khoản có tên "{{ $searchName }}"
+                        Tìm thấy {{ $totalResults }} tài khoản chưa duyệt có tên "{{ $searchName }}"
                     </div>
                 @else
                     <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                        Không tìm thấy tài khoản có tên "{{ $searchName }}"
+                        Không tìm thấy tài khoản chưa duyệt có tên "{{ $searchName }}"
                     </div>
                 @endif
             @elseif ($searchDate && !$searchName)
@@ -114,11 +114,11 @@
                 @endphp
                 @if ($totalResults > 0)
                     <div class="alert alert-success">
-                        Tìm thấy {{ $totalResults }} tài khoản vào ngày "{{ $formattedDate }}"
+                        Tìm thấy {{ $totalResults }} tài khoản chưa duyệt vào ngày "{{ $formattedDate }}"
                     </div>
                 @else
                     <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
-                        Không tìm thấy tài khoản vào ngày "{{ $formattedDate }}"
+                        Không tìm thấy tài khoản chưa duyệt vào ngày "{{ $formattedDate }}"
                     </div>
                 @endif
             @elseif ($searchName && $searchDate)

@@ -320,9 +320,8 @@ input[readonly] {
         flex-direction: column;
         gap: 10px;
     }
-
     .submit-button,
-    .cancel-button {
+    .cancel-btn {
         width: 100%;
     }
 }

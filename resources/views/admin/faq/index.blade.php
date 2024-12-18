@@ -40,6 +40,7 @@
                         </a>
                         @endif
                     </div>
+                    <input type="date" id="searchDate" name="date" placeholder="Tìm kiếm theo ngày" value="{{ request('date') }}" />
                     <!-- Nút tìm kiếm -->
                     <button type="submit">Tìm kiếm</button>
                 </form>
@@ -66,27 +67,27 @@
         </div>
         @endif
 
-        {{-- Trường hợp tìm theo từ khóa và trạng thái --}}
-        @elseif ($isSearchWithStatus)
+        {{-- Trường hợp tìm theo từ khóa và ngày --}}
+        @elseif ($isSearchWithDate)
         @if ($totalResults > 0)
         <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-            Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
+            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}" vào ngày "{{ $date }}"
         </div>
         @else
         <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-            Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
+            Không tìm thấy câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}" vào ngày "{{ $date }}"
         </div>
         @endif
 
-        {{-- Trường hợp chỉ tìm theo trạng thái --}}
-        @elseif ($statusFilter)
+        {{-- Trường hợp chỉ tìm theo ngày --}}
+        @elseif ($date)
         @if ($totalResults > 0)
         <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-            Tìm thấy {{ $totalResults }} câu hỏi có trạng thái "{{ $statusFilter }}"
+            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày "{{ $date }}"
         </div>
         @else
         <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-            Không tìm thấy câu hỏi có trạng thái "{{ $statusFilter }}"
+            Không tìm thấy câu hỏi chưa phản hồi vào ngày "{{  $date }}"
         </div>
         @endif
 
@@ -94,11 +95,11 @@
         @elseif ($search)
         @if ($totalResults > 0)
         <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-            Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}"
+            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}"
         </div>
         @else
         <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-            Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}"
+            Không tìm thấy câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}"
         </div>
         @endif
         @endif

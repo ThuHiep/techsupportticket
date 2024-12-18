@@ -97,6 +97,13 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        {{-- Nhóm nút Submit và Cancel --}}
+                        <div class="button-group">
+                            <button type="submit" class="submit-button">Cập nhật Yêu cầu</button>
+                            <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
+                        </div>
                     </div>
 
 
@@ -157,12 +164,6 @@
                             @enderror
                         </div>
                     </div>
-                </div>
-
-                {{-- Nhóm nút Submit và Cancel --}}
-                <div class="button-group">
-                    <button type="submit" class="submit-button">Cập nhật Yêu cầu</button>
-                    <a href="{{ route('request.index') }}" class="cancel-button">Hủy</a>
                 </div>
             </form>
         </div>
