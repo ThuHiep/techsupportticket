@@ -226,44 +226,67 @@ h1 {
 }
 
 /* Group nút Submit và Cancel */
+
 .button-group {
     display: flex;
-    justify-content: center; /* Căn giữa nút */
-    gap: 55px; /* Khoảng cách giữa các nút */
-    margin-top: 30px; /* Tăng khoảng cách so với nội dung trên */
+    justify-content: center; /* Căn giữa các nút */
+    gap: 20px; /* Tạo khoảng cách giữa các nút */
+    margin-top: 30px; /* Tăng khoảng cách so với phần trên */
 }
 
+
 .submit-button,
-.cancel-button {
+.cancel-btn {
     padding: 10px 15px;
     border-radius: 5px;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
     font-weight: bold;
+    font-size: 16px;
     border: none;
     display: inline-block;
-    font-size: var(--font-size-base);
 }
 
 .submit-button {
-    background-color: #FF9700; /* Màu xanh dương cho nút Submit */
-    color: #fff;
+    padding: 12px 24px; /* Khoảng cách trong lớn hơn */
+    background-color: #FF9700; /* Màu xanh lá */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Bo góc */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 200px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
 }
 
 .submit-button:hover {
-    background-color: var(--primary-hover);
+    background-color: #FF6F00; /* Màu xanh đậm hơn */
+    transform: scale(1.05); /* Phóng to nhẹ */
+}
+.submit-button:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
+}
+.cancel-btn {
+    padding: 12px 24px; /* Khoảng cách trong nút */
+    background-color: #a7b1c2; /* Màu nền xám */
+    color: white; /* Màu chữ */
+    border: none; /* Bỏ đường viền */
+    border-radius: 8px; /* Bo góc */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
+    width: 80px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
+    margin-left: 40px;
 }
 
-.cancel-button {
-    background-color: #6c757d; /* Màu xám đậm cho nút Cancel */
-    color: #fff;
-    border: 1px solid #6c757d;
+.cancel-btn:hover {
+    background-color: rgba(167, 177, 194, 0.82);
+    color: #FFFFFF;
+    transform: scale(1.05); /* Phóng to nhẹ */
 }
-
-.cancel-button:hover {
-    background-color: #5a6268;
-    color: #fff;
+.cancel-btn:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
 /* Style cho input readonly */
