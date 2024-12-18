@@ -51,13 +51,20 @@
                         <label for="company-name" class="label">Tên công ty</label>
                         <i class="bx bx-buildings icon"></i>
                     </div>
+                </div>
+                <div class="input_row">
                     <div class="input_box">
                         <select id="request-type" name="request-type" class="input-field" required>
                             <option value="" disabled selected>Chọn loại yêu cầu</option>
+                            <option value="1">Yêu cầu 1</option>
+                            <option value="2">Yêu cầu 2</option>
+                            <option value="3">Yêu cầu 3</option>
                         </select>
                         <label for="request-type" class="label">Loại yêu cầu</label>
                     </div>
                 </div>
+
+
 
                 <!-- Row 4 -->
                 <!-- Thông tin yêu cầu -->

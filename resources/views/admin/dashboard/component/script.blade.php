@@ -18,7 +18,6 @@
    <script src="admin/js/plugins/peity/jquery.peity.min.js"></script>
    <script src="admin/js/inspinia.js"></script>
    <script src="admin/js/plugins/pace/pace.min.js"></script>
-
    
 
     <!--Đoạn gốc ban đầu-->

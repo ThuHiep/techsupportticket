@@ -200,6 +200,7 @@
         <div class="carousel" id="carousel">
             @foreach($articles as $article)
                 <div class="carousel-card" onclick="toggleCard(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
+                    <img src="{{ $article ->image_url  }}" alt="Hình ảnh {{ $article->title }}">
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
                         <p class="article-content"></p>
