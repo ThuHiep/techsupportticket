@@ -31,7 +31,11 @@ class FaqController extends Controller
                 $q->where('faq_id', $search)
                     ->orWhere('question', 'LIKE', "%$search%");
             });
+            
         })
+            ->when($date, function ($query) use ($date) {
+                return $query->whereDate('create_at', $date);
+            })
             ->where('status', 'Chưa phản hồi')
             ->paginate(4);
 
@@ -40,8 +44,8 @@ class FaqController extends Controller
         $totalResults = $faqs->total();
 
         // Xác định các tiêu chí tìm kiếm
-        $isSearchWithStatus = $search && $statusFilter; // Cả từ khóa và trạng thái
-        $isSearchPerformed = $search || $statusFilter; // Có thực hiện tìm kiếm
+        $isSearchWithDate = $search && $date;// Cả từ khóa và trạng thái
+        $isSearchPerformed = $search || $date; // Có thực hiện tìm kiếm
 
         return view('admin.dashboard.layout', compact(
             'template',
@@ -51,8 +55,9 @@ class FaqController extends Controller
             'statusFilter',
             'totalResults',
             'isSearchById',
-            'isSearchWithStatus',
+            'date',
             'isSearchPerformed',
+            'isSearchWithDate',
             'isTodaySearch',
         ));
     }
