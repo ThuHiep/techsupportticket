@@ -303,15 +303,17 @@ section {
     transition: transform 0.3s ease-in-out;
 }
 .carousel-card {
-    min-width: 300px; /* Width of the card */
-    height: 300px; /* Increased height to accommodate image and text */
+    min-width: 300px;
+    height: 300px;
     margin: 15px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     display: flex;
-    flex-direction: column; /* Stack image and text vertically */
+    flex-direction: column;
+    text-align: center;
+    font-size: 17px;
 }
 .carousel-card img {
     width: 100%;
@@ -398,19 +400,33 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
+    width: 70%;
+    height: 90%;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    z-index: 1001;
-    padding: 20px;
+    z-index: 1000;
+    padding: 10px;
+    text-align: center;
+    overflow: hidden;
 }
 
-.modal a{
-    text-decoration: none;
+.modal img {
+    width:  96.5%;
+    height: 75%;
+    margin-bottom: 5px;
+    margin-top: 10px;
 }
 
-/* Overlay cho modal */
+.modal h3, .modal p {
+    color: #333;
+    margin: 10px 0;
+    text-align: center; /* Căn giữa các nội dung văn bản */
+}
+/* Khi Modal mở, hiển thị overlay */
+.modal.show, .modal-overlay.show {
+    display: block;
+}
 .modal-overlay {
     display: none;
     position: fixed;
@@ -420,54 +436,4 @@ footer {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    text-decoration: none;
-}
-
-/* Form styling */
-.modal{
-    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
-    align-items: center; /* Căn giữa theo chiều ngang */
-    justify-content: center; /* Căn giữa theo chiều dọc */
-    padding: 20px; /* Thêm khoảng cách bên trong form */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: white;
-    border-radius: 26px;
-    height: 30%;
-    width: 30%; /* Độ rộng của form */
-    max-width: 90%; /* Đảm bảo form phù hợp trên màn hình nhỏ */
-    text-align: center; /* Căn giữa văn bản */
-}
-.modal h2 {
-    font-weight: 800;
-    margin-top: 0;
-    font-size: 24px;
-    color: #6f2f9f;
-}
-
-.modal input{
-    width: 100%;
-}
-.modal button {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    align-content: center;
-    font-family: "Mulish", sans-serif;
-    font-weight: 700;
-    background-color: #FF9700;
-    border-radius: 15px;
-    width: 80%;
-    height: 80%;
-    color: white;
-    border: none;
-    cursor: pointer;
-    text-align: center; 
-}
-
-.modal button:hover {
-    background-color: #E97D02;
-    
 }
