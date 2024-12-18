@@ -105,7 +105,7 @@ class RequestController extends Controller
         }
 
         // Phân trang kết quả với 10 yêu cầu mỗi trang và giữ lại các tham số truy vấn
-        $requests = $query->paginate(10)->appends($request->all());
+        $requests = $query->paginate(4)->appends($request->all());
 
         // Lấy tổng số kết quả
         $count = $requests->total();
