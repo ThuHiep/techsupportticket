@@ -31,11 +31,11 @@
                         <!-- Hàng 1: Mã yêu cầu + Khách hàng + Trạng thái -->
                         <div class="row_left">
                             <div class="form-group">
-                                <label for="request_id">Mã yêu cầu</label>
+                                <label for="request_id">Mã yêu cầu <span class="required">*</span></label>
                                 <input type="text" id="request_id" name="request_id" value="{{ $requestData->request_id }}" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="customer_id">Khách hàng</label>
+                                <label for="customer_id">Khách hàng <span class="required">*</span></label>
                                 <select id="customer_id" name="customer_id" required>
                                     <option value="">--Chọn khách hàng--</option>
                                     @foreach($customers as $customer)
@@ -46,7 +46,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="status">Trạng thái</label>
+                                <label for="status">Trạng thái <span class="required">*</span></label>
                                 <select id="status" name="status" required>
                                     <option value="">--Chọn trạng thái--</option>
                                     <option value="Chưa xử lý" {{ (old('status', $requestData->status) == 'Chưa xử lý') ? 'selected' : '' }}>Chưa xử lý</option>
@@ -60,7 +60,7 @@
                         <!-- Hàng 2: Phòng ban + Loại yêu cầu -->
                         <div class="row_left">
                             <div class="form-group">
-                                <label for="department_id">Phòng ban</label>
+                                <label for="department_id">Phòng ban <span class="required">*</span></label>
                                 <select id="department_id" name="department_id" required>
                                     <option value="">--Chọn phòng ban--</option>
                                     @foreach($departments as $department)
@@ -71,7 +71,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="request_type_id">Loại yêu cầu</label>
+                                <label for="request_type_id">Loại yêu cầu <span class="required">*</span></label>
                                 <select id="request_type_id" name="request_type_id" required>
                                     <option value="">--Chọn loại yêu cầu--</option>
                                     @foreach($requestTypes as $type)
@@ -88,7 +88,7 @@
                             <!-- Nhóm "Ngày nhận" và "Ngày hoàn thành" -->
                             <div class="form-group-row date-group">
                                 <div class="form-group">
-                                    <label for="create_at">Ngày tạo</label>
+                                    <label for="create_at">Ngày tạo <span class="required">*</span></label>
                                     <input type="date" id="create_at" name="create_at" value="{{ old('create_at', $requestData->create_at ? $requestData->create_at->format('Y-m-d') : '') }}" required>
                                 </div>
                                 <div class="form-group">
@@ -102,9 +102,17 @@
 
                     <!-- Cột phải -->
                     <div class="form-column-right">
+                        {{-- Tiêu đề --}}
+                        <div class="form-group">
+                            <label for="subject">Tiêu đề <span class="required">*</span></label>
+                            <input type="text" id="subject" name="subject" value="{{ old('subject', $requestData->subject) }}" required>
+                            @error('subject')
+                            <div class="error">{{ $message }}</div>
+                            @enderror
+                        </div>
                         {{-- Trường Input để Cập Nhật hoặc Thêm File Đính Kèm --}}
                         <div class="form-group attachments">
-                            <label for="attachments">{{ $requestData->attachment ? 'Cập Nhật File Đính Kèm:' : 'Thêm File Đính Kèm:' }}</label>
+                            <label for="attachments">{{ $requestData->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
                             <div class="custom-file">
                                 <input type="file" name="attachments" class="custom-file-input" id="attachments">
                             </div>
@@ -142,7 +150,7 @@
                         </script>
                         {{-- Mô tả --}}
                         <div class="form-group">
-                            <label for="description">Mô tả</label>
+                            <label for="description">Mô tả <span class="required">*</span></label>
                             <textarea id="description" name="description" rows="8" required>{{ old('description', $requestData->description) }}</textarea>
                             @error('description')
                             <div class="error">{{ $message }}</div>
