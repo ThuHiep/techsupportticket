@@ -167,7 +167,7 @@ class CustomerController extends Controller
         ]);
         // Sinh các giá trị ngẫu nhiên như trước
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        $randuserID = 'TK' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         $username = 'user' . mt_rand(100000, 999999);
         $password = Str::random(12);
 

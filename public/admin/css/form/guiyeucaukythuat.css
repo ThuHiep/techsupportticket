@@ -113,7 +113,7 @@ a:hover{
     display: grid;
     grid-template-columns: 1fr 1fr; /* Đảm bảo có 2 cột */
     column-gap: 20px;
-    row-gap: 20px;
+    row-gap: 13px;
     margin-bottom: 100px;
     margin-top: 35px;
     width: 100%;
@@ -197,29 +197,33 @@ a:hover{
 }
 .input-title-1{
     margin-top: 15px;
-    width: 70%;
+    width: 100%;
 }
+/* Khối cần hiệu ứng */
 .request-block {
     width: 205%;
-    border: 6px solid #ccc; /* Thêm viền cho từng khối */
-    padding: 15px;
-    margin-bottom:65px;
-    margin-top: 30px;
-    border-radius: 5px;
     position: relative;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 25px;
+    opacity: 1;
+    height: auto;
+    overflow: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease;
 }
-.request-label {
-    position: absolute;
-    top: -40px;
-    left: -5px;
-    background-color: #f57c00;
-    color: #fff;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 0px;
-    font-size: 20px;
-    z-index: 10;
+
+/* Trạng thái ẩn (xóa) */
+.request-block.hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+    transform: translateY(-20px); /* Di chuyển khối lên một chút khi xóa */
 }
+
 /* Dòng Thông tin yêu cầu */
 .request-info-row {
     display: flex;
@@ -227,10 +231,11 @@ a:hover{
     align-items: center;
     grid-column: span 2; /* Đảm bảo nó chiếm cả dòng */
     margin-top: 0px; /* Tạo khoảng cách với phần trên */
-    margin-bottom: 15px;
+    margin-bottom: 0px;
     border-bottom: 1px solid #ccc; /* (Tuỳ chọn) tạo ngăn cách */
     padding-bottom: 10px; /* (Tuỳ chọn) thêm khoảng cách dưới */
 }
+
 /* Text Thông tin yêu cầu */
 .request-info-text {
     font-size: 18px;
@@ -240,6 +245,7 @@ a:hover{
 /* File upload */
 .file-upload-box {
     margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .file-upload-label {
@@ -257,37 +263,65 @@ a:hover{
     font-size: 14px;
 }
 
-/* Nút xóa */
+/* Định vị nút Xóa */
 .delete-btn {
-    width: 10%;
-    margin-top: 10px;
-    padding: 8px 12px;
+    position: absolute; /* Định vị nút ở góc phải */
+    top: 32px; /* Căn chỉnh nút theo chiều dọc */
+    right: 0px; /* Đẩy nút vào góc phải */
     background-color: #dc3545;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    float: right;
+    padding: 9px 30px;
 }
 
 .delete-btn:hover {
     background-color: #c82333;
 }
 
-/* Dành riêng cho nút "Thêm" */
+/* Nút + Thêm mặc định */
 .add-btn {
     padding: 8px 15px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
     border-radius: 5px;
-    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px; /* Khoảng cách giữa các phần tử */
 }
 
 .add-btn:hover {
-    background-color: #0056b3;
+    background-color: #f57c00;
 }
+
+/* Nút + Thêm từ khối thứ 2 trở đi */
+.add-btn-inline {
+    position: absolute;
+    top: 32px;
+    right: 100px;
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-btn-inline:hover {
+    background-color: #f57c00;
+}
+
+/* Vị trí các nút hành động (bao gồm + Thêm và Xóa) */
+.action-buttons {
+    display: flex;
+    justify-content: flex-start; /* Căn các nút về phía bên trái */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
 /*<Option> */
 select option {
     color: #000000;
@@ -306,27 +340,28 @@ select option {
 /*Submit */
 .input-submit {
     grid-column: span 2;
-    width: 50%;
+    width: 18%;
     height: 50px;
-    background: #ececec;
+    background: #FF9700;
+    color: var(--second-color);
     font-size: 16px;
     font-weight: 500;
     border: none;
     border-radius: 30px;
     cursor: pointer;
     transition: .3s;
-    margin: -100px auto 0 auto;
+    margin: -90px auto 0 auto;
     display: block;
 }
 .input-submit:hover{
-    background-color: rgb(204, 30, 204);
+    background-color: #ff6f00;
     color: var(--second-color);
 }
 /*Login link*/
 .login-link{
     text-align: center;
     margin-bottom: -50px;
-    margin-top: -30px;
+    margin-top: -23px;
 }
 .login-link span{
     font-size: 16px;
@@ -343,9 +378,9 @@ select option {
     text-decoration: none;
 }
 .login-box:hover {
-    border: 2px solid rgb(204, 30, 204);
+    border: 2px solid #FF9700;
     background-color:var(--second-color);
-    color:  rgb(204, 30, 204);
+    color:  #FF9700;
     text-decoration: none;
 }
 /* Responsive Design */

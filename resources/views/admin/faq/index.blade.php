@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +13,14 @@
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
+
         body.mini-navbar .container {
             width: calc(98%);
             transition: all 0.3s ease-in-out;
         }
-
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Danh sách câu hỏi</h1>
@@ -30,86 +32,78 @@
                     <div style="position: relative; flex: 2;">
                         <input type="text" name="search" placeholder="Nhập mã hoặc nội dung câu hỏi" value="{{ request()->query('search') }}">
                         @if(request()->query('search'))
-                            <!-- Biểu tượng X -->
-                            <a href="{{ route('faq.index') }}" 
-                               id="clearButton" 
-                               style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
-                                ✖
-                            </a>
+                        <!-- Biểu tượng X -->
+                        <a href="{{ route('faq.index') }}"
+                            id="clearButton"
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                            ✖
+                        </a>
                         @endif
                     </div>
-            
-                    <!-- Select trạng thái -->
-                    <select name="status">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="Đã phản hồi" {{ request()->query('status') == 'Đã phản hồi' ? 'selected' : '' }}>Đã phản hồi</option>
-                        <option value="Chưa phản hồi" {{ request()->query('status') == 'Chưa phản hồi' ? 'selected' : '' }}>Chưa phản hồi</option>
-                    </select>
-                    
                     <!-- Nút tìm kiếm -->
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
-   
+
         </div>
-    
+
         @if ($isSearchPerformed)
-    {{-- Trường hợp lọc bài viết chưa phản hồi vào ngày hôm nay --}}
-    @if ($isTodaySearch)
-    <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+        {{-- Trường hợp lọc bài viết chưa phản hồi vào ngày hôm nay --}}
+        @if ($isTodaySearch)
+        <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
             Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày hôm nay.
         </div>
-    @else
+        @else
         {{-- Trường hợp tìm theo mã FAQ --}}
         @if ($isSearchById)
-            @if ($totalResults > 0)
-                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                    Tìm thấy câu hỏi với mã "{{ $search }}"
-                </div>
-            @else
-                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                    Không tìm thấy câu hỏi với mã "{{ $search }}"
-                </div>
-            @endif
+        @if ($totalResults > 0)
+        <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            Tìm thấy câu hỏi với mã "{{ $search }}"
+        </div>
+        @else
+        <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+            Không tìm thấy câu hỏi với mã "{{ $search }}"
+        </div>
+        @endif
 
         {{-- Trường hợp tìm theo từ khóa và trạng thái --}}
         @elseif ($isSearchWithStatus)
-            @if ($totalResults > 0)
-                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                    Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
-                </div>
-            @else
-                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                    Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
-                </div>
-            @endif
+        @if ($totalResults > 0)
+        <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
+        </div>
+        @else
+        <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+            Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}" với trạng thái "{{ $statusFilter }}"
+        </div>
+        @endif
 
         {{-- Trường hợp chỉ tìm theo trạng thái --}}
         @elseif ($statusFilter)
-            @if ($totalResults > 0)
-                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                    Tìm thấy {{ $totalResults }} câu hỏi có trạng thái "{{ $statusFilter }}"
-                </div>
-            @else
-                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                    Không tìm thấy câu hỏi có trạng thái "{{ $statusFilter }}"
-                </div>
-            @endif
+        @if ($totalResults > 0)
+        <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            Tìm thấy {{ $totalResults }} câu hỏi có trạng thái "{{ $statusFilter }}"
+        </div>
+        @else
+        <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+            Không tìm thấy câu hỏi có trạng thái "{{ $statusFilter }}"
+        </div>
+        @endif
 
         {{-- Trường hợp chỉ tìm theo từ khóa --}}
         @elseif ($search)
-            @if ($totalResults > 0)
-                <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                    Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}"
-                </div>
-            @else
-                <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                    Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}"
-                </div>
-            @endif
+        @if ($totalResults > 0)
+        <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            Tìm thấy {{ $totalResults }} câu hỏi chứa từ khóa "{{ $search }}"
+        </div>
+        @else
+        <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+            Không tìm thấy câu hỏi chứa từ khóa "{{ $search }}"
+        </div>
         @endif
-    @endif
-@endif
+        @endif
+        @endif
+        @endif
 
         <!-- Bảng danh sách câu hỏi -->
         <div class="table-container">
@@ -127,45 +121,45 @@
                 </thead>
                 <tbody>
                     @foreach ($faqs as $index => $faq)
-                        <tr>
-                            <td>{{ ($faqs->currentPage() - 1) * $faqs->perPage() + $index + 1 }}</td>
-                            <td>{{ $faq->faq_id }}</td>
-                            <td>{{ $faq->email }}</td>
-                            <td>{{ Str::limit($faq->question, 50) }}</td>
-                            <td>
-                                @if($faq->status == 'Đã phản hồi')
-                                    <span class="status-dot active"></span> Đã phản hồi
-                                @else
-                                    <span class="status-dot inactive"></span> Chưa phản hồi
-                                @endif
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($faq->create_at)->format('d/m/Y H:i') }}</td>
-                            <td>
-                                <form action="{{ route('faq.edit', $faq->faq_id) }}" style="display:inline;">
-                                    <button type="submit" class="edit-button">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </form>
-                                <form action="{{ route('faq.delete', $faq->faq_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $faq->faq_id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $faq->faq_id }}')">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>{{ ($faqs->currentPage() - 1) * $faqs->perPage() + $index + 1 }}</td>
+                        <td>{{ $faq->faq_id }}</td>
+                        <td>{{ $faq->email }}</td>
+                        <td>{{ Str::limit($faq->question, 50) }}</td>
+                        <td>
+                            @if($faq->status == 'Đã phản hồi')
+                            <span class="status-dot active"></span> Đã phản hồi
+                            @else
+                            <span class="status-dot inactive"></span> Chưa phản hồi
+                            @endif
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($faq->create_at)->format('d/m/Y H:i') }}</td>
+                        <td>
+                            <form action="{{ route('faq.feedback', $faq->faq_id) }}" style="display:inline;">
+                                <button type="submit" class="edit-button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form>
+                            <form action="{{ route('faq.delete', $faq->faq_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $faq->faq_id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-button" onclick="showDeleteModal(event, 'deleteForm{{ $faq->faq_id }}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-    
+
         <!-- Phân trang -->
         <div class="pagination">
             {{ $faqs->links('pagination::bootstrap-4') }}
         </div>
     </div>
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -199,4 +193,5 @@
         @endif
     </script>
 </body>
+
 </html>

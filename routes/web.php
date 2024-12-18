@@ -9,6 +9,8 @@ use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\AttachmentController;
+
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
@@ -115,6 +117,9 @@ Route::name('request.')->group(function () {
     Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
 
+// Route để tải file đính kèm
+Route::get('/attachments/download/{id}', [AttachmentController::class, 'download'])->name('attachments.download');
+
 //Nhóm thống kê:
 // Hiển thị danh sách khách hàng
 Route::name('statistical.')->group(function () {
@@ -141,8 +146,8 @@ Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->middleware('customersp')->name('index');
     Route::get('/faq/create', [FaqController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/faq/store', [FaqController::class, 'store'])->middleware('customersp')->name('store');
-    Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->middleware('customersp')->name('edit');
-    Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->middleware('customersp')->name('update');
+    Route::get('/faq/feedback/{faq_id}', [FaqController::class, 'feedback'])->middleware('customersp')->name('feedback');
+    Route::put('/faq/feedbackProcess/{faq_id}', [FaqController::class, 'feedbackProcess'])->middleware('customersp')->name('feedbackProcess');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->middleware('customersp')->name('delete');
 
     // Route for unansweredByDate

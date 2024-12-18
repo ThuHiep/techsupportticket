@@ -70,7 +70,6 @@
                 <div id="request-container">
                     <!-- Khối mặc định ban đầu -->
                     <div class="request-block">
-                        <div class="request-label">Yêu cầu 1</div>
                         <div class="input_box input-title-1">
                             <input type="text" id="title-1" name="title[]" class="input-field" required>
                             <label for="title-1" class="label">Tiêu đề</label>
@@ -117,32 +116,29 @@
     }
     updateDate();
 </script>
+<!-- Script thêm khối -->
 <script>
-    let blockCounter = 1; // Đếm số lượng khối (khối mặc định là 1)
-
     // Hàm thêm khối mới
     function addRequestBlock() {
-        blockCounter++; // Tăng số thứ tự mỗi khi thêm yêu cầu mới
-
         // Tạo khối mới
         const newBlock = document.createElement("div");
-        newBlock.classList.add("request-block");
+        newBlock.classList.add("request-block", "hidden"); // Khởi tạo khối mới ở trạng thái ẩn
         newBlock.innerHTML = `
-        <div class="request-label">Yêu cầu ${blockCounter}</div> <!-- Hiển thị số thứ tự yêu cầu -->
-
         <div class="input_box input-title-1">
-            <input type="text" id="title-${blockCounter}" name="title[]" class="input-field" required>
-            <label for="title-${blockCounter}" class="label">Tiêu đề</label>
+            <input type="text" name="title[]" class="input-field" required>
+            <label class="label">Tiêu đề</label>
         </div>
 
         <div class="input_box description-box">
-            <textarea id="description-${blockCounter}" name="description[]" class="input-field description-field" rows="10" required></textarea>
-            <label for="description-${blockCounter}" class="label">Mô tả vấn đề</label>
+            <textarea name="description[]" class="input-field description-field" rows="10" required></textarea>
+            <label class="label">Mô tả vấn đề</label>
         </div>
 
         <div class="input_box file-upload-box">
-            <label for="support-file-${blockCounter}" class="file-upload-label">Tải lên ảnh hỗ trợ:</label>
-            <input type="file" id="support-file-${blockCounter}" name="support-file[]" class="file-upload-field" accept="image/*">
+            <label class="file-upload-label">Tải lên ảnh hỗ trợ:</label>
+            <input type="file" name="support-file[]" class="file-upload-field" accept="image/*">
+            <!-- Nút + Thêm từ khối thứ 2 trở đi -->
+            <button type="button" class="add-btn-inline" onclick="addRequestBlock()">+ Thêm</button>
             <button type="button" class="delete-btn" onclick="removeRequestBlock(this)">Xóa</button>
         </div>
     `;
@@ -150,18 +146,23 @@
         // Thêm khối mới vào container
         const container = document.getElementById("request-container");
         container.appendChild(newBlock);
+
+        // Hiện khối mới với hiệu ứng
+        setTimeout(() => newBlock.classList.remove("hidden"), 10);
     }
 
     // Hàm xóa khối
     function removeRequestBlock(button) {
         const block = button.closest(".request-block");
-        block.remove();
-    }
 
+        // Bắt đầu hiệu ứng ẩn với CSS
+        block.classList.add("hidden");
+
+        // Sau khi hiệu ứng ẩn hoàn thành, xóa khối khỏi DOM
+        setTimeout(() => block.remove(), 300); // Thời gian đồng bộ với hiệu ứng (0.3s)
+    }
     // Gán sự kiện cho nút Thêm
     document.querySelector(".add-btn").addEventListener("click", addRequestBlock);
-
 </script>
-
 </body>
 </html>
