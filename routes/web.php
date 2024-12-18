@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
+use App\Http\Controllers\guest\LoginController;
 
 use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -153,3 +154,7 @@ Route::name('faq.')->group(function () {
 
 //Account
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
+
+
+// Route xem yêu cầu test
+Route::get('pend-request', [LoginController::class, 'showFormRequest'])->name('showFormRequest');
