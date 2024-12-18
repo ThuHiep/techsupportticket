@@ -152,6 +152,7 @@ Route::name('faq.')->group(function () {
 
     // Route for unansweredByDate
     Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->middleware('customersp')->name('unansweredByDate');
+    Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
 });
 
 
