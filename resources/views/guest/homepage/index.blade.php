@@ -439,9 +439,9 @@
             });
 
             // Khi người dùng nhấn "Gửi yêu cầu", chuyển hướng đến trang yêu cầu
-            {{--requestButton.addEventListener('click', function() {--}}
-            {{--    window.location.href = '{{ route('showFormRequest') }}'; // Điều hướng đến trang yêu cầu--}}
-            {{--});--}}
+            requestButton.addEventListener('click', function() {
+                window.location.href = '{{ route('showFormRequest') }}'; // Điều hướng đến trang yêu cầu
+            });
         });
 
     </script>
@@ -449,5 +449,4 @@
 
 
 </body>
-
 </html>
