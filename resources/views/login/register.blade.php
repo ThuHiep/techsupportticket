@@ -94,6 +94,7 @@
                     <div class="input_box">
                         <input type="text" id="username" name="username" class="input-field" required>
                         <label for="username" class="label">Tên đăng nhập <span class="required">*</span></label>
+                        <span class="error-message" id="username_error"></span>
                         <i class="bx bx-user-circle icon"></i>
                     </div>
 
@@ -143,6 +144,7 @@
         const companyInput = document.getElementById('company');
         const dateOfBirthInput = document.getElementById('date_of_birth');
         const emailInput = document.getElementById('email');
+        const usernameInput = document.getElementById('username');
         const form = document.querySelector('form');
         // Kiểm tra họ và tên (thời gian thực)
         fullNameInput.addEventListener('input', function () {
@@ -153,6 +155,17 @@
                 errorMessage.textContent = ''; // Xóa cảnh báo khi nhập đúng
             }
         });
+
+        // Kiểm tra tên đăng nhập (thời gian thực)
+        usernameInput.addEventListener('input', function () {
+            const errorMessage = document.getElementById('username_error');
+            if (!/^[a-zA-Z0-9]*$/.test(usernameInput.value)) {
+                errorMessage.textContent = 'Tên đăng nhập chỉ được chứa chữ cái và số, không chứa dấu câu.';
+            } else {
+                errorMessage.textContent = ''; // Xóa cảnh báo khi nhập đúng
+            }
+        });
+
 
         // Kiểm tra số điện thoại (thời gian thực)
         phoneInput.addEventListener('input', function () {
@@ -317,9 +330,9 @@
             }
 
             // Username validation
-            const username = document.getElementById('username');
-            if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(username.value.trim())) {
-                document.getElementById('username_error').textContent = 'Tên đăng nhập phải bắt đầu bằng chữ và không chứa ký tự đặc biệt.';
+            const username = usernameInput; // Sử dụng biến đã định nghĩa
+            if (!/^[a-zA-Z0-9]+$/.test(username.value.trim())) {
+                document.getElementById('username_error').textContent = 'Tên đăng nhập chỉ được chứa chữ cái và số, không chứa dấu câu.';
                 hasError = true;
             }
 
@@ -328,6 +341,8 @@
             if (password.value.length < 6 || !/[A-Z]/.test(password.value) || !/[0-9]/.test(password.value) || !/[!@#$%^&*]/.test(password.value)) {
                 document.getElementById('password_error').textContent = 'Mật khẩu yếu: nên chứa ít nhất 6 ký tự bao gồm chữ in hoa, số và ký tự đặc biệt.';
             }
+
+
 
             // Password confirmation validation
             const passwordConfirm = document.getElementById('password_confirm');

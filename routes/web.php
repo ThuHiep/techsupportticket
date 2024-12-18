@@ -145,8 +145,8 @@ Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->middleware('customersp')->name('index');
     Route::get('/faq/create', [FaqController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/faq/store', [FaqController::class, 'store'])->middleware('customersp')->name('store');
-    Route::get('/faq/edit/{faq_id}', [FaqController::class, 'edit'])->middleware('customersp')->name('edit');
-    Route::put('/faq/update/{faq_id}', [FaqController::class, 'update'])->middleware('customersp')->name('update');
+    Route::get('/faq/feedback/{faq_id}', [FaqController::class, 'feedback'])->middleware('customersp')->name('feedback');
+    Route::put('/faq/feedbackProcess/{faq_id}', [FaqController::class, 'feedbackProcess'])->middleware('customersp')->name('feedbackProcess');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->middleware('customersp')->name('delete');
 
     // Route for unansweredByDate
