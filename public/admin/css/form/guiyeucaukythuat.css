@@ -155,14 +155,15 @@ a:hover{
     color: var(--black-color);
     padding: 0 10px;
 }
-/* Label chung */
+/* CSS cho nhãn (label) */
 .label {
     position: absolute;
-    top: 15px;
+    top: -10px;
     left: 20px;
-    transition: 0.2s;
-    font-size: 15px;
-    color: var(--second-color);
+    font-size: 14px;
+    background-color: white;
+    padding: 0 5px;
+    color: #333;
 }
 /* CSS cho description-box */
 .description-box {
@@ -331,11 +332,30 @@ a:hover{
 }
 
 
-/*<Option> */
-select option {
-    color: #000000;
-    background-color:  var(--second-color);
+/* CSS cho thẻ select và option */
+select {
+    width: 100%; /* Đảm bảo thẻ select chiếm toàn bộ chiều rộng của hộp cha */
+    padding: 8px;
+    background-color: white; /* Nền trắng cho select */
+    color: black; /* Chữ đen cho select */
+    border: 1px solid #ccc; /* Viền mờ cho select */
+    border-radius: 5px;
+    appearance: none; /* Xóa đi kiểu mặc định của select */
+    cursor: pointer; /* Thêm con trỏ chuột khi hover */
 }
+
+/* Option trong select */
+select option {
+    background-color: white; /* Nền trắng cho option */
+    color: black; /* Chữ đen cho option */
+}
+
+/* Khi hover vào các option */
+select option:hover {
+    background-color: #007bff; /* Nền xanh khi hover */
+    color: white; /* Chữ trắng khi hover */
+}
+
 
 .icon{
     position: absolute;
