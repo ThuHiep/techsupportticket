@@ -23,7 +23,7 @@
         }
 
         .carousel-card.expanded {
-            transform: scale(1.4); /* Phóng to lên 40% */
+            transform: scale(1.1); /* Phóng to lên 40% */
             z-index: 10; /* Đưa card lên trên cùng */
         }
 
