@@ -10,6 +10,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\RequestType;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class RequestController extends Controller
@@ -30,6 +31,7 @@ class RequestController extends Controller
         $requestDate = $request->input('request_date_search'); // Đổi tên để khớp với Blade
         $statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
         $requestTypeId = $request->input('request_type_id'); // Thêm input 'request_type_id'
+
 
         // Định nghĩa các trạng thái có sẵn bằng tiếng Việt
         $statuses = ['Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy'];
@@ -74,19 +76,11 @@ class RequestController extends Controller
                     break;
                 case 'request_date':
                     if (!empty($requestDate)) {
-                        $query->whereDate('received_at', $requestDate);
+                        $query->whereDate('create_at', $requestDate);
                         $searchPerformed = true;
                         $formattedDate = Carbon::parse($requestDate)->format('d/m/Y');
                         $additionalSearchType = 'request_date';
                         $additionalSearchValue = $formattedDate;
-                    }
-                    break;
-                case 'status':
-                    if (!empty($statusFilter)) {
-                        $query->where('status', $statusFilter);
-                        $searchPerformed = true;
-                        $additionalSearchType = 'status';
-                        $additionalSearchValue = $statusFilter;
                     }
                     break;
                 case 'request_type':
@@ -98,6 +92,14 @@ class RequestController extends Controller
                         $additionalSearchValue = $requestType ? $requestType->request_type_name : 'N/A';
                     }
                     break;
+                case 'status':
+                    if (!empty($statusFilter)) {
+                        $query->where('status', $statusFilter);
+                        $searchPerformed = true;
+                        $additionalSearchType = 'status';
+                        $additionalSearchValue = $statusFilter;
+                    }
+                    break;
                 default:
                     // Không làm gì nếu không khớp
                     break;
@@ -105,7 +107,7 @@ class RequestController extends Controller
         }
 
         // Phân trang kết quả với 10 yêu cầu mỗi trang và giữ lại các tham số truy vấn
-        $requests = $query->paginate(10)->appends($request->all());
+        $requests = $query->paginate(5)->appends($request->all());
 
         // Lấy tổng số kết quả
         $count = $requests->total();
@@ -113,7 +115,8 @@ class RequestController extends Controller
         // Lấy danh sách cho các dropdown
         $customers = Customer::all();
         $departments = Department::all();
-        $requestTypes = RequestType::where('status', 'active')->get(); // Chỉ lấy loại yêu cầu đang hoạt động
+        $requestTypes = RequestType::all();
+
 
         // Truyền thêm các biến vào view
         return view('admin.dashboard.layout', compact(
@@ -199,7 +202,7 @@ class RequestController extends Controller
     {
         $template = 'admin.request.edit';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        $requestData = SupportRequest::findOrFail($request_id);
+        $requestData = SupportRequest::with('attachment')->findOrFail($request_id); // Tải quan hệ attachment
 
         // Chỉ lấy khách hàng có status là "active"
         $customers = Customer::where('status', 'active')->get();
@@ -215,8 +218,9 @@ class RequestController extends Controller
      */
     public function update(HttpRequest $request, $request_id)
     {
-        $supportRequest = SupportRequest::findOrFail($request_id);
+        $supportRequest = SupportRequest::with('attachment')->findOrFail($request_id);
 
+        // Validate dữ liệu
         $request->validate([
             'customer_id' => 'required|exists:customer,customer_id',
             'department_id' => 'required|exists:department,department_id',
@@ -225,8 +229,10 @@ class RequestController extends Controller
             'description' => 'required',
             'create_at' => 'required|date',
             'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
+            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:2048',
         ]);
 
+        // Cập nhật thông tin yêu cầu
         $supportRequest->update([
             'customer_id' => $request->input('customer_id'),
             'department_id' => $request->input('department_id'),
@@ -238,8 +244,37 @@ class RequestController extends Controller
             'status' => $request->input('status'),
         ]);
 
+        // Xử lý file đính kèm mới hoặc cập nhật file đính kèm hiện tại
+        if ($request->hasFile('attachments')) {
+            // Nếu đã có file đính kèm, xóa file cũ trước khi upload mới
+            if ($supportRequest->attachment) {
+                // Xóa file từ storage
+                if (Storage::disk('public')->exists($supportRequest->attachment->file_path)) {
+                    Storage::disk('public')->delete($supportRequest->attachment->file_path);
+                }
+                // Xóa bản ghi trong cơ sở dữ liệu
+                $supportRequest->attachment->delete();
+            }
+
+            $file = $request->file('attachments');
+            $filename = $file->getClientOriginalName();
+            $filePath = $file->store('attachments', 'public'); // Lưu vào thư mục 'storage/app/public/attachments'
+            $fileSize = $file->getSize();
+            $fileType = $file->getClientOriginalExtension();
+
+            // Tạo mới bản ghi Attachment
+            $supportRequest->attachment()->create([
+                'attachment_id' => uniqid('ATT_'), // Tạo ID duy nhất, đảm bảo không vượt quá kích thước cột
+                'filename' => $filename,
+                'file_path' => $filePath,
+                'file_size' => $fileSize,
+                'file_type' => $fileType,
+            ]);
+        }
+
         return redirect()->route('request.index')->with('success', 'Thông tin yêu cầu đã được cập nhật!');
     }
+
 
 
     /**

@@ -9,6 +9,8 @@ use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\AttachmentController;
+
 
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
@@ -113,6 +115,9 @@ Route::name('request.')->group(function () {
     Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->middleware('customersp')->name('update');
     Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
+
+// Route để tải file đính kèm
+Route::get('/attachments/download/{id}', [AttachmentController::class, 'download'])->name('attachments.download');
 
 //Nhóm thống kê:
 // Hiển thị danh sách khách hàng

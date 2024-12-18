@@ -67,4 +67,11 @@ class Request extends Model
         return $this->belongsTo(RequestType::class, 'request_type_id', 'request_type_id');
     }
 
+    /**
+     * Quan hệ với Attachment (HasOne)
+     */
+    public function attachment()
+    {
+        return $this->hasOne(Attachment::class, 'request_id', 'request_id');
+    }
 }

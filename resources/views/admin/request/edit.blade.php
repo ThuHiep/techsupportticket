@@ -21,7 +21,7 @@
     <div class="container">
         <h1>Chỉnh sửa yêu cầu hỗ trợ kỹ thuật</h1>
         <div class="form-container">
-            <form action="{{ route('request.update', $requestData->request_id) }}" method="POST">
+            <form action="{{ route('request.update', $requestData->request_id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -97,24 +97,53 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
 
                     <!-- Cột phải -->
                     <div class="form-column-right">
-                        {{-- Tiêu đề --}}
-                        <div class="form-group">
-                            <label for="subject">Tiêu đề</label>
-                            <input type="text" id="subject" name="subject" value="{{ old('subject', $requestData->subject) }}" required>
-                            @error('subject')
+                        {{-- Trường Input để Cập Nhật hoặc Thêm File Đính Kèm --}}
+                        <div class="form-group attachments">
+                            <label for="attachments">{{ $requestData->attachment ? 'Cập Nhật File Đính Kèm:' : 'Thêm File Đính Kèm:' }}</label>
+                            <div class="custom-file">
+                                <input type="file" name="attachments" class="custom-file-input" id="attachments">
+                            </div>
+                            <small class="form-text text-muted">
+                                Bạn chỉ có thể tải lên một file. Các loại file được phép: jpg, jpeg, png, pdf, doc, docx, txt. Kích thước tối đa file: 2MB.
+                            </small>
+                            @error('attachments')
                             <div class="error">{{ $message }}</div>
                             @enderror
+
+                            @if($requestData->attachment)
+                                <div class="existing-attachment mt-2">
+                                    <div class="alert alert-info">
+                                        <strong>File hiện tại:</strong> {{ $requestData->attachment->filename }}
+                                        <a href="{{ route('attachments.download', $requestData->attachment->attachment_id) }}" class="btn btn-sm btn-primary ml-3">
+                                            <i class="fas fa-download"></i> Tải Xuống
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div id="new-file-name" class="mt-2"></div>
                         </div>
 
+                        <script>
+                            // Cập nhật label khi chọn file
+                            document.querySelector('.custom-file-input').addEventListener('change', function(event) {
+                                const fileName = event.target.files[0] ? event.target.files[0].name : 'Chọn file';
+                                const nextSibling = event.target.nextElementSibling;
+                                nextSibling.innerText = fileName;
+
+                                // Hiển thị tên file mới
+                                document.getElementById('new-file-name').innerText = fileName ? `File mới: ${fileName}` : '';
+                            });
+                        </script>
                         {{-- Mô tả --}}
                         <div class="form-group">
                             <label for="description">Mô tả</label>
-                            <textarea id="description" name="description" rows="14" required>{{ old('description', $requestData->description) }}</textarea>
+                            <textarea id="description" name="description" rows="8" required>{{ old('description', $requestData->description) }}</textarea>
                             @error('description')
                             <div class="error">{{ $message }}</div>
                             @enderror
@@ -125,7 +154,7 @@
                 {{-- Nhóm nút Submit và Cancel --}}
                 <div class="button-group">
                     <button type="submit" class="submit-button">Cập nhật Yêu cầu</button>
-                    <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
+                    <a href="{{ route('request.index') }}" class="cancel-button">Hủy</a>
                 </div>
             </form>
         </div>
