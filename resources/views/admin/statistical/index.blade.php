@@ -161,20 +161,35 @@
     }
 
     // Biểu đồ loại yêu cầu (Pie Chart)
+    // Biểu đồ loại yêu cầu (Bar and Line Chart)
     const requestTypeCtx = document.getElementById('requestTypeChart').getContext('2d');
     let requestTypeChart = new Chart(requestTypeCtx, {
-        type: 'pie',
+        type: 'bar', // Biểu đồ cột
         data: {
             labels: [], // Tên loại yêu cầu
             datasets: [{
                 label: 'Số yêu cầu theo loại',
                 data: [], // Số yêu cầu
-                backgroundColor: [], // Màu sắc
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu sắc cột
+                borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
+                borderWidth: 1,
+                type: 'bar' // Kiểu cột
+            }, {
+                label: 'Tổng số yêu cầu',
+                data: [], // Dữ liệu cho đường
+                type: 'line', // Kiểu đường
+                borderColor: 'rgba(54, 162, 235, 1)', // Màu cho đường
+                fill: false // Không tô màu dưới đường
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // Allow manual control of aspect ratio
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
             plugins: {
                 legend: {
                     position: 'top',
@@ -182,7 +197,7 @@
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return `${tooltipItem.label}: ${tooltipItem.raw}`; // Display label with count
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Hiển thị nhãn với số
                         }
                     }
                 }
@@ -201,19 +216,15 @@
         const initialValues = Object.values(initialData);
 
         requestTypeChart.data.labels = initialLabels;
-        requestTypeChart.data.datasets[0].data = initialValues;
-        requestTypeChart.data.datasets[0].backgroundColor = initialLabels.map(() => getRandomColor()); // Assign colors
+        requestTypeChart.data.datasets[0].data = initialValues; // Dữ liệu cho cột
+
+        // Giả sử rằng bạn cũng muốn tính tổng số yêu cầu để hiển thị trên đường
+        const totalRequests = Object.values(initialData).reduce((a, b) => a + b, 0);
+        const lineData = initialLabels.map(() => totalRequests); // Dữ liệu cho đường
+
+        requestTypeChart.data.datasets[1].data = lineData; // Dữ liệu cho đường
         requestTypeChart.update();
     });
-
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
 </script>
 </body>
 </html>

@@ -22,11 +22,11 @@ class AuthController extends Controller
     }
     public function loginProcess(Request $request)
     {
-          $request->validate([
-              'username' => 'required',
-              'password' => 'required',
-              'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
-          ]);
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
+        ]);
 
         // Kiểm tra reCAPTCHA
         $secretKey = env('NOCAPTCHA_SECRET');
@@ -45,22 +45,19 @@ class AuthController extends Controller
             return back()->withErrors(['captcha' => 'Vui lòng xác minh CAPTCHA!']);
         }
 
-        // Kiểm tra mật khẩu
-        //$password = $request->input('password');
-//        if (strlen($password) > 5) {
-//            return back()->withErrors(['password' => 'Mật khẩu không được ngắn quá 10 ký tự!']);
-//        } elseif (!preg_match('/[A-Z]/', $password)) {
-//            return back()->withErrors(['password' => 'Mật khẩu phải có ít nhất một chữ cái viết hoa!']);
-//        } elseif (!preg_match('/[\W_]/', $password)) {
-//            return back()->withErrors(['password' => 'Mật khẩu phải có ít nhất một kí tự đặc biệt!']);
-//        }
-
         // Thực hiện đăng nhập
         if (Auth::attempt($request->only('username', 'password'))) {
             $request->session()->regenerate();
 
             // Phân quyền người dùng
             $user = Auth::user();
+
+            // Kiểm tra trạng thái tài khoản
+            if ($user->status === null) {
+                Auth::logout(); // Đăng xuất người dùng
+                return back()->withErrors(['login' => 'Tài khoản của bạn chưa được kích hoạt.']);
+            }
+
             if ($user->role_id == 1 || $user->role_id == 2) {
                 // Đối với Admin hoặc Quản lý
                 $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
