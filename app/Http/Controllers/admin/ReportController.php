@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\RequestType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -64,5 +65,51 @@ class ReportController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function getRequestData(Request $request)
+    {
+        $period = $request->query('period');
+        $data = [];
+
+        switch ($period) {
+            case 'today':
+                // Lấy dữ liệu cho 7 ngày qua
+                for ($i = 6; $i >= 0; $i--) {
+                    $date = Carbon::today()->subDays($i)->format('Y-m-d');
+                    $data[$date] = $this->getRequestsCountByDate($date);
+                }
+                break;
+
+            case 'monthly':
+                // Lấy dữ liệu cho 30 ngày qua
+                for ($i = 29; $i >= 0; $i--) {
+                    $date = Carbon::today()->subDays($i)->format('Y-m-d');
+                    $data[$date] = $this->getRequestsCountByDate($date);
+                }
+                break;
+
+            case 'yearly':
+                // Lấy dữ liệu cho 10 năm qua
+                for ($i = 0; $i < 10; $i++) {
+                    $year = Carbon::now()->subYears($i)->format('Y');
+                    $data[$year] = $this->getRequestsCountByYear($year);
+                }
+                break;
+        }
+
+        return response()->json($data);
+    }
+
+    private function getRequestsCountByDate($date)
+    {
+        // Thay thế bằng logic để lấy số yêu cầu cho ngày
+        return rand(1, 100); // Ví dụ: số yêu cầu ngẫu nhiên
+    }
+
+    private function getRequestsCountByYear($year)
+    {
+        // Thay thế bằng logic để lấy số yêu cầu cho năm
+        return rand(100, 1000); // Ví dụ: số yêu cầu ngẫu nhiên
     }
 }

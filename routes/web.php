@@ -132,9 +132,10 @@ Route::get('/api/requests', [StatisticalController::class, 'getRequests']);
 //Test Nhóm thống kê
 // Route cho trang thống kê
 Route::get('/test-statistical', [ReportController::class, 'index'])->name('statistical.static_index');
-
+Route::get('/api/get-request-data', [ReportController::class, 'getRequestData']);
 // Route cho API lấy dữ liệu yêu cầu
 Route::get('/api/requests', [ReportController::class, 'getRequests']);
+
 
 
 

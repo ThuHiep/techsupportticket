@@ -102,32 +102,17 @@
     });
 
     // Hàm lọc theo thời gian
-    function filterBy(period) {
-        // Gọi API hoặc xử lý để lấy dữ liệu theo khoảng thời gian
+    // Hàm lọc theo thời gian
+    async function filterBy(period) {
         let filteredData = {};
 
-        switch (period) {
-            case 'today':
-                filteredData = {
-                    'Loại 1': 5,
-                    'Loại 2': 10,
-                    'Loại 3': 3
-                };
-                break;
-            case 'monthly':
-                filteredData = {
-                    'Loại 1': 30,
-                    'Loại 2': 50,
-                    'Loại 3': 20
-                };
-                break;
-            case 'yearly':
-                filteredData = {
-                    'Loại 1': 250,
-                    'Loại 2': 300,
-                    'Loại 3': 150
-                };
-                break;
+        // Gọi API để lấy dữ liệu
+        try {
+            const response = await fetch(`/api/get-request-data?period=${period}`);
+            filteredData = await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return;
         }
 
         // Cập nhật biểu đồ
