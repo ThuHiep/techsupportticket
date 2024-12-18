@@ -205,13 +205,22 @@ a:hover{
     position: relative;
     padding: 15px;
     margin-bottom: 10px;
-    border-radius: 10px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 25px;
     opacity: 1;
     height: auto;
     overflow: hidden;
     transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease;
+}
+
+/* Tạo đường viền giả bằng pseudo-element */
+.request-block::after {
+    content: "";
+    position: absolute;
+    bottom: 0; /* Đặt đường viền ở cuối khối */
+    left: 50%; /* Đặt đường viền ở giữa */
+    width: 35%; /* Đặt chiều rộng của đường viền */
+    height: 4px; /* Độ dày của đường viền */
+    background-color: #fff; /* Màu của đường viền */
+    transform: translateX(-50%); /* Đẩy đường viền về giữa */
 }
 
 /* Trạng thái ẩn (xóa) */
