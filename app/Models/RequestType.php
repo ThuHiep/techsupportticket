@@ -27,4 +27,8 @@ class RequestType extends Model
 
     // Tắt timestamps (bảng không sử dụng `created_at` và `updated_at` mặc định)
     public $timestamps = false;
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'request_type_id'); // Giả sử 'request_type_id' là khóa ngoại trong bảng 'requests'
+    }
 }

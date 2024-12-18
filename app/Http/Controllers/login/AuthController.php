@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\login;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AccountApproved;
+use App\Mail\CustomerCreated;
+use App\Mail\Register;
 use App\Mail\VerifyEmail;
 use App\Models\Customer;
 use App\Models\Employee;
@@ -123,6 +126,13 @@ class AuthController extends Controller
         $customer->create_at = now();
         $customer->update_at = now();
         $customer->save();
+        // Check if email is available
+        if (!empty($customer->email)) {
+            // Send notification email
+            Mail::to($customer->email)->send(new Register($customer));
+        } else {
+            return redirect()->route('login')->with('error', 'Email không hợp lệ.');
+        }
 
         return redirect()->route('login')->with('success', 'Đăng ký thành công! Hãy chờ kích hoạt tài khoản.');
     }

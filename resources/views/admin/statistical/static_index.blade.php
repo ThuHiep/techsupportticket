@@ -15,8 +15,8 @@
             transition: all 0.3s ease-in-out;
         }
         .chart-container {
-            width: 100%; /* Chiều rộng 100% */
-            height: 400px; /* Chiều cao 400px */
+            width: 100%;
+            height: 400px;
             font-size: 14px;
         }
         .filter-container {
@@ -31,9 +31,14 @@
             color: white;
             cursor: pointer;
             border-radius: 4px;
+            transition: background-color 0.3s;
         }
         .filter-container button:hover {
             background-color: #0056b3;
+        }
+        .active {
+            background-color: orange; /* Màu cam cho nút đang được chọn */
+            border-color: orange;
         }
     </style>
 </head>
@@ -43,9 +48,9 @@
         <h1>Báo cáo thống kê theo loại yêu cầu</h1>
     </div>
     <div class="filter-container">
-        <button onclick="filterBy('today')">Hôm nay</button>
-        <button onclick="filterBy('monthly')">Tháng này</button>
-        <button onclick="filterBy('yearly')">Năm này</button>
+        <button id="btnToday" onclick="filterBy('today')">Hôm nay</button>
+        <button id="btnMonthly" onclick="filterBy('monthly')">Tháng này</button>
+        <button id="btnYearly" onclick="filterBy('yearly')">Năm này</button>
     </div>
     <div class="chart-container">
         <canvas id="requestTypeChart"></canvas>
@@ -56,7 +61,7 @@
     // Dữ liệu ban đầu cho biểu đồ loại yêu cầu
     const initialData = {
         @foreach($requestTypes as $type)
-        '{{ $type->request_type_name }}': {{ $type->count }},
+        '{{ $type->request_type_name }}': {{ $type->requests_count }},
         @endforeach
     };
 
@@ -88,7 +93,7 @@
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Hiển thị nhãn với số
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
                         }
                     }
                 }
@@ -97,41 +102,43 @@
     });
 
     // Hàm lọc theo thời gian
-    function filterBy(period) {
-        // Gọi API hoặc xử lý để lấy dữ liệu theo khoảng thời gian
+    // Hàm lọc theo thời gian
+    async function filterBy(period) {
         let filteredData = {};
 
-        switch (period) {
-            case 'today':
-                // Giả sử bạn sẽ lấy dữ liệu của hôm nay
-                filteredData = {
-                    'Loại 1': 5,
-                    'Loại 2': 10,
-                    'Loại 3': 3
-                };
-                break;
-            case 'monthly':
-                // Giả sử bạn sẽ lấy dữ liệu của tháng này
-                filteredData = {
-                    'Loại 1': 30,
-                    'Loại 2': 50,
-                    'Loại 3': 20
-                };
-                break;
-            case 'yearly':
-                // Giả sử bạn sẽ lấy dữ liệu của năm này
-                filteredData = {
-                    'Loại 1': 250,
-                    'Loại 2': 300,
-                    'Loại 3': 150
-                };
-                break;
+        // Gọi API để lấy dữ liệu
+        try {
+            const response = await fetch(`/api/get-request-data?period=${period}`);
+            filteredData = await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return;
         }
 
         // Cập nhật biểu đồ
         requestTypeChart.data.labels = Object.keys(filteredData);
         requestTypeChart.data.datasets[0].data = Object.values(filteredData);
         requestTypeChart.update();
+
+        // Cập nhật trạng thái nút
+        updateButtonStyles(period);
+    }
+
+    // Hàm cập nhật màu sắc của các nút
+    function updateButtonStyles(activePeriod) {
+        // Xóa lớp 'active' từ tất cả các nút
+        document.getElementById('btnToday').classList.remove('active');
+        document.getElementById('btnMonthly').classList.remove('active');
+        document.getElementById('btnYearly').classList.remove('active');
+
+        // Thêm lớp 'active' vào nút tương ứng
+        if (activePeriod === 'today') {
+            document.getElementById('btnToday').classList.add('active');
+        } else if (activePeriod === 'monthly') {
+            document.getElementById('btnMonthly').classList.add('active');
+        } else if (activePeriod === 'yearly') {
+            document.getElementById('btnYearly').classList.add('active');
+        }
     }
 </script>
 </body>
