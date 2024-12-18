@@ -19,13 +19,20 @@ class AccountApproved extends Mailable
     public function __construct(Customer $customer)
     {
         $this->customer = $customer;
+
     }
 
     public function build()
     {
+        // Lấy thông tin username và password từ User
+        $username = $this->customer->user->username; // Tên người dùng
+        $password = $this->customer->user->password; // Mật khẩu (nếu bạn lưu mật khẩu dưới dạng plain text, điều này không an toàn)
+
         return $this->view('emails.account_approved')
             ->with([
                 'customerName' => $this->customer->full_name,
+                'username' => $username,
+                'password' => $password,
             ]);
     }
 }
