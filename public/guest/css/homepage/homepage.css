@@ -418,8 +418,9 @@ footer {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001; /* Phải nằm trên overlay */
-    width: 90%; /* Responsive cho màn hình nhỏ */
-    max-width: 400px; /* Giới hạn chiều rộng tối đa */
+    width: 50%;
+    height: 40%;
+    align-content: center;
 }
 .modal a{
     text-decoration: none;
@@ -436,9 +437,10 @@ footer {
     width: 100%;
 }
 .modal button {
-    width: 100%;
+    width: 50%;
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 123px 10px 123px;
+
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
