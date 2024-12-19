@@ -8,15 +8,21 @@
     <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo thống kê</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         body .container {
             width: calc(98%);
             transition: all 0.3s ease-in-out;
+            display: flex;
+            justify-content: space-between;
         }
         .chart-container {
-            width: 100%;
+            width: 60%;
             height: 400px;
+            font-size: 14px;
+        }
+        .data-container {
+            width: 35%;
+            margin-left: 20px;
             font-size: 14px;
         }
         .filter-container {
@@ -37,7 +43,7 @@
             background-color: #0056b3;
         }
         .active {
-            background-color: orange; /* Màu cam cho nút đang được chọn */
+            background-color: orange;
             border-color: orange;
         }
     </style>
@@ -46,26 +52,30 @@
 <div class="container">
     <div>
         <h1>Báo cáo thống kê theo loại yêu cầu</h1>
+        <div class="filter-container">
+            <button id="btnToday" onclick="filterBy('today')">Hôm nay</button>
+            <button id="btnMonthly" onclick="filterBy('monthly')">Tháng</button>
+            <button id="btnYearly" onclick="filterBy('yearly')">Năm này</button>
+        </div>
+        <div class="chart-container">
+            <canvas id="requestTypeChart"></canvas>
+        </div>
     </div>
-    <div class="filter-container">
-        <button id="btnToday" onclick="filterBy('today')">Hôm nay</button>
-        <button id="btnMonthly" onclick="filterBy('monthly')">Tháng này</button>
-        <button id="btnYearly" onclick="filterBy('yearly')">Năm này</button>
-    </div>
-    <div class="chart-container">
-        <canvas id="requestTypeChart"></canvas>
+    <div class="data-container" id="dataDisplay">
+        <h2>Dữ liệu cụ thể</h2>
+        <ul id="dataList">
+            <!-- Specific data will be populated here -->
+        </ul>
     </div>
 </div>
 
 <script>
-    // Dữ liệu ban đầu cho biểu đồ loại yêu cầu
     const initialData = {
         @foreach($requestTypes as $type)
         '{{ $type->request_type_name }}': {{ $type->requests_count }},
         @endforeach
     };
 
-    // Biểu đồ loại yêu cầu
     const ctx = document.getElementById('requestTypeChart').getContext('2d');
     let requestTypeChart = new Chart(ctx, {
         type: 'bar',
@@ -101,12 +111,8 @@
         }
     });
 
-    // Hàm lọc theo thời gian
-    // Hàm lọc theo thời gian
     async function filterBy(period) {
         let filteredData = {};
-
-        // Gọi API để lấy dữ liệu
         try {
             const response = await fetch(`/api/get-request-data?period=${period}`);
             filteredData = await response.json();
@@ -115,29 +121,36 @@
             return;
         }
 
-        // Cập nhật biểu đồ
         requestTypeChart.data.labels = Object.keys(filteredData);
         requestTypeChart.data.datasets[0].data = Object.values(filteredData);
         requestTypeChart.update();
 
-        // Cập nhật trạng thái nút
         updateButtonStyles(period);
+        displaySpecificData(filteredData);
     }
 
-    // Hàm cập nhật màu sắc của các nút
     function updateButtonStyles(activePeriod) {
-        // Xóa lớp 'active' từ tất cả các nút
         document.getElementById('btnToday').classList.remove('active');
         document.getElementById('btnMonthly').classList.remove('active');
         document.getElementById('btnYearly').classList.remove('active');
 
-        // Thêm lớp 'active' vào nút tương ứng
         if (activePeriod === 'today') {
             document.getElementById('btnToday').classList.add('active');
         } else if (activePeriod === 'monthly') {
             document.getElementById('btnMonthly').classList.add('active');
         } else if (activePeriod === 'yearly') {
             document.getElementById('btnYearly').classList.add('active');
+        }
+    }
+
+    function displaySpecificData(filteredData) {
+        const dataList = document.getElementById('dataList');
+        dataList.innerHTML = ''; // Clear previous data
+
+        for (const [key, value] of Object.entries(filteredData)) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${key}: ${value}`;
+            dataList.appendChild(listItem);
         }
     }
 </script>

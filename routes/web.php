@@ -122,19 +122,24 @@ Route::get('/attachments/download/{id}', [AttachmentController::class, 'download
 
 //Nhóm thống kê:
 // Hiển thị danh sách khách hàng
+//Route::name('statistical.')->group(function () {
+//    Route::get('/statistical/index', [ReportController::class, 'index'])->middleware('customersp')->name('index');
+//});
 Route::name('statistical.')->group(function () {
-    Route::get('/statistical/index', [StatisticalController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/statistical/index', [ReportController::class, 'index'])->middleware('customersp')->name('index');
 });
+Route::get('/api/get-request-data', [ReportController::class, 'getRequestData']);
 // Route cho API lấy dữ liệu yêu cầu
-Route::get('/api/requests', [StatisticalController::class, 'getRequests']);
+Route::get('/api/requests', [ReportController::class, 'getRequests']);
+// Route cho API lấy dữ liệu yêu cầu
+//Route::get('/api/requests', [StatisticalController::class, 'getRequests']);
 
 
 //Test Nhóm thống kê
 // Route cho trang thống kê
-Route::get('/test-statistical', [ReportController::class, 'index'])->name('statistical.static_index');
-Route::get('/api/get-request-data', [ReportController::class, 'getRequestData']);
-// Route cho API lấy dữ liệu yêu cầu
-Route::get('/api/requests', [ReportController::class, 'getRequests']);
+//Route::get('/test-statistical', [ReportController::class, 'index'])->name('statistical.static_index');
+
+
 
 
 

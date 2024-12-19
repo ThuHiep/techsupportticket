@@ -20,11 +20,56 @@
             transition: all 0.3s ease-in-out;
         }
         .chart-container {
-            width: 300px; /* Set desired width */
-            height: 300px; /* Set desired height */
+            width: 100%; /* Đặt chiều rộng bằng 100% của container */
+            height: 500px; /* Tăng chiều cao của biểu đồ */
             font-size: 14px;
         }
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Khoảng cách giữa các phần tử */
+            flex-wrap: wrap; /* Cho phép tự động xuống dòng nếu không đủ không gian */
+            margin-bottom: 20px; /* Khoảng cách giữa các bộ lọc và biểu đồ */
+        }
 
+        .filter-btn {
+            padding: 5px 10px; /* Làm nhỏ các nút */
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .filter-input {
+            padding: 5px;
+            font-size: 14px;
+            width: 120px; /* Đặt chiều rộng cố định cho các ô nhập ngày */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column; /* Khi màn hình nhỏ, các phần tử sẽ xếp thành cột */
+                align-items: flex-start; /* Căn chỉnh các phần tử về phía trái */
+            }
+
+            .filter-btn, .filter-input {
+                width: 100%; /* Đảm bảo các phần tử chiếm hết chiều rộng */
+            }
+        }
     </style>
 </head>
 <body>
@@ -59,50 +104,17 @@
                 <p>Báo cáo này cung cấp thông tin về số lượng yêu cầu hỗ trợ theo từng loại yêu cầu.</p>
                 <form method="GET" action="{{ route('statistical.index') }}">
                     <div class="filter-container">
-                        <select id="requestTypeFilter" name="requestTypeFilter" onchange="updateRequestTypeChart()">
-                            <option value="all">Tất cả loại yêu cầu</option>
-                            @foreach ($requestTypes as $type)
-                                <option value="{{ $type->request_type_name }}">{{ $type->request_type_name }}</option>
-                            @endforeach
-                        </select>
-
-                        <select id="monthFilter" name="month">
-                            <option value="all">Tất cả tháng</option>
-                            @for ($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
-                                    Tháng {{ $i }}
-                                </option>
-                            @endfor
-                        </select>
-
-                        <select id="yearFilter" name="year">
-                            <option value="all">Tất cả năm</option>
-                            @for ($year = 2020; $year <= date('Y'); $year++)
-                                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
-                                    {{ $year }}
-                                </option>
-                            @endfor
-                        </select>
+                        <button id="btnToday" type="button" onclick="filterBy('today')">Ngày</button>
+                        <button id="btnMonthly" type="button" onclick="filterBy('monthly')">Tháng</button>
+                        <button id="btnYearly" type="button" onclick="filterBy('yearly')">Năm</button>
+                        <!-- Search theo ngày -->
+                        <label for="startDate" class="filter-label">Từ:</label>
+                        <input type="date" id="startDate" onchange="filterByDates()">
+                        <label for="endDate" class="filter-label">Đến:</label>
+                        <input type="date" id="endDate" onchange="filterByDates()">
                     </div>
-                    <div class="row_start_end">
-                        <div class="col-lg-6">
-                            <div class="date-container">
-                                <label for="startDate">Ngày bắt đầu</label>
-                                <input type="date" id="startDate" name="startDate" value="{{ request('startDate') }}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="date-container">
-                                <label for="endDate">Ngày kết thúc</label>
-                                <input type="date" id="endDate" name="endDate" value="{{ request('endDate') }}">
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit">Thống kê</button>
+                        <canvas id="requestTypeChart"></canvas>
                 </form>
-                <div class="chart-container">
-                    <canvas id="requestTypeChart"></canvas>
-                </div>
             </div>
         </div>
     </div>
@@ -161,30 +173,27 @@
     }
 
     // Biểu đồ loại yêu cầu (Pie Chart)
-    // Biểu đồ loại yêu cầu (Bar and Line Chart)
-    const requestTypeCtx = document.getElementById('requestTypeChart').getContext('2d');
-    let requestTypeChart = new Chart(requestTypeCtx, {
-        type: 'bar', // Biểu đồ cột
+    const initialData = {
+        @foreach($requestTypes as $type)
+        '{{ $type->request_type_name }}': {{ $type->requests_count }},
+        @endforeach
+    };
+
+    const ctx = document.getElementById('requestTypeChart').getContext('2d');
+    let requestTypeChart = new Chart(ctx, {
+        type: 'bar',
         data: {
-            labels: [], // Tên loại yêu cầu
+            labels: Object.keys(initialData),
             datasets: [{
-                label: 'Số yêu cầu theo loại',
-                data: [], // Số yêu cầu
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu sắc cột
-                borderColor: 'rgba(75, 192, 192, 1)', // Màu viền cột
-                borderWidth: 1,
-                type: 'bar' // Kiểu cột
-            }, {
-                label: 'Tổng số yêu cầu',
-                data: [], // Dữ liệu cho đường
-                type: 'line', // Kiểu đường
-                borderColor: 'rgba(54, 162, 235, 1)', // Màu cho đường
-                fill: false // Không tô màu dưới đường
+                label: 'Số yêu cầu ',
+                data: Object.values(initialData),
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true
@@ -197,34 +206,115 @@
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Hiển thị nhãn với số
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
                         }
                     }
                 }
             }
         }
     });
+    async function filterByDates() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const initialData = {
-            @foreach($requestTypes as $type)
-            '{{ $type->request_type_name }}': {{ $type->count }},
-            @endforeach
-        };
+        // Kiểm tra xem cả hai ngày có được nhập hay không
+        if (startDate && endDate) {
+            let url = `http://localhost:8000/api/get-request-data?startDate=${startDate}&endDate=${endDate}`;
 
-        const initialLabels = Object.keys(initialData);
-        const initialValues = Object.values(initialData);
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    throw new Error('Network response was not ok: ' + errorMessage);
+                }
+                const filteredData = await response.json();
+                updateChartWithFilteredData(filteredData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert('Đã xảy ra lỗi khi tải dữ liệu: ' + error.message);
+            }
+        }
+    }
 
-        requestTypeChart.data.labels = initialLabels;
-        requestTypeChart.data.datasets[0].data = initialValues; // Dữ liệu cho cột
+    async function filterBy(period) {
+        let filteredData = {};
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
 
-        // Giả sử rằng bạn cũng muốn tính tổng số yêu cầu để hiển thị trên đường
-        const totalRequests = Object.values(initialData).reduce((a, b) => a + b, 0);
-        const lineData = initialLabels.map(() => totalRequests); // Dữ liệu cho đường
+        let url = `http://localhost:8000/api/get-request-data?period=${period}`;
 
-        requestTypeChart.data.datasets[1].data = lineData; // Dữ liệu cho đường
+        // Nếu người dùng nhập khoảng thời gian, thêm startDate và endDate vào URL
+        if (startDate && endDate) {
+            await filterByDates();
+            return; // Dừng lại không thực hiện tiếp
+        }
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error('Network response was not ok: ' + errorMessage);
+            }
+            filteredData = await response.json();
+            updateChartWithFilteredData(filteredData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            alert('Đã xảy ra lỗi khi tải dữ liệu: ' + error.message);
+            return;
+        }
+
+        // Cập nhật biểu đồ theo dữ liệu lọc
+        if (period === 'monthly') {
+            // Đảm bảo có đủ 30 ngày cho tháng
+            const allDaysInMonth = Array.from({ length: 30 }, (_, i) => i + 1);
+            const data = allDaysInMonth.map(day => filteredData[day] || 0); // Mặc định là 0 nếu không có dữ liệu
+            requestTypeChart.data.labels = allDaysInMonth.map(day => `Ngày ${day}`);
+            requestTypeChart.data.datasets[0].data = data;
+        } else {
+            requestTypeChart.data.labels = Object.keys(filteredData);
+            requestTypeChart.data.datasets[0].data = Object.values(filteredData);
+        }
+
+        // Cập nhật lại biểu đồ
         requestTypeChart.update();
-    });
+        updateButtonStyles(period);
+        displaySpecificData(filteredData);
+    }
+
+    function updateChartWithFilteredData(filteredData) {
+        requestTypeChart.data.labels = Object.keys(filteredData);
+        requestTypeChart.data.datasets[0].data = Object.values(filteredData);
+        requestTypeChart.update();
+    }
+
+    function updateButtonStyles(activePeriod) {
+        console.log('Active Period:', activePeriod); // Debugging line
+        document.getElementById('btnToday').classList.remove('active');
+        document.getElementById('btnMonthly').classList.remove('active');
+        document.getElementById('btnYearly').classList.remove('active');
+
+        if (activePeriod === 'today') {
+            document.getElementById('btnToday').classList.add('active');
+        } else if (activePeriod === 'monthly') {
+            document.getElementById('btnMonthly').classList.add('active');
+        } else if (activePeriod === 'yearly') {
+            document.getElementById('btnYearly').classList.add('active');
+        }
+    }
+
+    function displaySpecificData(filteredData) {
+        const dataList = document.getElementById('dataList');
+        dataList.innerHTML = ''; // Clear previous data
+
+        for (const [key, value] of Object.entries(filteredData)) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${key}: ${value}`; // Modify as per your data structure
+            dataList.appendChild(listItem);
+        }
+    }
+
+
 </script>
+
 </body>
 </html>
