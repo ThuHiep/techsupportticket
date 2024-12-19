@@ -8,36 +8,66 @@
     <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo thống kê</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
     <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
         }
-        body.mini-navbar .container {
+        .container {
             width: calc(98%);
+            margin: auto;
             transition: all 0.3s ease-in-out;
         }
         .chart-container {
-            width: 100%; /* Đặt chiều rộng bằng 100% của container */
-            height: 500px; /* Tăng chiều cao của biểu đồ */
+            width: 100%;
+            height: 500px;
             font-size: 14px;
         }
-        
+        .report-select-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        h1 {
+            color: orange;
+            text-align: center;
+        }
+        .report-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress {
+            height: 100%;
+            background: #4caf50; /* Màu xanh */
+            transition: width 0.4s ease;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div>
+    <div class="report-select-container">
         <h1>Báo cáo thống kê</h1>
+        <label for="reportSelect" class="filter-label"></label>
+        <select id="reportSelect" onchange="showSelectedChart()">
+            <option value="customer">Báo cáo theo khách hàng</option>
+            <option value="requestType">Báo cáo theo loại yêu cầu</option>
+        </select>
     </div>
     <div class="row">
-        <!-- Báo cáo theo khách hàng -->
-        <div class="col-lg-6">
-            <div class="report-section">
-                <h3>Báo cáo theo khách hàng</h3>
-                <p>Báo cáo này tổng hợp số lượng yêu cầu hỗ trợ kỹ thuật của từng khách hàng đang hoạt động.</p>
+        <!-- Cột trái - Biểu đồ -->
+        <div class="col-lg-8" id="chartContainer">
+            <div class="report-section" id="customerReportContainer" style="display: block;">
                 <div class="filter-container">
                     <select id="customerFilter" onchange="updateCustomerReport()">
                         <option value="all">Tất cả khách hàng</option>
@@ -50,32 +80,67 @@
                     <canvas id="customerReport"></canvas>
                 </div>
             </div>
+
+            <div class="report-section" id="requestTypeReportContainer" style="display: none;">
+                <h3>Báo cáo theo loại yêu cầu</h3>
+                <div class="filter-container">
+                    <button id="btnToday" type="button" onclick="filterBy('today')">Ngày</button>
+                    <button id="btnMonthly" type="button" onclick="filterBy('monthly')">Tháng</button>
+                    <button id="btnYearly" type="button" onclick="filterBy('yearly')">Năm</button>
+                    <label for="startDate" class="filter-label">Từ:</label>
+                    <input type="date" id="startDate" onchange="filterByDates()">
+                    <label for="endDate" class="filter-label">Đến:</label>
+                    <input type="date" id="endDate" onchange="filterByDates()">
+                </div>
+                <canvas id="requestTypeChart"></canvas>
+            </div>
         </div>
 
-        <!-- Báo cáo theo loại yêu cầu -->
-        <div class="col-lg-6">
-            <div class="report-section">
-                <h3>Báo cáo theo loại yêu cầu</h3>
-                <p>Báo cáo này cung cấp thông tin về số lượng yêu cầu hỗ trợ theo từng loại yêu cầu.</p>
-                <form method="GET" action="{{ route('statistical.index') }}">
-                    <div class="filter-container">
-                        <button id="btnToday" type="button" onclick="filterBy('today')">Ngày</button>
-                        <button id="btnMonthly" type="button" onclick="filterBy('monthly')">Tháng</button>
-                        <button id="btnYearly" type="button" onclick="filterBy('yearly')">Năm</button>
-                        <!-- Search theo ngày -->
-                        <label for="startDate" class="filter-label">Từ:</label>
-                        <input type="date" id="startDate" onchange="filterByDates()">
-                        <label for="endDate" class="filter-label">Đến:</label>
-                        <input type="date" id="endDate" onchange="filterByDates()">
-                    </div>
-                        <canvas id="requestTypeChart"></canvas>
-                </form>
+        <!-- Cột phải - Số liệu cụ thể -->
+        <div class="col-lg-4" id="dataContainer">
+            <div class="report-section" id="customerDataContainer" style="display: block;">
+                <h3>Số liệu tổng hợp</h3>
+                <p id="totalCustomerRequests"></p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 58%;"></div>
+                </div>
+                <ul id="customerDataList"></ul>
+            </div>
+            <div class="report-section" id="requestTypeDataContainer" style="display: none;">
+                <h3>Số liệu tổng hợp</h3>
+                <p id="totalRequestTypeRequests"></p>
+                <ul id="requestTypeDataList"></ul>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 22%;"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function showSelectedChart() {
+        const selectedReport = document.getElementById('reportSelect').value;
+        const customerReportContainer = document.getElementById('customerReportContainer');
+        const requestTypeReportContainer = document.getElementById('requestTypeReportContainer');
+        const customerDataContainer = document.getElementById('customerDataContainer');
+        const requestTypeDataContainer = document.getElementById('requestTypeDataContainer');
+
+        if (selectedReport === 'customer') {
+            customerReportContainer.style.display = 'block';
+            requestTypeReportContainer.style.display = 'none';
+            customerDataContainer.style.display = 'block';
+            requestTypeDataContainer.style.display = 'none';
+            updateCustomerReport(); // Hiển thị số liệu tổng hợp cho khách hàng
+        } else if (selectedReport === 'requestType') {
+            customerReportContainer.style.display = 'none';
+            requestTypeReportContainer.style.display = 'block';
+            customerDataContainer.style.display = 'none';
+            requestTypeDataContainer.style.display = 'block';
+            updateRequestTypeData(); // Hiển thị số liệu tổng hợp cho loại yêu cầu
+        }
+    }
+
     // Dữ liệu ban đầu cho báo cáo khách hàng
     const customerData = {
         @foreach($activeCustomers as $customer)
@@ -90,7 +155,7 @@
         @endforeach
     };
 
-    // Báo cáo theo khách hàng
+    // Biểu đồ khách hàng
     const customerCtx = document.getElementById('customerReport').getContext('2d');
     let customerChart = new Chart(customerCtx, {
         type: 'bar',
@@ -104,7 +169,6 @@
         }
     });
 
-    // Cập nhật báo cáo theo khách hàng
     function updateCustomerReport() {
         const selectedCustomer = document.getElementById('customerFilter').value;
         let data = [];
@@ -125,9 +189,31 @@
             [customerColors[selectedCustomer]];
 
         customerChart.update();
+        displayCustomerData(selectedCustomer);
     }
 
-    // Biểu đồ loại yêu cầu (Pie Chart)
+    function displayCustomerData(selectedCustomer) {
+        const customerDataList = document.getElementById('customerDataList');
+        const totalCustomerRequests = document.getElementById('totalCustomerRequests');
+        customerDataList.innerHTML = '';
+
+        if (selectedCustomer === 'all') {
+            let totalRequests = 0;
+            for (const [key, value] of Object.entries(customerData)) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${key}: ${value} yêu cầu`;
+                customerDataList.appendChild(listItem);
+                totalRequests += value; // Tính tổng số yêu cầu
+            }
+            totalCustomerRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`; // Hiển thị tổng số yêu cầu
+        } else {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${selectedCustomer}: ${customerData[selectedCustomer]} yêu cầu`;
+            customerDataList.appendChild(listItem);
+            totalCustomerRequests.textContent = `Tổng số yêu cầu: ${customerData[selectedCustomer]}`; // Hiển thị số yêu cầu của khách hàng đã chọn
+        }
+    }
+
     const initialData = {
         @foreach($requestTypes as $type)
         '{{ $type->request_type_name }}': {{ $type->requests_count }},
@@ -140,7 +226,7 @@
         data: {
             labels: Object.keys(initialData),
             datasets: [{
-                label: 'Số yêu cầu ',
+                label: 'Số yêu cầu',
                 data: Object.values(initialData),
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 borderColor: 'rgba(75, 192, 192, 1)',
@@ -161,18 +247,33 @@
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
                         }
                     }
                 }
             }
         }
     });
+
+    function updateRequestTypeData() {
+        const requestTypeDataList = document.getElementById('requestTypeDataList');
+        const totalRequestTypeRequests = document.getElementById('totalRequestTypeRequests');
+        requestTypeDataList.innerHTML = '';
+
+        let totalRequests = 0;
+        for (const [key, value] of Object.entries(initialData)) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${key}: ${value} yêu cầu`;
+            requestTypeDataList.appendChild(listItem);
+            totalRequests += value; // Tính tổng số yêu cầu
+        }
+        totalRequestTypeRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`; // Hiển thị tổng số yêu cầu
+    }
+
     async function filterByDates() {
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
 
-        // Kiểm tra xem cả hai ngày có được nhập hay không
         if (startDate && endDate) {
             let url = `http://localhost:8000/api/get-request-data?startDate=${startDate}&endDate=${endDate}`;
 
@@ -198,10 +299,9 @@
 
         let url = `http://localhost:8000/api/get-request-data?period=${period}`;
 
-        // Nếu người dùng nhập khoảng thời gian, thêm startDate và endDate vào URL
         if (startDate && endDate) {
             await filterByDates();
-            return; // Dừng lại không thực hiện tiếp
+            return;
         }
 
         try {
@@ -218,22 +318,9 @@
             return;
         }
 
-        // Cập nhật biểu đồ theo dữ liệu lọc
-        if (period === 'monthly') {
-            // Đảm bảo có đủ 30 ngày cho tháng
-            const allDaysInMonth = Array.from({ length: 30 }, (_, i) => i + 1);
-            const data = allDaysInMonth.map(day => filteredData[day] || 0); // Mặc định là 0 nếu không có dữ liệu
-            requestTypeChart.data.labels = allDaysInMonth.map(day => `Ngày ${day}`);
-            requestTypeChart.data.datasets[0].data = data;
-        } else {
-            requestTypeChart.data.labels = Object.keys(filteredData);
-            requestTypeChart.data.datasets[0].data = Object.values(filteredData);
-        }
-
-        // Cập nhật lại biểu đồ
+        requestTypeChart.data.labels = Object.keys(filteredData);
+        requestTypeChart.data.datasets[0].data = Object.values(filteredData);
         requestTypeChart.update();
-        updateButtonStyles(period);
-        displaySpecificData(filteredData);
     }
 
     function updateChartWithFilteredData(filteredData) {
@@ -242,33 +329,11 @@
         requestTypeChart.update();
     }
 
-    function updateButtonStyles(activePeriod) {
-        console.log('Active Period:', activePeriod); // Debugging line
-        document.getElementById('btnToday').classList.remove('active');
-        document.getElementById('btnMonthly').classList.remove('active');
-        document.getElementById('btnYearly').classList.remove('active');
-
-        if (activePeriod === 'today') {
-            document.getElementById('btnToday').classList.add('active');
-        } else if (activePeriod === 'monthly') {
-            document.getElementById('btnMonthly').classList.add('active');
-        } else if (activePeriod === 'yearly') {
-            document.getElementById('btnYearly').classList.add('active');
-        }
-    }
-
-    function displaySpecificData(filteredData) {
-        const dataList = document.getElementById('dataList');
-        dataList.innerHTML = ''; // Clear previous data
-
-        for (const [key, value] of Object.entries(filteredData)) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${key}: ${value}`; // Modify as per your data structure
-            dataList.appendChild(listItem);
-        }
-    }
-
-
+    // Đảm bảo rằng biểu đồ và số liệu được hiển thị khi trang tải
+    document.addEventListener('DOMContentLoaded', function() {
+        showSelectedChart();
+        updateCustomerReport(); // Cập nhật biểu đồ và số liệu cho khách hàng khi tải trang
+    });
 </script>
 
 </body>
