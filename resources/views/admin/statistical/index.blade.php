@@ -24,52 +24,7 @@
             height: 500px; /* Tăng chiều cao của biểu đồ */
             font-size: 14px;
         }
-        .filter-container {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* Khoảng cách giữa các phần tử */
-            flex-wrap: wrap; /* Cho phép tự động xuống dòng nếu không đủ không gian */
-            margin-bottom: 20px; /* Khoảng cách giữa các bộ lọc và biểu đồ */
-        }
-
-        .filter-btn {
-            padding: 5px 10px; /* Làm nhỏ các nút */
-            font-size: 14px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .filter-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .filter-label {
-            font-size: 14px;
-            margin-right: 5px;
-        }
-
-        .filter-input {
-            padding: 5px;
-            font-size: 14px;
-            width: 120px; /* Đặt chiều rộng cố định cho các ô nhập ngày */
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        @media (max-width: 768px) {
-            .filter-container {
-                flex-direction: column; /* Khi màn hình nhỏ, các phần tử sẽ xếp thành cột */
-                align-items: flex-start; /* Căn chỉnh các phần tử về phía trái */
-            }
-
-            .filter-btn, .filter-input {
-                width: 100%; /* Đảm bảo các phần tử chiếm hết chiều rộng */
-            }
-        }
+        
     </style>
 </head>
 <body>
