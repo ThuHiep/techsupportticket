@@ -199,7 +199,7 @@
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
             @foreach($articles as $article)
-                <div class="carousel-card" onclick="openModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
+                <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
                     {{--                    <img src="{{ $article ->image_url  }}" alt="Hình ảnh {{ $article->title }}">--}}
                     <img src="/admin/img/p_big1.jpg">
                     <h3 class="article-title">{{ $article->title }}</h3>
@@ -218,53 +218,46 @@
 
     <!-- Modal để hiển thị thông tin chi tiết -->
     <!-- Modal Overlay -->
-    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
-    <!-- Modal -->
-    <div id="articleModal" class="modal">
-        <span class="close" onclick="closeModal()" style="cursor: pointer;">&times;</span>
-        <img id="modalImage" src="" alt="Article Image">
-        <h3 id="modalTitle"></h3>
-        <p id="modalContent"></p>
-        <p id="modalDate"></p>
+    <div id="huongdanModalOverlay" class="huongdan-modal-overlay" onclick="closeHuongdanModal()"></div>
+    <div id="huongdanArticleModal" class="huongdan-modal">
+        <span class="close" onclick="closeHuongdanModal()" style="cursor: pointer;">&times;</span>
+        <img id="huongdanModalImage" src="" alt="Article Image">
+        <h3 id="huongdanModalTitle"></h3>
+        <p id="huongdanModalContent"></p>
+        <p id="huongdanModalDate"></p>
     </div>
 
     <script>
         // Hàm mở Modal khi click vào card
         // Hàm mở Modal khi click vào card
-        function openModal(cardElement) {
-            // Lấy thông tin từ card
+        function openHuongdanModal(cardElement) {
             const title = cardElement.querySelector('.article-title').innerText;
             const content = cardElement.querySelector('.article-details .article-content').innerText;
             const date = cardElement.querySelector('.article-details .article-date').innerText;
             const imageUrl = cardElement.querySelector('img').src;
 
-            // Hiển thị thông tin trong modal
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalContent').innerText = content;
-            document.getElementById('modalDate').innerText = date;
+            document.getElementById('huongdanModalTitle').innerText = title;
+            document.getElementById('huongdanModalContent').innerText = content;
+            document.getElementById('huongdanModalDate').innerText = date;
 
-            // Hiển thị hình ảnh trong modal
-            const modalImage = document.getElementById('modalImage');
+            const modalImage = document.getElementById('huongdanModalImage');
             modalImage.src = imageUrl;
 
-            // Hiển thị modal
-            const modal = document.getElementById('articleModal');
-            modal.style.display = "block";  // Mở Modal
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "block";
 
-            // Hiển thị overlay
-            const overlay = document.getElementById('modalOverlay');
+            const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
         }
 
-        // Hàm đóng Modal
-        function closeModal() {
-            const modal = document.getElementById('articleModal');
-            modal.style.display = "none";  // Ẩn Modal
+        function closeHuongdanModal() {
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "none";
 
-            // Ẩn overlay
-            const overlay = document.getElementById('modalOverlay');
+            const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "none";
         }
+
 
 
         // Hàm toggle khi click vào card để phóng to card
@@ -384,8 +377,9 @@
         </div>
 
         <!-- Bottom Bar -->
-
     </footer>
+
+
     <div style="background-color: #6a1b9a; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
         <span>&copy; 2024 Công Ty Cổ Phần SweetSoft.</span>
         <span>
@@ -395,102 +389,55 @@
         </span>
     </div>
 
-    <!-- Nút nổi -->
-    <div class="floating-button" id="openForm">
-    </div>
+    @if (auth()->check())
+        <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
+            @else
+                <!-- Nút nổi -->
+                <div class="floating-button" id="openForm">
+                </div>
 
-    <!-- Overlay -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-    <div class="modal" id="registrationForm">
-        <h2>FORM YÊU CẦU</h2>
-        <p style="color: red;">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
-        <form id="registerForm">
-            <div>
-                <button type="button" onclick="window.location.href='{{ route('login') }}'" style="padding: 10px 20px; background-color: #6F2F9F; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                    Đăng nhập
-                </button>
-                <!-- Kiểm tra trạng thái đăng nhập, nếu đã đăng nhập thì hiển thị nút yêu cầu hỗ trợ -->
-                <button type="button" id="request-button" style="padding: 10px 20px; background-color: #6F2F9F; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">
-                    Gửi yêu cầu
-                </button>
-            </div>
-            <a href="#" style="display: block; margin-top: 10px;">Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
-        </form>
+                <!-- Overlay -->
+                <div class="modal-overlay" id="modalOverlay"></div>
+                <div class="modal" id="registrationForm">
+                    <h2>FORM YÊU CẦU</h2>
+                    <p style="color: red;">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
+                    <form id="registerForm">
+                        <div>
+                            <button type="button" onclick="window.location.href='{{ route('login') }}'" >
+                                Đăng nhập
+                            </button>
+                        </div>
+                        <a href="#" style="display: block; margin-top: 10px;">Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
+                    </form>
+                </div>
+            @endif
+                <script>
+                        // Lấy các phần tử HTML
 
-    </div>
+                        const openFormButton = document.getElementById('openForm');
+                        const modal = document.getElementById('registrationForm');
+                        const overlay = document.getElementById('modalOverlay');
+                        // Mở form khi ấn nút
+                        openFormButton.addEventListener('click', () => {
+                        modal.style.display = 'block';
+                        overlay.style.display = 'block';
 
-
-    <script>
-        // Lấy các phần tử HTML
-        const openFormButton = document.getElementById('openForm');
-        const modal = document.getElementById('registrationForm');
-        const overlay = document.getElementById('modalOverlay');
-
-        // Mở form khi ấn nút
-        openFormButton.addEventListener('click', () => {
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
-        });
-
-        // Đóng form khi ấn ra ngoài
-        overlay.addEventListener('click', () => {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-
-        // Xử lý khi gửi form
-        const registerForm = document.getElementById('registerForm');
-        registerForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Ngăn form tự động reload trang
-            alert('Thông tin đã được gửi!');
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-            registerForm.reset(); // Reset form sau khi gửi
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const openFormButton = document.getElementById('openForm');
-            const modal = document.getElementById('registrationForm');
-            const overlay = document.getElementById('modalOverlay');
-            const loginButton = document.getElementById('login-button');
-            const requestButton = document.getElementById('request-button');
-            const loginPrompt = document.getElementById('login-prompt');
-
-            // Giả sử bạn có thể kiểm tra trạng thái đăng nhập từ session, ví dụ từ Laravel session
-            const isLoggedIn = {!! Auth::check() ? 'true' : 'false' !!}; // Laravel Check (nếu bạn sử dụng Laravel)
-
-            // Mở form khi ấn nút
-            openFormButton.addEventListener('click', () => {
-                modal.style.display = 'block';
-                overlay.style.display = 'block';
-
-                if (isLoggedIn) {
-                    loginPrompt.style.display = 'none';
-                    requestButton.style.display = 'block';
-                    loginButton.style.display = 'none';
-                } else {
-                    loginPrompt.style.display = 'block';
-                    requestButton.style.display = 'none';
-                    loginButton.style.display = 'block';
-                }
-            });
-
-            // Đóng form khi ấn ra ngoài
-            overlay.addEventListener('click', () => {
-                modal.style.display = 'none';
-                overlay.style.display = 'none';
-            });
-
-            // Khi người dùng nhấn "Gửi yêu cầu", chuyển hướng đến trang yêu cầu
-            {{--requestButton.addEventListener('click', function() {--}}
-            {{--    window.location.href = '{{ route('showFormRequest') }}'; // Điều hướng đến trang yêu cầu--}}
-            {{--});--}}
-        });
-
-    </script>
-
-
+                    });
+                        // Đóng form khi ấn ra ngoài
+                        overlay.addEventListener('click', () => {
+                        modal.style.display = 'none';
+                        overlay.style.display = 'none';
+                    });
+                        // Xử lý khi gửi form
+                        const registerForm = document.getElementById('registerForm');
+                        registerForm.addEventListener('submit', (event) => {
+                        event.preventDefault(); // Ngăn form tự động reload trang
+                        alert('Thông tin đã được gửi!');
+                        modal.style.display = 'none';
+                        overlay.style.display = 'none';
+                        registerForm.reset(); // Reset form sau khi gửi
+                    });
+                </script>
 
 </body>
-
 </html>
