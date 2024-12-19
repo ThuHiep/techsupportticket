@@ -407,7 +407,7 @@
                                 Đăng nhập
                             </button>
                         </div>
-                        <a href="#" style="display: block; margin-top: 10px;">Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
+                        <a href="#" >Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
                     </form>
                 </div>
             @endif
