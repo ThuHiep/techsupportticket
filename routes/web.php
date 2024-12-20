@@ -99,12 +99,12 @@ Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->
 
 //Department Routes
 Route::name('department.')->group(function () {
-    Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('admin')->name('index');
-    Route::get('/department/create', [DepartmentController::class, 'create'])->middleware('admin')->name('create');
-    Route::post('/department/store', [DepartmentController::class, 'store'])->middleware('admin')->name('store');
-    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->middleware('admin')->name('edit');
-    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->middleware('admin')->name('update');
-    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->middleware('admin')->name('delete');
+    Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/department/create', [DepartmentController::class, 'create'])->middleware('customersp')->name('create');
+    Route::post('/department/store', [DepartmentController::class, 'store'])->middleware('customersp')->name('store');
+    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->middleware('customersp')->name('update');
+    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
 
 // Request Routes
