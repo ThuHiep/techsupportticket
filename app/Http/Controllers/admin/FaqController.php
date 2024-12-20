@@ -25,18 +25,17 @@ class FaqController extends Controller
         $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
 
         // Tìm kiếm FAQ
-        $faqs = Faq::when($search, function ($query) use ($search) {
+        $faqs = Faq::where('status', 'Chưa phản hồi') // Lọc chỉ câu hỏi chưa phản hồi
+        ->when($search, function ($query) use ($search) {
             return $query->where(function ($q) use ($search) {
                 $q->where('faq_id', $search)
                     ->orWhere('question', 'LIKE', "%$search%");
             });
-
         })
         ->when($date, function ($query) use ($date) {
             return $query->whereDate('create_at', $date);
         })
-            ->paginate(4);
-
+        ->paginate(4);
 
         // Đếm số lượng kết quả tìm thấy
         $totalResults = $faqs->total();
@@ -65,8 +64,8 @@ class FaqController extends Controller
         $template = 'admin.faq.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         do {
-            $randomNumber = mt_rand(1, 9999999);
-            $nextId = 'FAQ' . str_pad($randomNumber, 7, '0', STR_PAD_LEFT);
+            $randomNumber = mt_rand(1, 9999);
+            $nextId = 'FAQ' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
             $exists = FAQ::where('faq_id', $nextId)->exists();
         } while ($exists);
 
