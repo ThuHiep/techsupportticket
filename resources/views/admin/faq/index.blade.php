@@ -71,11 +71,11 @@
         @elseif ($isSearchWithDate)
         @if ($totalResults > 0)
         <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}" vào ngày "{{ $date }}"
+            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}" vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @else
         <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-            Không tìm thấy câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}" vào ngày "{{ $date }}"
+            Không tìm thấy câu hỏi chưa phản hồi chứa từ khóa "{{ $search }}" vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @endif
 
@@ -83,11 +83,11 @@
         @elseif ($date)
         @if ($totalResults > 0)
         <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày "{{ $date }}"
+            Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @else
         <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-            Không tìm thấy câu hỏi chưa phản hồi vào ngày "{{  $date }}"
+            Không tìm thấy câu hỏi chưa phản hồi vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @endif
 
