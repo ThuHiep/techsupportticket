@@ -5,6 +5,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Trang chủ Sweetsoft</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -115,57 +117,138 @@
             <div class="faq-form-container">
                 <button id="ask-question-button">Đặt câu hỏi</button>
                 <div id="question-form">
-                    <input id="question-name" type="text" placeholder="Nhập email của bạn" />
-                    <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5"></textarea>
+                    <input id="question-name" type="email" placeholder="Nhập email của bạn" required />
+                    <span id="email-error" style="color: red; font-size: 14px; display: none;"></span>
+                    
+                    <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5" required></textarea>
+                    <span id="question-error" style="color: red; font-size: 14px; display: none;"></span>
+                    
                     <button id="submit-question-button">Gửi</button>
+                    <span id="form-success" style="color: green; font-size: 14px; display: none;"></span>
                 </div>
+                
+                
+                
             </div>
+            
         </div>
     </section>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-    const faqQuestions = document.querySelectorAll(".faq-question");
-    const modal = document.getElementById("faqModal");
-    const modalQuestion = document.getElementById("modal-question");
-    const modalAnswer = document.getElementById("modal-answer");
-    const closeModal = document.getElementById("closeModal");
+    const submitButton = document.getElementById("submit-question-button");
+    const questionName = document.getElementById("question-name");
+    const questionText = document.getElementById("question-text");
+    const emailError = document.getElementById("email-error");
+    const questionError = document.getElementById("question-error");
+    const formSuccess = document.getElementById("form-success");
 
-    faqQuestions.forEach(question => {
-        question.addEventListener("click", function (event) {
-            event.preventDefault();
+    // Hàm kiểm tra email hợp lệ
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
 
-            const faqId = this.getAttribute("data-id");
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault(); // Ngăn form reload
+        const email = questionName.value.trim();
+        const question = questionText.value.trim();
 
-            fetch(`/faq/answer/${faqId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        modalQuestion.textContent = this.textContent; // Hiển thị câu hỏi
-                        modalAnswer.textContent = data.answer || "Chưa có câu trả lời."; // Hiển thị câu trả lời
-                        modal.style.display = "block"; // Hiển thị modal
-                    } else {
-                        alert("Không tìm thấy câu trả lời.");
+        // Xóa thông báo lỗi và thông báo thành công trước đó
+        emailError.style.display = "none";
+        questionError.style.display = "none";
+        formSuccess.style.display = "none";
+
+        let isValid = true;
+
+        // Kiểm tra email
+        if (!email) {
+            emailError.style.display = "block";
+            emailError.textContent = "Vui lòng nhập email.";
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            emailError.style.display = "block";
+            emailError.textContent = "Email không đúng định dạng.";
+            isValid = false;
+        }
+
+        // Kiểm tra câu hỏi
+        if (!question) {
+            questionError.style.display = "block";
+            questionError.textContent = "Vui lòng nhập câu hỏi.";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return; // Dừng nếu có lỗi
+        }
+
+        // Gửi dữ liệu qua AJAX
+        fetch('/faq/storeAjax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                email: email,
+                question: question
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw errorData; // Ném lỗi ra ngoài để xử lý trong .catch()
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                formSuccess.style.display = "block";
+                formSuccess.style.color = "green";
+                formSuccess.textContent = data.message;
+
+                questionName.value = '';
+                questionText.value = '';
+            })
+            .catch(error => {
+                emailError.style.display = "none";
+                questionError.style.display = "none";
+
+                if (error.errors) {
+                    if (error.errors.email) {
+                        emailError.style.display = "block";
+                        emailError.textContent = error.errors.email[0];
                     }
-                })
-                .catch(error => {
-                    console.error("Lỗi khi gọi API:", error);
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
-                });
+                    if (error.errors.question) {
+                        questionError.style.display = "block";
+                        questionError.textContent = error.errors.question[0];
+                    }
+                } else {
+                    formSuccess.style.display = "block";
+                    formSuccess.style.color = "red";
+                    formSuccess.textContent = "Đã xảy ra lỗi. Vui lòng thử lại.";
+                }
+            });
+
+
+            });
+        });
+
+
+
+
+        // Đóng modal khi click vào nút đóng
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Đóng modal khi click ra ngoài
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
         });
     });
-
-    // Đóng modal khi click vào nút đóng
-    closeModal.addEventListener("click", function () {
-        modal.style.display = "none";
-    });
-
-    // Đóng modal khi click ra ngoài
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-});
 
     </script>
 
@@ -191,6 +274,50 @@
                 }
             });
         });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const submitButton = document.getElementById("submit-question-button");
+    const questionName = document.getElementById("question-name");
+    const questionText = document.getElementById("question-text");
+
+    submitButton.addEventListener("click", function () {
+        const email = questionName.value.trim();
+        const question = questionText.value.trim();
+
+        if (!email || !question) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        fetch('/faq/store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token để bảo mật
+            },
+            body: JSON.stringify({
+                email: email,
+                question: question
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Câu hỏi của bạn đã được gửi thành công!");
+                    questionName.value = '';
+                    questionText.value = '';
+                } else {
+                    alert("Đã xảy ra lỗi khi gửi câu hỏi. Vui lòng thử lại.");
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+                alert("Đã xảy ra lỗi. Vui lòng thử lại.");
+            });
+    });
+});
+
     </script>
 
 

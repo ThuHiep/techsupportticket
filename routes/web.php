@@ -155,6 +155,10 @@ Route::name('faq.')->group(function () {
     // Route for unansweredByDate
     Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->name('unansweredByDate');
     Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
+
+    Route::post('/faq/store', [FaqController::class, 'storeAjax'])->name('faq.storeAjax');
+
+
 });
 
 
