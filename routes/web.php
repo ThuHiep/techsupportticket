@@ -162,4 +162,4 @@ Route::get('account', [UserController::class, 'indexAccount'])->middleware('cust
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
 
 // Route xem yêu cầu test
-Route::get('pend-request', [HomepageController::class, 'showFormRequest'])->name('showFormRequest');
+Route::get('pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
