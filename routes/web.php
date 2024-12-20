@@ -130,6 +130,8 @@ Route::name('statistical.')->group(function () {
 });
 Route::get('/api/get-request-data', [ReportController::class, 'getRequestData']);
 Route::get('/api/get-time-data', [ReportController::class, 'getTimeData']);
+Route::get('/api/get-departments', [ReportController::class, 'getDepartments']);
+Route::get('/api/get-request-types', [ReportController::class, 'getRequestTypes']);
 // Route cho API lấy dữ liệu yêu cầu
 Route::get('/api/requests', [ReportController::class, 'getRequests']);
 
