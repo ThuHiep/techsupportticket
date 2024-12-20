@@ -207,7 +207,7 @@ input.error, select.error {
 .custom-file-upload {
     display: flex;
     flex-direction: column;
-    align-items: normal; /* Canh giữa phần tử bên trong */
+    align-items: center; /* Canh giữa phần tử bên trong */
     margin-top: -10px; /* Tạo khoảng cách giữa "Hình ảnh đại diện" và nút "Chọn" */
 }
 
@@ -287,8 +287,14 @@ input.error, select.error {
     .btn-success {
         width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
     }
-    .grouped-fields .form-group {
+    .form-group {
         max-width: 100%; /* Mỗi trường chiếm 100% chiều rộng trên màn hình nhỏ */
+    }
+    .grouped-fields {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0;
+        margin-top: 0;
     }
 }
 
@@ -321,4 +327,12 @@ input.error, select.error {
         max-width: 200px; /* Giảm kích thước ảnh preview */
         max-height: 120px;
     }
+    .grouped-fields {
+        display: flex
+    ;
+        flex-direction: column;
+        margin-left: 0;
+        margin-top: 0;
+    }
+
 }

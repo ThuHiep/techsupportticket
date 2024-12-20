@@ -54,7 +54,15 @@ h1 {
     width: 80%; /* Đảm bảo container co giãn theo chiều ngang */
     margin-top: 20px;
 }
+.search-container input[type="date"]{
+    flex: 1; /* Input dài gấp đôi select */
+    padding: 10px;
+    border: 1px solid #FF9700; /* Giữ màu cam ban đầu */
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
 
+}
 .search-container input[type="text"] {
     flex: 2; /* Input dài gấp đôi select */
     padding: 10px;
@@ -65,15 +73,7 @@ h1 {
     width: 100%; /* Đảm bảo input co dãn đầy đủ */
 }
 
-.search-container select {
-   
-    padding: 10px;
-    border: 1px solid #FF9700; /* Giữ màu cam ban đầu */
-    border-radius: 5px;
-    outline: none;
-    background-color: white; /* Giữ nền trắng */
-    cursor: pointer;
-}
+
 
 .search-container button {
     flex-shrink: 0; /* Không co lại */
@@ -161,13 +161,6 @@ table {
     margin-top: 20px;
 }
 
-/* th, td {
-    padding: 12px;
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    font-size: 15px;
-} */
 th, td {
     padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
     text-align: center; /* Căn trái thay vì căn giữa */

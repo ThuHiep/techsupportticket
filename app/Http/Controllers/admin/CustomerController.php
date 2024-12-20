@@ -167,7 +167,7 @@ class CustomerController extends Controller
         ]);
         // Sinh các giá trị ngẫu nhiên như trước
         $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        $randuserID = 'ND' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        $randuserID = 'TK' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
         $username = 'user' . mt_rand(100000, 999999);
         $password = Str::random(12);
 
@@ -215,7 +215,6 @@ class CustomerController extends Controller
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
         }
     }
-
 
     //Duyệt tài khoản
     public function approve($customer_id)

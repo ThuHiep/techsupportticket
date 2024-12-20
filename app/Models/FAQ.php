@@ -26,6 +26,7 @@ class FAQ extends Model
         'question',
         'answer',
         'create_at',
+        'update_at',
         'status'
     ];
 

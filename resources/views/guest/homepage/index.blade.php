@@ -15,6 +15,43 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet" />
+    <style>
+        .carousel-card {
+            transition: transform 0.3s ease; /* Hiệu ứng chuyển động */
+            cursor: pointer; /* Con trỏ chuột */
+            position: relative; /* Định vị cho các phần tử con */
+        }
+
+        .carousel-card.expanded {
+            transform: scale(1.1); /* Phóng to lên 40% */
+            z-index: 10; /* Đưa card lên trên cùng */
+        }
+
+        .article-details {
+            position: absolute; /* Định vị tuyệt đối để hiển thị bên trong card */
+            bottom: 10px; /* Cách đáy */
+            left: 10px; /* Cách bên trái */
+            color: #333; /* Màu chữ */
+            background: rgba(255, 255, 255, 0.8); /* Nền mờ */
+            padding: 10px;
+            border-radius: 5px;
+            transition: opacity 0.3s ease; /* Hiệu ứng mờ */
+        }
+        .close {
+            position: absolute;
+            top: -7px;
+            right: 7px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa; /* Màu sắc */
+        }
+        .close:hover,
+        .close:focus {
+            color: black; /* Màu khi hover */
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -54,22 +91,90 @@
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
+
             <ul class="faq-list">
-                <li><a href="#">Thời gian phản hồi từ đội hỗ trợ là bao lâu?</a></li>
-                <li><a href="#">Tôi quên mật khẩu đăng nhập vào trang quản trị website, làm sao để khôi phục?</a></li>
-                <li><a href="#">Website của tôi bị hack, tôi cần làm gì?</a></li>
-                <li><a href="#">Tôi muốn cập nhật nội dung trên website, tôi phải làm thế nào?</a></li>
+                @forelse ($faqs as $faq)
+                    <li>
+                        <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
+                    </li>
+                @empty
+                    <li>Không có câu hỏi nào được phản hồi.</li>
+                @endforelse
             </ul>
+            <div id="faq-answer-container" style="display: none;">
+                <h3>Trả lời:</h3><p id="faq-answer"></p>
+            </div>
+            <div id="faqModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
+                    <h3 id="modal-question"></h3>
+                    <p id="modal-answer"></p>
+                </div>
+            </div>
+
             <div class="faq-form-container">
                 <button id="ask-question-button">Đặt câu hỏi</button>
                 <div id="question-form">
-                    <input id="question-name" type="text" placeholder="Nhập tên của bạn" />
+                    <input id="question-name" type="text" placeholder="Nhập email của bạn" />
                     <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5"></textarea>
                     <button id="submit-question-button">Gửi</button>
                 </div>
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const faqQuestions = document.querySelectorAll(".faq-question");
+    const modal = document.getElementById("faqModal");
+    const modalQuestion = document.getElementById("modal-question");
+    const modalAnswer = document.getElementById("modal-answer");
+    const closeModal = document.getElementById("closeModal");
+
+    faqQuestions.forEach(question => {
+        question.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const faqId = this.getAttribute("data-id");
+
+            fetch(`/faq/answer/${faqId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        modalQuestion.textContent = this.textContent; // Hiển thị câu hỏi
+                        modalAnswer.textContent = data.answer || "Chưa có câu trả lời."; // Hiển thị câu trả lời
+                        modal.style.display = "block"; // Hiển thị modal
+                    } else {
+                        alert("Không tìm thấy câu trả lời.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi khi gọi API:", error);
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                });
+        });
+    });
+
+    // Đóng modal khi click vào nút đóng
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Đóng modal khi click ra ngoài
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+    </script>
+
+
+
+
+
+
+
 
     <!-- Script -->
     <script>
@@ -93,26 +198,17 @@
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
-            <div class="carousel-card">
-                <img src="image1.jpg" alt="Hình ảnh 1" class="card-image">
-                <div class="card-content">Nội dung thẻ 1</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image2.jpg" alt="Hình ảnh 2" class="card-image">
-                <div class="card-content">Nội dung thẻ 2</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image3.jpg" alt="Hình ảnh 3" class="card-image">
-                <div class="card-content">Nội dung thẻ 3</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image4.jpg" alt="Hình ảnh 4" class="card-image">
-                <div class="card-content">Nội dung thẻ 4</div>
-            </div>
-            <div class="carousel-card">
-                <img src="image5.jpg" alt="Hình ảnh 5" class="card-image">
-                <div class="card-content">Nội dung thẻ 5</div>
-            </div>
+            @foreach($articles as $article)
+                <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
+                    {{--                    <img src="{{ $article ->image_url  }}" alt="Hình ảnh {{ $article->title }}">--}}
+                    <img src="/admin/img/p_big1.jpg">
+                    <h3 class="article-title">{{ $article->title }}</h3>
+                    <div class="article-details" style="display: none;">
+                        <p class="article-content"></p>
+                        <p class="article-date"></p>
+                    </div>
+                </div>
+            @endforeach
         </div>
         <div class="carousel-controls">
             <button class="carousel-button left" id="prev">&#8249;</button>
@@ -120,8 +216,93 @@
         </div>
     </div>
 
+    <!-- Modal để hiển thị thông tin chi tiết -->
+    <!-- Modal Overlay -->
+    <div id="huongdanModalOverlay" class="huongdan-modal-overlay" onclick="closeHuongdanModal()"></div>
+    <div id="huongdanArticleModal" class="huongdan-modal">
+        <span class="close" onclick="closeHuongdanModal()" style="cursor: pointer;">&times;</span>
+        <img id="huongdanModalImage" src="" alt="Article Image">
+        <h3 id="huongdanModalTitle"></h3>
+        <p id="huongdanModalContent"></p>
+        <p id="huongdanModalDate"></p>
+    </div>
 
     <script>
+        // Hàm mở Modal khi click vào card
+        // Hàm mở Modal khi click vào card
+        function openHuongdanModal(cardElement) {
+            const title = cardElement.querySelector('.article-title').innerText;
+            const content = cardElement.querySelector('.article-details .article-content').innerText;
+            const date = cardElement.querySelector('.article-details .article-date').innerText;
+            const imageUrl = cardElement.querySelector('img').src;
+
+            document.getElementById('huongdanModalTitle').innerText = title;
+            document.getElementById('huongdanModalContent').innerText = content;
+            document.getElementById('huongdanModalDate').innerText = date;
+
+            const modalImage = document.getElementById('huongdanModalImage');
+            modalImage.src = imageUrl;
+
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "block";
+
+            const overlay = document.getElementById('huongdanModalOverlay');
+            overlay.style.display = "block";
+        }
+
+        function closeHuongdanModal() {
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "none";
+
+            const overlay = document.getElementById('huongdanModalOverlay');
+            overlay.style.display = "none";
+        }
+
+
+
+        // Hàm toggle khi click vào card để phóng to card
+        function toggleCard(cardElement, title, content, date) {
+            const isExpanded = cardElement.classList.contains('expanded');
+
+            // Đóng tất cả các card khác
+            const cards = document.querySelectorAll('.carousel-card');
+            cards.forEach(card => {
+                card.classList.remove('expanded');
+                card.querySelector('.article-details').style.display = 'none'; // Ẩn thông tin chi tiết
+            });
+
+            // Nếu card chưa phóng to, phóng to card đã nhấn
+            if (!isExpanded) {
+                cardElement.classList.add('expanded');
+                const details = cardElement.querySelector('.article-details');
+                details.querySelector('.article-content').innerText = content;
+                details.querySelector('.article-date').innerText = date;
+                details.style.display = 'block'; // Hiển thị thông tin chi tiết
+            }
+        }
+
+        // Hàm hiển thị chi tiết bài viết trong modal
+        function showArticleDetails(title, content, date) {
+            console.log(title, content, date); // Kiểm tra dữ liệu đầu vào
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalContent').innerText = content;
+            document.getElementById('modalDate').innerText = date;
+
+            const modal = document.getElementById('articleModal');
+            modal.style.display = "block";
+            modal.classList.add('show'); // Thêm lớp 'show' để hiển thị hiệu ứng
+        }
+
+
+            // Hàm đóng modal với hiệu ứng
+            function closeModalWithEffect() {
+                const modal = document.getElementById('articleModal');
+                modal.classList.remove('show'); // Loại bỏ lớp 'show' để áp dụng hiệu ứng thu nhỏ
+                setTimeout(() => {
+                    modal.style.display = "none"; // Ẩn modal sau khi hiệu ứng hoàn tất
+                }, 300); // Thời gian trùng với thời gian hiệu ứng
+            }
+        // Hàm xử lý carousel
         document.addEventListener("DOMContentLoaded", function() {
             const carousel = document.getElementById("carousel");
             const prevButton = document.getElementById("prev");
@@ -197,8 +378,9 @@
         </div>
 
         <!-- Bottom Bar -->
-
     </footer>
+
+
     <div style="background-color: #6a1b9a; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
         <span>&copy; 2024 Công Ty Cổ Phần SweetSoft.</span>
         <span>
@@ -208,58 +390,55 @@
         </span>
     </div>
 
-    <!-- Nút nổi -->
-    <div class="floating-button" id="openForm">
-    </div>
+    @if (auth()->check())
+        <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
+            @else
+                <!-- Nút nổi -->
+                <div class="floating-button" id="openForm">
+                </div>
 
-    <!-- Overlay -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-    <div class="modal" id="registrationForm">
-        <h2>FORM YÊU CẦU</h2>
-        <p style="color: red;">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
-        <form id="registerForm">
-            <div>
-                <button type="button" onclick="window.location.href='{{ route('login') }}'" style="padding: 10px 20px; background-color: #6F2F9F; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                    Đăng nhập
-                </button>
-            </div>
-            <a href="#" style="display: block; margin-top: 10px;">Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
-        </form>
+                <!-- Overlay -->
+                <div class="modal-overlay" id="modalOverlay"></div>
+                <div class="modal" id="registrationForm">
+                    <h2>FORM YÊU CẦU</h2>
+                    <p style="color: red;">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
+                    <form id="registerForm">
+                        <div>
+                            <button type="button" onclick="window.location.href='{{ route('login') }}'" >
+                                Đăng nhập
+                            </button>
+                        </div>
+                        <a href="#" >Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
+                    </form>
+                </div>
+            @endif
+                <script>
+                        // Lấy các phần tử HTML
 
-    </div>
+                        const openFormButton = document.getElementById('openForm');
+                        const modal = document.getElementById('registrationForm');
+                        const overlay = document.getElementById('modalOverlay');
+                        // Mở form khi ấn nút
+                        openFormButton.addEventListener('click', () => {
+                        modal.style.display = 'block';
+                        overlay.style.display = 'block';
 
-
-    <script>
-        // Lấy các phần tử HTML
-        const openFormButton = document.getElementById('openForm');
-        const modal = document.getElementById('registrationForm');
-        const overlay = document.getElementById('modalOverlay');
-
-        // Mở form khi ấn nút
-        openFormButton.addEventListener('click', () => {
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
-        });
-
-        // Đóng form khi ấn ra ngoài
-        overlay.addEventListener('click', () => {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-
-        // Xử lý khi gửi form
-        const registerForm = document.getElementById('registerForm');
-        registerForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Ngăn form tự động reload trang
-            alert('Thông tin đã được gửi!');
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-            registerForm.reset(); // Reset form sau khi gửi
-        });
-    </script>
-
-
+                    });
+                        // Đóng form khi ấn ra ngoài
+                        overlay.addEventListener('click', () => {
+                        modal.style.display = 'none';
+                        overlay.style.display = 'none';
+                    });
+                        // Xử lý khi gửi form
+                        const registerForm = document.getElementById('registerForm');
+                        registerForm.addEventListener('submit', (event) => {
+                        event.preventDefault(); // Ngăn form tự động reload trang
+                        alert('Thông tin đã được gửi!');
+                        modal.style.display = 'none';
+                        overlay.style.display = 'none';
+                        registerForm.reset(); // Reset form sau khi gửi
+                    });
+                </script>
 
 </body>
-
 </html>

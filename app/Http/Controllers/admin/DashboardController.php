@@ -9,6 +9,7 @@ use App\Models\Request;
 use App\Models\Request as SupportRequest; // Import Model Request
 use App\Models\User; // Import Model User
 use App\Models\FAQ; // Import Model User
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -51,14 +52,7 @@ class DashboardController extends Controller
         // Tính phần trăm thay đổi yêu cầu so với hôm qua
         $requestPercentageChange = $this->calculatePercentageChange($totalRequestsToday, $totalRequestsYesterday);
 
-        // Tổng số người dùng từ bảng user hôm nay
-        $totalUsersToday = User::whereDate('create_at', now()->toDateString())->count();
 
-        // Tổng số người dùng từ bảng user ngày hôm qua
-        $totalUsersYesterday = User::whereDate('create_at', now()->subDay()->toDateString())->count();
-
-        // Tính phần trăm thay đổi người dùng so với hôm qua
-        $userPercentageChange = $this->calculatePercentageChange($totalUsersToday, $totalUsersYesterday);
 
         // Tổng số bài viết từ bảng faq hôm nay
         $totalFaqsToday = FAQ::whereDate('create_at', now()->toDateString())->count();
@@ -72,13 +66,21 @@ class DashboardController extends Controller
 
         // Dữ liệu yêu cầu theo trạng thái
         $requestStatusCounts = [
-            'processing' => Request::where('status', 'Chưa xử lý')->count(),
-            'handled' => Request::where('status', 'Đang xử lý')->count(),
-            'completed' => Request::where('status', 'Hoàn thành')->count(),
-            'cancelled' => Request::where('status', 'Đã hủy')->count(),
+            'processing' => Request::where('status', 'Chưa xử lý')
+                ->where('create_at', '>=', Carbon::now()->startOfWeek())
+                ->count(),
+            'handled' => Request::where('status', 'Đang xử lý')
+                ->where('create_at', '>=', Carbon::now()->startOfWeek())
+                ->count(),
+            'completed' => Request::where('status', 'Hoàn thành')
+                ->where('create_at', '>=', Carbon::now()->startOfWeek())
+                ->count(),
+            'cancelled' => Request::where('status', 'Đã hủy')
+                ->where('create_at', '>=', Carbon::now()->startOfWeek())
+                ->count(),
         ];
 
-        
+
         // Lấy dữ liệu yêu cầu trong tuần này từ Thứ Hai đến Chủ Nhật
         $requestsThisWeek = SupportRequest::selectRaw('WEEKDAY(create_at) as weekday, COUNT(*) as total')
             ->whereBetween('create_at', [now()->startOfWeek(), now()->endOfWeek()])
@@ -110,8 +112,6 @@ class DashboardController extends Controller
             'customerPercentageChange',
             'totalRequestsToday',
             'requestPercentageChange',
-            'totalUsersToday',
-            'userPercentageChange',
             'totalFaqsToday',
             'faqPercentageChange',
             'requestStatusCounts',
@@ -119,7 +119,7 @@ class DashboardController extends Controller
 
         ));
     }
-    
+
 
     // Hàm tính phần trăm thay đổi
     private function calculatePercentageChange($todayCount, $yesterdayCount)

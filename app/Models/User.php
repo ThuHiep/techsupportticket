@@ -65,12 +65,12 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class, 'role_id','role_id');
     }
 
     public function customers()
     {
-        return $this->hasMany(Customer::class,);
+        return $this->hasMany(Customer::class,'user_id', 'user_id');
     }
 
     public function employees()

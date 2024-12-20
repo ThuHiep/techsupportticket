@@ -1,3 +1,8 @@
+<body class="pace-done body-small"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+    <div class="pace-progress-inner"></div>
+  </div>
+  <div class="pace-activity"></div></div>
+
 <nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -16,7 +21,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="profile.html">Hồ sơ</a></li>
+                        <li><a href="{{ route('employee.editProfile', $logged_user->employee_id) }}">Hồ sơ</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
@@ -28,33 +33,21 @@
                     <span>Trang quản trị</span>
                 </a>
             </li>
-            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('permission*') ? 'active' : '' }}">
-                <a href="{{ route('permission.index') }}"><i class="fas fa-shield-alt"></i>
+                <a href="{{ route('permission.index') }}"><i class="fas fa-address-book"></i>
                     <span class="nav-label">Tài khoản</span>
                 </a>
             </li>
-            @endif
-            @if ($logged_user->user->role_id == 1)
-            <li class="{{ Request::is('employee*') ? 'active' : '' }}">
-                <a href="{{ route('employee.index') }}"><i class="fas fa-address-book"></i>
-                    <span class="nav-label">Nhân viên</span>
-                </a>
-            </li>
-            @endif
-
             <li class="{{ Request::is('customer*') ? 'active' : '' }}">
                 <a href="{{ route('customer.index') }}"><i class="fa-solid fa-users"></i>
                     <span class="nav-label">Khách hàng</span>
                 </a>
             </li>
-            @if ($logged_user->user->role_id == 1)
             <li class="{{ Request::is('department*') ? 'active' : '' }}">
                 <a href="{{ route('department.index') }}"><i class="fa-solid fa-clipboard"></i>
                     <span class="nav-label">Phòng ban</span>
                 </a>
             </li>
-            @endif
             <li class="{{ Request::is('request*') ? 'active' : '' }}">
                 <a href="{{ route('request.index') }}"><i class="fa-solid fa-tools"></i>
                     <span class="nav-label">Yêu cầu</span>
@@ -73,3 +66,4 @@
         </ul>
     </div>
 </nav>
+</body>

@@ -22,22 +22,22 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: left">Thêm nhân viên mới</h1>
+        <h1 style="text-align: left">Thêm tài khoản mới</h1>
         <form action="{{ route('permission.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
                 <div class="col-md-9">
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
-                            <label for="employee_id" class="form-label">Mã nhân viên<span class="required">*</span></label>
-                            <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ $randomId }}" readonly required>
+                            <label for="employee_id" class="form-label">Mã người dùng<span class="required">*</span></label>
+                            <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ $randomIdAD }}" readonly required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
-                            <input type="username" id="username" name="username" class="form-control" value="{{$randomUserName}}" readonly required>
+                            <input type="username" id="username" name="username" class="form-control" value="{{$randomUserNameAD}}" readonly required>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
+                            <label for="full_name" class="form-label">Tên người dùng<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control {{ $errors->has('full_name') ? 'is-invalid' : '' }}" value="{{ old('full_name') }}" required>
                             @error('full_name')
                             <div class="text-danger">{{ $message }}</div>
@@ -69,23 +69,29 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" value="{{ old('phone') }}" required>
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                             <input type="text" id="address" name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" value="{{ old('address') }}" required>
                             @error('address')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
+                            <select class="form-select" id="role_id" name="role_id" required>
+                                <option value="1">Quản trị viên hệ thống</option>
+                                <option value="2">Nhân viên hỗ trợ</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-
 
                 <!-- Cột bên phải cho hình ảnh đại diện -->
                 <div class="col-md-3 grouped-fields">
@@ -137,6 +143,27 @@
 
         errorFields.forEach(function(field) {
             field.value = '';
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const roleSelect = document.getElementById('role_id');
+        const employeeIdField = document.getElementById('employee_id');
+        const usernameField = document.getElementById('username');
+
+        // Giá trị để hiển thị theo vai trò
+        const randomIdAD = "{{ $randomIdAD }}";
+        const randomUserNameAD = "{{ $randomUserNameAD }}";
+        const randomIdEM = "{{ $randomIdEM }}";
+        const randomUserNameEM = "{{ $randomUserNameEM }}";
+
+        roleSelect.addEventListener('change', function() {
+            if (roleSelect.value === "1") {
+                employeeIdField.value = randomIdAD;
+                usernameField.value = randomUserNameAD;
+            } else if (roleSelect.value === "2") {
+                employeeIdField.value = randomIdEM;
+                usernameField.value = randomUserNameEM;
+            }
         });
     });
 </script>

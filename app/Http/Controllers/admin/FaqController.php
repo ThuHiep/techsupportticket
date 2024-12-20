@@ -11,58 +11,59 @@ use Illuminate\Support\Facades\Auth;
 class FaqController extends Controller
 {
     public function index(Request $request)
-{
-    $template = 'admin.faq.index';
-    $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+    {
+        $template = 'admin.faq.index';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-    // Lấy các tham số tìm kiếm
-    $search = $request->input('search'); // Từ khóa hoặc mã FAQ
-    $statusFilter = $request->input('status'); // Trạng thái câu hỏi
+        // Lấy các tham số tìm kiếm
+        $search = $request->input('search'); // Từ khóa hoặc mã FAQ
+        $statusFilter = $request->input('status'); // Trạng thái câu hỏi
+        $date = $request->input('date'); // Ngày cụ thể (nếu có)
 
-    // Kiểm tra xem từ khóa là mã FAQ (định dạng FAQxxxx)
-    $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
+        $isTodaySearch = false;
 
-    // Tìm kiếm FAQ
-    $faqs = Faq::when($isSearchById, function ($query) use ($search) {
-        return $query->where('faq_id', $search);
-    })
-    ->when(!$isSearchById && $search, function ($query) use ($search) {
-        return $query->where('question', 'LIKE', "%$search%");
-    })
-    ->when($statusFilter, function ($query) use ($statusFilter) {
-        return $query->where('status', $statusFilter);
-    })
-    ->paginate(4);
+        // Kiểm tra xem từ khóa là mã FAQ (định dạng FAQxxxx)
+        $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
 
-    // Đếm số lượng kết quả tìm thấy
-    $totalResults = $faqs->total();
-
-    // Xác định các tiêu chí tìm kiếm
-    $isSearchWithStatus = $search && $statusFilter; // Cả từ khóa và trạng thái
-    $isSearchPerformed = $search || $statusFilter; // Có thực hiện tìm kiếm
-
-    return view('admin.dashboard.layout', compact(
-        'template',
-        'logged_user',
-        'faqs',
-        'search',
-        'statusFilter',
-        'totalResults',
-        'isSearchById',
-        'isSearchWithStatus',
-        'isSearchPerformed'
-    ));
-}
+        // Tìm kiếm FAQ
+        $faqs = Faq::when($search, function ($query) use ($search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('faq_id', $search)
+                    ->orWhere('question', 'LIKE', "%$search%");
+            });
+        })
+            ->where('status', 'Chưa phản hồi')
+            ->paginate(4);
 
 
+        // Đếm số lượng kết quả tìm thấy
+        $totalResults = $faqs->total();
+
+        // Xác định các tiêu chí tìm kiếm
+        $isSearchWithStatus = $search && $statusFilter; // Cả từ khóa và trạng thái
+        $isSearchPerformed = $search || $statusFilter; // Có thực hiện tìm kiếm
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'faqs',
+            'search',
+            'statusFilter',
+            'totalResults',
+            'isSearchById',
+            'isSearchWithStatus',
+            'isSearchPerformed',
+            'isTodaySearch',
+        ));
+    }
 
     public function create()
     {
         $template = 'admin.faq.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         do {
-            $randomNumber = mt_rand(1, 9999);
-            $nextId = 'FAQ' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
+            $randomNumber = mt_rand(1, 9999999);
+            $nextId = 'FAQ' . str_pad($randomNumber, 7, '0', STR_PAD_LEFT);
             $exists = FAQ::where('faq_id', $nextId)->exists();
         } while ($exists);
 
@@ -74,46 +75,53 @@ class FaqController extends Controller
         $request->validate([
             'faq_id' => 'required|unique:faq,faq_id',
             'email' => 'required|email',
-            'question' => 'required|max:255',
-            'answer' => 'nullable', // Cho phép trống
-            'status' => 'required|in:Đã phản hồi,Chưa phản hồi',
+            'question' => 'required',
+            'answer' => 'nullable',
         ]);
-
-        $data = $request->all();
-        $data['answer'] = $data['answer'] ?? null; // Gán NULL nếu không nhập
-        $data['status'] = $data['answer'] ? 'Đã phản hồi' : 'Chưa phản hồi';
-
-        Faq::create($data);
+        $faq = new Faq();
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        if ($request->input('answer')) {
+            $faq->faq_id = $request->input('faq_id');
+            $faq->employee_id = $logged_user->employee_id;
+            $faq->email = $request->input('email');
+            $faq->question = $request->input('question');
+            $faq->answer = $request->input('answer');
+            $faq->status = 'Đã phản hồi';
+        } else {
+            $faq->faq_id = $request->input('faq_id');
+            $faq->email = $request->input('email');
+            $faq->question = $request->input('question');
+            $faq->status = 'Chưa phản hồi';
+        }
+        $faq->create_at = now();
+        $faq->save();
 
         return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được thêm thành công!');
     }
 
-    public function edit($faq_id)
+    public function feedback($faq_id)
     {
-        $template = 'admin.faq.edit';
+        $template = 'admin.faq.feedback';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $faq = Faq::findOrFail($faq_id);
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'faq'));
     }
 
-    public function update(Request $request, $faq_id)
+    public function feedbackProcess(Request $request, $faq_id)
     {
         $faq = FAQ::findOrFail($faq_id);
-
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $request->validate([
-            'email' => 'required|email',
-            'question' => 'required|max:255',
-            'answer' => 'nullable', // Cho phép trống
-            'status' => 'required|in:Đã phản hồi,Chưa phản hồi',
+            'question' => 'required',
+            'answer' => 'required',
         ]);
+        $faq->employee_id = $logged_user->employee_id;
+        $faq->question = $request->input('question');
+        $faq->answer = $request->input('answer');
+        $faq->status = 'Đã phản hồi';
+        $faq->save();
 
-        $data = $request->all();
-        $data['answer'] = $data['answer'] ?? null; // Gán NULL nếu không nhập
-        $data['status'] = $data['answer'] ? 'Đã phản hồi' : 'Chưa phản hồi';
-
-        $faq->update($data);
-
-        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được cập nhật!');
+        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được phản hồi!');
     }
 
     public function destroy($faq_id)
@@ -135,5 +143,23 @@ class FaqController extends Controller
             ->count();
 
         return response()->json(['count' => $count]);
+    }
+
+    public function getAnswer($faq_id)
+    {
+        $faq = FAQ::with('employee')->where("faq_id", "=", $faq_id)->first();
+
+        if ($faq) {
+            return response()->json([
+                'success' => true,
+                'employee' => 'Người trả lời: ' . $faq->employee->full_name,
+                'answer' => 'Câu trả lời: ' . $faq->answer
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy câu trả lời.',
+        ]);
     }
 }

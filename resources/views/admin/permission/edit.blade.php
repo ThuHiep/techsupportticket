@@ -96,7 +96,7 @@
                             <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
                             <select class="form-select" id="role_id" name="role_id" required>
                                 <option value="1" {{ $employee->user->role_id  == '1' ? 'selected' : '' }}>Quản trị viên hệ thống</option>
-                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên hỗ trợ khách hàng</option>
+                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên hỗ trợ </option>
                             </select>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
 
                                     <div id="image-preview" class="image-preview">
                                         <img id="preview-img"
-                                            src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/customer/default.png') }}"
+                                            src="{{ $employee->profile_image ? asset('admin/img/employee/' . $employee->profile_image) : asset('admin/img/employee/default.png') }}"
                                             alt="Hình đại diện">
                                     </div>
                                 </div>
