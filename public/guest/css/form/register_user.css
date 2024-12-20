@@ -259,6 +259,15 @@ select option {
     color: rgb(204, 30, 204);
     text-decoration: none;
 }
+.toggle-password {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.toggle-password:hover {
+    color: #ff6f00;
+}
+
 
 /* Responsive CSS */
 @media (max-width: 1200px) {

@@ -59,6 +59,7 @@
                             <option value="Nữ">Nữ</option>
                         </select>
                         <label for="gender" class="label">Giới tính <span class="required">*</span></label>
+                        <i class="bx bx-male-female icon"></i>
                     </div>
 
                     <div class="input_box">
@@ -101,7 +102,8 @@
                         <input type="password" id="password" name="password" class="input-field" required>
                         <label for="password" class="label">Mật khẩu <span class="required">*</span></label>
                         <span class="error-message" id="password_error"></span>
-                        <i class="bx bx-lock-alt icon"></i>
+
+                        <i class="bx bx-show toggle-password icon" data-target="password"></i>
                         <div class="password-hint">
                             <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
                             <div class="hint-list">
@@ -120,7 +122,8 @@
                     <div class="input_box">
                         <input type="password" id="password_confirm" name="password_confirmation" class="input-field" required>
                         <label for="password_confirm" class="label">Xác nhận mật khẩu <span class="required">*</span></label>
-                        <i class="bx bx-repeat icon"></i>
+
+                        <i class="bx bx-show toggle-password icon" data-target="password_confirm"></i>
                         <span class="error-message" id="password_confirm_error"></span>
                     </div>
                 </div>
@@ -209,7 +212,23 @@
                 errorMessage.textContent = '';
             }
         });
+// JavaScript để ẩn/hiện mật khẩu
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const targetId = icon.getAttribute('data-target');
+                const targetInput = document.getElementById(targetId);
 
+                if (targetInput.type === 'password') {
+                    targetInput.type = 'text';
+                    icon.classList.remove('bx-show');
+                    icon.classList.add('bx-hide');
+                } else {
+                    targetInput.type = 'password';
+                    icon.classList.remove('bx-hide');
+                    icon.classList.add('bx-show');
+                }
+            });
+        });
         // Kiểm tra số điện thoại
         phoneInput.addEventListener('input', function () {
             const errorMessage = document.getElementById('phone_error');
