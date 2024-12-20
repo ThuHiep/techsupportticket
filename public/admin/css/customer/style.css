@@ -369,3 +369,169 @@ tr:nth-child(even) td {
 #usersModal {
     display: block; /* Thêm cho modal khi hiển thị */
 }
+/* Thêm media queries cho màn hình dưới 768px */
+@media (max-width: 768px) {
+    .container {
+        margin: 15px auto;
+        padding: 10px;
+        width: 100%; /* Đảm bảo container luôn chiếm toàn bộ chiều ngang */
+    }
+
+    .add-customer-btn {
+        display: block;
+        width: 15%; /* Chiếm toàn bộ chiều ngang */
+        margin-bottom: 10px; /* Thêm khoảng cách bên dưới */
+        text-align: center; /* Căn giữa nội dung */
+    }
+
+    .search-container {
+        width: 28%; /* Chiếm toàn bộ chiều ngang container */
+        margin: -12px 265px 0px 0px;
+    }
+
+    .search-container input[type="text"] {
+        width: 227%; /* Điều chỉnh để phù hợp với chiều ngang container */
+        padding: 10px; /* Giữ khoảng cách padding hợp lý */
+    }
+
+    .search-container button {
+        width: 35%;
+        margin-right: -279px;
+    }
+
+    .table-container {
+        overflow-x: auto; /* Đảm bảo bảng không bị tràn màn hình */
+    }
+    .show-users-btn {
+        padding: 7px 13px;
+        font-size: 14px;
+        border-radius: 5px;
+        margin-top: -125px;
+        margin-right: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    th, td {
+        font-size: 12px;
+    }
+    .employee-image {
+        width: 50px;
+        height: 50px;
+    }
+    .pagination {
+        flex-wrap: wrap;
+    }
+    .pagination a, .pagination span {
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+    }
+}
+/* Media queries cho màn hình dưới 425px */
+@media (max-width: 425px) {
+
+    h1 {
+        font-size: 25px;
+        padding-bottom: 10px;
+    }
+    .container {
+        padding: 10px;
+    }
+
+    .add-customer-btn {
+        width: 25%;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .search-container {
+        width: 28%; /* Chiếm toàn bộ chiều ngang container */
+        margin: -12px 265px 0px 0px;
+    }
+
+    .search-container input[type="text"] {
+        width: 285%;
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .search-container button {
+        width: 75%;
+        padding: 8px;
+        font-size: 13px;
+        margin-right: -250px;
+    }
+
+    .table-container {
+        margin-top: 10px;
+    }
+    .show-users-btn {
+        padding: 4px 18px;
+        font-size: 12px;
+        border-radius: 5px;
+        margin-top: -127px;
+        margin-left: -52px;
+    }
+}
+
+/* Media queries cho màn hình dưới 375px */
+@media (max-width: 375px) {
+    h1{
+        font-size: 30px;
+        padding-bottom: 10px;
+    }
+    .add-customer-btn {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .search-container input[type="text"] {
+        width: 292%;
+        font-size: 11px;
+        padding: 6px;
+    }
+
+    .search-container button {
+        width: 69%;
+        padding: 6px;
+        font-size: 11px;
+        margin-right: -258%;
+    }
+}
+
+/* Media queries cho màn hình dưới 320px */
+@media (max-width: 320px) {
+    h1 {
+        font-size: 26px;
+        padding-bottom: 10px;
+    }
+    .container {
+        padding: 5px;
+    }
+
+    .add-customer-btn {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .search-container {
+        gap: 5px;
+    }
+
+    .search-container input[type="text"] {
+        width: 292%;
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .search-container button {
+        width: 75%;
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .table-container {
+        font-size: 10px;
+    }
+}
