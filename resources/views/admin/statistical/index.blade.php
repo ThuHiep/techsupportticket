@@ -48,6 +48,53 @@
             background: #4caf50; /* Màu xanh */
             transition: width 0.4s ease;
         }
+        .filter-container {
+            display: flex;
+            justify-content: center; /* Căn giữa các phần tử */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            gap: 15px; /* Khoảng cách giữa các phần tử */
+            margin-bottom: 20px; /* Khoảng cách dưới cùng */
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column; /* Đặt label và select theo chiều dọc */
+            align-items: center; /* Căn giữa các phần tử trong nhóm */
+        }
+
+        .custom-select {
+            padding: 8px;
+            border: 1px solid #ced4da; /* Màu viền */
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .custom-select:focus {
+            border-color: #007bff; /* Màu viền khi focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng bóng khi focus */
+            outline: none;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #ff7f50; /* Màu nền nút */
+            color: white; /* Màu chữ */
+        }
+
+        .btn-primary:hover {
+            background-color: #e67e22; /* Màu nền khi hover */
+            transform: scale(1.05); /* Phóng to một chút khi hover */
+        }
+
     </style>
 </head>
 <body>
@@ -111,13 +158,31 @@
                 </div>
             </div>
             <!--Biểu đồ báo cáo yêu cầu theo thời gian-->
-            <!--Biểu đồ theo thời gian-->
             <div class="report-section" id="timeReportContainer" style="display: none;">
                 <h3>Báo cáo số yêu cầu theo thời gian</h3>
                 <div class="filter-container">
-                    <button id="btnTimeToday" type="button" onclick="filterTimeBy('today')">Hôm nay</button>
-                    <button id="btnTimeMonthly" type="button" onclick="filterTimeBy('monthly')">Tháng này</button>
-                    <button id="btnTimeYearly" type="button" onclick="filterTimeBy('yearly')">Năm nay</button>
+                    <select id="departmentSelect">
+                        <option value="">Phòng ban</option>
+                    </select>
+
+                    <select id="statusSelect">
+                        <option value="">Trạng thái</option>
+                        <option value="pending">Chưa xử lý</option>
+                        <option value="in_progress">Đang xử lý</option>
+                        <option value="completed">Hoàn thành</option>
+                        <option value="canceled">Đã Hủy</option>
+                    </select>
+
+                    <select id="typeSelect">
+                        <option value="">Loại yêu cầu</option>
+                    </select>
+
+                    <select id="timeLevelSelect" onchange="handleLevelChange()">
+                        <option value="year">Năm</option>
+                        <option value="month">Tháng</option>
+                        <option value="day">Ngày</option>
+                    </select>
+                    <button id="btnFilter" type="button" onclick="applyFilters()">Lọc</button>
                 </div>
                 <canvas id="timeReport"></canvas>
             </div>
@@ -136,19 +201,25 @@
             <div class="report-section" id="requestTypeDataContainer" style="display: none;">
                 <h3>Số liệu tổng hợp</h3>
                 <p id="totalRequestTypeRequests"></p>
-                <ul id="requestTypeDataList"></ul>
                 <div class="progress-bar">
                     <div class="progress" style="width: 22%;"></div>
                 </div>
+                <ul id="requestTypeDataList"></ul>
             </div>
             <!--Số liệu phòng ban-->
             <div class="report-section" id="departmentDataContainer" style="display: none;">
                 <h3>Số liệu tổng hợp</h3>
                 <p id="totalDepartmentRequests"></p>
-                <ul id="departmentDataList"></ul>
                 <div class="progress-bar">
                     <div class="progress" style="width: 10%;"></div>
                 </div>
+                <ul id="departmentDataList"></ul>
+            </div>
+            <!--Số liệu thời gian-->
+            <div class="report-section" id="timeDataContainer" style="display: none;">
+                <h3>Số liệu tổng hợp</h3>
+                <p id="totalTimeRequests"></p>
+                <ul id="timeDataList"></ul>
             </div>
         </div>
     </div>
@@ -158,49 +229,42 @@
     function showSelectedChart() {
         const selectedReport = document.getElementById('reportSelect').value;
         localStorage.setItem('selectedReport', selectedReport);
+
+        // Lấy các container báo cáo
         const customerReportContainer = document.getElementById('customerReportContainer');
         const requestTypeReportContainer = document.getElementById('requestTypeReportContainer');
-        const departmentReportContainer = document.getElementById('departmentReportContainer'); // Add this line
+        const departmentReportContainer = document.getElementById('departmentReportContainer');
+        const timeReportContainer = document.getElementById('timeReportContainer');
+
+        // Lấy các container dữ liệu
         const customerDataContainer = document.getElementById('customerDataContainer');
         const requestTypeDataContainer = document.getElementById('requestTypeDataContainer');
-        const departmentDataContainer = document.getElementById('departmentDataContainer'); // Add this line
+        const departmentDataContainer = document.getElementById('departmentDataContainer');
+        const timeDataContainer = document.getElementById('timeDataContainer'); // Thêm khai báo cho timeDataContainer
 
+        // Hiển thị hoặc ẩn các phần tử dựa trên báo cáo đã chọn
+        customerReportContainer.style.display = selectedReport === 'customer' ? 'block' : 'none';
+        requestTypeReportContainer.style.display = selectedReport === 'requestType' ? 'block' : 'none';
+        departmentReportContainer.style.display = selectedReport === 'department' ? 'block' : 'none';
+        timeReportContainer.style.display = selectedReport === 'time' ? 'block' : 'none';
+
+        customerDataContainer.style.display = selectedReport === 'customer' ? 'block' : 'none';
+        requestTypeDataContainer.style.display = selectedReport === 'requestType' ? 'block' : 'none';
+        departmentDataContainer.style.display = selectedReport === 'department' ? 'block' : 'none';
+        timeDataContainer.style.display = selectedReport === 'time' ? 'block' : 'none'; // Hiển thị dữ liệu của time nếu được chọn
+
+        // Cập nhật dữ liệu báo cáo tương ứng
         if (selectedReport === 'customer') {
-            customerReportContainer.style.display = 'block';
-            requestTypeReportContainer.style.display = 'none';
-            departmentReportContainer.style.display = 'none'; // Hide department report
-            customerDataContainer.style.display = 'block';
-            requestTypeDataContainer.style.display = 'none';
-            departmentDataContainer.style.display = 'none'; // Hide department data
-            updateCustomerReport(); // Hiển thị số liệu tổng hợp cho khách hàng
+            updateCustomerReport();
         } else if (selectedReport === 'requestType') {
-            customerReportContainer.style.display = 'none';
-            requestTypeReportContainer.style.display = 'block';
-            departmentReportContainer.style.display = 'none'; // Hide department report
-            customerDataContainer.style.display = 'none';
-            requestTypeDataContainer.style.display = 'block';
-            departmentDataContainer.style.display = 'none'; // Hide department data
-            updateRequestTypeData(); // Hiển thị số liệu tổng hợp cho loại yêu cầu
+            updateRequestTypeData();
         } else if (selectedReport === 'department') {
-            customerReportContainer.style.display = 'none';
-            requestTypeReportContainer.style.display = 'none';
-            departmentReportContainer.style.display = 'block'; // Show department report
-            customerDataContainer.style.display = 'none';
-            requestTypeDataContainer.style.display = 'none';
-            departmentDataContainer.style.display = 'block'; // Show department data
-            updateDepartmentReport(); // Hiển thị số liệu tổng hợp cho phòng ban
-        }
-        else if (selectedReport === 'time') {
-            customerReportContainer.style.display = 'none';
-            requestTypeReportContainer.style.display = 'none';
-            departmentReportContainer.style.display = 'none'; // Hide department report
-            timeReportContainer.style.display = 'block'; // Show time report
-            customerDataContainer.style.display = 'none';
-            requestTypeDataContainer.style.display = 'none';
-            departmentDataContainer.style.display = 'none'; // Hide department data
-            updateTimeReport(); // Hiển thị số liệu tổng hợp theo thời gian
+            updateDepartmentReport();
+        } else if (selectedReport === 'time') {
+            updateTimeReport('today'); // Cập nhật dữ liệu thời gian, mặc định là hôm nay
         }
     }
+
 
     // Dữ liệu ban đầu cho báo cáo khách hàng
     const customerData = {
@@ -499,70 +563,216 @@
         displayDepartmentData(selectedDepartment);
     }
     //----------------------------Báo cáo theo thời gian-------------------
-    // Fetch real data for the time report
-    async function fetchTimeData() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const timeCtx = document.getElementById('timeReport')?.getContext('2d');
+        if (!timeCtx) {
+            console.error('Canvas element not found');
+            return;
+        }
+        timeChart = new Chart(timeCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Số yêu cầu theo thời gian',
+                    data: [],
+                    borderColor: '#8e44ad',
+                    backgroundColor: 'rgba(142, 68, 173, 0.5)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        updateTimeReport('today'); // Tải dữ liệu mặc định
+    });
+
+
+
+    // Fetch data based on selected period
+    async function fetchTimeData(period) {
         try {
-            const response = await fetch('http://localhost:8000/api/get-time-data'); // Adjust the URL as necessary
+            const response = await fetch(`http://localhost:8000/api/get-time-data?period=${period}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const timeData = await response.json(); // Assume the response is in the correct format
-            updateTimeChart(timeData);
+            const timeData = await response.json();
+
+            console.log('Fetched time data:', timeData); // Kiểm tra dữ liệu
+            updateTimeChart(timeData); // Cập nhật biểu đồ với dữ liệu đã lấy
+            updateTimeData(timeData); // Cập nhật số liệu tổng hợp
         } catch (error) {
             console.error('Error fetching time data:', error);
         }
     }
 
-    // Update the time chart with fetched data
-    function updateTimeChart(data) {
-        const labels = Object.keys(data);
-        const values = Object.values(data);
 
+    // Update the time chart with fetched data
+    let fetchedTimeData = {}; // Khởi tạo biến toàn cục
+
+    function updateTimeChart(data, level = 'year') {
+        let labels = [];
+        let values = [];
+
+        if (level === 'year') {
+            labels = Object.keys(data);
+            values = labels.map(year => data[year].total || 0);
+        } else if (level === 'month') {
+            const selectedYear = '2024'; // Thay bằng năm đã chọn
+            labels = Object.keys(data[selectedYear]?.months || {});
+            values = labels.map(month => data[selectedYear]?.months[month]?.total || 0);
+        } else if (level === 'day') {
+            const selectedYear = '2024'; // Thay bằng năm đã chọn
+            const selectedMonth = '01'; // Thay bằng tháng đã chọn
+            labels = Object.keys(data[selectedYear]?.months[selectedMonth]?.days || {});
+            values = labels.map(day => data[selectedYear]?.months[selectedMonth]?.days[day] || 0);
+        }
+
+        // Chỉ cập nhật dữ liệu biểu đồ
         timeChart.data.labels = labels;
         timeChart.data.datasets[0].data = values;
         timeChart.update();
     }
 
-    // Cập nhật báo cáo theo thời gian
-    function updateTimeReport() {
-        fetchTimeData(); // Fetch and update the time chart with real data
+
+
+    // Handle button clicks to filter data
+    function filterTimeBy(period) {
+        fetchTimeData(period); // Lấy dữ liệu cho khoảng thời gian đã chọn
     }
 
-    // Initialize the time chart
-    const timeCtx = document.getElementById('timeReport').getContext('2d');
-    let timeChart = new Chart(timeCtx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Số yêu cầu theo thời gian',
-                data: [],
-                borderColor: '#8e44ad',
-                backgroundColor: 'rgba(142, 68, 173, 0.5)',
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
-                        }
-                    }
-                }
+    // Update the report based on the initial selection
+    function updateTimeReport(defaultPeriod) {
+        fetchTimeData(defaultPeriod).then(() => {
+            if (!fetchedTimeData || Object.keys(fetchedTimeData).length === 0) {
+                console.error('No data available for the default period');
             }
+        });
+    }
+
+    //
+    async function applyFilters() {
+        const department = document.getElementById('departmentSelect').value;
+        const status = document.getElementById('statusSelect').value;
+        const requestType = document.getElementById('typeSelect').value;
+
+        const params = new URLSearchParams();
+        if (department) params.append('department', department);
+        if (status) params.append('status', status);
+        if (requestType) params.append('type', requestType);
+
+        try {
+            const response = await fetch(`http://localhost:8000/api/get-time-data?${params.toString()}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const timeData = await response.json();
+            updateTimeChart(timeData); // Cập nhật biểu đồ với dữ liệu đã lọc
+            updateTimeData(timeData); // Cập nhật số liệu tổng hợp
+        } catch (error) {
+            console.error('Error fetching filtered time data:', error);
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchDepartments();
+        fetchRequestTypes();
     });
+
+    // Fetch departments and populate the dropdown
+    async function fetchDepartments() {
+        try {
+            const response = await fetch('http://localhost:8000/api/get-departments');
+            const departments = await response.json();
+            const departmentSelect = document.getElementById('departmentSelect');
+            departments.forEach(department => {
+                const option = document.createElement('option');
+                option.value = department.department_id;
+                option.textContent = department.department_name;
+                departmentSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching departments:', error);
+        }
+    }
+
+    // Fetch request types and populate the dropdown
+    async function fetchRequestTypes() {
+        try {
+            const response = await fetch('http://localhost:8000/api/get-request-types');
+            const requestTypes = await response.json();
+            const typeSelect = document.getElementById('typeSelect');
+            requestTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.request_type_id;
+                option.textContent = type.request_type_name;
+                typeSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching request types:', error);
+        }
+    }
+
+    function updateTimeData(timeData) {
+        const totalRequests = Object.keys(timeData).reduce((acc, year) => {
+            const yearData = timeData[year];
+            return acc + (yearData.total || 0);
+        }, 0);
+
+        // Cập nhật tổng số yêu cầu
+        document.getElementById('totalTimeRequests').innerText = `Tổng số yêu cầu: ${totalRequests}`;
+
+        // Cập nhật danh sách chi tiết
+        const timeDataList = document.getElementById('timeDataList');
+        timeDataList.innerHTML = ""; // Xóa nội dung cũ
+
+        Object.keys(timeData).forEach(year => {
+            const yearData = timeData[year];
+            const yearLi = document.createElement('li');
+            yearLi.innerText = `${year}: ${yearData.total} yêu cầu`;
+            timeDataList.appendChild(yearLi);
+
+            const monthUl = document.createElement('ul');
+            Object.keys(yearData.months).forEach(month => {
+                const monthData = yearData.months[month];
+                const monthLi = document.createElement('li');
+                monthLi.innerText = `Tháng ${month}: ${monthData.total} yêu cầu`;
+                monthUl.appendChild(monthLi);
+
+                const dayUl = document.createElement('ul');
+                Object.keys(monthData.days).forEach(day => {
+                    const dayLi = document.createElement('li');
+                    dayLi.innerText = `Ngày ${day}: ${monthData.days[day]} yêu cầu`;
+                    dayUl.appendChild(dayLi);
+                });
+                monthLi.appendChild(dayUl);
+            });
+            yearLi.appendChild(monthUl);
+        });
+    }
+
+    function handleLevelChange() {
+        const level = document.getElementById('timeLevelSelect').value;
+        updateTimeChart(fetchedTimeData, level); // fetchedTimeData là dữ liệu API đã tải
+    }
 </script>
 
 </body>
