@@ -157,7 +157,6 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 th, td {
@@ -214,7 +213,7 @@ tr:nth-child(even) td {
 .pagination {
     display: flex;
     justify-content: center; /* Căn giữa các phần tử trong phân trang */
-    margin-top: 20px;
+
 }
 
 .pagination a, .pagination span {
