@@ -111,7 +111,7 @@
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="width: 300px", height="300px"/>
+              alt="" style="width: 250px"/>
           </div>
           <div class="col-lg-8 content">
             <h2 id="title">Thông tin Khách hàng</h2>
