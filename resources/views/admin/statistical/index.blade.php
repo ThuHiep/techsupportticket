@@ -9,10 +9,6 @@
     <title>Báo cáo thống kê</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
         .container {
             width: calc(98%);
             margin: auto;
