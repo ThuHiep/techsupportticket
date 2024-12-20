@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Department;
 use App\Models\Employee;
 use App\Models\RequestType;
 use Carbon\Carbon;
@@ -19,6 +20,8 @@ class ReportController extends Controller
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
         // Lấy loại yêu cầu từ cơ sở dữ liệu với số lượng yêu cầu
         $requestTypes = RequestType::withCount('requests')->get();
+        // Lấy phòng ban từ cơ sở dữ liệu
+        $departments = Department::withCount('requests')->get();
 
         // Truy vấn để lấy số liệu yêu cầu theo ngày
         $query = DB::table('request')
@@ -51,8 +54,12 @@ class ReportController extends Controller
             ->get(['customer_id', 'full_name']);
 
         $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
-
-        return view('admin.dashboard.layout', compact('response','template', 'requestTypes','logged_user','activeCustomers','customerColors'));
+        // Generate department colors dynamically
+        $departmentColors = [];
+        foreach ($departments as $index => $department) {
+            $departmentColors[$department->department_name] = $customerColors[$index % count($customerColors)];
+        }
+        return view('admin.dashboard.layout', compact('response','template', 'requestTypes','logged_user','activeCustomers','customerColors','departments','departmentColors'));
     }
 
     public function getRequests(Request $request)
@@ -165,14 +172,33 @@ class ReportController extends Controller
         return $data;
     }
 
-
-
     private function getRequestsCountByYear($year)
     {
         // Lấy số lượng yêu cầu từ bảng request cho năm cụ thể
         return DB::table('request')
             ->whereYear('create_at', $year) // Lọc theo năm
             ->count(); // Đếm số lượng bản ghi
+    }
+
+    public function getTimeData(Request $request)
+    {
+        // Logic to retrieve the data from your database
+        // For example, you might want to group requests by month
+        $data = DB::table('request')
+            ->select(DB::raw('MONTH(create_at) as month, COUNT(*) as count'))
+            ->whereYear('create_at', date('Y')) // Get data for the current year
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Format the data into an associative array
+        $formattedData = [];
+        foreach ($data as $item) {
+            $monthName = date('F', mktime(0, 0, 0, $item->month, 1)); // Convert month number to name
+            $formattedData[$monthName] = $item->count;
+        }
+
+        return response()->json($formattedData);
     }
 
 

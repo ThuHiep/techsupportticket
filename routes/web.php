@@ -129,6 +129,7 @@ Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [ReportController::class, 'index'])->middleware('customersp')->name('index');
 });
 Route::get('/api/get-request-data', [ReportController::class, 'getRequestData']);
+Route::get('/api/get-time-data', [ReportController::class, 'getTimeData']);
 // Route cho API lấy dữ liệu yêu cầu
 Route::get('/api/requests', [ReportController::class, 'getRequests']);
 
