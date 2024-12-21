@@ -122,7 +122,7 @@
             searchNotification.style.opacity = '0';
             setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
         }
-    }, 5000);
+    }, 3000);
 </script>
 <script>
     function showDeleteModal(event, formId) {

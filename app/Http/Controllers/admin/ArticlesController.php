@@ -19,10 +19,12 @@ class ArticlesController extends Controller
         $date = $request->input('date');
 
         $articles = Article::when($search, function ($query) use ($search) {
-            return $query->where(function ($q) use ($search) {
-                $q->where('article_id', $search)
-                    ->orWhere('title', 'LIKE', "%$search%");
-            });
+            // Kiểm tra nếu từ khóa là mã có định dạng ART+4 số
+            if (preg_match('/^ART\d{4}$/', $search)) {
+                return $query->where('article_id', $search);
+            } else {
+                return $query->where('title', 'LIKE', "%$search%");
+            }
         })
         ->when($date, function ($query) use ($date) {
             return $query->whereDate('create_at', $date);
@@ -40,6 +42,7 @@ class ArticlesController extends Controller
             'totalResults'
         ));
     }
+
 
     public function create()
     {

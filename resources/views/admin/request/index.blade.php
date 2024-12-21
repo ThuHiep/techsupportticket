@@ -108,7 +108,7 @@
     <!-- Thông báo kết quả tìm kiếm -->
     @if ($searchPerformed && ($search !== '' || $additionalSearchValue !== null))
         @if ($count > 0)
-            <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+            <div  id="search-notification"  class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
                 Tìm thấy {{ $count }} yêu cầu hỗ trợ
                 @if ($search !== '' && $additionalSearchValue !== null)
                     có tiêu đề "{{ $search }}" và
@@ -140,7 +140,7 @@
                 @endif
             </div>
         @else
-            <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+            <div  id="search-notification"  class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
                 Không tìm thấy yêu cầu hỗ trợ nào
                 @if ($search !== '' && $additionalSearchValue !== null)
                     có tiêu đề "{{ $search }}" và
@@ -227,7 +227,18 @@
         {{ $requests->links('pagination::bootstrap-4') }}
     </div>
 </div>
+<script>
+    // Tự động ẩn thông báo tìm kiếm sau 5 giây
+    setTimeout(function() {
+        var searchNotification = document.getElementById('search-notification');
+        if (searchNotification) {
+            searchNotification.style.transition = 'opacity 0.5s ease-out';
+            searchNotification.style.opacity = '0';
+            setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
+        }
+    }, 3000);
 
+</script>
 <script>
     function showDeleteModal(event, formId) {
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút
