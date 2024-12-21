@@ -229,7 +229,7 @@ class RequestController extends Controller
             'description' => 'required',
             'create_at' => 'required|date',
             'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
-            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:2048',
+            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960', // 40 MB
         ]);
 
         // Cập nhật thông tin yêu cầu
@@ -292,14 +292,14 @@ class RequestController extends Controller
 
     public function getPendingRequestsByDate(HttpRequest $request)
     {
-        
+
             $date = $request->input('date', now()->toDateString());
             $pendingRequests = SupportRequest::whereDate('create_at', $date)
                 ->where('status', 'Chưa xử lý')
                 ->count();
 
             return response()->json(['count' => $pendingRequests]);
-       
+
     }
 
 

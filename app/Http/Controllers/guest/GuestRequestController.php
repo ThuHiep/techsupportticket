@@ -23,7 +23,7 @@ class GuestRequestController extends Controller
             'description.*' => 'required|string',
             'request-type' => 'required|exists:request_type,request_type_id',
             'attachments' => 'array',
-            'attachments.*' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:2048',
+            'attachments.*' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960', // 40 MB
         ]);
 
         // Lấy thông tin khách hàng từ session hoặc auth
