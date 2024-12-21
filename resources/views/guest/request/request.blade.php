@@ -7,6 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('admin/css/form/guiyeucaukythuat.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -19,30 +20,6 @@
         <div class="date-time-container">
             <div class="date-time" id="current-datetime"></div>
         </div>
-
-        <!-- Hiển thị thông báo -->
-        @if(session('success'))
-            <div style="color: green; text-align: center; margin-bottom: 10px;">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div style="color: red; text-align: center; margin-bottom: 10px;">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <!-- Hiển thị lỗi validate -->
-        @if ($errors->any())
-            <div style="color: red; text-align: center; margin-bottom: 10px;">
-                <ul style="list-style:none;padding:0;">
-                    @foreach ($errors->all() as $error)
-                        <li>- {{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <!-- Form Input -->
         <form method="POST" action="{{ route('guest.request.store') }}" enctype="multipart/form-data">
@@ -92,15 +69,11 @@
                 </div>
 
                 <!-- Row 4 -->
-                <!-- Thông tin yêu cầu -->
                 <div class="request-info-row">
                     <span class="request-info-text">Thông tin yêu cầu</span>
-
                 </div>
 
-                <!-- request-container -->
                 <div id="request-container">
-                    <!-- Khối mặc định ban đầu -->
                     <div class="request-block">
                         <div class="input_box input-title-1">
                             <input type="text" name="title[]" class="input-field" required>
@@ -133,10 +106,43 @@
     </div>
 </div>
 
-<!-- JavaScript hiển thị thời gian -->
+<!-- JavaScript thông báo -->
 <script>
-    const dateTimeElement = document.getElementById("current-datetime");
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: '{{ session('success') }}',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+    });
+    @endif
 
+    @if(session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: '{{ session('error') }}',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#d33',
+    });
+    @endif
+
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'warning',
+        title: 'Lỗi xác thực!',
+        html: '<ul style="text-align: left;">' +
+            @foreach ($errors->all() as $error)
+                '<li>{{ $error }}</li>' +
+            @endforeach
+                '</ul>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#f0ad4e',
+    });
+    @endif
+
+    const dateTimeElement = document.getElementById("current-datetime");
     function updateDate() {
         const now = new Date();
         const formattedDate = now.toLocaleDateString("vi-VN", {

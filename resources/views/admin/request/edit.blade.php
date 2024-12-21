@@ -96,7 +96,7 @@
                                     <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $requestData->resolved_at ? $requestData->resolved_at->format('Y-m-d') : '') }}">
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="form-group attachments">
                             <label for="attachments">{{ $requestData->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
@@ -104,7 +104,7 @@
                                 <input type="file" name="attachments" class="custom-file-input" id="attachments">
                             </div>
                             <small class="form-text text-muted">
-                                Bạn chỉ được tải 1 file. Định dạng: jpg, jpeg, png, pdf, doc, docx, txt. Dung lượng tối đa: 2MB.
+                                Bạn chỉ được tải 1 file. Định dạng: jpg, jpeg, png, pdf, doc, docx, txt. Dung lượng tối đa: 40MB.
                             </small>
                             @error('attachments')
                             <div class="error">{{ $message }}</div>
@@ -144,7 +144,7 @@
                             @enderror
                         </div>
                         {{-- Trường Input để Cập Nhật hoặc Thêm File Đính Kèm --}}
-                        
+
 
                         <script>
                             // Cập nhật label khi chọn file
