@@ -428,110 +428,189 @@ tr:nth-child(even) td {
         font-size: 10px;
     }
 }
-/* Media queries cho màn hình dưới 425px */
-@media (max-width: 425px) {
-
-    h1 {
-        font-size: 25px;
-        padding-bottom: 10px;
-    }
-    .container {
-        padding: 10px;
+/* Media queries cho màn hình dưới 426px */
+@media (max-width: 426px) {
+    .top-bar {
+        flex-direction: column; /* Chuyển từ hàng sang cột */
+        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
     }
 
     .add-customer-btn {
-        width: 25%;
+        width: 25%; /* Chiếm toàn bộ chiều ngang */
         padding: 8px;
-        font-size: 13px;
+        font-size: 12px;
+        margin-bottom: 10px; /* Khoảng cách giữa các phần tử */
     }
 
     .search-container {
-        width: 28%; /* Chiếm toàn bộ chiều ngang container */
-        margin: -12px 265px 0px 0px;
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
+        gap: 5px; /* Khoảng cách giữa input và button */
+        display: flex;
+        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
     }
 
     .search-container input[type="text"] {
-        width: 285%;
-        font-size: 13px;
+        width: 82%; /* Chiếm toàn bộ chiều ngang */
+        font-size: 12px;
         padding: 8px;
+        margin-right: 212px;
+
     }
 
     .search-container button {
-        width: 75%;
+        width: 20%; /* Chiếm toàn bộ chiều ngang */
         padding: 8px;
-        font-size: 13px;
-        margin-right: -250px;
+        font-size: 12px;
+        margin-right: 0px;
     }
 
-    .table-container {
-        margin-top: 10px;
-    }
     .show-users-btn {
-        padding: 4px 18px;
-        font-size: 12px;
-        border-radius: 5px;
-        margin-top: -127px;
-        margin-left: -52px;
+        font-size: 13px;
+        padding: 8px;
+        margin-bottom: 50px;
+        margin-top: -89px;
+        margin-left: 277px;
+        margin-right: 0px;
+    }
+    .show-users-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 13px;
+        width: 23px;
+        height: 23px;
+        text-align: center;
+        line-height: 15px;
     }
 }
 
 /* Media queries cho màn hình dưới 375px */
-@media (max-width: 375px) {
-    h1{
-        font-size: 30px;
-        padding-bottom: 10px;
+@media (max-width: 376px) {
+    .top-bar {
+        flex-direction: column; /* Chuyển từ hàng sang cột */
+        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
     }
+
     .add-customer-btn {
-        padding: 6px;
+        width: 25%; /* Chiếm toàn bộ chiều ngang */
+        padding: 8px;
         font-size: 12px;
+        margin-bottom: 10px; /* Khoảng cách giữa các phần tử */
+    }
+
+    .search-container {
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
+        gap: 5px; /* Khoảng cách giữa input và button */
+        display: flex;
+        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
     }
 
     .search-container input[type="text"] {
-        width: 292%;
-        font-size: 11px;
-        padding: 6px;
+        width: 82%;
+        font-size: 10px;
+        padding: 8px;
+        margin-right: 212px;
+
     }
 
     .search-container button {
-        width: 69%;
-        padding: 6px;
+        width: 20%; /* Chiếm toàn bộ chiều ngang */
+        padding: 8px;
         font-size: 11px;
-        margin-right: -258%;
+        margin-right: 0px;
+    }
+
+    .show-users-btn {
+        font-size: 13px;
+        padding: 8px;
+        margin-bottom: 50px;
+        margin-top: -89px;
+        margin-left: 233px;
+        margin-right: 0px;
+    }
+    .show-users-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 13px;
+        width: 23px;
+        height: 23px;
+        text-align: center;
+        line-height: 15px;
     }
 }
 
 /* Media queries cho màn hình dưới 320px */
-@media (max-width: 320px) {
+@media (max-width: 321px) {
     h1 {
         font-size: 26px;
-        padding-bottom: 10px;
     }
-    .container {
-        padding: 5px;
+    .top-bar {
+        flex-direction: column; /* Chuyển từ hàng sang cột */
+        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
     }
 
     .add-customer-btn {
-        padding: 5px;
+        width: 30%;
+        padding: 8px;
         font-size: 10px;
+        margin-bottom: 10px;
     }
 
     .search-container {
-        gap: 5px;
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
+        gap: 5px; /* Khoảng cách giữa input và button */
+        display: flex;
+        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
     }
 
     .search-container input[type="text"] {
-        width: 292%;
-        font-size: 12px;
-        padding: 5px;
+        width: 82%;
+        font-size: 9.6px;
+        padding: 8px;
+        margin-right: 212px;
+
     }
 
     .search-container button {
-        width: 75%;
-        padding: 5px;
-        font-size: 10px;
+        width: 24%;
+        padding: 8px;
+        font-size: 11px;
+        margin-right: 0px;
     }
 
-    .table-container {
-        font-size: 10px;
+    .show-users-btn {
+        font-size: 13px;
+        padding: 8px;
+        margin-bottom: 50px;
+        margin-top: -85px;
+        margin-left: 178px;
+        margin-right: 0px;
+    }
+    .show-users-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 13px;
+        width: 23px;
+        height: 23px;
+        text-align: center;
+        line-height: 15px;
     }
 }
+
