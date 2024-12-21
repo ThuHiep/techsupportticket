@@ -60,24 +60,49 @@ class ArticlesController extends Controller
 
     public function store(Request $request)
     {
+        // Xác thực dữ liệu đầu vào
         $request->validate([
             'article_id' => 'required|unique:articles,article_id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra file ảnh
         ]);
+        
 
-        $article = new Article();
+        // Lấy thông tin người dùng hiện tại
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
+        // Xử lý ảnh nếu có
+        $imagePath = null;
+        if ($request->hasFile('images')) {
+            $file = $request->file('images');
+            $imagePath = $file->store('uploads/articles', 'public'); // Lưu vào 'storage/app/public/uploads/articles'
+        }
+        if (!file_exists(public_path('admin/img/articles'))) {
+            mkdir(public_path('admin/img/articles'), 0777, true); // Tạo thư mục nếu chưa tồn tại
+        }
+        
+        if ($request->hasFile('images')) {
+            $file = $request->file('images');
+            $imagePath = 'articles_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('admin/img/articles'), $imagePath);
+        }
+        
+        
+
+        // Tạo bài viết mới
+        $article = new Article();
         $article->article_id = $request->input('article_id');
         $article->title = $request->input('title');
         $article->content = $request->input('content');
+        $article->images = $imagePath; // Lưu đường dẫn ảnh vào cột 'images'
         $article->employee_id = $logged_user->employee_id;
         $article->create_at = now();
         $article->save();
 
-        return redirect()->route('article.index')->with('success', 'Bài viết đã được thêm thành công!');
+        return redirect()->route('articles.index')->with('success', 'Bài viết đã được thêm thành công!');
     }
+
 
     public function edit($article_id)
     {
@@ -104,7 +129,7 @@ class ArticlesController extends Controller
         $article->update_at = now();
         $article->save();
 
-        return redirect()->route('article.index')->with('success', 'Bài viết đã được cập nhật thành công!');
+        return redirect()->route('articles.index')->with('success', 'Bài viết đã được cập nhật thành công!');
     }
 
     public function destroy($article_id)
@@ -112,6 +137,6 @@ class ArticlesController extends Controller
         $article = Article::findOrFail($article_id);
         $article->delete();
 
-        return redirect()->route('article.index')->with('success', 'Bài viết đã được xóa!');
+        return redirect()->route('articles.index')->with('success', 'Bài viết đã được xóa!');
     }
 }

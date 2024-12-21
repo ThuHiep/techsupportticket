@@ -157,7 +157,7 @@ Route::get('/statistics', [StatisticalController::class, 'index']);
 Route::name('faq.')->group(function () {
     Route::get('/faq/index', [FaqController::class, 'index'])->middleware('customersp')->name('index');
     Route::get('/faq/create', [FaqController::class, 'create'])->middleware('customersp')->name('create');
-    Route::post('/faq/store', [FaqController::class, 'store'])->middleware('customersp')->name('store');
+    Route::post('/faq/stores', [FaqController::class, 'store'])->middleware('customersp')->name('store');
     Route::get('/faq/feedback/{faq_id}', [FaqController::class, 'feedback'])->middleware('customersp')->name('feedback');
     Route::put('/faq/feedbackProcess/{faq_id}', [FaqController::class, 'feedbackProcess'])->middleware('customersp')->name('feedbackProcess');
     Route::delete('/faq/delete/{faq_id}', [FaqController::class, 'destroy'])->middleware('customersp')->name('delete');
@@ -174,7 +174,8 @@ Route::name('faq.')->group(function () {
 // Article Routes
 Route::name('articles.')->group(function () {
     Route::get('/articles/index', [ArticlesController::class, 'index'])->middleware('customersp')->name('index');
-    Route::get('/articles/edit/{article_id}', [RequestController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::get('/articles/edit/{article_id}', [ArticlesController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::put('/articles/update/{article_id}', [ArticlesController::class, 'update'])->middleware('customersp')->name('update');
     Route::get('/articles/create', [ArticlesController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/articles/store', [ArticlesController::class, 'store'])->middleware('customersp')->name('store');
    

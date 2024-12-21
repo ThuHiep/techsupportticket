@@ -1,0 +1,310 @@
+body {
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.container {
+    width: 1200px;
+    max-width: 100%;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+
+h1 {
+    padding-bottom: 20px;
+    color: #FF9700;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+
+}
+
+.add-faq-btn {
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: auto;
+}
+
+.add-faq-btn:hover {
+    background-color: #f57c00;
+    color: #FFFFFF;
+}
+
+
+.search-container {
+    display: flex; /* Đặt các phần tử trên cùng một hàng */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 5px; /* Khoảng cách giữa các phần tử */
+    width: 80%; /* Đảm bảo container co giãn theo chiều ngang */
+ 
+}
+.search-container input[type="date"]{
+    flex: 1; /* Input dài gấp đôi select */
+    padding: 10px;
+    border: 1px solid #FF9700; /* Giữ màu cam ban đầu */
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+
+}
+.search-container input[type="text"] {
+    flex: 2; /* Input dài gấp đôi select */
+    padding: 10px;
+    border: 1px solid #FF9700; /* Giữ màu cam ban đầu */
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%; /* Đảm bảo input co dãn đầy đủ */
+}
+
+
+
+.search-container button {
+    flex-shrink: 0; /* Không co lại */
+    padding: 10px 20px;
+    background-color: #FF9700; /* Giữ màu cam ban đầu */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #f57c00; /* Hiệu ứng hover */
+}
+
+/* Định dạng cho các thông báo tìm kiếm */
+.alert-success, .alert-danger {
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Thêm biểu tượng vào thông báo thành công */
+.alert-success::before {
+    content: "\f058"; /* Font Awesome check icon */
+    font-family: "Font Awesome 5 Free"; /* Đảm bảo Font Awesome đã được tải */
+    font-weight: 900;
+    margin-right: 10px;
+    color: #28a745;
+    font-size: 20px;
+}
+
+/* Thêm biểu tượng vào thông báo lỗi */
+.alert-danger::before {
+    content: "\f06a"; /* Font Awesome exclamation icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #dc3545;
+    font-size: 20px;
+}
+
+/* Định dạng màu sắc và nền cho thông báo thành công */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Định dạng màu sắc và nền cho thông báo lỗi */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Hiệu ứng chuyển động khi thông báo xuất hiện */
+.alert-success, .alert-danger {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeInDown 0.5s forwards;
+}
+
+/* Keyframes cho hiệu ứng fadeInDown */
+@keyframes fadeInDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
+    text-align: center; /* Căn trái thay vì căn giữa */
+    vertical-align: middle;
+    font-size: 14px; /* Điều chỉnh kích thước chữ */
+    border: 1px solid #ddd;
+}
+
+tr td:nth-child(4) {
+    text-align: center; /* Riêng trạng thái căn giữa */
+}
+
+th {
+    background-color: #6F2F9F;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #eaeaea;
+}
+
+.edit-button, .delete-button {
+    padding: 8px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #007bff;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa các phần tử trong phân trang */
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+.pagination span {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #ee5711;
+    border-color: #ddd;
+}
+
+.pagination a.active,
+.pagination span.active {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    border-color: #DDDDDD;
+    color: white;
+    cursor: default;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #ffffff;
+    cursor: not-allowed;
+    background-color: #FF9700;
+    border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    color: white; /* Màu chữ trắng */
+    cursor: default;
+    z-index: 2;
+}
+
+/* Sửa phần này để thêm đường viền đỏ khi active */
+.pagination > .active > span {
+    border: none;
+    background-color: #ee5711;
+}
+
+.hidden {
+    display: none;
+}
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.status-dot.active {
+    background-color: green;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}
