@@ -369,3 +369,248 @@ tr:nth-child(even) td {
 #usersModal {
     display: block; /* Thêm cho modal khi hiển thị */
 }
+/* Thêm media queries cho màn hình dưới 768px */
+@media (max-width: 768px) {
+    .container {
+        margin: 15px auto;
+        padding: 10px;
+        width: 100%; /* Đảm bảo container luôn chiếm toàn bộ chiều ngang */
+    }
+
+    .add-customer-btn {
+        display: block;
+        width: 15%; /* Chiếm toàn bộ chiều ngang */
+        margin-bottom: 10px; /* Thêm khoảng cách bên dưới */
+        text-align: center; /* Căn giữa nội dung */
+    }
+
+    .search-container {
+        width: 28%; /* Chiếm toàn bộ chiều ngang container */
+        margin: -12px 265px 0px 0px;
+    }
+
+    .search-container input[type="text"] {
+        width: 227%; /* Điều chỉnh để phù hợp với chiều ngang container */
+        padding: 10px; /* Giữ khoảng cách padding hợp lý */
+    }
+
+    .search-container button {
+        width: 35%;
+        margin-right: -279px;
+    }
+
+    .table-container {
+        overflow-x: auto; /* Đảm bảo bảng không bị tràn màn hình */
+    }
+    .show-users-btn {
+        padding: 7px 13px;
+        font-size: 14px;
+        border-radius: 5px;
+        margin-top: -125px;
+        margin-right: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    th, td {
+        font-size: 12px;
+    }
+    .employee-image {
+        width: 50px;
+        height: 50px;
+    }
+    .pagination {
+        flex-wrap: wrap;
+    }
+    .pagination a, .pagination span {
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+    }
+}
+/* Media queries cho màn hình dưới 426px */
+@media (max-width: 426px) {
+    .top-bar {
+        flex-direction: column; /* Chuyển từ hàng sang cột */
+        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
+    }
+
+    .add-customer-btn {
+        width: 25%; /* Chiếm toàn bộ chiều ngang */
+        padding: 8px;
+        font-size: 12px;
+        margin-bottom: 10px; /* Khoảng cách giữa các phần tử */
+    }
+
+    .search-container {
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
+        gap: 5px; /* Khoảng cách giữa input và button */
+        display: flex;
+        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
+    }
+
+    .search-container input[type="text"] {
+        width: 82%; /* Chiếm toàn bộ chiều ngang */
+        font-size: 12px;
+        padding: 8px;
+        margin-right: 212px;
+
+    }
+
+    .search-container button {
+        width: 20%; /* Chiếm toàn bộ chiều ngang */
+        padding: 8px;
+        font-size: 12px;
+        margin-right: 0px;
+    }
+
+    .show-users-btn {
+        font-size: 13px;
+        padding: 8px;
+        margin-bottom: 50px;
+        margin-top: -89px;
+        margin-left: 277px;
+        margin-right: 0px;
+    }
+    .show-users-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 13px;
+        width: 23px;
+        height: 23px;
+        text-align: center;
+        line-height: 15px;
+    }
+}
+
+/* Media queries cho màn hình dưới 375px */
+@media (max-width: 376px) {
+    .top-bar {
+        flex-direction: column; /* Chuyển từ hàng sang cột */
+        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
+    }
+
+    .add-customer-btn {
+        width: 25%; /* Chiếm toàn bộ chiều ngang */
+        padding: 8px;
+        font-size: 12px;
+        margin-bottom: 10px; /* Khoảng cách giữa các phần tử */
+    }
+
+    .search-container {
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
+        gap: 5px; /* Khoảng cách giữa input và button */
+        display: flex;
+        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
+    }
+
+    .search-container input[type="text"] {
+        width: 82%;
+        font-size: 10px;
+        padding: 8px;
+        margin-right: 212px;
+
+    }
+
+    .search-container button {
+        width: 20%; /* Chiếm toàn bộ chiều ngang */
+        padding: 8px;
+        font-size: 11px;
+        margin-right: 0px;
+    }
+
+    .show-users-btn {
+        font-size: 13px;
+        padding: 8px;
+        margin-bottom: 50px;
+        margin-top: -89px;
+        margin-left: 233px;
+        margin-right: 0px;
+    }
+    .show-users-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 13px;
+        width: 23px;
+        height: 23px;
+        text-align: center;
+        line-height: 15px;
+    }
+}
+
+/* Media queries cho màn hình dưới 320px */
+@media (max-width: 321px) {
+    h1 {
+        font-size: 26px;
+    }
+    .top-bar {
+        flex-direction: column; /* Chuyển từ hàng sang cột */
+        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
+    }
+
+    .add-customer-btn {
+        width: 30%;
+        padding: 8px;
+        font-size: 10px;
+        margin-bottom: 10px;
+    }
+
+    .search-container {
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
+        gap: 5px; /* Khoảng cách giữa input và button */
+        display: flex;
+        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
+    }
+
+    .search-container input[type="text"] {
+        width: 82%;
+        font-size: 9.6px;
+        padding: 8px;
+        margin-right: 212px;
+
+    }
+
+    .search-container button {
+        width: 24%;
+        padding: 8px;
+        font-size: 11px;
+        margin-right: 0px;
+    }
+
+    .show-users-btn {
+        font-size: 13px;
+        padding: 8px;
+        margin-bottom: 50px;
+        margin-top: -85px;
+        margin-left: 178px;
+        margin-right: 0px;
+    }
+    .show-users-btn .badge {
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        background-color: #d32f2f;
+        color: white;
+        border-radius: 50%;
+        padding: 4px 8px;
+        font-size: 13px;
+        width: 23px;
+        height: 23px;
+        text-align: center;
+        line-height: 15px;
+    }
+}
+

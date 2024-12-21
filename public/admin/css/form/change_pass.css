@@ -13,7 +13,7 @@
     --black-color: #000000;
 }
 body{
-    background-image: url("/techsupportticket/public/admin/img/bg-forgot.png");
+    background-image: url("/admin/img/bg-forgot.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -147,4 +147,18 @@ body{
 .input-submit:hover{
     background: var(--second-color);
 }
+/* Tùy chỉnh icon con mắt */
+.toggle-password {
+    position: absolute;
+    top: 23px;
+    right: 60px; /* Đặt cách xa icon khóa */
+    font-size: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-right: -35px;
+}
 
+.toggle-password:hover {
+    color: var(--second-color);
+}

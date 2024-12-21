@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AttachmentController;
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
 use App\Http\Controllers\guest\LoginController;
+use App\Http\Controllers\guest\GuestRequestController;
 
 use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -99,12 +100,12 @@ Route::get('/admin/customer/list', [CustomerController::class, 'getUserList'])->
 
 //Department Routes
 Route::name('department.')->group(function () {
-    Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('admin')->name('index');
-    Route::get('/department/create', [DepartmentController::class, 'create'])->middleware('admin')->name('create');
-    Route::post('/department/store', [DepartmentController::class, 'store'])->middleware('admin')->name('store');
-    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->middleware('admin')->name('edit');
-    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->middleware('admin')->name('update');
-    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->middleware('admin')->name('delete');
+    Route::get('/department/index', [DepartmentController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/department/create', [DepartmentController::class, 'create'])->middleware('customersp')->name('create');
+    Route::post('/department/store', [DepartmentController::class, 'store'])->middleware('customersp')->name('store');
+    Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->middleware('customersp')->name('update');
+    Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
 
 // Request Routes
@@ -157,6 +158,10 @@ Route::name('faq.')->group(function () {
     // Route for unansweredByDate
     Route::get('/faq/unansweredByDate', [FaqController::class, 'unansweredByDate'])->name('unansweredByDate');
     Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
+
+    Route::post('/faq/store', [FaqController::class, 'storeAjax'])->name('faq.storeAjax');
+
+
 });
 
 
@@ -166,5 +171,9 @@ Route::name('faq.')->group(function () {
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
 
-// Route xem yêu cầu test
-Route::get('pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
+// Route để hiển thị form
+Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
+
+// Route để xử lý lưu yêu cầu
+Route::post('/pend-request/store', [GuestRequestController::class, 'store'])->middleware('customer')->name('guest.request.store');
+

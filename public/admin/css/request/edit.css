@@ -80,7 +80,6 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 20px;
     gap: 20px; /* Tăng khoảng cách giữa các trường */
 }
 
@@ -91,7 +90,7 @@ h1 {
 .row_left {
     display: flex;
     gap: 17px; /* Khoảng cách giữa các trường */
-    margin-bottom: 60px; /* Khoảng cách giữa các hàng */
+  
 }
 .form-column-left .form-group {
     margin-bottom: 20px; /* Tăng khoảng cách giữa các phần tử */

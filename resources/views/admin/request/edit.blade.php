@@ -96,6 +96,32 @@
                                     <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $requestData->resolved_at ? $requestData->resolved_at->format('Y-m-d') : '') }}">
                                 </div>
                             </div>
+                            
+                        </div>
+                        <div class="form-group attachments">
+                            <label for="attachments">{{ $requestData->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
+                            <div class="custom-file">
+                                <input type="file" name="attachments" class="custom-file-input" id="attachments">
+                            </div>
+                            <small class="form-text text-muted">
+                                Bạn chỉ được tải 1 file. Định dạng: jpg, jpeg, png, pdf, doc, docx, txt. Dung lượng tối đa: 2MB.
+                            </small>
+                            @error('attachments')
+                            <div class="error">{{ $message }}</div>
+                            @enderror
+
+                            @if($requestData->attachment)
+                                <div class="existing-attachment mt-2">
+                                    <div class="alert alert-info">
+                                        <strong>File hiện tại:</strong> {{ $requestData->attachment->filename }}
+                                        <a href="{{ route('attachments.download', $requestData->attachment->attachment_id) }}" class="btn btn-sm btn-primary ml-3">
+                                            <i class="fas fa-download"></i> Tải Xuống
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div id="new-file-name" class="mt-2"></div>
                         </div>
 
 
@@ -118,31 +144,7 @@
                             @enderror
                         </div>
                         {{-- Trường Input để Cập Nhật hoặc Thêm File Đính Kèm --}}
-                        <div class="form-group attachments">
-                            <label for="attachments">{{ $requestData->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
-                            <div class="custom-file">
-                                <input type="file" name="attachments" class="custom-file-input" id="attachments">
-                            </div>
-                            <small class="form-text text-muted">
-                                Bạn chỉ có thể tải lên một file. Các loại file được phép: jpg, jpeg, png, pdf, doc, docx, txt. Kích thước tối đa file: 2MB.
-                            </small>
-                            @error('attachments')
-                            <div class="error">{{ $message }}</div>
-                            @enderror
-
-                            @if($requestData->attachment)
-                                <div class="existing-attachment mt-2">
-                                    <div class="alert alert-info">
-                                        <strong>File hiện tại:</strong> {{ $requestData->attachment->filename }}
-                                        <a href="{{ route('attachments.download', $requestData->attachment->attachment_id) }}" class="btn btn-sm btn-primary ml-3">
-                                            <i class="fas fa-download"></i> Tải Xuống
-                                        </a>
-                                    </div>
-                                </div>
-                            @endif
-
-                            <div id="new-file-name" class="mt-2"></div>
-                        </div>
+                        
 
                         <script>
                             // Cập nhật label khi chọn file

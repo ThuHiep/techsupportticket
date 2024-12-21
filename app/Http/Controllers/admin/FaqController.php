@@ -20,38 +20,40 @@ class FaqController extends Controller
         $statusFilter = $request->input('status'); // Trạng thái câu hỏi
         $date = $request->input('date'); // Ngày cụ thể (nếu có)
 
-        $isTodaySearch = false;
-
+        $isTodaySearch = $date === now()->toDateString();
         // Kiểm tra xem từ khóa là mã FAQ (định dạng FAQxxxx)
         $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
 
         // Tìm kiếm FAQ
-        $faqs = Faq::when($search, function ($query) use ($search) {
+        $faqs = Faq::where('status', 'Chưa phản hồi') // Lọc chỉ câu hỏi chưa phản hồi
+        ->when($search, function ($query) use ($search) {
             return $query->where(function ($q) use ($search) {
                 $q->where('faq_id', $search)
                     ->orWhere('question', 'LIKE', "%$search%");
             });
         })
-            ->where('status', 'Chưa phản hồi')
-            ->paginate(4);
-
+        ->when($date, function ($query) use ($date) {
+            return $query->whereDate('create_at', $date);
+        })
+        ->paginate(4);
 
         // Đếm số lượng kết quả tìm thấy
         $totalResults = $faqs->total();
 
         // Xác định các tiêu chí tìm kiếm
-        $isSearchWithStatus = $search && $statusFilter; // Cả từ khóa và trạng thái
-        $isSearchPerformed = $search || $statusFilter; // Có thực hiện tìm kiếm
+        $isSearchWithDate = $search && $date; // Cả từ khóa và trạng thái
+        $isSearchPerformed = $search || $date;
 
         return view('admin.dashboard.layout', compact(
             'template',
             'logged_user',
             'faqs',
             'search',
+            'date',
             'statusFilter',
             'totalResults',
             'isSearchById',
-            'isSearchWithStatus',
+            'isSearchWithDate',
             'isSearchPerformed',
             'isTodaySearch',
         ));
@@ -62,8 +64,8 @@ class FaqController extends Controller
         $template = 'admin.faq.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         do {
-            $randomNumber = mt_rand(1, 9999999);
-            $nextId = 'FAQ' . str_pad($randomNumber, 7, '0', STR_PAD_LEFT);
+            $randomNumber = mt_rand(1, 9999);
+            $nextId = 'FAQ' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
             $exists = FAQ::where('faq_id', $nextId)->exists();
         } while ($exists);
 
@@ -153,6 +155,7 @@ class FaqController extends Controller
             return response()->json([
                 'success' => true,
                 'employee' => 'Người trả lời: ' . $faq->employee->full_name,
+                'question' => $faq->question,
                 'answer' => 'Câu trả lời: ' . $faq->answer
             ]);
         }
@@ -162,4 +165,35 @@ class FaqController extends Controller
             'message' => 'Không tìm thấy câu trả lời.',
         ]);
     }
+
+
+    public function storeAjax(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'question' => 'required|string|max:1000',
+        ], [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không đúng định dạng.',
+            'question.required' => 'Vui lòng nhập câu hỏi.',
+        ]);
+
+        try {
+            $faq = new FAQ();
+            $faq->faq_id = 'FAQ' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            $faq->email = $request->input('email');
+            $faq->question = $request->input('question');
+            $faq->status = 'Chưa phản hồi';
+            $faq->create_at = now();
+            $faq->save();
+
+            return response()->json(['success' => true, 'message' => 'Câu hỏi đã được gửi thành công!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()], 500);
+        }
+    }
+
+
+
+
 }
