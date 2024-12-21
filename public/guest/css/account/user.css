@@ -650,42 +650,50 @@ section,
   padding: 40px 0;
 }
 
+.img-fluid-home {
+  width: 50px; /* Chiều rộng ảnh */
+  height: auto; /* Tự động điều chỉnh chiều cao theo tỉ lệ */
+  max-width: 15%; /* Đảm bảo ảnh không vượt quá kích thước container */
+  border-radius: 8px; /* Thêm bo tròn (tuỳ chọn) */
+}
+
 /* Căn chỉnh hàng và cột */
 .home.section .row {
   margin-top: 20px;
 }
 
 /* Định dạng cho từng khối cột */
-.home.section .col-lg-4 {
+.home.section .col-lg-6 {
   margin-bottom: 20px;
 }
 
 /* Định dạng hình ảnh bên trong mỗi khối */
-.home.section .col-lg-4 img {
+.home.section .col-lg-6 img {
   width: 80px; /* thay đổi tùy ý */
   height: auto;
   margin-bottom: 10px;
 }
 
 /* Định dạng tiêu đề số */
-.home.section .col-lg-4 h2 {
+.home.section .col-lg-6 h2 {
   font-size: 36px;
   font-weight: bold;
   margin: 10px 0;
 }
 
 /* Định dạng link */
-.home.section .col-lg-4 a {
+.home.section .col-lg-6 a {
+  font-weight: bold;
   display: inline-block;
-  background-color: #f0f0f0;
+  background-color: #FB9A02;
   padding: 5px 15px;
   border-radius: 5px;
   text-decoration: none;
-  color: #333;
+  color: #fff;
   transition: background-color 0.3s;
 }
-.home.section .col-lg-4 a:hover {
-  background-color: #ddd;
+.home.section .col-lg-6 a:hover {
+  transform: scale(1.1); /* Phóng to nhẹ khi hover */
 }
 
 /* Định dạng phần text-center phía dưới */
@@ -695,17 +703,20 @@ section,
 
 /* Định dạng ảnh hỗ trợ */
 .home.section .text-center img {
-  width: 120px; /* thay đổi tùy ý */
+  width: 300px; /* thay đổi tùy ý */
   height: auto;
   margin-bottom: 20px;
 }
 
 /* Định dạng nút "Tạo yêu cầu hỗ trợ" */
 .home.section .text-center button.btn.btn-success {
+  background-color: #FB9A02;
+  border: 0;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
 }
+
 
 
 /*--------------------------------------------------------------

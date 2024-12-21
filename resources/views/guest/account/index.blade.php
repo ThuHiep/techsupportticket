@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Index - iPortfolio Bootstrap Template</title>
+  <title>Tài khoản</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
 
@@ -76,27 +76,30 @@
       <div class="container" data-aos="fade-up">
         <h1>TRANG CHỦ</h1>
         <div class="row">
-          <div class="col-lg-4 text-center">
+          <div class="col-lg-6 text-center">
             <img
-              src="assets/img/icon-doc.png"
+              src="/guest/img/request.png"
               alt="icon-doc"
-              class="img-fluid" />
+              class="img-fluid-home"
+            />
             <p>Yêu cầu đang chờ</p>
             <h2>0</h2>
-            <a href="#">Xem</a>
+            <a href="#portfolio">Xem</a>
           </div>
-          <div class="col-lg-8 text-center">
+          <div class="col-lg-6 text-center">
             <img
-              src="assets/img/favicon.png"
+              src="/guest/img/bell.png"
               alt="support"
-              class="img-fluid" />
+              class="img-fluid-home"
+            />
             <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
-            <a href="{{ route('showFormRequest') }}" class="btn btn-success">Tạo yêu cầu hỗ trợ</a>
+            <button class="btn btn-success">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
         <div class="text-center mt-4"></div>
       </div>
     </section>
+
 
     <!-- About Section -->
     <section id="about" class="about section">
@@ -114,7 +117,7 @@
               alt="" style="width: 250px"/>
           </div>
           <div class="col-lg-8 content">
-            <h2 id="title">Thông tin Khách hàng</h2>
+            <h2 id="title">Thông tin cá nhân</h2>
             <div class="row">
               <div class="col-lg-6">
                 <ul>
@@ -165,7 +168,7 @@
                   <li>
                     <i class="bi bi-chevron-right"></i>
                     <strong>Số điện thoại:</strong>
-                    <span id="phone">+123 456 7890</span>
+                    <span id="phone">{{$logged_user->phone}}</span>
                   </li>
                 </ul>
               </div>
@@ -452,28 +455,12 @@
 
       <!-- Cards Section -->
       <div class="card-container">
-        <!-- Card 1: YÊU CẦU XÓA TÀI KHOẢN -->
-        <div class="card" id="delete-account-card">
-          <h2>YÊU CẦU XÓA TÀI KHOẢN</h2>
-        </div>
-
         <!-- Card 2: CHUYỂN ĐỔI TÀI KHOẢN -->
         <div class="card" id="switch-account-card">
           <h2>CHUYỂN ĐỔI TÀI KHOẢN</h2>
         </div>
       </div>
     </section>
-
-    <!-- Modal Setting 1: YÊU CẦU XÓA TÀI KHOẢN -->
-    <div id="modal-setting-delete" class="modal-setting">
-      <div class="modal-setting-content">
-        <span class="close-setting close-delete">&times;</span>
-        <h2>YÊU CẦU XÓA TÀI KHOẢN</h2>
-        <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
-        <button class="btn-setting-confirm">Xác nhận</button>
-        <button class="btn-setting-cancel">Hủy</button>
-      </div>
-    </div>
 
     <!-- Modal Setting 2: CHUYỂN ĐỔI TÀI KHOẢN -->
     <div id="modal-setting-switch" class="modal-setting">
@@ -488,29 +475,16 @@
 
     <script>
       // Lấy các phần tử modal-setting
-      const modalDelete = document.getElementById('modal-setting-delete');
       const modalSwitch = document.getElementById('modal-setting-switch');
-
-      const deleteCard = document.getElementById('delete-account-card');
       const switchCard = document.getElementById('switch-account-card');
-
-      const closeDelete = document.querySelector('.close-delete');
       const closeSwitch = document.querySelector('.close-switch');
 
-      // Hiển thị modal-setting xóa tài khoản
-      deleteCard.onclick = () => {
-        modalDelete.style.display = 'block';
-      };
 
       // Hiển thị modal-setting chuyển đổi tài khoản
       switchCard.onclick = () => {
         modalSwitch.style.display = 'block';
       };
 
-      // Đóng modal-setting xóa tài khoản
-      closeDelete.onclick = () => {
-        modalDelete.style.display = 'none';
-      };
 
       // Đóng modal-setting chuyển đổi tài khoản
       closeSwitch.onclick = () => {
