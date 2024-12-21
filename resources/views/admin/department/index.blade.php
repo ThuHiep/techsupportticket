@@ -37,22 +37,22 @@
     @if ($searchPerformed && $search !== '')
         @if ($count > 0)
             @if (preg_match('/^PB\d{4}$/', $search))
-                <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
-                    Tìm thấy {{ $count }} phòng ban có mã "{{ $search }}"
+                <div id="search-notification"  class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+                    Tìm thấy {{ $count }} phòng ban có mã: "{{ $search }}"
                 </div>
             @else
-                <div class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
-                    Tìm thấy {{ $count }} phòng ban có từ khóa "{{ $search }}"
+                <div  id="search-notification" class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
+                    Tìm thấy {{ $count }} phòng ban có từ khóa: "{{ $search }}"
                 </div>
             @endif
         @else
             @if (preg_match('/^PB\d{4}$/', $search))
-                <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
-                    Không tìm thấy phòng ban có mã "{{ $search }}"
+                <div  id="search-notification"  class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+                    Không tìm thấy phòng ban có mã: "{{ $search }}"
                 </div>
             @else
-                <div class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
-                    Không tìm thấy phòng ban có từ khóa "{{ $search }}"
+                <div  id="search-notification"  class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
+                    Không tìm thấy phòng ban có từ khóa: "{{ $search }}"
                 </div>
             @endif
         @endif
@@ -114,6 +114,16 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>// Tự động ẩn thông báo tìm kiếm sau 5 giây
+    setTimeout(function() {
+        var searchNotification = document.getElementById('search-notification');
+        if (searchNotification) {
+            searchNotification.style.transition = 'opacity 0.5s ease-out';
+            searchNotification.style.opacity = '0';
+            setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
+        }
+    }, 5000);
+</script>
 <script>
     function showDeleteModal(event, formId) {
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút

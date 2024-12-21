@@ -100,11 +100,11 @@
             @if ($searchName && !$searchDate)
                 @if ($totalResults > 0)
     
-                <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+                <div id="search-notification"  class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
                         Tìm thấy {{ $totalResults }} tài khoản chưa duyệt có tên "{{ $searchName }}"
                     </div>
                 @else
-                    <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+                    <div id="search-notification" class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
                         Không tìm thấy tài khoản chưa duyệt có tên "{{ $searchName }}"
                     </div>
                 @endif
@@ -113,11 +113,11 @@
                     $formattedDate = \Carbon\Carbon::parse($searchDate)->format('d/m/Y');
                 @endphp
                 @if ($totalResults > 0)
-                    <div class="alert alert-success">
+                    <div id="search-notification" class="alert alert-success">
                         Tìm thấy {{ $totalResults }} tài khoản chưa duyệt vào ngày "{{ $formattedDate }}"
                     </div>
                 @else
-                    <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
+                    <div id="search-notification" class="alert alert-danger" style="text-align: center; margin-top: 10px;">
                         Không tìm thấy tài khoản chưa duyệt vào ngày "{{ $formattedDate }}"
                     </div>
                 @endif
@@ -126,11 +126,11 @@
                     $formattedDate = \Carbon\Carbon::parse($searchDate)->format('d/m/Y');
                 @endphp
                 @if ($totalResults > 0)
-                    <div class="alert alert-success" style="text-align: center; margin-top: 10px;">
+                    <div id="search-notification" class="alert alert-success" style="text-align: center; margin-top: 10px;">
                         Tìm thấy {{ $totalResults }} tài khoản có tên "{{ $searchName }}" vào ngày "{{ $formattedDate }}"
                     </div>
                 @else
-                    <div class="alert alert-danger" style="text-align: center; margin-top: 10px;">
+                    <div id="search-notification" class="alert alert-danger" style="text-align: center; margin-top: 10px;">
                         Không tìm thấy tài khoản có tên "{{ $searchName }}" vào ngày "{{ $formattedDate }}"
                     </div>
                 @endif
@@ -179,7 +179,18 @@
         </table>
     </div>
 </div>
+<script>
+    // Tự động ẩn thông báo tìm kiếm sau 3 giây
+setTimeout(function() {
+    var searchNotification = document.getElementById('search-notification');
+    if (searchNotification) {
+        searchNotification.style.transition = 'opacity 0.5s ease-out';
+        searchNotification.style.opacity = '0';
+        setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
+    }
+}, 3000); // Thời gian 3 giây
 
+</script>
 <script>
     // Set duration to 5000ms (5 seconds)
     const duration = 5000;

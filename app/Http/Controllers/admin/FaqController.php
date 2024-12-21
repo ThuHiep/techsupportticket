@@ -35,7 +35,7 @@ class FaqController extends Controller
         ->when($date, function ($query) use ($date) {
             return $query->whereDate('create_at', $date);
         })
-        ->paginate(4);
+        ->paginate(5);
 
         // Đếm số lượng kết quả tìm thấy
         $totalResults = $faqs->total();
