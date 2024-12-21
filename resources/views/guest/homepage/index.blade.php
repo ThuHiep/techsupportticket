@@ -119,18 +119,18 @@
                 <div id="question-form">
                     <input id="question-name" type="email" placeholder="Nhập email của bạn" required />
                     <span id="email-error" style="color: red; font-size: 14px; display: none;"></span>
-                    
+
                     <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5" required></textarea>
                     <span id="question-error" style="color: red; font-size: 14px; display: none;"></span>
-                    
+
                     <button id="submit-question-button">Gửi</button>
                     <span id="form-success" style="color: green; font-size: 14px; display: none;"></span>
                 </div>
-                
-                
-                
+
+
+
             </div>
-            
+
         </div>
     </section>
     <script>
