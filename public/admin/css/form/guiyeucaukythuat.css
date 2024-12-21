@@ -419,3 +419,42 @@ select option:hover {
         padding: 15px;
     }
 }
+.file-upload-box {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.file-upload-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.file-upload-box input[type="file"] {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px; /* Giới hạn chiều rộng */
+    font-size: 14px;
+    background-color: #f3f3f3;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.file-upload-box input[type="file"]:hover {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.file-upload-box input[type="file"]:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 8px rgba(0, 86, 179, 0.5);
+}
