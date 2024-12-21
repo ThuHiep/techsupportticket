@@ -27,7 +27,7 @@ class ArticlesController extends Controller
         ->when($date, function ($query) use ($date) {
             return $query->whereDate('create_at', $date);
         })
-        ->paginate(4);
+        ->paginate(5);
 
         $totalResults = $articles->total();
 
