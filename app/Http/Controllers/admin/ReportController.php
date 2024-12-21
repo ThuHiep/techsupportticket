@@ -18,24 +18,36 @@ class ReportController extends Controller
     {
         $template = 'admin.statistical.index';
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+
         // Lấy loại yêu cầu từ cơ sở dữ liệu với số lượng yêu cầu
         $requestTypes = RequestType::withCount('requests')->get();
+
         // Lấy phòng ban từ cơ sở dữ liệu
         $departments = Department::withCount('requests')->get();
 
-        // Truy vấn để lấy số liệu yêu cầu theo ngày
+        // Truy vấn để lấy số liệu yêu cầu theo ngày và trạng thái
         $query = DB::table('request')
-            ->select(DB::raw('DAY(create_at) as day'), 'request_type_id', DB::raw('COUNT(request_id) as count'))
-            ->groupBy(DB::raw('DAY(create_at), request_type_id'));
+            ->select(DB::raw('DAY(create_at) as day'), 'request_type_id', 'status', DB::raw('COUNT(request_id) as count'))
+            ->groupBy(DB::raw('DAY(create_at), request_type_id, status'));
 
         $data = $query->get()->groupBy('request_type_id');
 
         // Chuyển đổi dữ liệu thành định dạng mong muốn
         $response = [];
         foreach ($data as $requestTypeId => $items) {
-            $counts = array_fill(0, 31, 0);
+            // Khởi tạo mảng số liệu theo các trạng thái
+            $counts = [
+                'processed' => array_fill(0, 31, 0), // Đã xử lý
+                'processing' => array_fill(0, 31, 0), // Đang xử lý
+                'pending' => array_fill(0, 31, 0), // Chưa xử lý
+                'cancelled' => array_fill(0, 31, 0)  // Đã hủy
+            ];
+
             foreach ($items as $item) {
-                $counts[$item->day - 1] = $item->count;
+                $statusKey = $item->status;  // Trạng thái yêu cầu
+                if (array_key_exists($statusKey, $counts)) {
+                    $counts[$statusKey][$item->day - 1] = $item->count;
+                }
             }
 
             // Tìm kiếm tên loại yêu cầu
@@ -53,14 +65,44 @@ class ReportController extends Controller
             ->withCount('requests') // Đếm số lượng yêu cầu
             ->get(['customer_id', 'full_name']);
 
+        // Màu sắc của các khách hàng
         $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
-        // Generate department colors dynamically
+
+        // Tạo màu sắc cho phòng ban
         $departmentColors = [];
         foreach ($departments as $index => $department) {
             $departmentColors[$department->department_name] = $customerColors[$index % count($customerColors)];
         }
-        return view('admin.dashboard.layout', compact('response','template', 'requestTypes','logged_user','activeCustomers','customerColors','departments','departmentColors'));
+
+        // Initialize an array to hold department data
+        $departmentData = [];
+
+        // Loop through each department to gather request statistics
+        foreach ($departments as $department) {
+            $departmentData[$department->department_name] = [
+                'Đang xử lý' => DB::table('request')
+                    ->where('department_id', $department->department_id) // Correct foreign key
+                    ->where('status', 'Đang xử lý')
+                    ->count(),
+                'Chưa xử lý' => DB::table('request')
+                    ->where('department_id', $department->department_id)
+                    ->where('status', 'Chưa xử lý')
+                    ->count(),
+                'Hoàn thành' => DB::table('request')
+                    ->where('department_id', $department->department_id)
+                    ->where('status', 'Hoàn thành')
+                    ->count(),
+                'Đã hủy' => DB::table('request')
+                    ->where('department_id', $department->department_id)
+                    ->where('status', 'Đã hủy')
+                    ->count(),
+            ];
+        }
+
+        // Trả về view với dữ liệu đã xử lý
+        return view('admin.dashboard.layout', compact('response', 'template', 'requestTypes', 'logged_user', 'activeCustomers', 'customerColors', 'departments', 'departmentColors', 'departmentData'));
     }
+
 
     public function getRequests(Request $request)
     {
@@ -240,15 +282,94 @@ class ReportController extends Controller
             $formattedData[$monthName] = $item->count;
         }
 
+        //dd($formattedData); // Để kiểm tra dữ liệu
         return response()->json($formattedData);
+
+
     }
 
     // Controller method to get departments
-    public function getDepartments()
+    public function getDepartments(Request $request)
     {
-        $departments = DB::table('department')->select('department_id', 'department_name')->get();
+        // Lấy tất cả các phòng ban với thông tin yêu cầu và trạng thái của yêu cầu
+        $query = DB::table('department')
+            ->join('request', 'department.department_id', '=', 'request.department_id')
+            ->select('department.department_id', 'department.department_name', 'request.status')
+            ->distinct();
+
+        // Kiểm tra nếu có yêu cầu lọc theo trạng thái
+        if ($status = $request->input('status')) {
+            $statusMap = [
+                'pending' => 'Chưa xử lý',
+                'in_progress' => 'Đang xử lý',
+                'completed' => 'Hoàn thành',
+                'canceled' => 'Đã hủy'
+            ];
+
+            // Kiểm tra trạng thái hợp lệ và lọc theo trạng thái
+            if (array_key_exists($status, $statusMap)) {
+                $query->where('request.status', $statusMap[$status]);
+            }
+        }
+
+        // Lấy các phòng ban đã được lọc
+        $departments = $query->get();
+
+        // Trả về dữ liệu phòng ban dưới dạng JSON
         return response()->json($departments);
     }
+
+    // Ví dụ API trả về danh sách yêu cầu của từng phòng ban
+        public function getDepartmentReportData(Request $request)
+        {
+            // Fetch department data along with the count of requests per status
+            $departmentData = DB::table('department')
+                ->leftJoin('request', 'department.department_id', '=', 'request.department_id')
+                ->select('department.department_name', 'request.status', DB::raw('COUNT(request.request_id) as request_count'))
+                ->groupBy('department.department_id', 'department.department_name', 'request.status')
+                ->get();
+
+            // Log the raw data to check
+            \Log::info($departmentData);
+
+            // Create a mapping for statuses
+            $statusMapping = [
+                'In Progress' => 'Đang xử lý',
+                'Not Processed' => 'Chưa xử lý',
+                'Completed' => 'Hoàn thành',
+                'Canceled' => 'Đã hủy',
+                // Add any other statuses that may exist
+            ];
+
+            // Restructure data for easier frontend processing
+            $formattedData = [];
+            foreach ($departmentData as $data) {
+                $department = $data->department_name;
+
+                // Map the status to Vietnamese
+                $status = $statusMapping[$data->status] ?? 'Chưa xử lý'; // Default to 'Chưa xử lý' if not found
+
+                $requestCount = $data->request_count;
+
+                // Initialize department data if not already set
+                if (!isset($formattedData[$department])) {
+                    $formattedData[$department] = [
+                        'Đang xử lý' => 0,
+                        'Chưa xử lý' => 0,
+                        'Hoàn thành' => 0,
+                        'Đã hủy' => 0
+                    ];
+                }
+
+                // Accumulate counts for the appropriate status
+                $formattedData[$department][$status] += $requestCount; // Use += to accumulate counts
+            }
+
+            return response()->json($formattedData);
+        }
+
+
+
 
 // Controller method to get request types
     public function getRequestTypes()

@@ -154,7 +154,7 @@
                     </select>
                 </div>
                 <div class="chart-container">
-                    <canvas id="departmentReport"></canvas>
+                    <canvas id="departmentChart" width="600" height="400"></canvas>
                 </div>
             </div>
             <!--Biểu đồ báo cáo yêu cầu theo thời gian-->
@@ -483,47 +483,97 @@
     });
 
     //------------------------------Báo cáo phòng ban
-    // Area chart for department report
-    const departmentCtx = document.getElementById('departmentReport').getContext('2d');
-    let departmentChart = new Chart(departmentCtx, {
-        type: 'line', // Change to 'line' for area chart
-        data: {
-            labels: Object.keys(departmentData),
-            datasets: [{
-                label: 'Số yêu cầu đã xử lý',
-                data: Object.values(departmentData),
-                backgroundColor: 'rgba(75, 192, 192, 0.4)', // Fill color
-                borderColor: 'rgba(75, 192, 192, 1)', // Border color
-                borderWidth: 2,
-                fill: true // Enable area fill
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    document.addEventListener('DOMContentLoaded', function() {
+        const departmentData = @json($departmentData);
+
+        // Check if departmentData has values
+        if (Object.keys(departmentData).length === 0) {
+            console.error('No data available for the chart.');
+            return; // Exit if there's no data
+        }
+
+        // Extract labels and data for each status
+        const labels = Object.keys(departmentData);
+        console.log(departmentData);
+        const processingData = labels.map(department => (departmentData[department]["Đang xử lý"] || 0));
+        const notProcessedData = labels.map(department => (departmentData[department]["Chưa xử lý"] || 0));
+        const completedData = labels.map(department => (departmentData[department]["Hoàn thành"] || 0));
+        const canceledData = labels.map(department => (departmentData[department]["Đã hủy"] || 0));
+
+        const ctx = document.getElementById('departmentChart').getContext('2d');
+
+        const departmentChart = new Chart(ctx, {
+            type: 'bar', // Change to 'line' if you prefer a line chart
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Đang xử lý',
+                        data: processingData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    },
+                    {
+                        label: 'Chưa xử lý',
+                        data: notProcessedData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    },
+                    {
+                        label: 'Hoàn thành',
+                        data: completedData,
+                        backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                    },
+                    {
+                        label: 'Đã hủy',
+                        data: canceledData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    }
+                ]
             },
-            plugins: {
-                legend: {
-                    position: 'top',
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                            }
                         }
                     }
                 }
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedReport = localStorage.getItem('selectedReport');
+        if (savedReport) {
+            document.getElementById('reportSelect').value = savedReport; // Set the dropdown to the saved value
+            showSelectedChart(); // Call the function to show the correct report
+
+            // Cập nhật báo cáo khách hàng nếu báo cáo khách hàng được chọn
+            if (savedReport === 'department') {
+                updateDepartmentReport(); // Cập nhật dữ liệu báo cáo phòng ban khi tải trang
             }
         }
     });
 
     function displayDepartmentData(selectedDepartment) {
+        console.log(`Updating report for department: ${selectedDepartment}`);
         const departmentDataList = document.getElementById('departmentDataList');
         const totalDepartmentRequests = document.getElementById('totalDepartmentRequests');
+
         departmentDataList.innerHTML = '';
+
+        console.log(`Selected Department: ${selectedDepartment}`);
+        console.log(`Department Data:`, departmentData);
 
         if (selectedDepartment === 'all') {
             let totalRequests = 0;
@@ -531,14 +581,16 @@
                 const listItem = document.createElement('li');
                 listItem.textContent = `${key}: ${value} yêu cầu`;
                 departmentDataList.appendChild(listItem);
-                totalRequests += value; // Tính tổng số yêu cầu
+                totalRequests += value;
             }
-            totalDepartmentRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`; // Hiển thị tổng số yêu cầu
-        } else {
+            totalDepartmentRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`;
+        } else if(departmentData[selectedDepartment]) {
             const listItem = document.createElement('li');
             listItem.textContent = `${selectedDepartment}: ${departmentData[selectedDepartment]} yêu cầu`;
             departmentDataList.appendChild(listItem);
-            totalDepartmentRequests.textContent = `Tổng số yêu cầu: ${departmentData[selectedDepartment]}`; // Hiển thị số yêu cầu của phòng ban đã chọn
+            totalDepartmentRequests.textContent = `Tổng số yêu cầu: ${departmentData[selectedDepartment]}`;
+        } else {
+            totalDepartmentRequests.textContent = `Không có yêu cầu nào cho phòng ban này.`;
         }
     }
 
@@ -550,18 +602,25 @@
         if (selectedDepartment === 'all') {
             data = Object.values(departmentData);
             labels = Object.keys(departmentData);
-        } else {
+        } else if (departmentData[selectedDepartment]) {
             data = [departmentData[selectedDepartment]];
             labels = [selectedDepartment];
+        } else {
+            console.warn('No data found for the selected department:', selectedDepartment);
+            return;
         }
 
-        departmentChart.data.datasets[0].data = data;
         departmentChart.data.labels = labels;
+        departmentChart.data.datasets[0].data = data;
         departmentChart.update();
 
-        // Call the function to display department data
+        // Cập nhật dữ liệu tổng hợp cho phòng ban
         displayDepartmentData(selectedDepartment);
     }
+
+    // Đảm bảo rằng bạn gọi hàm này khi người dùng thay đổi lựa chọn
+    document.getElementById('departmentFilter').addEventListener('change', updateDepartmentReport);
+
     //----------------------------Báo cáo theo thời gian-------------------
     document.addEventListener('DOMContentLoaded', function () {
         const timeCtx = document.getElementById('timeReport')?.getContext('2d');
@@ -569,6 +628,7 @@
             console.error('Canvas element not found');
             return;
         }
+
         timeChart = new Chart(timeCtx, {
             type: 'line',
             data: {
@@ -635,16 +695,18 @@
 
         if (level === 'year') {
             labels = Object.keys(data);
-            values = labels.map(year => data[year].total || 0);
+            values = labels.map(year => data[year]?.total || 0);
         } else if (level === 'month') {
             const selectedYear = '2024'; // Thay bằng năm đã chọn
-            labels = Object.keys(data[selectedYear]?.months || {});
-            values = labels.map(month => data[selectedYear]?.months[month]?.total || 0);
+            const yearData = data[selectedYear] || { months: {} };
+            labels = Object.keys(yearData.months);
+            values = labels.map(month => yearData.months[month]?.total || 0);
         } else if (level === 'day') {
             const selectedYear = '2024'; // Thay bằng năm đã chọn
             const selectedMonth = '01'; // Thay bằng tháng đã chọn
-            labels = Object.keys(data[selectedYear]?.months[selectedMonth]?.days || {});
-            values = labels.map(day => data[selectedYear]?.months[selectedMonth]?.days[day] || 0);
+            const monthData = data[selectedYear]?.months[selectedMonth] || { days: {} };
+            labels = Object.keys(monthData.days);
+            values = labels.map(day => monthData.days[day] || 0);
         }
 
         // Chỉ cập nhật dữ liệu biểu đồ
@@ -654,7 +716,6 @@
     }
 
 
-
     // Handle button clicks to filter data
     function filterTimeBy(period) {
         fetchTimeData(period); // Lấy dữ liệu cho khoảng thời gian đã chọn
@@ -662,12 +723,19 @@
 
     // Update the report based on the initial selection
     function updateTimeReport(defaultPeriod) {
-        fetchTimeData(defaultPeriod).then(() => {
-            if (!fetchedTimeData || Object.keys(fetchedTimeData).length === 0) {
-                console.error('No data available for the default period');
+        fetchTimeData(defaultPeriod).then((data) => {
+            if (data) {
+                updateTimeChart(data);
+                updateTimeData(data); // Cập nhật số liệu tổng hợp
+            } else {
+                console.error('No data returned from API');
             }
         });
     }
+
+    // Gọi updateTimeReport với giá trị mặc định
+    updateTimeReport('today');
+
 
     //
     async function applyFilters() {
@@ -733,7 +801,7 @@
 
     function updateTimeData(timeData) {
         const totalRequests = Object.keys(timeData).reduce((acc, year) => {
-            const yearData = timeData[year];
+            const yearData = timeData[year] || {};
             return acc + (yearData.total || 0);
         }, 0);
 
@@ -745,22 +813,23 @@
         timeDataList.innerHTML = ""; // Xóa nội dung cũ
 
         Object.keys(timeData).forEach(year => {
-            const yearData = timeData[year];
+            const yearData = timeData[year] || { months: {} };
             const yearLi = document.createElement('li');
-            yearLi.innerText = `${year}: ${yearData.total} yêu cầu`;
+            yearLi.innerText = `${year}: ${yearData.total || 0} yêu cầu`;
             timeDataList.appendChild(yearLi);
 
             const monthUl = document.createElement('ul');
             Object.keys(yearData.months).forEach(month => {
-                const monthData = yearData.months[month];
+                const monthData = yearData.months[month] || { days: {} };
                 const monthLi = document.createElement('li');
-                monthLi.innerText = `Tháng ${month}: ${monthData.total} yêu cầu`;
+                monthLi.innerText = `Tháng ${month}: ${monthData.total || 0} yêu cầu`;
                 monthUl.appendChild(monthLi);
 
                 const dayUl = document.createElement('ul');
                 Object.keys(monthData.days).forEach(day => {
+                    const dayCount = monthData.days[day] || 0;
                     const dayLi = document.createElement('li');
-                    dayLi.innerText = `Ngày ${day}: ${monthData.days[day]} yêu cầu`;
+                    dayLi.innerText = `Ngày ${day}: ${dayCount} yêu cầu`;
                     dayUl.appendChild(dayLi);
                 });
                 monthLi.appendChild(dayUl);
