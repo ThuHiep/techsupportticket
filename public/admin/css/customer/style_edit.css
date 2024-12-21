@@ -77,11 +77,11 @@ form {
 }
 /* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
 .address-website-container {
-    display: flex; /* Sử dụng Flexbox */
-    gap: 10px; /* Khoảng cách giữa các trường */
-    flex-wrap: wrap; /* Các trường xuống dòng nếu không đủ chỗ */
-    width: 741px;
-    margin-left: -10px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 780px;
+    margin-left: -30px;
 }
 
 /* Mỗi trường chiếm 50% chiều rộng */
@@ -242,7 +242,17 @@ input.error, select.error {
         min-width: 100%; /* Chiều rộng tối thiểu là toàn bộ màn hình */
         max-width: 100%; /* Chiều rộng tối đa là toàn bộ màn hình */
     }
+    .address-website-container {
+        flex-direction: column; /* Chuyển các trường sang dạng dọc */
+        margin-left: 0px;
+        width: 100%; /* Chiếm toàn bộ chiều rộng container cha */
+        gap: 0px;
+    }
 
+    .address-website-container .form-group {
+        flex: 1 1 100%; /* Chiếm 100% chiều rộng container */
+        max-width: 100%; /* Đảm bảo mỗi trường chiếm toàn bộ không gian */
+    }
     .btn-secondary {
         top: 10px; /* Giảm khoảng cách khi nút quay lại ở màn hình nhỏ */
         right: 10px;
@@ -284,3 +294,4 @@ input.error, select.error {
         max-height: 120px;
     }
 }
+
