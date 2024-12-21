@@ -23,6 +23,7 @@ class Article extends Model
         'article_id',
         'title',
         'content',
+        'images',
         'employee_id',
     ];
 

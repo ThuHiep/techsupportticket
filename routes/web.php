@@ -10,6 +10,8 @@ use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\AttachmentController;
+use App\Http\Controllers\Admin\ArticlesController;
+
 
 
 use App\Http\Controllers\guest\HomepageController;
@@ -169,7 +171,19 @@ Route::name('faq.')->group(function () {
 
 });
 
+// Article Routes
+Route::name('articles.')->group(function () {
+    Route::get('/articles/index', [ArticlesController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/articles/edit/{article_id}', [RequestController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::get('/articles/create', [ArticlesController::class, 'create'])->middleware('customersp')->name('create');
+    Route::post('/articles/store', [ArticlesController::class, 'store'])->middleware('customersp')->name('store');
+   
+    Route::delete('/articles/delete/{faq_id}', [ArticlesController::class, 'destroy'])->middleware('customersp')->name('delete');
 
+    
+
+
+});
 
 
 //Account

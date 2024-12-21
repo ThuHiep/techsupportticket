@@ -26,7 +26,7 @@ h1 {
 .top-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+
 }
 
 .add-faq-btn {
@@ -52,7 +52,7 @@ h1 {
     align-items: center; /* Căn giữa theo chiều dọc */
     gap: 5px; /* Khoảng cách giữa các phần tử */
     width: 80%; /* Đảm bảo container co giãn theo chiều ngang */
-    margin-top: 20px;
+ 
 }
 .search-container input[type="date"]{
     flex: 1; /* Input dài gấp đôi select */
