@@ -116,6 +116,11 @@ Route::name('request.')->group(function () {
     Route::get('/request/edit/{request_id}', [RequestController::class, 'edit'])->middleware('customersp')->name('edit');
     Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->middleware('customersp')->name('update');
     Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->middleware('customersp')->name('delete');
+
+
+    Route::get('/request/pendingByDate', [RequestController::class, 'getPendingRequestsByDate'])->name('pendingByDate');
+
+
 });
 
 // Route để tải file đính kèm

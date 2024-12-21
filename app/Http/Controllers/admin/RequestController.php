@@ -287,4 +287,20 @@ class RequestController extends Controller
 
         return redirect()->route('request.index')->with('success', 'Yêu cầu đã được xóa thành công!');
     }
+
+
+
+    public function getPendingRequestsByDate(HttpRequest $request)
+    {
+        
+            $date = $request->input('date', now()->toDateString());
+            $pendingRequests = SupportRequest::whereDate('create_at', $date)
+                ->where('status', 'Chưa xử lý')
+                ->count();
+
+            return response()->json(['count' => $pendingRequests]);
+       
+    }
+
+
 }
