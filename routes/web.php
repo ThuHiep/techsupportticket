@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AttachmentController;
 use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
 use App\Http\Controllers\guest\LoginController;
+use App\Http\Controllers\guest\GuestRequestController;
 
 use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -168,5 +169,9 @@ Route::name('faq.')->group(function () {
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
 
-// Route xem yêu cầu test
-Route::get('pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
+// Route để hiển thị form
+Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
+
+// Route để xử lý lưu yêu cầu
+Route::post('/pend-request/store', [GuestRequestController::class, 'store'])->middleware('customer')->name('guest.request.store');
+
