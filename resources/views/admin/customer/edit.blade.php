@@ -100,7 +100,7 @@
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" value="{{ $customers->address }}" required>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-6">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
                         <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
                     </div>
