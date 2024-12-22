@@ -74,7 +74,7 @@
     @endif
 
 
-    
+
     <!-- Bảng danh sách bài viết -->
     <div class="table-container">
         <table class="table table-striped">
@@ -93,6 +93,13 @@
                     <td>{{ ($articles->currentPage() - 1) * $articles->perPage() + $index + 1 }}</td>
                     <td>{{ $article->article_id }}</td>
                     <td>{{ Str::limit($article->title, 50) }}</td>
+{{--                    <td>--}}
+{{--                        @if($article->images)--}}
+{{--                            <img src="{{ asset('admin/img/articles/' . $article->images) }}" alt="Image" style="width: 100px; height: auto; object-fit: cover;">--}}
+{{--                        @else--}}
+{{--                            Không có ảnh--}}
+{{--                        @endif--}}
+{{--                    </td>--}}
                     <td>{{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y H:i') }}</td>
                     <td>
                         <!-- Nút sửa -->

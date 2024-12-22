@@ -67,28 +67,27 @@ class ArticlesController extends Controller
             'content' => 'required|string',
             'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra file ảnh
         ]);
-        
+
 
         // Lấy thông tin người dùng hiện tại
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-        // Xử lý ảnh nếu có
-        $imagePath = null;
+        // Xử lý lưu ảnh
         if ($request->hasFile('images')) {
-            $file = $request->file('images');
-            $imagePath = $file->store('uploads/articles', 'public'); // Lưu vào 'storage/app/public/uploads/articles'
+            $file = $request->file('images'); // Lấy file từ request
+            $fileName = 'articles_' . time() . '.' . $file->getClientOriginalExtension(); // Đặt tên file
+            $destinationPath = public_path('admin/img/articles'); // Đường dẫn lưu file
+
+            // Di chuyển file vào thư mục đích
+            $file->move($destinationPath, $fileName);
+
+            // Chỉ lưu tên file vào cơ sở dữ liệu
+            $imagePath = $fileName;
+        } else {
+            $imagePath = null; // Nếu không có ảnh
         }
-        if (!file_exists(public_path('admin/img/articles'))) {
-            mkdir(public_path('admin/img/articles'), 0777, true); // Tạo thư mục nếu chưa tồn tại
-        }
-        
-        if ($request->hasFile('images')) {
-            $file = $request->file('images');
-            $imagePath = 'articles_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('admin/img/articles'), $imagePath);
-        }
-        
-        
+
+
 
         // Tạo bài viết mới
         $article = new Article();
@@ -115,14 +114,33 @@ class ArticlesController extends Controller
 
     public function update(Request $request, $article_id)
     {
+        // Xác thực dữ liệu đầu vào
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra file ảnh
         ]);
 
+        // Lấy bài viết cần cập nhật
         $article = Article::findOrFail($article_id);
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
+        // Xóa ảnh cũ nếu có và người dùng upload ảnh mới
+        if ($request->hasFile('images')) {
+            if ($article->images && file_exists(public_path('admin/img/articles/' . $article->images))) {
+                unlink(public_path('admin/img/articles/' . $article->images)); // Xóa ảnh cũ
+            }
+
+            // Lưu ảnh mới
+            $file = $request->file('images');
+            $fileName = 'update_' . time() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('admin/img/articles'); // Thư mục lưu ảnh
+            $file->move($destinationPath, $fileName); // Di chuyển file vào thư mục
+
+            $article->images = $fileName; // Lưu tên ảnh mới vào DB
+        }
+
+        // Cập nhật thông tin bài viết
         $article->title = $request->input('title');
         $article->content = $request->input('content');
         $article->employee_id = $logged_user->employee_id;
@@ -132,11 +150,22 @@ class ArticlesController extends Controller
         return redirect()->route('articles.index')->with('success', 'Bài viết đã được cập nhật thành công!');
     }
 
+
     public function destroy($article_id)
     {
         $article = Article::findOrFail($article_id);
+
+        // Kiểm tra đường dẫn file
+        $filePath = public_path('admin/img/articles/' . $article->images);
+
+        // Kiểm tra và xóa ảnh nếu có
+        if ($article->images && file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        // Xóa bài viết
         $article->delete();
 
-        return redirect()->route('articles.index')->with('success', 'Bài viết đã được xóa!');
+        return redirect()->route('articles.index')->with('success', 'Bài viết và ảnh đã được xóa!');
     }
 }

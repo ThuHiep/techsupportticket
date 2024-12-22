@@ -31,7 +31,7 @@
         </div>
     @endif
 
-    <form action="{{ route('articles.store') }}" method="POST">
+    <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
             <div class="col-md-8">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
         <div class="button-group">
@@ -108,7 +108,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const titleField = document.getElementById('title');
         const contentField = document.getElementById('content');
-        
+
         // Bạn có thể thêm logic kiểm tra hoặc xử lý nội dung ở đây nếu cần
     });
 </script>
