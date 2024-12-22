@@ -5,10 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        #statistics {
+            margin-left: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 300px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 <h1>Statistics of Requests by Department</h1>
 <canvas id="departmentChart" width="400" height="200"></canvas>
+<div id="statistics">
+    <h2>Request Counts</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Phòng Ban</th>
+            <th>Đang xử lý</th>
+            <th>Chưa xử lý</th>
+            <th>Hoàn thành</th>
+            <th>Đã hủy</th>
+        </tr>
+        </thead>
+        <tbody id="statisticsData"></tbody>
+    </table>
+</div>
 
 <script>
     const departmentData = @json($departmentData);
@@ -73,6 +112,21 @@
                 }
             }
         }
+    });
+
+    // Populate the statistics table
+    const statisticsData = document.getElementById('statisticsData');
+
+    labels.forEach(department => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${department}</td>
+            <td>${departmentData[department]["Đang xử lý"] || 0}</td>
+            <td>${departmentData[department]["Chưa xử lý"] || 0}</td>
+            <td>${departmentData[department]["Hoàn thành"] || 0}</td>
+            <td>${departmentData[department]["Đã hủy"] || 0}</td>
+        `;
+        statisticsData.appendChild(row);
     });
 </script>
 </body>

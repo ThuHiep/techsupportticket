@@ -141,6 +141,7 @@ Route::get('/api/get-time-data', [ReportController::class, 'getTimeData']);
 Route::get('/api/get-departments', [ReportController::class, 'getDepartments']);
 Route::get('/api/get-request-types', [ReportController::class, 'getRequestTypes']);
 Route::get('/department-report', [ReportController::class, 'getDepartmentReportData']);
+Route::get('/departments', [ReportController::class, 'getDepartments']);
 // Route cho API lấy dữ liệu yêu cầu
 Route::get('/api/requests', [ReportController::class, 'getRequests']);
 
@@ -178,10 +179,10 @@ Route::name('articles.')->group(function () {
     Route::put('/articles/update/{article_id}', [ArticlesController::class, 'update'])->middleware('customersp')->name('update');
     Route::get('/articles/create', [ArticlesController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/articles/store', [ArticlesController::class, 'store'])->middleware('customersp')->name('store');
-   
+
     Route::delete('/articles/delete/{faq_id}', [ArticlesController::class, 'destroy'])->middleware('customersp')->name('delete');
 
-    
+
 
 
 });

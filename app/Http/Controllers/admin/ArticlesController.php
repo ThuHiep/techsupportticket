@@ -87,8 +87,6 @@ class ArticlesController extends Controller
             $imagePath = null; // Nếu không có ảnh
         }
 
-
-
         // Tạo bài viết mới
         $article = new Article();
         $article->article_id = $request->input('article_id');

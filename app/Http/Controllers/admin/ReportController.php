@@ -79,28 +79,33 @@ class ReportController extends Controller
 
         // Loop through each department to gather request statistics
         foreach ($departments as $department) {
+            $requestCounts = DB::table('request')
+                ->select('status', DB::raw('count(*) as count'))
+                ->where('department_id', $department->department_id)
+                ->groupBy('status')
+                ->get()
+                ->pluck('count', 'status')
+                ->toArray();
+
             $departmentData[$department->department_name] = [
-                'Đang xử lý' => DB::table('request')
-                    ->where('department_id', $department->department_id) // Correct foreign key
-                    ->where('status', 'Đang xử lý')
-                    ->count(),
-                'Chưa xử lý' => DB::table('request')
-                    ->where('department_id', $department->department_id)
-                    ->where('status', 'Chưa xử lý')
-                    ->count(),
-                'Hoàn thành' => DB::table('request')
-                    ->where('department_id', $department->department_id)
-                    ->where('status', 'Hoàn thành')
-                    ->count(),
-                'Đã hủy' => DB::table('request')
-                    ->where('department_id', $department->department_id)
-                    ->where('status', 'Đã hủy')
-                    ->count(),
+                'Đang xử lý' => $requestCounts['Đang xử lý'] ?? 0,
+                'Chưa xử lý' => $requestCounts['Chưa xử lý'] ?? 0,
+                'Hoàn thành' => $requestCounts['Hoàn thành'] ?? 0,
+                'Đã hủy' => $requestCounts['Đã hủy'] ?? 0,
             ];
         }
 
         // Trả về view với dữ liệu đã xử lý
-        return view('admin.dashboard.layout', compact('response', 'template', 'requestTypes', 'logged_user', 'activeCustomers', 'customerColors', 'departments', 'departmentColors', 'departmentData'));
+        return view('admin.dashboard.layout', compact(
+            'response',
+            'template',
+            'requestTypes',
+            'logged_user',
+            'activeCustomers',
+            'customerColors',
+            'departments',
+            'departmentColors',
+            'departmentData'));
     }
 
 
@@ -291,84 +296,39 @@ class ReportController extends Controller
     // Controller method to get departments
     public function getDepartments(Request $request)
     {
-        // Lấy tất cả các phòng ban với thông tin yêu cầu và trạng thái của yêu cầu
-        $query = DB::table('department')
-            ->join('request', 'department.department_id', '=', 'request.department_id')
-            ->select('department.department_id', 'department.department_name', 'request.status')
-            ->distinct();
+        // Lấy tất cả các phòng ban
+        $departments = DB::table('department')->get();
 
-        // Kiểm tra nếu có yêu cầu lọc theo trạng thái
-        if ($status = $request->input('status')) {
-            $statusMap = [
-                'pending' => 'Chưa xử lý',
-                'in_progress' => 'Đang xử lý',
-                'completed' => 'Hoàn thành',
-                'canceled' => 'Đã hủy'
+        $departmentData = [];
+
+        // Duyệt qua từng phòng ban để thu thập thống kê yêu cầu
+        foreach ($departments as $department) {
+            $requestCounts = DB::table('request')
+                ->select('status', DB::raw('count(*) as count'))
+                ->where('department_id', $department->department_id)
+                ->groupBy('status')
+                ->get()
+                ->pluck('count', 'status')
+                ->toArray();
+
+            // Kiểm tra kết quả truy vấn
+            // dd($requestCounts);
+
+            $departmentData[] = [
+                'department_id' => $department->department_id,
+                'department_name' => $department->department_name,
+                'status' => [
+                    'Đang xử lý' => $requestCounts['Đang xử lý'] ?? 0,
+                    'Chưa xử lý' => $requestCounts['Chưa xử lý'] ?? 0,
+                    'Hoàn thành' => $requestCounts['Hoàn thành'] ?? 0,
+                    'Đã hủy' => $requestCounts['Đã hủy'] ?? 0,
+                ],
             ];
-
-            // Kiểm tra trạng thái hợp lệ và lọc theo trạng thái
-            if (array_key_exists($status, $statusMap)) {
-                $query->where('request.status', $statusMap[$status]);
-            }
         }
 
-        // Lấy các phòng ban đã được lọc
-        $departments = $query->get();
-
-        // Trả về dữ liệu phòng ban dưới dạng JSON
-        return response()->json($departments);
+        // Trả về dữ liệu phòng ban kèm thống kê dưới dạng JSON
+        return response()->json($departmentData);
     }
-
-    // Ví dụ API trả về danh sách yêu cầu của từng phòng ban
-        public function getDepartmentReportData(Request $request)
-        {
-            // Fetch department data along with the count of requests per status
-            $departmentData = DB::table('department')
-                ->leftJoin('request', 'department.department_id', '=', 'request.department_id')
-                ->select('department.department_name', 'request.status', DB::raw('COUNT(request.request_id) as request_count'))
-                ->groupBy('department.department_id', 'department.department_name', 'request.status')
-                ->get();
-
-            // Log the raw data to check
-            \Log::info($departmentData);
-
-            // Create a mapping for statuses
-            $statusMapping = [
-                'In Progress' => 'Đang xử lý',
-                'Not Processed' => 'Chưa xử lý',
-                'Completed' => 'Hoàn thành',
-                'Canceled' => 'Đã hủy',
-                // Add any other statuses that may exist
-            ];
-
-            // Restructure data for easier frontend processing
-            $formattedData = [];
-            foreach ($departmentData as $data) {
-                $department = $data->department_name;
-
-                // Map the status to Vietnamese
-                $status = $statusMapping[$data->status] ?? 'Chưa xử lý'; // Default to 'Chưa xử lý' if not found
-
-                $requestCount = $data->request_count;
-
-                // Initialize department data if not already set
-                if (!isset($formattedData[$department])) {
-                    $formattedData[$department] = [
-                        'Đang xử lý' => 0,
-                        'Chưa xử lý' => 0,
-                        'Hoàn thành' => 0,
-                        'Đã hủy' => 0
-                    ];
-                }
-
-                // Accumulate counts for the appropriate status
-                $formattedData[$department][$status] += $requestCount; // Use += to accumulate counts
-            }
-
-            return response()->json($formattedData);
-        }
-
-
 
 
 // Controller method to get request types
