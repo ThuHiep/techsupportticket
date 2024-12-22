@@ -45,6 +45,9 @@ class HomepageController extends Controller
         // Truyền dữ liệu vào view
         return view('guest.request.request', compact('customer', 'requestTypes'));
     }
-
+    
+    
+    
+    
 
 }

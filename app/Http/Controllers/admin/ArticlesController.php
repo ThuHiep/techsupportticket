@@ -167,4 +167,6 @@ class ArticlesController extends Controller
 
         return redirect()->route('articles.index')->with('success', 'Bài viết và ảnh đã được xóa!');
     }
+
+
 }

@@ -92,6 +92,7 @@ header {
     justify-content: center;
     margin-left: 40px;
     padding: 20px;
+   
 }
 .main-content .right h1 {
     font-family: "Mulish", sans-serif;
@@ -110,18 +111,18 @@ header {
 .main-content .right .search-container {
     display: flex;
     align-items: center;
-    gap: 10px;
     margin-top: 10px;
+    gap: 10px;
 }
-.main-content .right .search-container input[type="text"] {
-    width: 80%;
+.main-content .right .search-container input[type="text"], select{
+    width: 50%;
     padding: 10px 15px; /* Adjust padding */
     font-size: 1em;
     border: 1px solid #ccc;
     border-radius: 25px; /* Rounded corners */
     transition: border-color 0.3s ease;
 }
-.main-content .right .search-container input[type="text"]:focus {
+.main-content .right .search-container input[type="text"]:focus, select:focus{
     outline: none;
     border-color: #6f2f9f; /* Change border color on focus */
 }
