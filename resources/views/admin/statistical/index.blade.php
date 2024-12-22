@@ -148,8 +148,8 @@
                     <label for="departmentFilter" class="filter-label"></label>
                     <select id="departmentFilter" onchange="updateDepartmentReport()">
                         <option value="all">Tất cả phòng ban</option>
-                        @foreach ($departments as $department)
-                            <option value="{{ $department->department_name }}">{{ $department->department_name }}</option>
+                        @foreach ($departmentData as $department => $data)
+                            <option value="{{ $department }}">{{ $department }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -498,119 +498,120 @@
     if (!departmentDataa || typeof departmentDataa !== 'object' || Object.keys(departmentDataa).length === 0) {
         console.error('No valid data available for the chart.');
     } else {
-        // Extract labels and data for each status
         const labels = Object.keys(departmentDataa);
+        let departmentChart;
 
-        const processingData = labels.map(department => departmentDataa[department]["Đang xử lý"] || 0);
-        const notProcessedData = labels.map(department => departmentDataa[department]["Chưa xử lý"] || 0);
-        const completedData = labels.map(department => departmentDataa[department]["Hoàn thành"] || 0);
-        const canceledData = labels.map(department => departmentDataa[department]["Đã hủy"] || 0);
+        function updateChart(selectedDepartment) {
+            const filteredData = selectedDepartment === 'all' ? departmentDataa : { [selectedDepartment]: departmentDataa[selectedDepartment] };
+            const filteredLabels = selectedDepartment === 'all' ? labels : [selectedDepartment];
 
-        const ctx = document.getElementById('departmentChart').getContext('2d');
-        const departmentChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Đang xử lý',
-                        data: processingData,
-                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                    },
-                    {
-                        label: 'Chưa xử lý',
-                        data: notProcessedData,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    },
-                    {
-                        label: 'Hoàn thành',
-                        data: completedData,
-                        backgroundColor: 'rgba(153, 102, 255, 0.5)',
-                    },
-                    {
-                        label: 'Đã hủy',
-                        data: canceledData,
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            const processingData = filteredLabels.map(department => filteredData[department]["Đang xử lý"] || 0);
+            const notProcessedData = filteredLabels.map(department => filteredData[department]["Chưa xử lý"] || 0);
+            const completedData = filteredLabels.map(department => filteredData[department]["Hoàn thành"] || 0);
+            const canceledData = filteredLabels.map(department => filteredData[department]["Đã hủy"] || 0);
+
+            const ctx = document.getElementById('departmentChart').getContext('2d');
+
+            // Clear existing chart if it exists
+            if (departmentChart) {
+                departmentChart.destroy();
+            }
+
+            // Create a new chart
+            departmentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: filteredLabels,
+                    datasets: [
+                        { label: 'Đang xử lý', data: processingData, backgroundColor: 'rgba(75, 192, 192, 0.5)' },
+                        { label: 'Chưa xử lý', data: notProcessedData, backgroundColor: 'rgba(54, 162, 235, 0.5)' },
+                        { label: 'Hoàn thành', data: completedData, backgroundColor: 'rgba(153, 102, 255, 0.5)' },
+                        { label: 'Đã hủy', data: canceledData, backgroundColor: 'rgba(255, 99, 132, 0.5)' }
+                    ]
                 },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } },
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                                }
                             }
                         }
                     }
                 }
-            }
+            });
+
+            // Update the statistics table
+            const statisticsData = document.getElementById('departmentDataList');
+            statisticsData.innerHTML = ''; // Clear existing rows
+
+            let totalProcessing = 0;
+            let totalNotProcessed = 0;
+            let totalCompleted = 0;
+            let totalCanceled = 0;
+            let totalRequests = 0;
+
+            filteredLabels.forEach(department => {
+                const row = document.createElement('tr');
+                const processing = filteredData[department]["Đang xử lý"] || 0;
+                const notProcessed = filteredData[department]["Chưa xử lý"] || 0;
+                const completed = filteredData[department]["Hoàn thành"] || 0;
+                const canceled = filteredData[department]["Đã hủy"] || 0;
+
+                // Update total counts
+                totalProcessing += processing;
+                totalNotProcessed += notProcessed;
+                totalCompleted += completed;
+                totalCanceled += canceled;
+
+                // Calculate total requests for the department
+                const totalForDepartment = processing + notProcessed + completed + canceled;
+                totalRequests += totalForDepartment;
+
+                row.innerHTML = `
+                    <td>${department}</td>
+                    <td>${processing}</td>
+                    <td>${notProcessed}</td>
+                    <td>${completed}</td>
+                    <td>${canceled}</td>
+                `;
+                statisticsData.appendChild(row);
+            });
+
+            // Create total row for status counts
+            const totalRow = document.createElement('tr');
+            totalRow.innerHTML = `
+                <td><strong>Tổng:</strong></td>
+                <td>${totalProcessing}</td>
+                <td>${totalNotProcessed}</td>
+                <td>${totalCompleted}</td>
+                <td>${totalCanceled}</td>
+            `;
+            statisticsData.appendChild(totalRow);
+
+            // Create total row for all requests
+            const totalRequestsRow = document.createElement('tr');
+            totalRequestsRow.innerHTML = `
+                <td><strong>Tổng số yêu cầu:</strong></td>
+                <td colspan="4">${totalRequests}</td>
+            `;
+            statisticsData.appendChild(totalRequestsRow);
+        }
+
+        // Initialize chart and table on page load
+        updateChart('all');
+
+        // Event listener for department filter
+        document.getElementById('departmentFilter').addEventListener('change', function() {
+            updateChart(this.value);
         });
-
-        // Populate the statistics table
-        const statisticsData = document.getElementById('departmentDataList');
-
-        let totalProcessing = 0;
-        let totalNotProcessed = 0;
-        let totalCompleted = 0;
-        let totalCanceled = 0;
-        let totalRequests = 0; // Total requests variable
-
-        labels.forEach(department => {
-            const row = document.createElement('tr');
-            const processing = departmentDataa[department]["Đang xử lý"] || 0;
-            const notProcessed = departmentDataa[department]["Chưa xử lý"] || 0;
-            const completed = departmentDataa[department]["Hoàn thành"] || 0;
-            const canceled = departmentDataa[department]["Đã hủy"] || 0;
-
-            // Update total counts
-            totalProcessing += processing;
-            totalNotProcessed += notProcessed;
-            totalCompleted += completed;
-            totalCanceled += canceled;
-
-            // Calculate total requests for the department
-            const totalForDepartment = processing + notProcessed + completed + canceled;
-            totalRequests += totalForDepartment; // Accumulate total requests
-
-            row.innerHTML = `
-            <td>${department}</td>
-            <td>${processing}</td>
-            <td>${notProcessed}</td>
-            <td>${completed}</td>
-            <td>${canceled}</td>
-        `;
-            statisticsData.appendChild(row);
-        });
-
-        // Create a total row for status counts
-        const totalRow = document.createElement('tr');
-        totalRow.innerHTML = `
-        <td><strong>Tổng:</strong></td>
-        <td>${totalProcessing}</td>
-        <td>${totalNotProcessed}</td>
-        <td>${totalCompleted}</td>
-        <td>${totalCanceled}</td>
-    `;
-        statisticsData.appendChild(totalRow);
-
-        // Create a total row for all requests
-        const totalRequestsRow = document.createElement('tr');
-        totalRequestsRow.innerHTML = `
-        <td><strong>Tổng số yêu cầu:</strong></td>
-        <td colspan="4">${totalRequests}</td>
-    `;
-        statisticsData.appendChild(totalRequestsRow);
     }
+
+
 
     //----------------------------Báo cáo theo thời gian-------------------
     document.addEventListener('DOMContentLoaded', function () {

@@ -328,8 +328,8 @@ class ReportController extends Controller
 
         // Trả về dữ liệu phòng ban kèm thống kê dưới dạng JSON
         return response()->json($departmentData);
-    }
 
+    }
 
 // Controller method to get request types
     public function getRequestTypes()

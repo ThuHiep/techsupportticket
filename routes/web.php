@@ -141,7 +141,7 @@ Route::get('/api/get-time-data', [ReportController::class, 'getTimeData']);
 Route::get('/api/get-departments', [ReportController::class, 'getDepartments']);
 Route::get('/api/get-request-types', [ReportController::class, 'getRequestTypes']);
 Route::get('/department-report', [ReportController::class, 'getDepartmentReportData']);
-Route::get('/departments', [ReportController::class, 'getDepartments']);
+Route::get('/api/get-department-data', [ReportController::class, 'getDepartments']);
 // Route cho API lấy dữ liệu yêu cầu
 Route::get('/api/requests', [ReportController::class, 'getRequests']);
 
