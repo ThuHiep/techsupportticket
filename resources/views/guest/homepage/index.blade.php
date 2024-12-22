@@ -68,10 +68,24 @@
                 <span>TRANG HỖ TRỢ</span>
                 <span>KHÁCH HÀNG</span>
             </h1>
-            <div class="search-container">
+            {{-- <div class="search-container">
                 <input type="text" placeholder="Tìm kiếm...">
                 <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
+            </div> --}}
+            <div class="search-container" >
+                
+                <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm..." >
+                <select id="search-type" style="width: 150px">
+                    <option value="all">Danh mục</option>
+                    <option value="faq">Câu hỏi</option>
+                    <option value="article">Hướng dẫn</option>
+                </select>
+                <button id="search-button" >
+                    <img src="guest/img/search.png" alt="Search" style="width: 20px; height: 20px;">
+                </button>
             </div>
+            <div id="search-results" style="margin-top: 20px;"></div>
+            
         </div>
     </div>
 
