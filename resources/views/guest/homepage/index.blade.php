@@ -474,7 +474,7 @@
                 
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
-                        <p class="article-content">{{ $article->content }}</p>
+                        <p class="article-content">{!! nl2br($article->content) !!}</p>
                         <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y')}}</p>
                     </div>
                 </div>
@@ -502,12 +502,12 @@
         // Hàm mở Modal khi click vào card
         function openHuongdanModal(cardElement) {
             const title = cardElement.querySelector('.article-title').innerText;
-            const content = cardElement.querySelector('.article-details .article-content').innerText;
+            const content = cardElement.querySelector('.article-details .article-content').innerHTML; // Sử dụng innerHTML
             const date = cardElement.querySelector('.article-details .article-date').innerText;
             const images = cardElement.querySelector('img').src;
 
             document.getElementById('huongdanModalTitle').innerText = title;
-            document.getElementById('huongdanModalContent').innerText = content;
+            document.getElementById('huongdanModalContent').innerHTML = content; // Hiển thị HTML trong modal
             document.getElementById('huongdanModalDate').innerText = date;
 
             const modalImage = document.getElementById('huongdanModalImage');
@@ -519,6 +519,7 @@
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
         }
+
 
         function closeHuongdanModal() {
             const modal = document.getElementById('huongdanArticleModal');
