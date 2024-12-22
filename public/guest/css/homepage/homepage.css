@@ -384,6 +384,8 @@ section {
 .carousel-button:hover {
     background-color: #5b3e8c;
 }
+
+
 footer {
     padding: 20px; /* Khoảng cách bên trong */
     margin: 20px 40px; /* Cách mép trái và phải 40px */
@@ -571,7 +573,7 @@ footer {
     }
 }
 
-.close {
+/* .close {
     position: absolute;
     top: 10px;
     right: 20px;
@@ -582,6 +584,20 @@ footer {
 
 .close:hover {
     color: #000;
+} */
+.close {
+    position: absolute;
+    top: -7px;
+    right: 7px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa; /* Màu sắc */
+}
+.close:hover,
+.close:focus {
+    color: black; /* Màu khi hover */
+    text-decoration: none;
+    cursor: pointer;
 }
 
 
