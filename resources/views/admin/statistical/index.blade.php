@@ -154,7 +154,7 @@
                     </select>
                 </div>
                 <div class="chart-container">
-                    <canvas id="departmentChart" width="600" height="400"></canvas>
+                    <canvas id="departmentChart"></canvas>
                 </div>
             </div>
             <!--Biểu đồ báo cáo yêu cầu theo thời gian-->
@@ -208,12 +208,20 @@
             </div>
             <!--Số liệu phòng ban-->
             <div class="report-section" id="departmentDataContainer" style="display: none;">
-                <h3>Số liệu tổng hợp</h3>
+                <h3>Số liệu tổng hợp theo phòng ban</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Phòng ban</th>
+                        <th>Đang xử lý</th>
+                        <th>Chưa xử lý</th>
+                        <th>Hoàn thành</th>
+                        <th>Đã hủy</th>
+                    </tr>
+                    </thead>
+                    <tbody id="departmentDataList"></tbody>
+                </table>
                 <p id="totalDepartmentRequests"></p>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 10%;"></div>
-                </div>
-                <ul id="departmentDataList"></ul>
             </div>
             <!--Số liệu thời gian-->
             <div class="report-section" id="timeDataContainer" style="display: none;">
@@ -483,27 +491,24 @@
     });
 
     //------------------------------Báo cáo phòng ban
-    document.addEventListener('DOMContentLoaded', function() {
-        const departmentData = @json($departmentData);
+    const departmentDataa = @json($departmentData);
+    console.log(departmentDataa);
 
-        // Check if departmentData has values
-        if (Object.keys(departmentData).length === 0) {
-            console.error('No data available for the chart.');
-            return; // Exit if there's no data
-        }
-
+    // Check if departmentData is valid
+    if (!departmentDataa || typeof departmentDataa !== 'object' || Object.keys(departmentDataa).length === 0) {
+        console.error('No valid data available for the chart.');
+    } else {
         // Extract labels and data for each status
-        const labels = Object.keys(departmentData);
-        console.log(departmentData);
-        const processingData = labels.map(department => (departmentData[department]["Đang xử lý"] || 0));
-        const notProcessedData = labels.map(department => (departmentData[department]["Chưa xử lý"] || 0));
-        const completedData = labels.map(department => (departmentData[department]["Hoàn thành"] || 0));
-        const canceledData = labels.map(department => (departmentData[department]["Đã hủy"] || 0));
+        const labels = Object.keys(departmentDataa);
+
+        const processingData = labels.map(department => departmentDataa[department]["Đang xử lý"] || 0);
+        const notProcessedData = labels.map(department => departmentDataa[department]["Chưa xử lý"] || 0);
+        const completedData = labels.map(department => departmentDataa[department]["Hoàn thành"] || 0);
+        const canceledData = labels.map(department => departmentDataa[department]["Đã hủy"] || 0);
 
         const ctx = document.getElementById('departmentChart').getContext('2d');
-
         const departmentChart = new Chart(ctx, {
-            type: 'bar', // Change to 'line' if you prefer a line chart
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [
@@ -550,76 +555,62 @@
                 }
             }
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedReport = localStorage.getItem('selectedReport');
-        if (savedReport) {
-            document.getElementById('reportSelect').value = savedReport; // Set the dropdown to the saved value
-            showSelectedChart(); // Call the function to show the correct report
+        // Populate the statistics table
+        const statisticsData = document.getElementById('departmentDataList');
 
-            // Cập nhật báo cáo khách hàng nếu báo cáo khách hàng được chọn
-            if (savedReport === 'department') {
-                updateDepartmentReport(); // Cập nhật dữ liệu báo cáo phòng ban khi tải trang
-            }
-        }
-    });
+        let totalProcessing = 0;
+        let totalNotProcessed = 0;
+        let totalCompleted = 0;
+        let totalCanceled = 0;
+        let totalRequests = 0; // Total requests variable
 
-    function displayDepartmentData(selectedDepartment) {
-        console.log(`Updating report for department: ${selectedDepartment}`);
-        const departmentDataList = document.getElementById('departmentDataList');
-        const totalDepartmentRequests = document.getElementById('totalDepartmentRequests');
+        labels.forEach(department => {
+            const row = document.createElement('tr');
+            const processing = departmentDataa[department]["Đang xử lý"] || 0;
+            const notProcessed = departmentDataa[department]["Chưa xử lý"] || 0;
+            const completed = departmentDataa[department]["Hoàn thành"] || 0;
+            const canceled = departmentDataa[department]["Đã hủy"] || 0;
 
-        departmentDataList.innerHTML = '';
+            // Update total counts
+            totalProcessing += processing;
+            totalNotProcessed += notProcessed;
+            totalCompleted += completed;
+            totalCanceled += canceled;
 
-        console.log(`Selected Department: ${selectedDepartment}`);
-        console.log(`Department Data:`, departmentData);
+            // Calculate total requests for the department
+            const totalForDepartment = processing + notProcessed + completed + canceled;
+            totalRequests += totalForDepartment; // Accumulate total requests
 
-        if (selectedDepartment === 'all') {
-            let totalRequests = 0;
-            for (const [key, value] of Object.entries(departmentData)) {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${key}: ${value} yêu cầu`;
-                departmentDataList.appendChild(listItem);
-                totalRequests += value;
-            }
-            totalDepartmentRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`;
-        } else if(departmentData[selectedDepartment]) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${selectedDepartment}: ${departmentData[selectedDepartment]} yêu cầu`;
-            departmentDataList.appendChild(listItem);
-            totalDepartmentRequests.textContent = `Tổng số yêu cầu: ${departmentData[selectedDepartment]}`;
-        } else {
-            totalDepartmentRequests.textContent = `Không có yêu cầu nào cho phòng ban này.`;
-        }
+            row.innerHTML = `
+            <td>${department}</td>
+            <td>${processing}</td>
+            <td>${notProcessed}</td>
+            <td>${completed}</td>
+            <td>${canceled}</td>
+        `;
+            statisticsData.appendChild(row);
+        });
+
+        // Create a total row for status counts
+        const totalRow = document.createElement('tr');
+        totalRow.innerHTML = `
+        <td><strong>Tổng:</strong></td>
+        <td>${totalProcessing}</td>
+        <td>${totalNotProcessed}</td>
+        <td>${totalCompleted}</td>
+        <td>${totalCanceled}</td>
+    `;
+        statisticsData.appendChild(totalRow);
+
+        // Create a total row for all requests
+        const totalRequestsRow = document.createElement('tr');
+        totalRequestsRow.innerHTML = `
+        <td><strong>Tổng số yêu cầu:</strong></td>
+        <td colspan="4">${totalRequests}</td>
+    `;
+        statisticsData.appendChild(totalRequestsRow);
     }
-
-    function updateDepartmentReport() {
-        const selectedDepartment = document.getElementById('departmentFilter').value;
-        let data = [];
-        let labels = [];
-
-        if (selectedDepartment === 'all') {
-            data = Object.values(departmentData);
-            labels = Object.keys(departmentData);
-        } else if (departmentData[selectedDepartment]) {
-            data = [departmentData[selectedDepartment]];
-            labels = [selectedDepartment];
-        } else {
-            console.warn('No data found for the selected department:', selectedDepartment);
-            return;
-        }
-
-        departmentChart.data.labels = labels;
-        departmentChart.data.datasets[0].data = data;
-        departmentChart.update();
-
-        // Cập nhật dữ liệu tổng hợp cho phòng ban
-        displayDepartmentData(selectedDepartment);
-    }
-
-    // Đảm bảo rằng bạn gọi hàm này khi người dùng thay đổi lựa chọn
-    document.getElementById('departmentFilter').addEventListener('change', updateDepartmentReport);
 
     //----------------------------Báo cáo theo thời gian-------------------
     document.addEventListener('DOMContentLoaded', function () {

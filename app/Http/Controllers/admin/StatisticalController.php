@@ -10,8 +10,6 @@ use App\Models\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-
-
 class StatisticalController extends Controller
 {
     public function index()
