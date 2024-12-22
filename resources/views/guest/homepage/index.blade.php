@@ -103,12 +103,13 @@
                     <li>Không có câu hỏi nào được phản hồi.</li>
                 @endforelse
             </ul>
+            
             <div id="faq-answer-container" style="display: none;">
                 <p id="faq-answer"></p>
             </div>
             <div id="faqModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                    <span id="closeModal" class="close" style="float: right; cursor: pointer;">&times;</span>
+                    <span id="closeModal" class="closefaq" style="float: right; cursor: pointer;">&times;</span>
                     <h3 id="modal-question" style="font-weight: bold;"></h3>
                     <p id="modal-answer" style="margin-top: 10px;"></p>
                 </div>
@@ -474,7 +475,7 @@
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
                         <p class="article-content">{{ $article->content }}</p>
-                        <p class="article-date">{{ $article->date}}</p>
+                        <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y')}}</p>
                     </div>
                 </div>
             @endforeach
@@ -676,7 +677,6 @@
                                 Đăng nhập
                             </button>
                         </div>
-                        <a href="#" >Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
                     </form>
                 </div>
             @endif
