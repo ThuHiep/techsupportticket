@@ -594,17 +594,17 @@
             };
 
             prevButton.addEventListener("click", function() {
-                currentIndex = (currentIndex === 0) ? totalCards - 2 : currentIndex - 1;
+                currentIndex = (currentIndex === 0) ? totalCards - 3 : currentIndex - 1;
                 updateCarousel();
             });
 
             nextButton.addEventListener("click", function() {
-                currentIndex = (currentIndex === totalCards - 2) ? 0 : currentIndex + 1;
+                currentIndex = (currentIndex === totalCards - 3) ? 0 : currentIndex + 1;
                 updateCarousel();
             });
 
             // Ensure only 2 cards are visible at a time
-            const containerWidth = 660; // Adjusted for larger cards (300px each + margin)
+            const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
             document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
         });
     </script>
