@@ -477,8 +477,8 @@
         <div class="carousel" id="carousel">
             @foreach($articles as $article)
                 <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
-                    {{--                    <img src="{{ $article ->image_url  }}" alt="Hình ảnh {{ $article->title }}">--}}
-                    <img src="/admin/img/p_big1.jpg">
+                    <img src="{{ asset('admin/img/articles/' . $article->images) }}" alt="Hình ảnh {{ $article->title }}">
+                
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
                         <p class="article-content"></p>
@@ -511,14 +511,14 @@
             const title = cardElement.querySelector('.article-title').innerText;
             const content = cardElement.querySelector('.article-details .article-content').innerText;
             const date = cardElement.querySelector('.article-details .article-date').innerText;
-            const imageUrl = cardElement.querySelector('img').src;
+            const images = cardElement.querySelector('img').src;
 
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerText = content;
             document.getElementById('huongdanModalDate').innerText = date;
 
             const modalImage = document.getElementById('huongdanModalImage');
-            modalImage.src = imageUrl;
+            modalImage.src = images;
 
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
