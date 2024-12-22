@@ -104,11 +104,11 @@
                 @endforelse
             </ul>
             <div id="faq-answer-container" style="display: none;">
-                <h3>Trả lời:</h3><p id="faq-answer"></p>
+                <p id="faq-answer"></p>
             </div>
             <div id="faqModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                    <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
+                    <span id="closeModal" class="close" style="float: right; cursor: pointer;">&times;</span>
                     <h3 id="modal-question" style="font-weight: bold;"></h3>
                     <p id="modal-answer" style="margin-top: 10px;"></p>
                 </div>
@@ -121,42 +121,34 @@
                 const modalAnswer = document.getElementById("modal-answer");
                 const closeModal = document.getElementById("closeModal");
             
-                // Xử lý khi nhấn vào câu hỏi
                 faqQuestions.forEach(question => {
                     question.addEventListener("click", function (event) {
-                        event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
-            
+                        event.preventDefault();
                         const faqId = question.getAttribute("data-id");
             
-                        // Gọi API hoặc lấy dữ liệu trả lời dựa trên `faqId`
                         fetch(`/faq/answer/${faqId}`)
                             .then(response => response.json())
                             .then(data => {
-                                // Hiển thị câu hỏi và câu trả lời trong modal
                                 modalQuestion.textContent = data.question;
                                 modalAnswer.textContent = data.answer;
             
-                                // Hiển thị modal
-                                faqModal.style.display = "block";
+                                faqModal.style.display = "block"; // Hiển thị modal
                             })
-                            .catch(error => {
-                                console.error("Lỗi khi tải câu trả lời:", error);
-                            });
+                            .catch(error => console.error("Lỗi khi tải câu trả lời:", error));
                     });
                 });
             
-                // Đóng modal khi nhấn vào nút đóng
                 closeModal.addEventListener("click", function () {
-                    faqModal.style.display = "none";
+                    faqModal.style.display = "none"; // Ẩn modal
                 });
             
-                // Đóng modal khi nhấn ra ngoài
                 window.addEventListener("click", function (event) {
                     if (event.target === faqModal) {
-                        faqModal.style.display = "none";
+                        faqModal.style.display = "none"; // Ẩn modal khi nhấn ra ngoài
                     }
                 });
             });
+            
             </script>
 
             <div class="faq-form-container">
@@ -481,8 +473,8 @@
                 
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
-                        <p class="article-content"></p>
-                        <p class="article-date"></p>
+                        <p class="article-content">{{ $article->content }}</p>
+                        <p class="article-date">{{ $article->date}}</p>
                     </div>
                 </div>
             @endforeach

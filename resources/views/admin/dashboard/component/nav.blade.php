@@ -37,7 +37,7 @@
                     <li id="faqNotification" style="display: none;">
                         <a href="{{ route('faq.index', ['status' => 'Chưa phản hồi', 'date' => now()->toDateString()]) }}">
                             <div>
-                                <i class="fa fa-question-circle fa-fw"></i> Có <span id="unansweredCount">0</span> bài viết chưa phản hồi
+                                <i class="fa fa-question-circle fa-fw"></i> Có <span id="unansweredCount">0</span> câu hỏi chưa phản hồi
                             </div>
                         </a>
                     </li>
