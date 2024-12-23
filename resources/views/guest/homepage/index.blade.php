@@ -714,7 +714,7 @@
         </span>
     </div>
 
-    @if (auth()->check())
+    @if(auth()->check())
         <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
             @else
                 <!-- Nút nổi -->

@@ -7,7 +7,7 @@
   <title>Tài khoản</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link
@@ -373,7 +373,7 @@
       <!-- Modal trạng thái làm ngày 23/12 -->
       <div id="modal-status" class="modal-request">
         <div class="modal-content-request">
-          <span class="close-btn" onclick="closeModal()">×</span>
+          <span class="close-btn" onclick="closeForm()">×</span>
           <h2>Trạng thái yêu cầu</h2>
           <div id="status-timeline">
             <!-- Nội dung các trạng thái sẽ được tạo động -->
@@ -487,7 +487,7 @@ modal.style.display = "block"; // Hiển thị modal
 }
 
 // Đóng modal
-function closeModal() {
+function closeForm() {
 const modal = document.getElementById("modal-status");
 modal.style.display = "none";
 }
@@ -553,31 +553,6 @@ modal.style.display = "none";
   <!-- Main JS File -->
   <script src="guest/js/main.js"></script>
 
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const menuItems = document.querySelectorAll("#navmenu ul li a");
-
-    menuItems.forEach((item) => {
-      item.addEventListener("click", function () {
-        // Loại bỏ lớp 'active' khỏi tất cả các mục menu
-        menuItems.forEach((link) => link.classList.remove("active"));
-
-        // Thêm lớp 'active' vào mục menu được nhấn
-        this.classList.add("active");
-      });
-    });
-
-    // Gán active dựa trên vị trí trang khi load
-    const currentLocation = window.location.href;
-    menuItems.forEach((link) => {
-      if (link.href === currentLocation) {
-        link.classList.add("active");
-      }
-    });
-  });
-
-  </script>
 </body>
 
 </html>

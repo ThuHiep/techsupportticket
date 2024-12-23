@@ -145,7 +145,6 @@ body {
   margin-top: 10px;
 }
 
-
 /* Gốc */
 body {
   background-color: var( --purple-color);
@@ -268,7 +267,6 @@ h6 {
   margin: 0;
   font-weight: 700;
   color: var(--heading-color);
-  margin-bottom: 40px;
 }
 
 .header .social-links {
@@ -466,41 +464,6 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Preloader
---------------------------------------------------------------*/
-#preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  overflow: hidden;
-  background: var(--background-color);
-  transition: all 0.6s ease-out;
-}
-
-#preloader:before {
-  content: "";
-  position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  border: 6px solid #ffffff;
-  border-color: var(--accent-color) transparent var(--accent-color) transparent;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: animate-preloader 1.5s linear infinite;
-}
-
-@keyframes animate-preloader {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/*--------------------------------------------------------------
 # Scroll Top Button
 --------------------------------------------------------------*/
 .scroll-top {
@@ -619,7 +582,6 @@ section,
   margin: 0 auto; /* Căn giữa theo chiều ngang */
 }
 
-
 .section-title h1:after {
   content: "";
   position: absolute;
@@ -632,11 +594,37 @@ section,
 }
 
 .section-title p {
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 
 /* Căn chỉnh toàn bộ section */
+/* Định dạng chung cho tiêu đề */
+.section-title {
+  text-align: center;
+  height: 80px;
+  background-color: #fdeef4; /* Màu nền hồng nhạt */
+  padding: 10px; /* Khoảng cách trên dưới */
+  border-radius: 10px; /* Bo góc nhẹ */
+  margin: 0 auto; /* Căn giữa */
+  max-width: 80%; /* Chiều rộng giới hạn */
+}
+
+/* Định dạng chữ "TRANG" */
+.section-title .pink-text {
+  color: #ec407a; /* Màu hồng đậm */
+  font-size: 36px; /* Kích thước chữ */
+  font-weight: bold; /* Đậm */
+}
+
+/* Định dạng chữ "CHỦ" */
+.section-title .black-text {
+  color: #333; /* Màu đen đậm */
+  font-size: 36px; /* Kích thước chữ */
+  font-weight: bold; /* Đậm */
+}
+
 .home h1{
+  gap: 10px;
   font-weight: bold;
   color: #764DAA;
   font-size: 40px;
@@ -719,7 +707,6 @@ section,
 }
 
 
-
 /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
@@ -751,6 +738,10 @@ section,
   margin-right: 5px;
   color:#764DAA ;
   line-height: 0;
+}
+.container-brief{
+  margin-left: 30px;
+  margin-top: 100px;
 }
 
 .modal {
@@ -891,7 +882,6 @@ input, select {
   background-color: #5a6268;
 }
 
-
 /* Button Styles */
 /* Đưa nút sát lên gần ảnh đại diện */
 .edit-button {
@@ -925,7 +915,6 @@ input, select {
   margin-bottom: 10px;
 }
 
-
 /* Fade-in Animation */
 @keyframes fadeIn {
   from {
@@ -938,11 +927,9 @@ input, select {
   }
 }
 
-
 /*--------------------------------------------------------------
 # Portfolio Section
 --------------------------------------------------------------*/
-
 .portfolio{
   height: 280px;
 }
@@ -981,7 +968,6 @@ input, select {
   margin-left: 20px; /* Khoảng cách so với chữ bên trái */
   vertical-align: middle;
 }
-
 
 
 .portfolio .portfolio-filters li:hover,
@@ -1072,77 +1058,6 @@ input, select {
 
 .portfolio .portfolio-content:hover img {
   transform: scale(1.1);
-}
-/* Modal Container */
-.modal-request {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Modal Content */
-.modal-content-request {
-  background-color: #fff;
-  margin: 10% auto;
-  padding: 40px;
-  border: 1px solid #888;
-  width: 60%;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Close Button */
-.close-btn {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-  color: black;
-  text-decoration: none;
-}
-
-/* Status Timeline */
-#status-timeline {
-  margin-top: 20px;
-}
-
-.status-item {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-}
-
-.status-item .circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #ccc;
-  margin-right: 15px;
-  position: relative;
-}
-
-.status-item.completed .circle {
-  background-color: #4CAF50; /* Màu xanh cho trạng thái hoàn thành */
-}
-
-.status-item:last-child .line {
-  display: none; /* Ẩn đường kẻ ở phần tử cuối */
-}
-
-.status-item span {
-  font-size: 14px;
-  color: #333;
 }
 
 /* General Section Styling */
@@ -1278,6 +1193,79 @@ input, select {
   pointer-events: none; /* Vô hiệu hóa tương tác trong quá trình ẩn */
 }
 
+/* 23/12 */
+/* Modal Container */
+.modal-request {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.modal-content-request {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 40px;
+  border: 1px solid #888;
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close Button */
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Status Timeline */
+#status-timeline {
+  margin-top: 20px;
+}
+
+.status-item {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.status-item .circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 15px;
+  position: relative;
+}
+
+.status-item.completed .circle {
+  background-color: #4CAF50; /* Màu xanh cho trạng thái hoàn thành */
+}
+
+.status-item:last-child .line {
+  display: none; /* Ẩn đường kẻ ở phần tử cuối */
+}
+
+.status-item span {
+  font-size: 14px;
+  color: #333;
+}
+/* 23/12 */
 
 /*--------------------------------------------------------------
 # Contact Section
@@ -1369,6 +1357,8 @@ button:hover{
   transform: scale(1.08); /* Phóng to nhẹ khi hover */ 
   color: 80%;
 }
+
+
 #navmenu ul li a.active {
   color: #FF9700; /* Màu chữ khi active */
   border-bottom: 2px solid #FF9700; /* Gạch chân */
