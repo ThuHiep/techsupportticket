@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\FaqFeedback;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
@@ -98,7 +99,10 @@ class FaqController extends Controller
         $faq->create_at = now();
         $faq->save();
 
-        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được thêm thành công!');
+        // Send email
+        Mail::to($request->input('email'))->send(new FaqFeedback($faq->question, $faq->answer));
+
+        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được thêm thành công và email đã được gửi!');
     }
 
     public function feedback($faq_id)
@@ -113,24 +117,22 @@ class FaqController extends Controller
     {
         $faq = FAQ::findOrFail($faq_id);
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+
         $request->validate([
             'question' => 'required',
             'answer' => 'required',
         ]);
+
         $faq->employee_id = $logged_user->employee_id;
         $faq->question = $request->input('question');
         $faq->answer = $request->input('answer');
         $faq->status = 'Đã phản hồi';
         $faq->save();
+
+        Mail::to($request->input('email'))->send(new FaqFeedback($faq->question, $faq->answer));
+
+        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được phản hồi!');
         // Gửi email thông báo
-        try {
-            Mail::to($faq->email)->send(new Faq);
-            return redirect()->route('customer.index')
-                ->with('success', 'Khách hàng đã được cập nhật thành công và email thông báo đã được gửi!');
-        } catch (\Exception $e) {
-            return redirect()->route('customer.index')
-                ->with('error', 'Khách hàng đã được cập nhật, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
-        }
     }
 
     public function destroy($faq_id)

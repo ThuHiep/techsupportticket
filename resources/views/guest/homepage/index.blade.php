@@ -39,107 +39,107 @@
             border-radius: 5px;
             transition: opacity 0.3s ease; /* Hiệu ứng mờ */
         }
-        
+
     </style>
 </head>
 
 <body>
 
 
-    <header>
-        <div class="logo">
-            <img src="guest/img/swsoft_logo.svg" alt="Logo">
-        </div>
-        <nav class="nav-links">
-            <a href="#home">Trang chủ</a>
-            <a href="#faq">Bài viết</a>
-            <a href="#ins">Hướng dẫn</a>
-            <a href="#contact">Liên hệ</a>
-            <a class="login-button" href="{{ route('login') }}">Đăng nhập</a>
-        </nav>
-    </header>
-    <div class="main-content" id="home">
-        <div class="left">
-            <img src="guest/img/trangchu.png" alt="Sample Image">
-
-        </div>
-        <div class="right">
-            <h1>
-                <span>TRANG HỖ TRỢ</span>
-                <span>KHÁCH HÀNG</span>
-            </h1>
-            {{-- <div class="search-container">
-                <input type="text" placeholder="Tìm kiếm...">
-                <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
-            </div> --}}
-            <div class="search-container" >
-                
-                <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm..." >
-                <select id="search-type" style="width: 150px">
-                    <option value="all">Danh mục</option>
-                    <option value="faq">Câu hỏi</option>
-                    <option value="article">Hướng dẫn</option>
-                </select>
-                <button id="search-button" >
-                    <img src="guest/img/search.png" alt="Search" style="width: 20px; height: 20px;">
-                </button>
-            </div>
-            <div id="search-results" style="margin-top: 20px;"></div>
-            
-        </div>
+<header>
+    <div class="logo">
+        <img src="guest/img/swsoft_logo.svg" alt="Logo">
     </div>
+    <nav class="nav-links">
+        <a href="#home">Trang chủ</a>
+        <a href="#faq">Bài viết</a>
+        <a href="#ins">Hướng dẫn</a>
+        <a href="#contact">Liên hệ</a>
+        <a class="login-button" href="{{ route('login') }}">Đăng nhập</a>
+    </nav>
+</header>
+<div class="main-content" id="home">
+    <div class="left">
+        <img src="guest/img/trangchu.png" alt="Sample Image">
 
-    <section class="faq-section" id="faq">
-        <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
-        <div class="faq-container">
+    </div>
+    <div class="right">
+        <h1>
+            <span>TRANG HỖ TRỢ</span>
+            <span>KHÁCH HÀNG</span>
+        </h1>
+        {{-- <div class="search-container">
+            <input type="text" placeholder="Tìm kiếm...">
+            <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
+        </div> --}}
+        <div class="search-container" >
 
-            {{-- <ul class="faq-list">
-                @forelse ($faqs as $faq)
-                    <li>
-                        <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
-                    </li>
-                @empty
-                    <li>Không có câu hỏi nào được phản hồi.</li>
-                @endforelse
-            </ul> --}}
-            <ul class="faq-list">
-                @forelse ($faqs as $faq)
-                    <li class="faq-item">
-                        <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
-                    </li>
-                @empty
-                    <li>Không có câu hỏi nào được phản hồi.</li>
-                @endforelse
-            </ul>
-            
-            
-            
-            
-            <div id="faq-answer-container" style="display: none;">
-                <h3>Trả lời:</h3><p id="faq-answer"></p>
+            <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm..." >
+            <select id="search-type" style="width: 150px">
+                <option value="all">Danh mục</option>
+                <option value="faq">Câu hỏi</option>
+                <option value="article">Hướng dẫn</option>
+            </select>
+            <button id="search-button" >
+                <img src="guest/img/search.png" alt="Search" style="width: 20px; height: 20px;">
+            </button>
+        </div>
+        <div id="search-results" style="margin-top: 20px;"></div>
+
+    </div>
+</div>
+
+<section class="faq-section" id="faq">
+    <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
+    <div class="faq-container">
+
+        {{-- <ul class="faq-list">
+            @forelse ($faqs as $faq)
+                <li>
+                    <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
+                </li>
+            @empty
+                <li>Không có câu hỏi nào được phản hồi.</li>
+            @endforelse
+        </ul> --}}
+        <ul class="faq-list">
+            @forelse ($faqs as $faq)
+                <li class="faq-item">
+                    <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
+                </li>
+            @empty
+                <li>Không có câu hỏi nào được phản hồi.</li>
+            @endforelse
+        </ul>
+
+
+
+
+        <div id="faq-answer-container" style="display: none;">
+            <h3>Trả lời:</h3><p id="faq-answer"></p>
+        </div>
+        <div id="faqModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span id="closeModal" class="closefaq" style="float: right; cursor: pointer;">&times;</span>
+                <h3 id="modal-question" style="font-weight: bold;"></h3>
+                <p id="modal-answer" style="margin-top: 10px;"></p>
             </div>
-            <div id="faqModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <span id="closeModal" class="closefaq" style="float: right; cursor: pointer;">&times;</span>
-                    <h3 id="modal-question" style="font-weight: bold;"></h3>
-                    <p id="modal-answer" style="margin-top: 10px;"></p>
-                </div>
-            </div>
-            {{-- Xử lý hiển thị modal câu hỏi --}}
-            <script>document.addEventListener("DOMContentLoaded", function () {
+        </div>
+        {{-- Xử lý hiển thị modal câu hỏi --}}
+        <script>document.addEventListener("DOMContentLoaded", function () {
                 const faqQuestions = document.querySelectorAll(".faq-question");
                 const faqModal = document.getElementById("faqModal");
                 const modalQuestion = document.getElementById("modal-question");
                 const modalAnswer = document.getElementById("modal-answer");
                 const closeModal = document.getElementById("closeModal");
-            
+
                 // Xử lý khi nhấn vào câu hỏi
                 faqQuestions.forEach(question => {
                     question.addEventListener("click", function (event) {
                         event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
-            
+
                         const faqId = question.getAttribute("data-id");
-            
+
                         // Gọi API hoặc lấy dữ liệu trả lời dựa trên `faqId`
                         fetch(`/faq/answer/${faqId}`)
                             .then(response => response.json())
@@ -147,7 +147,7 @@
                                 // Hiển thị câu hỏi và câu trả lời trong modal
                                 modalQuestion.textContent = data.question;
                                 modalAnswer.textContent = data.answer;
-            
+
                                 // Hiển thị modal
                                 faqModal.style.display = "block";
                             })
@@ -156,12 +156,12 @@
                             });
                     });
                 });
-            
+
                 // Đóng modal khi nhấn vào nút đóng
                 closeModal.addEventListener("click", function () {
                     faqModal.style.display = "none";
                 });
-            
+
                 // Đóng modal khi nhấn ra ngoài
                 window.addEventListener("click", function (event) {
                     if (event.target === faqModal) {
@@ -169,202 +169,202 @@
                     }
                 });
             });
-            </script>
+        </script>
 
-            <div class="faq-form-container">
-                <button id="ask-question-button">Đặt câu hỏi</button>
-                <div id="question-form">
-                    <input id="question-name" type="email" placeholder="Nhập email của bạn" required />
-                    <span id="email-error" style="color: red; font-size: 14px; display: none;"></span>
+        <div class="faq-form-container">
+            <button id="ask-question-button">Đặt câu hỏi</button>
+            <div id="question-form">
+                <input id="question-name" type="email" placeholder="Nhập email của bạn" required />
+                <span id="email-error" style="color: red; font-size: 14px; display: none;"></span>
 
-                    <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5" required></textarea>
-                    <span id="question-error" style="color: red; font-size: 14px; display: none;"></span>
+                <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5" required></textarea>
+                <span id="question-error" style="color: red; font-size: 14px; display: none;"></span>
 
-                    <button id="submit-question-button">Gửi</button>
-                    <span id="form-success" style="color: green; font-size: 14px; display: none;"></span>
-                </div>
+                <button id="submit-question-button">Gửi</button>
+                <span id="form-success" style="color: green; font-size: 14px; display: none;"></span>
             </div>
-
         </div>
 
-    </section>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-    const submitButton = document.getElementById("submit-question-button");
-    const questionName = document.getElementById("question-name");
-    const questionText = document.getElementById("question-text");
-    const emailError = document.getElementById("email-error");
-    const questionError = document.getElementById("question-error");
-    const formSuccess = document.getElementById("form-success");
+    </div>
 
-    // Hàm kiểm tra email hợp lệ
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
+</section>
 
-    submitButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Ngăn form reload
-        const email = questionName.value.trim();
-        const question = questionText.value.trim();
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit-question-button");
+        const questionName = document.getElementById("question-name");
+        const questionText = document.getElementById("question-text");
+        const emailError = document.getElementById("email-error");
+        const questionError = document.getElementById("question-error");
+        const formSuccess = document.getElementById("form-success");
 
-        // Xóa thông báo lỗi và thông báo thành công trước đó
-        emailError.style.display = "none";
-        questionError.style.display = "none";
-        formSuccess.style.display = "none";
-
-        let isValid = true;
-
-        // Kiểm tra email
-        if (!email) {
-            emailError.style.display = "block";
-            emailError.textContent = "Vui lòng nhập email.";
-            isValid = false;
-        } else if (!validateEmail(email)) {
-            emailError.style.display = "block";
-            emailError.textContent = "Email không đúng định dạng.";
-            isValid = false;
+        // Hàm kiểm tra email hợp lệ
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
 
-        // Kiểm tra câu hỏi
-        if (!question) {
-            questionError.style.display = "block";
-            questionError.textContent = "Vui lòng nhập câu hỏi.";
-            isValid = false;
-        }
+        submitButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn form reload
+            const email = questionName.value.trim();
+            const question = questionText.value.trim();
 
-        if (!isValid) {
-            return; // Dừng nếu có lỗi
-        }
+            // Xóa thông báo lỗi và thông báo thành công trước đó
+            emailError.style.display = "none";
+            questionError.style.display = "none";
+            formSuccess.style.display = "none";
 
-        // Gửi dữ liệu qua AJAX
-        fetch('/faq/storeAjax', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                email: email,
-                question: question
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        throw errorData; // Ném lỗi ra ngoài để xử lý trong .catch()
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                formSuccess.style.display = "block";
-                formSuccess.style.color = "green";
-                formSuccess.textContent = data.message;
+            let isValid = true;
 
-                questionName.value = '';
-                questionText.value = '';
-            })
-            .catch(error => {
-                emailError.style.display = "none";
-                questionError.style.display = "none";
-
-                if (error.errors) {
-                    if (error.errors.email) {
-                        emailError.style.display = "block";
-                        emailError.textContent = error.errors.email[0];
-                    }
-                    if (error.errors.question) {
-                        questionError.style.display = "block";
-                        questionError.textContent = error.errors.question[0];
-                    }
-                }
-            });
-
-
-            });
-        });
-
-
-        // Đóng modal khi click vào nút đóng
-        closeModal.addEventListener("click", function () {
-            modal.style.display = "none";
-        });
-
-        // Đóng modal khi click ra ngoài
-        window.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
+            // Kiểm tra email
+            if (!email) {
+                emailError.style.display = "block";
+                emailError.textContent = "Vui lòng nhập email.";
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                emailError.style.display = "block";
+                emailError.textContent = "Email không đúng định dạng.";
+                isValid = false;
             }
+
+            // Kiểm tra câu hỏi
+            if (!question) {
+                questionError.style.display = "block";
+                questionError.textContent = "Vui lòng nhập câu hỏi.";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return; // Dừng nếu có lỗi
+            }
+
+            // Gửi dữ liệu qua AJAX
+            fetch('/faq/storeAjax', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    email: email,
+                    question: question
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            throw errorData; // Ném lỗi ra ngoài để xử lý trong .catch()
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    formSuccess.style.display = "block";
+                    formSuccess.style.color = "green";
+                    formSuccess.textContent = data.message;
+
+                    questionName.value = '';
+                    questionText.value = '';
+                })
+                .catch(error => {
+                    emailError.style.display = "none";
+                    questionError.style.display = "none";
+
+                    if (error.errors) {
+                        if (error.errors.email) {
+                            emailError.style.display = "block";
+                            emailError.textContent = error.errors.email[0];
+                        }
+                        if (error.errors.question) {
+                            questionError.style.display = "block";
+                            questionError.textContent = error.errors.question[0];
+                        }
+                    }
+                });
+
+
         });
     });
 
-    </script>
 
-    <!-- Script -->
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const submitButton = document.getElementById("submit-question-button");
-            const questionName = document.getElementById("question-name");
-            const questionText = document.getElementById("question-text");
-            const emailError = document.getElementById("email-error");
-            const questionError = document.getElementById("question-error");
-            const formSuccess = document.getElementById("form-success");
-        
-            // Hàm kiểm tra email hợp lệ
-            function validateEmail(email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(email);
+    // Đóng modal khi click vào nút đóng
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // Đóng modal khi click ra ngoài
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+    });
+
+</script>
+
+<!-- Script -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit-question-button");
+        const questionName = document.getElementById("question-name");
+        const questionText = document.getElementById("question-text");
+        const emailError = document.getElementById("email-error");
+        const questionError = document.getElementById("question-error");
+        const formSuccess = document.getElementById("form-success");
+
+        // Hàm kiểm tra email hợp lệ
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        submitButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn form reload
+            const email = questionName.value.trim();
+            const question = questionText.value.trim();
+
+            // Xóa thông báo lỗi và thông báo thành công trước đó
+            emailError.style.display = "none";
+            questionError.style.display = "none";
+            formSuccess.style.display = "none";
+
+            let isValid = true;
+
+            // Kiểm tra email
+            if (!email) {
+                emailError.style.display = "block";
+                emailError.textContent = "Vui lòng nhập email.";
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                emailError.style.display = "block";
+                emailError.textContent = "Email không đúng định dạng.";
+                isValid = false;
             }
-        
-            submitButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Ngăn form reload
-                const email = questionName.value.trim();
-                const question = questionText.value.trim();
-        
-                // Xóa thông báo lỗi và thông báo thành công trước đó
-                emailError.style.display = "none";
-                questionError.style.display = "none";
-                formSuccess.style.display = "none";
-        
-                let isValid = true;
-        
-                // Kiểm tra email
-                if (!email) {
-                    emailError.style.display = "block";
-                    emailError.textContent = "Vui lòng nhập email.";
-                    isValid = false;
-                } else if (!validateEmail(email)) {
-                    emailError.style.display = "block";
-                    emailError.textContent = "Email không đúng định dạng.";
-                    isValid = false;
-                }
-        
-                // Kiểm tra câu hỏi
-                if (!question) {
-                    questionError.style.display = "block";
-                    questionError.textContent = "Vui lòng nhập câu hỏi.";
-                    isValid = false;
-                }
-        
-                if (!isValid) {
-                    return; // Dừng nếu có lỗi
-                }
-        
-                // Gửi dữ liệu qua AJAX
-                fetch('/faq/storeAjax', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        question: question
-                    })
+
+            // Kiểm tra câu hỏi
+            if (!question) {
+                questionError.style.display = "block";
+                questionError.textContent = "Vui lòng nhập câu hỏi.";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return; // Dừng nếu có lỗi
+            }
+
+            // Gửi dữ liệu qua AJAX
+            fetch('/faq/storeAjax', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    email: email,
+                    question: question
                 })
+            })
                 .then(response => {
                     if (!response.ok) {
                         return response.json().then(errorData => {
@@ -378,7 +378,7 @@
                     formSuccess.style.display = "block";
                     formSuccess.style.color = "green";
                     formSuccess.textContent = data.message;
-        
+
                     // Xóa dữ liệu trong form
                     questionName.value = '';
                     questionText.value = '';
@@ -394,52 +394,52 @@
                             questionError.style.display = "block";
                             questionError.textContent = error.errors.question[0];
                         }
-                    } 
+                    }
                 });
-            });
         });
-        </script>
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const askButton = document.getElementById("ask-question-button");
-            const questionForm = document.getElementById("question-form");
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const askButton = document.getElementById("ask-question-button");
+        const questionForm = document.getElementById("question-form");
 
-            askButton.addEventListener("click", function() {
-                // Toggle visibility of the form
-                if (questionForm.style.display === "none" || questionForm.style.display === "") {
-                    questionForm.style.display = "block"; // Show the form
-                } else {
-                    questionForm.style.display = "none"; // Hide the form
-                }
-            });
+        askButton.addEventListener("click", function() {
+            // Toggle visibility of the form
+            if (questionForm.style.display === "none" || questionForm.style.display === "") {
+                questionForm.style.display = "block"; // Show the form
+            } else {
+                questionForm.style.display = "none"; // Hide the form
+            }
         });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const submitButton = document.getElementById("submit-question-button");
-            const questionName = document.getElementById("question-name");
-            const questionText = document.getElementById("question-text");
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submit-question-button");
+        const questionName = document.getElementById("question-name");
+        const questionText = document.getElementById("question-text");
 
-            submitButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Ngăn chặn form reload trang
-                const email = questionName.value.trim();
-                const question = questionText.value.trim();
+        submitButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn chặn form reload trang
+            const email = questionName.value.trim();
+            const question = questionText.value.trim();
 
-                if (!email || !question) {
-                    return; // Dừng lại nếu các trường bị trống
-                }
+            if (!email || !question) {
+                return; // Dừng lại nếu các trường bị trống
+            }
 
-                fetch('/faq/store', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        question: question
-                    })
+            fetch('/faq/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    email: email,
+                    question: question
                 })
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -464,306 +464,315 @@
                 .catch(error => {
                     console.error("Lỗi khi gửi dữ liệu:", error);
                 });
-            });
         });
+    });
 
 
-    </script>
+</script>
 
 
 
-    
+
 <button id="toggle-button" class="toggle-button">Xem thêm</button>
-            
-            
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const faqList = document.querySelector(".faq-list");
-                    const faqItems = document.querySelectorAll(".faq-item");
-                    const toggleButton = document.getElementById("toggle-button");
-            
-                    const MAX_VISIBLE_ITEMS = 8;
-            
-                    // Hiển thị hoặc ẩn nút "Xem thêm"
-                    if (faqItems.length > MAX_VISIBLE_ITEMS) {
-                        toggleButton.style.display = "block";
-                        faqItems.forEach((item, index) => {
-                            if (index >= MAX_VISIBLE_ITEMS) {
-                                item.style.display = "none"; // Ẩn các mục vượt quá giới hạn
-                            }
-                        });
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const faqList = document.querySelector(".faq-list");
+        const faqItems = document.querySelectorAll(".faq-item");
+        const toggleButton = document.getElementById("toggle-button");
+
+        const MAX_VISIBLE_ITEMS = 8;
+
+        // Hiển thị hoặc ẩn nút "Xem thêm"
+        if (faqItems.length > MAX_VISIBLE_ITEMS) {
+            toggleButton.style.display = "block";
+            faqItems.forEach((item, index) => {
+                if (index >= MAX_VISIBLE_ITEMS) {
+                    item.style.display = "none"; // Ẩn các mục vượt quá giới hạn
+                }
+            });
+        }
+
+        // Xử lý sự kiện khi nhấn nút "Xem thêm"
+        toggleButton.addEventListener("click", function () {
+            const isExpanded = toggleButton.getAttribute("data-expanded") === "true";
+
+            if (isExpanded) {
+                // Thu gọn danh sách
+                faqItems.forEach((item, index) => {
+                    if (index >= MAX_VISIBLE_ITEMS) {
+                        item.style.display = "none";
                     }
-            
-                    // Xử lý sự kiện khi nhấn nút "Xem thêm"
-                    toggleButton.addEventListener("click", function () {
-                        const isExpanded = toggleButton.getAttribute("data-expanded") === "true";
-            
-                        if (isExpanded) {
-                            // Thu gọn danh sách
-                            faqItems.forEach((item, index) => {
-                                if (index >= MAX_VISIBLE_ITEMS) {
-                                    item.style.display = "none";
-                                }
-                            });
-                            toggleButton.textContent = "Xem thêm";
-                            toggleButton.setAttribute("data-expanded", "false");
-                        } else {
-                            // Mở rộng danh sách
-                            faqItems.forEach(item => {
-                                item.style.display = "list-item";
-                            });
-                            toggleButton.textContent = "Thu gọn";
-                            toggleButton.setAttribute("data-expanded", "true");
-                        }
-                    });
                 });
-            </script>
-    <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
-    <div class="carousel-container" id="ins">
-        <div class="instructions">Hướng dẫn</div>
-        <div class="carousel" id="carousel">
-            @foreach($articles as $article)
-                <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
-                    <img src="{{ asset('admin/img/articles/' . $article->images) }}" alt="Hình ảnh {{ $article->title }}">
-                
-                    <h3 class="article-title">{{ $article->title }}</h3>
-                    <div class="article-details" style="display: none;">
-                        <p class="article-content">{{ $article->content }}</p>
-                        <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') }}</p>
-                    </div>
+                toggleButton.textContent = "Xem thêm";
+                toggleButton.setAttribute("data-expanded", "false");
+            } else {
+                // Mở rộng danh sách
+                faqItems.forEach(item => {
+                    item.style.display = "list-item";
+                });
+                toggleButton.textContent = "Thu gọn";
+                toggleButton.setAttribute("data-expanded", "true");
+            }
+        });
+    });
+</script>
+<hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
+<div class="carousel-container" id="ins">
+    <div class="instructions">Hướng dẫn</div>
+    <div class="carousel" id="carousel">
+        @foreach($articles as $article)
+            <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
+                <img src="{{ asset('admin/img/articles/' . $article->images) }}" alt="Hình ảnh {{ $article->title }}">
+
+                <h3 class="article-title">{{ $article->title }}</h3>
+                <div class="article-details" style="display: none;">
+                    <p class="article-content">{{ $article->content }}</p>
+                    <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') }}</p>
                 </div>
-            @endforeach
-        </div>
-        <div class="carousel-controls">
-            <button class="carousel-button left" id="prev">&#8249;</button>
-            <button class="carousel-button right" id="next">&#8250;</button>
-        </div>
+            </div>
+        @endforeach
     </div>
-
-    <!-- Modal để hiển thị thông tin chi tiết -->
-    <!-- Modal Overlay -->
-    <div id="huongdanModalOverlay" class="huongdan-modal-overlay" onclick="closeHuongdanModal()"></div>
-    <div id="huongdanArticleModal" class="huongdan-modal">
-        <span class="close" onclick="closeHuongdanModal()" style="cursor: pointer;">&times;</span>
-        <img id="huongdanModalImage" src="" alt="Article Image">
-        <h3 id="huongdanModalTitle"></h3>
-        <p id="huongdanModalContent"></p>
-        <p id="huongdanModalDate"></p>
+    <div class="carousel-controls">
+        <button class="carousel-button left" id="prev">&#8249;</button>
+        <button class="carousel-button right" id="next">&#8250;</button>
     </div>
+</div>
 
-    <script>
-        // Hàm mở Modal khi click vào card
-        // Hàm mở Modal khi click vào card
-        function openHuongdanModal(cardElement) {
-            const title = cardElement.querySelector('.article-title').innerText;
-            const content = cardElement.querySelector('.article-details .article-content').innerText;
-            const date = cardElement.querySelector('.article-details .article-date').innerText;
-            const images = cardElement.querySelector('img').src;
+<!-- Modal để hiển thị thông tin chi tiết -->
+<!-- Modal Overlay -->
+<div id="huongdanModalOverlay" class="huongdan-modal-overlay" onclick="closeHuongdanModal()"></div>
+<div id="huongdanArticleModal" class="huongdan-modal">
+    <span class="close" onclick="closeHuongdanModal()" style="cursor: pointer;">&times;</span>
+    <img id="huongdanModalImage" src="" alt="Article Image">
+    <h3 id="huongdanModalTitle"></h3>
+    <p id="huongdanModalContent"></p>
+    <p id="huongdanModalDate"></p>
+</div>
 
-            document.getElementById('huongdanModalTitle').innerText = title;
-            document.getElementById('huongdanModalContent').innerText = content;
-            document.getElementById('huongdanModalDate').innerText = date;
+<script>
+    // Hàm mở Modal khi click vào card
+    // Hàm mở Modal khi click vào card
+    function openHuongdanModal(cardElement) {
+        const title = cardElement.querySelector('.article-title').innerText;
+        const content = cardElement.querySelector('.article-details .article-content').innerText;
+        const date = cardElement.querySelector('.article-details .article-date').innerText;
+        const images = cardElement.querySelector('img').src;
 
-            const modalImage = document.getElementById('huongdanModalImage');
-            modalImage.src = images;
+        document.getElementById('huongdanModalTitle').innerText = title;
+        document.getElementById('huongdanModalContent').innerText = content;
+        document.getElementById('huongdanModalDate').innerText = date;
 
-            const modal = document.getElementById('huongdanArticleModal');
-            modal.style.display = "block";
+        const modalImage = document.getElementById('huongdanModalImage');
+        modalImage.src = images;
 
-            const overlay = document.getElementById('huongdanModalOverlay');
-            overlay.style.display = "block";
-        }
+        const modal = document.getElementById('huongdanArticleModal');
+        modal.style.display = "block";
 
-        function closeHuongdanModal() {
-            const modal = document.getElementById('huongdanArticleModal');
-            modal.style.display = "none";
+        const overlay = document.getElementById('huongdanModalOverlay');
+        overlay.style.display = "block";
+    }
 
-            const overlay = document.getElementById('huongdanModalOverlay');
-            overlay.style.display = "none";
-        }
+    function closeHuongdanModal() {
+        const modal = document.getElementById('huongdanArticleModal');
+        modal.style.display = "none";
 
-
-
-        // Hàm toggle khi click vào card để phóng to card
-        function toggleCard(cardElement, title, content, date) {
-            const isExpanded = cardElement.classList.contains('expanded');
-
-            // Đóng tất cả các card khác
-            const cards = document.querySelectorAll('.carousel-card');
-            cards.forEach(card => {
-                card.classList.remove('expanded');
-                card.querySelector('.article-details').style.display = 'none'; // Ẩn thông tin chi tiết
-            });
-
-            // Nếu card chưa phóng to, phóng to card đã nhấn
-            if (!isExpanded) {
-                cardElement.classList.add('expanded');
-                const details = cardElement.querySelector('.article-details');
-                details.querySelector('.article-content').innerText = content;
-                details.querySelector('.article-date').innerText = date;
-                details.style.display = 'block'; // Hiển thị thông tin chi tiết
-            }
-        }
-
-        // Hàm hiển thị chi tiết bài viết trong modal
-        function showArticleDetails(title, content, date) {
-            console.log(title, content, date); // Kiểm tra dữ liệu đầu vào
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalContent').innerText = content;
-            document.getElementById('modalDate').innerText = date;
-
-            const modal = document.getElementById('articleModal');
-            modal.style.display = "block";
-            modal.classList.add('show'); // Thêm lớp 'show' để hiển thị hiệu ứng
-        }
+        const overlay = document.getElementById('huongdanModalOverlay');
+        overlay.style.display = "none";
+    }
 
 
-            // Hàm đóng modal với hiệu ứng
-            function closeModalWithEffect() {
-                const modal = document.getElementById('articleModal');
-                modal.classList.remove('show'); // Loại bỏ lớp 'show' để áp dụng hiệu ứng thu nhỏ
-                setTimeout(() => {
-                    modal.style.display = "none"; // Ẩn modal sau khi hiệu ứng hoàn tất
-                }, 300); // Thời gian trùng với thời gian hiệu ứng
-            }
-        // Hàm xử lý carousel
-        document.addEventListener("DOMContentLoaded", function() {
-            const carousel = document.getElementById("carousel");
-            const prevButton = document.getElementById("prev");
-            const nextButton = document.getElementById("next");
 
-            let currentIndex = 0;
-            const totalCards = carousel.children.length;
+    // Hàm toggle khi click vào card để phóng to card
+    function toggleCard(cardElement, title, content, date) {
+        const isExpanded = cardElement.classList.contains('expanded');
 
-            const updateCarousel = () => {
-                const offset = currentIndex * -330; // Adjusted for larger card width and margin
-                carousel.style.transform = `translateX(${offset}px)`;
-            };
-
-            prevButton.addEventListener("click", function() {
-                currentIndex = (currentIndex === 0) ? totalCards - 3 : currentIndex - 1;
-                updateCarousel();
-            });
-
-            nextButton.addEventListener("click", function() {
-                currentIndex = (currentIndex === totalCards - 3) ? 0 : currentIndex + 1;
-                updateCarousel();
-            });
-
-            // Ensure only 2 cards are visible at a time
-            const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
-            document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
+        // Đóng tất cả các card khác
+        const cards = document.querySelectorAll('.carousel-card');
+        cards.forEach(card => {
+            card.classList.remove('expanded');
+            card.querySelector('.article-details').style.display = 'none'; // Ẩn thông tin chi tiết
         });
 
-    </script>
+        // Nếu card chưa phóng to, phóng to card đã nhấn
+        if (!isExpanded) {
+            cardElement.classList.add('expanded');
+            const details = cardElement.querySelector('.article-details');
+            details.querySelector('.article-content').innerText = content;
+            details.querySelector('.article-date').innerText = date;
+            details.style.display = 'block'; // Hiển thị thông tin chi tiết
+        }
+    }
 
-    <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
-    <footer class="footer" id="contact" style="background-color: #f9f9f9; padding: 20px 0;">
-        <div style="display: flex; justify-content: space-around;">
-            <!-- Column 1 -->
-            <div style="flex: 1; padding: 0 10px;">
-                <img src="guest/img/logosweetsoft.png" alt="SweetSoft Logo" style="width: 300px; margin-bottom: 10px;">
-                <p>Thiết kế web Nha Trang, công ty phần mềm SweetSoft</p>
-                <p>Công ty phần mềm chuyên nghiệp hàng đầu tại Nha Trang. Website đẳng cấp mang lại giá trị cao cho khách hàng.</p>
-                <p>Theo dõi chúng tôi
-                    <i class="fab fa-facebook" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
-                    <i class="fab fa-youtube" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
-                    <i class="fas fa-map-marker-alt" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
-                </p>
-            </div>
+    // Hàm hiển thị chi tiết bài viết trong modal
+    function showArticleDetails(title, content, date) {
+        console.log(title, content, date); // Kiểm tra dữ liệu đầu vào
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalContent').innerText = content;
+        document.getElementById('modalDate').innerText = date;
 
-            <!-- Column 2 -->
-            <div style="flex: 1; padding: 0 10px;">
-                <h2>Liên hệ</h2>
-                <p>Văn phòng: Ô 10 Tầng 12A - Tòa nhà VCN Tower, 02 Tố Hữu, khu đô thị VCN, P.Phước Hải, Tp Nha Trang, tỉnh Khánh Hòa, Việt Nam</p>
-                <p>Email: info@sweetsoft.vn</p>
-                <p>Điện thoại: 0258.3704199 - 0258.6567900</p>
-                <p>Thứ hai - Thứ sáu 7:30–17:00 Thứ bảy 7:30–11:30 <br> Cuối tuần nghỉ</p>
-            </div>
+        const modal = document.getElementById('articleModal');
+        modal.style.display = "block";
+        modal.classList.add('show'); // Thêm lớp 'show' để hiển thị hiệu ứng
+    }
 
-            <!-- Column 3 -->
-            <div style="flex: 1; padding: 0 10px;">
-                <h2>Dịch vụ của chúng tôi</h2>
-                <ul style="list-style-type: '-';padding-left: 20px;">
-                    <li style="margin-bottom: 12px; padding-left: 10px;">Thiết kế web</li>
-                    <li style="margin-bottom: 12px; padding-left: 10px;">Thuê hosting</li>
-                    <li style="margin-bottom: 12px; padding-left: 10px;">Đăng ký tên miền</li>
-                    <li style="margin-bottom: 12px; padding-left: 10px;">Phát triển phần mềm</li>
-                    <li style="margin-bottom: 12px; padding-left: 10px;">Dịch vụ trực tuyến</li>
-                </ul>
-            </div>
 
-            <!-- Column 4 -->
-            <div style="flex: 1; text-align: center; padding: 0 10px; position: relative; max-width: 350px; margin: 0 auto;">
-                <h2>Sweetsoft trên Facebook</h2>
+    // Hàm đóng modal với hiệu ứng
+    function closeModalWithEffect() {
+        const modal = document.getElementById('articleModal');
+        modal.classList.remove('show'); // Loại bỏ lớp 'show' để áp dụng hiệu ứng thu nhỏ
+        setTimeout(() => {
+            modal.style.display = "none"; // Ẩn modal sau khi hiệu ứng hoàn tất
+        }, 300); // Thời gian trùng với thời gian hiệu ứng
+    }
+    // Hàm xử lý carousel
+    document.addEventListener("DOMContentLoaded", function() {
+        const carousel = document.getElementById("carousel");
+        const prevButton = document.getElementById("prev");
+        const nextButton = document.getElementById("next");
 
-                <img src="guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
-            </div>
+        let currentIndex = 0;
+        const totalCards = carousel.children.length;
+
+        const updateCarousel = () => {
+            const offset = currentIndex * -330; // Adjusted for larger card width and margin
+            carousel.style.transform = `translateX(${offset}px)`;
+        };
+
+        prevButton.addEventListener("click", function() {
+            currentIndex = (currentIndex === 0) ? totalCards - 3 : currentIndex - 1;
+            updateCarousel();
+        });
+
+        nextButton.addEventListener("click", function() {
+            currentIndex = (currentIndex === totalCards - 3) ? 0 : currentIndex + 1;
+            updateCarousel();
+        });
+
+        // Ensure only 2 cards are visible at a time
+        const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
+        document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
+    });
+
+</script>
+
+<hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
+<footer class="footer" id="contact" style="background-color: #f9f9f9; padding: 20px 0;">
+    <div style="display: flex; justify-content: space-around;">
+        <!-- Column 1 -->
+        <div style="flex: 1; padding: 0 10px;">
+            <img src="guest/img/logosweetsoft.png" alt="SweetSoft Logo" style="width: 300px; margin-bottom: 10px;">
+            <p>Thiết kế web Nha Trang, công ty phần mềm SweetSoft</p>
+            <p>Công ty phần mềm chuyên nghiệp hàng đầu tại Nha Trang. Website đẳng cấp mang lại giá trị cao cho khách hàng.</p>
+            <p>Theo dõi chúng tôi
+                <i class="fab fa-facebook" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
+                <i class="fab fa-youtube" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
+                <i class="fas fa-map-marker-alt" style="font-size: 24px; color: #6F2F9F; margin-left: 10px;"></i>
+            </p>
         </div>
 
-        <!-- Bottom Bar -->
-    </footer>
+        <!-- Column 2 -->
+        <div style="flex: 1; padding: 0 10px;">
+            <h2>Liên hệ</h2>
+            <p>Văn phòng: Ô 10 Tầng 12A - Tòa nhà VCN Tower, 02 Tố Hữu, khu đô thị VCN, P.Phước Hải, Tp Nha Trang, tỉnh Khánh Hòa, Việt Nam</p>
+            <p>Email: info@sweetsoft.vn</p>
+            <p>Điện thoại: 0258.3704199 - 0258.6567900</p>
+            <p>Thứ hai - Thứ sáu 7:30–17:00 Thứ bảy 7:30–11:30 <br> Cuối tuần nghỉ</p>
+        </div>
+
+        <!-- Column 3 -->
+        <div style="flex: 1; padding: 0 10px;">
+            <h2>Dịch vụ của chúng tôi</h2>
+            <ul style="list-style-type: '-';padding-left: 20px;">
+                <li style="margin-bottom: 12px; padding-left: 10px;">Thiết kế web</li>
+                <li style="margin-bottom: 12px; padding-left: 10px;">Thuê hosting</li>
+                <li style="margin-bottom: 12px; padding-left: 10px;">Đăng ký tên miền</li>
+                <li style="margin-bottom: 12px; padding-left: 10px;">Phát triển phần mềm</li>
+                <li style="margin-bottom: 12px; padding-left: 10px;">Dịch vụ trực tuyến</li>
+            </ul>
+        </div>
+
+        <!-- Column 4 -->
+        <div style="flex: 1; text-align: center; padding: 0 10px; position: relative; max-width: 350px; margin: 0 auto;">
+            <h2>Sweetsoft trên Facebook</h2>
+
+            <img src="guest/img/footer_fb.png" alt="SweetSoft Promo" style="width: 100%; margin-top: 10px; position: relative; z-index: 0;">
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+</footer>
 
 
-    <div style="background-color: #6a1b9a; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
-        <span>&copy; 2024 Công Ty Cổ Phần SweetSoft.</span>
-        <span>
+<div style="background-color: #6a1b9a; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;">
+    <span>&copy; 2024 Công Ty Cổ Phần SweetSoft.</span>
+    <span>
             <a href="#" style="color: #fff; text-decoration: none; margin-right: 10px;">Điều khoản & điều kiện</a> |
             <a href="#" style="color: #fff; text-decoration: none; margin-right: 10px;">Chính sách bảo mật</a> |
             <a href="#" style="color: #fff; text-decoration: none;">Sơ đồ</a>
         </span>
+</div>
+
+@if(auth()->check())
+    <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
+@else
+    <!-- Nút nổi -->
+    <div class="floating-button" id="openForm">
     </div>
 
+<<<<<<< HEAD
     @if(auth()->check())
         <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
             @else
                 <!-- Nút nổi -->
                 <div class="floating-button" id="openForm">
                 </div>
+=======
+    <!-- Overlay -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="registrationForm">
+        <h2>FORM YÊU CẦU</h2>
+        <p style="color: red;">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
+        <form id="registerForm">
+            <div>
+                <button type="button" onclick="window.location.href='{{ route('login') }}'" >
+                    Đăng nhập
+                </button>
+            </div>
+            <a href="#" >Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
+        </form>
+    </div>
+@endif
+<script>
+    // Lấy các phần tử HTML
+>>>>>>> 30645ac0a4412cd1e92b43e57e41e472bd5d27c4
 
-                <!-- Overlay -->
-                <div class="modal-overlay" id="modalOverlay"></div>
-                <div class="modal" id="registrationForm">
-                    <h2>FORM YÊU CẦU</h2>
-                    <p style="color: red;">Hãy đăng nhập để được gửi yêu cầu hỗ trợ</p>
-                    <form id="registerForm">
-                        <div>
-                            <button type="button" onclick="window.location.href='{{ route('login') }}'" >
-                                Đăng nhập
-                            </button>
-                        </div>
-                        <a href="#" >Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
-                    </form>
-                </div>
-            @endif
-                <script>
-                        // Lấy các phần tử HTML
+    const openFormButton = document.getElementById('openForm');
+    const modal = document.getElementById('registrationForm');
+    const overlay = document.getElementById('modalOverlay');
+    // Mở form khi ấn nút
+    openFormButton.addEventListener('click', () => {
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
 
-                        const openFormButton = document.getElementById('openForm');
-                        const modal = document.getElementById('registrationForm');
-                        const overlay = document.getElementById('modalOverlay');
-                        // Mở form khi ấn nút
-                        openFormButton.addEventListener('click', () => {
-                        modal.style.display = 'block';
-                        overlay.style.display = 'block';
-
-                    });
-                        // Đóng form khi ấn ra ngoài
-                        overlay.addEventListener('click', () => {
-                        modal.style.display = 'none';
-                        overlay.style.display = 'none';
-                    });
-                        // Xử lý khi gửi form
-                        const registerForm = document.getElementById('registerForm');
-                        registerForm.addEventListener('submit', (event) => {
-                        event.preventDefault(); // Ngăn form tự động reload trang
-                        alert('Thông tin đã được gửi!');
-                        modal.style.display = 'none';
-                        overlay.style.display = 'none';
-                        registerForm.reset(); // Reset form sau khi gửi
-                    });
-                </script>
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    });
+    // Đóng form khi ấn ra ngoài
+    overlay.addEventListener('click', () => {
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+    // Xử lý khi gửi form
+    const registerForm = document.getElementById('registerForm');
+    registerForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Ngăn form tự động reload trang
+        alert('Thông tin đã được gửi!');
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+        registerForm.reset(); // Reset form sau khi gửi
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>

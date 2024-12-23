@@ -6,7 +6,7 @@
     <title>Sửa thông tin phòng ban</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" >
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('admin/css/department/create.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/department/edit.css') }}">
     <!-- Có thể dùng luôn file CSS của create nếu style tương tự -->
     <style>
         /* Khi sidebar ở trạng thái bình thường */
