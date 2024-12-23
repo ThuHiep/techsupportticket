@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\FaqFeedback;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FaqController extends Controller
 {
@@ -113,15 +115,22 @@ class FaqController extends Controller
     {
         $faq = FAQ::findOrFail($faq_id);
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+
         $request->validate([
             'question' => 'required',
             'answer' => 'required',
         ]);
+
         $faq->employee_id = $logged_user->employee_id;
         $faq->question = $request->input('question');
         $faq->answer = $request->input('answer');
         $faq->status = 'Đã phản hồi';
         $faq->save();
+
+        // Send the notification email
+        $recipientEmail = $logged_user->user->email; // Assuming the user's email is stored here
+        $notificationMessage = "Câu hỏi của bạn đã được phản hồi!";
+        Mail::to($recipientEmail)->send(new FaqFeedback($notificationMessage));
 
         return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được phản hồi!');
     }

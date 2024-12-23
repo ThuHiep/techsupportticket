@@ -46,7 +46,11 @@
     <button class="btn" data-label="Tuần">Tuần</button>
     <button class="btn" data-label="Tháng">Tháng</button>
     <button class="btn" data-label="Năm">Năm</button>
+    <button class="btn" data-label="Phòng ban">Phòng ban</button>
+    <button class="btn" data-label="Loại yêu cầu">Loại yêu cầu</button>
 </div>
+<select id="selectedDepartment"></select>
+<select id="selectedRequestType"></select>
 
 <div id="date-picker" style="display: none;">
     <input type="date" id="selectedDate" />
@@ -69,6 +73,8 @@
 </div>
 
 <script>
+    const departments = @json($departments);
+    const requestTypes = @json($requestTypes);
     const timeData = @json($timeData);
     const datasets = {
         'Đang xử lý': {
@@ -130,21 +136,52 @@
         const formattedDate = today.toISOString().split('T')[0]; // Format for input
         document.getElementById('selectedDate').value = formattedDate;
 
-        // Initialize week options and set current week
+        // Populate options and set current values
         populateWeekOptions();
         setCurrentWeek();
-
-        // Initialize month options and set current month
         populateMonthOptions();
         document.getElementById('selectedMonth').value = today.getMonth() + 1; // Months are 0-based
-
-        // Initialize year options and set current year
         populateYearOptions();
         document.getElementById('selectedYear').value = today.getFullYear();
 
         // Initialize with default time period
         updateChart('Ngày');
+
+        // Add event listeners
+        addEventListeners();
     });
+
+    function addEventListeners() {
+        // Add change listeners to the select elements
+        const selectedDate = document.getElementById('selectedDate');
+        const selectedWeek = document.getElementById('selectedWeek');
+        const selectedMonth = document.getElementById('selectedMonth');
+        const selectedYear = document.getElementById('selectedYear');
+
+        if (selectedDate) {
+            selectedDate.addEventListener('change', () => updateChartData('Ngày'));
+        }
+        if (selectedWeek) {
+            selectedWeek.addEventListener('change', () => updateChartData('Tuần'));
+        }
+        if (selectedMonth) {
+            selectedMonth.addEventListener('change', () => updateChartData('Tháng'));
+        }
+        if (selectedYear) {
+            selectedYear.addEventListener('change', () => updateChartData('Năm'));
+        }
+
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const timePeriod = button.getAttribute('data-label');
+                document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                updateChart(timePeriod);
+            });
+        });
+    }
+
+    // The rest of your functions...
 
     function setCurrentWeek() {
         const weekSelect = document.getElementById('selectedWeek');
@@ -182,6 +219,8 @@
 
     function updateChartData(timePeriod) {
         let selectedData;
+        const selectedDepartment = document.getElementById('selectedDepartment').value;
+        const selectedRequestType = document.getElementById('selectedRequestType').value;
         if (timePeriod === 'Ngày') {
             const selectedDate = document.getElementById('selectedDate').value;
             selectedData = timeData['Ngày'].filter(item => item.period === selectedDate);
@@ -196,6 +235,7 @@
             selectedData = timeData['Năm'].filter(item => item.period == selectedYear);
         }
 
+        // Check if data is available for the selected period
         if (selectedData && selectedData.length > 0) {
             combinedChart.data.labels = [selectedData[0].period]; // Adjust as needed
             Object.keys(datasets).forEach(status => {
@@ -203,24 +243,14 @@
             });
             combinedChart.update();
         } else {
-            alert('Không có dữ liệu cho lựa chọn đã chọn.');
+            // Only show alert if no data is found
+            if (timePeriod === 'Tuần') {
+                console.warn('Tuần đã chọn không có dữ liệu, nhưng vẫn hiển thị biểu đồ.');
+            } else {
+                alert('Không có dữ liệu cho lựa chọn đã chọn.');
+            }
         }
     }
-
-    // Add change event listeners to the select elements
-    document.getElementById('selectedDate').addEventListener('change', () => updateChartData('Ngày'));
-    document.getElementById('selectedWeek').addEventListener('change', () => updateChartData('Tuần'));
-    document.getElementById('selectedMonth').addEventListener('change', () => updateChartData('Tháng'));
-    document.getElementById('selectedYear').addEventListener('change', () => updateChartData('Năm'));
-
-    document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const timePeriod = button.getAttribute('data-label');
-            document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            updateChart(timePeriod);
-        });
-    });
 
     function populateMonthOptions() {
         const monthSelect = document.getElementById('selectedMonth');
@@ -269,6 +299,28 @@
             option.textContent = `Tuần ${week}`;
             weekSelect.appendChild(option);
         }
+    }
+
+    function populateDepartmentOptions() {
+        const departmentSelect = document.getElementById('selectedDepartment');
+        departmentSelect.innerHTML = '';
+        departments.forEach(department => {
+            const option = document.createElement('option');
+            option.value = department.id;
+            option.textContent = department.name;
+            departmentSelect.appendChild(option);
+        });
+    }
+
+    function populateRequestTypeOptions() {
+        const requestTypeSelect = document.getElementById('selectedRequestType');
+        requestTypeSelect.innerHTML = '';
+        requestTypes.forEach(requestType => {
+            const option = document.createElement('option');
+            option.value = requestType.id;
+            option.textContent = requestType.name;
+            requestTypeSelect.appendChild(option);
+        });
     }
 </script>
 

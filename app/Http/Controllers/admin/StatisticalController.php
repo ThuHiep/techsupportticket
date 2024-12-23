@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Request; // Alias your model to avoid conflict
+use App\Models\RequestType;
 use Illuminate\Http\Request as HttpRequest; // Use an alias for the HTTP Request class
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +15,11 @@ class StatisticalController extends Controller
     {
         // Fetch all departments
         $departments = Department::all();
+        \Log::info('Departments:', $departments->toArray());
+
+        // Fetch all request types
+        $requestTypes = RequestType::all();
+        \Log::info('Request Types:', $requestTypes->toArray());
 
         // Initialize an array to hold department data
         $departmentData = [];
@@ -34,7 +40,8 @@ class StatisticalController extends Controller
         $timeData = $this->getTimeBasedStatistics();
 
         // Pass the data to the view
-        return view('admin.statistical.static_index', compact('departmentData', 'timeData'));
+        return view('admin.statistical.static_index',
+            compact('departmentData', 'timeData', 'departments', 'requestTypes'));
     }
 
     private function getRequestCountByStatus($departmentId, $status, $selectedStatus)
