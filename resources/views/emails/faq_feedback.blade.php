@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>FAQ Feedback Notification</title>
+    <meta charset="UTF-8">
+    <title>FAQ Response</title>
 </head>
 <body>
-<h1>Thông báo</h1>
-<p>{{ $message }}</p>
+<h1>Thank you for your question!</h1>
+<p><strong>Your Question:</strong> {{ $question }}</p>
+<p><strong>Our Response:</strong> {{ $answer }}</p>
+<p>We appreciate your inquiry.</p>
 </body>
 </html>
