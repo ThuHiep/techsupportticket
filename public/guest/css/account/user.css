@@ -956,7 +956,7 @@ input, select {
 .portfolio-filters li {
   display: inline-block;
   position: relative;
-  padding: 0 10px; 
+  padding: 0 10px;
 }
 
 .portfolio-filters li:not(:last-child)::after {
@@ -1132,15 +1132,18 @@ input, select {
   background-color: #FF6B6B; /* Màu đỏ */
   color: #fff;
 }
-
+.status.pending {
+    background-color: #D3D3D3; /* Màu xám */
+    color: #000;
+}
 /* Tạo hiệu ứng hover cho các nút lọc */
 .portfolio-filters li:hover{
   transform: scale(1.1); /* Phóng to nhẹ khi hover */
 }
 .portfolio-filters li.filter-active {
-  
+
   transform: scale(1.1); /* Phóng to nhẹ khi hover */
-  
+
 }
 
 .request-arrow {
@@ -1354,7 +1357,7 @@ button {
   background-color: #ccc;
 }
 button:hover{
-  transform: scale(1.08); /* Phóng to nhẹ khi hover */ 
+  transform: scale(1.08); /* Phóng to nhẹ khi hover */
   color: 80%;
 }
 
