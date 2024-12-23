@@ -28,7 +28,7 @@
                     </a>
                     @endif
                 </div>
-                <button type="submit" style="padding: 10.9px 15px">Tìm kiếm</button>
+                <button type="submit" >Tìm kiếm</button>
             </form>
         </div>
     </div>

@@ -305,3 +305,51 @@ body.mini-navbar .container {
     width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
     transition: all 0.3s ease-in-out;
 }
+/* Media queries cho màn hình dưới 425px */
+@media (max-width: 426px) {
+    h1{
+        font-size: 26px;
+    }
+    .container {
+        padding: 10px;
+    }
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: -18px;
+    }
+    .search-container form {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        margin-top: 55px;
+    }
+
+    .add-department-btn {
+        width: 25%;
+        padding: 8px;
+        font-size: 12px;
+        margin-bottom: 70px;
+        text-align: center;
+    }
+
+
+    .search-container input[type="text"] {
+        width: 167%;
+        font-size: 11px;
+        padding: 8px;
+    }
+
+    .search-container button {
+        width: 23%;
+        padding: 8px;
+        font-size: 12px;
+        margin-left: 93px;
+    }
+
+    .table-container {
+        margin-top: 10px;
+    }
+}
