@@ -371,6 +371,9 @@ tr:nth-child(even) td {
 }
 /* Media queries cho màn hình dưới 425px */
 @media (max-width: 426px) {
+    h1{
+        font-size: 26px;
+    }
     .container {
         padding: 10px;
     }
@@ -378,20 +381,20 @@ tr:nth-child(even) td {
     .add-customer-btn {
         width: 25%;
         padding: 8px;
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .search-container input[type="text"] {
-        width: 285%;
-        font-size: 13px;
+        width: 290%;
+        font-size: 12px;
         padding: 8px;
     }
 
     .search-container button {
-        width: 75%;
+        width: 82%;
         padding: 8px;
-        font-size: 13px;
-        margin-right: -250px;
+        font-size: 12px;
+        margin-right: -223px;
     }
 
     .table-container {

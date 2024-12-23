@@ -48,77 +48,66 @@
     <button class="btn" data-label="Năm">Năm</button>
 </div>
 
+<div id="date-picker" style="display: none;">
+    <input type="date" id="selectedDate" />
+</div>
+
+<div id="week-picker" style="display: none;">
+    <select id="selectedWeek"></select>
+</div>
+
+<div id="month-picker" style="display: none;">
+    <select id="selectedMonth"></select>
+</div>
+
+<div id="year-picker" style="display: none;">
+    <select id="selectedYear"></select>
+</div>
+
 <div class="chart-container">
     <canvas id="combinedChart"></canvas>
 </div>
 
 <script>
-    // Ensure the data is correctly passed from your backend
     const timeData = @json($timeData);
-    console.log(timeData); // Debugging line to check the loaded data
-
-    // Prepare datasets for each status
     const datasets = {
         'Đang xử lý': {
             label: 'Đang xử lý',
             data: [],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            fill: true,
-            hidden: false
+            backgroundColor: 'rgba(75, 192, 192, 1)',
         },
-        'Đã xử lý': {
-            label: 'Đã xử lý',
+        'Chưa xử lý': {
+            label: 'Chưa xử lý',
             data: [],
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-            borderColor: 'rgba(153, 102, 255, 1)',
-            borderWidth: 2,
-            fill: true,
-            hidden: true
+            backgroundColor: 'rgba(255, 99, 132, 1)',
         },
         'Hoàn thành': {
             label: 'Hoàn thành',
             data: [],
-            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-            borderColor: 'rgba(255, 159, 64, 1)',
-            borderWidth: 2,
-            fill: true,
-            hidden: true
+            backgroundColor: 'rgba(54, 162, 235, 1)',
         },
         'Đã hủy': {
             label: 'Đã hủy',
             data: [],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 2,
-            fill: true,
-            hidden: true
+            backgroundColor: 'rgba(255, 206, 86, 1)',
         }
     };
 
-    // Create the chart
     const ctx = document.getElementById('combinedChart').getContext('2d');
     const combinedChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: [], // Will be set dynamically based on the selected time period
+            labels: [],
             datasets: Object.values(datasets)
         },
         options: {
             responsive: true,
             scales: {
                 x: {
-                    title: {
-                        display: true,
-                        text: 'Thời gian'
-                    }
+                    title: { display: true, text: 'Thời gian' }
                 },
                 y: {
-                    title: {
-                        display: true,
-                        text: 'Số yêu cầu'
-                    },
+                    title: { display: true, text: 'Số yêu cầu' },
                     beginAtZero: true
                 }
             },
@@ -135,26 +124,95 @@
         }
     });
 
-    // Function to update the chart based on the selected time period
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize with today's date
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0]; // Format for input
+        document.getElementById('selectedDate').value = formattedDate;
+
+        // Initialize week options and set current week
+        populateWeekOptions();
+        setCurrentWeek();
+
+        // Initialize month options and set current month
+        populateMonthOptions();
+        document.getElementById('selectedMonth').value = today.getMonth() + 1; // Months are 0-based
+
+        // Initialize year options and set current year
+        populateYearOptions();
+        document.getElementById('selectedYear').value = today.getFullYear();
+
+        // Initialize with default time period
+        updateChart('Ngày');
+    });
+
+    function setCurrentWeek() {
+        const weekSelect = document.getElementById('selectedWeek');
+        const currentWeek = getWeekNumber(new Date());
+        weekSelect.value = currentWeek; // Set the current week
+    }
+
+    function getWeekNumber(d) {
+        const firstDayOfYear = new Date(d.getFullYear(), 0, 1);
+        const days = Math.floor((d - firstDayOfYear) / (24 * 60 * 60 * 1000));
+        return Math.ceil((days + firstDayOfYear.getDay() + 1) / 7);
+    }
+
     function updateChart(timePeriod) {
-        if (timeData[timePeriod]) {
-            combinedChart.data.labels = timeData[timePeriod].map(item => item.period); // Update labels
+        // Hide all pickers initially
+        document.getElementById('date-picker').style.display = 'none';
+        document.getElementById('week-picker').style.display = 'none';
+        document.getElementById('month-picker').style.display = 'none';
+        document.getElementById('year-picker').style.display = 'none';
 
-            // Update datasets for each status
+        // Show the relevant picker based on the selected time period
+        if (timePeriod === 'Ngày') {
+            document.getElementById('date-picker').style.display = 'block';
+        } else if (timePeriod === 'Tuần') {
+            document.getElementById('week-picker').style.display = 'block';
+        } else if (timePeriod === 'Tháng') {
+            document.getElementById('month-picker').style.display = 'block';
+        } else if (timePeriod === 'Năm') {
+            document.getElementById('year-picker').style.display = 'block';
+        }
+
+        // Automatically update the chart data based on the current selection
+        updateChartData(timePeriod);
+    }
+
+    function updateChartData(timePeriod) {
+        let selectedData;
+        if (timePeriod === 'Ngày') {
+            const selectedDate = document.getElementById('selectedDate').value;
+            selectedData = timeData['Ngày'].filter(item => item.period === selectedDate);
+        } else if (timePeriod === 'Tuần') {
+            const selectedWeek = document.getElementById('selectedWeek').value;
+            selectedData = timeData['Tuần'].filter(item => item.period === selectedWeek);
+        } else if (timePeriod === 'Tháng') {
+            const selectedMonth = document.getElementById('selectedMonth').value;
+            selectedData = timeData['Tháng'].filter(item => item.period == selectedMonth);
+        } else if (timePeriod === 'Năm') {
+            const selectedYear = document.getElementById('selectedYear').value;
+            selectedData = timeData['Năm'].filter(item => item.period == selectedYear);
+        }
+
+        if (selectedData && selectedData.length > 0) {
+            combinedChart.data.labels = [selectedData[0].period]; // Adjust as needed
             Object.keys(datasets).forEach(status => {
-                datasets[status].data = timeData[timePeriod].map(item => item.total); // Update data
+                combinedChart.data.datasets.find(dataset => dataset.label === status).data = [selectedData[0].total[status] || 0];
             });
-
             combinedChart.update();
         } else {
-            console.error(`No data available for time period: ${timePeriod}`);
+            alert('Không có dữ liệu cho lựa chọn đã chọn.');
         }
     }
 
-    // Initialize with default time period
-    updateChart('Ngày');
+    // Add change event listeners to the select elements
+    document.getElementById('selectedDate').addEventListener('change', () => updateChartData('Ngày'));
+    document.getElementById('selectedWeek').addEventListener('change', () => updateChartData('Tuần'));
+    document.getElementById('selectedMonth').addEventListener('change', () => updateChartData('Tháng'));
+    document.getElementById('selectedYear').addEventListener('change', () => updateChartData('Năm'));
 
-    // Button click event to filter datasets by time period
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', () => {
             const timePeriod = button.getAttribute('data-label');
@@ -163,6 +221,55 @@
             updateChart(timePeriod);
         });
     });
+
+    function populateMonthOptions() {
+        const monthSelect = document.getElementById('selectedMonth');
+        monthSelect.innerHTML = '';
+        const months = [
+            { value: '1', text: 'Tháng 1' },
+            { value: '2', text: 'Tháng 2' },
+            { value: '3', text: 'Tháng 3' },
+            { value: '4', text: 'Tháng 4' },
+            { value: '5', text: 'Tháng 5' },
+            { value: '6', text: 'Tháng 6' },
+            { value: '7', text: 'Tháng 7' },
+            { value: '8', text: 'Tháng 8' },
+            { value: '9', text: 'Tháng 9' },
+            { value: '10', text: 'Tháng 10' },
+            { value: '11', text: 'Tháng 11' },
+            { value: '12', text: 'Tháng 12' },
+        ];
+
+        months.forEach(month => {
+            const option = document.createElement('option');
+            option.value = month.value;
+            option.textContent = month.text;
+            monthSelect.appendChild(option);
+        });
+    }
+
+    function populateYearOptions() {
+        const yearSelect = document.getElementById('selectedYear');
+        yearSelect.innerHTML = '';
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear - 5; year <= currentYear + 5; year++) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+    }
+
+    function populateWeekOptions() {
+        const weekSelect = document.getElementById('selectedWeek');
+        weekSelect.innerHTML = '';
+        for (let week = 1; week <= 52; week++) {
+            const option = document.createElement('option');
+            option.value = week;
+            option.textContent = `Tuần ${week}`;
+            weekSelect.appendChild(option);
+        }
+    }
 </script>
 
 </body>
