@@ -68,9 +68,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id','role_id');
     }
 
-    public function customers()
+    public function customer()
     {
-        return $this->hasMany(Customer::class,'user_id', 'user_id');
+        return $this->hasOne(Customer::class, 'user_id', 'user_id');
     }
 
     public function employees()
@@ -80,6 +80,6 @@ class User extends Authenticatable
 
     public function requesthistories()
     {
-        return $this->hasMany(Requesthistory::class, 'changed_by');
+        return $this->hasMany(RequestHistory::class, 'changed_by');
     }
 }

@@ -82,9 +82,5 @@ class GuestRequestController extends Controller
         // Redirect về form với thông báo thành công
         return redirect()->route('showFormRequest')->with('success', 'Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ lại sớm nhất!');
     }
-
-
-
-
 }
 

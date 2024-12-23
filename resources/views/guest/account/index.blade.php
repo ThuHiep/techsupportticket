@@ -93,7 +93,7 @@
               class="img-fluid-home"
             />
             <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
-            <button class="btn btn-success">Tạo yêu cầu hỗ trợ</button>
+            <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
         <div class="text-center mt-4"></div>
@@ -307,146 +307,75 @@
 
     <!-- /About Section -->
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section light-background">
-      <div class="container section-title" data-aos="fade-up">
-        <h1>YÊU CẦU</h1>
-        <h3>LỊCH SỬ YÊU CẦU</h3>
-        <h3></h3>
-        <div class="container">
-          <div
-            class="isotope-layout"
-            data-default-filter="*"
-            data-layout="masonry"
-            data-sort="original-order">
-            <ul
-              class="portfolio-filters isotope-filters"
-              data-aos="fade-up"
-              data-aos-delay="100">
-              <li data-filter="*" class="filter-active">Tất cả</li>
-              <li data-filter=".filter-app">ĐANG XỬ LÝ</li>
-              <li data-filter=".filter-product">ĐÃ XỬ LÝ</li>
-              <li data-filter=".filter-branding">ĐÃ HỦY</li>
-            </ul>
+      <!-- Portfolio Section -->
+      <section id="portfolio" class="portfolio section light-background">
+          <div class="container section-title" data-aos="fade-up">
+              <h1>YÊU CẦU</h1>
+              <h3>LỊCH SỬ YÊU CẦU</h3>
+              <div class="container">
+                  <div
+                      class="isotope-layout"
+                      data-default-filter="*"
+                      data-layout="masonry"
+                      data-sort="original-order">
+                      <ul
+                          class="portfolio-filters isotope-filters"
+                          data-aos="fade-up"
+                          data-aos-delay="100">
+                          <li data-filter="*" class="filter-active">Tất cả</li>
+                          <li data-filter=".chua-xu-ly">Chưa xử lý</li>
+                          <li data-filter=".dang-xu-ly">Đang xử lý</li>
+                          <li data-filter=".hoan-thanh">Hoàn thành</li>
+                          <li data-filter=".da-huy">Đã hủy</li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-        </div>
-    </section>
-    </div>
+      </section>
 
-
-    <!-- /Portfolio Section -->
-
-    <!-- Lịch sử yêu cầu -->
-    <section id="request-history" class="request-history section">
-      <div class="container">
-        <!-- Thẻ yêu cầu -->
-        <div class="request-item" onclick="viewRequestDetail('YC003')">
-          <div class="request-info">
-            <h3>YC003</h3>
-            <span class="status deployed">Đang chờ xử lý</span>
-            <p>Lỗi tài khoản admin</p>
+      <!-- Lịch sử yêu cầu -->
+      <section id="request-history" class="request-history section">
+          <div class="container">
+              @forelse ($requests as $request)
+                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+                      <div class="request-info">
+                          <h3>{{ $request->request_id }}</h3>
+                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
+                          <p>{{ $request->subject }}</p>
+                      </div>
+                      <div class="request-arrow">→</div>
+                  </div>
+              @empty
+                  <p>Không có yêu cầu nào trong lịch sử.</p>
+              @endforelse
           </div>
-          <div class="request-arrow">→</div>
-        </div>
 
-        <div class="request-item" onclick="viewRequestDetail('YC002')">
-          <div class="request-info">
-            <h3>YC002</h3>
-            <span class="status completed">Đã xử lý</span>
-            <p>Không truy cập được trang web</p>
-          </div>
-          <div class="request-arrow">→</div>
-        </div>
-
-        <div class="request-item" onclick="viewRequestDetail('YC001')">
-          <div class="request-info">
-            <h3>YC001</h3>
-            <span class="status completed">Đã xử lý</span>
-            <p>Không hiển thị form đăng nhập</p>
-          </div>
-          <div class="request-arrow">→</div>
-        </div>
-
-        <div class="request-item" onclick="viewRequestDetail('YC004')">
-          <div class="request-info">
-            <h3>YC004</h3>
-            <span class="status canceled">Đã hủy</span>
-            <p>Hủy yêu cầu xử lý dữ liệu</p>
-          </div>
-          <div class="request-arrow">→</div>
-        </div>
-      </div>
-      <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          // Lấy tất cả các mục lọc và các thẻ yêu cầu
-          const filters = document.querySelectorAll(".portfolio-filters li");
-          const requestItems = document.querySelectorAll(".request-item");
-
-          // Hàm lọc yêu cầu với hiệu ứng đẩy lên trên
-          function filterRequests(status) {
-            const visibleItems = []; // Mảng chứa các thẻ yêu cầu phù hợp
-            const hiddenItems = []; // Mảng chứa các thẻ yêu cầu không phù hợp
-
-            // Phân loại các yêu cầu thành hiển thị và ẩn
-            requestItems.forEach((item) => {
-              const itemStatus = item.querySelector(".status").classList;
-
-              if (status === "all" || itemStatus.contains(status)) {
-                visibleItems.push(item); // Thêm vào mảng hiển thị
-              } else {
-                hiddenItems.push(item); // Thêm vào mảng ẩn
+          <script>
+              function viewRequestDetail(requestId) {
+                  window.location.href = `/request-detail/${requestId}`; // Điều chỉnh URL chi tiết yêu cầu
               }
-            });
 
-            // Hiển thị các yêu cầu phù hợp
-            visibleItems.forEach((item) => {
-              item.style.display = "flex"; // Hiển thị
-              item.classList.add("show");
-              item.classList.remove("hide");
-            });
+              document.addEventListener("DOMContentLoaded", function() {
+                  const filters = document.querySelectorAll(".portfolio-filters li");
+                  const requestItems = document.querySelectorAll(".request-item");
 
-            // Ẩn các yêu cầu không phù hợp
-            hiddenItems.forEach((item) => {
-              item.style.display = "none"; // Ẩn đi
-              item.classList.add("hide");
-              item.classList.remove("show");
-            });
-          }
-
-          // Gắn sự kiện click cho các mục lọc
-          filters.forEach((filter) => {
-            filter.addEventListener("click", function() {
-              // Xóa lớp active trên tất cả các mục lọc
-              filters.forEach((f) => f.classList.remove("filter-active"));
-              filter.classList.add("filter-active");
-
-              // Lấy trạng thái tương ứng dựa trên text
-              const filterText = filter.textContent.trim();
-              if (filterText === "Tất cả") {
-                filterRequests("all");
-              } else if (filterText === "ĐANG XỬ LÝ") {
-                filterRequests("deployed");
-              } else if (filterText === "ĐÃ XỬ LÝ") {
-                filterRequests("completed");
-              } else if (filterText === "ĐÃ HỦY") {
-                filterRequests("canceled");
-              }
-            });
-          });
-        });
-
-        function previewImage(event) {
-          var reader = new FileReader();
-          reader.onload = function() {
-            var output = document.getElementById('preview-img');
-            output.src = reader.result;
-            output.style.display = 'block';
-          };
-          reader.readAsDataURL(event.target.files[0]);
-        }
-      </script>
-    </section>
-
+                  filters.forEach((filter) => {
+                      filter.addEventListener("click", function () {
+                          const filterStatus = filter.getAttribute("data-filter");
+                          requestItems.forEach((item) => {
+                              if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
+                                  item.style.display = "flex";
+                              } else {
+                                  item.style.display = "none";
+                              }
+                          });
+                          filters.forEach((f) => f.classList.remove("filter-active"));
+                          filter.classList.add("filter-active");
+                      });
+                  });
+              });
+          </script>
+      </section>
     <!-- Contact Section -->
     <section id="contact" class="contact section">
       <div class="container section-title" data-aos="fade-up">

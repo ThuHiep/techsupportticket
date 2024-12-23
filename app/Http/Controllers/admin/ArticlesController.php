@@ -91,7 +91,8 @@ class ArticlesController extends Controller
         $article = new Article();
         $article->article_id = $request->input('article_id');
         $article->title = $request->input('title');
-        $article->content = $request->input('content');
+        $article->content = nl2br(e($request->input('content'))); // Chuyển đổi ký tự xuống dòng thành <br> trước khi lưu
+
         $article->images = $imagePath; // Lưu đường dẫn ảnh vào cột 'images'
         $article->employee_id = $logged_user->employee_id;
         $article->create_at = now();
@@ -140,7 +141,7 @@ class ArticlesController extends Controller
 
         // Cập nhật thông tin bài viết
         $article->title = $request->input('title');
-        $article->content = $request->input('content');
+        $article->content = nl2br(e($request->input('content'))); // Chuyển đổi ký tự xuống dòng thành <br> trước khi lưu
         $article->employee_id = $logged_user->employee_id;
         $article->update_at = now();
         $article->save();
@@ -166,4 +167,6 @@ class ArticlesController extends Controller
 
         return redirect()->route('articles.index')->with('success', 'Bài viết và ảnh đã được xóa!');
     }
+
+
 }

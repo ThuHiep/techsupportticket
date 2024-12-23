@@ -92,6 +92,7 @@ header {
     justify-content: center;
     margin-left: 40px;
     padding: 20px;
+   
 }
 .main-content .right h1 {
     font-family: "Mulish", sans-serif;
@@ -110,18 +111,18 @@ header {
 .main-content .right .search-container {
     display: flex;
     align-items: center;
-    gap: 10px;
     margin-top: 10px;
+    gap: 10px;
 }
-.main-content .right .search-container input[type="text"] {
-    width: 80%;
+.main-content .right .search-container input[type="text"], select{
+    width: 50%;
     padding: 10px 15px; /* Adjust padding */
     font-size: 1em;
     border: 1px solid #ccc;
     border-radius: 25px; /* Rounded corners */
     transition: border-color 0.3s ease;
 }
-.main-content .right .search-container input[type="text"]:focus {
+.main-content .right .search-container input[type="text"]:focus, select:focus{
     outline: none;
     border-color: #6f2f9f; /* Change border color on focus */
 }
@@ -214,6 +215,7 @@ section {
     align-items: flex-start; /* Canh trái */
     padding: 20px;
 }
+
 
 #ask-question-button {
     background-color: #6f2f9f;
@@ -382,6 +384,8 @@ section {
 .carousel-button:hover {
     background-color: #5b3e8c;
 }
+
+
 footer {
     padding: 20px; /* Khoảng cách bên trong */
     margin: 20px 40px; /* Cách mép trái và phải 40px */
@@ -436,21 +440,43 @@ footer {
 }
 
 /* Modal */
-.modal {
-    display: none; /* Mặc định ẩn */
+
+ .modal {
+    display: none; 
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay màu mờ */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1001; /* Phải nằm trên overlay */
-    width: 38%;
-    height: 40%;
+    z-index: 1001;
+    width: 100%;
+    height: 100%;
+     overflow: auto; 
     align-content: center;
     text-align: center;
+} 
+
+.modal-content {
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    width: fit-content; /* Độ rộng tự điều chỉnh theo nội dung */
+    max-width: 80%; /* Giới hạn độ rộng tối đa */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease; /* Hiệu ứng mờ dần */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 .modal a{
     text-decoration: none;
@@ -496,58 +522,91 @@ footer {
     margin: 10px 0;
     text-align: center; /* Căn giữa các nội dung văn bản */
 }
-/* Khi Modal mở, hiển thị overlay */
-.modal.show, .modal-overlay.show {
-    display: block;
+.closefaq {
+    top: 10px;
+    right: 20px;
+    font-size: 25px;
+    color: #aaa;
+    cursor: pointer;
 }
+
+.closefaq:hover {
+    color: #000;
+}
+
 
 /* Form popup */
 .huongdan-modal {
-    font-family: "Mulish", sans-serif;
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 70%;
-    height: 90%;
     background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    z-index: 1000;
-    padding: 10px;
-    text-align: center;
-    overflow: hidden;
-}
-
-.huongdan-modal img {
-    
-    height: 55%;
-    margin-bottom: 5px;
-    margin-top: 10px;
-}
-
-.huongdan-modal h3, .huongdan-modal p {
-    color: #333;
-    margin: 10px 0;
-    text-align: center; /* Căn giữa các nội dung văn bản */
-}
-
-/* Khi Modal mở, hiển thị overlay */
-.huongdan-modal.show, .huongdan-modal-overlay.show {
-    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: fit-content; /* Tự động điều chỉnh theo nội dung */
+    max-width: 90%; /* Đảm bảo không vượt quá 90% màn hình */
+    max-height: 90%; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Cuộn nếu nội dung quá dài */
+    z-index: 1000; /* Modal nằm trên overlay */
 }
 
 .huongdan-modal-overlay {
-    display: none;
+    display: none; /* Mặc định ẩn */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay màu mờ */
+    z-index: 999; /* Đảm bảo overlay che toàn bộ màn hình */
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 20px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+} */
+.close {
+    position: absolute;
+    top: -7px;
+    right: 7px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa; /* Màu sắc */
+}
+.close:hover,
+.close:focus {
+    color: black; /* Màu khi hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.huongdan-modal h3 {
+    color: #333;
+    margin: 10px 0;
+    text-align: center; /* Căn giữa các nội dung văn bản */
+}
+
 .article-title{
     font-size: 18px;
     font-weight: 600;

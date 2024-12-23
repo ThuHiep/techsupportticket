@@ -39,20 +39,7 @@
             border-radius: 5px;
             transition: opacity 0.3s ease; /* Hiệu ứng mờ */
         }
-        .close {
-            position: absolute;
-            top: -7px;
-            right: 7px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #aaa; /* Màu sắc */
-        }
-        .close:hover,
-        .close:focus {
-            color: black; /* Màu khi hover */
-            text-decoration: none;
-            cursor: pointer;
-        }
+        
     </style>
 </head>
 
@@ -81,10 +68,24 @@
                 <span>TRANG HỖ TRỢ</span>
                 <span>KHÁCH HÀNG</span>
             </h1>
-            <div class="search-container">
+            {{-- <div class="search-container">
                 <input type="text" placeholder="Tìm kiếm...">
                 <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
+            </div> --}}
+            <div class="search-container" >
+                
+                <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm..." >
+                <select id="search-type" style="width: 150px">
+                    <option value="all">Danh mục</option>
+                    <option value="faq">Câu hỏi</option>
+                    <option value="article">Hướng dẫn</option>
+                </select>
+                <button id="search-button" >
+                    <img src="guest/img/search.png" alt="Search" style="width: 20px; height: 20px;">
+                </button>
             </div>
+            <div id="search-results" style="margin-top: 20px;"></div>
+            
         </div>
     </div>
 
@@ -108,7 +109,7 @@
             </div>
             <div id="faqModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                    <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
+                    <span id="closeModal" class="closefaq" style="float: right; cursor: pointer;">&times;</span>
                     <h3 id="modal-question" style="font-weight: bold;"></h3>
                     <p id="modal-answer" style="margin-top: 10px;"></p>
                 </div>
@@ -481,8 +482,8 @@
                 
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
-                        <p class="article-content"></p>
-                        <p class="article-date"></p>
+                        <p class="article-content">{{ $article->content }}</p>
+                        <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') }}</p>
                     </div>
                 </div>
             @endforeach
