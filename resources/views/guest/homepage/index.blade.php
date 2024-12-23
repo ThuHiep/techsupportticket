@@ -482,7 +482,7 @@
                     const faqItems = document.querySelectorAll(".faq-item");
                     const toggleButton = document.getElementById("toggle-button");
             
-                    const MAX_VISIBLE_ITEMS = 5;
+                    const MAX_VISIBLE_ITEMS = 8;
             
                     // Hiển thị hoặc ẩn nút "Xem thêm"
                     if (faqItems.length > MAX_VISIBLE_ITEMS) {
