@@ -92,7 +92,7 @@ header {
     justify-content: center;
     margin-left: 40px;
     padding: 20px;
-   
+
 }
 .main-content .right h1 {
     font-family: "Mulish", sans-serif;
@@ -182,7 +182,7 @@ section {
     justify-content: space-between; /* Giãn đều giữa hai cột */
     gap: 20px; /* Khoảng cách giữa các cột */
     padding: 20px;
-    margin: 20px 40px ;
+    margin: 20px 40px 0px 40px ;
     border-radius: 10px;
     background-color: #fff;
 }
@@ -395,6 +395,7 @@ section {
     font-size: 16px;
     border-radius: 5px;
     margin-left: 60px;
+    margin-top: -30px;
 }
 
 .toggle-button:hover {
@@ -459,7 +460,7 @@ footer {
 /* Modal */
 
  .modal {
-    display: none; 
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -471,10 +472,10 @@ footer {
     z-index: 1001;
     width: 100%;
     height: 100%;
-     overflow: auto; 
+     overflow: auto;
     align-content: center;
     text-align: center;
-} 
+}
 
 .modal-content {
     margin: auto;
@@ -580,7 +581,11 @@ footer {
     background-color: rgba(0, 0, 0, 0.5); /* Overlay màu mờ */
     z-index: 999; /* Đảm bảo overlay che toàn bộ màn hình */
 }
-
+#huongdanModalImage {
+    width: 382px;
+    height: 230px;
+    margin: auto 160px;
+}
 @keyframes fadeIn {
     from {
         opacity: 0;
