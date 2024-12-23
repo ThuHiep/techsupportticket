@@ -339,10 +339,10 @@
                           'Đã hủy'     => 'canceled',
                       ];
                   @endphp
-                  <div class="request-item {{ $statusMapping[$request->status] ?? 'pending' }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
                       <div class="request-info">
                           <h3>{{ $request->request_id }}</h3>
-                          <span class="status {{ $statusMapping[$request->status] ?? 'pending' }}">{{ $request->status }}</span>
+                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
                           <p>{{ $request->subject }}</p>
                       </div>
                       <div class="request-arrow">→</div>
@@ -501,6 +501,7 @@ modal.style.display = "none";
 }
 
       </script>
+    </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">

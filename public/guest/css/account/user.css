@@ -1116,23 +1116,23 @@ input, select {
 }
 
 /* Trạng thái - Đang xử lý */
-.status.deployed {
+.status.dang-xu-ly {
   background-color: #FB9A02; /* Màu cam */
   color: #fff;
 }
 
 /* Trạng thái - Đã xử lý */
-.status.completed {
+.status.hoan-thanh {
   background-color: #79B484; /* Màu xanh lá */
   color: #fff;
 }
 
 /* Trạng thái - Đã hủy */
-.status.canceled {
+.status.da-huy {
   background-color: #FF6B6B; /* Màu đỏ */
   color: #fff;
 }
-.status.pending {
+.status.chua-xu-ly {
     background-color: #D3D3D3; /* Màu xám */
     color: #000;
 }
