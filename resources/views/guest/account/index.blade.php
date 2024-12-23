@@ -331,14 +331,6 @@
       <section id="request-history" class="request-history section">
           <div class="container">
               @forelse ($requests as $request)
-                  @php
-                      $statusMapping = [
-                          'Chưa xử lý' => 'pending',
-                          'Đang xử lý' => 'deployed',
-                          'Hoàn thành' => 'completed',
-                          'Đã hủy'     => 'canceled',
-                      ];
-                  @endphp
                   <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
                       <div class="request-info">
                           <h3>{{ $request->request_id }}</h3>
