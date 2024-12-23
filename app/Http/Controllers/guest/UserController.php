@@ -4,19 +4,21 @@ namespace App\Http\Controllers\guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
-//use App\Models\Request;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Request as SupportRequest;
 
 class UserController extends Controller
 {
     public function __construct() {}
+
     public function index()
     {
         $template = 'guest.user.index';
         $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         return view('guest.dashboard.layout', compact('template', 'logged_user'));
     }
+
     public function getUserList()
     {
         $users = Customer::select('customer_id', 'full_name', 'status')
@@ -25,11 +27,24 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+
     public function indexAccount()
     {
         $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        return view('guest.account.index', compact('logged_user'));
+
+        if (!$logged_user) {
+            return redirect()->route('homepage.index')->with('error', 'Không tìm thấy thông tin khách hàng.');
+        }
+
+        // Lấy lịch sử yêu cầu của khách hàng
+        $requests = SupportRequest::where('customer_id', $logged_user->customer_id)
+            ->with(['requestType', 'attachment', 'history'])
+            ->orderBy('create_at', 'desc')
+            ->get();
+
+        return view('guest.account.index', compact('logged_user', 'requests'));
     }
+
     public function updateProfile(Request $request)
     {
         $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();

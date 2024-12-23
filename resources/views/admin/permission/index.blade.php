@@ -64,11 +64,11 @@
         <!-- Thông báo -->
         @if ($search)
             @if ($count > 0)
-                <div class="alert alert-success" style="color: green; margin-top: 10px; font-size: 16px;">
+                <div id="search-notification"  class="alert alert-success" style="color: green; margin-top: 10px; font-size: 16px;">
                     {{ $resultMessage }}
                 </div>
             @else
-                <div class="alert alert-danger" style="color: red; margin-top: 10px; font-size: 16px;">
+                <div id="search-notification"  class="alert alert-danger" style="color: red; margin-top: 10px; font-size: 16px;">
                     {{ $resultMessage }}
                 </div>
             @endif
@@ -142,7 +142,18 @@
 
     </section>
 </body>
+<script>
+    // Tự động ẩn thông báo tìm kiếm sau 3 giây
+setTimeout(function() {
+    var searchNotification = document.getElementById('search-notification');
+    if (searchNotification) {
+        searchNotification.style.transition = 'opacity 0.5s ease-out';
+        searchNotification.style.opacity = '0';
+        setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
+    }
+}, 3000); // Thời gian 3 giây
 
+</script>
 <script>
     function deleteConfirm(event, formId) {
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút

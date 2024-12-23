@@ -17,6 +17,7 @@ class Customer extends Model
     const UPDATED_AT = 'update_at';
 
     protected $fillable = [
+        'customer_id',
         'user_id',
         'full_name',
         'date_of_birth',
@@ -44,4 +45,6 @@ class Customer extends Model
     {
         return $this->hasMany(Request::class, 'customer_id');
     }
+
+
 }

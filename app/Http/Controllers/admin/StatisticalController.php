@@ -4,85 +4,172 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StatisticalController extends Controller
 {
-//    public function index(Request $request)
-//    {
-//        $template = 'admin.statistical.index';
-//        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
-//
-//        // Khởi tạo truy vấn
-//        $requestTypes = DB::table('request_type')
-//            ->join('request', 'request.request_type_id', '=', 'request_type.request_type_id')
-//            ->select('request_type.request_type_name', DB::raw('COUNT(request.request_id) as count'))
-//            ->where('request_type.status', 'active')
-//            ->groupBy('request_type.request_type_name')
-//            ->get();
-//
-//        // Nếu không có dữ liệu, trả về thông báo
-//        if ($requestTypes->isEmpty()) {
-//            $requestTypes = collect([(object) ['request_type_name' => 'Không có dữ liệu', 'count' => 0]]);
-//        }
-//
-//        // Lấy danh sách khách hàng
-//        $activeCustomers = Customer::where('status', 'active')
-//            ->withCount('requests') // Đếm số lượng yêu cầu
-//            ->get(['customer_id', 'full_name']);
-//
-//        $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
-//
-//        return view('admin.dashboard.layout', compact('template', 'activeCustomers', 'requestTypes', 'logged_user', 'customerColors'));
-//    }
-//
-//    public function getCustomerRequests()
-//    {
-//        $customers = Customer::withCount('request')
-//            ->where('status', 'active')
-//            ->get(['customer_id', 'full_name']);
-//
-//        return response()->json($customers);
-//    }
-//
-//    public function getRequests(Request $request)
-//    {
-//        $type = $request->input('type', 'all');
-//        $month = $request->input('month', 'all');
-//
-//        $query = DB::table('requests')
-//            ->select(DB::raw('DAY(create_at) as day'), 'request_type_name', DB::raw('COUNT(request_id) as count'))
-//            ->groupBy(DB::raw('DAY(create_at), request_type_name'));
-//
-//        if ($type !== 'all') {
-//            $query->where('request_type_name', $type);
-//        }
-//
-//        if ($month !== 'all') {
-//            $query->whereMonth('create_at', $month);
-//        }
-//
-//        $data = $query->get()->groupBy('request_type_name');
-//
-//        // Chuyển đổi dữ liệu thành định dạng mong muốn
-//        $response = [];
-//        foreach ($data as $requestType => $items) {
-//            $days = [];
-//            $counts = array_fill(0, 31, 0); // Giả định 31 ngày trong tháng
-//            foreach ($items as $item) {
-//                $days[] = $item->day;
-//                $counts[$item->day - 1] = $item->count; // Đếm số yêu cầu theo ngày
-//            }
-//            $response[] = [
-//                'request_type_name' => $requestType,
-//                'day' => $days,
-//                'counts' => $counts
-//            ];
-//        }
-//
-//        return response()->json($response);
-//    }
+    public function index()
+    {
+        // Fetch all departments
+        $departments = Department::all();
+
+        // Initialize an array to hold department data
+        $departmentData = [];
+
+        // Loop through each department to gather request statistics
+        foreach ($departments as $department) {
+            // Debugging: Check the department ID and name
+            //dd($department->department_id, $department->department_name);
+
+            $departmentData[$department->department_name] = [
+                'Đang xử lý' => DB::table('request')
+                    ->where('department_id', $department->department_id) // Correct foreign key
+                    ->where('status', 'Đang xử lý')
+                    ->count(),
+                'Chưa xử lý' => DB::table('request')
+                    ->where('department_id', $department->department_id)
+                    ->where('status', 'Chưa xử lý')
+                    ->count(),
+                'Hoàn thành' => DB::table('request')
+                    ->where('department_id', $department->department_id)
+                    ->where('status', 'Hoàn thành')
+                    ->count(),
+                'Đã hủy' => DB::table('request')
+                    ->where('department_id', $department->department_id)
+                    ->where('status', 'Đã hủy')
+                    ->count(),
+            ];
+        }
+        //dd($departmentData);
+        // Call the method to get time-based statistics
+        $timeData = $this->getTimeBasedStatistics();
+
+        //dd($departmentData, $timeData); // This will show what is being sent to the view
+        // Pass the data to the view
+        return view('admin.statistical.static_index', compact('departmentData', 'timeData'));
+    }
+
+    protected function getTimeBasedStatistics()
+    {
+        $timeData = [];
+
+        // Get data for each time period
+        $timeData['Ngày'] = $this->getDailyStatistics();
+        $timeData['Tuần'] = $this->getWeeklyStatistics();
+        $timeData['Tháng'] = $this->getMonthlyStatistics();
+        $timeData['Năm'] = $this->getYearlyStatistics();
+
+        return $timeData;
+    }
+
+    private function getDailyStatistics()
+    {
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        // Initialize an array for each day of the month with 0
+        $days = [];
+        for ($date = clone $startDate; $date <= $endDate; $date->addDay()) {
+            $days[$date->format('Y-m-d')] = 0; // Initialize with 0
+        }
+
+        // Fetch actual request counts
+        $dailyStats = DB::table('request')
+            ->select(DB::raw("DATE_FORMAT(create_at, '%Y-%m-%d') as period"), DB::raw('count(*) as total'))
+            ->whereBetween('create_at', [$startDate, $endDate])
+            ->groupBy('period')
+            ->get();
+
+        // Populate the days array with actual counts
+        foreach ($dailyStats as $stat) {
+            $days[$stat->period] = $stat->total;
+        }
+
+        // Format the final result
+        return array_map(function ($total, $period) {
+            return ['period' => $period, 'total' => $total];
+        }, $days, array_keys($days));
+    }
+
+    private function getWeeklyStatistics()
+    {
+        $weeks = [];
+        $startDate = now()->startOfYear();
+        $endDate = now()->endOfYear();
+
+        // Initialize an array for each week of the year
+        for ($date = clone $startDate; $date <= $endDate; $date->addWeek()) {
+            $weeks[$date->format('Y-W')] = 0; // Initialize with 0
+        }
+
+        // Fetch actual request counts
+        $weeklyStats = DB::table('request')
+            ->select(DB::raw("YEAR(create_at) as year, WEEK(create_at, 1) as week, count(*) as total"))
+            ->whereBetween('create_at', [$startDate, $endDate])
+            ->groupBy('year', 'week')
+            ->get();
+
+        // Populate the weeks array with actual counts
+        foreach ($weeklyStats as $stat) {
+            $weeks[$stat->year . '-' . str_pad($stat->week, 2, '0', STR_PAD_LEFT)] = $stat->total;
+        }
+
+        // Format the final result
+        return array_map(function ($total, $period) {
+            return ['period' => $period, 'total' => $total];
+        }, $weeks, array_keys($weeks));
+    }
+
+    private function getMonthlyStatistics()
+    {
+        // Similar logic for months
+        $months = [];
+        $startDate = now()->startOfYear();
+        $endDate = now()->endOfYear();
+
+        for ($month = 1; $month <= 12; $month++) {
+            $months[$month] = 0; // Initialize with 0
+        }
+
+        $monthlyStats = DB::table('request')
+            ->select(DB::raw("MONTH(create_at) as month, count(*) as total"))
+            ->whereBetween('create_at', [$startDate, $endDate])
+            ->groupBy('month')
+            ->get();
+
+        foreach ($monthlyStats as $stat) {
+            $months[$stat->month] = $stat->total;
+        }
+
+        return array_map(function ($total, $month) {
+            return ['period' => $month, 'total' => $total];
+        }, $months, array_keys($months));
+    }
+
+    private function getYearlyStatistics()
+    {
+        // Similar logic for years
+        $years = [];
+        for ($year = 2020; $year <= 2030; $year++) {
+            $years[$year] = 0; // Initialize with 0
+        }
+
+        $yearlyStats = DB::table('request')
+            ->select(DB::raw("YEAR(create_at) as year, count(*) as total"))
+            ->whereBetween('create_at', ['2020-01-01', '2030-12-31'])
+            ->groupBy('year')
+            ->get();
+
+        foreach ($yearlyStats as $stat) {
+            $years[$stat->year] = $stat->total;
+        }
+
+        return array_map(function ($total, $year) {
+            return ['period' => $year, 'total' => $total];
+        }, $years, array_keys($years));
+    }
 }

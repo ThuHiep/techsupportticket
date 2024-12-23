@@ -5,6 +5,7 @@ namespace App\Http\Controllers\guest;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Customer;
+use App\Models\RequestType;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,24 @@ class HomepageController extends Controller
     }
     public function showFormRequest()
     {
-        return view('guest.request.request');
+        // Lấy thông tin khách hàng từ session đăng nhập
+        $logged_user = Auth::user(); // Người dùng hiện tại
+        $customer = Customer::where('user_id', $logged_user->user_id)->first();
+
+        // Kiểm tra nếu khách hàng không tồn tại
+        if (!$customer) {
+            return redirect()->route('homepage.index')->with('error', 'Không tìm thấy thông tin khách hàng.');
+        }
+
+        // Lấy danh sách các loại yêu cầu
+        $requestTypes = RequestType::where('status', 'active')->get();
+
+        // Truyền dữ liệu vào view
+        return view('guest.request.request', compact('customer', 'requestTypes'));
     }
+    
+    
+    
+    
+
 }

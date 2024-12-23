@@ -60,19 +60,19 @@
                 $isSearchById = preg_match('/^KH\d{8}$/', $search);
             @endphp
 
-            <div class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            <div id="search-notification" class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
                 @if ($isSearchById)
                     Tìm thấy {{ $totalResults }} khách hàng có mã "{{ $search }}"
                 @else
-                    Tìm thấy {{ $totalResults }} khách hàng có tên "{{ $search }}"
+                    Tìm thấy {{ $totalResults }} khách hàng có tên chứa từ khóa: "{{ $search }}"
                 @endif
             </div>
         @else
-            <div class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+            <div id="search-notification" class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
                 @if ($isSearchById)
                     Không tìm thấy khách hàng có mã "{{ $search }}"
                 @else
-                    Không tìm thấy khách hàng có tên "{{ $search }}"
+                    Không tìm thấy khách hàng có tên chứa từ khóa: "{{ $search }}"
                 @endif
             </div>
         @endif
@@ -140,6 +140,16 @@
             message.style.display = 'none';
         }
     }, 5000);
+</script>
+<script>// Tự động ẩn thông báo tìm kiếm sau 5 giây
+    setTimeout(function() {
+        var searchNotification = document.getElementById('search-notification');
+        if (searchNotification) {
+            searchNotification.style.transition = 'opacity 0.5s ease-out';
+            searchNotification.style.opacity = '0';
+            setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
+        }
+    }, 3000);
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {

@@ -8,7 +8,9 @@
 <body>
 <h1>Chúc mừng {{ $customerName }}</h1>
 <p>Tài khoản của bạn đã được phê duyệt thành công!</p>
-<p>Vui lòng đăng nhập và thay đổi mật khẩu trong vòng 24h tới.
-    <a href="{{ url('/') }}">Website</a></p>
+<p>Vui lòng đăng nhập và thay đổi mật khẩu trong vòng 24h tới.</p>
+<p>Tên đăng nhập: <strong>{{ $username }}</strong></p>
+<p>Mật khẩu: <strong>{{ $password }}</strong></p>
+<p><a href="{{ url('/') }}">Website</a></p>
 </body>
 </html>

@@ -5,6 +5,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Trang chủ Sweetsoft</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -37,20 +39,7 @@
             border-radius: 5px;
             transition: opacity 0.3s ease; /* Hiệu ứng mờ */
         }
-        .close {
-            position: absolute;
-            top: -7px;
-            right: 7px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #aaa; /* Màu sắc */
-        }
-        .close:hover,
-        .close:focus {
-            color: black; /* Màu khi hover */
-            text-decoration: none;
-            cursor: pointer;
-        }
+        
     </style>
 </head>
 
@@ -79,20 +68,32 @@
                 <span>TRANG HỖ TRỢ</span>
                 <span>KHÁCH HÀNG</span>
             </h1>
-            <div class="search-container">
+            {{-- <div class="search-container">
                 <input type="text" placeholder="Tìm kiếm...">
-                <button><img src='guest/img/search.png' alt='Search' style='width: 20px; height: 20px;'></button>
+                <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
+            </div> --}}
+            <div class="search-container" >
+                
+                <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm..." >
+                <select id="search-type" style="width: 150px">
+                    <option value="all">Danh mục</option>
+                    <option value="faq">Câu hỏi</option>
+                    <option value="article">Hướng dẫn</option>
+                </select>
+                <button id="search-button" >
+                    <img src="guest/img/search.png" alt="Search" style="width: 20px; height: 20px;">
+                </button>
             </div>
+            <div id="search-results" style="margin-top: 20px;"></div>
+            
         </div>
     </div>
-
-
 
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
 
-            <ul class="faq-list">
+            {{-- <ul class="faq-list">
                 @forelse ($faqs as $faq)
                     <li>
                         <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
@@ -100,84 +101,305 @@
                 @empty
                     <li>Không có câu hỏi nào được phản hồi.</li>
                 @endforelse
+            </ul> --}}
+            <ul class="faq-list">
+                @forelse ($faqs as $faq)
+                    <li class="faq-item">
+                        <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
+                    </li>
+                @empty
+                    <li>Không có câu hỏi nào được phản hồi.</li>
+                @endforelse
             </ul>
+            
+            
+            
+            
             <div id="faq-answer-container" style="display: none;">
                 <h3>Trả lời:</h3><p id="faq-answer"></p>
             </div>
             <div id="faqModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                    <span id="closeModal" style="float: right; cursor: pointer;">&times;</span>
-                    <h3 id="modal-question"></h3>
-                    <p id="modal-answer"></p>
+                    <span id="closeModal" class="closefaq" style="float: right; cursor: pointer;">&times;</span>
+                    <h3 id="modal-question" style="font-weight: bold;"></h3>
+                    <p id="modal-answer" style="margin-top: 10px;"></p>
                 </div>
             </div>
+            {{-- Xử lý hiển thị modal câu hỏi --}}
+            <script>document.addEventListener("DOMContentLoaded", function () {
+                const faqQuestions = document.querySelectorAll(".faq-question");
+                const faqModal = document.getElementById("faqModal");
+                const modalQuestion = document.getElementById("modal-question");
+                const modalAnswer = document.getElementById("modal-answer");
+                const closeModal = document.getElementById("closeModal");
+            
+                // Xử lý khi nhấn vào câu hỏi
+                faqQuestions.forEach(question => {
+                    question.addEventListener("click", function (event) {
+                        event.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+            
+                        const faqId = question.getAttribute("data-id");
+            
+                        // Gọi API hoặc lấy dữ liệu trả lời dựa trên `faqId`
+                        fetch(`/faq/answer/${faqId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Hiển thị câu hỏi và câu trả lời trong modal
+                                modalQuestion.textContent = data.question;
+                                modalAnswer.textContent = data.answer;
+            
+                                // Hiển thị modal
+                                faqModal.style.display = "block";
+                            })
+                            .catch(error => {
+                                console.error("Lỗi khi tải câu trả lời:", error);
+                            });
+                    });
+                });
+            
+                // Đóng modal khi nhấn vào nút đóng
+                closeModal.addEventListener("click", function () {
+                    faqModal.style.display = "none";
+                });
+            
+                // Đóng modal khi nhấn ra ngoài
+                window.addEventListener("click", function (event) {
+                    if (event.target === faqModal) {
+                        faqModal.style.display = "none";
+                    }
+                });
+            });
+            </script>
 
             <div class="faq-form-container">
                 <button id="ask-question-button">Đặt câu hỏi</button>
                 <div id="question-form">
-                    <input id="question-name" type="text" placeholder="Nhập email của bạn" />
-                    <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5"></textarea>
+                    <input id="question-name" type="email" placeholder="Nhập email của bạn" required />
+                    <span id="email-error" style="color: red; font-size: 14px; display: none;"></span>
+
+                    <textarea id="question-text" placeholder="Nhập câu hỏi của bạn" rows="5" required></textarea>
+                    <span id="question-error" style="color: red; font-size: 14px; display: none;"></span>
+
                     <button id="submit-question-button">Gửi</button>
+                    <span id="form-success" style="color: green; font-size: 14px; display: none;"></span>
                 </div>
             </div>
+
         </div>
+
     </section>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-    const faqQuestions = document.querySelectorAll(".faq-question");
-    const modal = document.getElementById("faqModal");
-    const modalQuestion = document.getElementById("modal-question");
-    const modalAnswer = document.getElementById("modal-answer");
-    const closeModal = document.getElementById("closeModal");
+    const submitButton = document.getElementById("submit-question-button");
+    const questionName = document.getElementById("question-name");
+    const questionText = document.getElementById("question-text");
+    const emailError = document.getElementById("email-error");
+    const questionError = document.getElementById("question-error");
+    const formSuccess = document.getElementById("form-success");
 
-    faqQuestions.forEach(question => {
-        question.addEventListener("click", function (event) {
-            event.preventDefault();
+    // Hàm kiểm tra email hợp lệ
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
 
-            const faqId = this.getAttribute("data-id");
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault(); // Ngăn form reload
+        const email = questionName.value.trim();
+        const question = questionText.value.trim();
 
-            fetch(`/faq/answer/${faqId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        modalQuestion.textContent = this.textContent; // Hiển thị câu hỏi
-                        modalAnswer.textContent = data.answer || "Chưa có câu trả lời."; // Hiển thị câu trả lời
-                        modal.style.display = "block"; // Hiển thị modal
-                    } else {
-                        alert("Không tìm thấy câu trả lời.");
+        // Xóa thông báo lỗi và thông báo thành công trước đó
+        emailError.style.display = "none";
+        questionError.style.display = "none";
+        formSuccess.style.display = "none";
+
+        let isValid = true;
+
+        // Kiểm tra email
+        if (!email) {
+            emailError.style.display = "block";
+            emailError.textContent = "Vui lòng nhập email.";
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            emailError.style.display = "block";
+            emailError.textContent = "Email không đúng định dạng.";
+            isValid = false;
+        }
+
+        // Kiểm tra câu hỏi
+        if (!question) {
+            questionError.style.display = "block";
+            questionError.textContent = "Vui lòng nhập câu hỏi.";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return; // Dừng nếu có lỗi
+        }
+
+        // Gửi dữ liệu qua AJAX
+        fetch('/faq/storeAjax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                email: email,
+                question: question
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw errorData; // Ném lỗi ra ngoài để xử lý trong .catch()
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                formSuccess.style.display = "block";
+                formSuccess.style.color = "green";
+                formSuccess.textContent = data.message;
+
+                questionName.value = '';
+                questionText.value = '';
+            })
+            .catch(error => {
+                emailError.style.display = "none";
+                questionError.style.display = "none";
+
+                if (error.errors) {
+                    if (error.errors.email) {
+                        emailError.style.display = "block";
+                        emailError.textContent = error.errors.email[0];
                     }
-                })
-                .catch(error => {
-                    console.error("Lỗi khi gọi API:", error);
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
-                });
+                    if (error.errors.question) {
+                        questionError.style.display = "block";
+                        questionError.textContent = error.errors.question[0];
+                    }
+                }
+            });
+
+
+            });
+        });
+
+
+        // Đóng modal khi click vào nút đóng
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Đóng modal khi click ra ngoài
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
         });
     });
 
-    // Đóng modal khi click vào nút đóng
-    closeModal.addEventListener("click", function () {
-        modal.style.display = "none";
-    });
-
-    // Đóng modal khi click ra ngoài
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-});
-
     </script>
 
-
-
-
-
-
-
-
     <!-- Script -->
+    
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const submitButton = document.getElementById("submit-question-button");
+            const questionName = document.getElementById("question-name");
+            const questionText = document.getElementById("question-text");
+            const emailError = document.getElementById("email-error");
+            const questionError = document.getElementById("question-error");
+            const formSuccess = document.getElementById("form-success");
+        
+            // Hàm kiểm tra email hợp lệ
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+        
+            submitButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Ngăn form reload
+                const email = questionName.value.trim();
+                const question = questionText.value.trim();
+        
+                // Xóa thông báo lỗi và thông báo thành công trước đó
+                emailError.style.display = "none";
+                questionError.style.display = "none";
+                formSuccess.style.display = "none";
+        
+                let isValid = true;
+        
+                // Kiểm tra email
+                if (!email) {
+                    emailError.style.display = "block";
+                    emailError.textContent = "Vui lòng nhập email.";
+                    isValid = false;
+                } else if (!validateEmail(email)) {
+                    emailError.style.display = "block";
+                    emailError.textContent = "Email không đúng định dạng.";
+                    isValid = false;
+                }
+        
+                // Kiểm tra câu hỏi
+                if (!question) {
+                    questionError.style.display = "block";
+                    questionError.textContent = "Vui lòng nhập câu hỏi.";
+                    isValid = false;
+                }
+        
+                if (!isValid) {
+                    return; // Dừng nếu có lỗi
+                }
+        
+                // Gửi dữ liệu qua AJAX
+                fetch('/faq/storeAjax', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        question: question
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            throw errorData; // Ném lỗi ra ngoài để xử lý trong .catch()
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hiển thị thông báo thành công
+                    formSuccess.style.display = "block";
+                    formSuccess.style.color = "green";
+                    formSuccess.textContent = data.message;
+        
+                    // Xóa dữ liệu trong form
+                    questionName.value = '';
+                    questionText.value = '';
+                })
+                .catch(error => {
+                    // Hiển thị lỗi chi tiết từ server
+                    if (error.errors) {
+                        if (error.errors.email) {
+                            emailError.style.display = "block";
+                            emailError.textContent = error.errors.email[0];
+                        }
+                        if (error.errors.question) {
+                            questionError.style.display = "block";
+                            questionError.textContent = error.errors.question[0];
+                        }
+                    } 
+                });
+            });
+        });
+        </script>
+        <script>
         document.addEventListener("DOMContentLoaded", function() {
             const askButton = document.getElementById("ask-question-button");
             const questionForm = document.getElementById("question-form");
@@ -192,20 +414,122 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const submitButton = document.getElementById("submit-question-button");
+            const questionName = document.getElementById("question-name");
+            const questionText = document.getElementById("question-text");
+
+            submitButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Ngăn chặn form reload trang
+                const email = questionName.value.trim();
+                const question = questionText.value.trim();
+
+                if (!email || !question) {
+                    return; // Dừng lại nếu các trường bị trống
+                }
+
+                fetch('/faq/store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        question: question
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Câu hỏi của bạn đã được gửi thành công!'
+                        });
+
+                        // Xóa dữ liệu trong form nếu thành công
+                        questionName.value = '';
+                        questionText.value = '';
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi khi gửi câu hỏi. Vui lòng thử lại.'
+                        });
+                    }
+                    // Không làm gì khác nếu thành công hoặc thất bại
+                })
+                .catch(error => {
+                    console.error("Lỗi khi gửi dữ liệu:", error);
+                });
+            });
+        });
 
 
+    </script>
+
+
+
+    
+<button id="toggle-button" class="toggle-button">Xem thêm</button>
+            
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const faqList = document.querySelector(".faq-list");
+                    const faqItems = document.querySelectorAll(".faq-item");
+                    const toggleButton = document.getElementById("toggle-button");
+            
+                    const MAX_VISIBLE_ITEMS = 5;
+            
+                    // Hiển thị hoặc ẩn nút "Xem thêm"
+                    if (faqItems.length > MAX_VISIBLE_ITEMS) {
+                        toggleButton.style.display = "block";
+                        faqItems.forEach((item, index) => {
+                            if (index >= MAX_VISIBLE_ITEMS) {
+                                item.style.display = "none"; // Ẩn các mục vượt quá giới hạn
+                            }
+                        });
+                    }
+            
+                    // Xử lý sự kiện khi nhấn nút "Xem thêm"
+                    toggleButton.addEventListener("click", function () {
+                        const isExpanded = toggleButton.getAttribute("data-expanded") === "true";
+            
+                        if (isExpanded) {
+                            // Thu gọn danh sách
+                            faqItems.forEach((item, index) => {
+                                if (index >= MAX_VISIBLE_ITEMS) {
+                                    item.style.display = "none";
+                                }
+                            });
+                            toggleButton.textContent = "Xem thêm";
+                            toggleButton.setAttribute("data-expanded", "false");
+                        } else {
+                            // Mở rộng danh sách
+                            faqItems.forEach(item => {
+                                item.style.display = "list-item";
+                            });
+                            toggleButton.textContent = "Thu gọn";
+                            toggleButton.setAttribute("data-expanded", "true");
+                        }
+                    });
+                });
+            </script>
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
         <div class="carousel" id="carousel">
             @foreach($articles as $article)
                 <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
-                    {{--                    <img src="{{ $article ->image_url  }}" alt="Hình ảnh {{ $article->title }}">--}}
-                    <img src="/admin/img/p_big1.jpg">
+                    <img src="{{ asset('admin/img/articles/' . $article->images) }}" alt="Hình ảnh {{ $article->title }}">
+                
                     <h3 class="article-title">{{ $article->title }}</h3>
                     <div class="article-details" style="display: none;">
-                        <p class="article-content"></p>
-                        <p class="article-date"></p>
+                        <p class="article-content">{{ $article->content }}</p>
+                        <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') }}</p>
                     </div>
                 </div>
             @endforeach
@@ -234,14 +558,14 @@
             const title = cardElement.querySelector('.article-title').innerText;
             const content = cardElement.querySelector('.article-details .article-content').innerText;
             const date = cardElement.querySelector('.article-details .article-date').innerText;
-            const imageUrl = cardElement.querySelector('img').src;
+            const images = cardElement.querySelector('img').src;
 
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerText = content;
             document.getElementById('huongdanModalDate').innerText = date;
 
             const modalImage = document.getElementById('huongdanModalImage');
-            modalImage.src = imageUrl;
+            modalImage.src = images;
 
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
@@ -317,17 +641,17 @@
             };
 
             prevButton.addEventListener("click", function() {
-                currentIndex = (currentIndex === 0) ? totalCards - 2 : currentIndex - 1;
+                currentIndex = (currentIndex === 0) ? totalCards - 3 : currentIndex - 1;
                 updateCarousel();
             });
 
             nextButton.addEventListener("click", function() {
-                currentIndex = (currentIndex === totalCards - 2) ? 0 : currentIndex + 1;
+                currentIndex = (currentIndex === totalCards - 3) ? 0 : currentIndex + 1;
                 updateCarousel();
             });
 
             // Ensure only 2 cards are visible at a time
-            const containerWidth = 660; // Adjusted for larger cards (300px each + margin)
+            const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
             document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
         });
 
@@ -439,6 +763,8 @@
                         registerForm.reset(); // Reset form sau khi gửi
                     });
                 </script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </body>
 </html>

@@ -1,171 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <title>Gửi Yêu Cầu Hỗ Trợ</title>
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('admin/css/form/guiyeucaukythuat.css') }}">
-    <title>FORM</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
 <body>
-    <!-- Form -->
-    <div class="wrapper">
-        <div class="support_box">
-            <div class="support-header">
-                <span>Gửi Yêu Cầu Hỗ Trợ</span>
-            </div>
+<div class="wrapper">
+    <div class="support_box">
+        <div class="support-header">
+            <span>Gửi Yêu Cầu Hỗ Trợ</span>
+        </div>
 
-            <!-- Thời gian hiện tại -->
-            <div class="date-time-container">
-                <div class="date-time" id="current-datetime"></div>
-            </div>
+        <!-- Thời gian hiện tại -->
+        <div class="date-time-container">
+            <div class="date-time" id="current-datetime"></div>
+        </div>
 
-            <!-- Form Input -->
-            <form method="POST" action="" enctype="multipart/form-data">
-                <div class="input-container">
-                    <!-- Row 1 -->
-                    <div class="input_row">
-                        <div class="input_box">
-                            <input type="text" id="fullname" name="fullname" class="input-field" required>
-                            <label for="fullname" class="label">Họ và tên</label>
-                            <i class="bx bx-user icon"></i>
-                        </div>
-                        <div class="input_box">
-                            <input type="tel" id="phone" name="phone" class="input-field" pattern="[0-9]{10}" required>
-                            <label for="phone" class="label">Số điện thoại</label>
-                            <i class="bx bx-phone icon"></i>
-                        </div>
-                    </div>
-                    <!-- Row 2 -->
+        <!-- Form Input -->
+        <form method="POST" action="{{ route('guest.request.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="input-container">
+                <!-- Row 1 -->
+                <div class="input_row">
                     <div class="input_box">
-                        <input type="email" id="email" name="email" class="input-field" required>
-                        <label for="email" class="label">Email</label>
-                        <i class="bx bx-envelope icon"></i>
+                        <input type="text" id="fullname" name="fullname" class="input-field" value="{{ $customer->full_name ?? old('fullname') }}" readonly>
+                        <label for="fullname" class="label">Họ và tên</label>
+                        <i class="bx bx-user icon"></i>
                     </div>
-                    <!-- Row 3 -->
-                    <div class="input_row">
-                        <div class="input_box">
-                            <input type="text" id="company-name" name="company-name" class="input-field" required>
-                            <label for="company-name" class="label">Tên công ty</label>
-                            <i class="bx bx-buildings icon"></i>
-                        </div>
-                        <div class="input_box">
-                            <select id="request-type" name="request-type" class="input-field" required>
-                                <option value="" disabled selected>Chọn loại yêu cầu</option>
-                            </select>
-                            <label for="request-type" class="label">Loại yêu cầu</label>
-                        </div>
-                    </div>
-
-                    <!-- Row 4 -->
-                    <!-- Thông tin yêu cầu -->
-                    <div class="request-info-row">
-                        <span class="request-info-text">Thông tin yêu cầu</span>
-                        <button type="button" class="add-btn">+ Thêm</button>
-                    </div>
-
-                    <!-- Form Input -->
-                    <div id="request-container">
-                        <!-- Khối mặc định ban đầu -->
-                        <div class="request-block">
-                            <div class="input_box input-title-1">
-                                <input type="text" id="title-1" name="title[]" class="input-field" required>
-                                <label for="title-1" class="label">Tiêu đề</label>
-                            </div>
-
-                            <div class="input_box description-box">
-                                <textarea id="description-1" name="description[]" class="input-field description-field" rows="10" required></textarea>
-                                <label for="description-1" class="label">Mô tả vấn đề</label>
-                            </div>
-
-                            <div class="input_box file-upload-box">
-                                <label for="support-file-1" class="file-upload-label">Tải lên ảnh hỗ trợ:</label>
-                                <input type="file" id="support-file-1" name="support-file[]" class="file-upload-field" accept="image/*">
-                            </div>
-                        </div>
+                    <div class="input_box">
+                        <input type="tel" id="phone" name="phone" class="input-field" value="{{ $customer->phone ?? old('phone') }}" readonly>
+                        <label for="phone" class="label">Số điện thoại</label>
+                        <i class="bx bx-phone icon"></i>
                     </div>
                 </div>
-
-                <!-- Submit Button -->
+                <!-- Row 2 -->
                 <div class="input_box">
-                    <input type="submit" class="input-submit" value="Gửi Yêu Cầu">
+                    <input type="email" id="email" name="email" class="input-field" value="{{ $customer->email ?? old('email') }}" readonly>
+                    <label for="email" class="label">Email</label>
+                    <i class="bx bx-envelope icon"></i>
                 </div>
-            </form>
+                <!-- Row 3 -->
+                <div class="input_row">
+                    <div class="input_box">
+                        <input type="text" id="company-name" name="company-name" class="input-field" value="{{ $customer->company ?? old('company-name') }}" readonly>
+                        <label for="company-name" class="label">Tên công ty</label>
+                        <i class="bx bx-buildings icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <select id="request-type" name="request-type" class="input-field" required>
+                            <option value="" disabled {{ old('request-type') ? '' : 'selected' }}>Chọn loại yêu cầu</option>
+                            @if(isset($requestTypes) && !$requestTypes->isEmpty())
+                                @foreach($requestTypes as $type)
+                                    <option value="{{ $type->request_type_id }}" {{ old('request-type') == $type->request_type_id ? 'selected' : '' }}>
+                                        {{ $type->request_type_name }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="" disabled>Không có loại yêu cầu khả dụng</option>
+                            @endif
+                        </select>
+                        <label for="request-type" class="label">Loại yêu cầu</label>
+                    </div>
+                </div>
 
-            <!-- Return Link -->
-            <div class="login-link">
-                <span>Quay lại trang chủ? <a href="{{route('homepage.index')}}" class="login-box">Bấm vào đây</a></span>
+                <!-- Row 4 -->
+                <div class="request-info-row">
+                    <span class="request-info-text">Thông tin yêu cầu</span>
+                </div>
+
+                <div id="request-container">
+                    <div class="request-block">
+                        <div class="input_box input-title-1">
+                            <input type="text" name="title[]" class="input-field" required>
+                            <label class="label">Tiêu đề</label>
+                        </div>
+
+                        <div class="input_box file-upload-box">
+                            <label class="file-upload-label">Tải lên file hỗ trợ:</label>
+                            <input type="file" name="attachments[]" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt">
+                        </div>
+
+                        <div class="input_box description-box">
+                            <textarea name="description[]" class="input-field description-field" rows="10" required></textarea>
+                            <label class="label">Mô tả vấn đề</label>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Submit Button -->
+            <div class="input_box">
+                <input type="submit" class="input-submit" value="Gửi Yêu Cầu">
+            </div>
+        </form>
+
+        <!-- Return Link -->
+        <div class="login-link">
+            <span>Quay lại trang chủ? <a href="{{ route('homepage.index') }}" class="login-box">Bấm vào đây</a></span>
         </div>
     </div>
+</div>
 
+<!-- JavaScript thông báo -->
+<script>
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: '{{ session('success') }}',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+    });
+    @endif
 
-    <!-- JavaScript hiển thị thời gian -->
-    <script>
-        const dateTimeElement = document.getElementById("current-datetime");
+    @if(session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: '{{ session('error') }}',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#d33',
+    });
+    @endif
 
-        function updateDate() {
-            const now = new Date();
-            const formattedDate = now.toLocaleDateString("vi-VN", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-            });
-            dateTimeElement.textContent = `Ngày: ${formattedDate}`;
-        }
-        updateDate();
-    </script>
-    <!-- Script thêm khối -->
-    <script>
-        // Hàm thêm khối mới
-        function addRequestBlock() {
-            // Tạo khối mới
-            const newBlock = document.createElement("div");
-            newBlock.classList.add("request-block", "hidden"); // Khởi tạo khối mới ở trạng thái ẩn
-            newBlock.innerHTML = `
-        <div class="input_box input-title-1">
-            <input type="text" name="title[]" class="input-field" required>
-            <label class="label">Tiêu đề</label>
-        </div>
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'warning',
+        title: 'Lỗi xác thực!',
+        html: '<ul style="text-align: left;">' +
+            @foreach ($errors->all() as $error)
+                '<li>{{ $error }}</li>' +
+            @endforeach
+                '</ul>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#f0ad4e',
+    });
+    @endif
 
-        <div class="input_box description-box">
-            <textarea name="description[]" class="input-field description-field" rows="10" required></textarea>
-            <label class="label">Mô tả vấn đề</label>
-        </div>
-
-        <div class="input_box file-upload-box">
-            <label class="file-upload-label">Tải lên ảnh hỗ trợ:</label>
-            <input type="file" name="support-file[]" class="file-upload-field" accept="image/*">
-            <!-- Nút + Thêm từ khối thứ 2 trở đi -->
-            <button type="button" class="add-btn-inline" onclick="addRequestBlock()">+ Thêm</button>
-            <button type="button" class="delete-btn" onclick="removeRequestBlock(this)">Xóa</button>
-        </div>
-    `;
-
-            // Thêm khối mới vào container
-            const container = document.getElementById("request-container");
-            container.appendChild(newBlock);
-
-            // Hiện khối mới với hiệu ứng
-            setTimeout(() => newBlock.classList.remove("hidden"), 10);
-        }
-
-        // Hàm xóa khối
-        function removeRequestBlock(button) {
-            const block = button.closest(".request-block");
-
-            // Bắt đầu hiệu ứng ẩn với CSS
-            block.classList.add("hidden");
-
-            // Sau khi hiệu ứng ẩn hoàn thành, xóa khối khỏi DOM
-            setTimeout(() => block.remove(), 300); // Thời gian đồng bộ với hiệu ứng (0.3s)
-        }
-        // Gán sự kiện cho nút Thêm
-        document.querySelector(".add-btn").addEventListener("click", addRequestBlock);
-    </script>
+    const dateTimeElement = document.getElementById("current-datetime");
+    function updateDate() {
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString("vi-VN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
+        dateTimeElement.textContent = `Ngày: ${formattedDate}`;
+    }
+    updateDate();
+</script>
 </body>
-
 </html>

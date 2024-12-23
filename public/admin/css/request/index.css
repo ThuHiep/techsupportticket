@@ -204,7 +204,6 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
     min-width: 800px; /* Đảm bảo bảng không bị co lại quá nhỏ */
 }
 
@@ -368,19 +367,19 @@ tr:hover td {
 
 /* Các màu sắc cho các trạng thái khác nhau */
 .status-dot.chưa-xử-lý {
-    background-color: gray;
+    background-color: #F0626A;
 }
 
 .status-dot.đang-xử-lý {
-    background-color: blue;
+    background-color: #FF9700;
 }
 
 .status-dot.hoàn-thành {
-    background-color: green;
+    background-color: #19AB8D;
 }
 
 .status-dot.đã-hủy {
-    background-color: red;
+    background-color: #A6A8AA;
 }
 
 /* Responsive cải tiến cho bảng trên các thiết bị nhỏ */

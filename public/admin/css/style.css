@@ -8513,6 +8513,11 @@ body.md-skin {
   .navbar-top-links .dropdown-alerts {
     margin-left: auto;
   }
+    .navbar-right {
+
+        margin-right: 0px;
+    }
+
 }
 @media (max-width: 768px) {
   #page-wrapper {

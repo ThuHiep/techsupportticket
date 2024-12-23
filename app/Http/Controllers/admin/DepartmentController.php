@@ -44,13 +44,13 @@ class DepartmentController extends Controller
             // }
 
             // Phân trang với 4 mục mỗi trang
-            $departments = $query->paginate(4)->appends($request->all());
+            $departments = $query->paginate(5)->appends($request->all());
 
             // Lấy tổng số kết quả
             $count = $departments->total();
         } else {
             // Không có tìm kiếm nào được thực hiện hoặc ô tìm kiếm trống, hiển thị tất cả phòng ban
-            $departments = Department::paginate(4)->appends($request->all());
+            $departments = Department::paginate(5)->appends($request->all());
 
             // Lấy tổng số kết quả
             $count = $departments->total();

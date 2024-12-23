@@ -39,4 +39,8 @@ class Department extends Model
     {
         return self::where('status', self::STATUS_ACTIVE)->get();
     }
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'department_id'); // Adjust 'department_id' if your foreign key is named differently
+    }
 }

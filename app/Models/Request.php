@@ -74,4 +74,10 @@ class Request extends Model
     {
         return $this->hasOne(Attachment::class, 'request_id', 'request_id');
     }
+
+    public function history()
+    {
+        return $this->hasMany(RequestHistory::class, 'request_id', 'request_id');
+    }
+
 }

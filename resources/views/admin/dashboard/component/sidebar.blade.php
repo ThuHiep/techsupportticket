@@ -63,6 +63,12 @@
                     <span class="nav-label">Tin tức</span>
                 </a>
             </li>
+            <li class="{{ Request::is('articles*') ? 'active' : '' }}">
+                <a href="{{ route('articles.index') }}"><i class="fa-solid fa-lightbulb"></i>
+
+                    <span class="nav-label">Hướng dẫn</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
