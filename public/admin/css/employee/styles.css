@@ -405,24 +405,24 @@ tr:nth-child(even) td {
 /* Media queries cho màn hình dưới 375px */
 @media (max-width: 376px) {
     h1{
-        font-size: 30px;
+        font-size: 26px;
         padding-bottom: 10px;
     }
     .add-customer-btn {
+        width: 29%;
         padding: 6px;
         font-size: 12px;
     }
 
     .search-container input[type="text"] {
-        width: 292%;
-        font-size: 11px;
+        width: 291%;
+        font-size: 9px;
         padding: 6px;
     }
-
     .search-container button {
-        width: 69%;
+        width: 79%;
         padding: 6px;
-        font-size: 11px;
+        font-size: 10px;
         margin-right: -258%;
     }
 }
