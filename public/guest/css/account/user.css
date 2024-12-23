@@ -264,7 +264,7 @@ h6 {
 
 .header .logo h1 {
   font-size: 24px;
-  margin: 0;
+  margin-bottom: 40px;
   font-weight: 700;
   color: var(--heading-color);
 }
@@ -1360,6 +1360,7 @@ button:hover{
 
 
 #navmenu ul li a.active {
-  color: #FF9700; /* Màu chữ khi active */
-  border-bottom: 2px solid #FF9700; /* Gạch chân */
+  color: #007bff; /* Màu chữ khi active */
+  font-weight: bold; /* In đậm chữ */
+  border-bottom: 2px solid #007bff; /* Gạch chân */
 }

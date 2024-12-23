@@ -714,22 +714,13 @@
         </span>
 </div>
 
-@if(auth()->check())
-    <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
-@else
-    <!-- Nút nổi -->
-    <div class="floating-button" id="openForm">
-    </div>
-
-<<<<<<< HEAD
     @if(auth()->check())
         <a class="floating-button" id="openForm" href="{{ route('showFormRequest') }}"> </a>
             @else
                 <!-- Nút nổi -->
                 <div class="floating-button" id="openForm">
                 </div>
-=======
-    <!-- Overlay -->
+
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="modal" id="registrationForm">
         <h2>FORM YÊU CẦU</h2>
@@ -740,14 +731,10 @@
                     Đăng nhập
                 </button>
             </div>
-            <a href="#" >Hướng dẫn thao tác gửi yêu cầu hỗ trợ</a>
         </form>
     </div>
 @endif
 <script>
-    // Lấy các phần tử HTML
->>>>>>> 30645ac0a4412cd1e92b43e57e41e472bd5d27c4
-
     const openFormButton = document.getElementById('openForm');
     const modal = document.getElementById('registrationForm');
     const overlay = document.getElementById('modalOverlay');
@@ -771,6 +758,32 @@
         overlay.style.display = 'none';
         registerForm.reset(); // Reset form sau khi gửi
     });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const menuItems = document.querySelectorAll("#navmenu ul li a");
+
+  menuItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      // Loại bỏ lớp 'active' khỏi tất cả các mục menu
+      menuItems.forEach((link) => link.classList.remove("active"));
+
+      // Thêm lớp 'active' vào mục menu được nhấn
+      this.classList.add("active");
+    });
+  });
+
+  // Gán active dựa trên vị trí trang khi load
+  const currentLocation = window.location.href;
+  menuItems.forEach((link) => {
+    if (link.href === currentLocation) {
+      link.classList.add("active");
+    }
+  });
+});
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
