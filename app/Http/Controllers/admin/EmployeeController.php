@@ -62,4 +62,24 @@ class EmployeeController extends Controller
         return redirect()->route('dashboard.index')
             ->with('success', 'Thông tin tài khoản đã được cập nhật!');
     }
+    public function changePass(Request $request)
+    {
+        $logged_user = Auth::user();
+
+        if (!Hash::check($request->input('old-password'), $logged_user->password)) {
+            return back()->withErrors(['old-password' => 'Mật khẩu cũ không đúng!'])
+                ->withInput();
+        }
+
+        if ($request->input('new-password') !== $request->input('confirm-password')) {
+            return back()->withErrors(['confirm-password' => 'Mật khẩu mới và xác nhận mật khẩu không khớp!'])
+                ->withInput();
+        }
+
+        // Lưu mật khẩu mới
+        $logged_user->password = Hash::make($request->input('new-password'));
+        $logged_user->update_at = now();
+        $logged_user->save();
+        return redirect()->route('employee.editProfile')->with('success', 'Mật khẩu đã được thay đổi thành công!');
+    }
 }

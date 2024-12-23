@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Request as SupportRequest;
 
 class UserController extends Controller
@@ -83,5 +84,21 @@ class UserController extends Controller
 
         return redirect()->route('indexAccount')
             ->with('success', 'Hồ sơ khách hàng đã được cập nhật!');
+    }
+    public function changePass(Request $request)
+    {
+        $logged_user = Auth::user();
+
+        // Check if old password is correct
+        if (!Hash::check($request->input('old-password'), $logged_user->password)) {
+            return back()->withErrors(['old-password' => 'Mật khẩu cũ không đúng!'])->withInput();
+        }
+
+        // Update the password
+        $logged_user->password = Hash::make($request->input('new-password'));
+        $logged_user->update_at = now();
+        $logged_user->save();
+
+        return redirect()->route('indexAccount')->with('success', 'Mật khẩu đã được thay đổi thành công!');
     }
 }

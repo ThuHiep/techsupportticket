@@ -7,7 +7,7 @@
   <title>Tài khoản</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link
@@ -24,9 +24,12 @@
     href="guest/bootstraps/bootstrap/swiper/swiper-bundle.min.css"
     rel="stylesheet" />
   <link href="guest/bootstraps/bootstrap/js/main.js" rel="stylesheet" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <!-- Main CSS File -->
   <link href="guest/css/account/user.css" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="index-page">
@@ -74,8 +77,7 @@
             <img
               src="/guest/img/request.png"
               alt="icon-doc"
-              class="img-fluid-home"
-            />
+              class="img-fluid-home" />
             <p>Yêu cầu đang chờ</p>
             <h2>0</h2>
             <a href="#portfolio">Xem</a>
@@ -84,8 +86,7 @@
             <img
               src="/guest/img/bell.png"
               alt="support"
-              class="img-fluid-home"
-            />
+              class="img-fluid-home" />
             <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
             <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
@@ -108,7 +109,7 @@
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="width: 250px"/>
+              alt="" style="width: 250px" />
           </div>
           <div class="col-lg-8 content">
             <h2 id="title">Thông tin cá nhân</h2>
@@ -174,8 +175,196 @@
               <button id="edit-btn" class="edit-button">
                 CHỈNH SỬA THÔNG TIN
               </button>
+              <div class="btn btn-success me-3" id="openForm">Thay đổi mật khẩu</div>
             </div>
           </section>
+
+          <div class="modal-overlay" id="modalOverlay"></div>
+          <div class="modalPass reset-password-box" id="registrationForm">
+            <div class="reset-password-header">
+              <span>Đổi mật khẩu</span>
+            </div>
+            <form action="{{ route('account.changePass') }}" method="POST" enctype="multipart/form-data" class="reset-password-form">
+              @csrf
+              @method('PUT')
+
+              <!-- Old Password -->
+              <div class="input_box">
+                <input type="password" name="old-password" id="old-password" class="input-field" required>
+                <label for="old-password" class="label">Mật khẩu cũ</label>
+                <i class="bx bx-show toggle-password icon" data-target="old-password"></i>
+                @if ($errors->has('old-password'))
+                <div class="error-message">{{ $errors->first('old-password') }}</div>
+                @endif
+              </div>
+
+              <!-- New Password -->
+              <div class="input_box">
+                <input type="password" name="new-password" id="new-password" class="input-field" value="{{ old('new-password') }}" required>
+                <label for="new-password" class="label">Mật khẩu mới</label>
+                <i class="bx bx-show toggle-password icon" data-target="new-password"></i>
+                <span class="error-message" id="password_error"></span>
+                <div class="password-hint">
+                  <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
+                  <div class="hint-list">
+                    <ul>
+                      <li class="hint" id="hint_length">Tối thiểu 8 ký tự</li>
+                      <li class="hint" id="hint_uppercase">1 chữ cái in hoa</li>
+                      <li class="hint" id="hint_number">1 số</li>
+                      <li class="hint" id="hint_special">1 ký tự đặc biệt</li>
+                      <li class="hint" id="hint_lowercase">1 chữ thường</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="input_box">
+                <input type="password" name="confirm-password" id="confirm-password" class="input-field" value="{{ old('confirm-password') }}" required>
+                <label for="confirm-password" class="label">Xác nhận mật khẩu</label>
+                <i class="bx bx-show toggle-password icon" data-target="confirm-password"></i>
+                <span class="error-message" id="password_confirm_error"></span>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="input_box">
+                <input type="submit" class="input-submit" value="Cập nhật mật khẩu">
+              </div>
+            </form>
+          </div>
+
+
+          <script>
+            @if(session('success'))
+            document.addEventListener('DOMContentLoaded', function() {
+              Swal.fire({
+                title: 'Thành công!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
+            });
+            @endif
+
+            document.addEventListener('DOMContentLoaded', function() {
+              // Hiển thị modal nếu có lỗi từ server
+              if ("{{ $errors->any() }}") {
+                document.getElementById('registrationForm').style.display = 'block';
+                document.getElementById('modalOverlay').style.display = 'block';
+              }
+
+              const passwordInput = document.getElementById('new-password');
+              const savedPassword = "{{ old('new-password') }}";
+              const passwordConfirmInput = document.getElementById('confirm-password');
+              const form = document.querySelector('.reset-password-form');
+              if (savedPassword) {
+                updateHints(savedPassword);
+              }
+
+              passwordInput.addEventListener('input', function() {
+                const passwordValue = passwordInput.value;
+                updateHints(passwordValue);
+              });
+
+              form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let hasError = false;
+                // Password validation
+                if (passwordInput.value.length < 8 || !/[A-Z]/.test(passwordInput.value) || !/[0-9]/.test(passwordInput.value) || !/[!@#$%^&*]/.test(passwordInput.value)) {
+                  document.getElementById('password_error').textContent = 'Mật khẩu yếu: phải chứa ít nhất 8 ký tự bao gồm chữ in hoa, số và ký tự đặc biệt.';
+                  hasError = true;
+                }
+
+                // Password confirmation validation
+                if (passwordInput.value !== passwordConfirmInput.value) {
+                  document.getElementById('password_confirm_error').textContent = 'Mật khẩu xác nhận không khớp.';
+                  hasError = true;
+                }
+
+                // Nếu không có lỗi thì gửi form
+                if (!hasError) {
+                  form.submit();
+                }
+              })
+            });
+            const openFormButton = document.getElementById('openForm');
+            const modalPass = document.getElementById('registrationForm');
+            const overlay = document.getElementById('modalOverlay');
+            openFormButton.addEventListener('click', () => {
+              modalPass.style.display = 'block';
+              overlay.style.display = 'block';
+
+            });
+
+            overlay.addEventListener('click', () => {
+              modalPass.style.display = 'none';
+              overlay.style.display = 'none';
+              const inputs = modalPass.querySelectorAll("input");
+              inputs.forEach(input => {
+                if (input.type === "submit") {
+                  return;
+                } else {
+                  input.value = "";
+                }
+              });
+            });
+
+            document.querySelectorAll('.toggle-password').forEach(icon => {
+              icon.addEventListener('click', () => {
+                const targetId = icon.getAttribute('data-target');
+                const targetInput = document.getElementById(targetId);
+
+                if (targetInput.type === 'password') {
+                  targetInput.type = 'text';
+                  icon.classList.remove('bx-show');
+                  icon.classList.add('bx-hide');
+                } else {
+                  targetInput.type = 'password';
+                  icon.classList.remove('bx-hide');
+                  icon.classList.add('bx-show');
+                }
+              });
+            });
+
+            function updateHints(passwordValue) {
+              const errorMessage = document.getElementById('password_error');
+
+              // Reset màu sắc gợi ý
+              document.querySelectorAll('.hint').forEach(hint => {
+                hint.style.color = 'black';
+              });
+
+              // Thay đổi màu sắc dựa trên điều kiện
+              if (passwordValue.length >= 8) {
+                document.getElementById('hint_length').style.color = 'orange';
+              }
+              if (/[A-Z]/.test(passwordValue)) {
+                document.getElementById('hint_uppercase').style.color = 'orange';
+              }
+              if (/[0-9]/.test(passwordValue)) {
+                document.getElementById('hint_number').style.color = 'orange';
+              }
+              if (/[!@#$%^&*]/.test(passwordValue)) {
+                document.getElementById('hint_special').style.color = 'orange';
+              }
+              if (/[a-z]/.test(passwordValue)) {
+                document.getElementById('hint_lowercase').style.color = 'orange';
+              }
+
+              // Hiển thị thông báo lỗi nếu không đạt
+              if (passwordValue.length < 8) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất 8 ký tự.';
+              } else if (!/[A-Z]/.test(passwordValue)) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất một chữ cái viết hoa.';
+              } else if (!/[0-9]/.test(passwordValue)) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất một số.';
+              } else if (!/[!@#$%^&*]/.test(passwordValue)) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất một ký tự đặc biệt.';
+              } else {
+                errorMessage.textContent = '';
+              }
+            }
+          </script>
 
           <!-- Modal -->
           <div id="editModal" class="modal">
@@ -301,198 +490,226 @@
 
     <!-- /About Section -->
 
-      <!-- Portfolio Section -->
-      <section id="portfolio" class="portfolio section light-background">
-          <div class="container section-title" data-aos="fade-up">
-              <h1>YÊU CẦU</h1>
-              <h3>LỊCH SỬ YÊU CẦU</h3>
-              <div class="container">
-                  <div
-                      class="isotope-layout"
-                      data-default-filter="*"
-                      data-layout="masonry"
-                      data-sort="original-order">
-                      <ul
-                          class="portfolio-filters isotope-filters"
-                          data-aos="fade-up"
-                          data-aos-delay="100">
-                          <li data-filter="*" class="filter-active">Tất cả</li>
-                          <li data-filter=".chua-xu-ly">Chưa xử lý</li>
-                          <li data-filter=".dang-xu-ly">Đang xử lý</li>
-                          <li data-filter=".hoan-thanh">Hoàn thành</li>
-                          <li data-filter=".da-huy">Đã hủy</li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-      </section>
-
-      <!-- Lịch sử yêu cầu -->
-      <section id="request-history" class="request-history section">
-          <div class="container">
-              @forelse ($requests as $request)
-                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
-                      <div class="request-info">
-                          <h3>{{ $request->request_id }}</h3>
-                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
-                          <p>{{ $request->subject }}</p>
-                      </div>
-                      <div class="request-arrow">→</div>
-                  </div>
-              @empty
-                  <p>Không có yêu cầu nào trong lịch sử.</p>
-              @endforelse
-          </div>
-
-          <script>
-              function viewRequestDetail(requestId) {
-                  window.location.href = `/request-detail/${requestId}`; // Điều chỉnh URL chi tiết yêu cầu
-              }
-
-              document.addEventListener("DOMContentLoaded", function() {
-                  const filters = document.querySelectorAll(".portfolio-filters li");
-                  const requestItems = document.querySelectorAll(".request-item");
-
-                  filters.forEach((filter) => {
-                      filter.addEventListener("click", function () {
-                          const filterStatus = filter.getAttribute("data-filter");
-                          requestItems.forEach((item) => {
-                              if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
-                                  item.style.display = "flex";
-                              } else {
-                                  item.style.display = "none";
-                              }
-                          });
-                          filters.forEach((f) => f.classList.remove("filter-active"));
-                          filter.classList.add("filter-active");
-                      });
-                  });
-              });
-          </script>
-      </section>
-      <!-- Modal trạng thái làm ngày 23/12 -->
-      <div id="modal-status" class="modal-request">
-        <div class="modal-content-request">
-          <span class="close-btn" onclick="closeForm()">×</span>
-          <h2>Trạng thái yêu cầu</h2>
-          <div id="status-timeline">
-            <!-- Nội dung các trạng thái sẽ được tạo động -->
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section light-background">
+      <div class="container section-title" data-aos="fade-up">
+        <h1>YÊU CẦU</h1>
+        <h3>LỊCH SỬ YÊU CẦU</h3>
+        <div class="container">
+          <div
+            class="isotope-layout"
+            data-default-filter="*"
+            data-layout="masonry"
+            data-sort="original-order">
+            <ul
+              class="portfolio-filters isotope-filters"
+              data-aos="fade-up"
+              data-aos-delay="100">
+              <li data-filter="*" class="filter-active">Tất cả</li>
+              <li data-filter=".chua-xu-ly">Chưa xử lý</li>
+              <li data-filter=".dang-xu-ly">Đang xử lý</li>
+              <li data-filter=".hoan-thanh">Hoàn thành</li>
+              <li data-filter=".da-huy">Đã hủy</li>
+            </ul>
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- Lịch sử yêu cầu -->
+    <section id="request-history" class="request-history section">
+      <div class="container">
+        @forelse ($requests as $request)
+        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+          <div class="request-info">
+            <h3>{{ $request->request_id }}</h3>
+            <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
+            <p>{{ $request->subject }}</p>
+          </div>
+          <div class="request-arrow">→</div>
+        </div>
+        @empty
+        <p>Không có yêu cầu nào trong lịch sử.</p>
+        @endforelse
+      </div>
+
       <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          // Lấy tất cả các mục lọc và các thẻ yêu cầu
+        function viewRequestDetail(requestId) {
+          window.location.href = `/request-detail/${requestId}`; // Điều chỉnh URL chi tiết yêu cầu
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
           const filters = document.querySelectorAll(".portfolio-filters li");
           const requestItems = document.querySelectorAll(".request-item");
 
-          // Hàm lọc yêu cầu với hiệu ứng đẩy lên trên
-          function filterRequests(status) {
-            const visibleItems = []; // Mảng chứa các thẻ yêu cầu phù hợp
-            const hiddenItems = []; // Mảng chứa các thẻ yêu cầu không phù hợp
-
-            // Phân loại các yêu cầu thành hiển thị và ẩn
-            requestItems.forEach((item) => {
-              const itemStatus = item.querySelector(".status").classList;
-
-              if (status === "all" || itemStatus.contains(status)) {
-                visibleItems.push(item); // Thêm vào mảng hiển thị
-              } else {
-                hiddenItems.push(item); // Thêm vào mảng ẩn
-              }
-            });
-
-            // Hiển thị các yêu cầu phù hợp
-            visibleItems.forEach((item) => {
-              item.style.display = "flex"; // Hiển thị
-              item.classList.add("show");
-              item.classList.remove("hide");
-            });
-
-            // Ẩn các yêu cầu không phù hợp
-            hiddenItems.forEach((item) => {
-              item.style.display = "none"; // Ẩn đi
-              item.classList.add("hide");
-              item.classList.remove("show");
-            });
-          }
-
-          // Gắn sự kiện click cho các mục lọc
           filters.forEach((filter) => {
-            filter.addEventListener("click", function () {
-              // Xóa lớp active trên tất cả các mục lọc
+            filter.addEventListener("click", function() {
+              const filterStatus = filter.getAttribute("data-filter");
+              requestItems.forEach((item) => {
+                if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
+                  item.style.display = "flex";
+                } else {
+                  item.style.display = "none";
+                }
+              });
               filters.forEach((f) => f.classList.remove("filter-active"));
               filter.classList.add("filter-active");
-
-              // Lấy trạng thái tương ứng dựa trên text
-              const filterText = filter.textContent.trim();
-              if (filterText === "Tất cả") {
-                filterRequests("all");
-              } else if (filterText === "ĐANG XỬ LÝ") {
-                filterRequests("deployed");
-              } else if (filterText === "ĐÃ XỬ LÝ") {
-                filterRequests("completed");
-              } else if (filterText === "ĐÃ HỦY") {
-                filterRequests("canceled");
-              }
             });
           });
         });
-        const requestStatusData = {
-YC003: [
-  { time: "11/11/2024 09:36", status: "Tạo yêu cầu" },
-  { time: "11/11/2024 09:36", status: "Đã tiếp nhận yêu cầu" },
-  { time: "11/11/2024 09:40", status: "Xử lý hoàn tất" },
-],
-YC002: [
-  { time: "10/11/2024 08:20", status: "Tạo yêu cầu" },
-  { time: "10/11/2024 08:25", status: "Đã tiếp nhận yêu cầu" },
-  { time: "10/11/2024 08:40", status: "Xử lý hoàn tất" },
-],
-YC001: [
-  { time: "09/11/2024 10:00", status: "Tạo yêu cầu" },
-  { time: "09/11/2024 10:05", status: "Đã tiếp nhận yêu cầu" },
-  { time: "09/11/2024 10:30", status: "Xử lý hoàn tất" },
-],
-YC004: [
-  { time: "12/11/2024 11:00", status: "Tạo yêu cầu" },
-  { time: "12/11/2024 11:15", status: "Yêu cầu bị hủy" },
-],
-};
+      </script>
+    </section>
+    <!-- Modal trạng thái làm ngày 23/12 -->
+    <div id="modal-status" class="modal-request">
+      <div class="modal-content-request">
+        <span class="close-btn" onclick="closeForm()">×</span>
+        <h2>Trạng thái yêu cầu</h2>
+        <div id="status-timeline">
+          <!-- Nội dung các trạng thái sẽ được tạo động -->
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Lấy tất cả các mục lọc và các thẻ yêu cầu
+        const filters = document.querySelectorAll(".portfolio-filters li");
+        const requestItems = document.querySelectorAll(".request-item");
 
-// Mở modal và hiển thị trạng thái
-function viewRequestDetail(requestId) {
-const modal = document.getElementById("modal-status");
-const timeline = document.getElementById("status-timeline");
-const data = requestStatusData[requestId] || [];
+        // Hàm lọc yêu cầu với hiệu ứng đẩy lên trên
+        function filterRequests(status) {
+          const visibleItems = []; // Mảng chứa các thẻ yêu cầu phù hợp
+          const hiddenItems = []; // Mảng chứa các thẻ yêu cầu không phù hợp
 
-// Xóa nội dung cũ
-timeline.innerHTML = "";
+          // Phân loại các yêu cầu thành hiển thị và ẩn
+          requestItems.forEach((item) => {
+            const itemStatus = item.querySelector(".status").classList;
 
-// Tạo các trạng thái động
-data.forEach((item, index) => {
-  const isCompleted = index === data.length - 1 ? "completed" : "";
+            if (status === "all" || itemStatus.contains(status)) {
+              visibleItems.push(item); // Thêm vào mảng hiển thị
+            } else {
+              hiddenItems.push(item); // Thêm vào mảng ẩn
+            }
+          });
 
-  const statusItem = `
+          // Hiển thị các yêu cầu phù hợp
+          visibleItems.forEach((item) => {
+            item.style.display = "flex"; // Hiển thị
+            item.classList.add("show");
+            item.classList.remove("hide");
+          });
+
+          // Ẩn các yêu cầu không phù hợp
+          hiddenItems.forEach((item) => {
+            item.style.display = "none"; // Ẩn đi
+            item.classList.add("hide");
+            item.classList.remove("show");
+          });
+        }
+
+        // Gắn sự kiện click cho các mục lọc
+        filters.forEach((filter) => {
+          filter.addEventListener("click", function() {
+            // Xóa lớp active trên tất cả các mục lọc
+            filters.forEach((f) => f.classList.remove("filter-active"));
+            filter.classList.add("filter-active");
+
+            // Lấy trạng thái tương ứng dựa trên text
+            const filterText = filter.textContent.trim();
+            if (filterText === "Tất cả") {
+              filterRequests("all");
+            } else if (filterText === "ĐANG XỬ LÝ") {
+              filterRequests("deployed");
+            } else if (filterText === "ĐÃ XỬ LÝ") {
+              filterRequests("completed");
+            } else if (filterText === "ĐÃ HỦY") {
+              filterRequests("canceled");
+            }
+          });
+        });
+      });
+      const requestStatusData = {
+        YC003: [{
+            time: "11/11/2024 09:36",
+            status: "Tạo yêu cầu"
+          },
+          {
+            time: "11/11/2024 09:36",
+            status: "Đã tiếp nhận yêu cầu"
+          },
+          {
+            time: "11/11/2024 09:40",
+            status: "Xử lý hoàn tất"
+          },
+        ],
+        YC002: [{
+            time: "10/11/2024 08:20",
+            status: "Tạo yêu cầu"
+          },
+          {
+            time: "10/11/2024 08:25",
+            status: "Đã tiếp nhận yêu cầu"
+          },
+          {
+            time: "10/11/2024 08:40",
+            status: "Xử lý hoàn tất"
+          },
+        ],
+        YC001: [{
+            time: "09/11/2024 10:00",
+            status: "Tạo yêu cầu"
+          },
+          {
+            time: "09/11/2024 10:05",
+            status: "Đã tiếp nhận yêu cầu"
+          },
+          {
+            time: "09/11/2024 10:30",
+            status: "Xử lý hoàn tất"
+          },
+        ],
+        YC004: [{
+            time: "12/11/2024 11:00",
+            status: "Tạo yêu cầu"
+          },
+          {
+            time: "12/11/2024 11:15",
+            status: "Yêu cầu bị hủy"
+          },
+        ],
+      };
+
+      // Mở modal và hiển thị trạng thái
+      function viewRequestDetail(requestId) {
+        const modal = document.getElementById("modal-status");
+        const timeline = document.getElementById("status-timeline");
+        const data = requestStatusData[requestId] || [];
+
+        // Xóa nội dung cũ
+        timeline.innerHTML = "";
+
+        // Tạo các trạng thái động
+        data.forEach((item, index) => {
+          const isCompleted = index === data.length - 1 ? "completed" : "";
+
+          const statusItem = `
     <div class="status-item ${isCompleted}">
       <div class="circle"></div>
       <div class="line"></div>
       <span>${item.time} - ${item.status}</span>
     </div>
   `;
-  timeline.innerHTML += statusItem;
-});
+          timeline.innerHTML += statusItem;
+        });
 
-modal.style.display = "block"; // Hiển thị modal
-}
+        modal.style.display = "block"; // Hiển thị modal
+      }
 
-// Đóng modal
-function closeForm() {
-const modal = document.getElementById("modal-status");
-modal.style.display = "none";
-}
-
-      </script>
+      // Đóng modal
+      function closeForm() {
+        const modal = document.getElementById("modal-status");
+        modal.style.display = "none";
+      }
+    </script>
     </section>
 
     <!-- Contact Section -->
@@ -550,8 +767,8 @@ modal.style.display = "none";
       };
     </script>
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
-  <!-- Main JS File -->
-  <script src="guest/js/main.js"></script>
+    <!-- Main JS File -->
+    <script src="guest/js/main.js"></script>
 
 </body>
 
