@@ -84,7 +84,7 @@ h1 {
 }
 .add-department-btn,
 .cancel-btn {
-    padding: 12px 24px;
+    padding: 18px 24px;
     border-radius: 8px;
     text-decoration: none;
     text-align: center;
@@ -100,8 +100,8 @@ h1 {
     border: 1px solid #FF9700;
     background-color: #FF9700; /* Màu cam lá */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
-    width: 150px; /* Chiều rộng nút */
-    height: 50px; /* Chiều cao nút */
+    width: 15%;
+    height: 60px;
 }
 
 .add-department-btn:hover {
@@ -115,8 +115,8 @@ h1 {
     background-color: #a7b1c2; /* Màu nền xám */
     color: white;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
-    width: 150px; /* Chiều rộng nút */
-    height: 50px; /* Chiều cao nút */
+    width: 15%;
+    height: 60px;
     margin-left: 40px;
 }
 
@@ -150,22 +150,48 @@ input:invalid {
 .error.visible {
     visibility: visible; /* Hiển thị thông báo lỗi khi có lỗi */
 }
-@media (max-width: 425px) {
+@media (max-width: 426px) {
     .form-group-row {
-        flex-direction: column; /* Chuyển đổi thành dọc */
+        flex-direction: column; /* Chuyển đổi sang xếp dọc */
+        gap: 0px;
     }
 
     .form-group-row .form-group {
         width: 100%; /* Chiếm 100% chiều rộng */
     }
+    .add-department-btn {
+        width: 100%;
+        height: 0%;
+        font-size: 12px;
+    }
+    .cancel-btn {
+        width: 100%;
+        height: 0%;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
 }
-@media (max-width: 375px) {
+
+@media (max-width: 376px) {
     .form-group-row {
-        flex-direction: column;
+        flex-direction: column; /* Chuyển đổi sang xếp dọc */
     }
 
     .form-group-row .form-group {
+        width: 100%; /* Chiếm 100% chiều rộng */
+    }
+    .add-department-btn {
         width: 100%;
+        height: 0%;
+        font-size: 12px;
+    }
+    .cancel-btn {
+        width: 100%;
+        height: 0%;
+        font-size: 12px;
+        margin-left: 10px;
     }
 }
+
 
