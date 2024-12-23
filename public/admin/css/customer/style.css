@@ -430,16 +430,19 @@ tr:nth-child(even) td {
 }
 /* Media queries cho màn hình dưới 426px */
 @media (max-width: 426px) {
+    h1 {
+        font-size: 26px;
+    }
     .top-bar {
         flex-direction: column; /* Chuyển từ hàng sang cột */
         align-items: flex-start; /* Căn trái các phần tử trong top-bar */
     }
 
     .add-customer-btn {
-        width: 25%; /* Chiếm toàn bộ chiều ngang */
+        width: 25%;
         padding: 8px;
         font-size: 12px;
-        margin-bottom: 10px; /* Khoảng cách giữa các phần tử */
+        margin-bottom: 10px;
     }
 
     .search-container {
@@ -451,15 +454,14 @@ tr:nth-child(even) td {
     }
 
     .search-container input[type="text"] {
-        width: 82%; /* Chiếm toàn bộ chiều ngang */
+        width: 79%;
         font-size: 12px;
         padding: 8px;
         margin-right: 212px;
-
     }
 
     .search-container button {
-        width: 20%; /* Chiếm toàn bộ chiều ngang */
+        width: 23%;
         padding: 8px;
         font-size: 12px;
         margin-right: 0px;
@@ -470,7 +472,7 @@ tr:nth-child(even) td {
         padding: 8px;
         margin-bottom: 50px;
         margin-top: -89px;
-        margin-left: 277px;
+        margin-left: 219px;
         margin-right: 0px;
     }
     .show-users-btn .badge {

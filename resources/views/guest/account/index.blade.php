@@ -7,6 +7,7 @@
   <title>Tài khoản</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link
@@ -43,13 +44,6 @@
       <h1 class="sitename">{{$logged_user->full_name}}</h1>
     </a>
 
-    <div class="social-links">
-      <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-      <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-      <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-      <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
-      <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-    </div>
 
     <nav id="navmenu" class="navmenu">
       <ul>
@@ -376,6 +370,131 @@
               });
           </script>
       </section>
+      <!-- Modal trạng thái làm ngày 23/12 -->
+      <div id="modal-status" class="modal-request">
+        <div class="modal-content-request">
+          <span class="close-btn" onclick="closeModal()">×</span>
+          <h2>Trạng thái yêu cầu</h2>
+          <div id="status-timeline">
+            <!-- Nội dung các trạng thái sẽ được tạo động -->
+          </div>
+        </div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Lấy tất cả các mục lọc và các thẻ yêu cầu
+          const filters = document.querySelectorAll(".portfolio-filters li");
+          const requestItems = document.querySelectorAll(".request-item");
+
+          // Hàm lọc yêu cầu với hiệu ứng đẩy lên trên
+          function filterRequests(status) {
+            const visibleItems = []; // Mảng chứa các thẻ yêu cầu phù hợp
+            const hiddenItems = []; // Mảng chứa các thẻ yêu cầu không phù hợp
+
+            // Phân loại các yêu cầu thành hiển thị và ẩn
+            requestItems.forEach((item) => {
+              const itemStatus = item.querySelector(".status").classList;
+
+              if (status === "all" || itemStatus.contains(status)) {
+                visibleItems.push(item); // Thêm vào mảng hiển thị
+              } else {
+                hiddenItems.push(item); // Thêm vào mảng ẩn
+              }
+            });
+
+            // Hiển thị các yêu cầu phù hợp
+            visibleItems.forEach((item) => {
+              item.style.display = "flex"; // Hiển thị
+              item.classList.add("show");
+              item.classList.remove("hide");
+            });
+
+            // Ẩn các yêu cầu không phù hợp
+            hiddenItems.forEach((item) => {
+              item.style.display = "none"; // Ẩn đi
+              item.classList.add("hide");
+              item.classList.remove("show");
+            });
+          }
+
+          // Gắn sự kiện click cho các mục lọc
+          filters.forEach((filter) => {
+            filter.addEventListener("click", function () {
+              // Xóa lớp active trên tất cả các mục lọc
+              filters.forEach((f) => f.classList.remove("filter-active"));
+              filter.classList.add("filter-active");
+
+              // Lấy trạng thái tương ứng dựa trên text
+              const filterText = filter.textContent.trim();
+              if (filterText === "Tất cả") {
+                filterRequests("all");
+              } else if (filterText === "ĐANG XỬ LÝ") {
+                filterRequests("deployed");
+              } else if (filterText === "ĐÃ XỬ LÝ") {
+                filterRequests("completed");
+              } else if (filterText === "ĐÃ HỦY") {
+                filterRequests("canceled");
+              }
+            });
+          });
+        });
+        const requestStatusData = {
+YC003: [
+  { time: "11/11/2024 09:36", status: "Tạo yêu cầu" },
+  { time: "11/11/2024 09:36", status: "Đã tiếp nhận yêu cầu" },
+  { time: "11/11/2024 09:40", status: "Xử lý hoàn tất" },
+],
+YC002: [
+  { time: "10/11/2024 08:20", status: "Tạo yêu cầu" },
+  { time: "10/11/2024 08:25", status: "Đã tiếp nhận yêu cầu" },
+  { time: "10/11/2024 08:40", status: "Xử lý hoàn tất" },
+],
+YC001: [
+  { time: "09/11/2024 10:00", status: "Tạo yêu cầu" },
+  { time: "09/11/2024 10:05", status: "Đã tiếp nhận yêu cầu" },
+  { time: "09/11/2024 10:30", status: "Xử lý hoàn tất" },
+],
+YC004: [
+  { time: "12/11/2024 11:00", status: "Tạo yêu cầu" },
+  { time: "12/11/2024 11:15", status: "Yêu cầu bị hủy" },
+],
+};
+
+// Mở modal và hiển thị trạng thái
+function viewRequestDetail(requestId) {
+const modal = document.getElementById("modal-status");
+const timeline = document.getElementById("status-timeline");
+const data = requestStatusData[requestId] || [];
+
+// Xóa nội dung cũ
+timeline.innerHTML = "";
+
+// Tạo các trạng thái động
+data.forEach((item, index) => {
+  const isCompleted = index === data.length - 1 ? "completed" : "";
+
+  const statusItem = `
+    <div class="status-item ${isCompleted}">
+      <div class="circle"></div>
+      <div class="line"></div>
+      <span>${item.time} - ${item.status}</span>
+    </div>
+  `;
+  timeline.innerHTML += statusItem;
+});
+
+modal.style.display = "block"; // Hiển thị modal
+}
+
+// Đóng modal
+function closeModal() {
+const modal = document.getElementById("modal-status");
+modal.style.display = "none";
+}
+
+      </script>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact section">
       <div class="container section-title" data-aos="fade-up">
@@ -420,13 +539,45 @@
         modalSwitch.style.display = 'none';
       };
 
-      // Đóng modal-setting khi nhấn bên ngoài
-      window.onclick = (event) => {
-        if (event.target === modalDelete) {
-          modalDelete.style.display = 'none';
-        }
-        if (event.target === modalSwitch) {
-          modalSwitch.style.display = 'none';
-        }
+      // // Đóng modal-setting khi nhấn bên ngoài
+      // window.onclick = (event) => {
+      //   if (event.target === modalDelete) {
+      //     modalDelete.style.display = 'none';
+      //   }
+      //   if (event.target === modalSwitch) {
+      //     modalSwitch.style.display = 'none';
+      //   }
       };
     </script>
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
+  <!-- Main JS File -->
+  <script src="guest/js/main.js"></script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const menuItems = document.querySelectorAll("#navmenu ul li a");
+
+    menuItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        // Loại bỏ lớp 'active' khỏi tất cả các mục menu
+        menuItems.forEach((link) => link.classList.remove("active"));
+
+        // Thêm lớp 'active' vào mục menu được nhấn
+        this.classList.add("active");
+      });
+    });
+
+    // Gán active dựa trên vị trí trang khi load
+    const currentLocation = window.location.href;
+    menuItems.forEach((link) => {
+      if (link.href === currentLocation) {
+        link.classList.add("active");
+      }
+    });
+  });
+
+  </script>
+</body>
+
+</html>
