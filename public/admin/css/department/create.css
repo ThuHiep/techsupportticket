@@ -151,6 +151,9 @@ input:invalid {
     visibility: visible; /* Hiển thị thông báo lỗi khi có lỗi */
 }
 @media (max-width: 426px) {
+    h1{
+        font-size: 23px;
+    }
     .form-group-row {
         flex-direction: column; /* Chuyển đổi sang xếp dọc */
         gap: 0px;
@@ -174,6 +177,9 @@ input:invalid {
 }
 
 @media (max-width: 376px) {
+    h1{
+        font-size: 21px;
+    }
     .form-group-row {
         flex-direction: column; /* Chuyển đổi sang xếp dọc */
     }
