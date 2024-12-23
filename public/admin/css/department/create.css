@@ -150,3 +150,22 @@ input:invalid {
 .error.visible {
     visibility: visible; /* Hiển thị thông báo lỗi khi có lỗi */
 }
+@media (max-width: 425px) {
+    .form-group-row {
+        flex-direction: column; /* Chuyển đổi thành dọc */
+    }
+
+    .form-group-row .form-group {
+        width: 100%; /* Chiếm 100% chiều rộng */
+    }
+}
+@media (max-width: 375px) {
+    .form-group-row {
+        flex-direction: column;
+    }
+
+    .form-group-row .form-group {
+        width: 100%;
+    }
+}
+
