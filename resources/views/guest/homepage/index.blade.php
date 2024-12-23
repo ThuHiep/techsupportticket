@@ -89,13 +89,11 @@
         </div>
     </div>
 
-
-
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
 
-            <ul class="faq-list">
+            {{-- <ul class="faq-list">
                 @forelse ($faqs as $faq)
                     <li>
                         <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
@@ -103,7 +101,20 @@
                 @empty
                     <li>Không có câu hỏi nào được phản hồi.</li>
                 @endforelse
+            </ul> --}}
+            <ul class="faq-list">
+                @forelse ($faqs as $faq)
+                    <li class="faq-item">
+                        <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
+                    </li>
+                @empty
+                    <li>Không có câu hỏi nào được phản hồi.</li>
+                @endforelse
             </ul>
+            
+            
+            
+            
             <div id="faq-answer-container" style="display: none;">
                 <h3>Trả lời:</h3><p id="faq-answer"></p>
             </div>
@@ -276,8 +287,6 @@
         });
 
 
-
-
         // Đóng modal khi click vào nút đóng
         closeModal.addEventListener("click", function () {
             modal.style.display = "none";
@@ -292,13 +301,6 @@
     });
 
     </script>
-
-
-
-
-
-
-
 
     <!-- Script -->
     
@@ -471,7 +473,51 @@
 
 
     
-
+<button id="toggle-button" class="toggle-button">Xem thêm</button>
+            
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const faqList = document.querySelector(".faq-list");
+                    const faqItems = document.querySelectorAll(".faq-item");
+                    const toggleButton = document.getElementById("toggle-button");
+            
+                    const MAX_VISIBLE_ITEMS = 8;
+            
+                    // Hiển thị hoặc ẩn nút "Xem thêm"
+                    if (faqItems.length > MAX_VISIBLE_ITEMS) {
+                        toggleButton.style.display = "block";
+                        faqItems.forEach((item, index) => {
+                            if (index >= MAX_VISIBLE_ITEMS) {
+                                item.style.display = "none"; // Ẩn các mục vượt quá giới hạn
+                            }
+                        });
+                    }
+            
+                    // Xử lý sự kiện khi nhấn nút "Xem thêm"
+                    toggleButton.addEventListener("click", function () {
+                        const isExpanded = toggleButton.getAttribute("data-expanded") === "true";
+            
+                        if (isExpanded) {
+                            // Thu gọn danh sách
+                            faqItems.forEach((item, index) => {
+                                if (index >= MAX_VISIBLE_ITEMS) {
+                                    item.style.display = "none";
+                                }
+                            });
+                            toggleButton.textContent = "Xem thêm";
+                            toggleButton.setAttribute("data-expanded", "false");
+                        } else {
+                            // Mở rộng danh sách
+                            faqItems.forEach(item => {
+                                item.style.display = "list-item";
+                            });
+                            toggleButton.textContent = "Thu gọn";
+                            toggleButton.setAttribute("data-expanded", "true");
+                        }
+                    });
+                });
+            </script>
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
     <div class="carousel-container" id="ins">
         <div class="instructions">Hướng dẫn</div>
@@ -608,6 +654,7 @@
             const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
             document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
         });
+
     </script>
 
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">

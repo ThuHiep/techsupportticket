@@ -162,6 +162,7 @@ table {
 }
 
 th, td {
+    max-width: 270px;
     padding: 10px; /* Điều chỉnh kích thước padding để giảm khoảng trống */
     text-align: center; /* Căn trái thay vì căn giữa */
     vertical-align: middle;
