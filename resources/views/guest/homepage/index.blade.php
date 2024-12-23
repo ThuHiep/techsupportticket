@@ -654,6 +654,7 @@
             const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
             document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
         });
+
     </script>
 
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
