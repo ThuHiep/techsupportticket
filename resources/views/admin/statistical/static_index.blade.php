@@ -35,6 +35,10 @@
             background-color: #007BFF;
             color: white;
         }
+        select {
+            margin-left: 10px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -46,11 +50,9 @@
     <button class="btn" data-label="Tuần">Tuần</button>
     <button class="btn" data-label="Tháng">Tháng</button>
     <button class="btn" data-label="Năm">Năm</button>
-    <button class="btn" data-label="Phòng ban">Phòng ban</button>
     <button class="btn" data-label="Loại yêu cầu">Loại yêu cầu</button>
+    <select id="selectedDepartmentFilter"></select>
 </div>
-<select id="selectedDepartment"></select>
-<select id="selectedRequestType"></select>
 
 <div id="date-picker" style="display: none;">
     <input type="date" id="selectedDate" />
@@ -76,6 +78,7 @@
     const departments = @json($departments);
     const requestTypes = @json($requestTypes);
     const timeData = @json($timeData);
+
     const datasets = {
         'Đang xử lý': {
             label: 'Đang xử lý',
@@ -131,45 +134,35 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize with today's date
         const today = new Date();
-        const formattedDate = today.toISOString().split('T')[0]; // Format for input
+        const formattedDate = today.toISOString().split('T')[0];
         document.getElementById('selectedDate').value = formattedDate;
 
-        // Populate options and set current values
         populateWeekOptions();
         setCurrentWeek();
         populateMonthOptions();
-        document.getElementById('selectedMonth').value = today.getMonth() + 1; // Months are 0-based
+        document.getElementById('selectedMonth').value = today.getMonth() + 1;
         populateYearOptions();
         document.getElementById('selectedYear').value = today.getFullYear();
 
-        // Initialize with default time period
+        populateDepartmentOptions(); // Populate department options
         updateChart('Ngày');
 
-        // Add event listeners
         addEventListeners();
     });
 
     function addEventListeners() {
-        // Add change listeners to the select elements
         const selectedDate = document.getElementById('selectedDate');
         const selectedWeek = document.getElementById('selectedWeek');
         const selectedMonth = document.getElementById('selectedMonth');
         const selectedYear = document.getElementById('selectedYear');
+        const selectedDepartmentFilter = document.getElementById('selectedDepartmentFilter');
 
-        if (selectedDate) {
-            selectedDate.addEventListener('change', () => updateChartData('Ngày'));
-        }
-        if (selectedWeek) {
-            selectedWeek.addEventListener('change', () => updateChartData('Tuần'));
-        }
-        if (selectedMonth) {
-            selectedMonth.addEventListener('change', () => updateChartData('Tháng'));
-        }
-        if (selectedYear) {
-            selectedYear.addEventListener('change', () => updateChartData('Năm'));
-        }
+        selectedDate.addEventListener('change', () => updateChartData('Ngày'));
+        selectedWeek.addEventListener('change', () => updateChartData('Tuần'));
+        selectedMonth.addEventListener('change', () => updateChartData('Tháng'));
+        selectedYear.addEventListener('change', () => updateChartData('Năm'));
+        selectedDepartmentFilter.addEventListener('change', () => updateChartData(document.querySelector('.btn.active').getAttribute('data-label')));
 
         document.querySelectorAll('.btn').forEach(button => {
             button.addEventListener('click', () => {
@@ -181,12 +174,10 @@
         });
     }
 
-    // The rest of your functions...
-
     function setCurrentWeek() {
         const weekSelect = document.getElementById('selectedWeek');
         const currentWeek = getWeekNumber(new Date());
-        weekSelect.value = currentWeek; // Set the current week
+        weekSelect.value = currentWeek;
     }
 
     function getWeekNumber(d) {
@@ -196,13 +187,11 @@
     }
 
     function updateChart(timePeriod) {
-        // Hide all pickers initially
         document.getElementById('date-picker').style.display = 'none';
         document.getElementById('week-picker').style.display = 'none';
         document.getElementById('month-picker').style.display = 'none';
         document.getElementById('year-picker').style.display = 'none';
 
-        // Show the relevant picker based on the selected time period
         if (timePeriod === 'Ngày') {
             document.getElementById('date-picker').style.display = 'block';
         } else if (timePeriod === 'Tuần') {
@@ -211,16 +200,17 @@
             document.getElementById('month-picker').style.display = 'block';
         } else if (timePeriod === 'Năm') {
             document.getElementById('year-picker').style.display = 'block';
+        } else if (timePeriod === 'Phòng ban') {
+            populateDepartmentOptions();
         }
 
-        // Automatically update the chart data based on the current selection
         updateChartData(timePeriod);
     }
 
     function updateChartData(timePeriod) {
         let selectedData;
-        const selectedDepartment = document.getElementById('selectedDepartment').value;
-        const selectedRequestType = document.getElementById('selectedRequestType').value;
+        const selectedDepartment = document.getElementById('selectedDepartmentFilter').value;
+
         if (timePeriod === 'Ngày') {
             const selectedDate = document.getElementById('selectedDate').value;
             selectedData = timeData['Ngày'].filter(item => item.period === selectedDate);
@@ -233,9 +223,9 @@
         } else if (timePeriod === 'Năm') {
             const selectedYear = document.getElementById('selectedYear').value;
             selectedData = timeData['Năm'].filter(item => item.period == selectedYear);
+        } else if (timePeriod === 'Phòng ban') {
+            selectedData = timeData['Phòng ban'].filter(item => item.departmentId == selectedDepartment);
         }
-
-        // Check if data is available for the selected period
         if (selectedData && selectedData.length > 0) {
             combinedChart.data.labels = [selectedData[0].period]; // Adjust as needed
             Object.keys(datasets).forEach(status => {
@@ -243,7 +233,6 @@
             });
             combinedChart.update();
         } else {
-            // Only show alert if no data is found
             if (timePeriod === 'Tuần') {
                 console.warn('Tuần đã chọn không có dữ liệu, nhưng vẫn hiển thị biểu đồ.');
             } else {
@@ -302,25 +291,21 @@
     }
 
     function populateDepartmentOptions() {
-        const departmentSelect = document.getElementById('selectedDepartment');
+        const departmentSelect = document.getElementById('selectedDepartmentFilter');
         departmentSelect.innerHTML = '';
-        departments.forEach(department => {
-            const option = document.createElement('option');
-            option.value = department.id;
-            option.textContent = department.name;
-            departmentSelect.appendChild(option);
-        });
-    }
 
-    function populateRequestTypeOptions() {
-        const requestTypeSelect = document.getElementById('selectedRequestType');
-        requestTypeSelect.innerHTML = '';
-        requestTypes.forEach(requestType => {
+        if (departments && departments.length > 0) {
+            departments.forEach(department => {
+                const option = document.createElement('option');
+                option.value = department.department_id;
+                option.textContent = department.department_name;
+                departmentSelect.appendChild(option);
+            });
+        } else {
             const option = document.createElement('option');
-            option.value = requestType.id;
-            option.textContent = requestType.name;
-            requestTypeSelect.appendChild(option);
-        });
+            option.textContent = 'Không có phòng ban nào';
+            departmentSelect.appendChild(option);
+        }
     }
 </script>
 

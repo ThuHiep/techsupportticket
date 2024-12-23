@@ -13,40 +13,22 @@ class FaqFeedback extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $message;
+    public $question;
+    public $answer;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($message)
+    public function __construct($question, $answer)
     {
-        $this->message = $message;
+        $this->question = $question;
+        $this->answer = $answer;
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope()
+    public function build()
     {
-        return (new Envelope)
-            ->subject('FAQ Feedback Notification');
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content()
-    {
-        return (new Content)
+        return $this->subject('Your FAQ Submission')
             ->view('emails.faq_feedback')
-            ->with(['message' => $this->message]);
-    }
-
-    /**
-     * Get the attachments for the message.
-     */
-    public function attachments(): array
-    {
-        return [];
+            ->with([
+                'question' => $this->question,
+                'answer' => $this->answer,
+            ]);
     }
 }

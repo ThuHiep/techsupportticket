@@ -99,7 +99,10 @@ class FaqController extends Controller
         $faq->create_at = now();
         $faq->save();
 
-        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được thêm thành công!');
+        // Send email
+        Mail::to($request->input('email'))->send(new FaqFeedback($faq->question, $faq->answer));
+
+        return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được thêm thành công và email đã được gửi!');
     }
 
     public function feedback($faq_id)
@@ -125,21 +128,11 @@ class FaqController extends Controller
         $faq->answer = $request->input('answer');
         $faq->status = 'Đã phản hồi';
         $faq->save();
-        // Send the notification email
-        $recipientEmail = $logged_user->user->email; // Assuming the user's email is stored here
-        $notificationMessage = "Câu hỏi của bạn đã được phản hồi!";
-        Mail::to($recipientEmail)->send(new FaqFeedback($notificationMessage));
+
+        Mail::to($request->input('email'))->send(new FaqFeedback($faq->question, $faq->answer));
 
         return redirect()->route('faq.index')->with('success', 'Câu hỏi đã được phản hồi!');
         // Gửi email thông báo
-        try {
-            Mail::to($faq->email)->send(new Faq);
-            return redirect()->route('customer.index')
-                ->with('success', 'Khách hàng đã được cập nhật thành công và email thông báo đã được gửi!');
-        } catch (\Exception $e) {
-            return redirect()->route('customer.index')
-                ->with('error', 'Khách hàng đã được cập nhật, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());
-        }
     }
 
     public function destroy($faq_id)

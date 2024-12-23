@@ -14,12 +14,10 @@ class StatisticalController extends Controller
     public function index(HttpRequest $request)
     {
         // Fetch all departments
-        $departments = Department::all();
-        \Log::info('Departments:', $departments->toArray());
+        $departments = Department::all(['department_id', 'department_name']);
 
         // Fetch all request types
-        $requestTypes = RequestType::all();
-        \Log::info('Request Types:', $requestTypes->toArray());
+        $requestTypes = RequestType::all(['request_type_id', 'request_type_name']);
 
         // Initialize an array to hold department data
         $departmentData = [];
