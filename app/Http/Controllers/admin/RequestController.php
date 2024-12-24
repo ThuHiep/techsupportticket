@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\RequestType;
+use App\Models\RequestHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -173,10 +174,9 @@ class RequestController extends Controller
             'subject' => 'required|max:255',
             'description' => 'required',
             'create_at' => 'required|date',
-            // Loại bỏ 'status' khỏi validation
-            // Loại bỏ 'resolved_at' khỏi validation vì đã loại bỏ trường từ form
         ]);
 
+        // Lưu yêu cầu mới
         SupportRequest::create([
             'request_id' => $request->input('request_id'),
             'customer_id' => $request->input('customer_id'),
@@ -185,15 +185,29 @@ class RequestController extends Controller
             'subject' => $request->input('subject'),
             'description' => $request->input('description'),
             'create_at' => $request->input('create_at'),
-            'resolved_at' => null, // Đặt mặc định là null
-            'status' => 'Chưa xử lý', // Đặt mặc định là "Chưa xử lý"
+            'resolved_at' => null,
+            'status' => 'Chưa xử lý',
+        ]);
+
+        // Lấy thông tin người tạo (admin)
+        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+
+        // Tạo history_id thủ công
+        $historyId = RequestHistory::generateHistoryId();
+
+        // Tạo bản ghi lịch sử đầu tiên
+        RequestHistory::create([
+            'history_id' => $historyId, // Gán thủ công
+            'request_id' => $request->input('request_id'),
+            'changed_by' => $logged_user->employee_id,
+            'old_status' => null,
+            'new_status' => 'Chưa xử lý',
+            'note' => 'Tạo yêu cầu',
+            'changed_at' => now(),
         ]);
 
         return redirect()->route('request.index')->with('success', 'Yêu cầu đã được thêm thành công!');
     }
-
-
-
 
     /**
      * Hiển thị form chỉnh sửa yêu cầu
@@ -232,6 +246,10 @@ class RequestController extends Controller
             'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960', // 40 MB
         ]);
 
+        // Lưu trạng thái cũ để tạo lịch sử
+        $oldStatus = $supportRequest->status;
+        $newStatus = $request->input('status');
+
         // Cập nhật thông tin yêu cầu
         $supportRequest->update([
             'customer_id' => $request->input('customer_id'),
@@ -240,9 +258,24 @@ class RequestController extends Controller
             'subject' => $request->input('subject'),
             'description' => $request->input('description'),
             'create_at' => $request->input('create_at'),
-            'resolved_at' => $request->input('resolved_at'),
-            'status' => $request->input('status'),
+            'resolved_at' => $newStatus === 'Hoàn thành' ? now() : $supportRequest->resolved_at,
+            'status' => $newStatus,
         ]);
+
+        // Lấy thông tin người cập nhật (admin)
+        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+
+        // Tạo bản ghi lịch sử mới nếu trạng thái thay đổi
+        if ($oldStatus !== $newStatus) {
+            RequestHistory::create([
+                'request_id' => $request_id,
+                'changed_by' => $logged_user->employee_id,
+                'old_status' => $oldStatus,
+                'new_status' => $newStatus,
+                'note' => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
+                'changed_at' => now(),
+            ]);
+        }
 
         // Xử lý file đính kèm mới hoặc cập nhật file đính kèm hiện tại
         if ($request->hasFile('attachments')) {
@@ -274,6 +307,7 @@ class RequestController extends Controller
 
         return redirect()->route('request.index')->with('success', 'Thông tin yêu cầu đã được cập nhật!');
     }
+
 
 
 

@@ -9,10 +9,23 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Request as SupportRequest;
 use App\Models\RequestType;
 use App\Models\Attachment;
+use App\Models\RequestHistory;
+
 use Carbon\Carbon;
 
 class GuestRequestController extends Controller
 {
+
+
+    public function getRequestStatus($requestId)
+    {
+        $history = RequestHistory::where('request_id', $requestId)
+            ->orderBy('changed_at', 'asc')
+            ->get(['changed_at as time', 'new_status as status']);
+
+        return response()->json($history);
+    }
+
     public function store(Request $request)
     {
         // Validate dữ liệu form
@@ -61,6 +74,7 @@ class GuestRequestController extends Controller
                 'status' => 'Chưa xử lý',
             ]);
 
+
             // Xử lý file đính kèm nếu có
             if ($files && isset($files[$index])) {
                 $file = $files[$index];
@@ -82,5 +96,6 @@ class GuestRequestController extends Controller
         // Redirect về form với thông báo thành công
         return redirect()->route('showFormRequest')->with('success', 'Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ lại sớm nhất!');
     }
+
 }
 
