@@ -29,6 +29,6 @@ class RequestType extends Model
     public $timestamps = false;
     public function requests()
     {
-        return $this->hasMany(Request::class, 'request_type_id'); // Giả sử 'request_type_id' là khóa ngoại trong bảng 'requests'
+        return $this->hasMany(Request::class, 'request_type_id','request_type_id'); // Giả sử 'request_type_id' là khóa ngoại trong bảng 'requests'
     }
 }

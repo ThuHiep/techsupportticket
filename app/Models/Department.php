@@ -41,6 +41,6 @@ class Department extends Model
     }
     public function requests()
     {
-        return $this->hasMany(Request::class, 'department_id'); // Adjust 'department_id' if your foreign key is named differently
+        return $this->hasMany(Request::class, 'department_id','department_id'); // Adjust 'department_id' if your foreign key is named differently
     }
 }
