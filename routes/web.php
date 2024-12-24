@@ -194,3 +194,7 @@ Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->mid
 
 // Route để xử lý lưu yêu cầu
 Route::post('/pend-request/store', [GuestRequestController::class, 'store'])->middleware('customer')->name('guest.request.store');
+// Route để lấy trạng thái yêu cầu
+Route::get('/api/request-status/{requestId}', [GuestRequestController::class, 'getRequestStatus'])
+    ->middleware('auth') // Hoặc middleware phù hợp
+    ->name('api.requestStatus');
