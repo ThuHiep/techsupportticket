@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FAQ Response</title>
+    <title>Câu hỏi thường gặp</title>
 </head>
 <body>
-<h1>Thank you for your question!</h1>
-<p><strong>Your Question:</strong> {{ $question }}</p>
-<p><strong>Our Response:</strong> {{ $answer }}</p>
-<p>We appreciate your inquiry.</p>
+<h1>Cảm ơn câu hỏi của bạn!</h1>
+<p><strong>Câu hỏi:</strong> {{ $question }}</p>
+<p><strong>Câu trả lời:</strong> {{ $answer }}</p>
 </body>
 </html>

@@ -84,6 +84,7 @@ Route::name('customer.')->group(function () {
 Route::name('employee.')->group(function () {
     Route::get('/employee/editProfile', [EmployeeController::class, 'editProfile'])->middleware('customersp')->name('editProfile');
     Route::put('/employee/updateProfile', [EmployeeController::class, 'updateProfile'])->middleware('customersp')->name('updateProfile');
+    Route::put('/employee/changePass', [EmployeeController::class, 'changePass'])->middleware('customersp')->name('changePass');
 });
 
 //Permission
@@ -121,8 +122,6 @@ Route::name('request.')->group(function () {
 
 
     Route::get('/request/pendingByDate', [RequestController::class, 'getPendingRequestsByDate'])->name('pendingByDate');
-
-
 });
 
 // Route để tải file đính kèm
@@ -171,8 +170,6 @@ Route::name('faq.')->group(function () {
     Route::get('/faq/answer/{faq_id}', [FaqController::class, 'getAnswer'])->name('faq.answer');
 
     Route::post('/faq/store', [FaqController::class, 'storeAjax'])->name('faq.storeAjax');
-
-
 });
 
 // Article Routes
@@ -184,15 +181,12 @@ Route::name('articles.')->group(function () {
     Route::post('/articles/store', [ArticlesController::class, 'store'])->middleware('customersp')->name('store');
 
     Route::delete('/articles/delete/{faq_id}', [ArticlesController::class, 'destroy'])->middleware('customersp')->name('delete');
-
-
-
-
 });
 
 
 //Account
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
+Route::put('guest/changePass', [UserController::class, 'changePass'])->middleware('customer')->name('account.changePass');
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
 
 // Route để hiển thị form
@@ -200,4 +194,3 @@ Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->mid
 
 // Route để xử lý lưu yêu cầu
 Route::post('/pend-request/store', [GuestRequestController::class, 'store'])->middleware('customer')->name('guest.request.store');
-
