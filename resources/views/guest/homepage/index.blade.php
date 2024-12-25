@@ -404,7 +404,6 @@
             modal.style.display = "none";
         }
         });
-        });
     </script>
 
     <!-- Script -->
@@ -631,7 +630,7 @@
 
                 <h3 class="article-title">{{ $article->title }}</h3>
                 <div class="article-details" style="display: none;">
-                    <p class="article-content">{{ $article->content }}</p>
+                    <p class="article-content">{{$article->content }}</p>
                     <p class="article-date">Ngày đăng: {{ \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') }}</p>
                 </div>
             </div>
@@ -643,7 +642,6 @@
         </div>
     </div>
 
-    <!-- Modal để hiển thị thông tin chi tiết -->
     <!-- Modal Overlay -->
     <div id="huongdanModalOverlay" class="huongdan-modal-overlay" onclick="closeHuongdanModal()"></div>
     <div id="huongdanArticleModal" class="huongdan-modal">
@@ -656,23 +654,34 @@
 
     <script>
         // Hàm mở Modal khi click vào card
+        function openHuongdanModal(cardElement, title, content, date) {
+            document.getElementById('huongdanModalTitle').innerText = title;
+            document.getElementById('huongdanModalContent').innerHTML = content; // Sử dụng innerHTML
+            document.getElementById('huongdanModalDate').innerText = date;
+
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "block";
+
+            const overlay = document.getElementById('huongdanModalOverlay');
+            overlay.style.display = "block";
+        }
         // Hàm mở Modal khi click vào card
         function openHuongdanModal(cardElement) {
             const title = cardElement.querySelector('.article-title').innerText;
             const content = cardElement.querySelector('.article-details .article-content').innerText;
             const date = cardElement.querySelector('.article-details .article-date').innerText;
             const images = cardElement.querySelector('img').src;
-
+        
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerText = content;
             document.getElementById('huongdanModalDate').innerText = date;
-
+        
             const modalImage = document.getElementById('huongdanModalImage');
             modalImage.src = images;
-
+        
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
-
+        
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
         }

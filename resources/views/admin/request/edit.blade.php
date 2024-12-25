@@ -168,6 +168,41 @@
                     </div>
                 </div>
             </form>
+            <!-- Phần Lịch Sử Yêu Cầu -->
+            <div class="history-container">
+                <h2>Lịch sử trạng thái yêu cầu</h2>
+                @if($supportRequest->history->count() > 0)
+                    <table class="history-table">
+                        <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                            <th>Người thay đổi</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($supportRequest->history as $history)
+                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($history->changed_at)->format('d/m/Y H:i') }}</td>
+                                <td>{{ $history->new_status }}</td>
+                                <td>
+                                    @if($history->changed_by)
+                                        {{ $history->employee->full_name ?? 'N/A' }}
+                                    @else
+                                        Hệ thống
+                                    @endif
+                                </td>
+                                <td>{{ $history->note }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p>Không có lịch sử trạng thái nào để hiển thị.</p>
+                @endif
+            </div>
+
         </div>
     </div>
 </body>
