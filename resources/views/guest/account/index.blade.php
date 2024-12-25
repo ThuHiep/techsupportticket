@@ -550,6 +550,7 @@
                       return response.json();
                   })
                   .then(data => {
+                      console.log("Fetched request status:", data); // Debug log
                       return data;
                   })
                   .catch(error => {
@@ -563,17 +564,19 @@
               const timeline = document.getElementById("status-timeline");
               timeline.innerHTML = ""; // Xóa nội dung trước đó
 
+              console.log("Rendering request status:", data); // Debug log
+
               // Tạo các trạng thái động
               data.forEach((item, index) => {
                   const isCompleted = index === data.length - 1 ? "completed" : "";
 
                   const statusItem = `
-        <div class="status-item ${isCompleted}">
-          <div class="circle"></div>
-          <div class="line"></div>
-          <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
-        </div>
-      `;
+                <div class="status-item ${isCompleted}">
+                    <div class="circle"></div>
+                    <div class="line"></div>
+                    <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
+                </div>
+            `;
                   timeline.innerHTML += statusItem;
               });
 
@@ -629,10 +632,6 @@
               });
           });
       </script>
-
-
-
-
 
       <!-- Contact Section -->
     <section id="contact" class="contact section">
