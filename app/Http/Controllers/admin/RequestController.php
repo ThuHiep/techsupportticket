@@ -25,12 +25,15 @@ class RequestController extends Controller
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
         // Lấy các input từ request
-        $subject = $request->input('subject'); // Lấy input 'subject'
+        $statusFilter = $request->input('status_search'); // Chọn từ phần nhập tiêu đề trước đây
+        $subject = $request->input('subject'); // Chọn từ phần chọn trạng thái trước đây
+
+        //$subject = $request->input('subject'); // Lấy input 'subject'
         $searchField = $request->input('search_field');
         $customerId = $request->input('customer_id');
         $departmentId = $request->input('department_id');
         $requestDate = $request->input('request_date_search'); // Đổi tên để khớp với Blade
-        $statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
+       //$statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
         $requestTypeId = $request->input('request_type_id'); // Thêm input 'request_type_id'
 
 
@@ -46,13 +49,16 @@ class RequestController extends Controller
         $additionalSearchType = null;
         $additionalSearchValue = null;
 
-        // Xử lý tìm kiếm bằng subject
-        if (!empty($subject)) {
-            $query->where('subject', 'like', '%' . $subject . '%');
-            $searchPerformed = true;
-            $searchType = 'subject';
-            $search = $subject;
+       
+        $statusFilter = $request->input('status_search'); // Nhận giá trị trạng thái từ form
+
+        if (!empty($statusFilter)) {
+            $query->where('status', $statusFilter); // Thêm điều kiện lọc theo trạng thái
+            $searchPerformed = true; // Đánh dấu rằng tìm kiếm đã được thực hiện
+            $additionalSearchType = 'status';
+            $additionalSearchValue = $statusFilter; // Lưu trạng thái được chọn để hiển thị
         }
+
 
         // Xử lý tìm kiếm bổ sung
         if (!empty($searchField)) {
@@ -93,14 +99,22 @@ class RequestController extends Controller
                         $additionalSearchValue = $requestType ? $requestType->request_type_name : 'N/A';
                     }
                     break;
-                case 'status':
-                    if (!empty($statusFilter)) {
-                        $query->where('status', $statusFilter);
+                case 'subject':
+                    // if (!empty($statusFilter)) {
+                    //     $query->where('status', $statusFilter);
+                    //     $searchPerformed = true;
+                    //     $additionalSearchType = 'status';
+                    //     $additionalSearchValue = $statusFilter;
+                        
+                    // }
+                     if (!empty($subject)) {
+                        $query->where('subject', 'like', '%' . $subject . '%');
                         $searchPerformed = true;
-                        $additionalSearchType = 'status';
-                        $additionalSearchValue = $statusFilter;
+                        $searchType = 'subject';
+                        $search = $subject;
                     }
                     break;
+       
                 default:
                     // Không làm gì nếu không khớp
                     break;
