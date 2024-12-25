@@ -51,6 +51,8 @@
                         <label for="company-name" class="label">Tên công ty</label>
                         <i class="bx bx-buildings icon"></i>
                     </div>
+                </div>
+                <div class="input_row">
                     <div class="input_box">
                         <select id="request-type" name="request-type" class="input-field" required>
                             <option value="" disabled {{ old('request-type') ? '' : 'selected' }}>Chọn loại yêu cầu</option>
@@ -67,7 +69,6 @@
                         <label for="request-type" class="label">Loại yêu cầu</label>
                     </div>
                 </div>
-
                 <!-- Row 4 -->
                 <div class="request-info-row">
                     <span class="request-info-text">Thông tin yêu cầu</span>

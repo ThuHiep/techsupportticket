@@ -27,7 +27,7 @@
         <div class="top-bar">
             <a href="{{ route('faq.create') }}" class="add-faq-btn">Thêm mới</a>
             <div class="search-container">
-                <form action="{{ route('faq.index') }}" method="GET" style="display: flex; width: 70%; gap: 15px; align-items: center;">
+                <form action="{{ route('faq.index') }}" method="GET" >
                     <!-- Input tìm kiếm -->
                     <div style="position: relative; flex: 2;">
                         <input type="text" name="search" placeholder="Nhập mã hoặc nội dung câu hỏi" value="{{ request()->query('search') }}">
@@ -45,7 +45,6 @@
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>
-
         </div>
 
         @if ($isSearchPerformed)
@@ -60,7 +59,7 @@
             Không tìm thấy câu hỏi chưa phản hồi vào ngày hôm nay.
         </div>
         @endif
-        
+
         @else
         {{-- Trường hợp tìm theo mã FAQ --}}
         @if ($isSearchById)

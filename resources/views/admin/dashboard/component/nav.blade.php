@@ -10,12 +10,14 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="dropdownMenu">
-                    <i class="fa fa-bell"></i> <span class="label label-warning" id="userCountt">0</span>
+                    <i class="fa fa-bell"></i>
+                   <span class="label label-warning" id="userCountt">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
                     <!-- Hiển thị thông báo yêu cầu chưa xử lý -->
                     <li id="requestNotification" style="display: none;">
-                        <a href="{{ route('request.index', ['date' => now()->toDateString()]) }}">
+                        {{-- <a href="{{ route('request.index', ['date' => now()->toDateString()]) }}"> --}}
+                            <a href="{{ route('request.index', ['status_search' => 'Chưa xử lý', 'search_field' => 'request_date', 'request_date_search' => now()->toDateString()]) }}">
                             <div>
                                 <i class="fa fa-tasks fa-fw"></i> Có <span id="requestCount">0</span> yêu cầu chưa xử lý
                             </div>

@@ -48,33 +48,63 @@ class AuthController extends Controller
             return back()->withErrors(['captcha' => 'Vui lòng xác minh CAPTCHA!']);
         }
 
-        // Thực hiện đăng nhập
-        if (Auth::attempt($request->only('username', 'password'))) {
-            $request->session()->regenerate();
+        $maxAttempts = 5; // Số lần thử tối đa
+        $lockoutTime = 30; // Thời gian khóa (giây)
+        $attempts = session('login_attempts', 0); // Số lần thử hiện tại
+        $lastAttemptTime = session('last_attempt_time', now()->toIsoString()); // Lần thử cuối cùng
 
-            // Phân quyền người dùng
-            $user = Auth::user();
+        // Kiểm tra nếu người dùng đã bị khóa
+        if ($attempts >= $maxAttempts) {
+            $timeElapsed = abs(now()->diffInSeconds($lastAttemptTime));
 
-            // Kiểm tra trạng thái tài khoản
-            if ($user->status === null) {
-                Auth::logout(); // Đăng xuất người dùng
-                return back()->withErrors(['login' => 'Tài khoản của bạn chưa được kích hoạt.']);
-            }
-
-            if ($user->role_id == 1 || $user->role_id == 2) {
-                // Đối với Admin hoặc Quản lý
-                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-                return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
-            } elseif ($user->role_id == 3) {
-                // Đối với Khách hàng
-                $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-                return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
-            } else {
-                return back()->with('error', 'Không tìm thấy vai trò của bạn.');
+            if (!($timeElapsed < $lockoutTime)) {
+                // Nếu hết thời gian khóa, reset lại số lần thử và thời gian
+                session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
+                $attempts = 0;
             }
         }
 
-        return back()->withErrors(['login' => 'Tên đăng nhập hoặc mật khẩu không đúng!']);
+        // Kiểm tra đăng nhập
+        if (Auth::attempt($request->only('username', 'password'))) {
+            $request->session()->regenerate();
+
+            // Xóa số lần thử khi đăng nhập thành công
+            session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
+
+            //Phân quyền người dùng
+            $user = Auth::user();
+
+            if ($user->status === null) {
+                Auth::logout();
+                return back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
+            }
+
+            if ($user->role_id == 1 || $user->role_id == 2) {
+                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
+            } elseif ($user->role_id == 3) {
+                $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
+            } else {
+                return back()->with('error', 'Không tìm thấy vai trò của bạn.')->withInput();
+            }
+        }
+
+        // Xử lý nếu đăng nhập sai
+        $attempts++;
+        session([
+            'login_attempts' => $attempts,
+            'last_attempt_time' => now()->toIsoString()
+        ]);
+
+        $remainingAttempts = $maxAttempts - $attempts;
+
+        if ($remainingAttempts > 0) {
+            return back()->with('error', "Tên đăng nhập hoặc mật khẩu không đúng. Bạn còn $remainingAttempts lần thử.")->withInput();
+        } else {
+            session(['remaining_time' => $lockoutTime]);
+            return back()->with('error', "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau $lockoutTime giây.")->withInput();
+        }
     }
     public function Logout(Request $request)
     {

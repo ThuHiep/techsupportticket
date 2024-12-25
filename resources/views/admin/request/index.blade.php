@@ -30,7 +30,16 @@
                 <!-- Phần Tìm Kiếm Chính -->
                 <div class="primary-search">
                     <!-- Ô input tìm kiếm Subject -->
-                    <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề yêu cầu hỗ trợ" value="{{ request()->query('subject') }}">
+                    {{-- <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề yêu cầu hỗ trợ" value="{{ request()->query('subject') }}"> --}}
+                    <select name="status_search" id="status_search">
+                        <option value="">--Trạng thái--</option>
+                        @foreach($statuses as $status)
+                            <option value="{{ $status }}" {{ request()->query('status_search') == $status ? 'selected' : '' }}>
+                                {{ $status }}
+                            </option>
+                        @endforeach
+                    </select>
+                    
 
                     <!-- Select chọn trường tìm kiếm bổ sung -->
                     <select name="search_field" id="search_field">
@@ -39,7 +48,7 @@
                         <option value="department" {{ request()->query('search_field') == 'department' ? 'selected' : '' }}>Phòng ban</option>
                         <option value="request_type" {{ request()->query('search_field') == 'request_type' ? 'selected' : '' }}>Loại Yêu Cầu</option>
                         <option value="request_date" {{ request()->query('search_field') == 'request_date' ? 'selected' : '' }}>Ngày tạo</option>
-                        <option value="status" {{ request()->query('search_field') == 'status' ? 'selected' : '' }}>Trạng thái</option>
+                        <option value="subject" {{ request()->query('search_field') == 'subject' ? 'selected' : '' }}>Nhập tiêu đề</option>
                     </select>
                 </div>
 
@@ -86,17 +95,18 @@
                         <input type="date" name="request_date_search" placeholder="Chọn ngày tạo" value="{{ request()->query('request_date_search') }}">
                     </div>
 
-                    <!-- Tìm kiếm theo Trạng thái -->
-                    <div class="search-field" id="search_status">
-                        <select name="status_search">
-                            <option value="">--Trạng thái--</option>
-                            @foreach($statuses as $status)
-                                <option value="{{ $status }}" {{ request()->query('status_search') == $status ? 'selected' : '' }}>
-                                    {{ $status }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="search-field" id="search_subject" style="position: relative;">
+                        <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề yêu cầu hỗ trợ" value="{{ request()->query('subject') }}">
+                        @if($search)
+                        <a
+                            href="{{ route('request.index') }}"
+                            id="clearButton"
+                            style="position: absolute; right: 3%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                            ✖
+                        </a>
+                        @endif
                     </div>
+                    
                 </div>
 
                 <!-- Nút Tìm kiếm -->
@@ -289,12 +299,10 @@
         function updateSearchFields() {
             const selectedField = searchFieldSelect.value;
 
-            // Ẩn tất cả các trường tìm kiếm bổ sung
             additionalSearchFields.forEach(field => {
                 field.style.display = 'none';
             });
 
-            // Hiển thị trường tìm kiếm tương ứng nếu có lựa chọn
             if (selectedField) {
                 const fieldToShow = document.getElementById(`search_${selectedField}`);
                 if (fieldToShow) {
@@ -302,6 +310,7 @@
                 }
             }
         }
+
 
         // Gọi hàm khi trang được tải lần đầu
         updateSearchFields();

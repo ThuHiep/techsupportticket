@@ -74,20 +74,16 @@
         <h1>TRANG CHỦ</h1>
         <div class="row">
           <div class="col-lg-6 text-center">
-            <img
-              src="/guest/img/request.png"
-              alt="icon-doc"
+              <img src="/guest/img/hourglass.gif" alt="support"
               class="img-fluid-home" />
-            <p>Yêu cầu đang chờ</p>
+            <p>Yêu cầu đang chờ xử lý</p>
             <h2>0</h2>
             <a href="#portfolio">Xem</a>
           </div>
           <div class="col-lg-6 text-center">
-            <img
-              src="/guest/img/bell.png"
-              alt="support"
-              class="img-fluid-home" />
-            <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
+            <img src="/guest/img/notification.gif" alt="support"
+            class="img-fluid-home" />
+            <p>Hôm nay bạn không có yêu cầu hỗ trợ nào!</p>
             <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
@@ -490,229 +486,154 @@
 
     <!-- /About Section -->
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section light-background">
-      <div class="container section-title" data-aos="fade-up">
-        <h1>YÊU CẦU</h1>
-        <h3>LỊCH SỬ YÊU CẦU</h3>
-        <div class="container">
-          <div
-            class="isotope-layout"
-            data-default-filter="*"
-            data-layout="masonry"
-            data-sort="original-order">
-            <ul
-              class="portfolio-filters isotope-filters"
-              data-aos="fade-up"
-              data-aos-delay="100">
-              <li data-filter="*" class="filter-active">Tất cả</li>
-              <li data-filter=".chua-xu-ly">Chưa xử lý</li>
-              <li data-filter=".dang-xu-ly">Đang xử lý</li>
-              <li data-filter=".hoan-thanh">Hoàn thành</li>
-              <li data-filter=".da-huy">Đã hủy</li>
-            </ul>
+      <!-- Portfolio Section -->
+      <section id="portfolio" class="portfolio section light-background">
+          <div class="container section-title" data-aos="fade-up">
+              <h1>YÊU CẦU</h1>
+              <h3>LỊCH SỬ YÊU CẦU</h3>
+              <div class="container">
+                  <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+                      <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+                          <li data-filter="*" class="filter-active">Tất cả</li>
+                          <li data-filter=".chua-xu-ly">Chưa xử lý</li>
+                          <li data-filter=".dang-xu-ly">Đang xử lý</li>
+                          <li data-filter=".hoan-thanh">Hoàn thành</li>
+                          <li data-filter=".da-huy">Đã hủy</li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Lịch sử yêu cầu -->
-    <section id="request-history" class="request-history section">
-      <div class="container">
-        @forelse ($requests as $request)
-        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
-          <div class="request-info">
-            <h3>{{ $request->request_id }}</h3>
-            <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
-            <p>{{ $request->subject }}</p>
+      <!-- Lịch sử yêu cầu -->
+      <section id="request-history" class="request-history section">
+          <div class="container">
+              @forelse ($requests as $request)
+                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+                      <div class="request-info">
+                          <h3>{{ $request->request_id }}</h3>
+                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
+                          <p>{{ $request->subject }}</p>
+                      </div>
+                      <div class="request-arrow">→</div>
+                  </div>
+              @empty
+                  <p>Không có yêu cầu nào trong lịch sử.</p>
+              @endforelse
           </div>
-          <div class="request-arrow">→</div>
-        </div>
-        @empty
-        <p>Không có yêu cầu nào trong lịch sử.</p>
-        @endforelse
+      </section>
+
+      <!-- Modal trạng thái -->
+      <div id="modal-status" class="modal-request">
+          <div class="modal-content-request">
+              <span class="close-btn" onclick="closeForm()">×</span>
+              <h2>Trạng thái yêu cầu</h2>
+              <div id="status-timeline">
+                  <!-- Nội dung trạng thái sẽ được tạo động -->
+              </div>
+          </div>
       </div>
 
       <script>
-        function viewRequestDetail(requestId) {
-          window.location.href = `/request-detail/${requestId}`; // Điều chỉnh URL chi tiết yêu cầu
-        }
+          // Hàm gọi API để lấy trạng thái yêu cầu
+          function fetchRequestStatus(requestId) {
+              return fetch(`/api/request-status/${requestId}`, {
+                  headers: {
+                      'X-Requested-With': 'XMLHttpRequest',
+                      'Accept': 'application/json',
+                  }
+              })
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                  })
+                  .then(data => {
+                      console.log("Fetched request status:", data); // Debug log
+                      return data;
+                  })
+                  .catch(error => {
+                      console.error("Error fetching request status:", error);
+                      return [];
+                  });
+          }
 
-        document.addEventListener("DOMContentLoaded", function() {
-          const filters = document.querySelectorAll(".portfolio-filters li");
-          const requestItems = document.querySelectorAll(".request-item");
+          // Hàm hiển thị trạng thái yêu cầu trong modal
+          function renderRequestStatus(data) {
+              const timeline = document.getElementById("status-timeline");
+              timeline.innerHTML = ""; // Xóa nội dung trước đó
 
-          filters.forEach((filter) => {
-            filter.addEventListener("click", function() {
-              const filterStatus = filter.getAttribute("data-filter");
-              requestItems.forEach((item) => {
-                if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
-                  item.style.display = "flex";
-                } else {
-                  item.style.display = "none";
-                }
+              console.log("Rendering request status:", data); // Debug log
+
+              // Tạo các trạng thái động
+              data.forEach((item, index) => {
+                  const isCompleted = index === data.length - 1 ? "completed" : "";
+
+                  const statusItem = `
+                <div class="status-item ${isCompleted}">
+                    <div class="circle"></div>
+                    <div class="line"></div>
+                    <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
+                </div>
+            `;
+                  timeline.innerHTML += statusItem;
               });
-              filters.forEach((f) => f.classList.remove("filter-active"));
-              filter.classList.add("filter-active");
-            });
+
+              // Nếu không có dữ liệu, hiển thị thông báo
+              if (data.length === 0) {
+                  timeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+              }
+          }
+
+          // Mở modal và hiển thị trạng thái yêu cầu
+          function viewRequestDetail(requestId) {
+              const modal = document.getElementById("modal-status");
+
+              // Gọi API để lấy dữ liệu
+              fetchRequestStatus(requestId).then(data => {
+                  renderRequestStatus(data);
+                  modal.style.display = "block";
+              });
+          }
+
+          // Đóng modal
+          function closeForm() {
+              const modal = document.getElementById("modal-status");
+              modal.style.display = "none";
+          }
+
+          // Đóng modal khi nhấn ngoài nội dung modal
+          window.onclick = function(event) {
+              const modal = document.getElementById("modal-status");
+              if (event.target == modal) {
+                  modal.style.display = "none";
+              }
+          }
+
+          // Script lọc yêu cầu
+          document.addEventListener("DOMContentLoaded", function() {
+              const filters = document.querySelectorAll(".portfolio-filters li");
+              const requestItems = document.querySelectorAll(".request-item");
+
+              filters.forEach((filter) => {
+                  filter.addEventListener("click", function() {
+                      const filterStatus = filter.getAttribute("data-filter");
+                      requestItems.forEach((item) => {
+                          if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
+                              item.style.display = "flex";
+                          } else {
+                              item.style.display = "none";
+                          }
+                      });
+                      filters.forEach((f) => f.classList.remove("filter-active"));
+                      filter.classList.add("filter-active");
+                  });
+              });
           });
-        });
       </script>
-    </section>
-    <!-- Modal trạng thái làm ngày 23/12 -->
-    <div id="modal-status" class="modal-request">
-      <div class="modal-content-request">
-        <span class="close-btn" onclick="closeForm()">×</span>
-        <h2>Trạng thái yêu cầu</h2>
-        <div id="status-timeline">
-          <!-- Nội dung các trạng thái sẽ được tạo động -->
-        </div>
-      </div>
-    </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        // Lấy tất cả các mục lọc và các thẻ yêu cầu
-        const filters = document.querySelectorAll(".portfolio-filters li");
-        const requestItems = document.querySelectorAll(".request-item");
 
-        // Hàm lọc yêu cầu với hiệu ứng đẩy lên trên
-        function filterRequests(status) {
-          const visibleItems = []; // Mảng chứa các thẻ yêu cầu phù hợp
-          const hiddenItems = []; // Mảng chứa các thẻ yêu cầu không phù hợp
-
-          // Phân loại các yêu cầu thành hiển thị và ẩn
-          requestItems.forEach((item) => {
-            const itemStatus = item.querySelector(".status").classList;
-
-            if (status === "all" || itemStatus.contains(status)) {
-              visibleItems.push(item); // Thêm vào mảng hiển thị
-            } else {
-              hiddenItems.push(item); // Thêm vào mảng ẩn
-            }
-          });
-
-          // Hiển thị các yêu cầu phù hợp
-          visibleItems.forEach((item) => {
-            item.style.display = "flex"; // Hiển thị
-            item.classList.add("show");
-            item.classList.remove("hide");
-          });
-
-          // Ẩn các yêu cầu không phù hợp
-          hiddenItems.forEach((item) => {
-            item.style.display = "none"; // Ẩn đi
-            item.classList.add("hide");
-            item.classList.remove("show");
-          });
-        }
-
-        // Gắn sự kiện click cho các mục lọc
-        filters.forEach((filter) => {
-          filter.addEventListener("click", function() {
-            // Xóa lớp active trên tất cả các mục lọc
-            filters.forEach((f) => f.classList.remove("filter-active"));
-            filter.classList.add("filter-active");
-
-            // Lấy trạng thái tương ứng dựa trên text
-            const filterText = filter.textContent.trim();
-            if (filterText === "Tất cả") {
-              filterRequests("all");
-            } else if (filterText === "ĐANG XỬ LÝ") {
-              filterRequests("deployed");
-            } else if (filterText === "ĐÃ XỬ LÝ") {
-              filterRequests("completed");
-            } else if (filterText === "ĐÃ HỦY") {
-              filterRequests("canceled");
-            }
-          });
-        });
-      });
-      const requestStatusData = {
-        YC003: [{
-            time: "11/11/2024 09:36",
-            status: "Tạo yêu cầu"
-          },
-          {
-            time: "11/11/2024 09:36",
-            status: "Đã tiếp nhận yêu cầu"
-          },
-          {
-            time: "11/11/2024 09:40",
-            status: "Xử lý hoàn tất"
-          },
-        ],
-        YC002: [{
-            time: "10/11/2024 08:20",
-            status: "Tạo yêu cầu"
-          },
-          {
-            time: "10/11/2024 08:25",
-            status: "Đã tiếp nhận yêu cầu"
-          },
-          {
-            time: "10/11/2024 08:40",
-            status: "Xử lý hoàn tất"
-          },
-        ],
-        YC001: [{
-            time: "09/11/2024 10:00",
-            status: "Tạo yêu cầu"
-          },
-          {
-            time: "09/11/2024 10:05",
-            status: "Đã tiếp nhận yêu cầu"
-          },
-          {
-            time: "09/11/2024 10:30",
-            status: "Xử lý hoàn tất"
-          },
-        ],
-        YC004: [{
-            time: "12/11/2024 11:00",
-            status: "Tạo yêu cầu"
-          },
-          {
-            time: "12/11/2024 11:15",
-            status: "Yêu cầu bị hủy"
-          },
-        ],
-      };
-
-      // Mở modal và hiển thị trạng thái
-      function viewRequestDetail(requestId) {
-        const modal = document.getElementById("modal-status");
-        const timeline = document.getElementById("status-timeline");
-        const data = requestStatusData[requestId] || [];
-
-        // Xóa nội dung cũ
-        timeline.innerHTML = "";
-
-        // Tạo các trạng thái động
-        data.forEach((item, index) => {
-          const isCompleted = index === data.length - 1 ? "completed" : "";
-
-          const statusItem = `
-    <div class="status-item ${isCompleted}">
-      <div class="circle"></div>
-      <div class="line"></div>
-      <span>${item.time} - ${item.status}</span>
-    </div>
-  `;
-          timeline.innerHTML += statusItem;
-        });
-
-        modal.style.display = "block"; // Hiển thị modal
-      }
-
-      // Đóng modal
-      function closeForm() {
-        const modal = document.getElementById("modal-status");
-        modal.style.display = "none";
-      }
-    </script>
-    </section>
-
-    <!-- Contact Section -->
+      <!-- Contact Section -->
     <section id="contact" class="contact section">
       <div class="container section-title" data-aos="fade-up">
         <h1>CÀI ĐẶT</h1>

@@ -114,6 +114,24 @@ h1 {
     border-color: var(--primary-hover);
     box-shadow: 0 0 5px var(--primary-hover);
 }
+#status_search{
+    flex: 1; /* Tăng flex-grow và flex-basis để rộng hơn */
+    max-width: 200px; /* Chiều rộng tối đa */
+    padding: 10px 15px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius);
+    outline: none;
+    box-sizing: border-box;
+    font-size: var(--font-size-base);
+    background-color: var(--background-color);
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+#status_search:focus {
+    border-color: var(--primary-hover);
+    box-shadow: 0 0 5px var(--primary-hover);
+}
+
 
 /* Style cho select chọn trường tìm kiếm bổ sung */
 #search_field {
