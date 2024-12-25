@@ -100,14 +100,14 @@
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-4 justify-content-center">
-          <div class="col-lg-4">
+          <div class="col-lg-4" style="margin-top: 40px">
             <img
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
               alt="" style="width: 250px" />
           </div>
-          <div class="col-lg-8 content">
+          <div class="col-lg-8 content" style="margin-top: 40px">
             <h2 id="title">Thông tin cá nhân</h2>
             <div class="row">
               <div class="col-lg-6">

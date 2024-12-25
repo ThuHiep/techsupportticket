@@ -605,13 +605,12 @@ section,
 /* Căn chỉnh toàn bộ section */
 /* Định dạng chung cho tiêu đề */
 .section-title {
-  text-align: center;
-  height: 80px;
-  background-color: #fdeef4; /* Màu nền hồng nhạt */
-  padding: 10px; /* Khoảng cách trên dưới */
-  border-radius: 10px; /* Bo góc nhẹ */
-  margin: 0 auto; /* Căn giữa */
-  max-width: 80%; /* Chiều rộng giới hạn */
+    text-align: center;
+    height: 80px;
+    background-color: #fdeef4;
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 100%;
 }
 
 /* Định dạng chữ "TRANG" */
