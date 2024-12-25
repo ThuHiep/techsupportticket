@@ -26,7 +26,7 @@
     <div class="top-bar">
         <a href="{{ route('articles.create') }}" class="add-faq-btn">Thêm mới</a>
         <div class="search-container">
-            <form action="{{ route('articles.index') }}" method="GET" style="display: flex; width: 70%; gap: 15px; align-items: center;">
+            <form action="{{ route('articles.index') }}" method="GET" >
                 <!-- Input tìm kiếm -->
                 <div style="position: relative; flex: 2;">
                     <input type="text" name="search" placeholder="Nhập mã hoặc tiêu đề bài hướng dẫn" value="{{ request()->query('search') }}">
