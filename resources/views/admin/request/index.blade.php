@@ -95,10 +95,6 @@
                         <input type="date" name="request_date_search" placeholder="Chọn ngày tạo" value="{{ request()->query('request_date_search') }}">
                     </div>
 
-                    {{-- <div class="search-field" id="search_subject">
-                        <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề yêu cầu hỗ trợ" value="{{ request()->query('subject') }}">
-
-                    </div> --}}
                     <div class="search-field" id="search_subject" style="position: relative;">
                         <input type="text" name="subject" id="subject" placeholder="Nhập tiêu đề yêu cầu hỗ trợ" value="{{ request()->query('subject') }}">
                         @if($search)
