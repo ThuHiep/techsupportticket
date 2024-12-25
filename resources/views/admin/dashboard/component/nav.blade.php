@@ -10,7 +10,8 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="dropdownMenu">
-                    <i class="fa fa-bell"></i><span class="label label-warning" id="userCountt">0</span>
+                    <i class="fa fa-bell"></i>
+                   <span class="label label-warning" id="userCountt">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
                     <!-- Hiển thị thông báo yêu cầu chưa xử lý -->
