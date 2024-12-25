@@ -172,10 +172,6 @@
                 <span>TRANG HỖ TRỢ</span>
                 <span>KHÁCH HÀNG</span>
             </h1>
-            {{-- <div class="search-container">
-            <input type="text" placeholder="Tìm kiếm...">
-            <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
-        </div> --}}
             <div class="search-container">
 
                 <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm...">
@@ -192,20 +188,9 @@
 
         </div>
     </div>
-
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
-
-            {{-- <ul class="faq-list">
-            @forelse ($faqs as $faq)
-                <li>
-                    <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
-            </li>
-            @empty
-            <li>Không có câu hỏi nào được phản hồi.</li>
-            @endforelse
-            </ul> --}}
             <ul class="faq-list">
                 @forelse ($faqs as $faq)
                 <li class="faq-item">
