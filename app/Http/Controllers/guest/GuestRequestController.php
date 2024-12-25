@@ -25,6 +25,16 @@ class GuestRequestController extends Controller
 
         return response()->json($history);
     }
+    public function generateAttachmentId()
+    {
+        do {
+            // Tạo 8 số ngẫu nhiên từ 00000000 đến 99999999
+            $randomNumber = mt_rand(0, 99999999);
+            $attachmentId = 'ATT' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
+        } while (Attachment::where('attachment_id', $attachmentId)->exists());
+
+        return $attachmentId;
+    }
 
     public function store(Request $request)
     {
@@ -92,7 +102,7 @@ class GuestRequestController extends Controller
 
                 // Tạo bản ghi file đính kèm
                 Attachment::create([
-                    'attachment_id' => uniqid('ATT_'),
+                    'attachment_id' => $this->generateAttachmentId(), // Sử dụng phương thức mới
                     'request_id' => $supportRequest->request_id,
                     'filename' => $file->getClientOriginalName(),
                     'file_path' => $filePath,
