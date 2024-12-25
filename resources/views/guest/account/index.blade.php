@@ -74,20 +74,16 @@
         <h1>TRANG CHỦ</h1>
         <div class="row">
           <div class="col-lg-6 text-center">
-            <img
-              src="/guest/img/request.png"
-              alt="icon-doc"
+              <img src="/guest/img/hourglass.gif" alt="support"
               class="img-fluid-home" />
-            <p>Yêu cầu đang chờ</p>
+            <p>Yêu cầu đang chờ xử lý</p>
             <h2>0</h2>
             <a href="#portfolio">Xem</a>
           </div>
           <div class="col-lg-6 text-center">
-            <img
-              src="/guest/img/bell.png"
-              alt="support"
-              class="img-fluid-home" />
-            <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
+            <img src="/guest/img/notification.gif" alt="support"
+            class="img-fluid-home" />
+            <p>Hôm nay bạn không có yêu cầu hỗ trợ nào!</p>
             <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
