@@ -141,7 +141,9 @@ class ArticlesController extends Controller
 
         // Cập nhật thông tin bài viết
         $article->title = $request->input('title');
-        $article->content = nl2br(e($request->input('content'))); // Chuyển đổi ký tự xuống dòng thành <br> trước khi lưu
+        $content = $request->input('content');
+        $content = strip_tags($content, '<br>'); // Cho phép thẻ <br> nhưng loại bỏ các thẻ khác
+        $article->content = nl2br($content);
         $article->employee_id = $logged_user->employee_id;
         $article->update_at = now();
         $article->save();

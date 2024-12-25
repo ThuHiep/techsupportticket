@@ -49,7 +49,7 @@ class RequestController extends Controller
         $additionalSearchType = null;
         $additionalSearchValue = null;
 
-       
+
         $statusFilter = $request->input('status_search'); // Nhận giá trị trạng thái từ form
 
         if (!empty($statusFilter)) {
@@ -107,7 +107,7 @@ class RequestController extends Controller
                         $search = $subject;
                     }
                     break;
-       
+
                 default:
                     // Không làm gì nếu không khớp
                     break;
@@ -220,6 +220,8 @@ class RequestController extends Controller
         $template = 'admin.request.edit';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $requestData = SupportRequest::with('attachment')->findOrFail($request_id); // Tải quan hệ attachment
+        $supportRequest = SupportRequest::with(['attachment', 'history'])->findOrFail($request_id); // Tải quan hệ attachment và histories
+
 
         // Chỉ lấy khách hàng có status là "active"
         $customers = Customer::where('status', 'active')->get();
@@ -227,7 +229,7 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requestData', 'customers', 'departments', 'requestTypes'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requestData', 'supportRequest', 'customers', 'departments', 'requestTypes'));
     }
 
     /**
