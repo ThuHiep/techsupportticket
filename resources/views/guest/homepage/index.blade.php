@@ -666,25 +666,25 @@
             overlay.style.display = "block";
         }
         // Hàm mở Modal khi click vào card
-        // function openHuongdanModal(cardElement) {
-        //     const title = cardElement.querySelector('.article-title').innerText;
-        //     const content = cardElement.querySelector('.article-details .article-content').innerText;
-        //     const date = cardElement.querySelector('.article-details .article-date').innerText;
-        //     const images = cardElement.querySelector('img').src;
-        //
-        //     document.getElementById('huongdanModalTitle').innerText = title;
-        //     document.getElementById('huongdanModalContent').innerText = content;
-        //     document.getElementById('huongdanModalDate').innerText = date;
-        //
-        //     const modalImage = document.getElementById('huongdanModalImage');
-        //     modalImage.src = images;
-        //
-        //     const modal = document.getElementById('huongdanArticleModal');
-        //     modal.style.display = "block";
-        //
-        //     const overlay = document.getElementById('huongdanModalOverlay');
-        //     overlay.style.display = "block";
-        // }
+        function openHuongdanModal(cardElement) {
+            const title = cardElement.querySelector('.article-title').innerText;
+            const content = cardElement.querySelector('.article-details .article-content').innerText;
+            const date = cardElement.querySelector('.article-details .article-date').innerText;
+            const images = cardElement.querySelector('img').src;
+        
+            document.getElementById('huongdanModalTitle').innerText = title;
+            document.getElementById('huongdanModalContent').innerText = content;
+            document.getElementById('huongdanModalDate').innerText = date;
+        
+            const modalImage = document.getElementById('huongdanModalImage');
+            modalImage.src = images;
+        
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "block";
+        
+            const overlay = document.getElementById('huongdanModalOverlay');
+            overlay.style.display = "block";
+        }
 
         function closeHuongdanModal() {
             const modal = document.getElementById('huongdanArticleModal');
