@@ -176,7 +176,7 @@ class RequestController extends Controller
             'create_at' => 'required|date',
         ]);
 
-        // Lưu yêu cầu mới
+        // Tạo yêu cầu mới
         SupportRequest::create([
             'request_id' => $request->input('request_id'),
             'customer_id' => $request->input('customer_id'),
@@ -192,12 +192,8 @@ class RequestController extends Controller
         // Lấy thông tin người tạo (admin)
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
-        // Tạo history_id thủ công
-        $historyId = RequestHistory::generateHistoryId();
-
-        // Tạo bản ghi lịch sử đầu tiên
+        // Tạo bản ghi lịch sử đầu tiên với trạng thái "Chưa xử lý"
         RequestHistory::create([
-            'history_id' => $historyId, // Gán thủ công
             'request_id' => $request->input('request_id'),
             'changed_by' => $logged_user->employee_id,
             'old_status' => null,
