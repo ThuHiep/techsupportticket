@@ -100,13 +100,6 @@ class RequestController extends Controller
                     }
                     break;
                 case 'subject':
-                    // if (!empty($statusFilter)) {
-                    //     $query->where('status', $statusFilter);
-                    //     $searchPerformed = true;
-                    //     $additionalSearchType = 'status';
-                    //     $additionalSearchValue = $statusFilter;
-                        
-                    // }
                      if (!empty($subject)) {
                         $query->where('subject', 'like', '%' . $subject . '%');
                         $searchPerformed = true;
