@@ -74,6 +74,16 @@ class GuestRequestController extends Controller
                 'status' => 'Chưa xử lý',
             ]);
 
+            // Tạo bản ghi lịch sử đầu tiên với trạng thái "Chưa xử lý"
+            RequestHistory::create([
+                'history_id' => $this->generateHistoryId(),
+                'request_id' => $newRequestId,
+                'changed_by' => null, // Hoặc một giá trị mặc định nếu khách hàng không có ID nhân viên
+                'old_status' => null,
+                'new_status' => 'Chưa xử lý',
+                'note' => 'Tạo yêu cầu',
+                'changed_at' => now(),
+            ]);
 
             // Xử lý file đính kèm nếu có
             if ($files && isset($files[$index])) {
@@ -95,6 +105,22 @@ class GuestRequestController extends Controller
 
         // Redirect về form với thông báo thành công
         return redirect()->route('showFormRequest')->with('success', 'Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ lại sớm nhất!');
+    }
+
+    /**
+     * Tạo history_id theo định dạng HID + 5 số
+     *
+     * @return string
+     */
+    private function generateHistoryId()
+    {
+        do {
+            // Tạo 5 số ngẫu nhiên từ 00000 đến 99999
+            $randomNumber = mt_rand(0, 99999);
+            $historyId = 'HID' . str_pad($randomNumber, 5, '0', STR_PAD_LEFT);
+        } while (RequestHistory::where('history_id', $historyId)->exists());
+
+        return $historyId;
     }
 
 }
