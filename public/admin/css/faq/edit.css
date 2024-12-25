@@ -155,3 +155,15 @@ textarea {
         flex-direction: column; /* Chuyển sang dạng cột trên màn hình nhỏ */
     }
 }
+@media (max-width: 426px) {
+    h1 {
+        padding: 0px;
+        font-size: 26px;
+    }
+}
+@media (max-width: 376px) {
+    h1 {
+        padding: 0px;
+        font-size: 26px;
+    }
+}
