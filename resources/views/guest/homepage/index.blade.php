@@ -172,10 +172,6 @@
                 <span>TRANG HỖ TRỢ</span>
                 <span>KHÁCH HÀNG</span>
             </h1>
-            {{-- <div class="search-container">
-            <input type="text" placeholder="Tìm kiếm...">
-            <button><img src='guest/img/search.png' alt='Search' style="width: 20px; height: 20px;"></button>
-        </div> --}}
             <div class="search-container">
 
                 <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm...">
@@ -192,20 +188,9 @@
 
         </div>
     </div>
-
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
-
-            {{-- <ul class="faq-list">
-            @forelse ($faqs as $faq)
-                <li>
-                    <a href="#" class="faq-question" data-id="{{ $faq->faq_id }}">{{ $faq->question }}</a>
-            </li>
-            @empty
-            <li>Không có câu hỏi nào được phản hồi.</li>
-            @endforelse
-            </ul> --}}
             <ul class="faq-list">
                 @forelse ($faqs as $faq)
                 <li class="faq-item">
@@ -666,25 +651,25 @@
             overlay.style.display = "block";
         }
         // Hàm mở Modal khi click vào card
-        // function openHuongdanModal(cardElement) {
-        //     const title = cardElement.querySelector('.article-title').innerText;
-        //     const content = cardElement.querySelector('.article-details .article-content').innerText;
-        //     const date = cardElement.querySelector('.article-details .article-date').innerText;
-        //     const images = cardElement.querySelector('img').src;
-        //
-        //     document.getElementById('huongdanModalTitle').innerText = title;
-        //     document.getElementById('huongdanModalContent').innerText = content;
-        //     document.getElementById('huongdanModalDate').innerText = date;
-        //
-        //     const modalImage = document.getElementById('huongdanModalImage');
-        //     modalImage.src = images;
-        //
-        //     const modal = document.getElementById('huongdanArticleModal');
-        //     modal.style.display = "block";
-        //
-        //     const overlay = document.getElementById('huongdanModalOverlay');
-        //     overlay.style.display = "block";
-        // }
+        function openHuongdanModal(cardElement) {
+            const title = cardElement.querySelector('.article-title').innerText;
+            const content = cardElement.querySelector('.article-details .article-content').innerText;
+            const date = cardElement.querySelector('.article-details .article-date').innerText;
+            const images = cardElement.querySelector('img').src;
+        
+            document.getElementById('huongdanModalTitle').innerText = title;
+            document.getElementById('huongdanModalContent').innerText = content;
+            document.getElementById('huongdanModalDate').innerText = date;
+        
+            const modalImage = document.getElementById('huongdanModalImage');
+            modalImage.src = images;
+        
+            const modal = document.getElementById('huongdanArticleModal');
+            modal.style.display = "block";
+        
+            const overlay = document.getElementById('huongdanModalOverlay');
+            overlay.style.display = "block";
+        }
 
         function closeHuongdanModal() {
             const modal = document.getElementById('huongdanArticleModal');
