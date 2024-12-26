@@ -255,7 +255,7 @@ class ReportController extends Controller
                 ->toArray();
 
             // Kiểm tra kết quả truy vấn
-            // dd($requestCounts);
+            //dd($requestCounts);
 
             $departmentData[] = [
                 'department_id' => $department->department_id,
@@ -327,6 +327,8 @@ class ReportController extends Controller
         $weeks = [];
         $startDate = now()->startOfYear();
         $endDate = now()->endOfYear();
+
+        // Tạo mảng tuần
         for ($date = clone $startDate; $date <= $endDate; $date->addWeek()) {
             $weeks[$date->format('Y-W')] = [
                 'Đang xử lý' => 0,
@@ -336,18 +338,27 @@ class ReportController extends Controller
             ];
         }
 
+        // Lấy thống kê tuần
         $weeklyStats = DB::table('request')
             ->select(DB::raw("YEAR(create_at) as year, WEEK(create_at, 1) as week, status, count(*) as total"))
             ->whereBetween('create_at', [$startDate, $endDate])
             ->groupBy('year', 'week', 'status')
             ->get();
 
+        // Cập nhật mảng tuần với số liệu
         foreach ($weeklyStats as $stat) {
-            $weeks[$stat->year . '-' . str_pad($stat->week, 2, '0', STR_PAD_LEFT)][$stat->status] = $stat->total;
+            $weekKey = $stat->year . '-' . str_pad($stat->week, 2, '0', STR_PAD_LEFT);
+            if (isset($weeks[$weekKey])) {
+                $weeks[$weekKey][$stat->status] = $stat->total;
+            }
         }
 
+        // Trả về dữ liệu theo định dạng mong muốn
         return array_map(function ($totals, $period) {
-            return ['period' => $period, 'total' => $totals];
+            return [
+                'period' => $period,
+                'totals' => $totals,
+            ];
         }, $weeks, array_keys($weeks));
     }
 
