@@ -586,6 +586,8 @@ section,
   justify-content: center; /* Căn giữa theo chiều dọc (nếu cần) */
   text-align: center; /* Căn giữa văn bản */
   margin: 0 auto; /* Căn giữa theo chiều ngang */
+    border-bottom: 2px solid #3333336b;
+    width: 65%;
 }
 
 .section-title h1:after {
@@ -1190,7 +1192,7 @@ input#confirm-password:focus{
 }
 .portfolio .portfolio-filters {
   padding: 0;
-  margin: 0 auto 20px auto;
+  margin: 10px auto 20px auto;
   list-style: none;
   text-align: center;
 }
@@ -1199,7 +1201,7 @@ input#confirm-password:focus{
   cursor: pointer;
   display: inline-block;
   padding: 2px;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 400;
   margin: 0 10px;
   line-height: 1;
@@ -1227,7 +1229,7 @@ input#confirm-password:focus{
 
 .portfolio .portfolio-filters li:hover,
 .portfolio .portfolio-filters li.filter-active {
-  color: var(--accent-color);
+  color: #ff6f00;
 }
 
 .portfolio .portfolio-filters li:first-child {
@@ -1556,6 +1558,7 @@ section#contact {
   color: var(--black-color);
   font-size: 29px;
   font-weight: bold;
+    cursor: auto;
 }
 /* Modal Setting */
 .modal-setting {
