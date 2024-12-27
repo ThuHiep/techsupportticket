@@ -267,7 +267,7 @@
           <section id="about" class="about section">
             <div class="img-container">
               <button id="edit-btn" class="edit-button">
-                CHỈNH SỬA THÔNG TIN
+                Chỉnh sửa thông tin
               </button>
               <div class="btn btn-success me-3" id="openForm">Thay đổi mật khẩu</div>
             </div>
@@ -275,6 +275,7 @@
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
+              <span class="close_pass">x</span>
             <h1 class="reset-password-header">
               Đổi mật khẩu
             </h1>
@@ -283,7 +284,7 @@
               @method('PUT')
 
               <!-- Old Password -->
-              <div class="input_box">
+              <div class="old_pass_box input_box">
                 <input type="password" name="old-password" id="old-password" class="input-field" required>
                 <label for="old-password" class="label">Mật khẩu cũ</label>
                 <i class="bx bx-show toggle-password icon" data-target="old-password"></i>
@@ -293,7 +294,7 @@
               </div>
 
               <!-- New Password -->
-              <div class="input_box">
+              <div class="new_pass_box input_box">
                 <input type="password" name="new-password" id="new-password" class="input-field" value="{{ old('new-password') }}" required>
                 <label for="new-password" class="label">Mật khẩu mới</label>
                 <i class="bx bx-show toggle-password icon" data-target="new-password"></i>
@@ -313,7 +314,7 @@
               </div>
 
               <!-- Confirm Password -->
-              <div class="input_box">
+              <div class="confirm_box input_box ">
                 <input type="password" name="confirm-password" id="confirm-password" class="input-field" value="{{ old('confirm-password') }}" required>
                 <label for="confirm-password" class="label">Xác nhận mật khẩu</label>
                 <i class="bx bx-show toggle-password icon" data-target="confirm-password"></i>
@@ -384,6 +385,7 @@
             const openFormButton = document.getElementById('openForm');
             const modalPass = document.getElementById('registrationForm');
             const overlay = document.getElementById('modalOverlay');
+            const closeBtn_pass = document.querySelector(".close_pass");
             openFormButton.addEventListener('click', () => {
               modalPass.style.display = 'block';
               overlay.style.display = 'block';
@@ -458,6 +460,11 @@
                 errorMessage.textContent = '';
               }
             }
+            closeBtn_pass.onclick = () => {
+                modalPass.style.display = "none";
+                overlay.style.display = "none";
+            };
+
           </script>
 
           <!-- Modal -->
@@ -551,32 +558,35 @@
           </div>
 
           <script>
-            // Get modal and button elements
-            const modal = document.getElementById("editModal");
-            const btn = document.getElementById("edit-btn");
-            const closeBtn = document.querySelector(".close");
-            const cancelBtn = document.querySelector(".btn-cancel");
+              document.addEventListener("DOMContentLoaded", () => {
+                  const modal = document.querySelector(".modal");
+                  const btn = document.getElementById("edit-btn");
+                  const closeBtn = document.querySelector(".close");
+                  const cancelBtn = document.querySelector(".btn-cancel");
 
-            // Open modal when button is clicked
-            btn.onclick = () => {
-              modal.style.display = "block";
-            };
+                  // Mở modal khi nhấn nút
+                  btn.onclick = () => {
+                      modal.style.display = "block";
+                  };
 
-            // Close modal when 'x' button is clicked
-            closeBtn.onclick = () => {
-              modal.style.display = "none";
-            };
-            // Đóng modal khi nhấn nút "HỦY"
-            cancelBtn.onclick = () => {
-              modal.style.display = "none";
-            };
+                  // Đóng modal khi nhấn nút 'x'
+                  closeBtn.onclick = () => {
+                      modal.style.display = "none";
+                  };
 
-            // Close modal when clicking outside content
-            window.onclick = (event) => {
-              if (event.target === modal) {
-                modal.style.display = "none";
-              }
-            };
+                  // Đóng modal khi nhấn nút "Hủy"
+                  cancelBtn.onclick = () => {
+                      modal.style.display = "none";
+                  };
+
+                  // Đóng modal khi click ra ngoài nội dung
+                  window.onclick = (event) => {
+                      if (event.target === modal) {
+                          modal.style.display = "none";
+                      }
+                  };
+              });
+
           </script>
         </div>
       </div>

@@ -748,11 +748,20 @@ section,
   margin-left: 30px;
   margin-top: 100px;
 }
-
+/*#editModal {*/
+/*    display: none; !* Ẩn modal mặc định *!*/
+/*    position: fixed; !* Đảm bảo modal luôn nằm trên cùng *!*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: rgba(0, 0, 0, 0.5); !* Hiệu ứng nền mờ *!*/
+/*    z-index: 1000;*/
+/*}*/
 .modal {
   display: none;
   position: fixed;
-  z-index: 10;
+  z-index:  1000;
   left: 0;
   top: 0;
   width: 100%;
@@ -785,6 +794,8 @@ section,
 .close:hover {
     color: #000;
 }
+
+
 .modal-title {
     margin-top: -30px;
     font-size: 35px;
@@ -985,7 +996,7 @@ input, select {
     position: fixed;
     top: 47%;
     left: 50%;
-    width: 35%;
+    width: 25%;
     height: 675px;
     overflow-y: auto;
     border: 2px solid var(--primary-color);
@@ -1008,16 +1019,31 @@ input, select {
 .password-hint{
     margin-top: 10px;
 }
-
+.hint-list ul {
+    list-style: none; /* Loại bỏ marker */
+    padding: 0; /* Loại bỏ khoảng cách thụt lề mặc định của ul */
+    margin: 0; /* Loại bỏ khoảng cách mặc định của ul */
+}
+.reset-password-form{
+    margin-top: -25px;
+}
+.old_pass_box {
+    margin-top: 10px !important;
+}
+.new_pass_box {
+    margin-top: 25px !important;
+}
+.confirm_box {
+    margin-top: 35px !important;
+}
 /*Header Doi mat khau*/
 .reset-password-header {
-    position: absolute;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    top: 0;
     font-size: 35px;
-    margin-top: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .reset-password-header1{
   position: absolute;
@@ -1036,7 +1062,19 @@ input, select {
   font-size: 18px;
   color: var(--black-color);
 }
-
+.close_pass{
+    text-align: right;
+    color: #aaa;
+    float: right;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -18px;
+    margin-bottom: 12px;
+}
+.close_pass:hover{
+    color: #000;
+}
 
 /*Input*/
 .input_box{
@@ -1048,40 +1086,44 @@ input, select {
 }
 .input-field{
   width:100%;
-  height: 66px;
+  height: 55px;
   font-size: 16px;
   color:var(--black-color);
   background: transparent;
   padding-inline: 20px 50px;
   border: 2px solid var(--primary-color);
-  border-radius: 30px;
+  border-radius: 15px;
   outline: none;
+}
+#old-password{
+    margin-bottom: 10px;
+}
+input#old-password:focus{
+    border: 2px solid #ffa534;
 }
 #new-password{
   margin-bottom: 10px;
 }
+input#new-password:focus{
+    border: 2px solid #ffa534;
+}
 #confirm-password{
   margin-bottom: 10px;
 }
-.input_box > .label{
-  position: absolute;
-  top: 21px;
-  left: 20px;
-  background-color: transparent;
-  color:var(--black-color);
-  transition: .2s;
-  font-size: 15px;
+input#confirm-password:focus{
+    border: 2px solid #ffa534;
 }
-.input-field:focus ~ .label,
-.input-field:valid ~ .label{
-  position: absolute;
-  top: -15px;
-  left: 20px;
-  font-size: 14px;
-  border-radius: 30px;
-  color:var(--black-color);
-  padding: 0 10px;
+.input_box > .label {
+    position: absolute;
+    top: -33px;
+    left: 0px;
+    background-color: transparent;
+    color: var(--black-color);
+    transition: .2s;
+    font-size: 16px;
+    font-weight: normal;
 }
+
 .icon{
   position: absolute;
   top: 23px;
@@ -1093,17 +1135,20 @@ input, select {
 .input-submit {
     width: 50%;
     height: 50px;
-    background: var(--primary-color);
+    background: #ffa534;
+    color: #ffffff;
     font-size: 16px;
     font-weight: 500;
     border: none;
-    border-radius: 30px;
+    border-radius: 10px;
     cursor: pointer;
     transition: .3s;
     margin-top: -10px;
 }
 .input-submit:hover{
-  background: var(--second-color);
+    transform: scale(1.08);
+    color: #ffffff;
+  background: #ff6f00;
 }
 
 /* Fade-in Animation */
