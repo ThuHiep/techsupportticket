@@ -9,7 +9,7 @@
   <meta content="" name="keywords" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-  
+
   <!-- Vendor CSS Files -->
   <link
     href="guest/bootstraps/bootstrap/css/bootstrap.min.css"
@@ -35,7 +35,9 @@
   <style>
     /* Nút mở modal */
     .btn-open-modal {
-      background-color: #007bff;
+        display: block;
+        margin: -75px auto 27px auto;
+      background-color: #FF9700;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -46,7 +48,7 @@
     }
 
     .btn-open-modal:hover {
-      background-color: #0056b3;
+      background-color: #ee5711;
     }
 
     /* Modal */
@@ -69,7 +71,9 @@
       margin: 15% auto;
       padding: 20px;
       border-radius: 10px;
-      width: 40%;
+      width: 37%;
+        height: auto;
+
       position: relative;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
@@ -95,6 +99,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
+        margin-top: 20px;
     }
 
     .account-item {
@@ -103,31 +108,72 @@
       margin-bottom: 15px;
     }
 
+    /* Định dạng form */
+    .account-form {
+        display: flex !important; /* Căn phần tử con theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        justify-content: space-between !important; /* Đẩy các phần tử sang hai bên */
+        padding: 10px 0; /* Khoảng cách trên dưới */
+        border-bottom: 1px solid #ddd; /* Đường gạch dưới mỗi mục */
+        width: 100%;
+    }
+
+    /* Phần thông tin tài khoản (ảnh + tên) */
+    .account-info {
+        display: flex;
+        align-items: center;
+    }
+
     .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 15px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
     }
 
     .account-name {
-      flex: 1;
-      font-size: 16px;
+        font-size: 16px;
+        font-weight: bold;
     }
 
     .btn-switch {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
     }
 
+    /* Hiệu ứng hover cho nút */
     .btn-switch:hover {
-      background-color: #218838;
+        background-color: #218838; /* Màu nền khi hover */
     }
+
+    /* Nút Thêm tài khoản mới */
+    .btn-add-account {
+        display: inline-block; /* Hiển thị như một nút */
+        background-color: #ff0000; /* Màu nền đỏ */
+        color: #ffffff; /* Màu chữ trắng */
+        padding: 10px 20px; /* Đệm trong nút */
+        border-radius: 5px; /* Bo góc */
+        text-align: center; /* Căn giữa chữ */
+        text-decoration: none; /* Loại bỏ gạch chân */
+        font-size: 16px; /* Kích thước chữ */
+        transition: all 0.3s ease; /* Hiệu ứng chuyển đổi mượt */
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Hiệu ứng hover */
+    .btn-add-account:hover {
+        background-color: #cc0000; /* Màu nền đậm hơn khi hover */
+        transform: scale(1.1); /* Phóng to nút khi hover */
+        color: #ffffff; /* Giữ màu chữ trắng */
+    }
+
   </style>
 </head>
 
@@ -767,17 +813,20 @@
         <ul class="account-list">
           <!-- Danh sách tài khoản -->
           @foreach ($accounts as $account)
-          <li class="account-item">
-            <form action="{{ route('account.switch',$account->id) }}" method="POST">
-              @csrf
-              <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
-              <span class="account-name">{{ $account->customer->full_name }}</span>
-              <button type="submit" class="btn-switch">Chuyển</button>
-            </form>
-          </li>
-          @endforeach
+                <li class="account-item">
+                    <form action="{{ route('account.switch', $account->id) }}" method="POST" class="account-form">
+                        @csrf
+                        <div class="account-info">
+                            <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
+                            <span class="account-name">{{ $account->customer->full_name }}</span>
+                        </div>
+                        <button type="submit" class="btn-switch">Chuyển</button>
+                    </form>
+                </li>
+
+            @endforeach
         </ul>
-        <a class="login-button" href="{{ route('login') }}">Thêm tài khoản mới</a>
+          <a class="login-button btn-add-account" href="{{ route('login') }}">+ Thêm tài khoản mới</a>
       </div>
     </div>
     <script>

@@ -318,7 +318,7 @@ h6 {
 }
 
 .header .header-toggle {
-  color: black;
+  color: #ffffff;
   background-color: #FF9700;
   font-size: 22px;
   display: flex;
@@ -336,8 +336,8 @@ h6 {
 }
 
 .header .header-toggle:hover {
-  color: var(--contrast-color);
-  background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    color: #ffffff;
+    background-color: #ee5711;
 }
 
 /*--------------------------------------------------------------
@@ -479,6 +479,7 @@ h6 {
   bottom: -15px;
   z-index: 99999;
   background-color: #FF9700;
+    color: #ffffff;
   width: 44px;
   height: 44px;
   border-radius: 50px;
@@ -492,8 +493,8 @@ h6 {
 }
 
 .scroll-top:hover {
-  background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
-  color: var(--contrast-color);
+  background-color:#ee5711;
+  color: #ffffff;
 }
 
 .scroll-top.active {
@@ -585,6 +586,8 @@ section,
   justify-content: center; /* Căn giữa theo chiều dọc (nếu cần) */
   text-align: center; /* Căn giữa văn bản */
   margin: 0 auto; /* Căn giữa theo chiều ngang */
+    border-bottom: 2px solid #3333336b;
+    width: 65%;
 }
 
 .section-title h1:after {
@@ -1189,7 +1192,7 @@ input#confirm-password:focus{
 }
 .portfolio .portfolio-filters {
   padding: 0;
-  margin: 0 auto 20px auto;
+  margin: 10px auto 20px auto;
   list-style: none;
   text-align: center;
 }
@@ -1198,7 +1201,7 @@ input#confirm-password:focus{
   cursor: pointer;
   display: inline-block;
   padding: 2px;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 400;
   margin: 0 10px;
   line-height: 1;
@@ -1226,7 +1229,7 @@ input#confirm-password:focus{
 
 .portfolio .portfolio-filters li:hover,
 .portfolio .portfolio-filters li.filter-active {
-  color: var(--accent-color);
+  color: #ff6f00;
 }
 
 .portfolio .portfolio-filters li:first-child {
@@ -1319,6 +1322,7 @@ input#confirm-password:focus{
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
+    min-height: 450px;
 }
 
 .request-history h2 {
@@ -1526,7 +1530,11 @@ input#confirm-password:focus{
 
 /*--------------------------------------------------------------
 # Contact Section
+
 --------------------------------------------------------------*/
+section#contact {
+    padding: 15px 0px 90px 0;
+}
 /* Card Container */
 .card-container {
   display: flex;
@@ -1547,16 +1555,11 @@ input#confirm-password:focus{
 
 .card h2 {
   margin: 0;
-  color: #ec9300;
-  font-size: 18px;
+  color: var(--black-color);
+  font-size: 29px;
   font-weight: bold;
+    cursor: auto;
 }
-
-.card:hover {
-  transform: scale(1.1); /* Phóng to nhẹ khi hover */
-  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.2); /* Bóng đổ nhỏ hơn khi nhấn */
-}
-
 /* Modal Setting */
 .modal-setting {
   display: none;
