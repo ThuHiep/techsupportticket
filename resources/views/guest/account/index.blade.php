@@ -77,8 +77,8 @@
     /* Nút đóng modal */
     .close {
       position: absolute;
-      top: 20px;
-      right: 15px;
+      top: 10px;
+      right: 20px;
       color: #aaa;
       font-size: 24px;
       font-weight: bold;
