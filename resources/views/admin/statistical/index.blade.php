@@ -403,12 +403,12 @@
         let labels = [];
         let colors = [];
 
-        // Nếu không nhập gì, hiển thị toàn bộ khách hàng
+        // If no input, show all customers
         if (nameInput === '' && idInput === '') {
             data = customerData.map(customer => customer.requests_count);
             labels = customerData.map(customer => customer.full_name);
             colors = customerData.map(customer => customer.color);
-        } else if (idInput !== '') { // Lọc theo customer_id
+        } else if (idInput !== '') { // Filter by customer_id
             const matchedCustomer = customerData.find(customer => customer.customer_id === idInput);
             if (matchedCustomer) {
                 data = [matchedCustomer.requests_count];
@@ -419,7 +419,7 @@
                 labels = [];
                 colors = [];
             }
-        } else if (nameInput !== '') { // Lọc theo full_name
+        } else if (nameInput !== '') { // Filter by full_name
             const filteredCustomers = customerData.filter(customer => customer.full_name === nameInput);
             if (filteredCustomers.length > 0) {
                 data = filteredCustomers.map(customer => customer.requests_count);
@@ -432,13 +432,13 @@
             }
         }
 
-        // Cập nhật biểu đồ
+        // Update the chart
         customerChart.data.datasets[0].data = data;
         customerChart.data.labels = labels;
         customerChart.data.datasets[0].backgroundColor = colors;
         customerChart.update();
 
-        // Hiển thị thông tin khách hàng
+        // Display customer data
         displayCustomerData(idInput || nameInput || 'all');
     }
 
@@ -492,8 +492,8 @@
         if (selectedCustomer === 'all') {
             let totalRequests = 0;
 
-            // Sắp xếp dữ liệu theo requests_count giảm dần
-            const sortedCustomers = Object.values(customerData).sort((a, b) => b.requests_count - a.requests_count);
+            // Sort data by requests_count descending
+            const sortedCustomers = customerData.sort((a, b) => b.requests_count - a.requests_count);
 
             sortedCustomers.forEach(customer => {
                 const listItem = document.createElement('li');
@@ -504,12 +504,12 @@
 
             totalCustomerRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`;
         } else {
-            // Lọc khách hàng theo `full_name` hoặc `customer_id`
-            const filteredCustomers = Object.values(customerData).filter(customer =>
+            // Filter customers by full_name or customer_id
+            const filteredCustomers = customerData.filter(customer =>
                 customer.full_name === selectedCustomer || customer.customer_id === selectedCustomer
             );
 
-            // Sắp xếp kết quả tìm kiếm theo requests_count giảm dần
+            // Sort results by requests_count descending
             const sortedFilteredCustomers = filteredCustomers.sort((a, b) => b.requests_count - a.requests_count);
 
             sortedFilteredCustomers.forEach(customer => {

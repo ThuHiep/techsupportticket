@@ -25,6 +25,39 @@
             color: red;
             font-size: 14px;
         }
+         .custom-select {
+             position: relative;
+             width: 100%;
+             border: 1px solid #ccc;
+             cursor: pointer;
+         }
+
+        .selected {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .options {
+            display: none;
+            border: 1px solid #ccc;
+            position: absolute;
+            background-color: white;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .option {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #f1f1f1;
+        }
+
     </style>
 </head>
 
@@ -109,6 +142,26 @@
                         <input type="text" id="website" name="website" class="form-control" value="{{ $customers->website }}">
                     </div>
                 </div>
+                <div class="form-group col-6">
+                    <label for="status" class="form-label">Trạng thái<span class="required"></span></label>
+                    <div class="custom-select">
+                        <div class="selected" id="selectedStatus">
+                            <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
+                            Hoạt động
+                        </div>
+                        <div class="options" style="display: none;">
+                            <div class="option" data-value="active" onclick="selectStatus('active')">
+                                <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
+                                Hoạt động
+                            </div>
+                            <div class="option" data-value="inactive" onclick="selectStatus('inactive')">
+                                <span style="color:red; font-size: 24px; margin-right: 5px;">&#8226;</span>
+                                Ngừng hoạt động
+                            </div>
+                        </div>
+                        <input type="hidden" name="status" id="status" value="{{ $customers->status }}">
+                    </div>
+                </div>
             </div>
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
@@ -143,6 +196,32 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('admin/js/customer/script.js')}}"></script>
+    <script>
+        document.getElementById('selectedStatus').onclick = function() {
+            const options = document.querySelector('.options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+        };
+
+        function selectStatus(value) {
+            document.getElementById('status').value = value;
+            const selectedText = value === 'active' ? 'Hoạt động' : 'Ngừng hoạt động';
+            const selectedColor = value === 'active' ? 'green' : 'red';
+            document.getElementById('selectedStatus').innerHTML = `
+            <span style="color:${selectedColor}; font-size: 24px; margin-right: 5px;">&#8226;</span>
+            ${selectedText}
+        `;
+            document.querySelector('.options').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.selected')) {
+                const options = document.querySelector('.options');
+                if (options.style.display === 'block') {
+                    options.style.display = 'none';
+                }
+            }
+        };
+    </script>
 </div>
 </body>
 
