@@ -116,7 +116,7 @@ input.error, select.error {
 
 
 /* Nút Lưu thay đổi */
-.btn-success {
+.btn-edit {
     padding: 12px 24px; /* Khoảng cách trong lớn hơn */
     background-color: #FF9700; /* Màu xanh lá */
     color: white;
@@ -128,17 +128,17 @@ input.error, select.error {
     height: 50px; /* Chiều cao nút */
 }
 
-.btn-success:hover {
+.btn-edit:hover {
     background-color: #FF6F00; /* Màu xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 
-.btn-success:active {
+.btn-edit:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
 /* Nút Hủy */
-.btn-secondary {
+.btn-cancel {
     padding: 12px 24px; /* Khoảng cách trong nút */
     background-color: #a7b1c2; /* Màu nền xám */
     color: white; /* Màu chữ */
@@ -151,13 +151,13 @@ input.error, select.error {
     margin-left: 40px;
 }
 
-.btn-secondary:hover {
+.btn-cancel:hover {
     background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 
-.btn-secondary:active {
+.btn-cancel:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
 /* Tùy chỉnh cho file upload */
@@ -253,13 +253,13 @@ input.error, select.error {
         flex: 1 1 100%; /* Chiếm 100% chiều rộng container */
         max-width: 100%; /* Đảm bảo mỗi trường chiếm toàn bộ không gian */
     }
-    .btn-secondary {
+    .btn-cancel {
         top: 10px; /* Giảm khoảng cách khi nút quay lại ở màn hình nhỏ */
         right: 10px;
         font-size: 12px; /* Kích thước chữ nhỏ hơn */
     }
 
-    .btn-success {
+    .btn-edit {
         width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
     }
 }
