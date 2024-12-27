@@ -24,7 +24,6 @@
     });
 
   });
-
   /**
    * Toggle mobile nav dropdowns
    */
@@ -250,9 +249,9 @@ function openModal() {
   document.getElementById('freelance-input').value = document.getElementById('freelance').innerText;
 }
 
-function closeModal() {
-  document.getElementById('editModal').style.display = 'none';
-}
+// function closeModal() {
+//   document.getElementById('editModal').style.display = 'none';
+// }
 
 function saveChanges() {
   document.getElementById('title').innerText = document.getElementById('title-input').value;
