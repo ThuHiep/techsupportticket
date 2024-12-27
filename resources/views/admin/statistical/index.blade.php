@@ -285,7 +285,7 @@
             </div>
             <!--Số liệu phòng ban-->
             <div class="report-section" id="departmentDataContainer" style="display: none;">
-                <h3>Số liệu tổng hợp theo phòng ban</h3>
+                <h3>Số liệu tổng hợp</h3>
                 <table>
                     <thead>
                     <tr>
@@ -667,10 +667,11 @@
             const filteredData = selectedDepartment === 'all' ? departmentDataa : { [selectedDepartment]: departmentDataa[selectedDepartment] };
             const filteredLabels = selectedDepartment === 'all' ? labels : [selectedDepartment];
 
-            const processingData = filteredLabels.map(department => filteredData[department]["Đang xử lý"] || 0);
-            const notProcessedData = filteredLabels.map(department => filteredData[department]["Chưa xử lý"] || 0);
-            const completedData = filteredLabels.map(department => filteredData[department]["Hoàn thành"] || 0);
-            const canceledData = filteredLabels.map(department => filteredData[department]["Đã hủy"] || 0);
+            // Prepare data for the chart
+            const processingData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Đang xử lý"]) || 0);
+            const notProcessedData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Chưa xử lý"]) || 0);
+            const completedData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Hoàn thành"]) || 0);
+            const canceledData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Đã hủy"]) || 0);
 
             const ctx = document.getElementById('departmentChart').getContext('2d');
 
@@ -683,7 +684,7 @@
             departmentChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: filteredLabels,
+                    labels: filteredLabels, // Show all departments
                     datasets: [
                         { label: 'Đang xử lý', data: processingData, backgroundColor: 'rgba(75, 192, 192, 0.5)' },
                         { label: 'Chưa xử lý', data: notProcessedData, backgroundColor: 'rgba(54, 162, 235, 0.5)' },
@@ -715,53 +716,47 @@
             let totalNotProcessed = 0;
             let totalCompleted = 0;
             let totalCanceled = 0;
-            let totalRequests = 0;
 
+            // Filter for the statistics table
             filteredLabels.forEach(department => {
-                const row = document.createElement('tr');
-                const processing = filteredData[department]["Đang xử lý"] || 0;
-                const notProcessed = filteredData[department]["Chưa xử lý"] || 0;
-                const completed = filteredData[department]["Hoàn thành"] || 0;
-                const canceled = filteredData[department]["Đã hủy"] || 0;
+                const data = filteredData[department];
+                const processing = data ? data["Đang xử lý"] || 0 : 0;
+                const notProcessed = data ? data["Chưa xử lý"] || 0 : 0;
+                const completed = data ? data["Hoàn thành"] || 0 : 0;
+                const canceled = data ? data["Đã hủy"] || 0 : 0;
 
-                // Update total counts
-                totalProcessing += processing;
-                totalNotProcessed += notProcessed;
-                totalCompleted += completed;
-                totalCanceled += canceled;
+                // Only add the row if there is at least one non-zero status
+                if (processing > 0 || notProcessed > 0 || completed > 0 || canceled > 0) {
+                    const row = document.createElement('tr');
 
-                // Calculate total requests for the department
-                const totalForDepartment = processing + notProcessed + completed + canceled;
-                totalRequests += totalForDepartment;
+                    // Update total counts
+                    totalProcessing += processing;
+                    totalNotProcessed += notProcessed;
+                    totalCompleted += completed;
+                    totalCanceled += canceled;
 
-                row.innerHTML = `
-                    <td>${department}</td>
-                    <td>${processing}</td>
-                    <td>${notProcessed}</td>
-                    <td>${completed}</td>
-                    <td>${canceled}</td>
-                `;
-                statisticsData.appendChild(row);
+                    row.innerHTML = `
+                        <td>${department}</td>
+                        <td>${processing}</td>
+                        <td>${notProcessed}</td>
+                        <td>${completed}</td>
+                        <td>${canceled}</td>
+                    `;
+                    statisticsData.appendChild(row);
+                }
             });
 
+            // Create total row for status counts
             // Create total row for status counts
             const totalRow = document.createElement('tr');
             totalRow.innerHTML = `
                 <td><strong>Tổng:</strong></td>
-                <td>${totalProcessing}</td>
-                <td>${totalNotProcessed}</td>
-                <td>${totalCompleted}</td>
-                <td>${totalCanceled}</td>
+                <td><strong>${totalProcessing}</strong></td>
+                <td><strong>${totalNotProcessed}</strong></td>
+                <td><strong>${totalCompleted}</strong></td>
+                <td><strong>${totalCanceled}</strong></td>
             `;
             statisticsData.appendChild(totalRow);
-
-            // Create total row for all requests
-            const totalRequestsRow = document.createElement('tr');
-            totalRequestsRow.innerHTML = `
-                <td><strong>Tổng số yêu cầu:</strong></td>
-                <td colspan="4">${totalRequests}</td>
-            `;
-            statisticsData.appendChild(totalRequestsRow);
         }
 
         // Initialize chart and table on page load
