@@ -853,7 +853,19 @@ button:hover {
 .form-group {
   margin-bottom: 15px;
 }
+/* Loại bỏ focus-visible */
+input:focus-visible, select:focus-visible {
+    outline: none; /* Hoặc thêm các quy tắc mong muốn */
+}
 
+/* Thêm hiệu ứng focus */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border: 2px solid #ffa534;
+    outline: none; /* Đảm bảo bỏ outline mặc định */
+    box-shadow: 0 0 5px rgba(255, 165, 52, 0.5); /* Tùy chọn: thêm hiệu ứng shadow */
+}
 label {
   font-weight: bold;
   display: block;
@@ -1100,18 +1112,24 @@ input, select {
 }
 input#old-password:focus{
     border: 2px solid #ffa534;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 165, 52, 0.5);
 }
 #new-password{
   margin-bottom: 10px;
 }
 input#new-password:focus{
     border: 2px solid #ffa534;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 165, 52, 0.5);
 }
 #confirm-password{
   margin-bottom: 10px;
 }
 input#confirm-password:focus{
     border: 2px solid #ffa534;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 165, 52, 0.5);
 }
 .input_box > .label {
     position: absolute;
