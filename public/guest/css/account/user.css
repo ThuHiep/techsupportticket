@@ -703,6 +703,7 @@ section,
 
 /* Định dạng nút "Tạo yêu cầu hỗ trợ" */
 .home.section .text-center button.btn.btn-success {
+    display: inline;
   background-color: #FB9A02;
   border: 0;
   padding: 10px 20px;
@@ -758,35 +759,51 @@ section,
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
+    margin-top: 0px;
 }
 
 .modal-content {
-  background-color: #fff;
-  margin: 10% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 50%;
-  border-radius: 8px;
+    background-color: #fff;
+    margin: 2% 30%;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 61%;
+    border-radius: 8px;
 }
 
 .close {
-  text-align: right;
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+    text-align: right;
+    color: #aaa;
+    float: right;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -18px;
+    margin-bottom: 12px;
 }
 
 .close:hover {
-  color: #000;
+    color: #000;
 }
+.modal-title {
+    margin-top: -30px;
+    font-size: 35px;
+}
+.required {
+    color: red;
+    font-size: 16px;
+    margin-left: 3px;
+}
+
 
 label {
   display: block;
   margin-top: 10px;
 }
-
+.form-control{
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
 input, textarea {
   width: 100%;
   padding: 8px;
@@ -831,13 +848,14 @@ label {
   display: block;
   margin-bottom: 5px;
   color: #333;
+    font-size: 16px;
 }
 
 input, select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 100%;
+    padding: 6px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
 }
 
 .upload-btn {
@@ -958,21 +976,27 @@ input, select {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6); /* Làm tối màn hình */
   z-index: 999; /* Dưới modal */
+    margin-top: 0px;
 }
 
 /* Modal */
 .modalPass {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1001; /* Ensures modal is above the overlay */
-  text-align: center;
+    display: none;
+    position: fixed;
+    top: 47%;
+    left: 50%;
+    width: 35%;
+    height: 675px;
+    overflow-y: auto;
+    border: 2px solid var(--primary-color);
+    backdrop-filter: blur(25px);
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px 15px 5px 15px;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    text-align: center;
 }
 
 /* Khi Modal mở, hiển thị overlay */
@@ -981,17 +1005,21 @@ input, select {
 }
 
 /* Reset Password Box */
-.reset-password-box{
-  width: 430px;
-  backdrop-filter: blur(25px);
-  border: 2px solid var(--primary-color);
-  border-radius: 15px;
-  padding: 8.5em 2.5em 2em 2.5em ;
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
-  margin-top: 40px ;
+.password-hint{
+    margin-top: 10px;
 }
+
 /*Header Doi mat khau*/
-.reset-password-header{
+.reset-password-header {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    top: 0;
+    font-size: 35px;
+    margin-top: 25px;
+}
+.reset-password-header1{
   position: absolute;
   top: 0;
   left: 50%;
@@ -1008,36 +1036,15 @@ input, select {
   font-size: 18px;
   color: var(--black-color);
 }
-.reset-password-header::before{
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -30px;
-  width: 30px;
-  height: 30px;
-  border-top-right-radius: 50%;
-  background: transparent;
-  box-shadow: 12px 0 0 0 var(--primary-color);
-}
-.reset-password-header::after{
-  content: "";
-  position: absolute;
-  top: 0;
-  right: -30px;
-  width : 30px;
-  height: 30px;
-  border-top-left-radius: 50%;
-  background: transparent;
-  box-shadow: -12px 0 0 0 var(--primary-color);
-}
+
 
 /*Input*/
 .input_box{
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
-  bottom: 50px;
+  margin: 5px 0px 20px 0px;
+    bottom: -55px;
 }
 .input-field{
   width:100%;
@@ -1080,18 +1087,20 @@ input, select {
   top: 23px;
   right: 25px;
   font-size: 20px;
+    cursor: pointer;
 }
 /*Submit cap nhat password*/
-.input-submit{
-  width: 100%;
-  height: 50px;
-  background: var(--primary-color);
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: .3s;
+.input-submit {
+    width: 50%;
+    height: 50px;
+    background: var(--primary-color);
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: -10px;
 }
 .input-submit:hover{
   background: var(--second-color);
