@@ -785,6 +785,8 @@ section,
 .close:hover {
     color: #000;
 }
+
+
 .modal-title {
     margin-top: -30px;
     font-size: 35px;
@@ -1008,16 +1010,17 @@ input, select {
 .password-hint{
     margin-top: 10px;
 }
-
+.reset-password-form{
+    margin-top: -25px;
+}
 /*Header Doi mat khau*/
 .reset-password-header {
-    position: absolute;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    top: 0;
     font-size: 35px;
-    margin-top: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .reset-password-header1{
   position: absolute;
@@ -1036,7 +1039,19 @@ input, select {
   font-size: 18px;
   color: var(--black-color);
 }
-
+.close_pass{
+    text-align: right;
+    color: #aaa;
+    float: right;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -18px;
+    margin-bottom: 12px;
+}
+.close_pass:hover{
+    color: #000;
+}
 
 /*Input*/
 .input_box{
@@ -1048,13 +1063,13 @@ input, select {
 }
 .input-field{
   width:100%;
-  height: 66px;
+  height: 55px;
   font-size: 16px;
   color:var(--black-color);
   background: transparent;
   padding-inline: 20px 50px;
   border: 2px solid var(--primary-color);
-  border-radius: 30px;
+  border-radius: 15px;
   outline: none;
 }
 #new-password{
@@ -1065,23 +1080,15 @@ input, select {
 }
 .input_box > .label{
   position: absolute;
-  top: 21px;
-  left: 20px;
+  top: -33px;
+  left: 10px;
   background-color: transparent;
   color:var(--black-color);
   transition: .2s;
   font-size: 15px;
+    font-weight: normal;
 }
-.input-field:focus ~ .label,
-.input-field:valid ~ .label{
-  position: absolute;
-  top: -15px;
-  left: 20px;
-  font-size: 14px;
-  border-radius: 30px;
-  color:var(--black-color);
-  padding: 0 10px;
-}
+
 .icon{
   position: absolute;
   top: 23px;
