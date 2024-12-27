@@ -57,8 +57,8 @@ class UserController extends Controller
         $profileImagePath = $logged_user->profile_image;
         if ($request->hasFile('profile_image')) {
             // Xóa ảnh cũ nếu có
-            if ($profileImagePath && file_exists(public_path('admin/img/employee/' . $profileImagePath))) {
-                unlink(public_path('admin/img/employee/' . $profileImagePath));
+            if ($profileImagePath && file_exists(public_path('admin/img/customer/' . $profileImagePath))) {
+                unlink(public_path('admin/img/customer/' . $profileImagePath));
             }
 
             // Lưu ảnh mới
@@ -66,7 +66,7 @@ class UserController extends Controller
             if ($image->isValid()) {
                 $imageName = 'update_' . time() . '.' . $image->getClientOriginalExtension();
                 $profileImagePath = $imageName;  // Cập nhật đường dẫn ảnh mới
-                $image->move(public_path('admin/img/employee/'), $imageName);  // Di chuyển ảnh mới vào thư mục
+                $image->move(public_path('admin/img/customer/'), $imageName);  // Di chuyển ảnh mới vào thư mục
             }
         }
 
