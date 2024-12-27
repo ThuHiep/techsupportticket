@@ -117,6 +117,7 @@ class CustomerController extends Controller
         $customer->company = $request['company'] ?? null;
         $customer->email = $request['email'] ?? null;
         $customer->tax_id = $request['tax_id'] ?? null;
+        $customer->status = $request['status'] ?? null;
         $customer->update_at = now();
         $customer->save();
 
