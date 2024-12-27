@@ -134,8 +134,8 @@
 
         <!-- Nút hành động -->
         <div class="button-container">
-            <button type="submit" class="btn btn-success me-3">Cập nhật</button>
-            <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
+            <button type="submit" class="btn btn-edit me-3">Cập nhật</button>
+            <a href="{{ route('customer.index') }}" class="btn btn-cancel">Hủy</a>
         </div>
 
     </form>
