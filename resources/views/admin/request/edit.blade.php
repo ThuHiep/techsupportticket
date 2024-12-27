@@ -84,7 +84,7 @@
                         </div>
 
                         <!-- Hàng 3: Ngày nhận + Ngày hoàn thành -->
-                        <div class="row_left">
+                        {{-- <div class="row_left">
                             <!-- Nhóm "Ngày nhận" và "Ngày hoàn thành" -->
                             <div class="form-group-row date-group">
                                 <div class="form-group">
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> --}}
                         <div class="form-group attachments">
                             <label for="attachments">{{ $requestData->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
                             <div class="custom-file">

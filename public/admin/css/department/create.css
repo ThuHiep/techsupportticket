@@ -93,12 +93,17 @@ h1 {
     font-weight: bold;
     border: none;
     display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
 }
 
 .add-department-btn {
+    padding: 12px 24px;
     background-color: #FF9700;
     color: #fff;
     border: 1px solid #FF9700;
+    width: 200px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
+    
 }
 
 .add-department-btn:hover {
@@ -112,6 +117,8 @@ h1 {
     background-color: #ccc;
     color: #ffffff;
     border: 1px solid #ccc;
+    width: 100px; /* Chiều rộng nút */
+    height: 50px; /* Chiều cao nút */
 }
 
 .cancel-btn:hover {

@@ -31,12 +31,12 @@
   <link href="guest/css/account/user.css" rel="stylesheet" />
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     /* Nút mở modal */
     .btn-open-modal {
-        display: block;
-        margin: -75px auto 27px auto;
+      display: block;
+      margin: -75px auto 27px auto;
       background-color: #FF9700;
       color: white;
       border: none;
@@ -72,7 +72,7 @@
       padding: 20px;
       border-radius: 10px;
       width: 37%;
-        height: auto;
+      height: auto;
 
       position: relative;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -99,7 +99,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
-        margin-top: 20px;
+      margin-top: 20px;
     }
 
     .account-item {
@@ -110,70 +110,87 @@
 
     /* Định dạng form */
     .account-form {
-        display: flex !important; /* Căn phần tử con theo chiều ngang */
-        align-items: center; /* Căn giữa theo chiều dọc */
-        justify-content: space-between !important; /* Đẩy các phần tử sang hai bên */
-        padding: 10px 0; /* Khoảng cách trên dưới */
-        border-bottom: 1px solid #ddd; /* Đường gạch dưới mỗi mục */
-        width: 100%;
+      display: flex !important;
+      /* Căn phần tử con theo chiều ngang */
+      align-items: center;
+      /* Căn giữa theo chiều dọc */
+      justify-content: space-between !important;
+      /* Đẩy các phần tử sang hai bên */
+      padding: 10px 0;
+      /* Khoảng cách trên dưới */
+      border-bottom: 1px solid #ddd;
+      /* Đường gạch dưới mỗi mục */
+      width: 100%;
     }
 
     /* Phần thông tin tài khoản (ảnh + tên) */
     .account-info {
-        display: flex;
-        align-items: center;
+      display: flex;
+      align-items: center;
     }
 
     .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
     }
 
     .account-name {
-        font-size: 16px;
-        font-weight: bold;
+      font-size: 16px;
+      font-weight: bold;
     }
 
     .btn-switch {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s ease;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
     }
 
     /* Hiệu ứng hover cho nút */
     .btn-switch:hover {
-        background-color: #218838; /* Màu nền khi hover */
+      background-color: #218838;
+      /* Màu nền khi hover */
     }
 
     /* Nút Thêm tài khoản mới */
     .btn-add-account {
-        display: inline-block; /* Hiển thị như một nút */
-        background-color: #ff0000; /* Màu nền đỏ */
-        color: #ffffff; /* Màu chữ trắng */
-        padding: 10px 20px; /* Đệm trong nút */
-        border-radius: 5px; /* Bo góc */
-        text-align: center; /* Căn giữa chữ */
-        text-decoration: none; /* Loại bỏ gạch chân */
-        font-size: 16px; /* Kích thước chữ */
-        transition: all 0.3s ease; /* Hiệu ứng chuyển đổi mượt */
-        margin-top: 10px;
-        margin-bottom: 10px;
+      display: inline-block;
+      /* Hiển thị như một nút */
+      background-color: #ff0000;
+      /* Màu nền đỏ */
+      color: #ffffff;
+      /* Màu chữ trắng */
+      padding: 10px 20px;
+      /* Đệm trong nút */
+      border-radius: 5px;
+      /* Bo góc */
+      text-align: center;
+      /* Căn giữa chữ */
+      text-decoration: none;
+      /* Loại bỏ gạch chân */
+      font-size: 16px;
+      /* Kích thước chữ */
+      transition: all 0.3s ease;
+      /* Hiệu ứng chuyển đổi mượt */
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
     /* Hiệu ứng hover */
     .btn-add-account:hover {
-        background-color: #cc0000; /* Màu nền đậm hơn khi hover */
-        transform: scale(1.1); /* Phóng to nút khi hover */
-        color: #ffffff; /* Giữ màu chữ trắng */
+      background-color: #cc0000;
+      /* Màu nền đậm hơn khi hover */
+      transform: scale(1.1);
+      /* Phóng to nút khi hover */
+      color: #ffffff;
+      /* Giữ màu chữ trắng */
     }
-
   </style>
 </head>
 
@@ -252,7 +269,7 @@
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="margin-top: 10px "/>
+              alt="" style="margin-left: 20px; height:250px"/>
           </div>
           <div class="col-lg-8 content" style="margin-top: 40px">
             <h2 id="title">Thông tin cá nhân</h2>
@@ -324,7 +341,7 @@
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
-              <span class="close_pass">x</span>
+            <span class="close_pass">x</span>
             <h1 class="reset-password-header">
               Đổi mật khẩu
             </h1>
@@ -510,10 +527,9 @@
               }
             }
             closeBtn_pass.onclick = () => {
-                modalPass.style.display = "none";
-                overlay.style.display = "none";
+              modalPass.style.display = "none";
+              overlay.style.display = "none";
             };
-
           </script>
 
           <!-- Modal -->
@@ -605,37 +621,71 @@
               </form>
             </div>
           </div>
-
           <script>
-              document.addEventListener("DOMContentLoaded", () => {
-                  const modal = document.querySelector(".modal");
-                  const btn = document.getElementById("edit-btn");
-                  const closeBtn = document.querySelector(".close");
-                  const cancelBtn = document.querySelector(".btn-cancel");
+            document.addEventListener("DOMContentLoaded", () => {
+              const modal = document.querySelector(".modal");
+              const btn = document.getElementById("edit-btn");
+              const closeBtn = document.querySelector(".close");
+              const cancelBtn = document.querySelector(".btn-cancel");
+              const previewImg = document.getElementById("preview-img");
+              const profileImageInput = document.getElementById("profile_image");
 
-                  // Mở modal khi nhấn nút
-                  btn.onclick = () => {
-                      modal.style.display = "block";
-                  };
+              let initialData = {};
 
-                  // Đóng modal khi nhấn nút 'x'
-                  closeBtn.onclick = () => {
-                      modal.style.display = "none";
-                  };
+              const saveInitialData = () => {
+                const inputs = modal.querySelectorAll("input, select");
+                inputs.forEach(input => {
+                  initialData[input.name] = input.value;
+                });
 
-                  // Đóng modal khi nhấn nút "Hủy"
-                  cancelBtn.onclick = () => {
-                      modal.style.display = "none";
-                  };
+                initialData["profile_image_preview"] = previewImg.src;
+              };
 
-                  // Đóng modal khi click ra ngoài nội dung
-                  window.onclick = (event) => {
-                      if (event.target === modal) {
-                          modal.style.display = "none";
-                      }
-                  };
-              });
+              const resetToInitialData = () => {
+                const inputs = modal.querySelectorAll("input, select");
+                inputs.forEach(input => {
+                  input.value = initialData[input.name];
+                  if (input.tagName === "SELECT") {
+                    input.dispatchEvent(new Event("change"));
+                  }
+                });
 
+                previewImg.src = initialData["profile_image_preview"];
+                profileImageInput.value = "";
+              };
+
+              btn.onclick = () => {
+                saveInitialData();
+                modal.style.display = "block";
+              };
+
+              closeBtn.onclick = () => {
+                resetToInitialData();
+                modal.style.display = "none";
+              };
+
+              cancelBtn.onclick = () => {
+                resetToInitialData();
+                modal.style.display = "none";
+              };
+
+              window.onclick = (event) => {
+                if (event.target === modal) {
+                  resetToInitialData();
+                  modal.style.display = "none";
+                }
+              };
+            });
+
+            function previewImage(event) {
+              const reader = new FileReader();
+              reader.onload = function() {
+                const output = document.getElementById("preview-img");
+                output.src = reader.result;
+                output.style.display = "block";
+              };
+              reader.readAsDataURL(event.target.files[0]);
+            }
           </script>
         </div>
       </div>
@@ -815,20 +865,20 @@
         <ul class="account-list">
           <!-- Danh sách tài khoản -->
           @foreach ($accounts as $account)
-                <li class="account-item">
-                    <form action="{{ route('account.switch', $account->id) }}" method="POST" class="account-form">
-                        @csrf
-                        <div class="account-info">
-                            <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
-                            <span class="account-name">{{ $account->customer->full_name }}</span>
-                        </div>
-                        <button type="submit" class="btn-switch">Chuyển</button>
-                    </form>
-                </li>
+          <li class="account-item">
+            <form action="{{ route('account.switch', $account->id) }}" method="POST" class="account-form">
+              @csrf
+              <div class="account-info">
+                <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
+                <span class="account-name">{{ $account->customer->full_name }}</span>
+              </div>
+              <button type="submit" class="btn-switch">Chuyển</button>
+            </form>
+          </li>
 
-            @endforeach
+          @endforeach
         </ul>
-          <a class="login-button btn-add-account" href="{{ route('login') }}">+ Thêm tài khoản mới</a>
+        <a class="login-button btn-add-account" href="{{ route('login') }}">+ Thêm tài khoản mới</a>
       </div>
     </div>
     <script>

@@ -162,7 +162,7 @@ input.error, select.error {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
 /* Nút Quay lại */
-.btn-secondary {
+.btn-cancel {
     padding: 12px 24px; /* Khoảng cách trong nút */
     background-color: #a7b1c2; /* Màu nền xám */
     color: white; /* Màu chữ */
@@ -174,12 +174,12 @@ input.error, select.error {
     height: 50px; /* Chiều cao nút */
     margin-left: 40px;
 }
-.btn-secondary:hover {
+.btn-cancel:hover {
     background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
     transform: scale(1.05); /* Phóng to nhẹ */
 }
-.btn-secondary:active {
+.btn-cancel:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
@@ -278,7 +278,7 @@ input.error, select.error {
         max-width: 100%; /* Chiều rộng tối đa là toàn bộ màn hình */
     }
 
-    .btn-secondary {
+    .btn-cancel {
         top: 10px; /* Giảm khoảng cách khi nút quay lại ở màn hình nhỏ */
         right: 10px;
         font-size: 12px; /* Kích thước chữ nhỏ hơn */
