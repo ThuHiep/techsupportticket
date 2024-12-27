@@ -15,7 +15,7 @@
             color: red;
             font-size: 14px;
         }
-        .btn-secondary.btn-sm {
+        .btn-cancel.btn-sm {
             padding: 5px 10px;
             font-size: 12px;
             margin-left: 10px;
@@ -125,7 +125,7 @@
         </div>
         <div class="button-container">
             <button type="submit" class="btn btn-add-cus me-3">Thêm mới</button>
-            <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
+            <a href="{{ route('customer.index') }}" class="btn btn-cancel">Quay lại</a>
         </div>
     </form>
 </div>
