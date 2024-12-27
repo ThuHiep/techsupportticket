@@ -77,11 +77,14 @@
             z-index: 100;
         }
 
-        .menu-section {
+        .menu-section-1 {
             padding: 15px 20px;
             border-bottom: 1px solid #eaeaea;
         }
-
+        .menu-section-2 {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
         .menu-item {
             display: flex;
             align-items: center;
@@ -110,10 +113,10 @@
             font-size: 14px !important;
             font-weight: normal ;
         }
-        .menu-section>a{
+        .menu-section-2>a{
             color: #333 ;
         }
-        .menu-section>a:hover{
+        .menu-section-2>a:hover{
             color: #ff6f00;
         }
     </style>
@@ -135,12 +138,12 @@
             <img class="avatar-container" src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}" alt="" onclick="toggleMenu()">
 
             <div class="menu" id="menu">
-                <div class="menu-section">
+                <div class="menu-section-1">
                     <div class="menu-item">
                         <a href=" {{route("indexAccount")}}">Trang cá nhân</a>
                     </div>
                 </div>
-                <div class="menu-section">
+                <div class="menu-section-2">
                     <a href="{{ route('logout') }}" class="logout-button ">Đăng Xuất</a>
                 </div>
             </div>
