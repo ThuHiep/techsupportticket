@@ -9,6 +9,7 @@
   <meta content="" name="keywords" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+  
   <!-- Vendor CSS Files -->
   <link
     href="guest/bootstraps/bootstrap/css/bootstrap.min.css"
@@ -802,9 +803,9 @@
         }
       });
     </script>
-    </script>
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
     <!-- Main JS File -->
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs"></script>
     <script src="guest/js/main.js"></script>
 
 </body>
