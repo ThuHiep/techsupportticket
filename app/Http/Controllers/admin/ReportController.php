@@ -313,6 +313,9 @@ class ReportController extends Controller
             ->groupBy('period', 'status')
             ->get();
 
+        // Kiểm tra kết quả của dailyStats
+        \Log::info('Daily Stats:', $dailyStats->toArray());
+
         foreach ($dailyStats as $stat) {
             $days[$stat->period][$stat->status] = $stat->total;
         }

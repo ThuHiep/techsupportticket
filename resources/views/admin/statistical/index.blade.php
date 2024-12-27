@@ -174,8 +174,8 @@
                             <input type="date" id="specificDate" onchange="updateChartFromDate()">
                         </div>
                         <div id="dateRangeInput">
-                            <label for="startDate">Ngày bắt đầu:</label>
-                            <input type="date" id="startDate" onchange="updateChartFromDateRange()">
+                            <label for="specificDate">Ngày bắt đầu:</label>
+                            <input type="date" id="specificDate" onchange="updateChartFromDateRange()">
                             <label for="endDate">Ngày kết thúc:</label>
                             <input type="date" id="endDate" onchange="updateChartFromDateRange()">
                         </div>
@@ -752,46 +752,27 @@
             updateChartFromYear(); // Cập nhật biểu đồ theo năm
         }
     });
-    function displayTimeData(dataArray, period) {
-        const timeDataSummary = document.getElementById('timeDataList');
-        timeDataSummary.innerHTML = '';
+    function displayTotalSummary(filteredData) {
+        const totalTimeRequests = document.getElementById('totalTimeRequests');
+        let totalProcessing = 0;
+        let totalPending = 0;
+        let totalCompleted = 0;
+        let totalCancelled = 0;
 
-        if (period === 'Ngày') {
-            dataArray.forEach(item => {
-                const summaryRow = document.createElement('div');
-                summaryRow.innerHTML = `${item.period}:
-                Đang xử lý: ${item.total['Đang xử lý'] || 0},
-                Chưa xử lý: ${item.total['Chưa xử lý'] || 0},
-                Hoàn thành: ${item.total['Hoàn thành'] || 0},
-                Đã hủy: ${item.total['Đã hủy'] || 0}`;
-                timeDataSummary.appendChild(summaryRow);
-            });
-        } else if (period === 'Tuần' || period === 'Tháng' || period === 'Năm') {
-            // Hiển thị tổng cho tuần, tháng, năm
-            let totalData = {
-                'Đang xử lý': 0,
-                'Chưa xử lý': 0,
-                'Hoàn thành': 0,
-                'Đã hủy': 0
-            };
+        filteredData.forEach(item => {
+            totalProcessing += item.total['Đang xử lý'] || 0;
+            totalPending += item.total['Chưa xử lý'] || 0;
+            totalCompleted += item.total['Hoàn thành'] || 0;
+            totalCancelled += item.total['Đã hủy'] || 0;
+        });
 
-            dataArray.forEach(item => {
-                totalData['Đang xử lý'] += item.total['Đang xử lý'] || 0;
-                totalData['Chưa xử lý'] += item.total['Chưa xử lý'] || 0;
-                totalData['Hoàn thành'] += item.total['Hoàn thành'] || 0;
-                totalData['Đã hủy'] += item.total['Đã hủy'] || 0;
-            });
-
-            const summaryRow = document.createElement('div');
-            summaryRow.innerHTML = `
-            <strong>Tổng:</strong>
-            Đang xử lý: ${totalData['Đang xử lý']},
-            Chưa xử lý: ${totalData['Chưa xử lý']},
-            Hoàn thành: ${totalData['Hoàn thành']},
-            Đã hủy: ${totalData['Đã hủy']}
-        `;
-            timeDataSummary.appendChild(summaryRow);
-        }
+        totalTimeRequests.innerHTML = `
+        <strong>Tổng số liệu:</strong><br>
+        Đang xử lý: ${totalProcessing}<br>
+        Chưa xử lý: ${totalPending}<br>
+        Hoàn thành: ${totalCompleted}<br>
+        Đã hủy: ${totalCancelled}
+    `;
     }
 
     function updateChartFromDate() {
@@ -806,6 +787,7 @@
         // Cập nhật biểu đồ với dữ liệu đã lọc
         if (filteredData.length > 0) {
             updateChartWithFilteredDataa(filteredData); // Cập nhật biểu đồ với dữ liệu cho ngày hôm nay
+            displayTotalSummary(filteredData);
         } else {
             alert('Không có dữ liệu cho ngày này.'); // Thông báo nếu không có dữ liệu
         }
@@ -835,6 +817,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Tuần', filteredData); // Cập nhật biểu đồ với dữ liệu cho tuần hiện tại
+            displayTotalSummary(filteredData);
         } else {
             alert('Không có dữ liệu cho tuần hiện tại.'); // Thông báo nếu không có dữ liệu
         }
@@ -857,6 +840,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Tháng', filteredData); // Cập nhật biểu đồ cho tháng được chọn
+            displayTotalSummary(filteredData);
         } else {
             alert(`Không có dữ liệu cho tháng ${month} năm ${year}.`);
         }
@@ -876,13 +860,13 @@
 
         if (filteredData.length > 0) {
             updateChartWithFilteredDataa(filteredData);
+            displayTotalSummary(filteredData);
         } else {
             alert('Không có dữ liệu cho năm này.');
         }
     }
 
     // Cập nhật biểu đồ với dữ liệu đã lọc
-    // Cập nhật hàm updateChartWithFilteredDataa
     function updateChartWithFilteredDataa(data) {
         console.log("Cập nhật biểu đồ với dữ liệu đã lọc:", data);
         const labels = data.map(item => item.period);
@@ -915,7 +899,6 @@
             combinedChart.data.datasets = datasets;
             combinedChart.update();
         } else {
-            // Nếu biểu đồ chưa được khởi tạo, tạo mới
             const ctx = document.getElementById('combinedChart').getContext('2d');
             combinedChart = new Chart(ctx, {
                 type: 'bar',
@@ -939,6 +922,9 @@
                 }
             });
         }
+
+        // Display the total summary
+        displayTotalSummary(data);
     }
 
     function showInput(type) {
@@ -1005,31 +991,38 @@
     // }
 
     function updateChartFromDateRange() {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-        const timeData = @json($timeData);
+        const startDate = document.getElementById('specificDate').value; // Lấy ngày bắt đầu từ input
+        const endDate = document.getElementById('endDate').value; // Lấy ngày kết thúc từ input
+        const timeData = @json($timeData); // Đảm bảo dữ liệu timeData có sẵn ở đây
 
         console.log("Start Date:", startDate);
         console.log("End Date:", endDate);
-        console.log("Time Data:", timeData);
 
+        // Kiểm tra xem người dùng đã nhập đủ ngày chưa
         if (!startDate || !endDate) {
             alert('Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc.');
             return;
         }
 
+        // Chuyển đổi ngày thành đối tượng Date
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        end.setDate(end.getDate() + 1); // Bao gồm ngày kết thúc
+
+        // Lọc dữ liệu cho khoảng thời gian
         const filteredData = timeData['Ngày'].filter(item => {
-            const itemDate = new Date(item.period);
-            console.log("Item Date:", itemDate);
-            return itemDate >= new Date(startDate) && itemDate <= new Date(endDate);
+            const itemDate = new Date(item.period); // Chuyển đổi item.period thành đối tượng Date
+            return itemDate >= start && itemDate < end; // So sánh ngày
         });
 
-        console.log("Filtered Data:", filteredData);
+        console.log("Filtered Data:", filteredData); // Kiểm tra dữ liệu đã lọc
 
+        // Cập nhật biểu đồ với dữ liệu đã lọc
         if (filteredData.length > 0) {
-            updateTimeReport('Khoảng ngày', filteredData);
+            updateChartWithFilteredDataa(filteredData); // Cập nhật biểu đồ với dữ liệu đã lọc
+            displayTotalSummary(filteredData); // Hiển thị tổng kết dữ liệu
         } else {
-            alert('Không có dữ liệu trong khoảng ngày được chọn.');
+            alert('Không có dữ liệu trong khoảng ngày này.'); // Thông báo nếu không có dữ liệu
         }
     }
 
@@ -1068,6 +1061,7 @@
         // Cập nhật báo cáo thời gian
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng tuần', filteredData);
+            displayTotalSummary(filteredData);
         } else {
             alert('Không có dữ liệu trong khoảng tuần được chọn.');
         }
@@ -1106,6 +1100,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng tháng', filteredData);
+            displayTotalSummary(filteredData);
         } else {
             alert(`Không có dữ liệu cho khoảng thời gian từ tháng ${startMonth} năm ${startYear} đến tháng ${endMonth} năm ${endYear}.`);
         }
@@ -1136,6 +1131,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng năm', filteredData);
+            displayTotalSummary(filteredData);
         } else {
             alert(`Không có dữ liệu cho khoảng thời gian từ năm ${startYearValue} đến năm ${endYearValue}.`);
         }
