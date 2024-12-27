@@ -177,9 +177,9 @@
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
-            <div class="reset-password-header">
-              <span>Đổi mật khẩu</span>
-            </div>
+            <h1 class="reset-password-header">
+                Đổi mật khẩu
+            </h1>
             <form action="{{ route('account.changePass') }}" method="POST" enctype="multipart/form-data" class="reset-password-form">
               @csrf
               @method('PUT')
@@ -223,7 +223,7 @@
               </div>
 
               <!-- Submit Button -->
-              <div class="input_box">
+              <div class="input_box" style="align-items: center">
                 <input type="submit" class="input-submit" value="Cập nhật mật khẩu">
               </div>
             </form>
