@@ -177,6 +177,7 @@
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
+              <span class="close_pass">x</span>
             <h1 class="reset-password-header">
                 Đổi mật khẩu
             </h1>
@@ -457,6 +458,7 @@
             const modal = document.getElementById("editModal");
             const btn = document.getElementById("edit-btn");
             const closeBtn = document.querySelector(".close");
+            const closeBtn_pass = document.querySelector(".close_pass");
             const cancelBtn = document.querySelector(".btn-cancel");
 
             // Open modal when button is clicked
@@ -467,6 +469,9 @@
             // Close modal when 'x' button is clicked
             closeBtn.onclick = () => {
               modal.style.display = "none";
+            };
+            closeBtn_pass.onclick = () => {
+                modal.style.display = "none";
             };
             // Đóng modal khi nhấn nút "HỦY"
             cancelBtn.onclick = () => {
