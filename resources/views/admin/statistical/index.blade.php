@@ -101,6 +101,23 @@
             height: 400px !important; /* Hoặc kích thước bạn muốn */
             display: block; /* Đảm bảo rằng canvas được hiển thị */
         }
+        .suggestions-dropdown {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute; /* Adjust according to your layout */
+            background-color: white;
+            z-index: 1000;
+        }
+
+        .suggestions-dropdown div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestions-dropdown div:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
@@ -121,14 +138,11 @@
             <!--Biểu đồ khách hàng-->
             <div class="report-section" id="customerReportContainer" style="display: block;">
                 <div class="filter-container">
-                    <select id="customerFilter" onchange="updateCustomerReport()">
-                        <option value="all">Tất cả khách hàng</option>
-                        @foreach ($activeCustomers as $customer)
-                            <option value="{{ $customer->full_name }}">{{ $customer->full_name }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..." onkeyup="filterCustomers('name')">
+                    <input type="text" id="customerIdInput" placeholder="Nhập mã khách hàng..." onkeyup="filterCustomers('id')">
+                    <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
-                <div class="chart-containers">
+                <div class="chart-container">
                     <canvas id="customerReport"></canvas>
                 </div>
             </div>
@@ -333,19 +347,20 @@
     }
 
 
-    // Dữ liệu ban đầu cho báo cáo khách hàng
-    const customerData = {
-        @foreach($activeCustomers as $customer)
-        '{{ $customer->full_name }}': {{ $customer->requests_count }},
-        @endforeach
-    };
+    const customerIdMap = {};
+    const customerColors = {};
+    const customerData = [];
 
-    // Màu sắc cho từng khách hàng
-    const customerColors = {
-        @foreach($activeCustomers as $index => $customer)
-        '{{ $customer->full_name }}': '{{ $customerColors[$index] }}',
-        @endforeach
-    };
+    @foreach($activeCustomers as $customer)
+    customerData.push({
+        full_name: '{{ $customer->full_name }}',
+        customer_id: '{{ $customer->customer_id }}',
+        requests_count: {{ $customer->requests_count }},
+        color: '{{ $customerColors[$loop->index] }}' // Gán màu sắc riêng từng khách hàng
+    });
+    @endforeach
+
+
     // Dữ liệu của phòng ban
     const departmentData = {
         @foreach ($departments as $department)
@@ -363,41 +378,111 @@
 
 
     // Biểu đồ khách hàng
+    // Biểu đồ khách hàng
     const customerCtx = document.getElementById('customerReport').getContext('2d');
     let customerChart = new Chart(customerCtx, {
         type: 'bar',
         data: {
-            labels: Object.keys(customerData),
+            labels: Object.values(customerData).map(customer => customer.full_name), // Dùng full_name để hiển thị
             datasets: [{
                 label: 'Số yêu cầu',
-                data: Object.values(customerData),
-                backgroundColor: Object.keys(customerData).map(name => customerColors[name])
+                data: Object.values(customerData).map(customer => customer.requests_count), // Dùng requests_count để hiển thị dữ liệu
+                backgroundColor: Object.values(customerData).map(customer => customer.color) // Dùng color để hiển thị màu
             }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
         }
     });
 
     function updateCustomerReport() {
-        const selectedCustomer = document.getElementById('customerFilter').value;
+        const nameInput = document.getElementById('customerNameInput').value.trim();
+        const idInput = document.getElementById('customerIdInput').value.trim();
         let data = [];
         let labels = [];
+        let colors = [];
 
-        if (selectedCustomer === 'all') {
-            data = Object.values(customerData);
-            labels = Object.keys(customerData);
-        } else {
-            data = [customerData[selectedCustomer]];
-            labels = [selectedCustomer];
+        // Nếu không nhập gì, hiển thị toàn bộ khách hàng
+        if (nameInput === '' && idInput === '') {
+            data = customerData.map(customer => customer.requests_count);
+            labels = customerData.map(customer => customer.full_name);
+            colors = customerData.map(customer => customer.color);
+        } else if (idInput !== '') { // Lọc theo customer_id
+            const matchedCustomer = customerData.find(customer => customer.customer_id === idInput);
+            if (matchedCustomer) {
+                data = [matchedCustomer.requests_count];
+                labels = [matchedCustomer.full_name];
+                colors = [matchedCustomer.color];
+            } else {
+                data = [];
+                labels = [];
+                colors = [];
+            }
+        } else if (nameInput !== '') { // Lọc theo full_name
+            const filteredCustomers = customerData.filter(customer => customer.full_name === nameInput);
+            if (filteredCustomers.length > 0) {
+                data = filteredCustomers.map(customer => customer.requests_count);
+                labels = filteredCustomers.map(customer => customer.full_name);
+                colors = filteredCustomers.map(customer => customer.color);
+            } else {
+                data = [];
+                labels = [];
+                colors = [];
+            }
         }
 
+        // Cập nhật biểu đồ
         customerChart.data.datasets[0].data = data;
         customerChart.data.labels = labels;
-        customerChart.data.datasets[0].backgroundColor = selectedCustomer === 'all' ?
-            Object.keys(customerData).map(name => customerColors[name]) :
-            [customerColors[selectedCustomer]];
-
+        customerChart.data.datasets[0].backgroundColor = colors;
         customerChart.update();
-        displayCustomerData(selectedCustomer);
+
+        // Hiển thị thông tin khách hàng
+        displayCustomerData(idInput || nameInput || 'all');
     }
+
+    const activeCustomers = @json($activeCustomers); // Pass customer data to JS
+
+    function filterCustomers(type) {
+        const suggestions = document.getElementById('suggestions');
+        const nameInput = document.getElementById('customerNameInput').value.toLowerCase();
+        const idInput = document.getElementById('customerIdInput').value.toLowerCase();
+        const input = type === 'name' ? nameInput : idInput;
+
+        // Clear previous suggestions
+        suggestions.innerHTML = '';
+        suggestions.style.display = 'none';
+
+        if (input) {
+            const filteredCustomers = activeCustomers.filter(customer => {
+                return (type === 'name' && customer.full_name.toLowerCase().includes(input)) ||
+                    (type === 'id' && customer.customer_id.toString().includes(input));
+            });
+
+            if (filteredCustomers.length > 0) {
+                filteredCustomers.forEach(customer => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = `${customer.full_name} (${customer.customer_id})`; // Show both name and ID
+                    suggestionItem.onclick = () => selectCustomer(customer); // Pass the entire customer object
+                    suggestions.appendChild(suggestionItem);
+                });
+                suggestions.style.display = 'block'; // Show the suggestions
+            }
+        }
+    }
+    // Function to select a customer from suggestions
+    function selectCustomer(customer) {
+        document.getElementById('customerNameInput').value = customer.full_name; // Set name input
+        document.getElementById('customerIdInput').value = customer.customer_id; // Set ID input
+        document.getElementById('suggestions').style.display = 'none'; // Hide suggestions
+        updateCustomerReport(customer); // Update the chart with the selected customer
+    }
+
+    window.onload = function() {
+        displayCustomerData('all'); // Display data for all customers
+        updateCustomerReport(); // Initialize the chart with all customers' data
+    };
 
     function displayCustomerData(selectedCustomer) {
         const customerDataList = document.getElementById('customerDataList');
@@ -406,21 +491,37 @@
 
         if (selectedCustomer === 'all') {
             let totalRequests = 0;
-            for (const [key, value] of Object.entries(customerData)) {
+
+            // Sắp xếp dữ liệu theo requests_count giảm dần
+            const sortedCustomers = Object.values(customerData).sort((a, b) => b.requests_count - a.requests_count);
+
+            sortedCustomers.forEach(customer => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${key}: ${value} yêu cầu`;
+                listItem.textContent = `${customer.full_name} (ID: ${customer.customer_id}): ${customer.requests_count} yêu cầu`;
                 customerDataList.appendChild(listItem);
-                totalRequests += value; // Tính tổng số yêu cầu
-            }
-            totalCustomerRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`; // Hiển thị tổng số yêu cầu
+                totalRequests += customer.requests_count;
+            });
+
+            totalCustomerRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`;
         } else {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${selectedCustomer}: ${customerData[selectedCustomer]} yêu cầu`;
-            customerDataList.appendChild(listItem);
-            totalCustomerRequests.textContent = `Tổng số yêu cầu: ${customerData[selectedCustomer]}`; // Hiển thị số yêu cầu của khách hàng đã chọn
+            // Lọc khách hàng theo `full_name` hoặc `customer_id`
+            const filteredCustomers = Object.values(customerData).filter(customer =>
+                customer.full_name === selectedCustomer || customer.customer_id === selectedCustomer
+            );
+
+            // Sắp xếp kết quả tìm kiếm theo requests_count giảm dần
+            const sortedFilteredCustomers = filteredCustomers.sort((a, b) => b.requests_count - a.requests_count);
+
+            sortedFilteredCustomers.forEach(customer => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${customer.full_name} (ID: ${customer.customer_id}): ${customer.requests_count} yêu cầu`;
+                customerDataList.appendChild(listItem);
+            });
         }
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
     const initialData = {
         @foreach($requestTypes as $type)
         '{{ $type->request_type_name }}': {{ $type->requests_count }},
