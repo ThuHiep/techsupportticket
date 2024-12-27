@@ -561,7 +561,7 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0;
+  padding: 60px 0px;
   overflow: clip;
 }
 
@@ -1194,7 +1194,7 @@ input#confirm-password:focus{
 # Portfolio Section
 --------------------------------------------------------------*/
 .portfolio{
-  height: 280px;
+  height: 200px;
 }
 .portfolio .portfolio-filters {
   padding: 0;

@@ -82,10 +82,24 @@
           <div class="col-lg-6 text-center">
             <img src="/guest/img/hourglass.gif" alt="support"
               class="img-fluid-home" />
-            <p>Yêu cầu đang chờ xử lý</p>
+            <p>Yêu cầu chưa xử lý</p>
             <h2>0</h2>
-            <a href="#portfolio">Xem</a>
+            <a href="#chua-xu-ly">Xem</a>
+            
           </div>
+          
+          <script>
+            document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Kích hoạt bộ lọc "Chưa xử lý"
+                document.querySelector('.portfolio-filters li[data-filter=".chua-xu-ly"]').click();
+
+                // Cuộn đến phần tử có ID "chua-xu-ly"
+                document.getElementById('chua-xu-ly').scrollIntoView({ behavior: 'smooth' });
+            });
+
+          </script>
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
               class="img-fluid-home" />
@@ -539,12 +553,11 @@
     <section id="portfolio" class="portfolio section light-background">
       <div class="container section-title" data-aos="fade-up">
         <h1>YÊU CẦU</h1>
-        <h3>LỊCH SỬ YÊU CẦU</h3>
         <div class="container">
           <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
             <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
               <li data-filter="*" class="filter-active">Tất cả</li>
-              <li data-filter=".chua-xu-ly">Chưa xử lý</li>
+              <li data-filter=".chua-xu-ly" id="chua-xu-ly">Chưa xử lý</li>
               <li data-filter=".dang-xu-ly">Đang xử lý</li>
               <li data-filter=".hoan-thanh">Hoàn thành</li>
               <li data-filter=".da-huy">Đã hủy</li>
