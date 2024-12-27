@@ -787,7 +787,7 @@ section,
 }
 .modal-title {
     margin-top: -30px;
-    font-size: 43px;
+    font-size: 35px;
 }
 .required {
     color: red;
@@ -983,11 +983,10 @@ input, select {
 .modalPass {
     display: none;
     position: fixed;
-    top: 45%;
+    top: 47%;
     left: 50%;
     width: 35%;
-    max-height: 90vh;
-    height: 650px;
+    height: 675px;
     overflow-y: auto;
     border: 2px solid var(--primary-color);
     backdrop-filter: blur(25px);
@@ -1006,7 +1005,9 @@ input, select {
 }
 
 /* Reset Password Box */
-
+.password-hint{
+    margin-top: 10px;
+}
 
 /*Header Doi mat khau*/
 .reset-password-header {
@@ -1042,7 +1043,7 @@ input, select {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
+  margin: 5px 0px 20px 0px;
     bottom: -55px;
 }
 .input-field{
@@ -1099,6 +1100,7 @@ input, select {
     border-radius: 30px;
     cursor: pointer;
     transition: .3s;
+    margin-top: -10px;
 }
 .input-submit:hover{
   background: var(--second-color);
