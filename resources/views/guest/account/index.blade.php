@@ -365,7 +365,7 @@
           <!-- Modal -->
           <div id="editModal" class="modal">
             <div class="modal-content">
-              <span class="close">&times;</span>
+              <span class="close">x</span>
               <h1 class="modal-title">Chỉnh sửa thông tin khách hàng</h1>
               <form action="{{ route('customer.updateProfile') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -374,22 +374,22 @@
                   <!-- Cột 1 -->
                   <div class="form-column">
                     <div class="form-group">
-                      <label for="full_name">Họ và Tên*</label>
+                      <label for="full_name">Họ và Tên<span class="required">*</span></label>
                       <input type="text" name="full_name" id="full_name" value="{{$logged_user->full_name}}">
                     </div>
                     <div class="form-group">
-                      <label for="date_of_birth">Năm sinh*</label>
+                      <label for="date_of_birth">Năm sinh<span class="required">*</span></label>
                       <input type="date" name="date_of_birth" id="date_of_birth" value="{{$logged_user->date_of_birth->toDateString()}}">
                     </div>
                     <div class="form-group">
-                      <label for="gender" class="form-label">Giới tính*</label>
+                      <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                       <select id="gender" name="gender" class="form-control" required>
                         <option value="Nam" {{ $logged_user->gender == 'Nam' ? 'selected' : '' }}>Nam</option>
                         <option value="Nữ" {{ $logged_user->gender == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="phone">Số điện thoại*</label>
+                      <label for="phone">Số điện thoại<span class="required">*</span></label>
                       <input type="text" name="phone" id="phone" value="{{$logged_user->phone}}">
                     </div>
                     <div class="form-group">
@@ -409,7 +409,7 @@
                       <input type="text" name="company" id="company" value="{{$logged_user->company}}">
                     </div>
                     <div class="form-group">
-                      <label for="email">Email*</label>
+                      <label for="email">Email<span class="required">*</span></label>
                       <input type="text" name="email" id="email" value="{{$logged_user->email}}">
                     </div>
                     <div class="form-group">
