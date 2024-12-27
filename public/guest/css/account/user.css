@@ -318,7 +318,7 @@ h6 {
 }
 
 .header .header-toggle {
-  color: black;
+  color: #ffffff;
   background-color: #FF9700;
   font-size: 22px;
   display: flex;
@@ -336,8 +336,8 @@ h6 {
 }
 
 .header .header-toggle:hover {
-  color: var(--contrast-color);
-  background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    color: #ffffff;
+    background-color: #ee5711;
 }
 
 /*--------------------------------------------------------------
@@ -479,6 +479,7 @@ h6 {
   bottom: -15px;
   z-index: 99999;
   background-color: #FF9700;
+    color: #ffffff;
   width: 44px;
   height: 44px;
   border-radius: 50px;
@@ -492,8 +493,8 @@ h6 {
 }
 
 .scroll-top:hover {
-  background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
-  color: var(--contrast-color);
+  background-color:#ee5711;
+  color: #ffffff;
 }
 
 .scroll-top.active {
@@ -1526,7 +1527,11 @@ input#confirm-password:focus{
 
 /*--------------------------------------------------------------
 # Contact Section
+
 --------------------------------------------------------------*/
+section#contact {
+    padding: 15px 0px 90px 0;
+}
 /* Card Container */
 .card-container {
   display: flex;
@@ -1547,16 +1552,10 @@ input#confirm-password:focus{
 
 .card h2 {
   margin: 0;
-  color: #ec9300;
-  font-size: 18px;
+  color: var(--black-color);
+  font-size: 29px;
   font-weight: bold;
 }
-
-.card:hover {
-  transform: scale(1.1); /* Phóng to nhẹ khi hover */
-  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.2); /* Bóng đổ nhỏ hơn khi nhấn */
-}
-
 /* Modal Setting */
 .modal-setting {
   display: none;
