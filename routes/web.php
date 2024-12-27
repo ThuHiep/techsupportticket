@@ -122,7 +122,7 @@ Route::name('request.')->group(function () {
 
 
     Route::get('/request/pendingByDate', [RequestController::class, 'getPendingRequestsByDate'])->name('pendingByDate');
-   
+
 });
 
 // Route để tải file đính kèm
@@ -137,7 +137,7 @@ Route::name('statistical.')->group(function () {
     Route::get('/statistical/index', [ReportController::class, 'index'])->middleware('customersp')->name('index');
 });
 Route::get('/api/get-request-data', [ReportController::class, 'getRequestData']);
-//Route::get('/api/get-time-data', [ReportController::class, 'getTimeData']);
+Route::get('/api/get-time-data', [ReportController::class, 'getTimeData']);
 Route::get('/api/get-time-data', [ReportController::class, 'getTimeStatistics']);
 Route::get('/api/get-departments', [ReportController::class, 'getDepartments']);
 Route::get('/api/get-request-types', [ReportController::class, 'getRequestTypes']);

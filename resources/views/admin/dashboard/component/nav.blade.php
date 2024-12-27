@@ -16,8 +16,8 @@
                 <ul class="dropdown-menu dropdown-messages">
                     <!-- Hiển thị thông báo yêu cầu chưa xử lý -->
                     <li id="requestNotification" style="display: none;">
-                        {{-- <a href="{{ route('request.index', ['date' => now()->toDateString()]) }}"> --}}
-                            <a href="{{ route('request.index', ['status_search' => 'Chưa xử lý', 'search_field' => 'request_date', 'request_date_search' => now()->toDateString()]) }}">
+
+                        <a href="{{ route('request.index', ['status_search' => 'Chưa xử lý', 'search_field' => 'request_date', 'request_date_search' => now()->toDateString()]) }}">
                             <div>
                                 <i class="fa fa-tasks fa-fw"></i> Có <span id="requestCount">0</span> yêu cầu chưa xử lý
                             </div>
