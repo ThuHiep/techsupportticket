@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Request as SupportRequest;
+use App\Models\SwitchedUser;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -32,6 +34,7 @@ class UserController extends Controller
     public function indexAccount()
     {
         $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        $accounts = SwitchedUser::with('customer')->where('customer_id', '!=', $logged_user->customer_id)->get();
 
         if (!$logged_user) {
             return redirect()->route('homepage.index')->with('error', 'Không tìm thấy thông tin khách hàng.');
@@ -43,7 +46,7 @@ class UserController extends Controller
             ->orderBy('create_at', 'desc')
             ->get();
 
-        return view('guest.account.index', compact('logged_user', 'requests'));
+        return view('guest.account.index', compact('logged_user', 'accounts', 'requests'));
     }
 
     public function updateProfile(Request $request)
@@ -100,5 +103,22 @@ class UserController extends Controller
         $logged_user->save();
 
         return redirect()->route('indexAccount')->with('success', 'Mật khẩu đã được thay đổi thành công!');
+    }
+
+    public function switchAccount(Request $request, $id)
+    {
+        Auth::logout();
+        $account = SwitchedUser::with('customer')->where('id', $id)->first();
+
+        if ($account->password) {
+            $newUser = User::where('user_id', $account->customer->user->user_id)->first();
+
+            Auth::login($newUser);
+
+            return redirect()->route('indexAccount')->with('success', "Chào mừng {$account->customer->full_name} đến với trang khách hàng");
+        } else {
+
+            return redirect()->route('login')->withInput(['username' => $account->username]);
+        }
     }
 }

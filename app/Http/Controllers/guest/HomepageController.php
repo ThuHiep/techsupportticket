@@ -9,6 +9,7 @@ use App\Models\RequestType;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class HomepageController extends Controller
 {
@@ -23,8 +24,14 @@ class HomepageController extends Controller
         $faqs = $this->getFaqs();
         $articles = Article::all(); // Lấy tất cả bài viết
         if (Auth::check()) {
-            $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-            return view('guest.homepage.index', compact('logged_user', 'faqs', 'articles'));
+            if (Auth::user()->role_id == 3) {
+                $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return view('guest.homepage.index', compact('logged_user', 'faqs', 'articles'));
+            } else {
+                Session::flush();
+                Auth::logout();
+                return view('guest.homepage.index', compact('faqs', 'articles'));
+            }
         }
         return view('guest.homepage.index', compact('faqs', 'articles'));
     }
@@ -45,9 +52,4 @@ class HomepageController extends Controller
         // Truyền dữ liệu vào view
         return view('guest.request.request', compact('customer', 'requestTypes'));
     }
-    
-    
-    
-    
-
 }

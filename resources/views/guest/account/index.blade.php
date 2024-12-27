@@ -30,6 +30,104 @@
   <link href="guest/css/account/user.css" rel="stylesheet" />
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    /* Nút mở modal */
+    .btn-open-modal {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      align-items: center;
+    }
+
+    .btn-open-modal:hover {
+      background-color: #0056b3;
+    }
+
+    /* Modal */
+    .modal-switch {
+      display: none;
+      /* Ẩn mặc định */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Nội dung modal */
+    .modal-content-switch {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 40%;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Nút đóng modal */
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: #aaa;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+    }
+
+    /* Danh sách tài khoản */
+    .account-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .account-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+
+    .account-name {
+      flex: 1;
+      font-size: 16px;
+    }
+
+    .btn-switch {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-switch:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 
 <body class="index-page">
@@ -74,7 +172,7 @@
         <h1>TRANG CHỦ</h1>
         <div class="row">
           <div class="col-lg-6 text-center">
-              <img src="/guest/img/hourglass.gif" alt="support"
+            <img src="/guest/img/hourglass.gif" alt="support"
               class="img-fluid-home" />
             <p>Yêu cầu đang chờ xử lý</p>
             <h2>0</h2>
@@ -82,7 +180,7 @@
           </div>
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
-            class="img-fluid-home" />
+              class="img-fluid-home" />
             <p>Hôm nay bạn không có yêu cầu hỗ trợ nào!</p>
             <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
@@ -178,7 +276,7 @@
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
             <h1 class="reset-password-header">
-                Đổi mật khẩu
+              Đổi mật khẩu
             </h1>
             <form action="{{ route('account.changePass') }}" method="POST" enctype="multipart/form-data" class="reset-password-form">
               @csrf
@@ -486,154 +584,154 @@
 
     <!-- /About Section -->
 
-      <!-- Portfolio Section -->
-      <section id="portfolio" class="portfolio section light-background">
-          <div class="container section-title" data-aos="fade-up">
-              <h1>YÊU CẦU</h1>
-              <h3>LỊCH SỬ YÊU CẦU</h3>
-              <div class="container">
-                  <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-                      <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-                          <li data-filter="*" class="filter-active">Tất cả</li>
-                          <li data-filter=".chua-xu-ly">Chưa xử lý</li>
-                          <li data-filter=".dang-xu-ly">Đang xử lý</li>
-                          <li data-filter=".hoan-thanh">Hoàn thành</li>
-                          <li data-filter=".da-huy">Đã hủy</li>
-                      </ul>
-                  </div>
-              </div>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section light-background">
+      <div class="container section-title" data-aos="fade-up">
+        <h1>YÊU CẦU</h1>
+        <h3>LỊCH SỬ YÊU CẦU</h3>
+        <div class="container">
+          <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+            <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+              <li data-filter="*" class="filter-active">Tất cả</li>
+              <li data-filter=".chua-xu-ly">Chưa xử lý</li>
+              <li data-filter=".dang-xu-ly">Đang xử lý</li>
+              <li data-filter=".hoan-thanh">Hoàn thành</li>
+              <li data-filter=".da-huy">Đã hủy</li>
+            </ul>
           </div>
-      </section>
-
-      <!-- Lịch sử yêu cầu -->
-      <section id="request-history" class="request-history section">
-          <div class="container">
-              @forelse ($requests as $request)
-                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
-                      <div class="request-info">
-                          <h3>{{ $request->request_id }}</h3>
-                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
-                          <p>{{ $request->subject }}</p>
-                      </div>
-                      <div class="request-arrow">→</div>
-                  </div>
-              @empty
-                  <p>Không có yêu cầu nào trong lịch sử.</p>
-              @endforelse
-          </div>
-      </section>
-
-      <!-- Modal trạng thái -->
-      <div id="modal-status" class="modal-request">
-          <div class="modal-content-request">
-              <span class="close-btn" onclick="closeForm()">×</span>
-              <h2>Trạng thái yêu cầu</h2>
-              <div id="status-timeline">
-                  <!-- Nội dung trạng thái sẽ được tạo động -->
-              </div>
-          </div>
+        </div>
       </div>
+    </section>
 
-      <script>
-          // Hàm gọi API để lấy trạng thái yêu cầu
-          function fetchRequestStatus(requestId) {
-              return fetch(`/api/request-status/${requestId}`, {
-                  headers: {
-                      'X-Requested-With': 'XMLHttpRequest',
-                      'Accept': 'application/json',
-                  }
-              })
-                  .then(response => {
-                      if (!response.ok) {
-                          throw new Error('Network response was not ok');
-                      }
-                      return response.json();
-                  })
-                  .then(data => {
-                      console.log("Fetched request status:", data); // Debug log
-                      return data;
-                  })
-                  .catch(error => {
-                      console.error("Error fetching request status:", error);
-                      return [];
-                  });
-          }
+    <!-- Lịch sử yêu cầu -->
+    <section id="request-history" class="request-history section">
+      <div class="container">
+        @forelse ($requests as $request)
+        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+          <div class="request-info">
+            <h3>{{ $request->request_id }}</h3>
+            <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
+            <p>{{ $request->subject }}</p>
+          </div>
+          <div class="request-arrow">→</div>
+        </div>
+        @empty
+        <p>Không có yêu cầu nào trong lịch sử.</p>
+        @endforelse
+      </div>
+    </section>
 
-          // Hàm hiển thị trạng thái yêu cầu trong modal
-          function renderRequestStatus(data) {
-              const timeline = document.getElementById("status-timeline");
-              timeline.innerHTML = ""; // Xóa nội dung trước đó
+    <!-- Modal trạng thái -->
+    <div id="modal-status" class="modal-request">
+      <div class="modal-content-request">
+        <span class="close-btn" onclick="closeForm()">×</span>
+        <h2>Trạng thái yêu cầu</h2>
+        <div id="status-timeline">
+          <!-- Nội dung trạng thái sẽ được tạo động -->
+        </div>
+      </div>
+    </div>
 
-              console.log("Rendering request status:", data); // Debug log
+    <script>
+      // Hàm gọi API để lấy trạng thái yêu cầu
+      function fetchRequestStatus(requestId) {
+        return fetch(`/api/request-status/${requestId}`, {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'Accept': 'application/json',
+            }
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Fetched request status:", data); // Debug log
+            return data;
+          })
+          .catch(error => {
+            console.error("Error fetching request status:", error);
+            return [];
+          });
+      }
 
-              // Tạo các trạng thái động
-              data.forEach((item, index) => {
-                  const isCompleted = index === data.length - 1 ? "completed" : "";
+      // Hàm hiển thị trạng thái yêu cầu trong modal
+      function renderRequestStatus(data) {
+        const timeline = document.getElementById("status-timeline");
+        timeline.innerHTML = ""; // Xóa nội dung trước đó
 
-                  const statusItem = `
+        console.log("Rendering request status:", data); // Debug log
+
+        // Tạo các trạng thái động
+        data.forEach((item, index) => {
+          const isCompleted = index === data.length - 1 ? "completed" : "";
+
+          const statusItem = `
                 <div class="status-item ${isCompleted}">
                     <div class="circle"></div>
                     <div class="line"></div>
                     <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
                 </div>
             `;
-                  timeline.innerHTML += statusItem;
-              });
+          timeline.innerHTML += statusItem;
+        });
 
-              // Nếu không có dữ liệu, hiển thị thông báo
-              if (data.length === 0) {
-                  timeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+        // Nếu không có dữ liệu, hiển thị thông báo
+        if (data.length === 0) {
+          timeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+        }
+      }
+
+      // Mở modal và hiển thị trạng thái yêu cầu
+      function viewRequestDetail(requestId) {
+        const modal = document.getElementById("modal-status");
+
+        // Gọi API để lấy dữ liệu
+        fetchRequestStatus(requestId).then(data => {
+          renderRequestStatus(data);
+          modal.style.display = "block";
+        });
+      }
+
+      // Đóng modal
+      function closeForm() {
+        const modal = document.getElementById("modal-status");
+        modal.style.display = "none";
+      }
+
+      // Đóng modal khi nhấn ngoài nội dung modal
+      window.onclick = function(event) {
+        const modal = document.getElementById("modal-status");
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // Script lọc yêu cầu
+      document.addEventListener("DOMContentLoaded", function() {
+        const filters = document.querySelectorAll(".portfolio-filters li");
+        const requestItems = document.querySelectorAll(".request-item");
+
+        filters.forEach((filter) => {
+          filter.addEventListener("click", function() {
+            const filterStatus = filter.getAttribute("data-filter");
+            requestItems.forEach((item) => {
+              if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
+                item.style.display = "flex";
+              } else {
+                item.style.display = "none";
               }
-          }
-
-          // Mở modal và hiển thị trạng thái yêu cầu
-          function viewRequestDetail(requestId) {
-              const modal = document.getElementById("modal-status");
-
-              // Gọi API để lấy dữ liệu
-              fetchRequestStatus(requestId).then(data => {
-                  renderRequestStatus(data);
-                  modal.style.display = "block";
-              });
-          }
-
-          // Đóng modal
-          function closeForm() {
-              const modal = document.getElementById("modal-status");
-              modal.style.display = "none";
-          }
-
-          // Đóng modal khi nhấn ngoài nội dung modal
-          window.onclick = function(event) {
-              const modal = document.getElementById("modal-status");
-              if (event.target == modal) {
-                  modal.style.display = "none";
-              }
-          }
-
-          // Script lọc yêu cầu
-          document.addEventListener("DOMContentLoaded", function() {
-              const filters = document.querySelectorAll(".portfolio-filters li");
-              const requestItems = document.querySelectorAll(".request-item");
-
-              filters.forEach((filter) => {
-                  filter.addEventListener("click", function() {
-                      const filterStatus = filter.getAttribute("data-filter");
-                      requestItems.forEach((item) => {
-                          if (filterStatus === "*" || item.classList.contains(filterStatus.substring(1))) {
-                              item.style.display = "flex";
-                          } else {
-                              item.style.display = "none";
-                          }
-                      });
-                      filters.forEach((f) => f.classList.remove("filter-active"));
-                      filter.classList.add("filter-active");
-                  });
-              });
+            });
+            filters.forEach((f) => f.classList.remove("filter-active"));
+            filter.classList.add("filter-active");
           });
-      </script>
+        });
+      });
+    </script>
 
-      <!-- Contact Section -->
+    <!-- Contact Section -->
     <section id="contact" class="contact section">
       <div class="container section-title" data-aos="fade-up">
         <h1>CÀI ĐẶT</h1>
@@ -648,44 +746,52 @@
       </div>
     </section>
 
-    <!-- Modal Setting 2: CHUYỂN ĐỔI TÀI KHOẢN -->
-    <div id="modal-setting-switch" class="modal-setting">
-      <div class="modal-setting-content">
-        <span class="close-setting close-switch">&times;</span>
-        <h2>CHUYỂN ĐỔI TÀI KHOẢN</h2>
-        <p>Vui lòng chọn tài khoản bạn muốn chuyển đổi sang.</p>
-        <button class="btn-setting-confirm">Chuyển đổi</button>
-        <button class="btn-setting-cancel">Hủy</button>
+    <button id="openModal" class="btn-open-modal">Chuyển đổi tài khoản</button>
+
+    <!-- Modal -->
+    <div id="accountModal" class="modal-switch">
+      <div class="modal-content-switch">
+        <span class="close" id="btn-close-switch">&times;</span>
+        <h2>Chuyển đổi tài khoản</h2>
+        <ul class="account-list">
+          <!-- Danh sách tài khoản -->
+          @foreach ($accounts as $account)
+          <li class="account-item">
+            <form action="{{ route('account.switch',$account->id) }}" method="POST">
+              @csrf
+              <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
+              <span class="account-name">{{ $account->customer->full_name }}</span>
+              <button type="submit" class="btn-switch">Chuyển</button>
+            </form>
+          </li>
+          @endforeach
+        </ul>
+        <a class="login-button" href="{{ route('login') }}">Thêm tài khoản mới</a>
       </div>
     </div>
-
     <script>
-      // Lấy các phần tử modal-setting
-      const modalSwitch = document.getElementById('modal-setting-switch');
-      const switchCard = document.getElementById('switch-account-card');
-      const closeSwitch = document.querySelector('.close-switch');
+      // Lấy các phần tử
+      const modal_switch = document.getElementById('accountModal');
+      const openModalBtn = document.getElementById('openModal');
+      const closeModal = document.getElementById('btn-close-switch');
 
+      // Mở modal khi nhấn nút
+      openModalBtn.addEventListener('click', () => {
+        modal_switch.style.display = 'block';
+      });
 
-      // Hiển thị modal-setting chuyển đổi tài khoản
-      switchCard.onclick = () => {
-        modalSwitch.style.display = 'block';
-      };
+      // Đóng modal khi nhấn vào nút đóng
+      closeModal.addEventListener('click', () => {
+        modal_switch.style.display = 'none';
+      });
 
-
-      // Đóng modal-setting chuyển đổi tài khoản
-      closeSwitch.onclick = () => {
-        modalSwitch.style.display = 'none';
-      };
-
-      // // Đóng modal-setting khi nhấn bên ngoài
-      // window.onclick = (event) => {
-      //   if (event.target === modalDelete) {
-      //     modalDelete.style.display = 'none';
-      //   }
-      //   if (event.target === modalSwitch) {
-      //     modalSwitch.style.display = 'none';
-      //   }
-      };
+      // Đóng modal khi nhấn vào bất kỳ chỗ nào bên ngoài modal
+      window.addEventListener('click', (event) => {
+        if (event.target === modal_switch) {
+          modal_switch.style.display = 'none';
+        }
+      });
+    </script>
     </script>
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
     <!-- Main JS File -->
