@@ -1320,6 +1320,7 @@ input#confirm-password:focus{
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
+    min-height: 450px;
 }
 
 .request-history h2 {
