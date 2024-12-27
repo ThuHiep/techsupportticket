@@ -9,6 +9,7 @@ use App\Mail\Register;
 use App\Mail\VerifyEmail;
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\SwitchedUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,10 @@ class AuthController extends Controller
 {
     public function login()
     {
+        if (Auth::check()) {
+            Session::flush();
+            Auth::logout();
+        }
         return view('login.login');
     }
     public function loginProcess(Request $request)
@@ -71,6 +76,14 @@ class AuthController extends Controller
             // Xóa số lần thử khi đăng nhập thành công
             session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
 
+            if (isset($request['remember']) && !empty($request['remember'])) {
+                setcookie("username", $request['username'], time() + 3600);
+                setcookie("password", $request['password'], time() + 3600);
+            } else {
+                setcookie("username", "");
+                setcookie("password", "");
+            }
+
             //Phân quyền người dùng
             $user = Auth::user();
 
@@ -84,6 +97,27 @@ class AuthController extends Controller
                 return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
             } elseif ($user->role_id == 3) {
                 $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                $exists = SwitchedUser::where('customer_id', $logged_user->customer_id)->exists();
+                if (!$exists) {
+                    if (isset($request['remember']) && !empty($request['remember'])) {
+                        $account = new SwitchedUser();
+                        $account->customer_id = $logged_user->customer_id;
+                        $account->username = $request['username'];
+                        $account->password = $request['password'];
+                        $account->save();
+                    } else {
+                        $account = new SwitchedUser();
+                        $account->customer_id = $logged_user->customer_id;
+                        $account->username = $request['username'];
+                        $account->save();
+                    }
+                } else {
+                    if (isset($request['remember']) && !empty($request['remember'])) {
+                        $account = SwitchedUser::where('customer_id', $logged_user->customer_id)->first();
+                        $account->password = $request['password'];
+                        $account->save();
+                    }
+                }
                 return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
             } else {
                 return back()->with('error', 'Không tìm thấy vai trò của bạn.')->withInput();

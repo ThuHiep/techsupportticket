@@ -77,11 +77,14 @@
             z-index: 100;
         }
 
-        .menu-section {
+        .menu-section-1 {
             padding: 15px 20px;
             border-bottom: 1px solid #eaeaea;
         }
-
+        .menu-section-2 {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
         .menu-item {
             display: flex;
             align-items: center;
@@ -92,7 +95,7 @@
         }
 
         .menu-item>a:hover {
-            color: #007bff;
+            color: #ff6f00;
         }
 
         .menu-item a {
@@ -103,12 +106,18 @@
         }
 
         .logout-button {
-            display: flex !important;
-            justify-content: flex-end !important;
-            cursor: pointer !important;
-            color: #d9534f !important;
+            display: flex ;
+            justify-content: center ;
+            cursor: pointer ;
+            color: #333 ;
             font-size: 14px !important;
-            font-weight: bold !important;
+            font-weight: normal ;
+        }
+        .menu-section-2>a{
+            color: #333 ;
+        }
+        .menu-section-2>a:hover{
+            color: #ff6f00;
         }
     </style>
 </head>
@@ -129,12 +138,12 @@
             <img class="avatar-container" src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}" alt="" onclick="toggleMenu()">
 
             <div class="menu" id="menu">
-                <div class="menu-section">
+                <div class="menu-section-1">
                     <div class="menu-item">
                         <a href=" {{route("indexAccount")}}">Trang cá nhân</a>
                     </div>
                 </div>
-                <div class="menu-section">
+                <div class="menu-section-2">
                     <a href="{{ route('logout') }}" class="logout-button ">Đăng Xuất</a>
                 </div>
             </div>
@@ -656,17 +665,17 @@
             const content = cardElement.querySelector('.article-details .article-content').innerText;
             const date = cardElement.querySelector('.article-details .article-date').innerText;
             const images = cardElement.querySelector('img').src;
-        
+
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerText = content;
             document.getElementById('huongdanModalDate').innerText = date;
-        
+
             const modalImage = document.getElementById('huongdanModalImage');
             modalImage.src = images;
-        
+
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
-        
+
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
         }

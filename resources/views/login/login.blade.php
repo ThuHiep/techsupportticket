@@ -29,14 +29,14 @@
                 <form action="{{route('loginProcess')}}" method="POST">
                     @csrf
                     <div class="input_box">
-                        <input type="text" name="username" id="user" class="input-field" value="{{old('username')}}" required>
+                        <input type="text" name="username" id="user" class="input-field" @if(isset($_COOKIE["username"])) value="{{$_COOKIE["username"]}}" @else value="{{old('username')}}" @endif required>
                         <label for="user" class="label">Tên đăng nhập</label>
                         <i class="bx bx-user icon"></i>
                     </div>
 
                     <!-- Trường Mật khẩu cũ được thay thế bởi input mới -->
                     <div class="input_box">
-                        <input type="password" name="password" class="input-field" id="password" value="{{old('password')}}" required>
+                        <input type="password" name="password" class="input-field" id="password" @if(isset($_COOKIE["password"])) value="{{$_COOKIE["password"]}}" @else value="{{old('password')}}" @endif required>
                         <label class="label" for="password">Mật khẩu</label>
                         <span class="icon" id="togglePassword">
                             <i class="fa fa-eye-slash"></i> <!-- Mắt nhắm mặc định -->
@@ -45,7 +45,7 @@
 
                     <div class="remember-forgot">
                         <div class="remember-me">
-                            <input type="checkbox" name="remember" id="remember">
+                            <input type="checkbox" name="remember" id="remember" @if(isset($_COOKIE["username"])) checked="" @endif>
                             <label for="remember">Ghi nhớ tài khoản</label>
                         </div>
 

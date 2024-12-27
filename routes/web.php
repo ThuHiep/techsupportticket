@@ -122,7 +122,6 @@ Route::name('request.')->group(function () {
 
 
     Route::get('/request/pendingByDate', [RequestController::class, 'getPendingRequestsByDate'])->name('pendingByDate');
-
 });
 
 // Route để tải file đính kèm
@@ -189,6 +188,7 @@ Route::name('articles.')->group(function () {
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
 Route::put('guest/changePass', [UserController::class, 'changePass'])->middleware('customer')->name('account.changePass');
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
+Route::post('/account-switch/{id}', [UserController::class, 'switchAccount'])->name('account.switch');
 
 // Route để hiển thị form
 Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
