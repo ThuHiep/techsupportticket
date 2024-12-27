@@ -169,7 +169,7 @@
           <section id="about" class="about section">
             <div class="img-container">
               <button id="edit-btn" class="edit-button">
-                CHỈNH SỬA THÔNG TIN
+                Chỉnh sửa thông tin
               </button>
               <div class="btn btn-success me-3" id="openForm">Thay đổi mật khẩu</div>
             </div>
