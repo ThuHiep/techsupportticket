@@ -79,10 +79,12 @@ class CustomerController extends Controller
         $customers = Customer::findOrFail($customer_id);
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers'));
     }
+
     public function update(Request $request, $customer_id)
     {
 
         $customer = Customer::findOrFail($customer_id);
+
         // Cập nhật thông tin người dùng
         $user = $customer->user; // Lấy người dùng liên kết với khách hàng
 
@@ -105,7 +107,7 @@ class CustomerController extends Controller
 
         // Cập nhật thông tin khách hàng
         $customer->full_name = $request['full_name'];
-        $customer->date_of_birth = $request['date_of_birth'] ?? null;
+        $customer->date_of_birth = $request['date_of_birth'];
         $customer->gender = $request['gender'] ?? null;
         $customer->phone = $request['phone'] ?? null;
         $customer->address = $request['address'] ?? null;

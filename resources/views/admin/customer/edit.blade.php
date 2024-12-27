@@ -61,7 +61,7 @@
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
                         <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
-                        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" value="{{ $customers->date_of_birth }}" required>
+                        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" value="{{ $customers->date_of_birth->toDateString() }}" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
@@ -134,8 +134,8 @@
 
         <!-- Nút hành động -->
         <div class="button-container">
-            <button type="submit" class="btn btn-success me-3">Cập nhật</button>
-            <a href="{{ route('customer.index') }}" class="btn btn-secondary">Hủy</a>
+            <button type="submit" class="btn btn-edit me-3">Cập nhật</button>
+            <a href="{{ route('customer.index') }}" class="btn btn-cancel">Hủy</a>
         </div>
 
     </form>

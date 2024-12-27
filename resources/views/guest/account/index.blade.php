@@ -232,8 +232,10 @@
   <main class="main">
     <!-- TRANG CHỦ -->
     <section id="home" class="home section">
-      <div class="container" data-aos="fade-up">
+      <div class="container section-title" data-aos="fade-up">
         <h1>TRANG CHỦ</h1>
+      </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row">
           <div class="col-lg-6 text-center">
             <img src="/guest/img/hourglass.gif" alt="support"
@@ -267,7 +269,7 @@
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="width: 250px" />
+              alt="" style="margin-top: 10px "/>
           </div>
           <div class="col-lg-8 content" style="margin-top: 40px">
             <h2 id="title">Thông tin cá nhân</h2>
