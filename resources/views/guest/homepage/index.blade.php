@@ -92,7 +92,7 @@
         }
 
         .menu-item>a:hover {
-            color: #007bff;
+            color: #ff6f00;
         }
 
         .menu-item a {
@@ -103,12 +103,18 @@
         }
 
         .logout-button {
-            display: flex !important;
-            justify-content: flex-end !important;
-            cursor: pointer !important;
-            color: #d9534f !important;
+            display: flex ;
+            justify-content: center ;
+            cursor: pointer ;
+            color: #333 ;
             font-size: 14px !important;
-            font-weight: bold !important;
+            font-weight: normal ;
+        }
+        .menu-section>a{
+            color: #333 ;
+        }
+        .menu-section>a:hover{
+            color: #ff6f00;
         }
     </style>
 </head>
@@ -656,17 +662,17 @@
             const content = cardElement.querySelector('.article-details .article-content').innerText;
             const date = cardElement.querySelector('.article-details .article-date').innerText;
             const images = cardElement.querySelector('img').src;
-        
+
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerText = content;
             document.getElementById('huongdanModalDate').innerText = date;
-        
+
             const modalImage = document.getElementById('huongdanModalImage');
             modalImage.src = images;
-        
+
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
-        
+
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
         }
