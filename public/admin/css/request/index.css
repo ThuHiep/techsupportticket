@@ -49,7 +49,6 @@ body {
 
 /* Tiêu đề trang */
 h1 {
-    padding-bottom: 20px;
     color: var(--primary-color);
     text-align: left;
     font-size: 2.5em;

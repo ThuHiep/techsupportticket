@@ -36,10 +36,9 @@ body {
 }
 
 h1 {
-    margin-bottom: 20px;
     color: var(--primary-color);
     text-align: left;
-    font-size: 2em; /* Tăng kích thước để nổi bật */
+    font-size: 2.5em; /* Tăng kích thước để nổi bật */
 }
 
 /* Container cho form */
@@ -50,6 +49,7 @@ h1 {
 .form-columns {
     display: flex;
     gap: 40px;
+    margin-top: -20px;
 }
 
 .form-column-left, .form-column-right {
