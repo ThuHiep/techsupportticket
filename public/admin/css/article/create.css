@@ -108,6 +108,7 @@ h1 {
     border: none;
     display: inline-block;
     font-size: 15px;
+    outline: none!important;
 }
 
 .add-article-btn {
@@ -127,7 +128,10 @@ h1 {
 .add-article-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.add-article-btn:focus {
+    background-color: #ee5711; /* Màu cam đậm hơn */
+    color: #ffffff;
+}
 .cancel-btn {
     background-color: #a7b1c2; /* Màu nền xám */
     color: white;
@@ -145,7 +149,10 @@ h1 {
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.cancel-btn:focus {
+    background-color: rgba(167, 177, 194, 0.82);
+    color: #FFFFFF;
+}
 input[readonly] {
     background-color: #DEBFF3;
     color: #555;
