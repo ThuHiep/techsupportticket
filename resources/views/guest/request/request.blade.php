@@ -77,7 +77,7 @@
                 <div id="request-container">
                     <div class="request-block">
                         <div class="input_box input-title-1">
-                            <input type="text" name="title[]" class="input-field" required>
+                            <input type="text" name="title[]" class="input-field input-title-2" required>
                             <label class="label">Tiêu đề</label>
                         </div>
 
