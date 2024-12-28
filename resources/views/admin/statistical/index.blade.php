@@ -17,21 +17,20 @@
         }
         .chart-container {
             width: 100%;
-            height: 500px;
+            height: 400px;
             font-size: 14px;
         }
         .report-select-container {
             text-align: center;
-            margin: 20px 0;
         }
         h1 {
             color: orange;
-            text-align: center;
+            text-align: left;
         }
         .report-section {
             background: #fff;
             border-radius: 8px;
-            padding: 20px;
+            padding: 10px;
             margin: 10px 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -123,7 +122,7 @@
 <body>
 <div class="container">
     <div class="report-select-container">
-        <h1>Báo cáo thống kê</h1>
+        <h1>Báo cáo số lượng yêu cầu</h1>
         <label for="reportSelect" class="filter-label"></label>
         <select id="reportSelect" onchange="showSelectedChart()">
             <option value="customer">Báo cáo theo khách hàng</option>
@@ -134,11 +133,22 @@
     </div>
     <div class="row">
         <!-- Cột trái - Biểu đồ -->
-        <div class="col-lg-8" id="chartContainer">
+        <div class="col-lg-7" id="chartContainer">
             <!--Biểu đồ khách hàng-->
             <div class="report-section" id="customerReportContainer" style="display: block;">
+                <h3>Báo cáo theo khách hàng</h3>
                 <div class="filter-container">
-                    <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..." onkeyup="filterCustomers('name')">
+                    <div style="position: relative;">
+                        <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..." 
+                               onkeyup="filterCustomers('name')" 
+                               style="width: 100%; padding-right: 30px;">
+                        <a href="{{ route('statistical.index') }}"
+                           id="clearButton"
+                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #D5D5D5; font-size: 14px; cursor: pointer; text-decoration: none;">
+                           ✖
+                        </a>
+                    </div>
+                    
                     <input type="text" id="customerIdInput" placeholder="Nhập mã khách hàng..." onkeyup="filterCustomers('id')">
                     <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
@@ -266,7 +276,7 @@
         </div>
 
         <!-- Cột phải - Số liệu cụ thể -->
-        <div class="col-lg-4" id="dataContainer">
+        <div class="col-lg-5" id="dataContainer">
             <div class="report-section" id="customerDataContainer" style="display: block;">
                 <h3>Số liệu tổng hợp</h3>
                 <p id="totalCustomerRequests"></p>
