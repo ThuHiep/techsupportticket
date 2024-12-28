@@ -298,6 +298,7 @@ input[type=checkbox]:focus{
 }
 @media only screen and (max-width: 546px){
     .wrapper{
+        
         padding: 20px;
     }
     .login_box{

@@ -639,3 +639,129 @@ footer {
     font-weight: 600;
 }
 
+
+/* Default styles (áp dụng cho màn hình lớn hơn 764px) */
+
+/* Màn hình tối đa 764px */
+@media (max-width: 764px) {
+    header {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .main-content {
+        flex-direction: column;
+        height: auto;
+    }
+    .main-content .right h1 span {
+        font-size: 35px;
+    }
+    .faq-container {
+        flex-direction: column;
+    }
+    .faq-list,
+    .faq-form-container {
+        width: 100%;
+    }
+    .carousel-card {
+        min-width: 90%;
+        height: auto;
+    }
+    .carousel-container {
+        width: 95%;
+    }
+    .carousel-button {
+        width: 50px;
+        height: 50px;
+        font-size: 2em;
+    }
+    .footer {
+        margin: 10px;
+    }
+}
+
+/* Màn hình tối đa 425px */
+@media (max-width: 425px) {
+    
+    .main-content .right h1 span {
+        font-size: 28px;
+        
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+    .main-content .right .search-container input[type="text"],
+    .main-content .right .search-container select {
+        width: 100%;
+        font-size: 0.9em;
+    }
+    .main-content .right .search-container button {
+        width: 35px;
+        height: 35px;
+        font-size: 1em;
+    }
+    .carousel-card {
+        min-width: 100%;
+    }
+    .floating-button {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    .modal-registration {
+        width: 90%;
+        height: auto;
+    }
+    
+}
+/* Màn hình tối đa 425px */
+/* Responsive Footer */
+
+
+/* Màn hình tối đa 375px */
+@media (max-width: 375px) {
+    header {
+        padding: 8px 15px;
+    }
+    .logo img {
+        height: 30px;
+    }
+    .nav-links {
+        gap: 5px;
+    }
+    .nav-links a {
+        font-size: 12px;
+    }
+    .main-content .right h1 span {
+        font-size: 24px;
+    }
+    .main-content .right .search-container input[type="text"],
+    .main-content .right .search-container select {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+    .carousel-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.8em;
+    }
+    .modal-registration {
+        padding: 10px;
+        font-size: 14px;
+    }
+    .faq-title {
+        font-size: 1.5em;
+    }
+    footer {
+        flex-direction: column;
+        text-align: center;
+        font-size: 10px;
+    }
+    footer div {
+        margin-bottom: 15px;
+    }
+}
