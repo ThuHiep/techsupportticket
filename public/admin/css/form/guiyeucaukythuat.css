@@ -389,8 +389,8 @@ select option:hover {
 /*Login link*/
 .login-link{
     text-align: center;
-    margin-bottom: -50px;
-    margin-top: -23px;
+    margin-bottom: 0px;
+    margin-top: 10px;
 }
 .login-link span{
     font-size: 16px;
@@ -457,4 +457,72 @@ select option:hover {
 .file-upload-box input[type="file"]:focus {
     border-color: #0056b3;
     box-shadow: 0 0 8px rgba(0, 86, 179, 0.5);
+}
+@media (max-width: 768px) {
+    .wrapper {
+        display: flex;
+        justify-content: center; /* Căn giữa ngang */
+        align-items: center; /* Căn giữa dọc */
+        min-height: 100vh; /* Đảm bảo chiều cao toàn màn hình */
+        padding: 10px;
+    }
+
+    .support_box {
+        width: 100%; /* Đặt form vừa với chiều rộng thiết bị */
+        padding: 1.5em; /* Điều chỉnh padding */
+
+    }
+
+    .support-header {
+        width: 200px; /* Thu nhỏ header */
+        height: 60px; /* Giảm chiều cao */
+    }
+
+    .support-header span {
+        font-size: 18px; /* Thu nhỏ kích thước chữ */
+    }
+
+    .input-container {
+        grid-template-columns: 1fr; /* Chuyển từ 2 cột thành 1 cột */
+        row-gap: 15px;
+    }
+
+    .input-field {
+        height: 50px; /* Thu nhỏ chiều cao input */
+        font-size: 14px; /* Giảm kích thước chữ */
+    }
+
+    .input-submit {
+        width: 50%;
+        height: 45px; /* Giảm chiều cao */
+        font-size: 14px; /* Giảm kích thước chữ */
+    }
+
+    .file-upload-field {
+        width: 100%; /* Đảm bảo khung file vừa thiết bị */
+        max-width: none; /* Loại bỏ giới hạn chiều rộng */
+    }
+
+    .add-btn,
+    .delete-btn {
+        padding: 8px 10px; /* Giảm kích thước padding */
+        font-size: 14px; /* Giảm kích thước chữ */
+    }
+    input.input-field.input-title-2 {
+        width: 72%;
+    }
+    textarea.input-field.description-field {
+        width: 72%;
+        height: 20%;
+
+    }
+    .request-block{
+        width: 208%;
+    }
+    .request-block::after {
+        left: 36%;
+    }
+    .login-link{
+        margin-top: 0px;
+    }
 }
