@@ -34,6 +34,7 @@
             margin: 10px 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+    
         .progress-bar {
             width: 100%;
             height: 10px;
@@ -296,18 +297,19 @@
             <!--Số liệu phòng ban-->
             <div class="report-section" id="departmentDataContainer" style="display: none;">
                 <h3>Số liệu tổng hợp</h3>
-                <table>
+                <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
                     <thead>
-                    <tr>
-                        <th>Phòng ban</th>
-                        <th>Đang xử lý</th>
-                        <th>Chưa xử lý</th>
-                        <th>Hoàn thành</th>
-                        <th>Đã hủy</th>
-                    </tr>
+                        <tr>
+                            <th style="padding: 5px">Phòng ban</th>
+                            <th style="padding: 5px">Đang xử lý</th>
+                            <th style="padding: 5px">Chưa xử lý</th>
+                            <th style="padding: 5px">Hoàn thành</th>
+                            <th style="padding: 5px">Đã hủy</th>
+                            <th style="padding: 5px ">Tổng</th>
+                        </tr>
                     </thead>
                     <tbody id="departmentDataList"></tbody>
-                </table>
+                </table>                
                 <p id="totalDepartmentRequests"></p>
             </div>
             <!--Số liệu thời gian-->
@@ -734,6 +736,8 @@
                 const notProcessed = data ? data["Chưa xử lý"] || 0 : 0;
                 const completed = data ? data["Hoàn thành"] || 0 : 0;
                 const canceled = data ? data["Đã hủy"] || 0 : 0;
+                const total = processing + notProcessed + completed + canceled;
+               
 
                 // Only add the row if there is at least one non-zero status
                 if (processing > 0 || notProcessed > 0 || completed > 0 || canceled > 0) {
@@ -751,6 +755,7 @@
                         <td>${notProcessed}</td>
                         <td>${completed}</td>
                         <td>${canceled}</td>
+                        <td><strong>${total}</strong></td>
                     `;
                     statisticsData.appendChild(row);
                 }
@@ -759,12 +764,14 @@
             // Create total row for status counts
             // Create total row for status counts
             const totalRow = document.createElement('tr');
+            const grandTotal = totalProcessing + totalNotProcessed + totalCompleted + totalCanceled;
             totalRow.innerHTML = `
                 <td><strong>Tổng:</strong></td>
                 <td><strong>${totalProcessing}</strong></td>
                 <td><strong>${totalNotProcessed}</strong></td>
                 <td><strong>${totalCompleted}</strong></td>
                 <td><strong>${totalCanceled}</strong></td>
+                <td><strong>${grandTotal}</strong></td>
             `;
             statisticsData.appendChild(totalRow);
         }
