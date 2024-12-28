@@ -533,14 +533,32 @@
               };
             });
 
+            // function previewImage(event) {
+            //   const reader = new FileReader();
+            //   reader.onload = function() {
+            //     const output = document.getElementById("preview-img");
+            //     output.src = reader.result;
+            //     output.style.display = "block";
+            //   };
+            //   reader.readAsDataURL(event.target.files[0]);
+            // }
+            // Preview ảnh với kích thước giới hạn
             function previewImage(event) {
-              const reader = new FileReader();
-              reader.onload = function() {
-                const output = document.getElementById("preview-img");
-                output.src = reader.result;
-                output.style.display = "block";
-              };
-              reader.readAsDataURL(event.target.files[0]);
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const output = document.getElementById("preview-img");
+                        output.src = reader.result;
+                        output.style.display = "block";
+
+                        // Giới hạn kích thước hiển thị
+                        output.style.maxWidth = "100px"; // Chiều rộng tối đa
+                        output.style.maxHeight = "100px"; // Chiều cao tối đa
+                        output.style.objectFit = "cover"; // Giữ tỷ lệ hình ảnh
+                    };
+                    reader.readAsDataURL(file);
+                }
             }
           </script>
         </div>
