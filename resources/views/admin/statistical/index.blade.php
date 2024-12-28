@@ -12,7 +12,7 @@
     <style>
         .container {
             width: calc(98%);
-            margin: auto;
+            margin: 15px auto auto auto;
             transition: all 0.3s ease-in-out;
         }
         .chart-container {

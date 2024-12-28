@@ -151,7 +151,7 @@ input.error, select.error {
     border-radius: 8px; /* Bo góc */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
-    width: 200px; /* Chiều rộng nút */
+    width: 10%; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
     outline: none!important;
 }
