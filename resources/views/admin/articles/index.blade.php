@@ -7,7 +7,7 @@
     <title>Danh sách bài hướng dẫn</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('admin/css/faq/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/article/index.css') }}">
     <style>
         body .container {
             width: calc(98%);
@@ -24,7 +24,7 @@
 <div class="container">
     <h1>Danh sách bài hướng dẫn</h1>
     <div class="top-bar">
-        <a href="{{ route('articles.create') }}" class="add-faq-btn">Thêm mới</a>
+        <a href="{{ route('articles.create') }}" class="add-article-btn">Thêm mới</a>
         <div class="search-container">
             <form action="{{ route('articles.index') }}" method="GET" >
                 <!-- Input tìm kiếm -->

@@ -36,8 +36,11 @@ h1 {
     cursor: pointer;
     text-decoration: none;
     margin-right: auto;
+    outline: none !important;
 }
-
+.add-customer-btn:focus{
+    color: #ffffff;
+}
 .add-customer-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;
@@ -77,6 +80,7 @@ h1 {
     border: none;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
+    outline: none;
 }
 
 .search-container button:hover {
@@ -95,8 +99,11 @@ h1 {
     align-items: center;
     justify-content: center;
     position: relative;
+    outline: none !important;
 }
-
+.show-users-btn:focus{
+    color: #ffffff;
+}
 .show-users-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;

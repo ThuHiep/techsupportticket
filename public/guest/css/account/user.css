@@ -905,11 +905,7 @@ input, select {
   background-color: #5e3a8b;
 }
 
-/* Buttons */
-.button-group {
-  text-align: center;
-  margin-top: 20px;
-}
+
 
 .btn-update, .btn-cancel {
   padding: 10px 20px;
@@ -976,7 +972,8 @@ input, select {
     justify-content: center;   /* Căn giữa theo chiều ngang */
     gap: 10px;                 /* Khoảng cách giữa các phần tử */
     margin-bottom: 10px;
-    margin-top: -45px;
+    text-align: center;
+    margin-top: 15px;
 }
 
 .img-container img {
@@ -1020,7 +1017,7 @@ input, select {
     width: 25%;
     height: 675px;
     overflow-y: auto;
-    border: 2px solid var(--primary-color);
+    border: 2px solid white;
     backdrop-filter: blur(25px);
     border-radius: 15px;
     transform: translate(-50%, -50%);
@@ -1044,6 +1041,9 @@ input, select {
     list-style: none; /* Loại bỏ marker */
     padding: 0; /* Loại bỏ khoảng cách thụt lề mặc định của ul */
     margin: 0; /* Loại bỏ khoảng cách mặc định của ul */
+}
+.hint:focus-visible{
+    outline: none!important;
 }
 .reset-password-form{
     margin-top: -25px;
@@ -1112,7 +1112,7 @@ input, select {
   color:var(--black-color);
   background: transparent;
   padding-inline: 20px 50px;
-  border: 2px solid var(--primary-color);
+  border: 2px solid #939393;
   border-radius: 15px;
   outline: none;
 }

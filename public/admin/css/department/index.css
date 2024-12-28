@@ -40,13 +40,17 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
+    outline: none!important;
 }
 
 .add-department-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;
 }
-
+.add-department-btn:focus {
+    background-color: #f57c00;
+    color: #FFFFFF;
+}
 .search-container {
     display: flex;
     align-items: center;
@@ -81,6 +85,7 @@ h1 {
     border: none;
     border-radius: 0 5px 5px 0; /* Xoay góc phải của button */
     cursor: pointer;
+    outline: none!important;
 }
 
 .search-container button:hover {

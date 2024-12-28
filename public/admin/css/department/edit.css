@@ -97,6 +97,7 @@ input[readonly] {
     font-weight: bold;
     border: none;
     display: inline-block;
+    outline: none!important;
 }
 
 .add-department-btn {
@@ -107,6 +108,10 @@ input[readonly] {
 
 .add-department-btn:hover {
     background-color: #f57c00;
+    transform: scale(1.05); /* Phóng to nhẹ */
+}
+.add-department-btn:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
 .cancel-btn {
@@ -117,6 +122,13 @@ input[readonly] {
 
 .cancel-btn:hover {
     background-color: #bbb;
+    color: #ffffff;
+    transform: scale(1.05); /* Phóng to nhẹ */
+}
+.cancel-btn:active {
+    transform: scale(0.95); /* Nhỏ lại khi click */
+}
+.cancel-btn:focus {
     color: #ffffff;
 }
 @media (max-width: 426px) {

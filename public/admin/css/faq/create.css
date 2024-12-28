@@ -108,6 +108,7 @@ h1 {
     border: none;
     display: inline-block;
     font-size: 15px;
+    outline: none!important;
 }
 
 .add-faq-btn {
@@ -127,7 +128,9 @@ h1 {
 .add-faq-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.add-faq-btn:focus {
+    color: #ffffff;
+}
 .cancel-btn {
     background-color: #a7b1c2; /* Màu nền xám */
     color: white;
@@ -145,7 +148,9 @@ h1 {
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.cancel-btn:focus {
+    color: #ffffff;
+}
 input[readonly] {
     background-color: #DEBFF3;
     color: #555;

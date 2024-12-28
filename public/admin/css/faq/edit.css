@@ -97,6 +97,7 @@ input[readonly] {
     font-weight: bold;
     border: none;
     display: inline-block;
+    outline: none!important;
 }
 
 .add-faq-btn {
@@ -118,7 +119,9 @@ input[readonly] {
 .add-faq-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.add-faq-btn:focus {
+  color: #ffffff;
+}
 .cancel-btn {
     padding: 12px 24px; /* Khoảng cách trong nút */
     background-color: #a7b1c2; /* Màu nền xám */
@@ -140,7 +143,9 @@ input[readonly] {
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.cancel-btn:focus {
+    color: #ffffff;
+}
 
 .half-width {
     flex: 1; /* Mỗi phần chiếm 50% chiều rộng */
