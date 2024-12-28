@@ -660,7 +660,7 @@ section,
 }
 
 /* Định dạng nút "Tạo yêu cầu hỗ trợ" */
-.home.section .text-center button.btn.btn-success {
+.home.section .text-center button.btn.btn-change {
     display: inline;
   background-color: #6F2F9F;
   border: 0;
@@ -795,6 +795,17 @@ button:hover {
   background-color: darken(var(--accent-color), 50%);
   background-color: #764DAA;
 }
+.btn-request{
+  background-color: #6F2F9F;
+  font-weight: bold;
+  color: white;
+}
+.btn-request:hover{
+  background-color: #6F2F9F;
+  color: white;
+}
+
+
 
 /* CHỈNH SỬA THÔNG TIN CÁ NHÂN */
 /* Modal Styles */
@@ -899,7 +910,7 @@ input, select {
   background-color: #5e3a8b;
 }
 
-.btn-success{
+.btn-change{
     margin-top: 6px;
     display: block;
     padding: 8px 12px;
@@ -910,71 +921,12 @@ input, select {
     cursor: pointer;
     font-size: 14px;
 }
-.btn-success:hover {
+.btn-change:hover {
     background-color: #ff6f00;
     transform: scale(1.08);
+    color: white;
 }
 /* Căn chỉnh bố cục ảnh đại diện và nút */
-/* .button-group {
-    display: flex;             
-    align-items: center;      
-    justify-content: center;   
-    gap: 30px;                 
-    margin-bottom: 10px;
-    text-align: center;
-    margin-top: 15px;
-       
-      
-}
-
-@media (max-width: 768px) {
-
-  .button-group {
-    max-width: 100%;
-    flex-direction: row;
-    gap: 5px;
-    margin-top: -20px;
-    overflow: visible; 
-  }
-
-  .edit-button, #openForm {
-    display: inline-block !important;
-  }
-
-  .section-title{
-     margin-top: 50px;
-  }
-}
-
-@media (max-width: 425px) {
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .edit-button, 
-  #openForm {
-    font-size: 14px;
-    width: 80%;
-    padding: 10px;
-  }
-}
-
-@media (max-width: 375px) {
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .edit-button, 
-  #openForm {
-    font-size: 12px;
-    width: 90%;
-    padding: 8px;
-  }
-} */
  /* Điều chỉnh layout */
 .button-group {
   display: flex;
@@ -988,7 +940,7 @@ input, select {
 
 /* Nút chỉnh sửa và thay đổi mật khẩu */
 .edit-button,
-.btn-success {
+.btn-change {
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 5px;
@@ -1001,49 +953,44 @@ input, select {
 /* Responsive */
 @media (max-width: 768px) {
   .button-group {
-      flex-direction: column; /* Xếp nút theo cột */
       gap: 10px; /* Tăng khoảng cách giữa các nút */
     
   }
 
   .edit-button,
-  .btn-success {
-      width: 30%; /* Chiếm 80% chiều rộng màn hình */
+  .btn-change {
+      margin-top: -30px;
       
   }
-  .edit-button{
-    margin-top: -30px;
-    
-  }
-
-
   .section-title{
-    margin-top: 100px;
+    margin-top: 20px;
   }
 }
 
 @media (max-width: 425px) {
   .button-group {
-      gap: 15px;
+    gap: 10px; /* Tăng khoảng cách giữa các nút */
   }
 
   .edit-button,
-  .btn-success {
-      font-size: 14px; /* Giảm kích thước chữ */
-      padding: 8px 15px;
-      width: 90%; /* Chiếm 90% chiều rộng màn hình */
+  .btn-change {
+      font-size: 13px; /* Giảm kích thước chữ */
+
   }
 }
 
 @media (max-width: 375px) {
   .button-group {
-      gap: 10px;
+      gap: 5px;
   }
 
   .edit-button,
-  .btn-success {
-      font-size: 12px;
-      width: 95%; /* Chiếm 95% chiều rộng màn hình */
+  .btn-change {
+      font-size: 10px;
+  }
+  
+  .section-title{
+    margin-top: 40px;
   }
 }
 
