@@ -151,6 +151,11 @@ Route::get('/get-time-statistics', [ReportController::class, 'getTimeStatistics'
 
 // Test
 Route::get('/statistics', [StatisticalController::class, 'index']);
+Route::get('/api/customer-stats', [StatisticalController::class, 'getCustomerStats']);
+Route::get('/api/search-customers', [StatisticalController::class, 'searchCustomers']);
+Route::get('/api/request-type-stats', [StatisticalController::class, 'getRequestTypeStats']);
+Route::get('/api/department-stats', [StatisticalController::class, 'getDepartmentStats']);
+Route::get('/api/time-stats', [StatisticalController::class, 'getTimeStats']);
 
 
 
