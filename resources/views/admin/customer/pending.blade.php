@@ -27,7 +27,7 @@
 
         .search-container input[type="text"] {
             padding: 8px 12px;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
             width: 300px;
@@ -36,7 +36,7 @@
 
         .search-container input[type="date"] {
             padding: 8px 12px;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
             width: 200px;
@@ -45,16 +45,16 @@
 
         .search-container input[type="text"]:focus,
         .search-container input[type="date"]:focus {
-            border-color: #007bff;
+            border-color: #FF9700;
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 5px #FF9700;
         }
 
         .search-container button {
             padding: 8px 16px;
             border: none;
             border-radius: 4px;
-            background-color: orange;
+            background-color:#FF9700;
             color: white;
             font-size: 14px;
             cursor: pointer;
@@ -62,7 +62,7 @@
         }
 
         .search-container button:hover {
-            background-color: coral;
+            background-color: #f57c00;
         }
     </style>
 </head>
@@ -99,7 +99,7 @@
         @if ($searchPerformed)
             @if ($searchName && !$searchDate)
                 @if ($totalResults > 0)
-    
+
                 <div id="search-notification"  class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
                         Tìm thấy {{ $totalResults }} tài khoản chưa duyệt có tên "{{ $searchName }}"
                     </div>

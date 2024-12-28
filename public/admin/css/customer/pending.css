@@ -32,14 +32,14 @@ a.btn {
     padding: 15px 20px;
     margin-bottom: 20px;
     color: #fff;
-    background-color: #6c757d;
+    background-color: #ccc;
     border-radius: 5px;
     text-align: center;
     font-weight: bold;
 }
 
 a.btn:hover {
-    background-color: #5a6268;
+    background-color: #5a6268ba;
 }
 
 .alert-success, .alert-danger {
@@ -219,3 +219,38 @@ th:nth-child(5), td:nth-child(5) {
     background-color: #c82333; /* Đỏ đậm hơn khi hover */
 }
 
+@media (max-width: 426px){
+    h1{
+        font-size: 28px;
+    }
+    .search-container{
+        flex-direction: column; /* Xếp các cột thành 1 hàng dọc */
+        align-items: flex-start!important;
+        gap: 0px;
+        margin-bottom: 5px!important;
+    }
+    #searchName{
+        flex: none; /* Loại bỏ thuộc tính flex-grow và flex-shrink */
+        width: 278px;
+    }
+    #searchDate {
+        flex: none; /* Loại bỏ thuộc tính flex-grow và flex-shrink */
+        width: 278px;
+    }
+
+    .search-button {
+        align-self: center;
+        margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng nếu không cần */
+        width: 30%;
+    }
+    a.btn{
+        font-size: 13px;
+        padding: 17px 0px;
+        margin-bottom: 20px;
+    }
+}
+@media (max-width: 376px) {
+    h1 {
+        font-size: 22px;
+    }
+}
