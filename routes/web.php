@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 //Cấm đụng cái này
 Route::get('/', [HomepageController::class, 'login'])->name('homepage.index');
 
+Route::get('/search', [HomepageController::class, 'search']);
+
 /*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('customersp')->name('dashboard.index');
 

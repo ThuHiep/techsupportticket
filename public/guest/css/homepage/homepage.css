@@ -109,6 +109,7 @@ header {
 }
 
 .main-content .right .search-container {
+    position: relative;
     display: flex;
     align-items: center;
     margin-top: 10px;

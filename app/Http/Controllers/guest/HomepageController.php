@@ -22,7 +22,8 @@ class HomepageController extends Controller
     public function login()
     {
         $faqs = $this->getFaqs();
-        $articles = Article::all(); // Lấy tất cả bài viết
+        $articles = Article::all();
+
         if (Auth::check()) {
             if (Auth::user()->role_id == 3) {
                 $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
@@ -51,5 +52,22 @@ class HomepageController extends Controller
 
         // Truyền dữ liệu vào view
         return view('guest.request.request', compact('customer', 'requestTypes'));
+    }
+
+    public function Search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $type = $request->input('type');
+        $results = "";
+
+        if ($type === 'faq') {
+            $results = FAQ::where('question', 'LIKE', "%{$keyword}%")
+                ->get();
+        } elseif ($type === 'article') {
+            $results = Article::where('title', 'LIKE', "%{$keyword}%")
+                ->get();
+        }
+
+        return response()->json($results);
     }
 }
