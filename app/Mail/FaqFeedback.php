@@ -24,7 +24,7 @@ class FaqFeedback extends Mailable
 
     public function build()
     {
-        return $this->subject('Your FAQ Submission')
+        return $this->subject('Gửi câu hỏi của bạn')
             ->view('emails.faq_feedback')
             ->with([
                 'question' => $this->question,
