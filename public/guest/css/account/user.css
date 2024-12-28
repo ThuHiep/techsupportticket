@@ -24,7 +24,6 @@ a {
 }
 
 a:hover {
-  color: color-mix(in srgb, var(--accent-color), transparent 25%);
   text-decoration: none;
 }
 
@@ -42,7 +41,7 @@ h6 {
     .btn-open-modal {
       display: block;
       margin: -75px auto 27px auto;
-      background-color: #FF9700;
+      background-color: #6f2f9f;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -53,7 +52,7 @@ h6 {
     }
 
     .btn-open-modal:hover {
-      background-color: #ee5711;
+      background-color: #4A1F6A;
     }
 
     /* Modal */
@@ -182,57 +181,7 @@ h6 {
       /* Giữ màu chữ trắng */
     }
 
-/* PHP Email Form Messages
-------------------------------*/
-.php-email-form .error-message {
-  display: none;
-  background: #df1529;
-  color: #ffffff;
-  text-align: left;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
 
-.php-email-form .sent-message {
-  display: none;
-  color: #ffffff;
-  background: #059652;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
-
-.php-email-form .loading {
-  display: none;
-  background: var(--surface-color);
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-}
-
-.php-email-form .loading:before {
-  content: "";
-  display: inline-block;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  margin: 0 10px -6px 0;
-  border: 3px solid var(--accent-color);
-  border-top-color: var(--surface-color);
-  animation: php-email-form-loading 1s linear infinite;
-}
-
-@keyframes php-email-form-loading {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 /*--------------------------------------------------------------
 # Global Header
@@ -325,7 +274,7 @@ h6 {
 
 .header .header-toggle {
   color: #ffffff;
-  background-color: #FF9700;
+  background-color: #6f2f9f;
   font-size: 22px;
   display: flex;
   align-items: center;
@@ -343,7 +292,7 @@ h6 {
 
 .header .header-toggle:hover {
     color: #ffffff;
-    background-color: #ee5711;
+    background-color: #4A1F6A;
 }
 
 /*--------------------------------------------------------------
@@ -484,7 +433,7 @@ h6 {
   right: 15px;
   bottom: -15px;
   z-index: 99999;
-  background-color: #FF9700;
+  background-color: #6f2f9f;
     color: #ffffff;
   width: 44px;
   height: 44px;
@@ -499,7 +448,7 @@ h6 {
 }
 
 .scroll-top:hover {
-  background-color:#ee5711;
+  background-color:#4A1F6A;
   color: #ffffff;
 }
 
@@ -687,7 +636,7 @@ section,
 .home.section .col-lg-6 a {
   font-weight: bold;
   display: inline-block;
-  background-color: #FB9A02;
+  background-color: #6F2F9F;
   padding: 5px 15px;
   border-radius: 5px;
   text-decoration: none;
@@ -713,7 +662,7 @@ section,
 /* Định dạng nút "Tạo yêu cầu hỗ trợ" */
 .home.section .text-center button.btn.btn-success {
     display: inline;
-  background-color: #FB9A02;
+  background-color: #6F2F9F;
   border: 0;
   padding: 10px 20px;
   font-size: 16px;
@@ -966,14 +915,136 @@ input, select {
     transform: scale(1.08);
 }
 /* Căn chỉnh bố cục ảnh đại diện và nút */
-.button-group {
-    display: flex;             /* Đặt các phần tử con nằm ngang */
-    align-items: center;       /* Căn giữa theo chiều dọc */
-    justify-content: center;   /* Căn giữa theo chiều ngang */
-    gap: 30px;                 /* Khoảng cách giữa các phần tử */
+/* .button-group {
+    display: flex;             
+    align-items: center;      
+    justify-content: center;   
+    gap: 30px;                 
     margin-bottom: 10px;
     text-align: center;
     margin-top: 15px;
+       
+      
+}
+
+@media (max-width: 768px) {
+
+  .button-group {
+    max-width: 100%;
+    flex-direction: row;
+    gap: 5px;
+    margin-top: -20px;
+    overflow: visible; 
+  }
+
+  .edit-button, #openForm {
+    display: inline-block !important;
+  }
+
+  .section-title{
+     margin-top: 50px;
+  }
+}
+
+@media (max-width: 425px) {
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .edit-button, 
+  #openForm {
+    font-size: 14px;
+    width: 80%;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 375px) {
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .edit-button, 
+  #openForm {
+    font-size: 12px;
+    width: 90%;
+    padding: 8px;
+  }
+} */
+ /* Điều chỉnh layout */
+.button-group {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 15px; /* Khoảng cách giữa các nút */
+  flex-wrap: wrap; /* Đảm bảo nút xuống dòng nếu không đủ không gian */
+  margin-top: 20px;
+  max-width: 100%; /* Đảm bảo không bị cắt chiều ngang */
+}
+
+/* Nút chỉnh sửa và thay đổi mật khẩu */
+.edit-button,
+.btn-success {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-align: center;
+  white-space: nowrap; /* Tránh xuống dòng */
+  cursor: pointer;
+  min-width: 120px; /* Đặt chiều rộng tối thiểu */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .button-group {
+      flex-direction: column; /* Xếp nút theo cột */
+      gap: 10px; /* Tăng khoảng cách giữa các nút */
+    
+  }
+
+  .edit-button,
+  .btn-success {
+      width: 30%; /* Chiếm 80% chiều rộng màn hình */
+      
+  }
+  .edit-button{
+    margin-top: -30px;
+    
+  }
+
+
+  .section-title{
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 425px) {
+  .button-group {
+      gap: 15px;
+  }
+
+  .edit-button,
+  .btn-success {
+      font-size: 14px; /* Giảm kích thước chữ */
+      padding: 8px 15px;
+      width: 90%; /* Chiếm 90% chiều rộng màn hình */
+  }
+}
+
+@media (max-width: 375px) {
+  .button-group {
+      gap: 10px;
+  }
+
+  .edit-button,
+  .btn-success {
+      font-size: 12px;
+      width: 95%; /* Chiếm 95% chiều rộng màn hình */
+  }
 }
 
 .img-container img {

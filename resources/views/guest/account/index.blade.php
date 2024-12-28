@@ -83,7 +83,6 @@
             <img src="/guest/img/hourglass.gif" alt="support"
               class="img-fluid-home" />
             <p>Yêu cầu chưa xử lý</p>
-            <h2>0</h2>
             <a href="#chua-xu-ly">Xem</a>
 
           </div>
@@ -103,7 +102,7 @@
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
               class="img-fluid-home" />
-            <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
+            <p>Bạn có yêu cầu cần được hỗ trợ ?</p>
             <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
