@@ -40,13 +40,17 @@ h1 {
     cursor: pointer;
     text-decoration: none;
     margin-right: auto;
+    outline: none!important;
 }
 
 .add-faq-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;
 }
-
+.add-faq-btn:focus {
+    background-color: #f57c00;
+    color: #FFFFFF;
+}
 
 .search-container {
     display: flex;
@@ -87,6 +91,7 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    outline: none!important;
 }
 
 .search-container button:hover {
