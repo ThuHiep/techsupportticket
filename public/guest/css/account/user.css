@@ -561,7 +561,7 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0px;
+
   overflow: clip;
 }
 
@@ -970,7 +970,7 @@ input, select {
     display: flex;             /* Đặt các phần tử con nằm ngang */
     align-items: center;       /* Căn giữa theo chiều dọc */
     justify-content: center;   /* Căn giữa theo chiều ngang */
-    gap: 10px;                 /* Khoảng cách giữa các phần tử */
+    gap: 30px;                 /* Khoảng cách giữa các phần tử */
     margin-bottom: 10px;
     text-align: center;
     margin-top: 15px;

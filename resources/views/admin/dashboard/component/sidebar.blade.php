@@ -6,14 +6,14 @@
 <nav class="navbar-default navbar-static-side" role="navigation" style="">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header" style="background-color: #fff"> <!--Huy đã đổi màu-->
-                <div class="dropdown profile-element " ;> <!--Huy đã xóa class "open" trong div này, đổi màu -->
+            <li class="nav-header" style="background-color: #fff"> 
+                <div class="dropdown profile-element " ;> 
                     <span>
                         <img alt="image" src="admin/img/logosweetsoft.png"
                             style="width:170px; margin-top: -10px; margin-bottom: 20px">
                         <img alt="image" class="img-circle" src="{{$logged_user->profile_image ? asset('admin/img/employee/' .  $logged_user->profile_image) : asset('admin/img/employee/default.png') }}" style="margin-left:50px; width: 60px;height: 60px;">
                     </span>
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> <!--Huy đã cho aria-expanded="false" để ngăn list tự sổ xuống -->
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false"> 
                         <span class="clear text-align: center;">
                             <span class="block m-t-xs">
                                 <strong class="font-bold" style="color: #2e2626; display: inline-block; text-align: center; width: 100%;">{{$logged_user->full_name}} <b class="caret ms-2" style="color: #272020"></b></strong>
