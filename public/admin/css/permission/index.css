@@ -1,0 +1,464 @@
+body {
+    font-family: open sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+.container {
+    width: 1200px;
+    max-width: 100%;
+    margin-top: 22px;
+    margin-left: 12px;
+    padding: 0 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+h1 {
+    padding-bottom: 20px;
+    color: #FF9700;
+}
+.add-customer-btn {
+    padding: 8px 15px;
+    background-color: #FF9700;
+    color: white;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: auto;
+}
+
+.add-customer-btn:hover {
+    background-color: #f57c00;
+    color: #FFFFFF;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Căn giữa theo chiều ngang */
+    margin-right: 370px;
+    margin-top: -30px;
+    margin-left: auto;
+    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
+}
+.search-container input[type="text"] {
+    width: 440px;
+    padding: 10px 100px 10px 15px;
+    border: 1px solid #FF9700;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-container input[type="text"]:focus {
+    border-color: #FF9700;
+}
+
+.search-container button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 90px;
+    background-color: #FF9700;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #f57c00;
+}
+
+/* Thêm biểu tượng vào thông báo thành công */
+.alert-success::before {
+    content: "\f058"; /* Font Awesome check icon */
+    font-family: "Font Awesome 5 Free"; /* Đảm bảo Font Awesome đã được tải */
+    font-weight: 900;
+    margin-right: 10px;
+    color: #28a745;
+    font-size: 20px;
+}
+
+/* Thêm biểu tượng vào thông báo lỗi */
+.alert-danger::before {
+    content: "\f06a"; /* Font Awesome exclamation icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: #dc3545;
+    font-size: 20px;
+}
+
+/* Định dạng màu sắc và nền cho thông báo thành công */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Định dạng màu sắc và nền cho thông báo lỗi */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Hiệu ứng chuyển động khi thông báo xuất hiện */
+.alert-success, .alert-danger {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeInDown 0.5s forwards;
+}
+
+/* Keyframes cho hiệu ứng fadeInDown */
+@keyframes fadeInDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    white-space: nowrap; /* Ngăn nội dung xuống dòng */
+}
+th:nth-child(1), td:nth-child(1) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(2), td:nth-child(2) {
+    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
+}
+th:nth-child(3), td:nth-child(3) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(4), td:nth-child(4) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(6), td:nth-child(6) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th:nth-child(7), td:nth-child(7) {
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+}
+th {
+    background-color: #6f2f9f;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(odd) td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+    background-color: #eaeaea;
+}
+.employee-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.edit-button, .delete-button {
+    padding: 8px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #007bff;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.status-dot.active {
+    background-color: green;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}
+.pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa các phần tử trong phân trang */
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+.pagination span {
+    padding: 10px 16px;
+    margin: 0 8px;
+    background-color: #FF9700; /* Màu nền khi không chọn */
+    color: white; /* Màu chữ trắng */
+    text-decoration: none;
+    border-radius: 50%; /* Đảm bảo hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #DDDDDD; /* Thêm đường viền */
+}
+
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #ee5711;
+    border-color: #ddd;
+}
+
+.pagination a.active,
+.pagination span.active {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    border-color: #DDDDDD;
+    color: white;
+    cursor: default;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #ffffff;
+    cursor: not-allowed;
+    background-color: #FF9700;
+    border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #FF9700; /* Màu nền khi chọn */
+    color: white; /* Màu chữ trắng */
+    cursor: default;
+    z-index: 2;
+}
+
+/* Sửa phần này để thêm đường viền đỏ khi active */
+.pagination > .active > span {
+    border: none;
+    background-color: #ee5711;
+}
+/* Thêm media queries cho màn hình dưới 768px */
+@media (max-width: 768px) {
+    .container {
+        margin: 15px auto;
+        padding: 10px;
+        width: 100%; /* Đảm bảo container luôn chiếm toàn bộ chiều ngang */
+    }
+
+    .add-customer-btn {
+        display: block;
+        width: 15%; /* Chiếm toàn bộ chiều ngang */
+        margin-bottom: 10px; /* Thêm khoảng cách bên dưới */
+        text-align: center; /* Căn giữa nội dung */
+    }
+
+    .search-container {
+        width: 28%; /* Chiếm toàn bộ chiều ngang container */
+        margin: 0px; /* Căn giữa trên màn hình nhỏ */
+    }
+
+    .search-container input[type="text"] {
+        width: 162%; /* Điều chỉnh để phù hợp với chiều ngang container */
+        padding: 10px; /* Giữ khoảng cách padding hợp lý */
+    }
+
+    .search-container button {
+        width: 40%;
+        margin-right: -195px;
+    }
+
+    .table-container {
+        overflow-x: auto; /* Đảm bảo bảng không bị tràn màn hình */
+    }
+}
+
+@media (max-width: 576px) {
+    th, td {
+        font-size: 12px;
+    }
+    .employee-image {
+        width: 50px;
+        height: 50px;
+    }
+    .pagination {
+        flex-wrap: wrap;
+    }
+    .pagination a, .pagination span {
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+    }
+}
+/* Media queries cho màn hình dưới 425px */
+@media (max-width: 426px) {
+    h1{
+        font-size: 26px;
+    }
+    .container {
+        padding: 10px;
+    }
+
+    .add-customer-btn {
+        width: 25%;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .search-container input[type="text"] {
+        width: 290%;
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .search-container button {
+        width: 82%;
+        padding: 8px;
+        font-size: 12px;
+        margin-right: -223px;
+    }
+
+    .table-container {
+        margin-top: 10px;
+    }
+}
+
+/* Media queries cho màn hình dưới 375px */
+@media (max-width: 376px) {
+    h1{
+        font-size: 26px;
+        padding-bottom: 10px;
+    }
+    .add-customer-btn {
+        width: 29%;
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .search-container input[type="text"] {
+        width: 291%;
+        font-size: 9px;
+        padding: 6px;
+    }
+    .search-container button {
+        width: 79%;
+        padding: 6px;
+        font-size: 10px;
+        margin-right: -258%;
+    }
+}
+
+/* Media queries cho màn hình dưới 320px */
+@media (max-width: 321px) {
+    h1 {
+        font-size: 26px;
+        padding-bottom: 10px;
+    }
+    .container {
+        padding: 5px;
+    }
+
+    .add-customer-btn {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .search-container {
+        gap: 5px;
+    }
+
+    .search-container input[type="text"] {
+        width: 292%;
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .search-container button {
+        width: 75%;
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .table-container {
+        font-size: 10px;
+    }
+}

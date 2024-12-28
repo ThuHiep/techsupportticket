@@ -1,3 +1,8 @@
+:root{
+    --primary-color: #edede3;
+    --second-color: #64606052;
+    --black-color: #000000;
+}
 /* Tổng quan */
 body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -17,6 +22,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     position: relative;
+
+
 }
 
 /* Tiêu đề */
@@ -73,46 +80,13 @@ form {
     background-color: #debff3;
     opacity: 1;
 }
-
-.col-md-6 input#username {
-    width: 190%;
-}
-.col-username{
-    margin-left: -105px;
-}
-.col-md-6 input#password {
-    width: 217%;
-}
-.col-password{
-    margin-left: 70px;
-}
-#reset-password {
-    padding: 2px 6px; /* Giảm khoảng cách bên trong nút */
-    font-size: 12px; /* Giảm kích thước chữ và biểu tượng */
-    line-height: 1; /* Giảm khoảng cách giữa các dòng trong nút */
-    border-radius: 3px; /* Tùy chỉnh góc bo tròn */
-    width: 45px;
-    height: 40px;
-    margin-left: 165px;
-    margin-top: -60px;
-    background-color: #ee5711;
-    color: #FFFFFF;
-}
-#reset-password:hover{
-    background-color: #ff9700;
-    color: #FFFFFF;
-}
-#reset-password i {
-    font-size: 15px; /* Giảm kích thước biểu tượng */
-}
-
 /* Đảm bảo container riêng biệt cho các trường Địa chỉ và Website */
 .address-website-container {
     display: flex; /* Sử dụng Flexbox */
-    gap: 0px; /* Khoảng cách giữa các trường */
+    gap: 10px; /* Khoảng cách giữa các trường */
     flex-wrap: wrap; /* Các trường xuống dòng nếu không đủ chỗ */
     width: 741px;
-    margin-left: 0px;
+    margin-left: -10px;
 }
 
 /* Mỗi trường chiếm 50% chiều rộng */
@@ -120,6 +94,7 @@ form {
     flex: 1; /* Mỗi trường chiếm không gian đều */
     min-width: 0; /* Đảm bảo các input không bị tràn */
     max-width: 50%; /* Mỗi trường chiếm tối đa 50% */
+
 }
 /* Hiển thị lỗi */
 input.error, select.error {
@@ -136,16 +111,19 @@ input.error, select.error {
 
 /* Container chứa hai nút */
 .button-container {
-    display: flex; /* Sử dụng Flexbox để căn chỉnh ngang */
-    justify-content: center; /* Căn hai nút về phía trái */
-    gap: 10px; /* Khoảng cách giữa các nút */
-    margin-top: 20px; /* Khoảng cách phía trên container */
-    margin-bottom: 25px;
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: center; /* Căn giữa các nút theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc (nếu cần) */
+    gap: 20px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách phía trên */
+    margin-bottom: 25px; /* Khoảng cách phía dưới */
 }
-/* Nút Thêm mới (Lưu) */
-.btn-add-cus {
+
+
+/* Nút Lưu thay đổi */
+.btn-success {
     padding: 12px 24px; /* Khoảng cách trong lớn hơn */
-    background-color: #FF9700; /* Màu cam lá */
+    background-color: #FF9700; /* Màu xanh lá */
     color: white;
     border: none;
     border-radius: 8px; /* Bo góc */
@@ -154,16 +132,18 @@ input.error, select.error {
     width: 200px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
 }
-.btn-add-cus:hover {
-    background-color: #ee5711; /* Màu cam đậm hơn */
+
+.btn-success:hover {
+    background-color: #FF6F00; /* Màu xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
-    color: #ffffff;
 }
-.btn-add-cus:active {
+
+.btn-success:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-/* Nút Quay lại */
-.btn-cancel {
+
+/* Nút Hủy */
+.btn-secondary {
     padding: 12px 24px; /* Khoảng cách trong nút */
     background-color: #a7b1c2; /* Màu nền xám */
     color: white; /* Màu chữ */
@@ -175,41 +155,30 @@ input.error, select.error {
     height: 50px; /* Chiều cao nút */
     margin-left: 40px;
 }
-.btn-cancel:hover {
+
+.btn-secondary:hover {
     background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
     transform: scale(1.05); /* Phóng to nhẹ */
 }
-.btn-cancel:active {
+
+.btn-secondary:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
-/* Nhóm 3 trường "Tài khoản", "Mật khẩu" và "Ảnh đại diện" */
-.grouped-fields {
-    display: flex; /* Sử dụng Flexbox để bố trí ngang */
-    flex-direction: column; /* Sắp xếp các trường theo chiều dọc */
-    margin-left: -65px; /* Dịch chuyển nhóm gần về phía bên trái */
-    margin-top: -1px;
-}
-
-/* Điều chỉnh chiều rộng cho các trường trong nhóm */
-.grouped-fields .form-group {
-    margin-bottom: 15px; /* Khoảng cách giữa các trường */
-}
-
 /* Tùy chỉnh cho file upload */
 /* Di chuyển .container-img xuống dưới một đoạn và sang trái một đoạn */
 .container-img {
     max-width: 100%; /* Đảm bảo container-img không lớn hơn container chính */
-    margin: 0px; /* Căn giữa container-img trong container */
+
     text-align: center;
 }
 /* Đảm bảo bố cục hiển thị đẹp */
 .custom-file-upload {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Canh giữa phần tử bên trong */
+    align-items: normal; /* Canh giữa phần tử bên trong */
     margin-top: -10px; /* Tạo khoảng cách giữa "Hình ảnh đại diện" và nút "Chọn" */
+
 }
 
 /* Ẩn input file gốc */
@@ -264,6 +233,164 @@ input.error, select.error {
     margin: 0 auto 20px;
 }
 
+/* Nút floating */
+.floating-button {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Form styling */
+/* Overlay */
+.modal-overlay {
+    display: none; /* Mặc định ẩn */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Làm tối màn hình */
+    z-index: 999; /* Dưới modal */
+}
+
+/* Modal */
+.modal {
+    display: none; /* Mặc định ẩn */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -90%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001; /* Phải nằm trên overlay */
+    align-content: center;
+    text-align: center;
+}
+
+/* Khi Modal mở, hiển thị overlay */
+.modal.show, .modal-overlay.show {
+    display: block;
+}
+
+/* Reset Password Box */
+.reset-password-box{
+    position: relative;
+    width: 430px;
+    height: 650px;
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    padding: 8.5em 2.5em 2em 2.5em ;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
+    margin-top: 40px ;
+}
+/*Header Doi mat khau*/
+.reset-password-header{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform:translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    width: 140px;
+    height: 70px;
+    border-radius: 0 0 20px 20px;
+}
+.reset-password-header span{
+    font-size: 18px;
+    color: var(--black-color);
+}
+.reset-password-header::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    border-top-right-radius: 50%;
+    background: transparent;
+    box-shadow: 12px 0 0 0 var(--primary-color);
+}
+.reset-password-header::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -30px;
+    width : 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    background: transparent;
+    box-shadow: -12px 0 0 0 var(--primary-color);
+}
+
+/*Input*/
+.input_box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+    bottom: 50px;
+}
+.input-field{
+    width:100%;
+    height: 66px;
+    font-size: 16px;
+    background: transparent;
+    padding-inline: 20px 50px;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    outline: none;
+}
+#new-password{
+    margin-bottom: 10px;
+}
+#confirm-password{
+    margin-bottom: 10px;
+}
+.label{
+    position: absolute;
+    top: 21px;
+    left: 20px;
+    background-color: transparent;
+    transition: .2s;
+    font-size: 15px;
+}
+.input-field:focus ~ .label,
+.input-field:valid ~ .label{
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 14px;
+    border-radius: 30px;
+    color:var(--black-color);
+    padding: 0 10px;
+}
+.icon{
+    position: absolute;
+    top: 23px;
+    right: 25px;
+    font-size: 20px;
+}
+/*Submit cap nhat password*/
+.input-submit{
+    width: 100%;
+    height: 50px;
+    background: var(--primary-color);
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+}
+.input-submit:hover{
+    background: var(--second-color);
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -279,7 +406,7 @@ input.error, select.error {
         max-width: 100%; /* Chiều rộng tối đa là toàn bộ màn hình */
     }
 
-    .btn-cancel {
+    .btn-secondary {
         top: 10px; /* Giảm khoảng cách khi nút quay lại ở màn hình nhỏ */
         right: 10px;
         font-size: 12px; /* Kích thước chữ nhỏ hơn */
@@ -287,15 +414,6 @@ input.error, select.error {
 
     .btn-success {
         width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
-    }
-    .form-group {
-        max-width: 100%; /* Mỗi trường chiếm 100% chiều rộng trên màn hình nhỏ */
-    }
-    .grouped-fields {
-        display: flex;
-        flex-direction: column;
-        margin-left: 0;
-        margin-top: 0;
     }
 }
 
@@ -328,12 +446,4 @@ input.error, select.error {
         max-width: 200px; /* Giảm kích thước ảnh preview */
         max-height: 120px;
     }
-    .grouped-fields {
-        display: flex
-    ;
-        flex-direction: column;
-        margin-left: 0;
-        margin-top: 0;
-    }
-
 }
