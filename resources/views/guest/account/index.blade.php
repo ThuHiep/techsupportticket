@@ -32,12 +32,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+
 </head>
 
 <body class="index-page">
   <header id="header" class="header">
-    
+
     <i class="header-toggle d-xl-none bi bi-list"></i>
 
     <div class="profile-img">
@@ -85,9 +85,9 @@
             <p>Yêu cầu chưa xử lý</p>
             <h2>0</h2>
             <a href="#chua-xu-ly">Xem</a>
-            
+
           </div>
-          
+
           <script>
             document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function (event) {
                 event.preventDefault();
@@ -354,19 +354,19 @@
 
               // Thay đổi màu sắc dựa trên điều kiện
               if (passwordValue.length >= 8) {
-                document.getElementById('hint_length').style.color = 'orange';
+                document.getElementById('hint_length').style.color = '#ff6f00';
               }
               if (/[A-Z]/.test(passwordValue)) {
-                document.getElementById('hint_uppercase').style.color = 'orange';
+                document.getElementById('hint_uppercase').style.color = '#ff6f00';
               }
               if (/[0-9]/.test(passwordValue)) {
-                document.getElementById('hint_number').style.color = 'orange';
+                document.getElementById('hint_number').style.color = '#ff6f00';
               }
               if (/[!@#$%^&*]/.test(passwordValue)) {
-                document.getElementById('hint_special').style.color = 'orange';
+                document.getElementById('hint_special').style.color = '#ff6f00';
               }
               if (/[a-z]/.test(passwordValue)) {
-                document.getElementById('hint_lowercase').style.color = 'orange';
+                document.getElementById('hint_lowercase').style.color = '#ff6f00';
               }
 
               // Hiển thị thông báo lỗi nếu không đạt
