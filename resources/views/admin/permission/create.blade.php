@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/css/permission/style_create.css') }}">
 <style>
     /* Khi sidebar ở trạng thái bình thường */
     body .container {
@@ -118,7 +118,7 @@
             <!-- Nút hành động -->
             <div class="button-container">
                 <button type="submit" class="btn btn-add-cus me-3">Thêm mới</button>
-                <a href="{{ route('permission.index') }}" class="btn btn-secondary">Quay lại</a>
+                <a href="{{ route('permission.index') }}" class="btn btn-cancel">Quay lại</a>
             </div>
         </form>
     </div>

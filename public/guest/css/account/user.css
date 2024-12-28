@@ -16,145 +16,6 @@ body {
   background-color: #f9f9f9;
 }
 
-.order-container {
-  width: 80%;
-  margin: 20px auto;
-}
-
-.tabs ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-bottom: 2px solid #ddd;
-}
-
-.tabs ul li {
-  padding: 10px 20px;
-  cursor: pointer;
-  color: #333;
-  border-bottom: 2px solid transparent;
-}
-
-.tabs ul li.active {
-  color: #ff5722;
-  border-bottom: 2px solid #ff5722;
-}
-
-.tabs ul li span {
-  color: #ff5722;
-  font-weight: bold;
-}
-
-.order-card {
-  background-color: #fff;
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.shop-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.shop-name {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.chat-btn, .view-shop-btn {
-  background-color: #ff5722;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  margin-left: 5px;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.order-item {
-  display: flex;
-  margin-bottom: 10px;
-  align-items: center;
-}
-
-.order-item img {
-  width: 80px;
-  height: 80px;
-  margin-right: 15px;
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-.details {
-  flex: 1;
-}
-
-.details p {
-  margin: 5px 0;
-  font-size: 14px;
-}
-
-.status {
-  font-size: 12px;
-  color: #555;
-}
-
-.label {
-  background-color: #ff5722;
-  color: #fff;
-  padding: 3px 6px;
-  border-radius: 3px;
-  font-size: 12px;
-  margin-left: 10px;
-}
-
-.price {
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.review-info {
-  font-size: 12px;
-  color: #555;
-  margin: 10px 0;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-.actions button {
-  background-color: #ff5722;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.actions button:hover {
-  background-color: #e64a19;
-}
-
-.total-price {
-  text-align: right;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-/* Gốc */
-body {
-  background-color: var( --purple-color);
-  font-family: var(--default-font);
-}
 
 a {
   color: var(--accent-color);
@@ -176,6 +37,150 @@ h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
 }
+
+    /* Nút mở modal */
+    .btn-open-modal {
+      display: block;
+      margin: -75px auto 27px auto;
+      background-color: #FF9700;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      align-items: center;
+    }
+
+    .btn-open-modal:hover {
+      background-color: #ee5711;
+    }
+
+    /* Modal */
+    .modal-switch {
+      display: none;
+      /* Ẩn mặc định */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Nội dung modal */
+    .modal-content-switch {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 37%;
+      height: auto;
+
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    /* Danh sách tài khoản */
+    .account-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      margin-top: 20px;
+    }
+
+    .account-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    /* Định dạng form */
+    .account-form {
+      display: flex !important;
+      /* Căn phần tử con theo chiều ngang */
+      align-items: center;
+      /* Căn giữa theo chiều dọc */
+      justify-content: space-between !important;
+      /* Đẩy các phần tử sang hai bên */
+      padding: 10px 0;
+      /* Khoảng cách trên dưới */
+      border-bottom: 1px solid #ddd;
+      /* Đường gạch dưới mỗi mục */
+      width: 100%;
+    }
+
+    /* Phần thông tin tài khoản (ảnh + tên) */
+    .account-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .account-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .btn-switch {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Hiệu ứng hover cho nút */
+    .btn-switch:hover {
+      background-color: #218838;
+      /* Màu nền khi hover */
+    }
+
+    /* Nút Thêm tài khoản mới */
+    .btn-add-account {
+      display: inline-block;
+      /* Hiển thị như một nút */
+      background-color: #ff0000;
+      /* Màu nền đỏ */
+      color: #ffffff;
+      /* Màu chữ trắng */
+      padding: 10px 20px;
+      /* Đệm trong nút */
+      border-radius: 5px;
+      /* Bo góc */
+      text-align: center;
+      /* Căn giữa chữ */
+      text-decoration: none;
+      /* Loại bỏ gạch chân */
+      font-size: 16px;
+      /* Kích thước chữ */
+      transition: all 0.3s ease;
+      /* Hiệu ứng chuyển đổi mượt */
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Hiệu ứng hover */
+    .btn-add-account:hover {
+      background-color: #cc0000;
+      /* Màu nền đậm hơn khi hover */
+      transform: scale(1.1);
+      /* Phóng to nút khi hover */
+      color: #ffffff;
+      /* Giữ màu chữ trắng */
+    }
 
 /* PHP Email Form Messages
 ------------------------------*/
@@ -556,7 +561,7 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0;
+  padding: 60px 0px;
   overflow: clip;
 }
 
@@ -965,12 +970,13 @@ input, select {
     transform: scale(1.08);
 }
 /* Căn chỉnh bố cục ảnh đại diện và nút */
-.img-container {
+.button-group {
     display: flex;             /* Đặt các phần tử con nằm ngang */
     align-items: center;       /* Căn giữa theo chiều dọc */
     justify-content: center;   /* Căn giữa theo chiều ngang */
     gap: 10px;                 /* Khoảng cách giữa các phần tử */
     margin-bottom: 10px;
+    margin-top: -45px;
 }
 
 .img-container img {
@@ -1188,7 +1194,7 @@ input#confirm-password:focus{
 # Portfolio Section
 --------------------------------------------------------------*/
 .portfolio{
-  height: 280px;
+  height: 200px;
 }
 .portfolio .portfolio-filters {
   padding: 0;

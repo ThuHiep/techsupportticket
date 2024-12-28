@@ -4,9 +4,9 @@ body {
     padding: 0;
     background-color: #ffffff;
 }
-
 .container {
     width: 1200px;
+    max-width: 100%;
     margin-top: 22px;
     margin-left: 12px;
     padding: 0 20px;
@@ -14,19 +14,10 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
-
-
 h1 {
-    padding-bottom: 12px;
+    padding-bottom: 20px;
     color: #FF9700;
 }
-
-.top-bar {
-    display: flex;
-    align-items: center;
-
-}
-
 .add-customer-btn {
     padding: 8px 15px;
     background-color: #FF9700;
@@ -36,11 +27,8 @@ h1 {
     cursor: pointer;
     text-decoration: none;
     margin-right: auto;
-    outline: none !important;
 }
-.add-customer-btn:focus{
-    color: #ffffff;
-}
+
 .add-customer-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;
@@ -51,13 +39,13 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;  /* Căn giữa theo chiều ngang */
-    margin-right: 300px;
-    margin-top: -4px;
+    margin-right: 370px;
+    margin-top: -30px;
     margin-left: auto;
-    width: 500px;  /* Đặt chiều rộng cho ô tìm kiếm */
+    width: 440px;  /* Đặt chiều rộng cho ô tìm kiếm */
 }
 .search-container input[type="text"] {
-    width: 500px;
+    width: 440px;
     padding: 10px 100px 10px 15px;
     border: 1px solid #FF9700;
     border-radius: 5px;
@@ -80,59 +68,10 @@ h1 {
     border: none;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
-    outline: none;
 }
 
 .search-container button:hover {
     background-color: #f57c00;
-}
-
-.show-users-btn {
-    padding: 8px 15px;
-    background-color: #FF9700;
-    color: white;
-    border: 1px solid #FF9700;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    outline: none !important;
-}
-.show-users-btn:focus{
-    color: #ffffff;
-}
-.show-users-btn:hover {
-    background-color: #f57c00;
-    color: #FFFFFF;
-}
-
-.show-users-btn .badge {
-    position: absolute;
-    top: -7px;
-    right: -12px;
-    background-color: #d32f2f;
-    color: white;
-    border-radius: 50%;
-    padding: 4px 8px;
-    font-size: 12px;
-    width: 27px;
-    height: 27px;
-    text-align: center;
-    line-height: 20px;
-}
-/* Định dạng cho các thông báo tìm kiếm */
-.alert-success, .alert-danger {
-    padding: 15px 20px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Thêm biểu tượng vào thông báo thành công */
@@ -183,6 +122,7 @@ h1 {
         transform: translateY(0);
     }
 }
+
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -203,20 +143,20 @@ th, td {
     white-space: nowrap; /* Ngăn nội dung xuống dòng */
 }
 th:nth-child(1), td:nth-child(1) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột STT */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(2), td:nth-child(2) {
-    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Họ tên) */
+    width: 0;  /* Điều chỉnh chiều rộng của cột thứ 2 (Mã khách hàng) */
 }
 th:nth-child(3), td:nth-child(3) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Avatar */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(4), td:nth-child(4) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Ngày Sinh */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
@@ -226,17 +166,12 @@ th:nth-child(5), td:nth-child(5) {
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(6), td:nth-child(6) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột giới tính */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
 th:nth-child(7), td:nth-child(7) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Trạng thái */
-    overflow: hidden; /* Ẩn nội dung tràn */
-    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
-}
-th:nth-child(8), td:nth-child(8) {
-    width: 0; /* Đặt chiều rộng cụ thể cho cột Thao tác  */
+    width: 0; /* Đặt chiều rộng cụ thể cho cột Email */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
 }
@@ -253,8 +188,7 @@ tr:nth-child(odd) td {
 tr:nth-child(even) td {
     background-color: #eaeaea;
 }
-
-.customer-image {
+.employee-image {
     width: 80px;
     height: 80px;
     border-radius: 10px;
@@ -291,6 +225,22 @@ tr:nth-child(even) td {
     background-color: #d32f2f;
 }
 
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.status-dot.active {
+    background-color: green;
+}
+
+.status-dot.inactive {
+    background-color: red;
+}
 .pagination {
     display: flex;
     justify-content: center; /* Căn giữa các phần tử trong phân trang */
@@ -367,15 +317,6 @@ tr:nth-child(even) td {
     border: none;
     background-color: #ee5711;
 }
-
-
-.hidden {
-    display: none;
-}
-
-#usersModal {
-    display: block; /* Thêm cho modal khi hiển thị */
-}
 /* Thêm media queries cho màn hình dưới 768px */
 @media (max-width: 768px) {
     .container {
@@ -393,28 +334,21 @@ tr:nth-child(even) td {
 
     .search-container {
         width: 28%; /* Chiếm toàn bộ chiều ngang container */
-        margin: -12px 265px 0px 0px;
+        margin: 0px; /* Căn giữa trên màn hình nhỏ */
     }
 
     .search-container input[type="text"] {
-        width: 227%; /* Điều chỉnh để phù hợp với chiều ngang container */
+        width: 162%; /* Điều chỉnh để phù hợp với chiều ngang container */
         padding: 10px; /* Giữ khoảng cách padding hợp lý */
     }
 
     .search-container button {
-        width: 35%;
-        margin-right: -279px;
+        width: 40%;
+        margin-right: -195px;
     }
 
     .table-container {
         overflow-x: auto; /* Đảm bảo bảng không bị tràn màn hình */
-    }
-    .show-users-btn {
-        padding: 7px 13px;
-        font-size: 14px;
-        border-radius: 5px;
-        margin-top: -125px;
-        margin-right: 14px;
     }
 }
 
@@ -435,127 +369,61 @@ tr:nth-child(even) td {
         font-size: 10px;
     }
 }
-/* Media queries cho màn hình dưới 426px */
+/* Media queries cho màn hình dưới 425px */
 @media (max-width: 426px) {
-    h1 {
+    h1{
         font-size: 26px;
     }
-    .top-bar {
-        flex-direction: column; /* Chuyển từ hàng sang cột */
-        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
+    .container {
+        padding: 10px;
     }
 
     .add-customer-btn {
         width: 25%;
         padding: 8px;
         font-size: 12px;
-        margin-bottom: 10px;
-    }
-
-    .search-container {
-        width: 100%; /* Chiếm toàn bộ chiều ngang */
-        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
-        gap: 5px; /* Khoảng cách giữa input và button */
-        display: flex;
-        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
     }
 
     .search-container input[type="text"] {
-        width: 79%;
-        font-size: 11px;
+        width: 290%;
+        font-size: 12px;
         padding: 8px;
-        margin-right: 212px;
     }
 
     .search-container button {
-        width: 23%;
+        width: 82%;
         padding: 8px;
         font-size: 12px;
-        margin-right: 0px;
+        margin-right: -223px;
     }
 
-    .show-users-btn {
-        font-size: 13px;
-        padding: 8px;
-        margin-bottom: 50px;
-        margin-top: -89px;
-        margin-left: 219px;
-        margin-right: 0px;
-    }
-    .show-users-btn .badge {
-        position: absolute;
-        top: -8px;
-        right: -12px;
-        background-color: #d32f2f;
-        color: white;
-        border-radius: 50%;
-        padding: 4px 8px;
-        font-size: 13px;
-        width: 23px;
-        height: 23px;
-        text-align: center;
-        line-height: 15px;
+    .table-container {
+        margin-top: 10px;
     }
 }
 
 /* Media queries cho màn hình dưới 375px */
 @media (max-width: 376px) {
-    .top-bar {
-        flex-direction: column; /* Chuyển từ hàng sang cột */
-        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
+    h1{
+        font-size: 26px;
+        padding-bottom: 10px;
     }
-
     .add-customer-btn {
-        width: 31%; /* Chiếm toàn bộ chiều ngang */
-        padding: 8px;
+        width: 29%;
+        padding: 6px;
         font-size: 12px;
-        margin-bottom: 10px; /* Khoảng cách giữa các phần tử */
-    }
-
-    .search-container {
-        width: 100%; /* Chiếm toàn bộ chiều ngang */
-        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
-        gap: 5px; /* Khoảng cách giữa input và button */
-        display: flex;
-        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
     }
 
     .search-container input[type="text"] {
-        width: 76%;
+        width: 291%;
         font-size: 9px;
-        padding: 8px;
-        margin-right: 212px;
-
+        padding: 6px;
     }
-
     .search-container button {
-        width: 26%; /* Chiếm toàn bộ chiều ngang */
-        padding: 8px;
-        font-size: 11px;
-        margin-right: 0px;
-    }
-
-    .show-users-btn {
-        font-size: 12px;
-        padding: 8px;
-        margin-bottom: 50px;
-        margin-top: -89px;
-        margin-left: 168px;
-        margin-right: 0px;
-    }
-    .show-users-btn .badge {
-        position: absolute;
-        top: -8px;
-        right: -12px;
-        background-color: #d32f2f;
-        color: white;
-        border-radius: 50%;
-        padding: 4px 8px;
-        font-size: 13px;
-        width: 23px;
-        height: 23px;
-        text-align: center;
-        line-height: 15px;
+        width: 79%;
+        padding: 6px;
+        font-size: 10px;
+        margin-right: -258%;
     }
 }
 
@@ -563,63 +431,34 @@ tr:nth-child(even) td {
 @media (max-width: 321px) {
     h1 {
         font-size: 26px;
+        padding-bottom: 10px;
     }
-    .top-bar {
-        flex-direction: column; /* Chuyển từ hàng sang cột */
-        align-items: flex-start; /* Căn trái các phần tử trong top-bar */
+    .container {
+        padding: 5px;
     }
 
     .add-customer-btn {
-        width: 30%;
-        padding: 8px;
+        padding: 5px;
         font-size: 10px;
-        margin-bottom: 10px;
     }
 
     .search-container {
-        width: 100%; /* Chiếm toàn bộ chiều ngang */
-        margin-top: 10px; /* Khoảng cách từ nút add-customer-btn */
-        gap: 5px; /* Khoảng cách giữa input và button */
-        display: flex;
-        flex-direction: column; /* Đảm bảo input và button nằm dưới nhau */
+        gap: 5px;
     }
 
     .search-container input[type="text"] {
-        width: 82%;
-        font-size: 9.6px;
-        padding: 8px;
-        margin-right: 212px;
-
+        width: 292%;
+        font-size: 12px;
+        padding: 5px;
     }
 
     .search-container button {
-        width: 24%;
-        padding: 8px;
-        font-size: 11px;
-        margin-right: 0px;
+        width: 75%;
+        padding: 5px;
+        font-size: 10px;
     }
 
-    .show-users-btn {
-        font-size: 13px;
-        padding: 8px;
-        margin-bottom: 50px;
-        margin-top: -85px;
-        margin-left: 178px;
-        margin-right: 0px;
-    }
-    .show-users-btn .badge {
-        position: absolute;
-        top: -8px;
-        right: -12px;
-        background-color: #d32f2f;
-        color: white;
-        border-radius: 50%;
-        padding: 4px 8px;
-        font-size: 13px;
-        width: 23px;
-        height: 23px;
-        text-align: center;
-        line-height: 15px;
+    .table-container {
+        font-size: 10px;
     }
 }
-

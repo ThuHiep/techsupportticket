@@ -32,170 +32,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    /* Nút mở modal */
-    .btn-open-modal {
-      display: block;
-      margin: -75px auto 27px auto;
-      background-color: #FF9700;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      align-items: center;
-    }
-
-    .btn-open-modal:hover {
-      background-color: #ee5711;
-    }
-
-    /* Modal */
-    .modal-switch {
-      display: none;
-      /* Ẩn mặc định */
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    /* Nội dung modal */
-    .modal-content-switch {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border-radius: 10px;
-      width: 37%;
-      height: auto;
-
-      position: relative;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Nút đóng modal */
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      color: #aaa;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-    }
-
-    /* Danh sách tài khoản */
-    .account-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      margin-top: 20px;
-    }
-
-    .account-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    /* Định dạng form */
-    .account-form {
-      display: flex !important;
-      /* Căn phần tử con theo chiều ngang */
-      align-items: center;
-      /* Căn giữa theo chiều dọc */
-      justify-content: space-between !important;
-      /* Đẩy các phần tử sang hai bên */
-      padding: 10px 0;
-      /* Khoảng cách trên dưới */
-      border-bottom: 1px solid #ddd;
-      /* Đường gạch dưới mỗi mục */
-      width: 100%;
-    }
-
-    /* Phần thông tin tài khoản (ảnh + tên) */
-    .account-info {
-      display: flex;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .account-name {
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .btn-switch {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-    }
-
-    /* Hiệu ứng hover cho nút */
-    .btn-switch:hover {
-      background-color: #218838;
-      /* Màu nền khi hover */
-    }
-
-    /* Nút Thêm tài khoản mới */
-    .btn-add-account {
-      display: inline-block;
-      /* Hiển thị như một nút */
-      background-color: #ff0000;
-      /* Màu nền đỏ */
-      color: #ffffff;
-      /* Màu chữ trắng */
-      padding: 10px 20px;
-      /* Đệm trong nút */
-      border-radius: 5px;
-      /* Bo góc */
-      text-align: center;
-      /* Căn giữa chữ */
-      text-decoration: none;
-      /* Loại bỏ gạch chân */
-      font-size: 16px;
-      /* Kích thước chữ */
-      transition: all 0.3s ease;
-      /* Hiệu ứng chuyển đổi mượt */
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-
-    /* Hiệu ứng hover */
-    .btn-add-account:hover {
-      background-color: #cc0000;
-      /* Màu nền đậm hơn khi hover */
-      transform: scale(1.1);
-      /* Phóng to nút khi hover */
-      color: #ffffff;
-      /* Giữ màu chữ trắng */
-    }
-  </style>
+  
 </head>
 
 <body class="index-page">
   <header id="header" class="header">
+    
     <i class="header-toggle d-xl-none bi bi-list"></i>
 
     <div class="profile-img">
@@ -240,10 +82,24 @@
           <div class="col-lg-6 text-center">
             <img src="/guest/img/hourglass.gif" alt="support"
               class="img-fluid-home" />
-            <p>Yêu cầu đang chờ xử lý</p>
+            <p>Yêu cầu chưa xử lý</p>
             <h2>0</h2>
-            <a href="#portfolio">Xem</a>
+            <a href="#chua-xu-ly">Xem</a>
+            
           </div>
+          
+          <script>
+            document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Kích hoạt bộ lọc "Chưa xử lý"
+                document.querySelector('.portfolio-filters li[data-filter=".chua-xu-ly"]').click();
+
+                // Cuộn đến phần tử có ID "chua-xu-ly"
+                document.getElementById('chua-xu-ly').scrollIntoView({ behavior: 'smooth' });
+            });
+
+          </script>
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
               class="img-fluid-home" />
@@ -331,7 +187,7 @@
           </div>
           <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
           <section id="about" class="about section">
-            <div class="img-container">
+            <div class="button-group">
               <button id="edit-btn" class="edit-button">
                 Chỉnh sửa thông tin
               </button>
@@ -697,12 +553,11 @@
     <section id="portfolio" class="portfolio section light-background">
       <div class="container section-title" data-aos="fade-up">
         <h1>YÊU CẦU</h1>
-        <h3>LỊCH SỬ YÊU CẦU</h3>
         <div class="container">
           <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
             <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
               <li data-filter="*" class="filter-active">Tất cả</li>
-              <li data-filter=".chua-xu-ly">Chưa xử lý</li>
+              <li data-filter=".chua-xu-ly" id="chua-xu-ly">Chưa xử lý</li>
               <li data-filter=".dang-xu-ly">Đang xử lý</li>
               <li data-filter=".hoan-thanh">Hoàn thành</li>
               <li data-filter=".da-huy">Đã hủy</li>
@@ -845,14 +700,6 @@
       <div class="container section-title" data-aos="fade-up">
         <h1>CÀI ĐẶT</h1>
       </div>
-
-      <!-- Cards Section -->
-      <div class="card-container">
-        <!-- Card 2: CHUYỂN ĐỔI TÀI KHOẢN -->
-        <div class="card" id="switch-account-card">
-          <h2>CHUYỂN ĐỔI TÀI KHOẢN</h2>
-        </div>
-      </div>
     </section>
 
     <button id="openModal" class="btn-open-modal">Chuyển đổi tài khoản</button>
@@ -904,7 +751,8 @@
         }
       });
     </script>
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    {{-- <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a> --}}
     <!-- Main JS File -->
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs"></script>
     <script src="guest/js/main.js"></script>

@@ -1,6 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="{{ asset('admin/css/employee/styles.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/css/permission/index.css') }}">
 <style>
     /* Khi sidebar ở trạng thái bình thường */
     body .container {
@@ -76,7 +76,7 @@
 
 
 
-    
+
         <div class="table-container">
             <table class="table table-striped">
                 <thead>

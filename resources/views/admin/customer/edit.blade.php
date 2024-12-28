@@ -137,31 +137,46 @@
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
                         <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
                     </div>
+                </div>
+                <div class="row mb-3 address-website-container">
                     <div class="form-group col-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control" value="{{ $customers->website }}">
                     </div>
-                </div>
-                <div class="form-group col-6">
-                    <label for="status" class="form-label">Trạng thái<span class="required"></span></label>
-                    <div class="custom-select">
-                        <div class="selected" id="selectedStatus">
-                            <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
-                            Hoạt động
-                        </div>
-                        <div class="options" style="display: none;">
-                            <div class="option" data-value="active" onclick="selectStatus('active')">
+                    {{-- <div class="form-group col-6">
+                        <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
+                        <div class="custom-select">
+                            <div class="selected" id="selectedStatus">
                                 <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
                                 Hoạt động
                             </div>
-                            <div class="option" data-value="inactive" onclick="selectStatus('inactive')">
-                                <span style="color:red; font-size: 24px; margin-right: 5px;">&#8226;</span>
-                                Ngừng hoạt động
+                            <div class="options" style="display: none;">
+                                <div class="option" data-value="active" onclick="selectStatus('active')">
+                                    <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
+                                    Hoạt động
+                                </div>
+                                <div class="option" data-value="inactive" onclick="selectStatus('inactive')">
+                                    <span style="color:red; font-size: 24px; margin-right: 5px;">&#8226;</span>
+                                    Ngừng hoạt động
+                                </div>
                             </div>
+                            <input type="hidden" name="status" id="status" value="{{ $customers->status }}">
                         </div>
-                        <input type="hidden" name="status" id="status" value="{{ $customers->status }}">
+                    </div> --}}
+                    <div class="form-group col-6">
+                        <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
+                        <select id="status" name="status" class="form-control" onchange="updateStatusStyle(this)">
+                            <option value="active" data-color="green" {{ $customers->status === 'active' ? 'selected' : '' }}>
+                                Hoạt động
+                            </option>
+                            <option value="inactive" data-color="red" {{ $customers->status === 'inactive' ? 'selected' : '' }}>
+                                Ngừng hoạt động
+                            </option>
+                        </select>
                     </div>
+                    
                 </div>
+                
             </div>
 
             <!-- Cột bên phải cho hình ảnh đại diện -->
