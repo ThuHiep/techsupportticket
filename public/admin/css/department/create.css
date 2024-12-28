@@ -103,7 +103,8 @@ h1 {
     border: 1px solid #FF9700;
     width: 200px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
-    
+    outline: none!important;
+
 }
 
 .add-department-btn:hover {
@@ -113,12 +114,17 @@ h1 {
 .add-department-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
+.add-department-btn:focus {
+    color: #ffffff;
+}
 .cancel-btn {
     background-color: #ccc;
     color: #ffffff;
     border: 1px solid #ccc;
     width: 100px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
+    outline: none!important;
+    padding: 14px 15px;
 }
 
 .cancel-btn:hover {
@@ -128,6 +134,9 @@ h1 {
 }
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
+}
+.cancel-btn:focus {
+    color: #FFFFFF;
 }
 input[readonly] {
     background-color: #DEBFF3;

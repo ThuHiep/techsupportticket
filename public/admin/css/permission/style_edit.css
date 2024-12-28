@@ -131,6 +131,7 @@ input.error, select.error {
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
     width: 200px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
+    outline: none!important;
 }
 
 .btn-success:hover {
@@ -141,7 +142,10 @@ input.error, select.error {
 .btn-success:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.btn-success:focus{
+    color: #ffffff;
+    background-color: #FF6F00;
+}
 /* Nút Hủy */
 .btn-secondary {
     padding: 12px 24px; /* Khoảng cách trong nút */
@@ -154,6 +158,7 @@ input.error, select.error {
     width: 100px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
     margin-left: 40px;
+    outline: none!important;
 }
 
 .btn-secondary:hover {

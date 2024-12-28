@@ -16,7 +16,7 @@ body {
 }
 
 h1 {
-    padding-bottom: 20px;
+
     color: #FF9700;
 }
 
@@ -61,10 +61,11 @@ h1 {
 
 
 select {
-    width: 50%;
+    width: 30%;
     height: 40px;
     font-size: 14px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #CBCBCB;
 
 }
 select:hover,
@@ -74,7 +75,32 @@ select:focus{
     box-shadow: 0 0 5px #FF9700 !important; /* Hiệu ứng ánh sáng */
     outline: none !important; /* Loại bỏ viền đen mặc định */
 }
-
+input#customerNameInput{
+    outline: none !important;
+    padding: 7px 40px 7px 7px;
+    border: 2px solid #BCBCBC;
+}
+input#customerNameInput:focus {
+    color: #000;
+    border-color: #FF9700 !important;
+    box-shadow: 0 0 5px #FF9700 !important;
+    outline: none !important;
+    border-width: 2px;
+    border-style: solid;
+}
+input#customerIdInput{
+    outline: none !important;
+    padding: 7px 40px 7px 7px;
+    border: 2px solid #BCBCBC;
+}
+input#customerIdInput:focus {
+    color: #000;
+    border-color: #FF9700 !important;
+    box-shadow: 0 0 5px #FF9700 !important;
+    outline: none !important;
+    border-width: 2px;
+    border-style: solid;
+}
 
 /* Phong cách chung cho các ô input ngày bắt đầu và ngày kết thúc */
 .date-container {
@@ -91,21 +117,21 @@ select:focus{
 }
 
 /* Phong cách cho input ngày bắt đầu và ngày kết thúc */
-.date-container input[type="date"] {
+.filter-container input[type="date"] {
     width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
     height: 40px;
     padding: 6px;
     font-size: 14px;
-    border: 3px solid #c9d1d9;  /* Viền giống như select */
+    border: 2px solid #c9d1d9;  /* Viền giống như select */
     border-radius: 3px;
     background-color: #f9f9f9;  /* Nền màu sáng */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Hiệu ứng khi focus vào input */
-.date-container input[type="date"]:focus,
-.date-container input[type="date"]:hover,
-.date-container input[type="date"]:active {
+.filter-container input[type="date"]:focus,
+.filter-container input[type="date"]:hover,
+.filter-container input[type="date"]:active {
     border-color: #FF9700;  /* Viền màu cam khi focus */
     box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
     outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
@@ -135,6 +161,8 @@ button:active, input[type="submit"]:active {
     background-color: #ff6f00;
     transform: scale(0.95);
 }
+
+
 /* Các kiểu CSS cho giao diện phản hồi (responsive) */
 @media screen and (max-width: 768px) {
     .container {
@@ -146,7 +174,7 @@ button:active, input[type="submit"]:active {
     }
 
     select, .date-container input[type="date"] {
-        width: 100%;
+        width: 50%;
         max-width: 100%;
     }
 

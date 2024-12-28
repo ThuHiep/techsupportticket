@@ -29,7 +29,7 @@ h1 {
 
 }
 
-.add-faq-btn {
+.add-article-btn {
     padding: 8px 15px;
     background-color: #FF9700;
     color: white;
@@ -38,14 +38,17 @@ h1 {
     cursor: pointer;
     text-decoration: none;
     margin-right: auto;
+    outline: none!important;
 }
 
-.add-faq-btn:hover {
+.add-article-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;
 }
 
-
+.add-article-btn:focus {
+    color: #FFFFFF;
+}
 .search-container {
     display: flex;
     justify-content: flex-start;
@@ -85,12 +88,18 @@ h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    outline: none!important;
 }
 
 .search-container button:hover {
     background-color: #f57c00; /* Hiệu ứng hover */
+    color: #ffffff;
 }
 
+.search-container button:focus {
+    background-color: #f57c00; /* Hiệu ứng hover */
+    color: #ffffff;
+}
 /* Định dạng cho các thông báo tìm kiếm */
 .alert-success, .alert-danger {
     padding: 15px 20px;

@@ -49,7 +49,6 @@ body {
 
 /* Tiêu đề trang */
 h1 {
-    padding-bottom: 20px;
     color: var(--primary-color);
     text-align: left;
     font-size: 2.5em;
@@ -400,46 +399,6 @@ tr:hover td {
     background-color: #A6A8AA;
 }
 
-/* Responsive cải tiến cho bảng trên các thiết bị nhỏ */
-@media (max-width: 768px) {
-    th, td {
-        padding: 8px 5px;
-        font-size: 12px;
-    }
-
-    .search-form {
-        flex-direction: row; /* Giữ nguyên hướng dòng */
-        flex-wrap: nowrap; /* Không cho phép wrap */
-    }
-
-    .primary-search,
-    .additional-search {
-        flex-direction: row;
-    }
-
-    .primary-search input,
-    .primary-search select,
-    .additional-search .search-field {
-        flex: 2 1 300px; /* Điều chỉnh kích thước cho các ô */
-    }
-
-    .search-button {
-        padding: 10px 15px;
-        width: auto; /* Cho phép nút giữ kích thước tự nhiên */
-    }
-
-    .edit-button, .delete-button {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-
-    .pagination .page-link {
-        padding: 8px 12px;
-        font-size: 12px;
-        width: 35px;
-        height: 35px;
-    }
-}
 
 /* Tooltip cho mô tả (tùy chọn) */
 .tooltip-text {
@@ -522,5 +481,112 @@ td:hover .tooltip-text {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+/* Responsive cải tiến cho bảng trên các thiết bị nhỏ */
+@media (max-width: 768px) {
+    th, td {
+        padding: 8px 5px;
+        font-size: 12px;
+    }
+
+    .search-form {
+        flex-direction: column; /* Chuyển sang bố cục cột */
+        align-items: center;
+    }
+
+    .search-button {
+        align-self: center; /* Đẩy nút sang phía ngoài cùng bên trái */
+        margin-top: 10px; /* Tạo khoảng cách phía trên */
+    }
+
+    .primary-search{
+        flex-direction: row;
+    }
+
+    .primary-search input,
+    .primary-search select,
+    .additional-search .search-field {
+        flex: 2 1 300px; /* Điều chỉnh kích thước cho các ô */
+    }
+
+    .edit-button, .delete-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .pagination .page-link {
+        padding: 8px 12px;
+        font-size: 12px;
+        width: 35px;
+        height: 35px;
+    }
+    .delete-button {
+        margin-left: 0px;
+    }
+}
+@media (max-width: 426px) {
+    .search-form {
+        flex-direction: column; /* Chuyển sang bố cục cột */
+        flex-wrap: nowrap; /* Đảm bảo không wrap */
+        align-items: stretch; /* Đảm bảo các phần tử giãn đều */
+    }
+
+    .search-form > * {
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-bottom: 0px;
+    }
+    .primary-search{
+        flex-direction: column;
+        align-items: center;
+    }
+    #status_search{
+        flex: none; /* Loại bỏ thuộc tính flex-grow và flex-shrink */
+        width: 54%;
+    }
+    #search_field {
+        flex: none; /* Loại bỏ thuộc tính flex-grow và flex-shrink */
+        width: 70%;
+    }
+
+    .search-button {
+        align-self: center;
+        margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng nếu không cần */
+        width: 30%;
+    }
+    .delete-button {
+        margin-left: 0px;
+    }
+}
+@media (max-width: 376px) {
+    .search-form {
+        flex-direction: column; /* Chuyển sang bố cục cột */
+        flex-wrap: nowrap; /* Đảm bảo không wrap */
+    }
+
+    .search-form > * {
+        width: 100%; /* Chiếm toàn bộ chiều ngang */
+        margin-bottom: 0px;
+    }
+    .primary-search{
+        flex-direction: column;
+        align-items: center;
+    }
+    #status_search{
+        flex: none; /* Loại bỏ thuộc tính flex-grow và flex-shrink */
+        width: 54%;
+    }
+    #search_field {
+        flex: none; /* Loại bỏ thuộc tính flex-grow và flex-shrink */
+        width: 80%;
+    }
+
+    .search-button {
+        align-self: center;
+        margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng nếu không cần */
+        width: 30%;
+    }
+    .delete-button {
+        margin-left: 0px;
     }
 }

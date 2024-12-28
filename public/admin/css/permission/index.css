@@ -27,8 +27,11 @@ h1 {
     cursor: pointer;
     text-decoration: none;
     margin-right: auto;
+    outline: none!important;
 }
-
+.add-customer-btn:focus {
+    color: #FFFFFF;
+}
 .add-customer-btn:hover {
     background-color: #f57c00;
     color: #FFFFFF;
@@ -68,6 +71,7 @@ h1 {
     border: none;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
+    outline: none!important;
 }
 
 .search-container button:hover {

@@ -97,6 +97,7 @@ input[readonly] {
     font-weight: bold;
     border: none;
     display: inline-block;
+    outline: none !important;
 }
 
 .add-article-btn {
@@ -112,13 +113,16 @@ input[readonly] {
 }
 
 .add-article-btn:hover {
-    background-color: #FF6F00; /* Màu xanh đậm hơn */
+    background-color: #FF6F00;
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 .add-article-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
-
+.add-article-btn:focus {
+    background-color: #FF6F00;
+    color: #ffffff;
+}
 .cancel-btn {
     padding: 12px 24px; /* Khoảng cách trong nút */
     background-color: #a7b1c2; /* Màu nền xám */
@@ -140,7 +144,11 @@ input[readonly] {
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
+.cancel-btn:focus {
+    background-color: rgba(167, 177, 194, 0.82);
+    color: #FFFFFF;
 
+}
 
 .half-width {
     flex: 1; /* Mỗi phần chiếm 50% chiều rộng */

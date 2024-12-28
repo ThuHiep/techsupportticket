@@ -36,10 +36,9 @@ body {
 }
 
 h1 {
-    margin-bottom: 20px;
     color: var(--primary-color);
     text-align: left;
-    font-size: 2em; /* Tăng kích thước để nổi bật */
+    font-size: 2.5em; /* Tăng kích thước để nổi bật */
 }
 
 /* Container cho form */
@@ -50,6 +49,7 @@ h1 {
 .form-columns {
     display: flex;
     gap: 40px;
+    margin-top: -20px;
 }
 
 .form-column-left, .form-column-right {
@@ -90,7 +90,7 @@ h1 {
 .row_left {
     display: flex;
     gap: 17px; /* Khoảng cách giữa các trường */
-  
+
 }
 .form-column-left .form-group {
     margin-bottom: 20px; /* Tăng khoảng cách giữa các phần tử */
@@ -312,15 +312,50 @@ input[readonly] {
     }
 
     h1 {
-        font-size: 1.5em;
+        font-size: 2.5em;
     }
 
     .button-group {
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
+        margin-top: 0px;
     }
-    .submit-button,
+    .submit-button{
+        width: 100%;
+    }
     .cancel-btn {
         width: 100%;
+    }
+    .alert-info{
+        margin-bottom: 10px;
+    }
+}
+@media (max-width: 426px) {
+    h1{
+      font-size: 19.7px;
+        margin-bottom: -15px;
+    }
+    .row_left {
+        flex-direction: column; /* Xếp các cột thành 1 hàng dọc */
+        gap: 0px;
+    }
+    .form-column-left .form-group {
+        margin-bottom: 0px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%; /* Đảm bảo độ rộng chiếm 100% container */
+        margin-bottom: 15px; /* Tăng khoảng cách giữa các trường để dễ đọc hơn */
+    }
+
+    .form-container,
+    .form-columns {
+        flex-direction: column; /* Xếp các cột thành 1 hàng dọc */
+        gap: 20px; /* Tăng khoảng cách giữa các phần */
+    }
+
+    .form-group-row {
+        flex-direction: column; /* Các trường xếp chồng lên nhau */
     }
 }
