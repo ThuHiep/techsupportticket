@@ -74,7 +74,30 @@ select:focus{
     box-shadow: 0 0 5px #FF9700 !important; /* Hiệu ứng ánh sáng */
     outline: none !important; /* Loại bỏ viền đen mặc định */
 }
-
+input#customerNameInput{
+    outline: none !important;
+    padding: 7px 40px 7px 7px;
+}
+input#customerNameInput:focus {
+    color: #000;
+    border-color: #FF9700 !important;
+    box-shadow: 0 0 5px #FF9700 !important;
+    outline: none !important;
+    border-width: 2px;
+    border-style: solid;
+}
+input#customerIdInput{
+    outline: none !important;
+    padding: 7px 40px 7px 7px;
+}
+input#customerIdInput:focus {
+    color: #000;
+    border-color: #FF9700 !important;
+    box-shadow: 0 0 5px #FF9700 !important;
+    outline: none !important;
+    border-width: 2px;
+    border-style: solid;
+}
 
 /* Phong cách chung cho các ô input ngày bắt đầu và ngày kết thúc */
 .date-container {
