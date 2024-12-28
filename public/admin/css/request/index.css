@@ -492,18 +492,19 @@ td:hover .tooltip-text {
 
     .search-form {
         flex-direction: column; /* Chuyển sang bố cục cột */
-        align-items: flex-start; /* Căn trái các phần tử */
+        align-items: center;
     }
 
     .search-button {
-        align-self: flex-start; /* Đẩy nút sang phía ngoài cùng bên trái */
+        align-self: center; /* Đẩy nút sang phía ngoài cùng bên trái */
         margin-top: 10px; /* Tạo khoảng cách phía trên */
     }
 
-    .primary-search,
-    .additional-search {
+    .primary-search{
         flex-direction: row;
     }
+
+
 
     .primary-search input,
     .primary-search select,
@@ -522,6 +523,9 @@ td:hover .tooltip-text {
         width: 35px;
         height: 35px;
     }
+    .delete-button {
+        margin-left: 0px;
+    }
 }
 @media (max-width: 426px) {
     .search-form {
@@ -532,7 +536,7 @@ td:hover .tooltip-text {
 
     .search-form > * {
         width: 100%; /* Chiếm toàn bộ chiều ngang */
-        margin-bottom: 10px; /* Tạo khoảng cách giữa các phần tử */
+        margin-bottom: 0px;
     }
     .primary-search{
         flex-direction: column;
@@ -552,17 +556,19 @@ td:hover .tooltip-text {
         margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng nếu không cần */
         width: 30%;
     }
+    .delete-button {
+        margin-left: 0px;
+    }
 }
 @media (max-width: 376px) {
     .search-form {
         flex-direction: column; /* Chuyển sang bố cục cột */
         flex-wrap: nowrap; /* Đảm bảo không wrap */
-        align-items: stretch; /* Đảm bảo các phần tử giãn đều */
     }
 
     .search-form > * {
         width: 100%; /* Chiếm toàn bộ chiều ngang */
-        margin-bottom: 10px; /* Tạo khoảng cách giữa các phần tử */
+        margin-bottom: 0px;
     }
     .primary-search{
         flex-direction: column;
@@ -581,5 +587,8 @@ td:hover .tooltip-text {
         align-self: center;
         margin-bottom: 0; /* Loại bỏ khoảng cách dưới cùng nếu không cần */
         width: 30%;
+    }
+    .delete-button {
+        margin-left: 0px;
     }
 }
