@@ -1630,3 +1630,8 @@ button:hover{
   font-weight: bold; /* In đậm chữ */
   border-bottom: 2px solid #007bff; /* Gạch chân */
 }
+#preview-img {
+    max-width: 100px; /* Chiều rộng tối đa */
+    max-height: 100px; /* Chiều cao tối đa */
+    object-fit: cover; /* Giữ tỷ lệ hình ảnh */
+}
