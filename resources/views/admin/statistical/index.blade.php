@@ -195,17 +195,17 @@
                         </div>
                     </div>
 
-                    <button class="btn" onclick="showInput('week')">Chọn Tuần</button>
-                    <div id="weekInput" style="display: none;">
-                        <label for="specificWeek">Chọn tuần:</label>
-                        <input type="week" id="specificWeek" onchange="updateChartFromWeek()">
-                        <div id="weekRangeInput">
-                            <label for="startWeek">Tuần bắt đầu:</label>
-                            <input type="week" id="startWeek" onchange="updateChartFromWeekRange()">
-                            <label for="endWeek">Tuần kết thúc:</label>
-                            <input type="week" id="endWeek" onchange="updateChartFromWeekRange()">
-                        </div>
-                    </div>
+{{--                    <button class="btn" onclick="showInput('week')">Chọn Tuần</button>--}}
+{{--                    <div id="weekInput" style="display: none;">--}}
+{{--                        <label for="specificWeek">Chọn tuần:</label>--}}
+{{--                        <input type="week" id="specificWeek" onchange="updateChartFromWeek()">--}}
+{{--                        <div id="weekRangeInput">--}}
+{{--                            <label for="startWeek">Tuần bắt đầu:</label>--}}
+{{--                            <input type="week" id="startWeek" onchange="updateChartFromWeekRange()">--}}
+{{--                            <label for="endWeek">Tuần kết thúc:</label>--}}
+{{--                            <input type="week" id="endWeek" onchange="updateChartFromWeekRange()">--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <button class="btn" onclick="showInput('monthSelection')">Chọn Tháng or Tháng Tháng</button>
                     <div id="monthSelectionInput" style="display: none;">
@@ -1016,7 +1016,7 @@
     function showInput(type) {
         // Ẩn tất cả các div nhập liệu
         document.getElementById('dateInput').style.display = 'none';
-        document.getElementById('weekInput').style.display = 'none';
+        //document.getElementById('weekInput').style.display = 'none';
         document.getElementById('monthInput').style.display = 'none';
         document.getElementById('yearInput').style.display = 'none';
         document.getElementById('monthRangeInput').style.display = 'none';
@@ -1043,11 +1043,11 @@
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('specificDate').value = today;
             updateChartFromDate(); // Cập nhật biểu đồ cho ngày hôm nay
-        } else if (type === 'week') {
-            document.getElementById('weekInput').style.display = 'block';
-            const currentWeek = getCurrentWeek();
-            document.getElementById('specificWeek').value = currentWeek;
-            updateChartFromWeek(); // Cập nhật biểu đồ cho tuần hiện tại
+        // } else if (type === 'week') {
+        //     document.getElementById('weekInput').style.display = 'block';
+        //     const currentWeek = getCurrentWeek();
+        //     document.getElementById('specificWeek').value = currentWeek;
+        //     updateChartFromWeek(); // Cập nhật biểu đồ cho tuần hiện tại
         } else if (type === 'month') {
             document.getElementById('monthInput').style.display = 'block';
             const currentMonth = new Date().toISOString().slice(0, 7);
