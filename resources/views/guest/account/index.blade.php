@@ -103,7 +103,7 @@
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
               class="img-fluid-home" />
-            <p>Hôm nay bạn không có yêu cầu hỗ trợ nào!</p>
+            <p>Bạn đang không có yêu cầu hỗ trợ nào!</p>
             <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
