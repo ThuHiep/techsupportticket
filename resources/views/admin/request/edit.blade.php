@@ -124,12 +124,6 @@
                             <div id="new-file-name" class="mt-2"></div>
                         </div>
 
-
-                        {{-- Nhóm nút Submit và Cancel --}}
-                        <div class="button-group">
-                            <button type="submit" class="submit-button">Cập nhật Yêu cầu</button>
-                            <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
-                        </div>
                     </div>
 
 
@@ -164,6 +158,11 @@
                             @error('description')
                             <div class="error">{{ $message }}</div>
                             @enderror
+                        </div>
+                        {{-- Nhóm nút Submit và Cancel --}}
+                        <div class="button-group">
+                            <button type="submit" class="submit-button">Cập nhật </button>
+                            <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
                         </div>
                     </div>
                 </div>
