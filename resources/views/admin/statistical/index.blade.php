@@ -341,7 +341,7 @@
         } else if (selectedReport === 'department') {
             updateDepartmentReport();
         } else if (selectedReport === 'time') {
-            updateTimeReport('Ngày'); // Cập nhật dữ liệu thời gian, mặc định là hôm nay
+            updateTimeReport(); // Cập nhật dữ liệu thời gian, mặc định là hôm nay
         }
     }
 
@@ -868,36 +868,9 @@
         }
     }
 
-    function formatPeriod(period, selectedPeriodType) {
-        switch (selectedPeriodType) {
-            case 'year':
-                return `Năm ${period}`;
-            case 'month':
-                return `Tháng ${period}`;
-            case 'day':
-                return `Ngày ${period}`;
-            default:
-                return period; // Fallback for unexpected values
-        }
-    }
-
-    function formatPeriod(period, selectedPeriodType) {
-        switch (selectedPeriodType) {
-            case 'year':
-                return `Năm ${period}`;
-            case 'month':
-                return `Tháng ${period}`;
-            case 'day':
-                return `Ngày ${period}`;
-            default:
-                return period; // Fallback for unexpected values
-        }
-    }
-
     function displayTotalSummaryByTime(filteredData, selectedPeriodType) {
         const timeDataList = document.getElementById('timeDataList');
-        const summaryTitle = document.getElementById('summaryTitle');
-        const timeDataContainer = document.getElementById('timeDataContainer');
+        const totalTimeRequests = document.getElementById('totalTimeRequests');
 
         // Clear previous data
         timeDataList.innerHTML = '';
@@ -919,11 +892,9 @@
             totalCompleted += completed;
             totalCancelled += cancelled;
 
-            const formattedPeriod = formatPeriod(item.period, selectedPeriodType);
-
             timeDataList.innerHTML += `
             <tr>
-                <td style="padding: 5px">${formattedPeriod}</td>
+                <td style="padding: 5px">${item.period}</td>
                 <td style="padding: 5px">${processing}</td>
                 <td style="padding: 5px">${pending}</td>
                 <td style="padding: 5px">${completed}</td>
@@ -933,21 +904,22 @@
         `;
         });
 
-        // Add total row at the bottom
-        timeDataList.innerHTML += `
-        <tr>
-            <td style="padding: 5px; font-weight: bold;">Tổng số yêu cầu:</td>
-            <td style="padding: 5px; font-weight: bold;">${totalProcessing + totalPending + totalCompleted + totalCancelled}</td>
-        </tr>
-    `;
+        // Get the first and last periods from the filtered data for the range
+        const firstPeriod = filteredData[0].period; // Assuming period is formatted as "YYYY"
+        const lastPeriod = filteredData[filteredData.length - 1].period;
+        // Format the output based on whether the years are the same
+        let totalRequestsText;
+        if (firstPeriod === lastPeriod) {
+            totalRequestsText = `Tổng số yêu cầu trong năm ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        } else {
+            totalRequestsText = `Tổng số yêu cầu từ ${firstPeriod} đến ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        }
 
-        // Update the title
-        summaryTitle.innerText = `Số liệu tổng hợp theo ${selectedPeriodType === 'year' ? 'Năm' : selectedPeriodType === 'month' ? 'Tháng' : 'Ngày'}`;
-
-        // Show the report section if there's data
-        timeDataContainer.style.display = filteredData.length > 0 ? 'block' : 'none';
+        // Update the total requests display with the specific range
+        totalTimeRequests.innerHTML = `<strong>${totalRequestsText}</strong>`;
     }
 
+    
     {{--function updateChartFromDate() {--}}
     {{--    const date = document.getElementById('specificDate').value; // Lấy ngày từ input--}}
     {{--    const timeData = @json($timeData); // Đảm bảo dữ liệu timeData có sẵn ở đây--}}
@@ -1047,8 +1019,8 @@
             });
         }
 
-        // Display the total summary by time
-        displayTotalSummaryByTime(data);
+        displayTotalSummaryByTime(filteredData, 'year');  // If you're dealing with years
+
     }
 
     function showInput(type) {
