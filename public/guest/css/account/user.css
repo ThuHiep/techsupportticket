@@ -954,21 +954,51 @@ input, select {
 @media (max-width: 768px) {
   .button-group {
       gap: 10px; /* Tăng khoảng cách giữa các nút */
-    
+
   }
 
   .edit-button,
   .btn-change {
       margin-top: -30px;
-      
+
   }
   .section-title{
     margin-top: 20px;
   }
+    .modal-content{
+        margin: 2% 19%;
+    }
+    .modalPass{
+        width: 46%;
+    }
 }
 
-@media (max-width: 425px) {
-  .button-group {
+@media (max-width: 426px) {
+    .modalPass{
+        width: 80%!important;
+    }
+    .modal-content{
+        margin: 2% 9%;
+        width: 80%;
+    }
+    .modal-title{
+        font-size: 23px;
+        font-weight: bold;
+    }
+    .form-container {
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .form-column {
+        width: 100%;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    .button-group {
     gap: 10px; /* Tăng khoảng cách giữa các nút */
   }
 
@@ -979,7 +1009,11 @@ input, select {
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
+
+    .modalPass{
+        width: 80%!important;
+    }
   .button-group {
       gap: 5px;
   }
@@ -988,10 +1022,13 @@ input, select {
   .btn-change {
       font-size: 10px;
   }
-  
+
   .section-title{
     margin-top: 40px;
   }
+    .input-submit{
+        width: 62%;
+    }
 }
 
 .img-container img {
