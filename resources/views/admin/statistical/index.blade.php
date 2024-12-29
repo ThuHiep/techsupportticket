@@ -289,9 +289,21 @@
             </div>
             <!--Số liệu thời gian-->
             <div class="report-section" id="timeDataContainer" style="display: none;">
-                <h3>Số liệu tổng hợp</h3>
+                <h3 id="summaryTitle">Số liệu tổng hợp</h3>
+                <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
+                    <thead>
+                    <tr>
+                        <th style="padding: 5px">Thời gian</th>
+                        <th style="padding: 5px">Đang xử lý</th>
+                        <th style="padding: 5px">Chưa xử lý</th>
+                        <th style="padding: 5px">Hoàn thành</th>
+                        <th style="padding: 5px">Đã hủy</th>
+                        <th style="padding: 5px">Tổng</th>
+                    </tr>
+                    </thead>
+                    <tbody id="timeDataList"></tbody>
+                </table>
                 <p id="totalTimeRequests"></p>
-                <ul id="timeDataList"></ul>
             </div>
         </div>
     </div>
@@ -669,7 +681,7 @@
             const filteredData = selectedDepartment === 'all' ? departmentDataa : { [selectedDepartment]: departmentDataa[selectedDepartment] };
             const filteredLabels = selectedDepartment === 'all' ? labels : [selectedDepartment];
 
-            // Prepare data for the chart
+            // Chuẩn bị dữ liệu cho biểu đồ
             const processingData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Đang xử lý"]) || 0);
             const notProcessedData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Chưa xử lý"]) || 0);
             const completedData = filteredLabels.map(department => (filteredData[department] && filteredData[department]["Hoàn thành"]) || 0);
@@ -677,16 +689,16 @@
 
             const ctx = document.getElementById('departmentChart').getContext('2d');
 
-            // Clear existing chart if it exists
+            // Xóa biểu đồ hiện tại nếu tồn tại
             if (departmentChart) {
                 departmentChart.destroy();
             }
 
-            // Create a new chart
+            // Tạo biểu đồ mới
             departmentChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: filteredLabels, // Show all departments
+                    labels: filteredLabels, // Hiển thị các phòng ban được chọn
                     datasets: [
                         { label: 'Đang xử lý', data: processingData, backgroundColor: 'rgba(75, 192, 192, 0.5)' },
                         { label: 'Chưa xử lý', data: notProcessedData, backgroundColor: 'rgba(54, 162, 235, 0.5)' },
@@ -710,17 +722,17 @@
                 }
             });
 
-            // Update the statistics table
+            // Cập nhật bảng thống kê chỉ hiển thị số liệu của phòng ban được chọn
             const statisticsData = document.getElementById('departmentDataList');
-            statisticsData.innerHTML = ''; // Clear existing rows
+            statisticsData.innerHTML = ''; // Xóa các hàng hiện tại
 
             let totalProcessing = 0;
             let totalNotProcessed = 0;
             let totalCompleted = 0;
             let totalCanceled = 0;
 
-            // Show all departments in the statistics table
-            labels.forEach(department => {
+            // Duyệt qua các phòng ban được lọc để hiển thị trong bảng
+            filteredLabels.forEach(department => {
                 const data = filteredData[department] || { "Đang xử lý": 0, "Chưa xử lý": 0, "Hoàn thành": 0, "Đã hủy": 0 };
                 const processing = data["Đang xử lý"] || 0;
                 const notProcessed = data["Chưa xử lý"] || 0;
@@ -728,37 +740,39 @@
                 const canceled = data["Đã hủy"] || 0;
                 const total = processing + notProcessed + completed + canceled;
 
-                // Add the row for each department
-                const row = document.createElement('tr');
+                // Cập nhật tổng số liệu
                 totalProcessing += processing;
                 totalNotProcessed += notProcessed;
                 totalCompleted += completed;
                 totalCanceled += canceled;
 
+                // Thêm hàng cho từng phòng ban
+                const row = document.createElement('tr');
                 row.innerHTML = `
-                <td>${department}</td>
-                <td>${processing}</td>
-                <td>${notProcessed}</td>
-                <td>${completed}</td>
-                <td>${canceled}</td>
-                <td><strong>${total}</strong></td>
-            `;
+            <td>${department}</td>
+            <td>${processing}</td>
+            <td>${notProcessed}</td>
+            <td>${completed}</td>
+            <td>${canceled}</td>
+            <td><strong>${total}</strong></td>
+        `;
                 statisticsData.appendChild(row);
             });
 
-            // Create total row for status counts
+            // Tạo hàng tổng chỉ cho các phòng ban được lọc
             const totalRow = document.createElement('tr');
             const grandTotal = totalProcessing + totalNotProcessed + totalCompleted + totalCanceled;
             totalRow.innerHTML = `
-            <td><strong>Tổng:</strong></td>
-            <td><strong>${totalProcessing}</strong></td>
-            <td><strong>${totalNotProcessed}</strong></td>
-            <td><strong>${totalCompleted}</strong></td>
-            <td><strong>${totalCanceled}</strong></td>
-            <td><strong>${grandTotal}</strong></td>
-        `;
+        <td><strong>Tổng:</strong></td>
+        <td><strong>${totalProcessing}</strong></td>
+        <td><strong>${totalNotProcessed}</strong></td>
+        <td><strong>${totalCompleted}</strong></td>
+        <td><strong>${totalCanceled}</strong></td>
+        <td><strong>${grandTotal}</strong></td>
+    `;
             statisticsData.appendChild(totalRow);
         }
+
 
         // Initialize chart and table on page load
         updateChart('all');
@@ -847,34 +861,91 @@
         console.log('Filtered Data:', filteredData); // Kiểm tra dữ liệu đã lọc
 
         if (filteredData.length > 0) {
-            updateChartWithFilteredDataa(filteredData);
-            displayTotalSummary(filteredData);
+            updateTimeReport('year', filteredData); // Pass 'year' as period
+            displayTotalSummaryByTime(filteredData);
         } else {
             alert('Không có dữ liệu cho năm này.');
         }
     }
 
-    function displayTotalSummary(filteredData) {
-        const totalTimeRequests = document.getElementById('totalTimeRequests');
+    function formatPeriod(period, selectedPeriodType) {
+        switch (selectedPeriodType) {
+            case 'year':
+                return `Năm ${period}`;
+            case 'month':
+                return `Tháng ${period}`;
+            case 'day':
+                return `Ngày ${period}`;
+            default:
+                return period; // Fallback for unexpected values
+        }
+    }
+
+    function formatPeriod(period, selectedPeriodType) {
+        switch (selectedPeriodType) {
+            case 'year':
+                return `Năm ${period}`;
+            case 'month':
+                return `Tháng ${period}`;
+            case 'day':
+                return `Ngày ${period}`;
+            default:
+                return period; // Fallback for unexpected values
+        }
+    }
+
+    function displayTotalSummaryByTime(filteredData, selectedPeriodType) {
+        const timeDataList = document.getElementById('timeDataList');
+        const summaryTitle = document.getElementById('summaryTitle');
+        const timeDataContainer = document.getElementById('timeDataContainer');
+
+        // Clear previous data
+        timeDataList.innerHTML = '';
+
         let totalProcessing = 0;
         let totalPending = 0;
         let totalCompleted = 0;
         let totalCancelled = 0;
 
+        // Populate the table and calculate totals
         filteredData.forEach(item => {
-            totalProcessing += item.total['Đang xử lý'] || 0;
-            totalPending += item.total['Chưa xử lý'] || 0;
-            totalCompleted += item.total['Hoàn thành'] || 0;
-            totalCancelled += item.total['Đã hủy'] || 0;
+            const processing = item.total['Đang xử lý'] || 0;
+            const pending = item.total['Chưa xử lý'] || 0;
+            const completed = item.total['Hoàn thành'] || 0;
+            const cancelled = item.total['Đã hủy'] || 0;
+
+            totalProcessing += processing;
+            totalPending += pending;
+            totalCompleted += completed;
+            totalCancelled += cancelled;
+
+            const formattedPeriod = formatPeriod(item.period, selectedPeriodType);
+
+            timeDataList.innerHTML += `
+            <tr>
+                <td style="padding: 5px">${formattedPeriod}</td>
+                <td style="padding: 5px">${processing}</td>
+                <td style="padding: 5px">${pending}</td>
+                <td style="padding: 5px">${completed}</td>
+                <td style="padding: 5px">${cancelled}</td>
+                <td style="padding: 5px"><strong>${processing + pending + completed + cancelled}</strong></td>
+            </tr>
+        `;
         });
 
-        totalTimeRequests.innerHTML = `
-        <strong>Tổng số liệu:</strong><br>
-        Đang xử lý: ${totalProcessing}<br>
-        Chưa xử lý: ${totalPending}<br>
-        Hoàn thành: ${totalCompleted}<br>
-        Đã hủy: ${totalCancelled}
+        // Add total row at the bottom
+        timeDataList.innerHTML += `
+        <tr>
+            <td style="padding: 5px; font-weight: bold;">Tổng số yêu cầu:</td>
+            <td style="padding: 5px; font-weight: bold;">${totalProcessing + totalPending + totalCompleted + totalCancelled}</td>
+        </tr>
     `;
+
+        // Update the title
+        summaryTitle.innerText = `Số liệu tổng hợp theo ${selectedPeriodType === 'year' ? 'Năm' : selectedPeriodType === 'month' ? 'Tháng' : 'Ngày'}`;
+
+        // Show the report section if there's data
+        timeDataContainer.style.display = filteredData.length > 0 ? 'block' : 'none';
     }
 
     {{--function updateChartFromDate() {--}}
@@ -920,8 +991,8 @@
 
 
     // Cập nhật biểu đồ với dữ liệu đã lọc
-    function updateChartWithFilteredDataa(data) {
-        console.log("Cập nhật biểu đồ với dữ liệu đã lọc:", data);
+    function updateChartWithFilteredTimeData(data) {
+        console.log("Cập nhật biểu đồ với dữ liệu theo thời gian:", data);
         const labels = data.map(item => item.period);
         const datasets = [
             {
@@ -976,8 +1047,8 @@
             });
         }
 
-        // Display the total summary
-        displayTotalSummary(data);
+        // Display the total summary by time
+        displayTotalSummaryByTime(data);
     }
 
     function showInput(type) {
@@ -1048,7 +1119,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng ngày', filteredData);
-            displayTotalSummary(filteredData);
+            displayTotalSummaryByTime(filteredData);
         } else {
             alert('Không có dữ liệu trong khoảng ngày này.');
         }
@@ -1086,7 +1157,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng tháng', filteredData);
-            displayTotalSummary(filteredData);
+            displayTotalSummaryByTime(filteredData);
         } else {
             alert(`Không có dữ liệu cho khoảng thời gian từ tháng ${startMonth} năm ${startYear} đến tháng ${endMonth} năm ${endYear}.`);
         }
@@ -1120,7 +1191,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng năm', filteredData);
-            displayTotalSummary(filteredData);
+            displayTotalSummaryByTime(filteredData);
         } else {
             alert(`Không có dữ liệu cho khoảng thời gian từ năm ${startYear} đến năm ${endYear}.`);
         }
