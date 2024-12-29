@@ -220,9 +220,7 @@ class RequestController extends Controller
     {
         $template = 'admin.request.edit';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        $requestData = SupportRequest::with('attachment')->findOrFail($request_id); // Tải quan hệ attachment
-        $supportRequest = SupportRequest::with(['attachment', 'history'])->findOrFail($request_id); // Tải quan hệ attachment và histories
-
+        $supportRequest = SupportRequest::with(['attachment', 'history'])->findOrFail($request_id); // Tải quan hệ attachment và history
 
         // Chỉ lấy khách hàng có status là "active"
         $customers = Customer::where('status', 'active')->get();
@@ -230,8 +228,9 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'requestData', 'supportRequest', 'customers', 'departments', 'requestTypes'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'supportRequest', 'customers', 'departments', 'requestTypes'));
     }
+
 
     private function generateAttachmentId()
     {
@@ -249,10 +248,11 @@ class RequestController extends Controller
      */
     public function update(HttpRequest $request, $request_id)
     {
+        // Tìm yêu cầu cần cập nhật
         $supportRequest = SupportRequest::with('attachment')->findOrFail($request_id);
 
         // Validate dữ liệu
-        $request->validate([
+        $validatedData = $request->validate([
             'customer_id' => 'required|exists:customer,customer_id',
             'department_id' => 'required|exists:department,department_id',
             'request_type_id' => 'required|exists:request_type,request_type_id',
@@ -263,38 +263,48 @@ class RequestController extends Controller
             'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960', // 40 MB
         ]);
 
-        // Lưu trạng thái cũ để tạo lịch sử
-        $oldStatus = $supportRequest->status;
-        $newStatus = $request->input('status');
+        // Kiểm tra điều kiện cập nhật trạng thái
+        if ($supportRequest->status === 'Chưa xử lý' && $validatedData['department_id']) {
+            // Nếu trạng thái hiện tại là "Chưa xử lý" và phòng ban được chọn, đặt trạng thái thành "Đang xử lý"
+            $validatedData['status'] = 'Đang xử lý';
+        }
 
-        // Cập nhật thông tin yêu cầu
+        // Kiểm tra xem phòng ban đã được cập nhật hay chưa
+        if ($supportRequest->department_id !== $validatedData['department_id']) {
+            // Nếu phòng ban mới được chọn và trạng thái hiện tại là "Chưa xử lý", cập nhật thành "Đang xử lý"
+            if ($validatedData['department_id'] && $supportRequest->status === 'Chưa xử lý') {
+                $validatedData['status'] = 'Đang xử lý';
+            }
+        }
+
+        // Lưu thông tin yêu cầu mới
         $supportRequest->update([
-            'customer_id' => $request->input('customer_id'),
-            'department_id' => $request->input('department_id'),
-            'request_type_id' => $request->input('request_type_id'),
-            'subject' => $request->input('subject'),
-            'description' => $request->input('description'),
-            'create_at' => $request->input('create_at'),
-            'resolved_at' => $newStatus === 'Hoàn thành' ? now() : $supportRequest->resolved_at,
-            'status' => $newStatus,
+            'customer_id' => $validatedData['customer_id'],
+            'department_id' => $validatedData['department_id'],
+            'request_type_id' => $validatedData['request_type_id'],
+            'subject' => $validatedData['subject'],
+            'description' => $validatedData['description'],
+            'create_at' => $validatedData['create_at'],
+            'resolved_at' => $validatedData['status'] === 'Hoàn thành' ? now() : $supportRequest->resolved_at,
+            'status' => $validatedData['status'],
         ]);
 
         // Lấy thông tin người cập nhật (admin)
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
-        // Tạo bản ghi lịch sử mới nếu trạng thái thay đổi
-        if ($oldStatus !== $newStatus) {
+        // Lưu lịch sử thay đổi trạng thái nếu trạng thái đã thay đổi
+        if ($supportRequest->wasChanged('status')) {
             RequestHistory::create([
                 'request_id' => $request_id,
                 'changed_by' => $logged_user->employee_id,
-                'old_status' => $oldStatus,
-                'new_status' => $newStatus,
+                'old_status' => $supportRequest->getOriginal('status'),
+                'new_status' => $validatedData['status'],
                 'note' => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
                 'changed_at' => now(),
             ]);
         }
 
-        // Xử lý file đính kèm mới hoặc cập nhật file đính kèm hiện tại
+        // Xử lý file đính kèm nếu có
         if ($request->hasFile('attachments')) {
             // Nếu đã có file đính kèm, xóa file cũ trước khi upload mới
             if ($supportRequest->attachment) {
@@ -314,7 +324,7 @@ class RequestController extends Controller
 
             // Tạo mới bản ghi Attachment
             $supportRequest->attachment()->create([
-                'attachment_id' => $this->generateAttachmentId(), // Sử dụng phương thức mới
+                'attachment_id' => $this->generateAttachmentId(),
                 'filename' => $filename,
                 'file_path' => $filePath,
                 'file_size' => $fileSize,
@@ -324,9 +334,6 @@ class RequestController extends Controller
 
         return redirect()->route('request.index')->with('success', 'Thông tin yêu cầu đã được cập nhật!');
     }
-
-
-
 
     /**
      * Xóa yêu cầu khỏi cơ sở dữ liệu
