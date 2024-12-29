@@ -162,3 +162,8 @@ body{
 .toggle-password:hover {
     color: var(--second-color);
 }
+@media (max-width: 426px){
+    .reset-password-box{
+        width: 100%;
+    }
+}
