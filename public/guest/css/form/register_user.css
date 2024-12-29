@@ -82,7 +82,7 @@ a:hover{
     top: 0;
     left: -30px;
     width: 30px;
-    height: 30px;
+    height: 28px;
     border-top-right-radius: 50%;
     background: transparent;
     box-shadow: 13px 0 0 0 var(--primary-color);
@@ -295,16 +295,16 @@ select option {
     .register-header {
         width: 150px;
 
-       
+
     }
 
     .register-header span {
         font-size: 16px;
-     
+
     }
 
     .input-container {
-        margin-top: 70px;
+        margin-top: 130px;
         grid-template-columns: 1fr;  /* Changed to 1 column for mobile devices */
     }
 
@@ -313,9 +313,10 @@ select option {
     }
 
     .login-link {
+        text-align: center;
         margin-top: 15px;
     }
-    
+
 }
 
 @media (max-width: 375px) {
