@@ -2,10 +2,9 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Trang chủ Sweetsoft</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -886,7 +885,7 @@
     </script>
 
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
-    <footer class="footer" id="contact" style="background-color: #f9f9f9; padding: 20px 0;">
+    <footer class="footer" id="contact" style="">
         <div style="display: flex; justify-content: space-around;">
             <!-- Column 1 -->
             <div style="flex: 1; padding: 0 10px;">

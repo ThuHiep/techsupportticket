@@ -1,3 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+}
 html {
     scroll-behavior: smooth;
 }
@@ -406,8 +415,10 @@ section {
 
 
 footer {
+    background-color: #f9f9f9;
     padding: 20px; /* Khoảng cách bên trong */
     margin: 20px 40px; /* Cách mép trái và phải 40px */
+
 }
 
 /* Nút floating */
@@ -644,13 +655,17 @@ footer {
 /* Default styles (áp dụng cho màn hình lớn hơn 764px) */
 
 /* Màn hình tối đa 764px */
-@media (max-width: 764px) {
+@media (max-width: 768px) {
+    html{
+        width: 100%;
+    }
     header {
         flex-direction: column;
         padding: 10px 20px;
+
     }
     .nav-links {
-        flex-direction: column;
+        display: flex;
         gap: 10px;
     }
     .main-content {
@@ -668,11 +683,11 @@ footer {
         width: 100%;
     }
     .carousel-card {
-        min-width: 90%;
+        min-width: 43%;
         height: auto;
     }
     .carousel-container {
-        width: 95%;
+        width: 94% !important;
     }
     .carousel-button {
         width: 50px;
@@ -682,14 +697,25 @@ footer {
     .footer {
         margin: 10px;
     }
+    .footer > div {
+        display: flex;
+        flex-direction: column;
+    }
+    .footer > div > div {
+        flex: none; /* Đặt kích thước mặc định */
+        margin-bottom: 20px; /* Tạo khoảng cách giữa các hàng */
+    }
+    .modal-registration{
+        width: 53%;
+        height: 64%;
+    }
 }
 
 /* Màn hình tối đa 425px */
-@media (max-width: 425px) {
-    
+@media (max-width: 426px) {
     .main-content .right h1 span {
         font-size: 28px;
-        
+
     }
 
     .nav-links a {
@@ -706,7 +732,7 @@ footer {
         font-size: 1em;
     }
     .carousel-card {
-        min-width: 100%;
+        min-width: 68%;
     }
     .floating-button {
         width: 40px;
@@ -717,14 +743,15 @@ footer {
         width: 90%;
         height: auto;
     }
-    
+
+
 }
 /* Màn hình tối đa 425px */
 /* Responsive Footer */
 
 
 /* Màn hình tối đa 375px */
-@media (max-width: 375px) {
+@media (max-width: 376px) {
     header {
         padding: 8px 15px;
     }
