@@ -298,11 +298,13 @@ input[type=checkbox]:focus{
 }
 @media only screen and (max-width: 546px){
     .wrapper{
-        
+
         padding: 20px;
     }
     .login_box{
         padding: 7.5em 2.5em 4em 2.5em;
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -315,6 +317,33 @@ input[type=checkbox]:focus{
 @media (max-width: 480px) {
     .logo_box img {
         max-width: 150px;
+    }
+
+}
+@media (max-width: 376px) {
+    .login_box{
+        width: 90%;
+        margin: 76px auto auto auto;
+    }
+    .register a{
+        margin-left: 0px    ;
+    }
+    .remember-forgot {
+        display: flex;
+        flex-direction: column; /* Chuyển thành cột */
+        justify-content: flex-start; /* Căn chỉnh theo ý muốn */
+        font-size: 15px;
+        margin-top: -25px;
+        gap: 10px; /* Khoảng cách giữa các thành phần */
+    }
+
+    .remember-me,
+    .forgot {
+        width: 100%; /* Đảm bảo chiếm toàn bộ độ rộng */
+    }
+
+    .forgot {
+        text-align: right; /* Căn chỉnh văn bản bên phải */
     }
 }
 
