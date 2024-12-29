@@ -103,7 +103,7 @@
             <img src="/guest/img/notification.gif" alt="support"
               class="img-fluid-home" />
             <p>Bạn có yêu cầu cần được hỗ trợ ?</p>
-            <button class="btn btn-success" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
+            <button class="btn btn-request" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
         <div class="text-center mt-4"></div>
@@ -185,14 +185,14 @@
             </div>
           </div>
           <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
-          <section id="about" class="about section">
+      
             <div class="button-group">
               <button id="edit-btn" class="edit-button">
                 Chỉnh sửa thông tin
               </button>
-              <div class="btn btn-success me-3" id="openForm">Thay đổi mật khẩu</div>
+              <div class="btn btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
             </div>
-          </section>
+          
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">

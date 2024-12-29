@@ -39,18 +39,19 @@
                     </div>
                 </div>
                 <!-- Row 2 -->
-                <div class="input_box">
-                    <input type="email" id="email" name="email" class="input-field" value="{{ $customer->email ?? old('email') }}" readonly>
-                    <label for="email" class="label">Email</label>
-                    <i class="bx bx-envelope icon"></i>
-                </div>
-                <!-- Row 3 -->
                 <div class="input_row">
                     <div class="input_box">
                         <input type="text" id="company-name" name="company-name" class="input-field" value="{{ $customer->company ?? old('company-name') }}" readonly>
                         <label for="company-name" class="label">Tên công ty</label>
                         <i class="bx bx-buildings icon"></i>
                     </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="input_box">
+                    <input type="email" id="email" name="email" class="input-field" value="{{ $customer->email ?? old('email') }}" readonly>
+                    <label for="email" class="label">Email</label>
+                    <i class="bx bx-envelope icon"></i>
                 </div>
                 <div class="input_row">
                     <div class="input_box">

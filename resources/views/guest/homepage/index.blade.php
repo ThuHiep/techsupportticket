@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Trang chủ Sweetsoft</title>
@@ -81,10 +81,12 @@
             padding: 15px 20px;
             border-bottom: 1px solid #eaeaea;
         }
+
         .menu-section-2 {
             padding: 15px 20px;
             border-bottom: 1px solid #eaeaea;
         }
+
         .menu-item {
             display: flex;
             align-items: center;
@@ -106,18 +108,76 @@
         }
 
         .logout-button {
-            display: flex ;
-            justify-content: center ;
-            cursor: pointer ;
-            color: #333 ;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+            color: #333;
             font-size: 14px !important;
-            font-weight: normal ;
+            font-weight: normal;
         }
-        .menu-section-2>a{
-            color: #333 ;
+
+        .menu-section-2>a {
+            color: #333;
         }
-        .menu-section-2>a:hover{
+
+        .menu-section-2>a:hover {
             color: #ff6f00;
+        }
+
+        /* Dropdown hiển thị kết quả */
+        #search-results {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 56%;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 900;
+            border-radius: 5px;
+            display: none;
+        }
+
+        #search-results.d-block {
+            display: block;
+        }
+
+        #search-results a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        #search-results a:hover {
+            background-color: #f9f9f9;
+        }
+
+        #search-results img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+            border: 2px solid #ccc;
+            padding: 2px;
+            background-color: #fff;
+        }
+
+        #search-results strong {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .text-muted {
+            color: #888;
+            padding: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -182,21 +242,104 @@
                 <span>KHÁCH HÀNG</span>
             </h1>
             <div class="search-container">
-
                 <input id="search-keyword" type="text" placeholder="Nhập từ khóa tìm kiếm...">
-                <select id="search-type" style="width: 150px">
-                    <option value="all">Danh mục</option>
+                <select id="search-type" style="width: 150px;">
                     <option value="faq">Câu hỏi</option>
                     <option value="article">Hướng dẫn</option>
                 </select>
-                <button id="search-button">
-                    <img src="guest/img/search.png" alt="Search" style="width: 20px; height: 20px;">
-                </button>
+                <div id="search-results" class="dropdown-menu d-none" style="position: absolute;"></div>
             </div>
-            <div id="search-results" style="margin-top: 20px;"></div>
-
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const keywordInput = document.getElementById('search-keyword');
+            const searchType = document.getElementById('search-type');
+            const searchResults = document.getElementById('search-results');
+
+            function fetchSearchResults() {
+                const keyword = keywordInput.value.trim();
+                const type = searchType.value;
+
+                if (keyword.length > 0) {
+                    fetch(`/search?keyword=${encodeURIComponent(keyword)}&type=${type}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Làm sạch các kết quả cũ
+                            searchResults.innerHTML = '';
+
+                            if (data.length > 0) {
+                                data.forEach(item => {
+                                    const resultItem = document.createElement('a');
+                                    resultItem.classList.add('dropdown-item');
+                                    console.log(item)
+
+                                    if (type === 'faq') {
+                                        resultItem.setAttribute('data-id', item.faq_id);
+                                    } else if (type === 'article') {
+                                        resultItem.setAttribute('onclick', `openHuongdanModal(this, '${item.title}', '${item.content}', '${item.create_at ? new Date(item.create_at).toLocaleDateString('en-GB') : 'Chưa có ngày đăng'}')`);
+                                    }
+
+                                    resultItem.innerHTML = `
+                                <img src="/storage/images/${item.photo || 'default.jpg'}" alt="Image">
+                                <strong>${item.title || item.question}</strong>
+                            `;
+                                    searchResults.appendChild(resultItem);
+                                });
+
+                                // Hiển thị dropdown kết quả
+                                searchResults.classList.remove('d-none');
+                                searchResults.classList.add('d-block');
+
+                                if (type === 'faq') {
+                                    const faqQuestions = document.querySelectorAll(".dropdown-item");
+
+                                    faqQuestions.forEach(question => {
+                                        question.addEventListener("click", function(event) {
+                                            event.preventDefault();
+
+                                            const faqId = question.getAttribute("data-id");
+
+                                            fetch(`/faq/answer/${faqId}`)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    const faqModal = document.getElementById("faqModal");
+                                                    const modalQuestion = document.getElementById("modal-question");
+                                                    const modalAnswer = document.getElementById("modal-answer");
+                                                    modalQuestion.textContent = data.question;
+                                                    modalAnswer.textContent = data.answer;
+
+                                                    faqModal.style.display = "block";
+                                                })
+                                                .catch(error => {
+                                                    console.error("Lỗi khi tải câu trả lời:", error);
+                                                });
+                                        });
+                                    });
+                                }
+
+                            } else {
+                                // Ẩn dropdown nếu không có kết quả
+                                searchResults.classList.add('d-none');
+                                searchResults.classList.remove('d-block');
+                            }
+                        });
+                } else {
+                    // Nếu không có từ khóa, ẩn dropdown
+                    searchResults.innerHTML = '';
+                    searchResults.classList.add('d-none');
+                    searchResults.classList.remove('d-block');
+                }
+            }
+
+            // Lắng nghe sự kiện input trên ô tìm kiếm
+            keywordInput.addEventListener('input', fetchSearchResults);
+
+            // Lắng nghe sự kiện thay đổi lựa chọn trong select
+            searchType.addEventListener('change', fetchSearchResults);
+        });
+    </script>
+
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
@@ -394,9 +537,9 @@
 
         // Đóng modal khi click ra ngoài
         window.addEventListener("click", function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
         });
     </script>
 
@@ -652,26 +795,6 @@
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerHTML = content; // Sử dụng innerHTML
             document.getElementById('huongdanModalDate').innerText = date;
-
-            const modal = document.getElementById('huongdanArticleModal');
-            modal.style.display = "block";
-
-            const overlay = document.getElementById('huongdanModalOverlay');
-            overlay.style.display = "block";
-        }
-        // Hàm mở Modal khi click vào card
-        function openHuongdanModal(cardElement) {
-            const title = cardElement.querySelector('.article-title').innerText;
-            const content = cardElement.querySelector('.article-details .article-content').innerText;
-            const date = cardElement.querySelector('.article-details .article-date').innerText;
-            const images = cardElement.querySelector('img').src;
-
-            document.getElementById('huongdanModalTitle').innerText = title;
-            document.getElementById('huongdanModalContent').innerText = content;
-            document.getElementById('huongdanModalDate').innerText = date;
-
-            const modalImage = document.getElementById('huongdanModalImage');
-            modalImage.src = images;
 
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
