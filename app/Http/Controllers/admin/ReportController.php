@@ -91,6 +91,7 @@ class ReportController extends Controller
 
         // Time-based statistics
         $timeData = $this->getTimeBasedStatistics();
+        //dd($timeData);
 
         // Trả về view với dữ liệu đã xử lý
         return view('admin.dashboard.layout', compact(

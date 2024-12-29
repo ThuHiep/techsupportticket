@@ -192,12 +192,8 @@
             <div class="report-section" id="timeReportContainer" style="display: none;">
                 <h3>Báo cáo số yêu cầu theo thời gian</h3>
                 <div class="filter-container">
-                    <button class="btn" onclick="showInput('dateSelection')">Chọn Ngày hoặc Khoảng Ngày</button>
+                    <button class="btn" onclick="showInput('dateSelection')">Ngày</button>
                     <div id="dateSelectionInput" style="display: none;">
-                        <div id="dateInput">
-                            <label for="specificDate">Chọn ngày:</label>
-                            <input type="date" id="specificDate" onchange="updateChartFromDate()">
-                        </div>
                         <div id="dateRangeInput">
                             <label for="startDatee">Ngày bắt đầu:</label>
                             <input type="date" id="startDatee" onchange="updateChartFromDateRange()">
@@ -205,43 +201,25 @@
                             <input type="date" id="endDatee" onchange="updateChartFromDateRange()">
                         </div>
                     </div>
-                    <button class="btn" onclick="showInput('monthSelection')">Chọn Tháng or Tháng Tháng</button>
+                    <button class="btn" onclick="showInput('monthSelection')">Chọn Tháng</button>
                     <div id="monthSelectionInput" style="display: none;">
-                        <div id="monthInput">
-                            <label for="specificMonth">Chọn tháng:</label>
-                            <input type="month" id="specificMonth" onchange="updateChartFromMonth()">
-                        </div>
-
-                        <div id="monthRangeInput">
+                        <div id="monthRangeInput" style="display: block;">
                             <label for="startMonth">Tháng bắt đầu:</label>
                             <input type="month" id="startMonth" onchange="updateChartFromMonthRange()">
-
                             <label for="endMonth">Tháng kết thúc:</label>
                             <input type="month" id="endMonth" onchange="updateChartFromMonthRange()">
                         </div>
                     </div>
 
-                    <button class="btn" onclick="showInput('yearSelection')">Năm or Năm</button>
+                    <button class="btn" onclick="showInput('yearSelection')">Năm</button>
                     <div id="yearSelectionInput" style="display: none;">
-                        <div id="yearInput">
-                            <label for="specificYear">Chọn năm:</label>
-                            <select id="specificYear" onchange="updateChartFromYear()">
-                                <option value="">--Chọn năm--</option>
-                                <script>
-                                    const currentYear = new Date().getFullYear();
-                                    for (let i = currentYear - 10; i <= currentYear + 10; i++) {
-                                        document.write(`<option value="${i}">${i}</option>`);
-                                    }
-                                </script>
-                            </select>
-                        </div>
-
                         <div id="yearRangeInput">
                             <label for="startYear">Năm bắt đầu:</label>
                             <select id="startYear" onchange="updateChartFromYearRange()">
                                 <option value="">--Chọn năm bắt đầu--</option>
                                 <script>
-                                    for (let i = 2020; i <= currentYear + 10; i++) { // Bắt đầu từ 2020
+                                    const currentYear = new Date().getFullYear();
+                                    for (let i = 2020; i <= currentYear + 10; i++) {
                                         document.write(`<option value="${i}">${i}</option>`);
                                     }
                                 </script>
@@ -251,7 +229,7 @@
                             <select id="endYear" onchange="updateChartFromYearRange()">
                                 <option value="">--Chọn năm kết thúc--</option>
                                 <script>
-                                    for (let i = 2020; i <= currentYear + 6; i++) { // Bắt đầu từ 2020
+                                    for (let i = 2020; i <= currentYear + 10; i++) {
                                         document.write(`<option value="${i}">${i}</option>`);
                                     }
                                 </script>
@@ -849,13 +827,33 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        const yearInput = document.getElementById('specificYear');
+        const yearInput = document.getElementById('startYear');
         if (yearInput) {
             const currentYear = new Date().getFullYear(); // Lấy năm hiện tại
             yearInput.value = currentYear; // Gán giá trị năm hiện tại vào input
             updateChartFromYear(); // Cập nhật biểu đồ theo năm
         }
     });
+    function updateChartFromYear() {
+        const year = parseInt(document.getElementById('startYear').value);
+        const timeData = @json($timeData);
+
+        console.log('Selected Year:', year); // Kiểm tra giá trị năm
+        console.log('Time Data:', timeData); // Kiểm tra toàn bộ dữ liệu
+
+        // Lọc dữ liệu theo năm
+        const filteredData = timeData['Năm'].filter(item => item.period === year);
+
+        console.log('Filtered Data:', filteredData); // Kiểm tra dữ liệu đã lọc
+
+        if (filteredData.length > 0) {
+            updateChartWithFilteredDataa(filteredData);
+            displayTotalSummary(filteredData);
+        } else {
+            alert('Không có dữ liệu cho năm này.');
+        }
+    }
+
     function displayTotalSummary(filteredData) {
         const totalTimeRequests = document.getElementById('totalTimeRequests');
         let totalProcessing = 0;
@@ -879,101 +877,47 @@
     `;
     }
 
-    function updateChartFromDate() {
-        const date = document.getElementById('specificDate').value; // Lấy ngày từ input
-        const timeData = @json($timeData); // Đảm bảo dữ liệu timeData có sẵn ở đây
+    {{--function updateChartFromDate() {--}}
+    {{--    const date = document.getElementById('specificDate').value; // Lấy ngày từ input--}}
+    {{--    const timeData = @json($timeData); // Đảm bảo dữ liệu timeData có sẵn ở đây--}}
 
-        console.log(date);
+    {{--    console.log(date);--}}
 
-        // Lọc dữ liệu cho ngày cụ thể
-        const filteredData = timeData['Ngày'].filter(item => item.period === date);
+    {{--    // Lọc dữ liệu cho ngày cụ thể--}}
+    {{--    const filteredData = timeData['Ngày'].filter(item => item.period === date);--}}
 
-        // Cập nhật biểu đồ với dữ liệu đã lọc
-        if (filteredData.length > 0) {
-            updateChartWithFilteredDataa(filteredData); // Cập nhật biểu đồ với dữ liệu cho ngày hôm nay
-            displayTotalSummary(filteredData);
-        } else {
-            alert('Không có dữ liệu cho ngày này.'); // Thông báo nếu không có dữ liệu
-        }
-    }
+    {{--    // Cập nhật biểu đồ với dữ liệu đã lọc--}}
+    {{--    if (filteredData.length > 0) {--}}
+    {{--        updateChartWithFilteredDataa(filteredData); // Cập nhật biểu đồ với dữ liệu cho ngày hôm nay--}}
+    {{--        displayTotalSummary(filteredData);--}}
+    {{--    } else {--}}
+    {{--        alert('Không có dữ liệu cho ngày này.'); // Thông báo nếu không có dữ liệu--}}
+    {{--    }--}}
+    {{--}--}}
 
-    // Hàm để lấy tuần hiện tại
-    function getCurrentWeek() {
-        const today = new Date();
-        const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-        const daysInFirstWeek = ((firstDayOfYear.getDay() + 6) % 7);
-        const weekNumber = Math.ceil(((today - firstDayOfYear) / 86400000 + daysInFirstWeek) / 7);
-        return {
-            year: today.getFullYear(),
-            week: weekNumber.toString().padStart(2, '0') // Current week as a 2-digit string
-        };
-    }
+    {{--function updateChartFromMonth() {--}}
+    {{--    const selectedMonth = document.getElementById('specificMonth').value; // Lấy tháng từ input--}}
+    {{--    const [year, month] = selectedMonth.split('-'); // Tách năm và tháng--}}
 
-    function updateChartFromWeek() {
-        const { year, week } = getCurrentWeek(); // Lấy tuần hiện tại
-        const periodToCheck = `${year}-${week}`;
-        const timeData = @json($timeData); // Dữ liệu gốc
+    {{--    const timeData = @json($timeData); // Dữ liệu gốc--}}
 
-        // Lọc dữ liệu cho tuần hiện tại
-        const filteredData = timeData['Tuần'].filter(item => {
-            if (!item.period) {
-                console.warn("Missing period for item:", item);
-                return false; // Skip items with no period
-            }
-            return item.period.trim() === periodToCheck;
-        });
+    {{--    console.log('Selected Month:', month); // Debugging--}}
+    {{--    console.log('Selected Year:', year); // Debugging--}}
 
-        console.log("Filtered Data for Week:", filteredData); // Kiểm tra dữ liệu đã lọc
+    {{--    // Lọc dữ liệu cho tháng được chọn--}}
+    {{--    const filteredData = timeData['Tháng'].filter(item => item.period === parseInt(month));--}}
 
-        if (filteredData.length > 0) {
-            updateTimeReport('Tuần', filteredData); // Cập nhật biểu đồ với dữ liệu cho tuần hiện tại
-            displayTotalSummary(filteredData);
-        } else {
-            alert('Không có dữ liệu cho tuần hiện tại.'); // Thông báo nếu không có dữ liệu
-        }
-    }
+    {{--    console.log('Filtered data:', filteredData); // Debugging--}}
 
-    function updateChartFromMonth() {
-        const selectedMonth = document.getElementById('specificMonth').value; // Lấy tháng từ input
-        const [year, month] = selectedMonth.split('-'); // Tách năm và tháng
+    {{--    if (filteredData.length > 0) {--}}
+    {{--        updateTimeReport('Tháng', filteredData); // Cập nhật biểu đồ cho tháng được chọn--}}
+    {{--        displayTotalSummary(filteredData);--}}
+    {{--    } else {--}}
+    {{--        alert(`Không có dữ liệu cho tháng ${month} năm ${year}.`);--}}
+    {{--    }--}}
+    {{--}--}}
 
-        const timeData = @json($timeData); // Dữ liệu gốc
 
-        console.log('Selected Month:', month); // Debugging
-        console.log('Selected Year:', year); // Debugging
-
-        // Lọc dữ liệu cho tháng được chọn
-        const filteredData = timeData['Tháng'].filter(item => item.period === parseInt(month));
-
-        console.log('Filtered data:', filteredData); // Debugging
-
-        if (filteredData.length > 0) {
-            updateTimeReport('Tháng', filteredData); // Cập nhật biểu đồ cho tháng được chọn
-            displayTotalSummary(filteredData);
-        } else {
-            alert(`Không có dữ liệu cho tháng ${month} năm ${year}.`);
-        }
-    }
-
-    function updateChartFromYear() {
-        const year = parseInt(document.getElementById('specificYear').value);
-        const timeData = @json($timeData);
-
-        console.log('Selected Year:', year); // Kiểm tra giá trị năm
-        console.log('Time Data:', timeData); // Kiểm tra toàn bộ dữ liệu
-
-        // Lọc dữ liệu theo năm
-        const filteredData = timeData['Năm'].filter(item => item.period === year);
-
-        console.log('Filtered Data:', filteredData); // Kiểm tra dữ liệu đã lọc
-
-        if (filteredData.length > 0) {
-            updateChartWithFilteredDataa(filteredData);
-            displayTotalSummary(filteredData);
-        } else {
-            alert('Không có dữ liệu cho năm này.');
-        }
-    }
 
     // Cập nhật biểu đồ với dữ liệu đã lọc
     function updateChartWithFilteredDataa(data) {
@@ -1038,82 +982,58 @@
 
     function showInput(type) {
         // Ẩn tất cả các div nhập liệu
-        document.getElementById('dateInput').style.display = 'none';
-        //document.getElementById('weekInput').style.display = 'none';
-        document.getElementById('monthInput').style.display = 'none';
-        document.getElementById('yearInput').style.display = 'none';
-        document.getElementById('monthRangeInput').style.display = 'none';
-        document.getElementById('yearSelectionInput').style.display = 'none';
         document.getElementById('dateSelectionInput').style.display = 'none';
+        document.getElementById('monthSelectionInput').style.display = 'none';
+        document.getElementById('yearSelectionInput').style.display = 'none';
         // Hiển thị div tương ứng với button được nhấn
         if (type === 'dateSelection') {
             const dateSelectionDiv = document.getElementById('dateSelectionInput');
-            dateSelectionDiv.style.display = dateSelectionDiv.style.display === 'block' ? 'none'    : 'block';
-            document.getElementById('dateInput').style.display = 'block'; // Hiển thị ô lọc ngày
-            document.getElementById('dateRangeInput').style.display = 'block'; // Hiển thị ô lọc khoảng ngày
-        }else if (type === 'yearSelection') {
-            const yearSelectionDiv = document.getElementById('yearSelectionInput');
-            yearSelectionDiv.style.display = yearSelectionDiv.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('yearInput').style.display = 'block'; // Hiển thị ô lọc năm
-            document.getElementById('yearRangeInput').style.display = 'block'; // Hiển thị ô lọc khoảng năm
+            dateSelectionDiv.style.display = dateSelectionDiv.style.display === 'block' ? 'none' : 'block';
+
+            // Lấy ngày hôm nay
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDatee').value = today; // Ngày bắt đầu
+            document.getElementById('endDatee').value = today; // Ngày kết thúc
+            updateChartFromDateRange(); // Cập nhật biểu đồ với khoảng ngày này
         }else if (type === 'monthSelection') {
             const monthSelectionDiv = document.getElementById('monthSelectionInput');
             monthSelectionDiv.style.display = monthSelectionDiv.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('monthInput').style.display = 'block'; // Hiển thị ô lọc tháng
-            document.getElementById('monthRangeInput').style.display = 'block'; // Hiển thị ô lọc khoảng tháng
-        }else if (type === 'date') {
-            document.getElementById('dateInput').style.display = 'block';
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('specificDate').value = today;
-            updateChartFromDate(); // Cập nhật biểu đồ cho ngày hôm nay
-        // } else if (type === 'week') {
-        //     document.getElementById('weekInput').style.display = 'block';
-        //     const currentWeek = getCurrentWeek();
-        //     document.getElementById('specificWeek').value = currentWeek;
-        //     updateChartFromWeek(); // Cập nhật biểu đồ cho tuần hiện tại
-        } else if (type === 'month') {
-            document.getElementById('monthInput').style.display = 'block';
+
+            // Lấy tháng hiện tại
             const currentMonth = new Date().toISOString().slice(0, 7);
-            document.getElementById('specificMonth').value = currentMonth;
-            updateChartFromMonth(); // Cập nhật biểu đồ cho tháng hiện tại ngay lập tức
-        } else if (type === 'year') {
-            document.getElementById('yearInput').style.display = 'block';
-            const currentYear = new Date().getFullYear();
-            document.getElementById('specificYear').value = currentYear;
-            updateChartFromYear(); // Cập nhật biểu đồ cho năm hiện tại
-        } else if (type === 'monthRange') {
-            document.getElementById('monthRangeInput').style.display = 'block';
-            // Không cần thiết phải cập nhật biểu đồ ngay lập tức khi chọn khoảng tháng
-        } else if (type === 'yearRange') { // Thêm trường hợp cho khoảng năm
-            document.getElementById('yearRangeInput').style.display = 'block';
-            // Không cần thiết phải cập nhật biểu đồ ngay lập tức khi chọn khoảng năm
+            document.getElementById('startMonth').value = currentMonth; // Gán tháng hiện tại cho tháng bắt đầu
+            document.getElementById('endMonth').value = currentMonth; // Gán tháng hiện tại cho tháng kết thúc
+
+            // Cập nhật biểu đồ ngay lập tức
+            updateChartFromMonthRange();
+        }else if (type === 'yearSelection') {
+            const yearSelectionDiv = document.getElementById('yearSelectionInput');
+            yearSelectionDiv.style.display = yearSelectionDiv.style.display === 'block' ? 'none' : 'block';
+
+            if (yearSelectionDiv.style.display === 'block') {
+                // Gán năm hiện tại cho năm bắt đầu và năm kết thúc
+                const currentYear = new Date().getFullYear();
+                document.getElementById('startYear').value = currentYear;
+                document.getElementById('endYear').value = currentYear;
+
+                // Cập nhật biểu đồ theo khoảng năm hiện tại
+                updateChartFromYearRange();
+            }
         }
     }
 
-    // Hàm để lấy tuần hiện tại
-    // function getCurrentWeek() {
-    //     const today = new Date();
-    //     const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-    //     const daysInFirstWeek = ((firstDayOfYear.getDay() + 6) % 7);
-    //     const weekNumber = Math.ceil(((today - firstDayOfYear) / 86400000 + daysInFirstWeek) / 7);
-    //     return `${today.getFullYear()}-W${weekNumber.toString().padStart(2, '0')}`;
-    // }
 
+    // Hàm cập nhật biểu đồ cho khoảng ngày
     function updateChartFromDateRange() {
-        console.log('Hàm được gọi'); // Kiểm tra xem hàm có được gọi không
         const startDatee = document.getElementById('startDatee').value;
         const endDatee = document.getElementById('endDatee').value;
-
-        console.log("Start Date:", startDatee);
-        console.log("End Date:", endDatee);
 
         if (!startDatee || !endDatee) {
             alert('Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc.');
             return;
         }
 
-        // Giả sử bạn có dữ liệu mẫu
-        const timeData = @json($timeData);
+        const timeData = @json($timeData); // Dữ liệu gốc
 
         // Chuyển đổi ngày thành đối tượng Date
         const start = new Date(startDatee);
@@ -1126,43 +1046,11 @@
             return itemDate >= start && itemDate < end;
         });
 
-        console.log("Filtered Data:", filteredData);
-
-        // Cập nhật biểu đồ với dữ liệu đã lọc
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng ngày', filteredData);
             displayTotalSummary(filteredData);
         } else {
             alert('Không có dữ liệu trong khoảng ngày này.');
-        }
-    }
-
-    function updateChartFromWeekRange() {
-        const startWeek = document.getElementById('startWeek').value; // e.g., "2024-W49"
-        const endWeek = document.getElementById('endWeek').value; // e.g., "2024-W52"
-        const timeData = @json($timeData);
-
-        console.log("Start Week:", startWeek);
-        console.log("End Week:", endWeek);
-
-        if (!startWeek || !endWeek) {
-            alert('Vui lòng chọn cả tuần bắt đầu và tuần kết thúc.');
-            return;
-        }
-
-        // Lọc dữ liệu tuần
-        const filteredData = timeData['Tuần'].filter(item => {
-            return item.period.localeCompare(startWeek) >= 0 &&
-                item.period.localeCompare(endWeek) <= 0;
-        });
-
-        console.log("Filtered Data:", filteredData);
-
-        if (filteredData.length > 0) {
-            updateTimeReport('Khoảng tuần', filteredData);
-            displayTotalSummary(filteredData);
-        } else {
-            alert('Không có dữ liệu trong khoảng tuần được chọn.');
         }
     }
 
@@ -1175,13 +1063,11 @@
             return;
         }
 
-        const [startYear, startMonth] = startMonthValue.split('-');
-        const [endYear, endMonth] = endMonthValue.split('-');
+        const [startYear, startMonth] = startMonthValue.split('-').map(Number);
+        const [endYear, endMonth] = endMonthValue.split('-').map(Number);
 
         const timeData = @json($timeData); // Dữ liệu gốc
-
-        console.log('Start Month:', startMonth, 'Year:', startYear);
-        console.log('End Month:', endMonth, 'Year:', endYear);
+        console.log('Filtering data from:', startMonthValue, 'to:', endMonthValue);
 
         // Lọc dữ liệu trong khoảng tháng
         const filteredData = timeData['Tháng'].filter(item => {
@@ -1195,7 +1081,8 @@
             return isInStartRange && isInEndRange;
         });
 
-        console.log('Filtered data:', filteredData);
+
+        console.log('Filtered Data:', filteredData); // Log dữ liệu đã lọc
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng tháng', filteredData);
@@ -1206,33 +1093,36 @@
     }
 
     function updateChartFromYearRange() {
-        const startYearValue = document.getElementById('startYear').value; // Năm bắt đầu
-        const endYearValue = document.getElementById('endYear').value; // Năm kết thúc
+        const startYearValue = document.getElementById('startYear').value;
+        const endYearValue = document.getElementById('endYear').value;
 
         if (!startYearValue || !endYearValue) {
             alert('Vui lòng chọn cả năm bắt đầu và năm kết thúc.');
             return;
         }
 
+        const startYear = parseInt(startYearValue);
+        const endYear = parseInt(endYearValue);
+
+        if (startYear > endYear) {
+            alert('Năm bắt đầu phải nhỏ hơn hoặc bằng năm kết thúc.');
+            return;
+        }
+
         const timeData = @json($timeData); // Dữ liệu gốc
 
-        console.log('Start Year:', startYearValue);
-        console.log('End Year:', endYearValue);
-        console.log('Original Data:', timeData['Năm']); // Kiểm tra dữ liệu gốc
-
-        // Lọc dữ liệu trong khoảng năm từ mảng "Năm"
+        // Lọc dữ liệu theo khoảng năm
         const filteredData = timeData['Năm'].filter(item => {
-            const itemYear = item.period; // Năm từ dữ liệu
+            const itemYear = parseInt(item.period); // Chuyển thành số
+            console.log(`Checking year ${itemYear} with range ${startYearValue} - ${endYearValue}`);
             return itemYear >= parseInt(startYearValue) && itemYear <= parseInt(endYearValue);
         });
-
-        console.log('Filtered data:', filteredData); // In ra dữ liệu đã lọc
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng năm', filteredData);
             displayTotalSummary(filteredData);
         } else {
-            alert(`Không có dữ liệu cho khoảng thời gian từ năm ${startYearValue} đến năm ${endYearValue}.`);
+            alert(`Không có dữ liệu cho khoảng thời gian từ năm ${startYear} đến năm ${endYear}.`);
         }
     }
 </script>
