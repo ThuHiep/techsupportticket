@@ -971,6 +971,13 @@ input, select {
     .modalPass{
         width: 46%;
     }
+    .modal-content-request {
+        width: 58%!important;
+    }
+    .close-btn {
+        margin-top: -39px;
+        margin-right: -26px;
+    }
 }
 
 @media (max-width: 426px) {
@@ -1007,6 +1014,28 @@ input, select {
       font-size: 13px; /* Giảm kích thước chữ */
 
   }
+    .close-btn {
+        margin-top: -47px;
+        margin-right: 0px;
+    }
+    .modal-content-request h2 {
+        margin-top: -22px;
+        margin-left: 18px;
+        font-size: 21px;
+    }
+    .status-item {
+        gap:10px!important;
+    }
+    .modal-content-request{
+        padding: 45px 12px!important;
+        width: 85%!important;
+    }
+    .status-item.completed .circle {
+        margin-right: 25px!important;
+    }
+    #status-timeline {
+        margin-left: 17px;
+    }
 }
 
 @media (max-width: 376px) {
@@ -1028,6 +1057,29 @@ input, select {
   }
     .input-submit{
         width: 62%;
+    }
+
+    .close-btn {
+        margin-top: -47px;
+        margin-right: 0px;
+    }
+    .modal-content-request h2 {
+        margin-top: -22px;
+        margin-left: 0px;
+        font-size: 21px;
+    }
+    .status-item {
+        gap:10px!important;
+    }
+    .modal-content-request{
+        padding: 45px 12px!important;
+        width: 85%!important;
+    }
+    .status-item.completed .circle {
+        margin-right: 25px!important;
+    }
+    #status-timeline {
+        margin-left: 0px;
     }
 }
 
@@ -1535,7 +1587,7 @@ input#confirm-password:focus{
   margin: 10% auto;
   padding: 40px;
   border: 1px solid #888;
-  width: 60%;
+  width: 31%;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -1564,6 +1616,7 @@ input#confirm-password:focus{
   margin-bottom: 15px;
   display: flex;
   align-items: center;
+    gap: 15px;
 }
 
 .status-item .circle {
@@ -1577,6 +1630,7 @@ input#confirm-password:focus{
 
 .status-item.completed .circle {
   background-color: #4CAF50; /* Màu xanh cho trạng thái hoàn thành */
+    margin-right: 31px;
 }
 
 .status-item:last-child .line {
