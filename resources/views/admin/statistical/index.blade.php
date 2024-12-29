@@ -174,7 +174,6 @@
             <!--Biểu đồ phòng ban-->
             <div class="report-section" id="departmentReportContainer">
                 <h3>Báo cáo theo phòng ban</h3>
-                <p>Báo cáo này giúp quản lý số lượng yêu cầu hỗ trợ được xử lý bởi từng phòng ban.</p>
                 <div class="filter-container">
                     <label for="departmentFilter" class="filter-label"></label>
                     <select id="departmentFilter" onchange="updateDepartmentReport()">
@@ -862,7 +861,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('year', filteredData); // Pass 'year' as period
-            displayTotalSummaryByTime(filteredData);
+            displayTotalSummaryByTime(filteredData, 'year');
         } else {
             alert('Không có dữ liệu cho năm này.');
         }
@@ -874,6 +873,11 @@
 
         // Clear previous data
         timeDataList.innerHTML = '';
+
+        if (!filteredData || filteredData.length === 0) {
+            totalTimeRequests.innerHTML = "<strong style='color: red;'>Không có dữ liệu để hiển thị.</strong>";
+            return;
+        }
 
         let totalProcessing = 0;
         let totalPending = 0;
@@ -899,27 +903,41 @@
                 <td style="padding: 5px">${pending}</td>
                 <td style="padding: 5px">${completed}</td>
                 <td style="padding: 5px">${cancelled}</td>
-                <td style="padding: 5px"><strong>${processing + pending + completed + cancelled}</strong></td>
+                <td style="padding: 5px">${processing + pending + completed + cancelled}</td>
             </tr>
         `;
         });
 
-        // Get the first and last periods from the filtered data for the range
-        const firstPeriod = filteredData[0].period; // Assuming period is formatted as "YYYY"
+        const firstPeriod = filteredData[0].period;
         const lastPeriod = filteredData[filteredData.length - 1].period;
-        // Format the output based on whether the years are the same
+
         let totalRequestsText;
-        if (firstPeriod === lastPeriod) {
-            totalRequestsText = `Tổng số yêu cầu trong năm ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
-        } else {
-            totalRequestsText = `Tổng số yêu cầu từ ${firstPeriod} đến ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+
+        const validPeriodTypes = ['day', 'month', 'year', 'monthRange', 'yearRange', 'dateRange'];
+        if (!validPeriodTypes.includes(selectedPeriodType)) {
+            console.error("selectedPeriodType không hợp lệ:", selectedPeriodType);
+            return;
         }
 
-        // Update the total requests display with the specific range
+        // Format the output based on the selected period type
+        if (selectedPeriodType === 'day') {
+            totalRequestsText = `Tổng số yêu cầu trong ngày ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        } else if (selectedPeriodType === 'month') {
+            totalRequestsText = `Tổng số yêu cầu trong tháng ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        } else if (selectedPeriodType === 'year') {
+            totalRequestsText = `Tổng số yêu cầu trong năm ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        } else if (selectedPeriodType === 'monthRange') {
+            totalRequestsText = `Tổng số yêu cầu từ tháng ${firstPeriod} đến tháng ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        } else if (selectedPeriodType === 'yearRange') {
+            totalRequestsText = `Tổng số yêu cầu từ năm ${firstPeriod} đến năm ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        } else if (selectedPeriodType === 'dateRange') {
+            totalRequestsText = `Tổng số yêu cầu từ ngày ${firstPeriod} đến ngày ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+        }
+
         totalTimeRequests.innerHTML = `<strong>${totalRequestsText}</strong>`;
     }
 
-    
+
     {{--function updateChartFromDate() {--}}
     {{--    const date = document.getElementById('specificDate').value; // Lấy ngày từ input--}}
     {{--    const timeData = @json($timeData); // Đảm bảo dữ liệu timeData có sẵn ở đây--}}
@@ -1091,7 +1109,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng ngày', filteredData);
-            displayTotalSummaryByTime(filteredData);
+            displayTotalSummaryByTime(filteredData,'dateRange');
         } else {
             alert('Không có dữ liệu trong khoảng ngày này.');
         }
@@ -1129,7 +1147,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng tháng', filteredData);
-            displayTotalSummaryByTime(filteredData);
+            displayTotalSummaryByTime(filteredData, 'monthRange');
         } else {
             alert(`Không có dữ liệu cho khoảng thời gian từ tháng ${startMonth} năm ${startYear} đến tháng ${endMonth} năm ${endYear}.`);
         }
@@ -1163,7 +1181,7 @@
 
         if (filteredData.length > 0) {
             updateTimeReport('Khoảng năm', filteredData);
-            displayTotalSummaryByTime(filteredData);
+            displayTotalSummaryByTime(filteredData, 'yearRange');
         } else {
             alert(`Không có dữ liệu cho khoảng thời gian từ năm ${startYear} đến năm ${endYear}.`);
         }
