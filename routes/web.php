@@ -18,6 +18,7 @@ use App\Http\Controllers\guest\HomepageController;
 use App\Http\Controllers\guest\UserController;
 use App\Http\Controllers\guest\LoginController;
 use App\Http\Controllers\guest\GuestRequestController;
+use App\Http\Controllers\guest\ChatbotController;
 
 use App\Http\Controllers\login\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -206,3 +207,9 @@ Route::post('/pend-request/store', [GuestRequestController::class, 'store'])->mi
 Route::get('/api/request-status/{requestId}', [GuestRequestController::class, 'getRequestStatus'])
     ->middleware('auth') // Hoặc middleware phù hợp
     ->name('api.requestStatus');
+
+
+//Test-chat bot
+Route::get('/chatbot', [ChatbotController::class, 'index']);
+Route::post('/chatbot/chat', [ChatbotController::class, 'chat']);
+Route::get('/chatbot/faqs', [ChatbotController::class, 'getFAQs']); // Thêm route này
