@@ -14,6 +14,111 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+//    public function index()
+//    {
+//        $template = 'admin.statistical.index';
+//        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+//
+//        // Lấy loại yêu cầu từ cơ sở dữ liệu với số lượng yêu cầu
+//        $requestTypes = RequestType::withCount('requests')->get();
+//        //dd($requestTypes);
+//
+//        // Lấy phòng ban từ cơ sở dữ liệu
+//        $departments = Department::withCount('requests')->get();
+//        //dd($departments);
+//
+//        // Truy vấn để lấy số liệu yêu cầu theo ngày và trạng thái
+//        $query = DB::table('request')
+//            ->select(DB::raw('DAY(create_at) as day'), 'request_type_id', 'status', DB::raw('COUNT(request_id) as count'))
+//            ->groupBy(DB::raw('DAY(create_at), request_type_id, status'));
+//
+//        $data = $query->get()->groupBy('request_type_id');
+//        //dd($data);
+//
+//        // Chuyển đổi dữ liệu thành định dạng mong muốn
+//        $response = [];
+//        foreach ($data as $requestTypeId => $items) {
+//            // Khởi tạo mảng số liệu theo các trạng thái
+//            $counts = [
+//                'processed' => array_fill(0, 31, 0), // Đã xử lý
+//                'processing' => array_fill(0, 31, 0), // Đang xử lý
+//                'pending' => array_fill(0, 31, 0), // Chưa xử lý
+//                'cancelled' => array_fill(0, 31, 0)  // Đã hủy
+//            ];
+//
+//            foreach ($items as $item) {
+//                $statusKey = $item->status;  // Trạng thái yêu cầu
+//                if (array_key_exists($statusKey, $counts)) {
+//                    $counts[$statusKey][$item->day - 1] = $item->count;
+//                }
+//            }
+//
+//            // Tìm kiếm tên loại yêu cầu
+//            $requestType = $requestTypes->firstWhere('id', $requestTypeId);
+//            if ($requestType) {
+//                $response[] = [
+//                    'request_type_name' => $requestType->request_type_name,
+//                    'counts' => $counts
+//                ];
+//            }
+//
+//        }
+//
+//        // Lấy danh sách khách hàng
+//        $activeCustomers = Customer::where('status', 'active')
+//            ->withCount('requests') // Đếm số lượng yêu cầu
+//            ->get(['customer_id', 'full_name']);
+//
+//        // Màu sắc của các khách hàng
+//        $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
+//
+//        // Tạo màu sắc cho phòng ban
+//        $departmentColors = [];
+//        foreach ($departments as $index => $department) {
+//            $departmentColors[$department->department_name] = $customerColors[$index % count($customerColors)];
+//        }
+//
+//        // Initialize an array to hold department data
+//        $departmentData = [];
+//
+//        // Loop through each department to gather request statistics
+//        foreach ($departments as $department) {
+//            $requestCounts = DB::table('request')
+//                ->select('status', DB::raw('count(*) as count'))
+//                ->where('department_id', $department->department_id)
+//                ->groupBy('status')
+//                ->get()
+//                ->pluck('count', 'status')
+//                ->toArray();
+//
+//            $departmentData[$department->department_name] = [
+//                'Đang xử lý' => $requestCounts['Đang xử lý'] ?? 0,
+//                'Chưa xử lý' => $requestCounts['Chưa xử lý'] ?? 0,
+//                'Hoàn thành' => $requestCounts['Hoàn thành'] ?? 0,
+//                'Đã hủy' => $requestCounts['Đã hủy'] ?? 0,
+//            ];
+//        }
+//
+//        //Time
+//        $timeData = $this->getTimeBasedStatistics();
+//        //dd($timeData); // Kiểm tra cấu trúc của $timeData
+//
+//        //dd($requestTypes);
+//        // Trả về view với dữ liệu đã xử lý
+//        return view('admin.dashboard.layout', compact(
+//            'response',
+//            'template',
+//            'requestTypes',
+//            'logged_user',
+//            'activeCustomers',
+//            'customerColors',
+//            'departments',
+//            'departmentColors',
+//            'departmentData',
+//            'timeData'
+//        ));
+//    }
+
     public function index()
     {
         $template = 'admin.statistical.index';
@@ -21,11 +126,9 @@ class ReportController extends Controller
 
         // Lấy loại yêu cầu từ cơ sở dữ liệu với số lượng yêu cầu
         $requestTypes = RequestType::withCount('requests')->get();
-        //dd($requestTypes);
 
         // Lấy phòng ban từ cơ sở dữ liệu
         $departments = Department::withCount('requests')->get();
-        //dd($departments);
 
         // Truy vấn để lấy số liệu yêu cầu theo ngày và trạng thái
         $query = DB::table('request')
@@ -34,34 +137,26 @@ class ReportController extends Controller
 
         $data = $query->get()->groupBy('request_type_id');
 
-        // Chuyển đổi dữ liệu thành định dạng mong muốn
-        $response = [];
-        foreach ($data as $requestTypeId => $items) {
-            // Khởi tạo mảng số liệu theo các trạng thái
-            $counts = [
-                'processed' => array_fill(0, 31, 0), // Đã xử lý
-                'processing' => array_fill(0, 31, 0), // Đang xử lý
-                'pending' => array_fill(0, 31, 0), // Chưa xử lý
-                'cancelled' => array_fill(0, 31, 0)  // Đã hủy
+        // Initialize an array to hold request type data
+        $requestTypeData = [];
+
+        foreach ($requestTypes as $requestType) {
+            $requestCounts = DB::table('request')
+                ->select('status', DB::raw('count(*) as count'))
+                ->where('request_type_id', $requestType->request_type_id)
+                ->groupBy('status')
+                ->get()
+                ->pluck('count', 'status')
+                ->toArray();
+
+            $requestTypeData[$requestType->request_type_name] = [
+                'Đang xử lý' => $requestCounts['Đang xử lý'] ?? 0,
+                'Chưa xử lý' => $requestCounts['Chưa xử lý'] ?? 0,
+                'Hoàn thành' => $requestCounts['Hoàn thành'] ?? 0,
+                'Đã hủy' => $requestCounts['Đã hủy'] ?? 0,
             ];
-
-            foreach ($items as $item) {
-                $statusKey = $item->status;  // Trạng thái yêu cầu
-                if (array_key_exists($statusKey, $counts)) {
-                    $counts[$statusKey][$item->day - 1] = $item->count;
-                }
-            }
-
-            // Tìm kiếm tên loại yêu cầu
-            $requestType = $requestTypes->firstWhere('id', $requestTypeId);
-            if ($requestType) {
-                $response[] = [
-                    'request_type_name' => $requestType->request_type_name,
-                    'counts' => $counts
-                ];
-            }
         }
-
+        //dd($requestTypeData);
         // Lấy danh sách khách hàng
         $activeCustomers = Customer::where('status', 'active')
             ->withCount('requests') // Đếm số lượng yêu cầu
@@ -81,6 +176,7 @@ class ReportController extends Controller
 
         // Loop through each department to gather request statistics
         foreach ($departments as $department) {
+
             $requestCounts = DB::table('request')
                 ->select('status', DB::raw('count(*) as count'))
                 ->where('department_id', $department->department_id)
@@ -96,14 +192,14 @@ class ReportController extends Controller
                 'Đã hủy' => $requestCounts['Đã hủy'] ?? 0,
             ];
         }
+        //dd($departmentData);
 
-        //Time
+        // Time-based statistics
         $timeData = $this->getTimeBasedStatistics();
-        //dd($timeData); // Kiểm tra cấu trúc của $timeData
 
         // Trả về view với dữ liệu đã xử lý
         return view('admin.dashboard.layout', compact(
-            'response',
+            'data',
             'template',
             'requestTypes',
             'logged_user',
@@ -112,6 +208,7 @@ class ReportController extends Controller
             'departments',
             'departmentColors',
             'departmentData',
+            'requestTypeData', // Gửi dữ liệu trạng thái theo loại yêu cầu
             'timeData'
         ));
     }
@@ -146,7 +243,10 @@ class ReportController extends Controller
         $period = $request->input('period');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $data = [];
+        $data = DB::table('request')
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->groupBy('status')
+            ->get();
 
         // Kiểm tra xem startDate và endDate có được gửi hay không
         if ($startDate && $endDate) {

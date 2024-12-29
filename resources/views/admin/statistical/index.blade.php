@@ -34,7 +34,7 @@
             margin: 10px 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-    
+
         .progress-bar {
             width: 100%;
             height: 10px;
@@ -140,8 +140,8 @@
                 <h3>Báo cáo theo khách hàng</h3>
                 <div class="filter-container">
                     <div style="position: relative;">
-                        <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..." 
-                               onkeyup="filterCustomers('name')" 
+                        <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..."
+                               onkeyup="filterCustomers('name')"
                                style="width: 100%; padding-right: 30px;">
                         <a href="{{ route('statistical.index') }}"
                            id="clearButton"
@@ -149,7 +149,7 @@
                            ✖
                         </a>
                     </div>
-                    
+
                     <input type="text" id="customerIdInput" placeholder="Nhập mã khách hàng..." onkeyup="filterCustomers('id')">
                     <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
@@ -158,16 +158,16 @@
                 </div>
             </div>
             <!--Biểu đồ loại yêu cầu-->
-            <div class="report-section" id="requestTypeReportContainer" style="display: none;">
+            <div class="report-section" id="requestTypeReportContainer" style="display: block;">
                 <h3>Báo cáo theo loại yêu cầu</h3>
                 <div class="filter-container">
-                    <button id="btnToday" type="button" onclick="filterBy('today')">Ngày</button>
-                    <button id="btnMonthly" type="button" onclick="filterBy('monthly')">Tháng</button>
-                    <button id="btnYearly" type="button" onclick="filterBy('yearly')">Năm</button>
-                    <label for="startDate" class="filter-label">Từ:</label>
-                    <input type="date" id="startDate" onchange="filterByDates()">
-                    <label for="endDate" class="filter-label">Đến:</label>
-                    <input type="date" id="endDate" onchange="filterByDates()">
+                    <label for="requestTypeSelect"></label>
+                    <select id="requestTypeSelect" onchange="updateChartBasedOnSelection()">
+                        <option value="all">Tất cả loại yêu cầu</option>
+                        @foreach (array_keys($requestTypeData) as $requestType)
+                            <option value="{{ $requestType }}">{{ $requestType }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <canvas id="requestTypeChart"></canvas>
             </div>
@@ -205,19 +205,6 @@
                             <input type="date" id="endDatee" onchange="updateChartFromDateRange()">
                         </div>
                     </div>
-
-{{--                    <button class="btn" onclick="showInput('week')">Chọn Tuần</button>--}}
-{{--                    <div id="weekInput" style="display: none;">--}}
-{{--                        <label for="specificWeek">Chọn tuần:</label>--}}
-{{--                        <input type="week" id="specificWeek" onchange="updateChartFromWeek()">--}}
-{{--                        <div id="weekRangeInput">--}}
-{{--                            <label for="startWeek">Tuần bắt đầu:</label>--}}
-{{--                            <input type="week" id="startWeek" onchange="updateChartFromWeekRange()">--}}
-{{--                            <label for="endWeek">Tuần kết thúc:</label>--}}
-{{--                            <input type="week" id="endWeek" onchange="updateChartFromWeekRange()">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
                     <button class="btn" onclick="showInput('monthSelection')">Chọn Tháng or Tháng Tháng</button>
                     <div id="monthSelectionInput" style="display: none;">
                         <div id="monthInput">
@@ -286,13 +273,23 @@
                 </div>
                 <ul id="customerDataList"></ul>
             </div>
+            <!--Số liệu loại yêu cầu-------------->
             <div class="report-section" id="requestTypeDataContainer" style="display: none;">
                 <h3>Số liệu tổng hợp</h3>
+                <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
+                    <thead>
+                    <tr>
+                        <th style="padding: 5px">Loại yêu cầu</th>
+                        <th style="padding: 5px">Đang xử lý</th>
+                        <th style="padding: 5px">Chưa xử lý</th>
+                        <th style="padding: 5px">Hoàn thành</th>
+                        <th style="padding: 5px">Đã hủy</th>
+                        <th style="padding: 5px">Tổng</th>
+                    </tr>
+                    </thead>
+                    <tbody id="requestTypeDataList"></tbody>
+                </table>
                 <p id="totalRequestTypeRequests"></p>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 22%;"></div>
-                </div>
-                <ul id="requestTypeDataList"></ul>
             </div>
             <!--Số liệu phòng ban-->
             <div class="report-section" id="departmentDataContainer" style="display: none;">
@@ -309,7 +306,7 @@
                         </tr>
                     </thead>
                     <tbody id="departmentDataList"></tbody>
-                </table>                
+                </table>
                 <p id="totalDepartmentRequests"></p>
             </div>
             <!--Số liệu thời gian-->
@@ -388,8 +385,6 @@
     };
     //
 
-
-    // Biểu đồ khách hàng
     // Biểu đồ khách hàng
     const customerCtx = document.getElementById('customerReport').getContext('2d');
     let customerChart = new Chart(customerCtx, {
@@ -534,119 +529,136 @@
 
 
     ///////////////////////////////////////////////////////////////////////////////
-    const initialData = {
-        @foreach($requestTypes as $type)
-        '{{ $type->request_type_name }}': {{ $type->requests_count }},
-        @endforeach
-    };
+    const initialData = @json($requestTypeData);
+    let currentChart = null; // Biến để giữ biểu đồ hiện tại
 
-    const ctx = document.getElementById('requestTypeChart').getContext('2d');
-    let requestTypeChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: Object.keys(initialData),
-            datasets: [{
-                label: 'Số yêu cầu',
-                data: Object.values(initialData),
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    function drawRequestTypeChart(data) {
+        const ctx = document.getElementById('requestTypeChart').getContext('2d');
+
+        // Nếu biểu đồ đã tồn tại, hủy nó trước khi vẽ lại
+        if (currentChart) {
+            currentChart.destroy();
+        }
+
+        const labels = Object.keys(data);
+        const statuses = ['Đang xử lý', 'Chưa xử lý', 'Hoàn thành', 'Đã hủy'];
+
+        const backgroundColors = [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)'
+        ];
+
+        const datasets = statuses.map((status, index) => ({
+            label: status,
+            data: labels.map(label => (data[label] && data[label][status]) ? data[label][status] : 0),
+            backgroundColor: backgroundColors[index],
+            borderColor: backgroundColors[index],
+            borderWidth: 1
+        }));
+
+        currentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: datasets
             },
-            plugins: {
-                legend: {
-                    position: 'top',
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Loại yêu cầu' },
+                        ticks: { autoSkip: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Số lượng yêu cầu' }
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
+                            }
                         }
                     }
                 }
             }
-        }
+        });
+    }
+
+    function updateChartRequestType() {
+        const data = initialData; // Sử dụng dữ liệu từ biến PHP
+        drawRequestTypeChart(data);
+        updateRequestTypeData(); // Cập nhật số liệu tổng hợp
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateChartRequestType();
+        populateRequestTypeSelect();
+
+        // Kiểm tra lựa chọn đã lưu trong localStorage
+        const savedType = localStorage.getItem('selectedRequestType') || 'all';
+        document.getElementById('requestTypeSelect').value = savedType;
+        updateChartBasedOnSelection(); // Cập nhật dữ liệu dựa trên lựa chọn đã lưu
     });
 
-    function updateRequestTypeData() {
+    function updateRequestTypeData(selectedType = 'all') {
         const requestTypeDataList = document.getElementById('requestTypeDataList');
         const totalRequestTypeRequests = document.getElementById('totalRequestTypeRequests');
         requestTypeDataList.innerHTML = '';
 
         let totalRequests = 0;
-        for (const [key, value] of Object.entries(initialData)) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${key}: ${value} yêu cầu`;
+
+        // Lọc dữ liệu theo loại yêu cầu
+        const dataToDisplay = selectedType === 'all' ? initialData : { [selectedType]: initialData[selectedType] };
+
+        for (const [typeName, statuses] of Object.entries(dataToDisplay)) {
+            const listItem = document.createElement('tr');
+            const requestCount = Object.values(statuses).reduce((a, b) => a + b, 0); // Tính tổng số yêu cầu cho loại này
+
+            listItem.innerHTML = `
+            <td style="padding: 5px">${typeName}</td>
+            <td style="padding: 5px">${statuses['Đang xử lý'] || 0}</td>
+            <td style="padding: 5px">${statuses['Chưa xử lý'] || 0}</td>
+            <td style="padding: 5px">${statuses['Hoàn thành'] || 0}</td>
+            <td style="padding: 5px">${statuses['Đã hủy'] || 0}</td>
+            <td style="padding: 5px"><strong>${requestCount}</strong></td>
+        `;
+
             requestTypeDataList.appendChild(listItem);
-            totalRequests += value; // Tính tổng số yêu cầu
+            totalRequests += requestCount; // Tính tổng số yêu cầu
         }
-        totalRequestTypeRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`; // Hiển thị tổng số yêu cầu
+
+        totalRequestTypeRequests.innerHTML = `<strong>Tổng số yêu cầu:</strong> <strong>${totalRequests}</strong>`; // In đậm "Tổng" và số yêu cầu
     }
 
-    async function filterByDates() {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
+    // Hàm để thêm các loại yêu cầu vào dropdown
+    function populateRequestTypeSelect() {
+        const selectElement = document.getElementById('requestTypeSelect');
 
-        if (startDate && endDate) {
-            let url = `http://localhost:8000/api/get-request-data?startDate=${startDate}&endDate=${endDate}`;
+        // Xóa tất cả các tùy chọn hiện tại (nếu có)
+        selectElement.innerHTML = '<option value="all">Tất cả</option>';
 
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    const errorMessage = await response.text();
-                    throw new Error('Network response was not ok: ' + errorMessage);
-                }
-                const filteredData = await response.json();
-                updateChartWithFilteredData(filteredData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                alert('Đã xảy ra lỗi khi tải dữ liệu: ' + error.message);
-            }
+        for (const typeName of Object.keys(initialData)) {
+            const option = document.createElement('option');
+            option.value = typeName;
+            option.textContent = typeName;
+            selectElement.appendChild(option);
         }
     }
 
-    async function filterBy(period) {
-        let filteredData = {};
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
+    // Hàm để cập nhật biểu đồ dựa trên lựa chọn
+    function updateChartBasedOnSelection() {
+        const selectedType = document.getElementById('requestTypeSelect').value;
+        const dataToDisplay = selectedType === 'all' ? initialData : { [selectedType]: initialData[selectedType] };
 
-        let url = `http://localhost:8000/api/get-request-data?period=${period}`;
-
-        if (startDate && endDate) {
-            await filterByDates();
-            return;
-        }
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                const errorMessage = await response.text();
-                throw new Error('Network response was not ok: ' + errorMessage);
-            }
-            filteredData = await response.json();
-            updateChartWithFilteredData(filteredData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            alert('Đã xảy ra lỗi khi tải dữ liệu: ' + error.message);
-            return;
-        }
-
-        requestTypeChart.data.labels = Object.keys(filteredData);
-        requestTypeChart.data.datasets[0].data = Object.values(filteredData);
-        requestTypeChart.update();
-    }
-
-    function updateChartWithFilteredData(filteredData) {
-        requestTypeChart.data.labels = Object.keys(filteredData);
-        requestTypeChart.data.datasets[0].data = Object.values(filteredData);
-        requestTypeChart.update();
+        drawRequestTypeChart(dataToDisplay); // Gọi hàm vẽ biểu đồ với dữ liệu đã lọc
+        updateRequestTypeData(selectedType); // Cập nhật số liệu tương ứng
+        localStorage.setItem('selectedRequestType', selectedType); // Lưu lựa chọn vào localStorage
     }
 
     // Đảm bảo rằng biểu đồ và số liệu được hiển thị khi trang tải
@@ -729,50 +741,44 @@
             let totalCompleted = 0;
             let totalCanceled = 0;
 
-            // Filter for the statistics table
-            filteredLabels.forEach(department => {
-                const data = filteredData[department];
-                const processing = data ? data["Đang xử lý"] || 0 : 0;
-                const notProcessed = data ? data["Chưa xử lý"] || 0 : 0;
-                const completed = data ? data["Hoàn thành"] || 0 : 0;
-                const canceled = data ? data["Đã hủy"] || 0 : 0;
+            // Show all departments in the statistics table
+            labels.forEach(department => {
+                const data = filteredData[department] || { "Đang xử lý": 0, "Chưa xử lý": 0, "Hoàn thành": 0, "Đã hủy": 0 };
+                const processing = data["Đang xử lý"] || 0;
+                const notProcessed = data["Chưa xử lý"] || 0;
+                const completed = data["Hoàn thành"] || 0;
+                const canceled = data["Đã hủy"] || 0;
                 const total = processing + notProcessed + completed + canceled;
-               
 
-                // Only add the row if there is at least one non-zero status
-                if (processing > 0 || notProcessed > 0 || completed > 0 || canceled > 0) {
-                    const row = document.createElement('tr');
+                // Add the row for each department
+                const row = document.createElement('tr');
+                totalProcessing += processing;
+                totalNotProcessed += notProcessed;
+                totalCompleted += completed;
+                totalCanceled += canceled;
 
-                    // Update total counts
-                    totalProcessing += processing;
-                    totalNotProcessed += notProcessed;
-                    totalCompleted += completed;
-                    totalCanceled += canceled;
-
-                    row.innerHTML = `
-                        <td>${department}</td>
-                        <td>${processing}</td>
-                        <td>${notProcessed}</td>
-                        <td>${completed}</td>
-                        <td>${canceled}</td>
-                        <td><strong>${total}</strong></td>
-                    `;
-                    statisticsData.appendChild(row);
-                }
+                row.innerHTML = `
+                <td>${department}</td>
+                <td>${processing}</td>
+                <td>${notProcessed}</td>
+                <td>${completed}</td>
+                <td>${canceled}</td>
+                <td><strong>${total}</strong></td>
+            `;
+                statisticsData.appendChild(row);
             });
 
-            // Create total row for status counts
             // Create total row for status counts
             const totalRow = document.createElement('tr');
             const grandTotal = totalProcessing + totalNotProcessed + totalCompleted + totalCanceled;
             totalRow.innerHTML = `
-                <td><strong>Tổng:</strong></td>
-                <td><strong>${totalProcessing}</strong></td>
-                <td><strong>${totalNotProcessed}</strong></td>
-                <td><strong>${totalCompleted}</strong></td>
-                <td><strong>${totalCanceled}</strong></td>
-                <td><strong>${grandTotal}</strong></td>
-            `;
+            <td><strong>Tổng:</strong></td>
+            <td><strong>${totalProcessing}</strong></td>
+            <td><strong>${totalNotProcessed}</strong></td>
+            <td><strong>${totalCompleted}</strong></td>
+            <td><strong>${totalCanceled}</strong></td>
+            <td><strong>${grandTotal}</strong></td>
+        `;
             statisticsData.appendChild(totalRow);
         }
 
