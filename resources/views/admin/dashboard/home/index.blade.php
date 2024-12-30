@@ -1,4 +1,3 @@
-
 <div class="wrapper wrapper-content">
     <div class="row">
         <!-- Khách hàng -->
@@ -88,18 +87,19 @@
     <script src="admin/js/plugins/flot/jquery.flot.js"></script>
     <script src="admin/js/plugins/flot/jquery.flot.pie.js"></script>
     <script src="admin/js/plugins/chartJs/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Chuyển mảng PHP sang JSON để sử dụng trong JavaScript
-            var requestStatusCounts = {!! json_encode($requestStatusCounts) !!};
+            var requestStatusCounts = JSON.parse('{!! json_encode($requestStatusCounts) !!}');
 
             // Kiểm tra giá trị của requestStatusCounts
             console.log(requestStatusCounts);
 
             // Dữ liệu biểu đồ pie
             var data = {
-                labels: ["Chưa xử lý", "Đang xử lý", "Hoàn thành", "Đã hủy"],  // Các nhãn cho từng trạng thái
+                labels: ["Chưa xử lý", "Đang xử lý", "Hoàn thành", "Đã hủy"], // Các nhãn cho từng trạng thái
                 datasets: [{
                     data: [
                         requestStatusCounts.processing,
@@ -107,7 +107,7 @@
                         requestStatusCounts.completed,
                         requestStatusCounts.cancelled
                     ],
-                    backgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"],  // Màu sắc cho mỗi trạng thái
+                    backgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"], // Màu sắc cho mỗi trạng thái
                     hoverBackgroundColor: ["#F2636B", "#FF9700", "#1AB394", "#A6A8AA"]
                 }]
             };
@@ -139,9 +139,10 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Chuyển đổi dữ liệu requestData từ PHP thành định dạng phù hợp cho biểu đồ
-            var requestData = {!! json_encode($requestData) !!};
+            var requestData = JSON.parse('{!!json_encode($requestData) !!}');
+
             var data = [];
             var ticks = [];
 
@@ -152,9 +153,10 @@
                 ticks.push([i, requestData[i].day]);
             }
 
-            const chartData = [
-                { label: "Yêu cầu", data: data }
-            ];
+            const chartData = [{
+                label: "Yêu cầu",
+                data: data
+            }];
 
             // Cấu hình biểu đồ
             const options = {
@@ -165,7 +167,7 @@
                 },
                 yaxis: {
                     min: 0,
-                    tickFormatter: function (val) {
+                    tickFormatter: function(val) {
                         return parseFloat(val).toFixed(1); // Định dạng giá trị y với 1 chữ số thập phân
                     }
                 },
@@ -190,5 +192,16 @@
             // Vẽ biểu đồ với dữ liệu và cấu hình
             $.plot($("#flot-dashboard-chart"), chartData, options);
         });
+
+        @if(session('success'))
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Thành công!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+        @endif
     </script>
 </div>
