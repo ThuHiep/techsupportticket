@@ -51,9 +51,10 @@ class CustomerController extends Controller
     {
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
 
-        // Sinh customer_id ngẫu nhiên
-        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-
+        // Sinh customer_id ngẫu nhiên và kiểm tra trùng lặp
+        do {
+            $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        } while (Customer::where('customer_id', $randomId)->exists());
 
         // Sinh username ngẫu nhiên
         $username = 'user' . mt_rand(100000, 999999);
