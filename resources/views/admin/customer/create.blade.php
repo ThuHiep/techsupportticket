@@ -34,12 +34,12 @@
             <div class="col-md-9">
                 <div class="row mb-3">
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                         <input type="text" id="username" name="username" class="form-control" value="{{ old('username', $username) }}" readonly required>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" value="{{ old('full_name') }}" required>
                         <small id="name-error" class="text-danger" style="display: none;">Vui lòng nhập tên khách hàng!</small>

@@ -196,7 +196,7 @@
 
     <!-- Phần Phản hồi -->
     <div class="reply-container" style="display: none;">
-        <h3>Phản hồi</h3>
+        <h1>Phản hồi</h1>
         <form id="replyForm" method="POST" action="{{ route('request.reply', $supportRequest->request_id) }}">
             @csrf
             
