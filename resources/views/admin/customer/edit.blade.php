@@ -8,57 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_edit.css') }}">
     <title>Chỉnh sửa khách hàng</title>
-    <style>
-        /* Khi sidebar ở trạng thái bình thường */
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Khi sidebar thu nhỏ */
-        body.mini-navbar .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .required {
-            color: red;
-            font-size: 14px;
-        }
-         .custom-select {
-             position: relative;
-             width: 100%;
-             border: 1px solid #ccc;
-             cursor: pointer;
-         }
-
-        .selected {
-            padding: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .options {
-            display: none;
-            border: 1px solid #ccc;
-            position: absolute;
-            background-color: white;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .option {
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .option:hover {
-            background-color: #f1f1f1;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -83,6 +32,17 @@
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" value="{{ $customers->full_name }}" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
+                        <select id="status" name="status" class="form-control" onchange="updateStatusStyle(this)">
+                            <option value="active" data-color="green" {{ $customers->status === 'active' ? 'selected' : '' }}>
+                                Hoạt động
+                            </option>
+                            <option value="inactive" data-color="red" {{ $customers->status === 'inactive' ? 'selected' : '' }}>
+                                Ngừng hoạt động
+                            </option>
+                        </select>
                     </div>
                 </div>
 
@@ -125,53 +85,20 @@
 
                 <!-- Địa chỉ + Website -->
                 <div class="row mb-3 address-website-container">
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" value="{{ $customers->address }}" required>
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="email" class="form-label">Email<span class="required">*</span></label>
                         <input type="email" id="email" name="email" class="form-control" value="{{ $customers->email }}">
                     </div>
-                </div>
-                <div class="row mb-3 address-website-container">
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control" value="{{ $customers->website }}">
                     </div>
-                    {{-- <div class="form-group col-6">
-                        <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
-                        <div class="custom-select">
-                            <div class="selected" id="selectedStatus">
-                                <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
-                                Hoạt động
-                            </div>
-                            <div class="options" style="display: none;">
-                                <div class="option" data-value="active" onclick="selectStatus('active')">
-                                    <span style="color:green; font-size: 24px; margin-right: 5px;">&#8226;</span>
-                                    Hoạt động
-                                </div>
-                                <div class="option" data-value="inactive" onclick="selectStatus('inactive')">
-                                    <span style="color:red; font-size: 24px; margin-right: 5px;">&#8226;</span>
-                                    Ngừng hoạt động
-                                </div>
-                            </div>
-                            <input type="hidden" name="status" id="status" value="{{ $customers->status }}">
-                        </div>
-                    </div> --}}
-                    <div class="form-group col-6">
-                        <label for="status" class="form-label">Trạng thái<span class="required">*</span></label>
-                        <select id="status" name="status" class="form-control" onchange="updateStatusStyle(this)">
-                            <option value="active" data-color="green" {{ $customers->status === 'active' ? 'selected' : '' }}>
-                                Hoạt động
-                            </option>
-                            <option value="inactive" data-color="red" {{ $customers->status === 'inactive' ? 'selected' : '' }}>
-                                Ngừng hoạt động
-                            </option>
-                        </select>
-                    </div>
-
                 </div>
+                
 
             </div>
 
