@@ -120,7 +120,9 @@ Route::name('request.')->group(function () {
     Route::get('/request/create', [RequestController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/request/store', [RequestController::class, 'store'])->middleware('customersp')->name('store');
     Route::get('/request/edit/{request_id}', [RequestController::class, 'edit'])->middleware('customersp')->name('edit');
-
+    Route::post('/request/reply/{request_id}', [RequestController::class, 'reply'])
+        ->middleware('customersp')
+        ->name('reply');
     Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->middleware('customersp')->name('update');
     Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->middleware('customersp')->name('delete');
 

@@ -190,11 +190,28 @@
                     {{-- Nhóm nút Submit và Cancel --}}
                     <div class="button-group">
                         <button type="submit" class="submit-button">Cập nhật </button>
-                        <button type="submit" class="reply-button">Phản hồi </button>
+                        <a href="#" class="reply-button" onclick="showReplyForm(); return false;">Phản hồi</a>
                         <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
                     </div>
                 </div>
             </div>
+        </form>
+    </div>
+
+    <!-- Phần Phản hồi -->
+    <div class="reply-container" style="display: none;">
+        <h3>Phản hồi</h3>
+        <form id="replyForm" method="POST" action="{{ route('request.reply', $supportRequest->request_id) }}">
+            @csrf
+            <div class="form-group">
+                <label for="reply_content">Nội dung phản hồi:</label>
+                <textarea id="reply_content" name="reply_content" rows="4" required></textarea>
+                @error('reply_content')
+                <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+            <button type="submit" class="submit-button">Gửi Phản Hồi</button>
+            <button type="button" class="cancel-button" onclick="hideReplyForm()">Hủy</button>
         </form>
     </div>
 
@@ -247,18 +264,26 @@
     document.querySelector('.custom-file-input').addEventListener('change', function(event) {
         const fileName = event.target.files[0] ? event.target.files[0].name : 'Chọn file';
 
-        // Hiển thị tên file mới trong phần tử có id "new-file-name"
         const newFileNameElement = document.getElementById('new-file-name');
         if(newFileNameElement) {
             newFileNameElement.innerText = fileName ? `File mới: ${fileName}` : '';
         }
 
-        // Cập nhật label của file input
         const fileLabel = event.target.nextElementSibling;
         if(fileLabel && fileLabel.classList.contains('custom-file-label')) {
             fileLabel.innerText = fileName ? fileName : 'Chọn file';
         }
     });
+
+    function showReplyForm() {
+        document.querySelector('.reply-container').style.display = 'block';
+        document.querySelector('.history-container').style.marginTop = '20px'; // Đẩy lịch sử yêu cầu xuống
+    }
+
+    function hideReplyForm() {
+        document.querySelector('.reply-container').style.display = 'none';
+        document.querySelector('.history-container').style.marginTop = '0'; // Khôi phục lại vị trí
+    }
 </script>
 
 <!-- JavaScript SweetAlert và các script khác -->
@@ -266,19 +291,17 @@
     // SweetAlert và các script khác như trước
     // ...
 
-    // Tự động ẩn thông báo tìm kiếm sau 3 giây
     setTimeout(function() {
         var searchNotification = document.getElementById('search-notification');
         if (searchNotification) {
             searchNotification.style.transition = 'opacity 0.5s ease-out';
             searchNotification.style.opacity = '0';
-            setTimeout(() => searchNotification.style.display = 'none', 500); // Ẩn hoàn toàn sau hiệu ứng mờ dần
+            setTimeout(() => searchNotification.style.display = 'none', 500);
         }
     }, 3000);
 
-    // Xác nhận xóa yêu cầu
     function showDeleteModal(event, formId) {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của nút
+        event.preventDefault();
 
         Swal.fire({
             title: 'Bạn có chắc chắn muốn xóa yêu cầu này?',
@@ -291,7 +314,7 @@
             cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById(formId).submit(); // Thực hiện xóa nếu người dùng xác nhận
+                document.getElementById(formId).submit();
             }
         });
     }
@@ -318,7 +341,6 @@
     });
     @endif
 
-    // JavaScript để điều khiển hiển thị các ô input tìm kiếm bổ sung
     document.addEventListener('DOMContentLoaded', function() {
         const searchFieldSelect = document.getElementById('search_field');
         const additionalSearchFields = document.querySelectorAll('.additional-search .search-field');
@@ -338,38 +360,26 @@
             }
         }
 
-        // Gọi hàm khi trang được tải lần đầu
         updateSearchFields();
 
-        // Gọi hàm khi chọn thay đổi
         searchFieldSelect.addEventListener('change', updateSearchFields);
     });
-</script>
 
-<!-- JavaScript Cập Nhật Trạng Thái Khi Chọn Phòng Ban -->
-<script>
     document.addEventListener('DOMContentLoaded', function() {
         const departmentSelect = document.getElementById('department_id');
         const statusSelect = document.getElementById('status');
 
-        // Lưu trạng thái ban đầu khi trang được tải
         const initialStatus = statusSelect.value;
 
         function updateStatusOptions() {
             if(departmentSelect.value && initialStatus === 'Chưa xử lý') {
-                // Nếu phòng ban được chọn và trạng thái ban đầu là "Chưa xử lý"
                 statusSelect.value = 'Đang xử lý';
-
-                // Loại bỏ tùy chọn "Chưa xử lý" nếu tồn tại
                 const chuaXuLyOption = statusSelect.querySelector('option[value="Chưa xử lý"]');
                 if(chuaXuLyOption) {
                     chuaXuLyOption.remove();
                 }
             } else if (!departmentSelect.value && initialStatus !== 'Chưa xử lý') {
-                // Nếu phòng ban bị bỏ chọn và trạng thái không phải "Chưa xử lý"
                 statusSelect.value = 'Chưa xử lý';
-
-                // Thêm lại tùy chọn "Chưa xử lý" nếu chưa có
                 if(!statusSelect.querySelector('option[value="Chưa xử lý"]')) {
                     const option = document.createElement('option');
                     option.value = 'Chưa xử lý';
@@ -379,7 +389,6 @@
             }
         }
 
-        // Thêm event listener khi phòng ban được thay đổi
         departmentSelect.addEventListener('change', updateStatusOptions);
     });
 </script>
