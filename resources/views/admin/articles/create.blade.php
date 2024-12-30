@@ -35,19 +35,6 @@
         @csrf
         <div class="row mb-3">
             <div class="col-md-8">
-                <div class="form-group">
-                    <label for="article_id">Mã bài viết:<span class="required">*</span></label>
-                    <input
-                        type="text"
-                        name="article_id"
-                        id="article_id"
-                        value="{{ $nextId ?? '' }}"
-                        readonly
-                    >
-                    @error('article_id')
-                    <div class="error visible">{{ $message }}</div>
-                    @enderror
-                </div>
                 <!-- Tiêu đề -->
             <div class="form-group">
                 <label for="title">Tiêu đề:<span class="required">*</span></label>

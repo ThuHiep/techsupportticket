@@ -33,10 +33,6 @@
         <div class="row mb-3">
             <div class="col-md-9">
                 <div class="row mb-3">
-                    <div class="form-group col-md-4">
-                        <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
-                        <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ old('customer_id', $randomId) }}" readonly required>
-                    </div>
 
                     <div class="form-group col-md-4">
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>

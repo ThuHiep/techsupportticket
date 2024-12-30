@@ -81,7 +81,6 @@
             <thead>
                 <tr>
                     <th>STT</th>
-                    <th>Mã bài viết</th>
                     <th>Tiêu đề</th>
                     <th>Ngày tạo</th>
                     <th>Thao tác</th>
@@ -91,7 +90,6 @@
                 @foreach ($articles as $index => $article)
                 <tr>
                     <td>{{ ($articles->currentPage() - 1) * $articles->perPage() + $index + 1 }}</td>
-                    <td>{{ $article->article_id }}</td>
                     <td>{{ Str::limit($article->title, 50) }}</td>
 {{--                    <td>--}}
 {{--                        @if($article->images)--}}

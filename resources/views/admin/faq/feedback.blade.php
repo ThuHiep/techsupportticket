@@ -41,15 +41,6 @@
 
             <!-- Dòng chứa các trường chính -->
             <div class="form-group-row">
-                <!-- Mã FAQ -->
-                <div class="form-group  half-width">
-                    <label for="faq_id">Mã câu hỏi:<span class="required">*</span></label>
-                    <input type="text" name="faq_id" id="faq_id" value="{{ $faq->faq_id }}" readonly>
-                    @error('faq_id')
-                    <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
-
                 <!-- Email -->
                 <div class="form-group  half-width">
                     <label for="email">Email người gửi:<span class="required">*</span></label>

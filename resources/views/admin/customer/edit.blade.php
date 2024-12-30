@@ -76,10 +76,6 @@
                 <!-- Mã KH + Mã số thuế + Tên KH -->
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
-                        <label for="customer_id" class="form-label">Mã khách hàng<span class="required">*</span></label>
-                        <input type="text" id="customer_id" name="customer_id" class="form-control" value="{{ $customers->customer_id }}" readonly required>
-                    </div>
-                    <div class="form-group col-md-4">
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                         <input type="text" id="username" name="username" class="form-control" value="{{ $customers->user->username }}" required>
                     </div>
@@ -174,9 +170,9 @@
                             </option>
                         </select>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
 
             <!-- Cột bên phải cho hình ảnh đại diện -->

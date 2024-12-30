@@ -64,7 +64,6 @@
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Mã phòng ban</th>
                 <th>Tên phòng ban</th>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
@@ -79,7 +78,6 @@
                 @foreach ($departments as $index => $department)
                     <tr>
                         <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $index + 1 }}</td>
-                        <td>{{ $department->department_id }}</td> <!-- Thay đổi từ department_id sang department_id -->
                         <td>{{ $department->department_name }}</td>
                         <td>
                             @if($department->status == 'active')
