@@ -45,7 +45,6 @@ class ArticlesController extends Controller
         ));
     }
 
-
     public function create()
     {
         $template = 'admin.articles.create';
