@@ -603,7 +603,9 @@
                       <h3>Phản hồi</h3>
                       <form id="replyForm-{{ $request->request_id }}" method="POST" action="{{ route('request.reply', $request->request_id) }}">
                           @csrf
-                          <div class="form-group">
+
+                          @include('admin.request.feedback')
+                          {{-- <div class="form-group">
                               <label for="reply_content_{{ $request->request_id }}">Nội dung phản hồi:</label>
                               <textarea id="reply_content_{{ $request->request_id }}" name="reply_content" rows="4" required></textarea>
                               @error('reply_content')
@@ -611,7 +613,7 @@
                               @enderror
                           </div>
                           <button type="submit" class="submit-button">Gửi Phản Hồi</button>
-                          <button type="button" class="cancel-button" onclick="cancelReply('{{ $request->request_id }}')">Hủy</button>
+                          <button type="button" class="cancel-button" onclick="cancelReply('{{ $request->request_id }}')">Hủy</button> --}}
                       </form>
 
                       <!-- Trạng thái yêu cầu -->
