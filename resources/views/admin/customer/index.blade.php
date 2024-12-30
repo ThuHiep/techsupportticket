@@ -33,14 +33,14 @@
         <div class="search-container">
             <form action="{{ route('customer.index') }}" method="GET">
                 <div style="position: relative;">
-                    <input type="text" name="search" placeholder="Nhập tên khách hàng hoặc mã khách hàng cần tìm" value="{{ request()->query('search') }}">
+                    <input type="text" name="search" placeholder="Nhập tên khách hàng cần tìm" value="{{ request()->query('search') }}">
                     @if($search)
-                    <a
-                        href="{{ route('customer.index') }}"
-                        id="clearButton"
-                        style="position: absolute; right: 20%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
-                        ✖
-                    </a>
+                        <a
+                            href="{{ route('customer.index') }}"
+                            id="clearButton"
+                            style="position: absolute; right: 20%; top: 50%; transform: translateY(-50%); text-decoration: none; color: #D5D5D5; font-size: 18px; cursor: pointer;">
+                            ✖
+                        </a>
                     @endif
                 </div>
 
@@ -55,28 +55,16 @@
        {{-- Hiển thị thông báo tìm kiếm --}}
     @if ($searchPerformed && $search !== '')
         @if ($totalResults > 0)
-            @php
-                // Kiểm tra nếu $search là mã khách hàng có định dạng KH + 8 chữ số
-                $isSearchById = preg_match('/^KH\d{8}$/', $search);
-            @endphp
-
             <div id="search-notification" class="alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                @if ($isSearchById)
-                    Tìm thấy {{ $totalResults }} khách hàng có mã "{{ $search }}"
-                @else
-                    Tìm thấy {{ $totalResults }} khách hàng có tên chứa từ khóa: "{{ $search }}"
-                @endif
+                Tìm thấy {{ $totalResults }} khách hàng có tên chứa từ khóa: "{{ $search }}"
             </div>
         @else
             <div id="search-notification" class="alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                @if ($isSearchById)
-                    Không tìm thấy khách hàng có mã "{{ $search }}"
-                @else
-                    Không tìm thấy khách hàng có tên chứa từ khóa: "{{ $search }}"
-                @endif
+                Không tìm thấy khách hàng có tên chứa từ khóa: "{{ $search }}"
             </div>
         @endif
     @endif
+
 
     <div class="table-container">
         <table class="table table-striped">
