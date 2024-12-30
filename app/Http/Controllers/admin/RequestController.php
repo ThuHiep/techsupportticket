@@ -14,6 +14,7 @@ use App\Models\RequestHistory;
 use App\Models\Attachment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class RequestController extends Controller
@@ -155,12 +156,9 @@ class RequestController extends Controller
     {
         $template = 'admin.request.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        // Lặp đến khi tìm được mã không trùng lặp
-        do {
-            $randomNumber = mt_rand(1, 9999999);
-            $nextId = 'RQ' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
-            $exists = SupportRequest::where('request_id', $nextId)->exists();
-        } while ($exists); // Nếu tồn tại mã này, sinh lại
+
+        $nextId = (string) Str::uuid();
+
 
         // Lấy danh sách khách hàng, phòng ban, và loại yêu cầu để tạo các lựa chọn trong form
         $customers = Customer::all();
