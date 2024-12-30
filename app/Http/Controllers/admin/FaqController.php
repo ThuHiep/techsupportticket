@@ -14,53 +14,49 @@ use Illuminate\Support\Str;
 class FaqController extends Controller
 {
     public function index(Request $request)
-    {
-        $template = 'admin.faq.index';
-        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+{
+    $template = 'admin.faq.index';
+    $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-        // Lấy các tham số tìm kiếm
-        $search = $request->input('search'); // Từ khóa hoặc mã FAQ
-        $statusFilter = $request->input('status'); // Trạng thái câu hỏi
-        $date = $request->input('date'); // Ngày cụ thể (nếu có)
+    // Lấy các tham số tìm kiếm
+    $search = $request->input('search'); // Từ khóa tìm kiếm theo nội dung câu hỏi
+    $statusFilter = $request->input('status'); // Trạng thái câu hỏi
+    $date = $request->input('date'); // Ngày cụ thể (nếu có)
 
-        $isTodaySearch = $date === now()->toDateString();
-        // Kiểm tra xem từ khóa là mã FAQ (định dạng FAQxxxx)
-        $isSearchById = $search && preg_match('/^FAQ\d{4}$/', $search);
-
-        // Tìm kiếm FAQ
-        $faqs = Faq::where('status', 'Chưa phản hồi') // Lọc chỉ câu hỏi chưa phản hồi
+    // Tìm kiếm FAQ
+    $faqs = FAQ::where('status', 'Chưa phản hồi') // Lọc chỉ câu hỏi chưa phản hồi
         ->when($search, function ($query) use ($search) {
-            return $query->where(function ($q) use ($search) {
-                $q->where('faq_id', $search)
-                    ->orWhere('question', 'LIKE', "%$search%");
-            });
+            // Tìm kiếm theo nội dung câu hỏi
+            return $query->where('question', 'LIKE', "%$search%");
         })
         ->when($date, function ($query) use ($date) {
+            // Lọc theo ngày tạo
             return $query->whereDate('create_at', $date);
         })
         ->paginate(5);
 
-        // Đếm số lượng kết quả tìm thấy
-        $totalResults = $faqs->total();
+    // Đếm số lượng kết quả tìm thấy
+    $totalResults = $faqs->total();
 
-        // Xác định các tiêu chí tìm kiếm
-        $isSearchWithDate = $search && $date; // Cả từ khóa và trạng thái
-        $isSearchPerformed = $search || $date;
+    // Xác định các tiêu chí tìm kiếm
+    $isSearchWithDate = $search && $date; // Cả từ khóa và ngày
+    $isSearchPerformed = $search || $date;
+    $isTodaySearch = $date === now()->toDateString();
 
-        return view('admin.dashboard.layout', compact(
-            'template',
-            'logged_user',
-            'faqs',
-            'search',
-            'date',
-            'statusFilter',
-            'totalResults',
-            'isSearchById',
-            'isSearchWithDate',
-            'isSearchPerformed',
-            'isTodaySearch',
-        ));
-    }
+    return view('admin.dashboard.layout', compact(
+        'template',
+        'logged_user',
+        'faqs',
+        'search',
+        'date',
+        'statusFilter',
+        'totalResults',
+        'isSearchWithDate',
+        'isSearchPerformed',
+        'isTodaySearch'
+    ));
+}
+
 
     public function create()
     {

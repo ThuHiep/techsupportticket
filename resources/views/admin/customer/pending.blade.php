@@ -9,61 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/pending.css') }}">
     <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-        body.mini-navbar .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-        .search-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search-container input[type="text"] {
-            padding: 8px 12px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            width: 300px;
-            transition: border-color 0.3s ease;
-        }
-
-        .search-container input[type="date"] {
-            padding: 8px 12px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            width: 200px;
-            transition: border-color 0.3s ease;
-        }
-
-        .search-container input[type="text"]:focus,
-        .search-container input[type="date"]:focus {
-            border-color: #FF9700;
-            outline: none;
-            box-shadow: 0 0 5px #FF9700;
-        }
-
-        .search-container button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            background-color:#FF9700;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-container button:hover {
-            background-color: #f57c00;
-        }
+        
     </style>
 </head>
 <body>
@@ -141,8 +87,8 @@
             <tr>
                 <th>STT</th>
                 <th>Họ tên</th>
-                <th>Tài khoản</th>
-                <th>Mật khẩu</th>
+                <th>Email</th>
+                <th>Tên tài khoản</th>
                 <th>Ngày đăng ký</th>
                 <th>Thao tác</th>
             </tr>
@@ -157,8 +103,8 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $customer->full_name }}</td>
+                        <td>{{ $customer->email }}</td>
                         <td>{{ $customer->user->username }}</td>
-                        <td>{{ $customer->user->password }}</td>
                         <td>{{ \Carbon\Carbon::parse($customer->create_at)->format('d/m/Y') }}</td>
                         <td>
                             <div class="action-buttons">
