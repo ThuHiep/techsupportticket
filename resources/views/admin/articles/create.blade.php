@@ -33,6 +33,7 @@
 
     <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="article_id" value="{{ $nextId }}">
         <div class="row mb-3">
             <div class="col-md-8">
                 <!-- Tiêu đề -->

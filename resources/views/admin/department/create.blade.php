@@ -36,6 +36,7 @@
 
     <form action="{{ route('department.store') }}" method="POST">
         @csrf
+        <input type="hidden" name="department_id" value="{{ $nextId }}">
 
         <!-- Row chứa các trường trên cùng 1 dòng -->
         <div class="form-group-row">
