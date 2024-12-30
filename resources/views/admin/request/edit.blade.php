@@ -1,45 +1,5 @@
 <link rel="stylesheet" href="{{ asset('admin/css/request/edit.css') }}">
 
-<style>
-    /* Khi sidebar ở trạng thái bình thường */
-    body .container {
-        width: calc(98%); /* Độ rộng sau khi trừ sidebar */
-        transition: all 0.3s ease-in-out;
-    }
-
-    /* Khi sidebar thu nhỏ */
-    body.mini-navbar .container {
-        width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
-        transition: all 0.3s ease-in-out;
-    }
-    .required {
-        color: red;
-        font-size: 14px;
-    }
-    /* Styles cho lịch sử */
-    .history-container {
-        margin-top: 40px;
-    }
-    .history-container h2 {
-        margin-bottom: 20px;
-    }
-    .history-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .history-table th, .history-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-    .history-table th {
-        background-color: #f2f2f2;
-    }
-    .error {
-        color: red;
-        font-size: 13px;
-    }
-</style>
 <body>
 <div class="container">
     <h1>Chỉnh sửa yêu cầu hỗ trợ kỹ thuật</h1>
@@ -115,7 +75,7 @@
                     </div>
 
                     <!-- Hàng 3: Ngày tạo + Ngày hoàn thành -->
-                    <div class="row_left">
+                    {{-- <div class="row_left">
                         <!-- Nhóm "Ngày tạo" và "Ngày hoàn thành" -->
                         <div class="form-group-row date-group">
                             <div class="form-group">
@@ -133,7 +93,7 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group attachments">
                         <label for="attachments">{{ $supportRequest->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
@@ -201,16 +161,7 @@
             @csrf
             
                 @include('admin.request.reply-cus')
-            {{-- /////////////////////////// --}}
-            {{-- <div class="form-group">
-                <label for="reply_content">Nội dung phản hồi:</label>
-                <textarea id="reply_content" name="reply_content" rows="4" required></textarea>
-                @error('reply_content')
-                <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-            <button type="submit" class="submit-button">Gửi Phản Hồi</button>
-            <button type="button" class="cancel-btn" onclick="hideReplyForm()">Hủy</button> --}}
+            
         </form>
     </div>
 
