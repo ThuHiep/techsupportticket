@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\SwitchedUser;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -191,7 +192,7 @@ class AuthController extends Controller
         ]);
 
         // Tạo ID ngẫu nhiên cho người dùng theo định dạng NDxxxxxxx
-        $randUserID = 'TK' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        $randUserID = (string)Str::uuid();
 
         // Tạo tài khoản người dùng
         $user = new User();
@@ -202,7 +203,7 @@ class AuthController extends Controller
         $user->save();
 
         // Tạo ID ngẫu nhiên cho khách hàng
-        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+        $randomId = (string) Str::uuid();
 
         // Tạo khách hàng
         $customer = new Customer();

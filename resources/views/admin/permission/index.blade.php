@@ -82,7 +82,6 @@
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Mã người dùng</th>
                         <th>Tên người dùng</th>
                         {{-- <th>Tên tài khoản</th> --}}
                         <th>Ảnh đại diện</th>
@@ -98,7 +97,6 @@
                     @foreach($employees as $idx => $employee)
                     <tr class="text-center">
                         <td>{{ $employees->firstItem() + $idx }}</td>
-                        <td>{{ $employee->employee_id }}</td>
                         <td>{{ $employee->full_name }}</td>
                         {{-- <td>{{ $employee->username }}</td> --}}
                         <td>

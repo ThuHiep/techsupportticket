@@ -36,11 +36,6 @@
                     <!-- Mã KH + Mã số thuế + Tên KH -->
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
-                            <label for="user_id" class="form-label">Mã người dùng<span class="required">*</span></label>
-                            <input type="text" id="user_id" name="user_id" class="form-control"
-                                value="{{ $employee->user_id }}" readonly required>
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên người dùng<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control"
                                 value="{{ $employee->full_name }}" required>

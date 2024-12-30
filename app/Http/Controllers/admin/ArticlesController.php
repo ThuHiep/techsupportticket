@@ -7,6 +7,8 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 
 class ArticlesController extends Controller
 {
@@ -49,11 +51,7 @@ class ArticlesController extends Controller
         $template = 'admin.articles.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-        do {
-            $randomNumber = mt_rand(1, 9999);
-            $nextId = 'ART' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
-            $exists = Article::where('article_id', $nextId)->exists();
-        } while ($exists);
+        $nextId = (string) Str::uuid();
 
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));
     }
