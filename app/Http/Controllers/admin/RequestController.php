@@ -231,17 +231,6 @@ class RequestController extends Controller
     }
 
 
-    private function generateAttachmentId()
-    {
-        do {
-            // Tạo 8 số ngẫu nhiên từ 00000000 đến 99999999
-            $randomNumber = mt_rand(0, 99999999);
-            $attachmentId = 'ATT' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
-        } while (Attachment::where('attachment_id', $attachmentId)->exists());
-
-        return $attachmentId;
-    }
-
     /**
      * Cập nhật yêu cầu trong cơ sở dữ liệu
      */
@@ -323,7 +312,7 @@ class RequestController extends Controller
 
             // Tạo mới bản ghi Attachment
             $supportRequest->attachment()->create([
-                'attachment_id' => $this->generateAttachmentId(),
+                'attachment_id' => (string) Str::uuid(),
                 'filename' => $filename,
                 'file_path' => $filePath,
                 'file_size' => $fileSize,
