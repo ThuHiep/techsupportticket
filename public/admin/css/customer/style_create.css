@@ -6,7 +6,22 @@ body {
     background-color: #ffffff; /* Nền sáng */
     overflow-x: hidden; /* Ẩn phần tử tràn ngang */
 }
-
+body .container {
+    width: calc(98%);
+    transition: all 0.3s ease-in-out;
+}
+.required {
+    color: red;
+    font-size: 14px;
+}
+.btn-cancel.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+.is-invalid {
+    border-color: red; /* Đổi màu biên ô nhập thành đỏ */
+}
 /* Container chính */
 .container {
     width: 1200px;

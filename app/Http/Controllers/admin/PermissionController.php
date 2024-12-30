@@ -28,10 +28,10 @@ class PermissionController extends Controller
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('status', 'active');
 
-            if ($search) {
-                // Tìm theo tên
-                $query->where('full_name', 'LIKE', "%$search%");
-            }
+        if ($search) {
+            // Tìm theo tên
+            $query->where('full_name', 'LIKE', "%$search%");
+        }
 
         $count = $query->count();
         $resultMessage = '';
@@ -47,13 +47,14 @@ class PermissionController extends Controller
 
 
 
+
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3)->appends($request->all());
 
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
     }
-    
+
 
 
 
@@ -62,23 +63,10 @@ class PermissionController extends Controller
     {
         $template = 'admin.permission.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        // Sinh employee_id và username ngẫu nhiên cho admin
-        $randomIdAD = (string) Str::uuid();
 
-        $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        while (User::where('username', $randomUserNameAD)->exists()) {
-            $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        }
-        // Sinh employee_id và username ngẫu nhiên cho nhân viên
-        $randomIdEM = (string) Str::uuid();
-
-        $randomUserNameEM = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        while (User::where('username', $randomUserNameEM)->exists()) {
-            $randomUserNameEM = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        }
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomIdAD', 'randomUserNameAD', 'randomIdEM', 'randomUserNameEM'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user'));
     }
-    
+
 
     public function save(Request $request)
     {
@@ -101,7 +89,20 @@ class PermissionController extends Controller
         // Sinh user_id ngẫu nhiên
         $randomUserId = (string) Str::uuid();
 
-        // Xử lý lưu ảnh
+        $role = $request->input('role_id');
+
+        if ($role == 1) {
+            $randomUserName = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+            while (User::where('username', $randomUserName)->exists()) {
+                $randomUserName = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+            }
+        } else if ($role == 2) {
+            $randomUserName = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+            while (User::where('username', $randomUserName)->exists()) {
+                $randomUserName = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+            }
+        }
+
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
@@ -122,8 +123,8 @@ class PermissionController extends Controller
         // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;
-        $user->username = $request->input('username');
-        $user->password = Hash::make($password); // Store the hashed password
+        $user->username = $randomUserName;
+        $user->password = Hash::make($password);
         $user->role_id = $request->input('role_id');
         $user->status = "active";
         $user->create_at = now();
