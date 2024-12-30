@@ -8,17 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/faq/index.css') }}">
-    <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
 
-        body.mini-navbar .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-    </style>
 </head>
 
 <body>
@@ -30,7 +20,7 @@
                 <form action="{{ route('faq.index') }}" method="GET" >
                     <!-- Input tìm kiếm -->
                     <div style="position: relative; flex: 2;">
-                        <input type="text" name="search" placeholder="Nhập mã hoặc nội dung câu hỏi" value="{{ request()->query('search') }}">
+                        <input type="text" name="search" placeholder="Nhập nội dung câu hỏi" value="{{ request()->query('search') }}">
                         @if(request()->query('search'))
                         <!-- Biểu tượng X -->
                         <a href="{{ route('faq.index') }}"
@@ -48,69 +38,50 @@
         </div>
 
         @if ($isSearchPerformed)
-        {{-- Trường hợp lọc bài viết chưa phản hồi vào ngày hôm nay --}}
-        @if ($isTodaySearch)
+    {{-- Trường hợp lọc bài viết chưa phản hồi vào ngày hôm nay --}}
+    @if ($isTodaySearch)
         @if ($totalResults > 0)
-        <div  id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
             Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày hôm nay.
         </div>
         @else
-        <div  id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
             Không tìm thấy câu hỏi chưa phản hồi vào ngày hôm nay.
         </div>
         @endif
-
-        @else
-        {{-- Trường hợp tìm theo mã FAQ --}}
-        @if ($isSearchById)
+    @elseif ($isSearchWithDate)
         @if ($totalResults > 0)
-        <div  id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-            Tìm thấy câu hỏi với mã: "{{ $search }}"
-        </div>
-        @else
-        <div  id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-            Không tìm thấy câu hỏi với mã: "{{ $search }}"
-        </div>
-        @endif
-
-        {{-- Trường hợp tìm theo từ khóa và ngày --}}
-        @elseif ($isSearchWithDate)
-        @if ($totalResults > 0)
-        <div  id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
             Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi chứa từ khóa: "{{ $search }}" vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @else
-        <div  id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
             Không tìm thấy câu hỏi chưa phản hồi chứa từ khóa: "{{ $search }}" vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @endif
-
-        {{-- Trường hợp chỉ tìm theo ngày --}}
-        @elseif ($date)
+    @elseif ($date)
         @if ($totalResults > 0)
-        <div  id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
             Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @else
-        <div  id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
             Không tìm thấy câu hỏi chưa phản hồi vào ngày "{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
         </div>
         @endif
-
-        {{-- Trường hợp chỉ tìm theo từ khóa --}}
-        @elseif ($search)
+    @elseif ($search)
         @if ($totalResults > 0)
-        <div  id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
             Tìm thấy {{ $totalResults }} câu hỏi chưa phản hồi chứa từ khóa: "{{ $search }}"
         </div>
         @else
-        <div  id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+        <div id="search-notification" class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
             Không tìm thấy câu hỏi chưa phản hồi chứa từ khóa: "{{ $search }}"
         </div>
         @endif
-        @endif
-        @endif
-        @endif
+    @endif
+@endif
+
 
         <!-- Bảng danh sách câu hỏi -->
         <div class="table-container">

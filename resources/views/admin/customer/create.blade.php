@@ -6,24 +6,6 @@
     <title>Thêm khách hàng mới</title>
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-        .required {
-            color: red;
-            font-size: 14px;
-        }
-        .btn-cancel.btn-sm {
-            padding: 5px 10px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        .is-invalid {
-            border-color: red; /* Đổi màu biên ô nhập thành đỏ */
-        }
-    </style>
 </head>
 <body>
 <div class="container">

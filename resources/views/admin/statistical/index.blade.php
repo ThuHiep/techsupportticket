@@ -247,15 +247,15 @@
             <!--Số liệu loại yêu cầu-------------->
             <div class="report-section" id="requestTypeDataContainer" style="display: none;">
                 <h3>Số liệu tổng hợp</h3>
-                <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
+                <table style="border-collapse: collapse; width: 100%; font-size: 12px;">
                     <thead>
                     <tr>
-                        <th style="padding: 5px">Loại yêu cầu</th>
-                        <th style="padding: 5px">Đang xử lý</th>
-                        <th style="padding: 5px">Chưa xử lý</th>
-                        <th style="padding: 5px">Hoàn thành</th>
-                        <th style="padding: 5px">Đã hủy</th>
-                        <th style="padding: 5px">Tổng</th>
+                        <th>Loại yêu cầu</th>
+                        <th>Đang xử lý</th>
+                        <th>Chưa xử lý</th>
+                        <th>Hoàn thành</th>
+                        <th>Đã hủy</th>
+                        <th>Tổng</th>
                     </tr>
                     </thead>
                     <tbody id="requestTypeDataList"></tbody>
@@ -265,15 +265,15 @@
             <!--Số liệu phòng ban-->
             <div class="report-section" id="departmentDataContainer" style="display: none;">
                 <h3>Số liệu tổng hợp</h3>
-                <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
+                <table style="border-collapse: collapse; width: 100%; font-size: 12px;">
                     <thead>
                         <tr>
-                            <th style="padding: 5px">Phòng ban</th>
-                            <th style="padding: 5px">Đang xử lý</th>
-                            <th style="padding: 5px">Chưa xử lý</th>
-                            <th style="padding: 5px">Hoàn thành</th>
-                            <th style="padding: 5px">Đã hủy</th>
-                            <th style="padding: 5px ">Tổng</th>
+                            <th>Phòng ban</th>
+                            <th>Đang xử lý</th>
+                            <th>Chưa xử lý</th>
+                            <th>Hoàn thành</th>
+                            <th>Đã hủy</th>
+                            <th >Tổng</th>
                         </tr>
                     </thead>
                     <tbody id="departmentDataList"></tbody>
@@ -286,12 +286,12 @@
                 <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
                     <thead>
                     <tr>
-                        <th style="padding: 5px">Thời gian</th>
-                        <th style="padding: 5px">Đang xử lý</th>
-                        <th style="padding: 5px">Chưa xử lý</th>
-                        <th style="padding: 5px">Hoàn thành</th>
-                        <th style="padding: 5px">Đã hủy</th>
-                        <th style="padding: 5px">Tổng</th>
+                        <th>Thời gian</th>
+                        <th>Đang xử lý</th>
+                        <th>Chưa xử lý</th>
+                        <th>Hoàn thành</th>
+                        <th>Đã hủy</th>
+                        <th>Tổng</th>
                     </tr>
                     </thead>
                     <tbody id="timeDataList"></tbody>

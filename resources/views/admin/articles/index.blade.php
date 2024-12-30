@@ -8,17 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/article/index.css') }}">
-    <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
 
-        body.mini-navbar .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -29,7 +19,7 @@
             <form action="{{ route('articles.index') }}" method="GET" >
                 <!-- Input tìm kiếm -->
                 <div style="position: relative; flex: 2;">
-                    <input type="text" name="search" placeholder="Nhập mã hoặc tiêu đề bài hướng dẫn" value="{{ request()->query('search') }}">
+                    <input type="text" name="search" placeholder="Nhập tiêu đề bài hướng dẫn" value="{{ request()->query('search') }}">
                     @if(request()->query('search'))
                     <!-- Biểu tượng X -->
                     <a href="{{ route('articles.index') }}"
@@ -46,32 +36,29 @@
         </div>
     </div>
     @if($search || $date)
-        @if($totalResults > 0)
-            <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
-                @if($search && preg_match('/^ART\d{4}$/', $search))
-                    Tìm thấy bài viết với mã "{{ $search }}"
-                @elseif($search && $date)
-                    Tìm thấy {{ $totalResults }} bài viết chứa từ khóa "{{ $search }}" vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
-                @elseif($search)
-                    Tìm thấy {{ $totalResults }} bài viết chứa từ khóa "{{ $search }}"
-                @else
-                    Tìm thấy {{ $totalResults }} bài viết vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
-                @endif
-            </div>
-        @else
-            <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
-                @if($search && preg_match('/^ART\d{4}$/', $search))
-                    Không tìm thấy bài viết với mã "{{ $search }}"
-                @elseif($search && $date)
-                    Không tìm thấy bài viết chứa từ khóa "{{ $search }}" vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
-                @elseif($search)
-                    Không tìm thấy bài viết chứa từ khóa "{{ $search }}"
-                @else
-                    Không tìm thấy bài viết vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
-                @endif
-            </div>
-        @endif
+    @if($totalResults > 0)
+        <div class="alert alert-success" style="text-align: center; color: green; margin-top: 10px;">
+            @if($search && $date)
+                Tìm thấy {{ $totalResults }} bài viết chứa từ khóa "{{ $search }}" vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+            @elseif($search)
+                Tìm thấy {{ $totalResults }} bài viết chứa từ khóa "{{ $search }}"
+            @elseif($date)
+                Tìm thấy {{ $totalResults }} bài viết vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+            @endif
+        </div>
+    @else
+        <div class="alert alert-danger" style="text-align: center; color: red; margin-top: 10px;">
+            @if($search && $date)
+                Không tìm thấy bài viết chứa từ khóa "{{ $search }}" vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+            @elseif($search)
+                Không tìm thấy bài viết chứa từ khóa "{{ $search }}"
+            @elseif($date)
+                Không tìm thấy bài viết vào ngày {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+            @endif
+        </div>
     @endif
+@endif
+
 
 
 

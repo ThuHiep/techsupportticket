@@ -21,17 +21,13 @@ class ArticlesController extends Controller
         $date = $request->input('date');
 
         $articles = Article::when($search, function ($query) use ($search) {
-            // Kiểm tra nếu từ khóa là mã có định dạng ART+4 số
-            if (preg_match('/^ART\d{4}$/', $search)) {
-                return $query->where('article_id', $search);
-            } else {
-                return $query->where('title', 'LIKE', "%$search%");
-            }
+            return $query->where('title', 'LIKE', "%$search%");
         })
         ->when($date, function ($query) use ($date) {
             return $query->whereDate('create_at', $date);
         })
         ->paginate(5);
+        
 
         $totalResults = $articles->total();
 
@@ -44,7 +40,6 @@ class ArticlesController extends Controller
             'totalResults'
         ));
     }
-
 
     public function create()
     {

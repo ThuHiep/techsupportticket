@@ -198,163 +198,163 @@
                         </div>
 
                         <!-- Hàng 3: Ngày tạo + Ngày hoàn thành -->
-                        <div class="row_left">
-                            <!-- Nhóm "Ngày tạo" và "Ngày hoàn thành" -->
-                            <div class="form-group-row date-group">
-                                <div class="form-group">
-                                    <label for="create_at">Ngày tạo <span class="required">*</span></label>
-                                    <input type="date" id="create_at" name="create_at" value="{{ old('create_at', $supportRequest->create_at ? $supportRequest->create_at->format('Y-m-d') : '') }}" readonly required>
-                                    @error('create_at')
-                                    <div class="error">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="resolved_at">Ngày hoàn thành</label>
-                                    <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $supportRequest->resolved_at ? $supportRequest->resolved_at->format('Y-m-d') : '') }}">
-                                    @error('resolved_at')
-                                    <div class="error">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group attachments">
-                            <label for="attachments">{{ $supportRequest->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
-                            <div class="custom-file">
-                                <input type="file" name="attachments" class="custom-file-input" id="attachments">
-                                <label class="custom-file-label" for="attachments">Chọn file</label>
-                            </div>
-                            <small class="form-text text-muted">
-                                Bạn chỉ được tải 1 file. Định dạng: jpg, jpeg, png, pdf, doc, docx, txt. Dung lượng tối đa: 40MB.
-                            </small>
-                            @error('attachments')
-                            <div class="error">{{ $message }}</div>
-                            @enderror
-
-                            @if($supportRequest->attachment)
-                            <div class="existing-attachment mt-2">
-                                <div class="alert alert-info">
-                                    <strong>File hiện tại:</strong> {{ $supportRequest->attachment->filename }}
-                                    <a href="{{ route('attachments.download', $supportRequest->attachment->attachment_id) }}" class="btn btn-sm btn-primary ml-3">
-                                        <i class="fas fa-download"></i> Tải Xuống
-                                    </a>
-                                </div>
-                            </div>
-                            @endif
-
-                            <div id="new-file-name" class="mt-2"></div>
-                        </div>
-
+                        {{-- <div class="row_left">
+                        <!-- Nhóm "Ngày tạo" và "Ngày hoàn thành" -->
+                        <div class="form-group-row date-group">
+                            <div class="form-group">
+                                <label for="create_at">Ngày tạo <span class="required">*</span></label>
+                                <input type="date" id="create_at" name="create_at" value="{{ old('create_at', $supportRequest->create_at ? $supportRequest->create_at->format('Y-m-d') : '') }}" readonly required>
+                        @error('create_at')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
-
-
-                    <!-- Cột phải -->
-                    <div class="form-column-right">
-                        {{-- Tiêu đề --}}
-                        <div class="form-group">
-                            <label for="subject">Tiêu đề <span class="required">*</span></label>
-                            <input type="text" id="subject" name="subject" value="{{ old('subject', $supportRequest->subject) }}" required>
-                            @error('subject')
-                            <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        {{-- Mô tả --}}
-                        <div class="form-group">
-                            <label for="description">Mô tả <span class="required">*</span></label>
-                            <textarea id="description" name="description" rows="8" required>{{ old('description', $supportRequest->description) }}</textarea>
-                            @error('description')
-                            <div class="error">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        {{-- Nhóm nút Submit và Cancel --}}
-                        <div class="button-group">
-                            <button type="submit" class="submit-button">Cập nhật </button>
-                            <a href="#" class="reply-button" onclick="showReplyForm(); return false;">Phản hồi</a>
-                            <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
-                        </div>
+                    <div class="form-group">
+                        <label for="resolved_at">Ngày hoàn thành</label>
+                        <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $supportRequest->resolved_at ? $supportRequest->resolved_at->format('Y-m-d') : '') }}">
+                        @error('resolved_at')
+                        <div class="error">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
-            </form>
-        </div>
+        </div> --}}
 
-        <!-- Phần Phản hồi -->
-        <div class="reply-container" style="display: none;">
-            @include('admin.request.reply-cus')
-        </div>
-        <strong>
-            <h2>Phản hồi</h2>
-        </strong>
-        <div class="feedback-container">
-            @foreach ($feedbacks as $feedback)
-            <div class="feedback-item">
-                <div class="feedback-header">
-                    @if( $feedback->role_id == 1 || $feedback->role_id == 2)
-                    <img src="{{$feedback->profile_image ? asset('admin/img/employee/' .  $feedback->profile_image) : asset('admin/img/employee/default.png') }}" alt="Hình ảnh nhân viên" class="feedback-avatar">
-                    @elseif($feedback->role_id == 3)
-                    <img src="{{ $feedback->profile_image ? asset('admin/img/customer/' . $feedback->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="feedback-avatar">
-                    @endif
-                    <div class="feedback-user-info">
-                        <p class="feedback-name">{{ $feedback->full_name }}</p>
-                        @if( $feedback->role_id == 1 || $feedback->role_id == 2)
-                        <p class="feedback-type">Nhân viên hỗ trợ</p>
-                        @elseif($feedback->role_id == 3)
-                        <p class="feedback-type">Chủ sở hưu</p>
-                        @endif
-                    </div>
-                    <p class="feedback-time">
-                        {{ \Carbon\Carbon::parse($feedback->created_at)->format('H:i d/m/Y') }}
-                    </p>
-                </div>
-                <div class="feedback-message">
-                    {!! $feedback->message !!}
+        <div class="form-group attachments">
+            <label for="attachments">{{ $supportRequest->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
+            <div class="custom-file">
+                <input type="file" name="attachments" class="custom-file-input" id="attachments">
+                <label class="custom-file-label" for="attachments">Chọn file</label>
+            </div>
+            <small class="form-text text-muted">
+                Bạn chỉ được tải 1 file. Định dạng: jpg, jpeg, png, pdf, doc, docx, txt. Dung lượng tối đa: 40MB.
+            </small>
+            @error('attachments')
+            <div class="error">{{ $message }}</div>
+            @enderror
+
+            @if($supportRequest->attachment)
+            <div class="existing-attachment mt-2">
+                <div class="alert alert-info">
+                    <strong>File hiện tại:</strong> {{ $supportRequest->attachment->filename }}
+                    <a href="{{ route('attachments.download', $supportRequest->attachment->attachment_id) }}" class="btn btn-sm btn-primary ml-3">
+                        <i class="fas fa-download"></i> Tải Xuống
+                    </a>
                 </div>
             </div>
-            @endforeach
-        </div>
-
-
-
-        <!-- Phần Lịch Sử Yêu Cầu -->
-        <div class="history-container">
-            <h1>Lịch sử trạng thái yêu cầu</h1>
-            @if($supportRequest->history->count() > 0)
-            <!-- Thêm đoạn sắp xếp tạm ở đây -->
-            @php
-            // Sắp xếp theo 'changed_at' giảm dần để bản ghi mới nhất lên đầu
-            $sortedHistory = $supportRequest->history->sortByDesc('changed_at');
-            @endphp
-
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>Thời gian</th>
-                        <th>Trạng thái</th>
-                        <th>Người thay đổi</th>
-                        <th>Ghi chú</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Thay vì lặp $supportRequest->history, ta lặp $sortedHistory -->
-                    @foreach($sortedHistory as $history)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($history->changed_at)->format('d/m/Y H:i') }}</td>
-                        <td>{{ $history->new_status }}</td>
-                        <td>
-                            @if($history->changed_by)
-                            {{ $history->employee->full_name ?? 'N/A' }}
-                            @else
-                            Hệ thống
-                            @endif
-                        </td>
-                        <td>{{ $history->note }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @else
-            <p>Không có lịch sử trạng thái nào để hiển thị.</p>
             @endif
+
+            <div id="new-file-name" class="mt-2"></div>
         </div>
+
+    </div>
+
+
+    <!-- Cột phải -->
+    <div class="form-column-right">
+        {{-- Tiêu đề --}}
+        <div class="form-group">
+            <label for="subject">Tiêu đề <span class="required">*</span></label>
+            <input type="text" id="subject" name="subject" value="{{ old('subject', $supportRequest->subject) }}" required>
+            @error('subject')
+            <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+        {{-- Mô tả --}}
+        <div class="form-group">
+            <label for="description">Mô tả <span class="required">*</span></label>
+            <textarea id="description" name="description" rows="8" required>{{ old('description', $supportRequest->description) }}</textarea>
+            @error('description')
+            <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+        {{-- Nhóm nút Submit và Cancel --}}
+        <div class="button-group">
+            <button type="submit" class="submit-button">Cập nhật </button>
+            <a href="#" class="reply-button" onclick="showReplyForm(); return false;">Phản hồi</a>
+            <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
+        </div>
+    </div>
+    </div>
+    </form>
+    </div>
+
+    <!-- Phần Phản hồi -->
+    <div class="reply-container" style="display: none;">
+        @include('admin.request.reply-cus')
+    </div>
+    <strong>
+        <h2>Phản hồi</h2>
+    </strong>
+    <div class="feedback-container">
+        @foreach ($feedbacks as $feedback)
+        <div class="feedback-item">
+            <div class="feedback-header">
+                @if( $feedback->role_id == 1 || $feedback->role_id == 2)
+                <img src="{{$feedback->profile_image ? asset('admin/img/employee/' .  $feedback->profile_image) : asset('admin/img/employee/default.png') }}" alt="Hình ảnh nhân viên" class="feedback-avatar">
+                @elseif($feedback->role_id == 3)
+                <img src="{{ $feedback->profile_image ? asset('admin/img/customer/' . $feedback->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="feedback-avatar">
+                @endif
+                <div class="feedback-user-info">
+                    <p class="feedback-name">{{ $feedback->full_name }}</p>
+                    @if( $feedback->role_id == 1 || $feedback->role_id == 2)
+                    <p class="feedback-type">Nhân viên hỗ trợ</p>
+                    @elseif($feedback->role_id == 3)
+                    <p class="feedback-type">Chủ sở hưu</p>
+                    @endif
+                </div>
+                <p class="feedback-time">
+                    {{ \Carbon\Carbon::parse($feedback->created_at)->format('H:i d/m/Y') }}
+                </p>
+            </div>
+            <div class="feedback-message">
+                {!! $feedback->message !!}
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+
+
+    <!-- Phần Lịch Sử Yêu Cầu -->
+    <div class="history-container">
+        <h1>Lịch sử trạng thái yêu cầu</h1>
+        @if($supportRequest->history->count() > 0)
+        <!-- Thêm đoạn sắp xếp tạm ở đây -->
+        @php
+        // Sắp xếp theo 'changed_at' giảm dần để bản ghi mới nhất lên đầu
+        $sortedHistory = $supportRequest->history->sortByDesc('changed_at');
+        @endphp
+
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                    <th>Người thay đổi</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Thay vì lặp $supportRequest->history, ta lặp $sortedHistory -->
+                @foreach($sortedHistory as $history)
+                <tr>
+                    <td>{{ \Carbon\Carbon::parse($history->changed_at)->format('d/m/Y H:i') }}</td>
+                    <td>{{ $history->new_status }}</td>
+                    <td>
+                        @if($history->changed_by)
+                        {{ $history->employee->full_name ?? 'N/A' }}
+                        @else
+                        Hệ thống
+                        @endif
+                    </td>
+                    <td>{{ $history->note }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @else
+        <p>Không có lịch sử trạng thái nào để hiển thị.</p>
+        @endif
+    </div>
     </div>
 
     <!-- JavaScript Cập Nhật Tên File -->

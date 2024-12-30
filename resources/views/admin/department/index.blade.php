@@ -18,7 +18,7 @@
             <form action="{{ route('department.index') }}" method="GET">
                 <!-- Ô nhập tìm kiếm tên hoặc mã phòng ban -->
                 <div style="position: relative;">
-                    <input type="text" name="search" placeholder="Nhập tênphòng ban cần tìm" value="{{ request()->query('search') }}">
+                    <input type="text" name="search" placeholder="Nhập tên phòng ban cần tìm" value="{{ request()->query('search') }}">
                     @if($search)
                     <a
                         href="{{ route('department.index') }}"

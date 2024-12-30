@@ -9,21 +9,7 @@
     <link rel="stylesheet" href="{{ asset('admin/css/department/edit.css') }}">
     <!-- Có thể dùng luôn file CSS của create nếu style tương tự -->
     <style>
-        /* Khi sidebar ở trạng thái bình thường */
-        body .container {
-            width: calc(98%); /* Độ rộng sau khi trừ sidebar */
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Khi sidebar thu nhỏ */
-        body.mini-navbar .container {
-            width: calc(98%); /* Mở rộng nội dung khi sidebar thu nhỏ */
-            transition: all 0.3s ease-in-out;
-        }
-        .required {
-            color: red;
-            font-size: 14px;
-        }
+        
     </style>
 </head>
 <body>

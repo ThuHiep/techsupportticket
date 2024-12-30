@@ -215,7 +215,7 @@ class CustomerController extends Controller
         try {
             Mail::to($request['email'])->send(new CustomerCreated($username, $password, $request['email']));
             return redirect()->route('customer.index')
-                ->with('success', 'Thêm khách hàng thành công! Email đã được gửi.<br>Tài khoản: ' . $username . '<br>Mật khẩu: ' . $password);
+                ->with('success', 'Thêm khách hàng thành công! Email đã được gửi.');
         } catch (\Exception $e) {
             return redirect()->route('customer.index')
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());

@@ -4,7 +4,15 @@ body {
     padding: 0;
     background-color: #ffffff;
 }
+body .container {
+    width: calc(98%);
+    transition: all 0.3s ease-in-out;
+}
 
+body.mini-navbar .container {
+    width: calc(98%);
+    transition: all 0.3s ease-in-out;
+}
 .container {
     width: 1200px;
     max-width: 100%;
