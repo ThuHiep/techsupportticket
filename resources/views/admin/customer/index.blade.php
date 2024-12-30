@@ -8,19 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style.css') }}">
-    <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-        body.mini-navbar .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-        #notification-message {
-            font-size: 1.8em; /* Adjust the font size as needed */
-        }
-    </style>
+
 </head>
 <body>
 <div id="notification" style="display: none; position: fixed; top: 10px; right: 10px; background-color: #28a745; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
@@ -75,7 +63,6 @@
                 <th>Ảnh đại diện</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
-                {{-- <th>Ngày sinh</th> --}}
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>

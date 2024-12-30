@@ -53,6 +53,7 @@ class PermissionController extends Controller
 
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
     }
+    
 
 
 
@@ -77,6 +78,7 @@ class PermissionController extends Controller
         }
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomIdAD', 'randomUserNameAD', 'randomIdEM', 'randomUserNameEM'));
     }
+    
 
     public function save(Request $request)
     {
