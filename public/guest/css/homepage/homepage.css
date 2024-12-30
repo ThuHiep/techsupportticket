@@ -753,7 +753,7 @@ footer {
         width: 100%;
     }
     .carousel-card {
-        min-width: 43%;
+        min-width: 45%;
         height: auto;
     }
     .carousel-container {
@@ -779,6 +779,9 @@ footer {
         width: 53%;
         height: 64%;
     }
+    .modal button, .modal-registration button{
+        margin: 34px auto 10px auto;
+    }
     .main-content .right .search-container input[type="text"], select{
         font-size: 13px;
     }
@@ -789,7 +792,16 @@ footer {
         flex-direction: column;
         align-items: flex-start!important;
     }
+    .huongdan-modal{
+        width: max-content;
+        max-width: 90%;
+    }
+    .modal h2, .modal-registration h2{
+        margin-top: 0px;
+        margin-bottom: 25px;
+    }
 }
+
 
 /* Màn hình tối đa 425px */
 @media (max-width: 426px) {
@@ -817,7 +829,14 @@ footer {
         font-size: 1em;
     }
     .carousel-card {
-        min-width: 68%;
+        min-width: 44%;
+    }
+    .article-title {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    #huongdanModalDateBox{
+        width: 28%;
     }
     .floating-button {
         width: 40px;
@@ -825,8 +844,12 @@ footer {
         font-size: 18px;
     }
     .modal-registration {
-        width: 90%;
+        width: 70%;
         height: auto;
+    }
+    .modal button, .modal-registration button {
+        width: 45%;
+        padding: 11px;
     }
     .search-container{
         align-items: flex-start!important;
