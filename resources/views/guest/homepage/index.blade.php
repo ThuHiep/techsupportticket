@@ -283,14 +283,31 @@
                 }
             }
 
+            function hideDropdown() {
+                searchResults.innerHTML = '';
+                searchResults.classList.add('d-none');
+                searchResults.classList.remove('d-block');
+            }
+
             // Lắng nghe sự kiện input trên ô tìm kiếm
             keywordInput.addEventListener('input', fetchSearchResults);
 
             // Lắng nghe sự kiện thay đổi lựa chọn trong select
             searchType.addEventListener('change', fetchSearchResults);
+
+            // Ẩn dropdown khi mất tiêu điểm
+            keywordInput.addEventListener('blur', function(event) {
+                // Chờ một chút để kiểm tra xem người dùng có nhấp vào mục dropdown hay không
+                setTimeout(() => {
+                    hideDropdown();
+                }, 200);
+            });
+
+            // Hiển thị dropdown khi lấy lại tiêu điểm
+            keywordInput.addEventListener('focus', fetchSearchResults);
         });
     </script>
-    <hr style="border: none; border-top: 1px solid #ccc; margin: 50px auto 0px auto; width: 50%;">
+    <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
