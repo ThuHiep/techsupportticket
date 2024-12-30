@@ -203,7 +203,10 @@
         <h3>Phản hồi</h3>
         <form id="replyForm" method="POST" action="{{ route('request.reply', $supportRequest->request_id) }}">
             @csrf
-            <div class="form-group">
+            
+                @include('admin.request.feedback')
+            {{-- /////////////////////////// --}}
+            {{-- <div class="form-group">
                 <label for="reply_content">Nội dung phản hồi:</label>
                 <textarea id="reply_content" name="reply_content" rows="4" required></textarea>
                 @error('reply_content')
@@ -211,7 +214,7 @@
                 @enderror
             </div>
             <button type="submit" class="submit-button">Gửi Phản Hồi</button>
-            <button type="button" class="cancel-btn" onclick="hideReplyForm()">Hủy</button>
+            <button type="button" class="cancel-btn" onclick="hideReplyForm()">Hủy</button> --}}
         </form>
     </div>
 
@@ -392,5 +395,13 @@
         departmentSelect.addEventListener('change', updateStatusOptions);
     });
 </script>
+{{-- <script src="admin/js/plugins/summernote/summernote.min.js"></script>
+<script>
+    $(document).ready(function(){
 
+        $('.summernote').summernote();
+
+    });
+
+</script> --}}
 </body>
