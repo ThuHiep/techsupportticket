@@ -6,6 +6,54 @@ body {
     background-color: #ffffff; /* Nền sáng */
     overflow-x: hidden; /* Ẩn phần tử tràn ngang */
 }
+/* Khi sidebar ở trạng thái bình thường */
+body .container {
+    width: calc(98%);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Khi sidebar thu nhỏ */
+body.mini-navbar .container {
+    width: calc(98%);
+    transition: all 0.3s ease-in-out;
+}
+
+.required {
+    color: red;
+    font-size: 14px;
+}
+ .custom-select {
+     position: relative;
+     width: 100%;
+     border: 1px solid #ccc;
+     cursor: pointer;
+ }
+
+.selected {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.options {
+    display: none;
+    border: 1px solid #ccc;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    z-index: 1000;
+}
+
+.option {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #f1f1f1;
+}
 
 /* Container chính */
 .container {

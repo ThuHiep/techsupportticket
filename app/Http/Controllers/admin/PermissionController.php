@@ -47,12 +47,14 @@ class PermissionController extends Controller
 
 
 
+
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3)->appends($request->all());
 
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
     }
+
 
 
 
@@ -64,6 +66,7 @@ class PermissionController extends Controller
 
         return view('admin.dashboard.layout', compact('template', 'logged_user'));
     }
+
 
     public function save(Request $request)
     {
@@ -82,7 +85,8 @@ class PermissionController extends Controller
             'address.max' => 'Địa chỉ không được vượt quá 225 kí tự',
             'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, hoặc gif',
         ]);
-        //Sinh user_id ngẫu nhiên
+
+        // Sinh user_id ngẫu nhiên
         $randomUserId = (string) Str::uuid();
 
         $role = $request->input('role_id');
@@ -109,7 +113,13 @@ class PermissionController extends Controller
             }
         }
 
-        $password = Str::random(11);
+        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
+        $password = '';
+        for ($i = 0; $i < 20; $i++) {
+            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
+
         // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;

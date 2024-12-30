@@ -1,27 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('admin/css/permission/style_edit.css') }}">
-<style>
-    /* Khi sidebar ở trạng thái bình thường */
-    body .container {
-        width: calc(98%);
-        /* Độ rộng sau khi trừ sidebar */
-        transition: all 0.3s ease-in-out;
-    }
-
-    /* Khi sidebar thu nhỏ */
-    body.mini-navbar .container {
-        width: calc(98%);
-        /* Mở rộng nội dung khi sidebar thu nhỏ */
-        transition: all 0.3s ease-in-out;
-    }
-
-    .required {
-        color: red;
-        font-size: 14px;
-    }
-</style>
-
 <body>
     <div class="container">
         <h1 style="text-align: left">Chỉnh sửa thông tin tài khoản</h1>
