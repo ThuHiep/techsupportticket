@@ -150,7 +150,7 @@ class PermissionController extends Controller
         Mail::to($employee->email)->send(new EmployeeCreatedMail($employee, $user->user_id, $user->username, $password));
 
         return redirect()->route('permission.index')
-            ->with('success', "Người dùng đã được thêm thành công và email đã được gửi! Tài khoản: $user->username. Mật khẩu: $password");
+            ->with('success', "Người dùng đã được thêm thành công và email đã được gửi!");
     }
 
 
