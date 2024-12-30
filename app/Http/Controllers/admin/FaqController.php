@@ -172,6 +172,31 @@ class FaqController extends Controller
     }
 
 
+    // public function storeAjax(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'question' => 'required|string|max:1000',
+    //     ], [
+    //         'email.required' => 'Vui lòng nhập email.',
+    //         'email.email' => 'Email không đúng định dạng.',
+    //         'question.required' => 'Vui lòng nhập câu hỏi.',
+    //     ]);
+
+    //     try {
+    //         $faq = new FAQ();
+    //         $faq->faq_id = 'FAQ' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+    //         $faq->email = $request->input('email');
+    //         $faq->question = $request->input('question');
+    //         $faq->status = 'Chưa phản hồi';
+    //         $faq->create_at = now();
+    //         $faq->save();
+
+    //         return response()->json(['success' => true, 'message' => 'Câu hỏi đã được gửi thành công!']);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()], 500);
+    //     }
+    // }
     public function storeAjax(Request $request)
     {
         $request->validate([
@@ -182,22 +207,23 @@ class FaqController extends Controller
             'email.email' => 'Email không đúng định dạng.',
             'question.required' => 'Vui lòng nhập câu hỏi.',
         ]);
-
+    
         try {
             $faq = new FAQ();
-            $faq->faq_id = 'FAQ' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            // Tạo mã FAQ ngẫu nhiên giống như trong create
+            $faq->faq_id = (string) \Illuminate\Support\Str::uuid(); 
             $faq->email = $request->input('email');
             $faq->question = $request->input('question');
             $faq->status = 'Chưa phản hồi';
             $faq->create_at = now();
             $faq->save();
-
-            return response()->json(['success' => true, 'message' => 'Câu hỏi đã được gửi thành công!']);
+    
+            return response()->json(['success' => true, 'message' => 'Câu hỏi đã được gửi thành công!', 'faq_id' => $faq->faq_id]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()], 500);
         }
     }
-
+    
 
 
 
