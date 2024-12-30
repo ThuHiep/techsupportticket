@@ -32,7 +32,7 @@ class PermissionController extends Controller
                 // Tìm theo tên
                 $query->where('full_name', 'LIKE', "%$search%");
             }
-            
+
         $count = $query->count();
         $resultMessage = '';
 
@@ -44,7 +44,7 @@ class PermissionController extends Controller
         } else {
             $resultMessage = "Không tìm thấy người dùng có tên chứa từ khóa: {$search}";
         }
-        
+
 
 
         $employees = $query->select('employee.*', 'user.*', 'role.description')
@@ -95,9 +95,11 @@ class PermissionController extends Controller
             'address.max' => 'Địa chỉ không được vượt quá 225 kí tự',
             'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, hoặc gif',
         ]);
-        //Sinh user_id ngẫu nhiên
+
+        // Sinh user_id ngẫu nhiên
         $randomUserId = (string) Str::uuid();
 
+        // Xử lý lưu ảnh
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
@@ -108,12 +110,18 @@ class PermissionController extends Controller
             }
         }
 
-        $password = Str::random(11);
+        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
+        $password = '';
+        for ($i = 0; $i < 20; $i++) {
+            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
+
         // Tạo user mới
         $user = new User();
         $user->user_id = $randomUserId;
         $user->username = $request->input('username');
-        $user->password = Hash::make($password);
+        $user->password = Hash::make($password); // Store the hashed password
         $user->role_id = $request->input('role_id');
         $user->status = "active";
         $user->create_at = now();
