@@ -15,7 +15,7 @@
   <link href="guest/css/account/user.css" rel="stylesheet" />
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
- 
+
 
 </head>
 
@@ -100,10 +100,11 @@
         <div class="row gy-4 justify-content-center">
           <div class="col-lg-4" style="margin-top: 40px">
             <img
-              id="profile-img"
+                  id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="margin-left: 20px; height:250px"/>
+              alt=""
+            />
           </div>
           <div class="col-lg-8 content" style="margin-top: 40px">
             <h2 id="title">Thông tin cá nhân</h2>
@@ -594,11 +595,11 @@
 
                       <script>
                         $(document).ready(function(){
-                    
+
                             $('.summernote').summernote();
-                    
+
                         });
-                    
+
                     </script>
                       <!-- Trạng thái yêu cầu -->
                       <div class="status-container" id="status-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
