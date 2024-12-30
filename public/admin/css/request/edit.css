@@ -257,6 +257,7 @@ h1 {
     transition: background-color 0.3s ease, transform 0.2s ease;
     width: 152px;
     height: 50px;
+    outline: none!important;
 }
 .reply-button:hover {
     background-color: #4A1F6A; /* Màu xanh đậm hơn */
@@ -275,6 +276,7 @@ h1 {
     transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng hover */
     width: 200px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
+    outline: none!important;
 }
 
 .submit-button:hover {
@@ -295,12 +297,16 @@ h1 {
     width: 80px; /* Chiều rộng nút */
     height: 50px; /* Chiều cao nút */
     margin-left: 40px;
+    outline: none!important;
 }
 
 .cancel-btn:hover {
     background-color: rgba(167, 177, 194, 0.82);
     color: #FFFFFF;
     transform: scale(1.05); /* Phóng to nhẹ */
+}
+.cancel-btn:focus {
+    color: #FFFFFF;
 }
 .cancel-btn:active {
     transform: scale(0.95); /* Nhỏ lại khi click */

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
@@ -68,15 +69,7 @@ class DepartmentController extends Controller
         $template = 'admin.department.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Lặp đến khi tìm được mã không trùng lặp
-        do {
-            $randomNumber = mt_rand(1, 9999);
-            $nextId = 'PB' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
-            $exists = Department::where('department_id', $nextId)->exists();
-        } while ($exists); // Nếu tồn tại mã này, sinh lại
-
-        // Nếu bạn cần thêm tax_id hoặc lấy danh sách departments:
-        // $taxId = str_pad(mt_rand(0, 999999999), 9, '0', STR_PAD_LEFT);
-        // $departments = Department::all();
+        $nextId = (string) Str::uuid();
 
         // Trả về view với $template và $nextId
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));

@@ -83,7 +83,6 @@
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Mã khách hàng</th>
                 <th>Họ tên</th>
                 <th>Ảnh đại diện</th>
                 <th>Ngày sinh</th>
@@ -97,7 +96,6 @@
                 @foreach ($customers as $index => $customer)
                     <tr>
                         <td>{{ ($customers->currentPage() - 1) * $customers->perPage() + $index + 1 }}</td>
-                        <td>{{ $customer->customer_id }}</td>
                         <td>{{ $customer->full_name }}</td>
                         <td>
                             <img src="{{ $customer->profile_image ? asset('admin/img/customer/' . $customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="Hình ảnh khách hàng" class="customer-image">

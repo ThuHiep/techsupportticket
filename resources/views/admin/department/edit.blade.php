@@ -42,14 +42,6 @@
         <!-- Các trường trên cùng một hàng -->
         <div class="form-group-row">
             <div class="form-group">
-                <label for="department_id">Mã phòng ban:<span class="required">*</span></label>
-                <input type="text" name="department_id" id="department_id" value="{{ $department->department_id }}" readonly>
-                @error('department_id')
-                <div class="error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
                 <label for="department_name">Tên phòng ban:<span class="required">*</span></label>
                 <input type="text" name="department_name" id="department_name" value="{{ old('department_name', $department->department_name) }}" required>
                 @error('department_name')

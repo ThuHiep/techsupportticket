@@ -82,7 +82,7 @@ header {
     background-color: #eae8ed; /* Set body background color */
     display: flex;
     height: calc(80vh - 70px); /* Adjust height based on header */
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 .main-content .left {
     flex: 1;
@@ -185,6 +185,7 @@ section {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    margin-top: 30px;
 }
 
 .faq-container {
@@ -650,7 +651,75 @@ footer {
     font-size: 18px;
     font-weight: 600;
 }
+/* Dropdown hiển thị kết quả */
+#search-results {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    width: 56%;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 900;
+    border-radius: 5px;
+    display: none;
+    cursor: pointer;
+}
 
+#search-results.d-block {
+    display: block;
+    text-align: left;
+}
+
+#search-results a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+#search-results a:hover {
+    background-color: #f9f9f9;
+}
+
+#search-results img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    padding: 2px;
+    background-color: #fff;
+}
+
+#search-results strong {
+    font-weight: normal;
+    font-size: 14px;
+}
+#huongdanModalDateBox {
+    background-color: orange;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin-top: 15px;
+    width: 15%;
+    text-align: center; /* Đảm bảo nội dung chữ căn giữa trong trường hợp nhiều dòng */
+}
+
+
+#huongdanModalDate {
+    margin: 0; /* Loại bỏ khoảng cách mặc định */
+    font-size: 14px; /* Điều chỉnh kích thước chữ nếu cần */
+}
 
 /* Default styles (áp dụng cho màn hình lớn hơn 764px) */
 
@@ -776,6 +845,12 @@ footer {
     }
     .toggle-button{
         margin-top: 0px;
+    }
+    #search-results{
+        width: 100%;
+    }
+    #search-results strong{
+        font-size: 12px;
     }
 }
 /* Màn hình tối đa 425px */

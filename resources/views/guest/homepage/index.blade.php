@@ -123,55 +123,7 @@
             color: #ff6f00;
         }
 
-        /* Dropdown hiển thị kết quả */
-        #search-results {
-            position: absolute;
-            top: 50px;
-            left: 0;
-            width: 56%;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            z-index: 900;
-            border-radius: 5px;
-            display: none;
-        }
 
-        #search-results.d-block {
-            display: block;
-        }
-
-        #search-results a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            text-decoration: none;
-            color: #333;
-            font-size: 14px;
-            border-bottom: 1px solid #f1f1f1;
-        }
-
-        #search-results a:hover {
-            background-color: #f9f9f9;
-        }
-
-        #search-results img {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            object-fit: cover;
-            border: 2px solid #ccc;
-            padding: 2px;
-            background-color: #fff;
-        }
-
-        #search-results strong {
-            font-weight: bold;
-            font-size: 14px;
-        }
 
         .text-muted {
             color: #888;
@@ -280,7 +232,7 @@
                                     }
 
                                     resultItem.innerHTML = `
-                                <img src="/storage/images/${item.photo || 'default.jpg'}" alt="Image">
+
                                 <strong>${item.title || item.question}</strong>
                             `;
                                     searchResults.appendChild(resultItem);
@@ -331,14 +283,31 @@
                 }
             }
 
+            function hideDropdown() {
+                searchResults.innerHTML = '';
+                searchResults.classList.add('d-none');
+                searchResults.classList.remove('d-block');
+            }
+
             // Lắng nghe sự kiện input trên ô tìm kiếm
             keywordInput.addEventListener('input', fetchSearchResults);
 
             // Lắng nghe sự kiện thay đổi lựa chọn trong select
             searchType.addEventListener('change', fetchSearchResults);
+
+            // Ẩn dropdown khi mất tiêu điểm
+            keywordInput.addEventListener('blur', function(event) {
+                // Chờ một chút để kiểm tra xem người dùng có nhấp vào mục dropdown hay không
+                setTimeout(() => {
+                    hideDropdown();
+                }, 200);
+            });
+
+            // Hiển thị dropdown khi lấy lại tiêu điểm
+            keywordInput.addEventListener('focus', fetchSearchResults);
         });
     </script>
-
+    <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
     <section class="faq-section" id="faq">
         <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
@@ -783,9 +752,12 @@
     <div id="huongdanArticleModal" class="huongdan-modal">
         <span class="close" onclick="closeHuongdanModal()" style="cursor: pointer;">&times;</span>
         <img id="huongdanModalImage" src="" alt="Article Image">
+        <div id="huongdanModalDateBox">
+            <p id="huongdanModalDate"></p>
+        </div>
         <h3 id="huongdanModalTitle"></h3>
         <p id="huongdanModalContent"></p>
-        <p id="huongdanModalDate"></p>
+
     </div>
 
     <script>

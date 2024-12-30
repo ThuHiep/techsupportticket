@@ -35,21 +35,6 @@
         @csrf
 
         <div class="form-group-row">
-            <!-- Mã FAQ -->
-            <div class="form-group">
-                <label for="faq_id">Mã câu hỏi:<span class="required">*</span></label>
-                <input
-                    type="text"
-                    name="faq_id"
-                    id="faq_id"
-                    value="{{ $nextId ?? '' }}"
-                    readonly
-                >
-                @error('faq_id')
-                <div class="error visible">{{ $message }}</div>
-                @enderror
-            </div>
-        
             <!-- Email -->
             <div class="form-group">
                 <label for="email">Email người gửi:<span class="required">*</span></label>
@@ -64,9 +49,9 @@
                 <div class="error visible">{{ $message }}</div>
                 @enderror
             </div>
-        
+
             <!-- Họ và tên -->
-            
+
         </div>
         <div class="form-group-row">
             <!-- Câu hỏi -->
@@ -82,7 +67,7 @@
                 <div class="error visible">{{ $message }}</div>
                 @enderror
             </div>
-        
+
             <!-- Câu trả lời -->
             <div class="form-group">
                 <label for="answer">Câu trả lời:</label>
@@ -96,7 +81,7 @@
                 @enderror
             </div>
         </div>
-        
+
         <!-- Input ẩn để lưu trạng thái -->
         <input type="hidden" name="status" id="status" value="Chưa phản hồi">
 

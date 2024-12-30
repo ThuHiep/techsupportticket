@@ -14,6 +14,7 @@ use App\Models\RequestHistory;
 use App\Models\Attachment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class RequestController extends Controller
@@ -155,12 +156,9 @@ class RequestController extends Controller
     {
         $template = 'admin.request.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        // Lặp đến khi tìm được mã không trùng lặp
-        do {
-            $randomNumber = mt_rand(1, 9999999);
-            $nextId = 'RQ' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
-            $exists = SupportRequest::where('request_id', $nextId)->exists();
-        } while ($exists); // Nếu tồn tại mã này, sinh lại
+
+        $nextId = (string) Str::uuid();
+
 
         // Lấy danh sách khách hàng, phòng ban, và loại yêu cầu để tạo các lựa chọn trong form
         $customers = Customer::all();
@@ -232,17 +230,6 @@ class RequestController extends Controller
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'supportRequest', 'customers', 'departments', 'requestTypes'));
     }
 
-
-    private function generateAttachmentId()
-    {
-        do {
-            // Tạo 8 số ngẫu nhiên từ 00000000 đến 99999999
-            $randomNumber = mt_rand(0, 99999999);
-            $attachmentId = 'ATT' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
-        } while (Attachment::where('attachment_id', $attachmentId)->exists());
-
-        return $attachmentId;
-    }
 
     /**
      * Cập nhật yêu cầu trong cơ sở dữ liệu
@@ -325,7 +312,7 @@ class RequestController extends Controller
 
             // Tạo mới bản ghi Attachment
             $supportRequest->attachment()->create([
-                'attachment_id' => $this->generateAttachmentId(),
+                'attachment_id' => (string) Str::uuid(),
                 'filename' => $filename,
                 'file_path' => $filePath,
                 'file_size' => $fileSize,

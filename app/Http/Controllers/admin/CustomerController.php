@@ -15,6 +15,7 @@ use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
+
 class CustomerController extends Controller
 {
     public function index(Request $request)
@@ -52,9 +53,8 @@ class CustomerController extends Controller
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
 
         // Sinh customer_id ngẫu nhiên và kiểm tra trùng lặp
-        do {
-            $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        } while (Customer::where('customer_id', $randomId)->exists());
+        $randomId =(string) Str::uuid();
+
 
         // Sinh username ngẫu nhiên
         $username = 'user' . mt_rand(100000, 999999);
@@ -170,8 +170,8 @@ class CustomerController extends Controller
             'email.unique' => 'Email đã tồn tại',
         ]);
         // Sinh các giá trị ngẫu nhiên như trước
-        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        $randuserID = 'TK' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        $randomId = (string) Str::uuid();
+        $randuserID = (string) Str::uuid();
         $username = 'user' . mt_rand(100000, 999999);
         $password = Str::random(12);
 
