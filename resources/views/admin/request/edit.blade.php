@@ -200,7 +200,7 @@
         <form id="replyForm" method="POST" action="{{ route('request.reply', $supportRequest->request_id) }}">
             @csrf
             
-                @include('admin.request.feedback')
+                @include('admin.request.reply-cus')
             {{-- /////////////////////////// --}}
             {{-- <div class="form-group">
                 <label for="reply_content">Nội dung phản hồi:</label>

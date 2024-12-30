@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@include('admin.dashboard.component.header')
+@include('guest.account.component.header')
 <html>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <body>
@@ -41,7 +41,7 @@
 
 
 
-        @include('admin.dashboard.component.script')
+        @include('guest.account.component.script')
 </body>
 
 </html>
