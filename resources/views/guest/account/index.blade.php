@@ -185,14 +185,14 @@
             </div>
           </div>
           <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
-      
+
             <div class="button-group">
               <button id="edit-btn" class="edit-button">
                 Chỉnh sửa thông tin
               </button>
               <div class="btn btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
             </div>
-          
+
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
@@ -584,35 +584,60 @@
       </div>
     </section>
 
-    <!-- Lịch sử yêu cầu -->
-    <section id="request-history" class="request-history section">
-      <div class="container">
-        @forelse ($requests as $request)
-        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
-          <div class="request-info">
-            <h3>{{ $request->request_id }}</h3>
-            <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
-            <p>{{ $request->subject }}</p>
-          </div>
-          <div class="request-arrow">→</div>
-        </div>
-        @empty
-        <p>Không có yêu cầu nào trong lịch sử.</p>
-        @endforelse
-        
-      </div>
-    </section>
+      <!-- Lịch sử yêu cầu -->
+      <!-- Lịch sử yêu cầu -->
+      <section id="request-history" class="request-history section">
+          <div class="container">
+              @forelse ($requests as $request)
+                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+                      <div class="request-info">
+                          <h3>{{ $request->request_id }}</h3>
+                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
+                          <p>{{ $request->subject }}</p>
+                      </div>
+                      <div class="request-arrow">→</div>
+                  </div>
 
-    <!-- Modal trạng thái -->
-    <div id="modal-status" class="modal-request">
-      <div class="modal-content-request">
-        <span class="close-btn" onclick="closeForm()">×</span>
-        <h2>Trạng thái yêu cầu</h2>
-        <div id="status-timeline">
-          <!-- Nội dung trạng thái sẽ được tạo động -->
-        </div>
+                  <!-- Phần Nhập Phản Hồi -->
+                  <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+                      <h3>Phản hồi</h3>
+                      <form id="replyForm-{{ $request->request_id }}" method="POST" action="{{ route('request.reply', $request->request_id) }}">
+                          @csrf
+                          <div class="form-group">
+                              <label for="reply_content_{{ $request->request_id }}">Nội dung phản hồi:</label>
+                              <textarea id="reply_content_{{ $request->request_id }}" name="reply_content" rows="4" required></textarea>
+                              @error('reply_content')
+                              <div class="error">{{ $message }}</div>
+                              @enderror
+                          </div>
+                          <button type="submit" class="submit-button">Gửi Phản Hồi</button>
+                          <button type="button" class="cancel-button" onclick="cancelReply('{{ $request->request_id }}')">Hủy</button>
+                      </form>
+
+                      <!-- Trạng thái yêu cầu -->
+                      <div class="status-container" id="status-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+                          <h3>Trạng thái yêu cầu</h3>
+                          <div id="status-timeline-{{ $request->request_id }}">
+                              <!-- Nội dung trạng thái sẽ được tạo động -->
+                          </div>
+                      </div>
+                  </div>
+              @empty
+                  <p>Không có yêu cầu nào trong lịch sử.</p>
+              @endforelse
+          </div>
+      </section>
+
+      <!-- Modal trạng thái -->
+      <div id="modal-status" class="modal-request">
+          <div class="modal-content-request">
+              <span class="close-btn" onclick="closeForm()">×</span>
+              <h2>Trạng thái yêu cầu</h2>
+              <div id="status-timeline">
+                  <!-- Nội dung trạng thái sẽ được tạo động -->
+              </div>
+          </div>
       </div>
-    </div>
 
     <script>
       // Hàm gọi API để lấy trạng thái yêu cầu
@@ -640,41 +665,54 @@
       }
 
       // Hàm hiển thị trạng thái yêu cầu trong modal
-      function renderRequestStatus(data) {
-        const timeline = document.getElementById("status-timeline");
-        timeline.innerHTML = ""; // Xóa nội dung trước đó
+      function viewRequestDetail(requestId) {
+          const replyContainer = document.getElementById(`reply-container-${requestId}`);
+          const statusContainer = document.getElementById(`status-container-${requestId}`);
 
-        console.log("Rendering request status:", data); // Debug log
+          // Chuyển đổi hiển thị
+          if (replyContainer.style.display === "none") {
+              replyContainer.style.display = "block"; // Hiển thị phần phản hồi
+              statusContainer.style.display = "block"; // Hiển thị trạng thái yêu cầu
+          } else {
+              replyContainer.style.display = "none"; // Ẩn phần phản hồi
+              statusContainer.style.display = "none"; // Ẩn trạng thái yêu cầu
+          }
 
-        // Tạo các trạng thái động
-        data.forEach((item, index) => {
-          const isCompleted = index === data.length - 1 ? "completed" : "";
-
-          const statusItem = `
-                <div class="status-item ${isCompleted}">
-                    <div class="circle"></div>
-                    <div class="line"></div>
-                    <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
-                </div>
-            `;
-          timeline.innerHTML += statusItem;
-        });
-
-        // Nếu không có dữ liệu, hiển thị thông báo
-        if (data.length === 0) {
-          timeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
-        }
+          // Gọi API để lấy dữ liệu (nếu cần)
+          fetchRequestStatus(requestId).then(data => {
+              renderRequestStatus(data, requestId); // Gọi hàm hiển thị trạng thái
+          });
       }
 
-      // Mở modal và hiển thị trạng thái yêu cầu
-      function viewRequestDetail(requestId) {
-        const modal = document.getElementById("modal-status");
+      // Hàm hiển thị trạng thái yêu cầu
+      function renderRequestStatus(data, requestId) {
+          const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
+          statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
 
-        // Gọi API để lấy dữ liệu
-        fetchRequestStatus(requestId).then(data => {
-          renderRequestStatus(data);
-          modal.style.display = "block";
-        });
+          // Tạo các trạng thái động
+          data.forEach(item => {
+              const statusItem = `
+            <div class="status-item">
+                <div class="circle"></div>
+                <div class="line"></div>
+                <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
+            </div>
+        `;
+              statusTimeline.innerHTML += statusItem;
+          });
+
+          // Nếu không có dữ liệu, hiển thị thông báo
+          if (data.length === 0) {
+              statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+          }
+      }
+
+      // Đóng form phản hồi
+      function cancelReply(requestId) {
+          const replyContainer = document.getElementById(`reply-container-${requestId}`);
+          replyContainer.style.display = "none"; // Ẩn phần nhập phản hồi
+          const statusContainer = document.getElementById(`status-container-${requestId}`);
+          statusContainer.style.display = "none"; // Ẩn trạng thái yêu cầu
       }
 
       // Đóng modal
@@ -774,7 +812,7 @@
     <!-- Main JS File -->
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs"></script>
     <script src="guest/js/main.js"></script>
-
+  </main>
 </body>
 
 </html>
