@@ -170,8 +170,8 @@ class CustomerController extends Controller
             'email.unique' => 'Email đã tồn tại',
         ]);
         // Sinh các giá trị ngẫu nhiên như trước
-        $randomId = 'KH' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
-        $randuserID = 'TK' . str_pad(mt_rand(1, 99999999), 8, STR_PAD_LEFT);
+        $randomId = (string) Str::uuid();
+        $randuserID = (string) Str::uuid();
         $username = 'user' . mt_rand(100000, 999999);
         $password = Str::random(12);
 
