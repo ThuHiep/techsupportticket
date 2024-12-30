@@ -1,25 +1,23 @@
 <!DOCTYPE html>
+@include('guest.account.component.header')
 <html>
-
-
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <body>
     <div class="animated fadeInRight">
         <div class="mail-box-header">
-            <div class="pull-right tooltip-demo">
-                <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
-                <a href="mailbox.html" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
-            </div>
             <h2>
-                Compse mail
+                Nội dung phản hồi
             </h2>
         </div>
             <div class="mail-box">
+                <div class="mail-body">
 
+                    Lorem Ipsum has been the industry's
+                    Lorem Ipsum has been the industry's
+                    Lorem Ipsum has been the industry's
 
-
+                </div>
                 <div class="mail-text h-200">
-
                     <div class="summernote">
                         <h3>Hello Jonathan! </h3>
                         dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong> standard dummy text ever since the 1500s,
@@ -32,9 +30,7 @@
                         <div class="clearfix"></div>
                     </div>
                 <div class="mail-body text-right tooltip-demo">
-                    <a href="mailbox.html" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send"><i class="fa fa-reply"></i> Send</a>
-                    <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
-                    <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+                    <a href="mailbox.html" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send"><i class="fa fa-share"></i> Gửi</a>
                 </div>
                 <div class="clearfix"></div>
 
@@ -45,7 +41,7 @@
 
 
 
-    
+        @include('guest.account.component.script')
 </body>
 
 </html>

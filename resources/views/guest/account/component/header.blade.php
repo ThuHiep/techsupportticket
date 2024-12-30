@@ -1,4 +1,4 @@
-<base href="{{ env('APP_URL') }}">
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -14,6 +14,7 @@
 <link href="admin/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="admin/css/plugins/summernote/summernote.css" rel="stylesheet">
 <link href="admin/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+
 
 
 

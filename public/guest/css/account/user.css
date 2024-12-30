@@ -18,24 +18,28 @@ body {
 
 
 a {
-  color: var(--accent-color);
   text-decoration: none;
   transition: 0.3s;
+  font-size: 18px;
 }
 
 a:hover {
   text-decoration: none;
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--heading-color);
-  font-family: var(--heading-font);
+h1{
+  text-align: center;
 }
+p{
+  font-size: 20px;
+}
+/* Ẩn toggle trên màn hình lớn */
+@media (min-width: 1024px) {
+  .header-toggle {
+    display: none !important;
+  }
+}
+
+
 
     /* Nút mở modal */
     .btn-open-modal {
@@ -209,6 +213,7 @@ h6 {
   display: block;
   width: 100px;
   height: 100px;
+  border-radius: 50%;
   border: 8px solid color-mix(in srgb, var(--default-color), transparent 85%);
 }
 
@@ -435,16 +440,17 @@ h6 {
   z-index: 99999;
   background-color: #6f2f9f;
     color: #ffffff;
-  width: 44px;
-  height: 44px;
+  width: 35px;
+  height: 35px;
+
   border-radius: 50px;
   transition: all 0.4s;
 }
 
 .scroll-top i {
   font-size: 24px;
-  color: var(--contrast-color);
-  line-height: 0;
+  margin-left: 6px;
+  margin-top: 8px;
 }
 
 .scroll-top:hover {
@@ -531,6 +537,7 @@ section,
   padding-bottom: 20px;
   position: relative;
   bottom: -10px;
+  margin-top: -1px;
 }
 .section-title h3{
   font-weight: bold;
@@ -595,6 +602,7 @@ section,
   padding-bottom: 20px;
   position: relative;
   bottom: -5px;
+  margin-top: -1px;
 }
 
 .home.section {
@@ -690,10 +698,12 @@ section,
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  font-size: 18px;
 }
 
 .about .content ul strong {
   margin-right: 10px;
+
 }
 
 .about .content ul i {
@@ -781,24 +791,12 @@ input, textarea {
   border-radius: 10px;
 }
 
-button {
-  margin-top: 15px;
-  padding: 10px 15px;
-  background-color: #EC9300;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
 
-button:hover {
-  background-color: darken(var(--accent-color), 50%);
-  background-color: #764DAA;
-}
 .btn-request{
   background-color: #6F2F9F;
   font-weight: bold;
   color: white;
+  font-size: 18px;
 }
 .btn-request:hover{
   background-color: #6F2F9F;
@@ -813,6 +811,7 @@ button:hover {
 .form-container {
   display: flex;
   gap: 20px;
+  font-size: 16px;
 }
 
 .form-column {
@@ -874,6 +873,7 @@ input, select {
   color: white;
   cursor: pointer;
   margin: 0 5px;
+  font-size: 16px;
 }
 
 .btn-update {
@@ -930,7 +930,7 @@ input, select {
  /* Điều chỉnh layout */
 .button-group {
   display: flex;
-  justify-content: center; /* Căn giữa theo chiều ngang */
+
   align-items: center; /* Căn giữa theo chiều dọc */
   gap: 15px; /* Khoảng cách giữa các nút */
   flex-wrap: wrap; /* Đảm bảo nút xuống dòng nếu không đủ không gian */

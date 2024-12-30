@@ -1,4 +1,17 @@
 /* Tổng quan */
+   /* Khi sidebar ở trạng thái bình thường */
+body .container {
+width: calc(98%);
+/* Độ rộng sau khi trừ sidebar */
+transition: all 0.3s ease-in-out;
+}
+
+/* Khi sidebar thu nhỏ */
+body.mini-navbar .container {
+width: calc(98%);
+ /* Mở rộng nội dung khi sidebar thu nhỏ */
+transition: all 0.3s ease-in-out;
+}
 body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0;
@@ -264,7 +277,10 @@ input.error, select.error {
     display: block;
     margin: 0 auto 20px;
 }
-
+.required {
+    color: red;
+    font-size: 14px;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

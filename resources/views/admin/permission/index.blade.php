@@ -33,7 +33,7 @@
                         type="text"
                         name="search"
                         id="searchInput"
-                        placeholder="Nhập mã hoặc tên người dùng cần tìm"
+                        placeholder="Nhập tên người dùng cần tìm"
                         value="{{ $search }}"
                         style="padding-right: 30px;">
                     @if($search)

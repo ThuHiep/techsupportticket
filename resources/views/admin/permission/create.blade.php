@@ -1,23 +1,8 @@
 <link rel="stylesheet" href="{{ asset('admin/css/permission/style_create.css') }}">
 <style>
-    /* Khi sidebar ở trạng thái bình thường */
-    body .container {
-        width: calc(98%);
-        /* Độ rộng sau khi trừ sidebar */
-        transition: all 0.3s ease-in-out;
-    }
 
-    /* Khi sidebar thu nhỏ */
-    body.mini-navbar .container {
-        width: calc(98%);
-        /* Mở rộng nội dung khi sidebar thu nhỏ */
-        transition: all 0.3s ease-in-out;
-    }
 
-    .required {
-        color: red;
-        font-size: 14px;
-    }
+ 
 </style>
 
 <body>
@@ -38,6 +23,13 @@
                             @error('full_name')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
+                            <select class="form-select" id="role_id" name="role_id" required>
+                                <option value="1">Quản trị viên hệ thống</option>
+                                <option value="2">Nhân viên hỗ trợ</option>
+                            </select>
                         </div>
                     </div>
 
@@ -65,26 +57,19 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" value="{{ old('phone') }}" required>
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                             <input type="text" id="address" name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" value="{{ old('address') }}" required>
                             @error('address')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
-                            <select class="form-select" id="role_id" name="role_id" required>
-                                <option value="1">Quản trị viên hệ thống</option>
-                                <option value="2">Nhân viên hỗ trợ</option>
-                            </select>
                         </div>
                     </div>
                 </div>

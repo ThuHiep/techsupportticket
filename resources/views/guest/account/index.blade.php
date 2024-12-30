@@ -9,29 +9,13 @@
   <meta content="" name="keywords" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-
-  <!-- Vendor CSS Files -->
-  <link
-    href="guest/bootstraps/bootstrap/css/bootstrap.min.css"
-    rel="stylesheet" />
-  <link
-    href="guest/bootstraps/bootstrap-icons/bootstrap-icons.css"
-    rel="stylesheet" />
-  <link href="guest/bootstraps/bootstrap/aos/aos.css" rel="stylesheet" />
-  <link
-    href="guest/bootstraps/bootstrap/glightbox/css/glightbox.min.css"
-    rel="stylesheet" />
-  <link
-    href="guest/bootstraps/bootstrap/swiper/swiper-bundle.min.css"
-    rel="stylesheet" />
-  <link href="guest/bootstraps/bootstrap/js/main.js" rel="stylesheet" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <!-- Main CSS File -->
   <link href="guest/css/account/user.css" rel="stylesheet" />
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ 
 
 </head>
 
@@ -46,12 +30,7 @@
         alt=""
         class="img-fluid rounded-circle" />
     </div>
-
-    <a href="index.html" class="logo">
       <h1 class="sitename">{{$logged_user->full_name}}</h1>
-    </a>
-
-
     <nav id="navmenu" class="navmenu">
       <ul>
         <li>
@@ -103,7 +82,7 @@
             <img src="/guest/img/notification.gif" alt="support"
               class="img-fluid-home" />
             <p>Bạn có yêu cầu cần được hỗ trợ ?</p>
-            <button class="btn btn-request" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
+            <button class="btn-request" onclick="window.location.href='{{ route('showFormRequest') }}'">Tạo yêu cầu hỗ trợ</button>
           </div>
         </div>
         <div class="text-center mt-4"></div>
@@ -183,17 +162,14 @@
                 </ul>
               </div>
             </div>
-          </div>
-          <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
-
             <div class="button-group">
               <button id="edit-btn" class="edit-button">
                 Chỉnh sửa thông tin
               </button>
-              <div class="btn btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
+              <div class="btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
             </div>
-
-
+          </div>
+          <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
             <span class="close_pass">x</span>
@@ -603,7 +579,9 @@
                       <h3>Phản hồi</h3>
                       <form id="replyForm-{{ $request->request_id }}" method="POST" action="{{ route('request.reply', $request->request_id) }}">
                           @csrf
-                          <div class="form-group">
+
+                          @include('guest.account.reply-ad')
+                          {{-- <div class="form-group">
                               <label for="reply_content_{{ $request->request_id }}">Nội dung phản hồi:</label>
                               <textarea id="reply_content_{{ $request->request_id }}" name="reply_content" rows="4" required></textarea>
                               @error('reply_content')
@@ -611,9 +589,17 @@
                               @enderror
                           </div>
                           <button type="submit" class="submit-button">Gửi Phản Hồi</button>
-                          <button type="button" class="cancel-button" onclick="cancelReply('{{ $request->request_id }}')">Hủy</button>
+                          <button type="button" class="cancel-button" onclick="cancelReply('{{ $request->request_id }}')">Hủy</button> --}}
                       </form>
 
+                      <script>
+                        $(document).ready(function(){
+                    
+                            $('.summernote').summernote();
+                    
+                        });
+                    
+                    </script>
                       <!-- Trạng thái yêu cầu -->
                       <div class="status-container" id="status-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
                           <h3>Trạng thái yêu cầu</h3>

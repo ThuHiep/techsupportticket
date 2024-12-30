@@ -45,6 +45,13 @@
                             <input type="text" id="username" name="username" class="form-control"
                                 value="{{ $employee->user->username }}" required>
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
+                            <select class="form-select" id="role_id" name="role_id" required>
+                                <option value="1" {{ $employee->user->role_id  == '1' ? 'selected' : '' }}>Quản trị viên hệ thống</option>
+                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên hỗ trợ </option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="row mb-3">
@@ -87,13 +94,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="form-group col-md-6">
-                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
-                            <select class="form-select" id="role_id" name="role_id" required>
-                                <option value="1" {{ $employee->user->role_id  == '1' ? 'selected' : '' }}>Quản trị viên hệ thống</option>
-                                <option value="2" {{ $employee->user->role_id  == '2' ? 'selected' : '' }}>Nhân viên hỗ trợ </option>
-                            </select>
-                        </div>
+                        
                     </div>
                 </div>
 
