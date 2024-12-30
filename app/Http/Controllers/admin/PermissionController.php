@@ -28,15 +28,11 @@ class PermissionController extends Controller
             ->join('role', 'role.role_id', '=', 'user.role_id')
             ->where('status', 'active');
 
-        if ($search) {
-            if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
-                // Tìm theo mã admin hoặc nhân viên
-                $query->where('employee_id', '=', $search);
-            } else {
+            if ($search) {
                 // Tìm theo tên
                 $query->where('full_name', 'LIKE', "%$search%");
             }
-        }
+            
         $count = $query->count();
         $resultMessage = '';
 
@@ -44,18 +40,11 @@ class PermissionController extends Controller
         $resultMessage = '';
 
         if ($count > 0) {
-            if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
-                $resultMessage = "Tìm thấy {$count} người dùng có mã: {$search}";
-            } else {
-                $resultMessage = "Tìm thấy {$count} người dùng có tên chứa từ khóa: {$search}";
-            }
+            $resultMessage = "Tìm thấy {$count} người dùng có tên chứa từ khóa: {$search}";
         } else {
-            if (preg_match('/^AD\d{8}$/', $search) || preg_match('/^NV\d{8}$/', $search)) {
-                $resultMessage = "Không tìm thấy người dùng có mã: {$search}";
-            } else {
-                $resultMessage = "Không tìm thấy người dùng có tên chứa từ khóa: {$search}";
-            }
+            $resultMessage = "Không tìm thấy người dùng có tên chứa từ khóa: {$search}";
         }
+        
 
 
         $employees = $query->select('employee.*', 'user.*', 'role.description')
