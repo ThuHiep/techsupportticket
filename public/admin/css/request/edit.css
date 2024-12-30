@@ -260,8 +260,13 @@ h1 {
     outline: none!important;
 }
 .reply-button:hover {
-    background-color: #4A1F6A; /* Màu xanh đậm hơn */
+    background-color: #4A1F6A;
+    color: #ffffff;
     transform: scale(1.05); /* Phóng to nhẹ */
+}
+.reply-button:focus {
+    background-color: #4A1F6A; 
+    color: #ffffff;
 }
 .reply-button:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
