@@ -88,17 +88,16 @@
           </div>
 
           <script>
-            document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function(event) {
-              event.preventDefault();
+            document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function (event) {
+                event.preventDefault();
 
-              // Kích hoạt bộ lọc "Chưa xử lý"
-              document.querySelector('.portfolio-filters li[data-filter=".chua-xu-ly"]').click();
+                // Kích hoạt bộ lọc "Chưa xử lý"
+                document.querySelector('.portfolio-filters li[data-filter=".chua-xu-ly"]').click();
 
-              // Cuộn đến phần tử có ID "chua-xu-ly"
-              document.getElementById('chua-xu-ly').scrollIntoView({
-                behavior: 'smooth'
-              });
+                // Cuộn đến phần tử có ID "chua-xu-ly"
+                document.getElementById('chua-xu-ly').scrollIntoView({ behavior: 'smooth' });
             });
+
           </script>
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
@@ -125,7 +124,7 @@
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="margin-left: 20px; height:250px" />
+              alt="" style="margin-left: 20px; height:250px"/>
           </div>
           <div class="col-lg-8 content" style="margin-top: 40px">
             <h2 id="title">Thông tin cá nhân</h2>
@@ -186,14 +185,14 @@
             </div>
           </div>
           <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
-
-          <div class="button-group">
-            <button id="edit-btn" class="edit-button">
-              Chỉnh sửa thông tin
-            </button>
-            <div class="btn btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
-          </div>
-
+      
+            <div class="button-group">
+              <button id="edit-btn" class="edit-button">
+                Chỉnh sửa thông tin
+              </button>
+              <div class="btn btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
+            </div>
+          
 
           <div class="modal-overlay" id="modalOverlay"></div>
           <div class="modalPass reset-password-box" id="registrationForm">
@@ -544,21 +543,21 @@
             // }
             // Preview ảnh với kích thước giới hạn
             function previewImage(event) {
-              const file = event.target.files[0];
-              if (file) {
-                const reader = new FileReader();
-                reader.onload = function() {
-                  const output = document.getElementById("preview-img");
-                  output.src = reader.result;
-                  output.style.display = "block";
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const output = document.getElementById("preview-img");
+                        output.src = reader.result;
+                        output.style.display = "block";
 
-                  // Giới hạn kích thước hiển thị
-                  output.style.maxWidth = "100px"; // Chiều rộng tối đa
-                  output.style.maxHeight = "100px"; // Chiều cao tối đa
-                  output.style.objectFit = "cover"; // Giữ tỷ lệ hình ảnh
-                };
-                reader.readAsDataURL(file);
-              }
+                        // Giới hạn kích thước hiển thị
+                        output.style.maxWidth = "100px"; // Chiều rộng tối đa
+                        output.style.maxHeight = "100px"; // Chiều cao tối đa
+                        output.style.objectFit = "cover"; // Giữ tỷ lệ hình ảnh
+                    };
+                    reader.readAsDataURL(file);
+                }
             }
           </script>
         </div>
@@ -589,7 +588,7 @@
     <section id="request-history" class="request-history section">
       <div class="container">
         @forelse ($requests as $request)
-        <div class="request-item {{ Str::slug($request->status, '-') }}" >
+        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
           <div class="request-info">
             <h3>{{ $request->request_id }}</h3>
             <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
@@ -732,27 +731,21 @@
           <!-- Danh sách tài khoản -->
           @foreach ($accounts as $account)
           <li class="account-item">
-            <form action="{{ route('account.switch', $account['username']) }}" method="POST" class="account-form">
+            <form action="{{ route('account.switch', $account->id) }}" method="POST" class="account-form">
               @csrf
               <div class="account-info">
-                <img src="{{ $account['profile_image'] ? asset('admin/img/customer/' . $account['profile_image']) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
-                <span class="account-name">{{ $account['full_name'] }}</span>
+                <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
+                <span class="account-name">{{ $account->customer->full_name }}</span>
               </div>
               <button type="submit" class="btn-switch">Chuyển</button>
             </form>
-
-            <form action="{{ route('account.remove', $account['customer_id']) }}" method="POST" class="account-remove-form">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="btn-remove">Xóa</button>
-            </form>
           </li>
+
           @endforeach
         </ul>
         <a class="login-button btn-add-account" href="{{ route('login') }}">+ Thêm tài khoản mới</a>
       </div>
     </div>
-
     <script>
       // Lấy các phần tử
       const modal_switch = document.getElementById('accountModal');
