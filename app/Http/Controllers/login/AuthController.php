@@ -13,6 +13,7 @@ use App\Models\SwitchedUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -96,28 +97,55 @@ class AuthController extends Controller
                 $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
                 return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
             } elseif ($user->role_id == 3) {
+                // Lấy thông tin tài khoản từ cookie, nếu có
+                $accounts = Cookie::get('accounts', []);
+
+                // Nếu tài khoản là chuỗi, giải mã JSON, nếu không thì $accounts đã là mảng
+                $accounts = is_string($accounts) ? json_decode($accounts, true) : $accounts;
+
+                // Nếu không có tài khoản trong cookie, khởi tạo mảng rỗng
+                $accounts = $accounts ?: [];
+
+                // Lấy thông tin tài khoản hiện tại của người dùng đăng nhập
                 $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-                $exists = SwitchedUser::where('customer_id', $logged_user->customer_id)->exists();
-                if (!$exists) {
-                    if (isset($request['remember']) && !empty($request['remember'])) {
-                        $account = new SwitchedUser();
-                        $account->customer_id = $logged_user->customer_id;
-                        $account->username = $request['username'];
-                        $account->password = $request['password'];
-                        $account->save();
-                    } else {
-                        $account = new SwitchedUser();
-                        $account->customer_id = $logged_user->customer_id;
-                        $account->username = $request['username'];
-                        $account->save();
+
+                // Kiểm tra tài khoản đã có trong cookie chưa
+                $existingAccount = collect($accounts)->firstWhere('username', $request->username);
+
+                // Nếu tài khoản chưa có trong cookie, thêm vào cookie
+                if (!$existingAccount) {
+                    $account = [
+                        'customer_id' => $logged_user->customer_id,
+                        'full_name' => $logged_user->full_name,
+                        'profile_image' => $logged_user->profile_image,
+                        'username' => $request->username,
+                    ];
+
+                    // Nếu có chọn "Remember me", lưu thêm password
+                    if ($request->remember) {
+                        $account['password'] = $request->password;
                     }
+
+                    // Thêm tài khoản vào danh sách tài khoản trong cookie
+                    $accounts[] = $account;
+
+                    // Cập nhật cookie
+                    Cookie::queue('accounts', json_encode($accounts), 60 * 24 * 30);  // Lưu trong 30 ngày
                 } else {
-                    if (isset($request['remember']) && !empty($request['remember'])) {
-                        $account = SwitchedUser::where('customer_id', $logged_user->customer_id)->first();
-                        $account->password = $request['password'];
-                        $account->save();
+                    // Nếu tài khoản đã có trong cookie và có chọn "Remember me", lưu thêm password vào cookie
+                    if ($request->remember) {
+                        // Tìm và cập nhật mật khẩu của tài khoản trong mảng
+                        foreach ($accounts as &$account) {
+                            if ($account['username'] === $request->username) {
+                                $account['password'] = $request->password;
+                                break;
+                            }
+                        }
                     }
+                    Cookie::queue('accounts', json_encode($accounts), 60 * 24 * 30);  // Lưu trong 30 ngày
                 }
+
+                // Trả về trang chủ sau khi đăng nhập thành công
                 return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
             } else {
                 return back()->with('error', 'Không tìm thấy vai trò của bạn.')->withInput();

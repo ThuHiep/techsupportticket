@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Request;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request as SupportRequest;
 use App\Models\Customer;
@@ -358,6 +359,18 @@ class RequestController extends Controller
 
             return response()->json(['count' => $pendingRequests]);
 
+    }
+
+    public function reply(HttpRequest $request, $request_id)
+    {
+        // Lấy yêu cầu hỗ trợ kỹ thuật theo ID
+        $supportRequest = Request::findOrFail($request_id);
+
+        // Xử lý dữ liệu phản hồi (ví dụ: lưu vào database, gửi email, v.v.)
+        // Bạn có thể thêm logic xử lý ở đây
+
+        // Sau khi xử lý xong, chuyển hướng đến trang edit với request_id tương ứng
+        return redirect()->route('request.edit', $request_id)->with('success', 'Phản hồi đã được gửi thành công!');
     }
 
 
