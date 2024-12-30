@@ -702,6 +702,24 @@ footer {
     font-weight: normal;
     font-size: 14px;
 }
+#huongdanModalDateBox {
+    background-color: orange;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin-top: 15px;
+    width: 15%;
+    text-align: center; /* Đảm bảo nội dung chữ căn giữa trong trường hợp nhiều dòng */
+}
+
+
+#huongdanModalDate {
+    margin: 0; /* Loại bỏ khoảng cách mặc định */
+    font-size: 14px; /* Điều chỉnh kích thước chữ nếu cần */
+}
 
 /* Default styles (áp dụng cho màn hình lớn hơn 764px) */
 
