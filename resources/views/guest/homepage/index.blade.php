@@ -761,11 +761,13 @@
     </div>
 
     <script>
-        // Hàm mở Modal khi click vào card
         function openHuongdanModal(cardElement, title, content, date) {
             document.getElementById('huongdanModalTitle').innerText = title;
-            document.getElementById('huongdanModalContent').innerHTML = content; // Sử dụng innerHTML
+            document.getElementById('huongdanModalContent').innerHTML = content;
             document.getElementById('huongdanModalDate').innerText = date;
+
+            const imageSrc = cardElement.querySelector('img').getAttribute('src');
+            document.getElementById('huongdanModalImage').setAttribute('src', imageSrc);
 
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
@@ -773,6 +775,7 @@
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
         }
+
 
         function closeHuongdanModal() {
             const modal = document.getElementById('huongdanArticleModal');
