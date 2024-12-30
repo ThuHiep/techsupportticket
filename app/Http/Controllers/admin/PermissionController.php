@@ -133,7 +133,7 @@ class PermissionController extends Controller
 
         // Tạo nhân viên mới
         $employee = new Employee();
-        $employee->employee_id = $request->input('employee_id');
+        $employee->employee_id = (string) Str::uuid();
         $employee->user_id = $randomUserId;
         $employee->full_name = preg_replace('/\s+/', ' ', trim($request->input('full_name')));
         $employee->email = $request->input('email');
