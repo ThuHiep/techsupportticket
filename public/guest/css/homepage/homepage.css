@@ -779,6 +779,9 @@ footer {
         width: 53%;
         height: 64%;
     }
+    .modal button, .modal-registration button{
+        margin: 34px auto 10px auto;
+    }
     .main-content .right .search-container input[type="text"], select{
         font-size: 13px;
     }
@@ -793,7 +796,12 @@ footer {
         width: max-content;
         max-width: 90%;
     }
+    .modal h2, .modal-registration h2{
+        margin-top: 0px;
+        margin-bottom: 25px;
+    }
 }
+
 
 /* Màn hình tối đa 425px */
 @media (max-width: 426px) {
@@ -836,8 +844,12 @@ footer {
         font-size: 18px;
     }
     .modal-registration {
-        width: 90%;
+        width: 70%;
         height: auto;
+    }
+    .modal button, .modal-registration button {
+        width: 45%;
+        padding: 11px;
     }
     .search-container{
         align-items: flex-start!important;
