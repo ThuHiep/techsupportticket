@@ -217,7 +217,7 @@
 
     <!-- Phần Lịch Sử Yêu Cầu -->
     <div class="history-container">
-        <h2>Lịch sử trạng thái yêu cầu</h2>
+        <h1>Lịch sử trạng thái yêu cầu</h1>
         @if($supportRequest->history->count() > 0)
             <!-- Thêm đoạn sắp xếp tạm ở đây -->
             @php

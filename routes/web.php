@@ -199,7 +199,8 @@ Route::name('articles.')->group(function () {
 Route::get('account', [UserController::class, 'indexAccount'])->middleware('customer')->name('indexAccount');
 Route::put('guest/changePass', [UserController::class, 'changePass'])->middleware('customer')->name('account.changePass');
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
-Route::post('/account-switch/{id}', [UserController::class, 'switchAccount'])->name('account.switch');
+Route::post('/account-switch/{id}', [UserController::class, 'switchAccount'])->middleware('customer')->name('account.switch');
+Route::delete('remove-account/{customer_id}', [UserController::class, 'removeAccount'])->middleware('customer')->name('account.remove');
 
 // Route để hiển thị form
 Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
