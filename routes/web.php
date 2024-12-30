@@ -120,9 +120,7 @@ Route::name('request.')->group(function () {
     Route::get('/request/create', [RequestController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/request/store', [RequestController::class, 'store'])->middleware('customersp')->name('store');
     Route::get('/request/edit/{request_id}', [RequestController::class, 'edit'])->middleware('customersp')->name('edit');
-    Route::post('/request/reply/{request_id}', [RequestController::class, 'reply'])
-        ->middleware('customersp')
-        ->name('reply');
+    Route::post('/request/reply/{request_id}', [RequestController::class, 'reply'])->middleware('customersp')->name('reply');
     Route::put('/request/update/{request_id}', [RequestController::class, 'update'])->middleware('customersp')->name('update');
     Route::delete('/request/delete/{request_id}', [RequestController::class, 'destroy'])->middleware('customersp')->name('delete');
 
@@ -201,6 +199,8 @@ Route::put('guest/changePass', [UserController::class, 'changePass'])->middlewar
 Route::put('/updateProfile', [UserController::class, 'updateProfile'])->middleware('customer')->name('customer.updateProfile');
 Route::post('/account-switch/{id}', [UserController::class, 'switchAccount'])->middleware('customer')->name('account.switch');
 Route::delete('remove-account/{customer_id}', [UserController::class, 'removeAccount'])->middleware('customer')->name('account.remove');
+Route::get('/feedback/{request_id}', [UserController::class, 'getFeedbackByRequestId'])->middleware('customer');
+Route::post('/reply/{request_id}', [UserController::class, 'reply'])->middleware('customer')->name('customer.reply');
 
 // Route để hiển thị form
 Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');

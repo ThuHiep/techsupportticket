@@ -15,7 +15,59 @@
   <link href="guest/css/account/user.css" rel="stylesheet" />
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
- 
+
+  <style>
+    .feedback-show {
+      margin-top: 15px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-item {
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .feedback-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .feedback-user-info {
+      flex-grow: 1;
+    }
+
+    .feedback-time {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+
+    .feedback-message {
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+      line-height: 1.5;
+    }
+  </style>
 
 </head>
 
@@ -30,7 +82,7 @@
         alt=""
         class="img-fluid rounded-circle" />
     </div>
-      <h1 class="sitename">{{$logged_user->full_name}}</h1>
+    <h1 class="sitename">{{$logged_user->full_name}}</h1>
     <nav id="navmenu" class="navmenu">
       <ul>
         <li>
@@ -67,16 +119,17 @@
           </div>
 
           <script>
-            document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function (event) {
-                event.preventDefault();
+            document.querySelector('a[href="#chua-xu-ly"]').addEventListener('click', function(event) {
+              event.preventDefault();
 
-                // Kích hoạt bộ lọc "Chưa xử lý"
-                document.querySelector('.portfolio-filters li[data-filter=".chua-xu-ly"]').click();
+              // Kích hoạt bộ lọc "Chưa xử lý"
+              document.querySelector('.portfolio-filters li[data-filter=".chua-xu-ly"]').click();
 
-                // Cuộn đến phần tử có ID "chua-xu-ly"
-                document.getElementById('chua-xu-ly').scrollIntoView({ behavior: 'smooth' });
+              // Cuộn đến phần tử có ID "chua-xu-ly"
+              document.getElementById('chua-xu-ly').scrollIntoView({
+                behavior: 'smooth'
+              });
             });
-
           </script>
           <div class="col-lg-6 text-center">
             <img src="/guest/img/notification.gif" alt="support"
@@ -103,7 +156,7 @@
               id="profile-img"
               src="{{$logged_user->profile_image ? asset('admin/img/customer/' .  $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
               class="img-fluid"
-              alt="" style="margin-left: 20px; height:250px"/>
+              alt="" style="margin-left: 20px; height:250px" />
           </div>
           <div class="col-lg-8 content" style="margin-top: 40px">
             <h2 id="title">Thông tin cá nhân</h2>
@@ -519,21 +572,21 @@
             // }
             // Preview ảnh với kích thước giới hạn
             function previewImage(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function () {
-                        const output = document.getElementById("preview-img");
-                        output.src = reader.result;
-                        output.style.display = "block";
+              const file = event.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                  const output = document.getElementById("preview-img");
+                  output.src = reader.result;
+                  output.style.display = "block";
 
-                        // Giới hạn kích thước hiển thị
-                        output.style.maxWidth = "100px"; // Chiều rộng tối đa
-                        output.style.maxHeight = "100px"; // Chiều cao tối đa
-                        output.style.objectFit = "cover"; // Giữ tỷ lệ hình ảnh
-                    };
-                    reader.readAsDataURL(file);
-                }
+                  // Giới hạn kích thước hiển thị
+                  output.style.maxWidth = "100px"; // Chiều rộng tối đa
+                  output.style.maxHeight = "100px"; // Chiều cao tối đa
+                  output.style.objectFit = "cover"; // Giữ tỷ lệ hình ảnh
+                };
+                reader.readAsDataURL(file);
+              }
             }
           </script>
         </div>
@@ -560,70 +613,50 @@
       </div>
     </section>
 
-      <!-- Lịch sử yêu cầu -->
-      <!-- Lịch sử yêu cầu -->
-      <section id="request-history" class="request-history section">
-          <div class="container">
-              @forelse ($requests as $request)
-                  <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
-                      <div class="request-info">
-                          <h3>{{ $request->request_id }}</h3>
-                          <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
-                          <p>{{ $request->subject }}</p>
-                      </div>
-                      <div class="request-arrow">→</div>
-                  </div>
-
-                  <!-- Phần Nhập Phản Hồi -->
-                  <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
-                      <h3>Phản hồi</h3>
-                      <form id="replyForm-{{ $request->request_id }}" method="POST" action="{{ route('request.reply', $request->request_id) }}">
-                          @csrf
-
-                          @include('guest.account.reply-ad')
-                          {{-- <div class="form-group">
-                              <label for="reply_content_{{ $request->request_id }}">Nội dung phản hồi:</label>
-                              <textarea id="reply_content_{{ $request->request_id }}" name="reply_content" rows="4" required></textarea>
-                              @error('reply_content')
-                              <div class="error">{{ $message }}</div>
-                              @enderror
-                          </div>
-                          <button type="submit" class="submit-button">Gửi Phản Hồi</button>
-                          <button type="button" class="cancel-button" onclick="cancelReply('{{ $request->request_id }}')">Hủy</button> --}}
-                      </form>
-
-                      <script>
-                        $(document).ready(function(){
-                    
-                            $('.summernote').summernote();
-                    
-                        });
-                    
-                    </script>
-                      <!-- Trạng thái yêu cầu -->
-                      <div class="status-container" id="status-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
-                          <h3>Trạng thái yêu cầu</h3>
-                          <div id="status-timeline-{{ $request->request_id }}">
-                              <!-- Nội dung trạng thái sẽ được tạo động -->
-                          </div>
-                      </div>
-                  </div>
-              @empty
-                  <p>Không có yêu cầu nào trong lịch sử.</p>
-              @endforelse
+    <!-- Lịch sử yêu cầu -->
+    <!-- Lịch sử yêu cầu -->
+    <section id="request-history" class="request-history section">
+      <div class="container">
+        @forelse ($requests as $request)
+        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+          <div class="request-info">
+            <h3>{{ $request->request_id }}</h3>
+            <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
+            <p>{{ $request->subject }}</p>
           </div>
-      </section>
-
-      <!-- Modal trạng thái -->
-      <div id="modal-status" class="modal-request">
-          <div class="modal-content-request">
-              <span class="close-btn" onclick="closeForm()">×</span>
-              <h2>Trạng thái yêu cầu</h2>
-              <div id="status-timeline">
-                  <!-- Nội dung trạng thái sẽ được tạo động -->
-              </div>
+          <div class="request-arrow">→</div>
+        </div>
+        <!-- Trạng thái yêu cầu -->
+        <div class="status-container" id="status-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+          <h3>Trạng thái yêu cầu</h3>
+          <div id="status-timeline-{{ $request->request_id }}">
+            <!-- Nội dung trạng thái sẽ được tạo động -->
           </div>
+        </div>
+        <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+
+          @include('guest.account.reply-ad')
+
+        </div>
+        <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+
+        </div>
+        @empty
+        <p>Không có yêu cầu nào trong lịch sử.</p>
+        @endforelse
       </div>
+    </section>
+
+    <!-- Modal trạng thái -->
+    <div id="modal-status" class="modal-request">
+      <div class="modal-content-request">
+        <span class="close-btn" onclick="closeForm()">×</span>
+        <h2>Trạng thái yêu cầu</h2>
+        <div id="status-timeline">
+          <!-- Nội dung trạng thái sẽ được tạo động -->
+        </div>
+      </div>
+    </div>
 
     <script>
       // Hàm gọi API để lấy trạng thái yêu cầu
@@ -652,53 +685,111 @@
 
       // Hàm hiển thị trạng thái yêu cầu trong modal
       function viewRequestDetail(requestId) {
-          const replyContainer = document.getElementById(`reply-container-${requestId}`);
-          const statusContainer = document.getElementById(`status-container-${requestId}`);
+        const BASE_URL = "{{ asset('') }}";
 
-          // Chuyển đổi hiển thị
-          if (replyContainer.style.display === "none") {
-              replyContainer.style.display = "block"; // Hiển thị phần phản hồi
-              statusContainer.style.display = "block"; // Hiển thị trạng thái yêu cầu
-          } else {
-              replyContainer.style.display = "none"; // Ẩn phần phản hồi
-              statusContainer.style.display = "none"; // Ẩn trạng thái yêu cầu
-          }
+        // Đóng tất cả các request-item đang mở
+        document.querySelectorAll('.status-container').forEach(container => {
+          container.style.display = 'none';
+        });
+        document.querySelectorAll('.reply-container').forEach(container => {
+          container.style.display = 'none';
+        });
+        document.querySelectorAll('.reply-show').forEach(container => {
+          container.style.display = 'none';
+        });
 
-          // Gọi API để lấy dữ liệu (nếu cần)
-          fetchRequestStatus(requestId).then(data => {
-              renderRequestStatus(data, requestId); // Gọi hàm hiển thị trạng thái
+        // Lấy các phần tử liên quan đến requestId
+        const replyContainer = document.getElementById(`reply-container-${requestId}`);
+        const replyShow = document.getElementById(`reply-show-${requestId}`);
+        const statusContainer = document.getElementById(`status-container-${requestId}`);
+
+        // Hiển thị phần phản hồi và trạng thái yêu cầu
+        replyContainer.style.display = "block";
+        statusContainer.style.display = "block";
+
+        // Gọi API để lấy dữ liệu trạng thái
+        fetchRequestStatus(requestId).then(data => {
+          renderRequestStatus(data, requestId); // Hiển thị trạng thái yêu cầu
+        });
+
+        // Gửi AJAX request để lấy feedback
+        fetch(`/feedback/${requestId}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            // Kiểm tra nếu có dữ liệu feedback
+            if (data.feedbacks && data.feedbacks.length > 0) {
+              let feedbackHtml = `
+                    <strong>
+                        <h2>Phản hồi</h2>
+                    </strong>
+                    <div class="feedback-container">
+                `;
+
+              data.feedbacks.forEach(feedback => {
+                feedbackHtml += `
+                        <div class="feedback-item">
+                            <div class="feedback-header">
+                                ${
+                                    (feedback.role_id == 1 || feedback.role_id == 2)
+                                        ? `<img src="${BASE_URL}admin/img/employee/${feedback.profile_image ? feedback.profile_image : 'default.png'}" alt="Hình ảnh nhân viên" class="feedback-avatar">`
+                                        : `<img src="${BASE_URL}admin/img/customer/${feedback.profile_image ? feedback.profile_image : 'default.png'}" alt="Hình ảnh khách hàng" class="feedback-avatar">`
+                                }
+                                <div class="feedback-user-info">
+                                    <p class="feedback-name">${feedback.full_name}</p>
+                                    <p class="feedback-type">${feedback.role_id === 3 ? 'Chủ sở hữu' : 'Nhân viên hỗ trợ'}</p>
+                                </div>
+                                <p class="feedback-time">${feedback.created_at}</p>
+                            </div>
+                            <div class="feedback-message">${feedback.message}</div>
+                        </div>
+                    `;
+              });
+
+              feedbackHtml += `</div>`;
+
+              // Cập nhật HTML vào container và hiển thị
+              replyShow.innerHTML = feedbackHtml;
+              replyShow.style.display = 'block';
+            } else {
+              replyShow.innerHTML = '<p>Không có feedback nào.</p>';
+              replyShow.style.display = 'block';
+            }
+          })
+          .catch(error => {
+            console.error('Lỗi khi lấy feedback:', error);
           });
       }
 
       // Hàm hiển thị trạng thái yêu cầu
       function renderRequestStatus(data, requestId) {
-          const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
-          statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
+        const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
+        statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
 
-          // Tạo các trạng thái động
-          data.forEach(item => {
-              const statusItem = `
+        // Tạo các trạng thái động
+        data.forEach(item => {
+          const statusItem = `
             <div class="status-item">
                 <div class="circle"></div>
                 <div class="line"></div>
                 <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
             </div>
         `;
-              statusTimeline.innerHTML += statusItem;
-          });
+          statusTimeline.innerHTML += statusItem;
+        });
 
-          // Nếu không có dữ liệu, hiển thị thông báo
-          if (data.length === 0) {
-              statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
-          }
+        // Nếu không có dữ liệu, hiển thị thông báo
+        if (data.length === 0) {
+          statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+        }
       }
 
       // Đóng form phản hồi
       function cancelReply(requestId) {
-          const replyContainer = document.getElementById(`reply-container-${requestId}`);
-          replyContainer.style.display = "none"; // Ẩn phần nhập phản hồi
-          const statusContainer = document.getElementById(`status-container-${requestId}`);
-          statusContainer.style.display = "none"; // Ẩn trạng thái yêu cầu
+        const replyContainer = document.getElementById(`reply-container-${requestId}`);
+        replyContainer.style.display = "none"; // Ẩn phần nhập phản hồi
+        const statusContainer = document.getElementById(`status-container-${requestId}`);
+        statusContainer.style.display = "none"; // Ẩn trạng thái yêu cầu
       }
 
       // Đóng modal
@@ -755,13 +846,18 @@
           <!-- Danh sách tài khoản -->
           @foreach ($accounts as $account)
           <li class="account-item">
-            <form action="{{ route('account.switch', $account->id) }}" method="POST" class="account-form">
+            <form action="{{ route('account.switch', $account['username']) }}" method="POST" class="account-form">
               @csrf
               <div class="account-info">
-                <img src="{{ $account->customer->profile_image ? asset('admin/img/customer/' . $account->customer->profile_image) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
-                <span class="account-name">{{ $account->customer->full_name }}</span>
+                <img src="{{ $account['profile_image'] ? asset('admin/img/customer/' . $account['profile_image']) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
+                <span class="account-name">{{ $account['full_name'] }}</span>
               </div>
               <button type="submit" class="btn-switch">Chuyển</button>
+            </form>
+            <form action="{{ route('account.remove', $account['customer_id']) }}" method="POST" class="account-remove-form">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn-remove">Xóa</button>
             </form>
           </li>
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\CustomerFeedback;
+use App\Models\Employee;
+use App\Models\EmployeeFeedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +23,7 @@ class UserController extends Controller
     {
         $template = 'guest.user.index';
         $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+
         return view('guest.dashboard.layout', compact('template', 'logged_user'));
     }
 
@@ -160,5 +164,51 @@ class UserController extends Controller
 
         // Quay lại trang chuyển đổi tài khoản
         return redirect()->route('indexAccount')->with('success', 'Tài khoản đã được xóa khỏi danh sách');
+    }
+
+    public function reply(Request $request, $request_id)
+    {
+        $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+
+        $customer_feedback = new CustomerFeedback();
+        $customer_feedback->request_id = $request_id;
+        $customer_feedback->customer_id = $logged_user->customer_id;
+        $customer_feedback->message = $request->input('reply_content');
+        $customer_feedback->Save();
+
+        return back()->with('success', 'Phản hồi đã được gửi thành công!');
+    }
+
+    private function getFeedback($feedbackModel, $joinModel, $foreignKey, $request_id)
+    {
+        return $feedbackModel::select(
+            "{$feedbackModel->getTable()}.id",
+            "{$feedbackModel->getTable()}.request_id",
+            "{$joinModel->getTable()}.full_name",
+            "{$joinModel->getTable()}.profile_image",
+            "{$feedbackModel->getTable()}.message",
+            "{$feedbackModel->getTable()}.created_at",
+            "user.role_id"
+        )
+            ->join($joinModel->getTable(), "{$joinModel->getTable()}.{$foreignKey}", '=', "{$feedbackModel->getTable()}.{$foreignKey}")
+            ->join('user', 'user.user_id', '=', "{$joinModel->getTable()}.user_id")
+            ->where("{$feedbackModel->getTable()}.request_id", $request_id);
+    }
+
+    public function getFeedbackByRequestId($request_id)
+    {
+        // Lấy feedback từ khách hàng
+        $customerFeedbacks = $this->getFeedback(new CustomerFeedback(), new Customer(), 'customer_id', $request_id);
+
+        // Lấy feedback từ nhân viên
+        $employeeFeedbacks = $this->getFeedback(new EmployeeFeedback(), new Employee(), 'employee_id', $request_id);
+
+        // Kết hợp feedback từ cả hai bảng
+        $feedbacks = $customerFeedbacks
+            ->unionAll($employeeFeedbacks->toBase())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json(['feedbacks' => $feedbacks]);
     }
 }

@@ -12,6 +12,8 @@ use App\Models\Employee;
 use App\Models\RequestType;
 use App\Models\RequestHistory;
 use App\Models\Attachment;
+use App\Models\CustomerFeedback;
+use App\Models\EmployeeFeedback;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -36,7 +38,7 @@ class RequestController extends Controller
         $customerId = $request->input('customer_id');
         $departmentId = $request->input('department_id');
         $requestDate = $request->input('request_date_search'); // Đổi tên để khớp với Blade
-       //$statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
+        //$statusFilter = $request->input('status_search'); // Đổi tên để khớp với Blade
         $requestTypeId = $request->input('request_type_id'); // Thêm input 'request_type_id'
 
 
@@ -103,7 +105,7 @@ class RequestController extends Controller
                     }
                     break;
                 case 'subject':
-                     if (!empty($subject)) {
+                    if (!empty($subject)) {
                         $query->where('subject', 'like', '%' . $subject . '%');
                         $searchPerformed = true;
                         $searchType = 'subject';
@@ -212,6 +214,22 @@ class RequestController extends Controller
         return redirect()->route('request.index')->with('success', 'Yêu cầu đã được thêm thành công!');
     }
 
+    private function getFeedback($feedbackModel, $joinModel, $foreignKey, $request_id)
+    {
+        return $feedbackModel::select(
+            "{$feedbackModel->getTable()}.id",
+            "{$feedbackModel->getTable()}.request_id",
+            "{$joinModel->getTable()}.full_name",
+            "{$joinModel->getTable()}.profile_image",
+            "{$feedbackModel->getTable()}.message",
+            "{$feedbackModel->getTable()}.created_at",
+            "user.role_id"
+        )
+            ->join($joinModel->getTable(), "{$joinModel->getTable()}.{$foreignKey}", '=', "{$feedbackModel->getTable()}.{$foreignKey}")
+            ->join('user', 'user.user_id', '=', "{$joinModel->getTable()}.user_id")
+            ->where("{$feedbackModel->getTable()}.request_id", $request_id);
+    }
+
     /**
      * Hiển thị form chỉnh sửa yêu cầu
      */
@@ -227,7 +245,16 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'supportRequest', 'customers', 'departments', 'requestTypes'));
+        // Lấy feedback từ khách hàng
+        $customerFeedbacks = $this->getFeedback(new CustomerFeedback(), new Customer(), 'customer_id', $request_id);
+
+        // Lấy feedback từ nhân viên
+        $employeeFeedbacks = $this->getFeedback(new EmployeeFeedback(), new Employee(), 'employee_id', $request_id);
+
+        // Kết hợp feedback từ cả hai bảng
+        $feedbacks = $customerFeedbacks->unionAll($employeeFeedbacks->toBase())->orderBy('created_at', 'desc')->get();
+
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'supportRequest', 'customers', 'departments', 'requestTypes', 'feedbacks'));
     }
 
 
@@ -339,26 +366,24 @@ class RequestController extends Controller
     public function getPendingRequestsByDate(HttpRequest $request)
     {
 
-            $date = $request->input('date', now()->toDateString());
-            $pendingRequests = SupportRequest::whereDate('create_at', $date)
-                ->where('status', 'Chưa xử lý')
-                ->count();
+        $date = $request->input('date', now()->toDateString());
+        $pendingRequests = SupportRequest::whereDate('create_at', $date)
+            ->where('status', 'Chưa xử lý')
+            ->count();
 
-            return response()->json(['count' => $pendingRequests]);
-
+        return response()->json(['count' => $pendingRequests]);
     }
 
     public function reply(HttpRequest $request, $request_id)
     {
-        // Lấy yêu cầu hỗ trợ kỹ thuật theo ID
-        $supportRequest = Request::findOrFail($request_id);
+        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
-        // Xử lý dữ liệu phản hồi (ví dụ: lưu vào database, gửi email, v.v.)
-        // Bạn có thể thêm logic xử lý ở đây
+        $employee_feedback = new EmployeeFeedback();
+        $employee_feedback->request_id = $request_id;
+        $employee_feedback->employee_id = $logged_user->employee_id;
+        $employee_feedback->message = $request->input('reply_content');
+        $employee_feedback->Save();
 
-        // Sau khi xử lý xong, chuyển hướng đến trang edit với request_id tương ứng
         return redirect()->route('request.edit', $request_id)->with('success', 'Phản hồi đã được gửi thành công!');
     }
-
-
 }
