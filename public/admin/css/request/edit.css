@@ -185,7 +185,7 @@ h1 {
 /* Nhóm "Ngày nhận" và "Ngày hoàn thành" */
 .form-group-row.date-group {
     display: flex;
-    gap: 45px; /* Khoảng cách giữa "Ngày nhận" và "Ngày hoàn thành" */
+    gap: 17px; /* Khoảng cách giữa "Ngày nhận" và "Ngày hoàn thành" */
     width: 100%;
     margin-left: 0px;
 

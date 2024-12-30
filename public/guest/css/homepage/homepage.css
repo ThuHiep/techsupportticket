@@ -675,7 +675,9 @@ footer {
         font-size: 35px;
     }
     .faq-container {
-        flex-direction: column;
+        margin: 20px 0px 0px 0px;
+        gap: 10px;
+        align-items: baseline;
     }
     .faq-list,
     .faq-form-container {
@@ -759,6 +761,21 @@ footer {
     }
     .search-container{
         align-items: flex-start!important;
+    }
+    .faq-list li{
+        font-size: 14px;
+    }
+    .faq-form-container{
+        padding: 4px;
+    }
+    .faq-container {
+        margin: 20px 0px 0px 0px;
+        gap: 10px;
+        align-items: baseline;
+        padding: 8px;
+    }
+    .toggle-button{
+        margin-top: 0px;
     }
 }
 /* Màn hình tối đa 425px */
