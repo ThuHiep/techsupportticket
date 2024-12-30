@@ -211,7 +211,7 @@
                 @enderror
             </div>
             <button type="submit" class="submit-button">Gửi Phản Hồi</button>
-            <button type="button" class="cancel-button" onclick="hideReplyForm()">Hủy</button>
+            <button type="button" class="cancel-btn" onclick="hideReplyForm()">Hủy</button>
         </form>
     </div>
 
