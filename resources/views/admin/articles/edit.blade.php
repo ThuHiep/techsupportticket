@@ -37,17 +37,6 @@
 
         <div class="row mb-3">
             <div class="col-md-8">
-                <!-- Mã bài viết -->
-                <div class="form-group">
-                    <label for="article_id">Mã bài viết:<span class="required">*</span></label>
-                    <input
-                        type="text"
-                        name="article_id"
-                        id="article_id"
-                        value="{{ $article->article_id }}"
-                        readonly
-                    >
-                </div>
 
                 <!-- Tiêu đề -->
                 <div class="form-group">

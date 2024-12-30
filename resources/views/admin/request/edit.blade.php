@@ -54,10 +54,6 @@
                     <!-- Hàng 1: Mã yêu cầu + Khách hàng + Trạng thái -->
                     <div class="row_left">
                         <div class="form-group">
-                            <label for="request_id">Mã yêu cầu <span class="required">*</span></label>
-                            <input type="text" id="request_id" name="request_id" value="{{ $supportRequest->request_id }}" readonly>
-                        </div>
-                        <div class="form-group">
                             <label for="customer_id">Khách hàng <span class="required">*</span></label>
                             <select id="customer_id" name="customer_id" required>
                                 <option value="">--Chọn khách hàng--</option>

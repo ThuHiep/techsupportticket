@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\FAQ;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
 class FaqController extends Controller
 {
     public function index(Request $request)
@@ -64,11 +66,9 @@ class FaqController extends Controller
     {
         $template = 'admin.faq.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        do {
-            $randomNumber = mt_rand(1, 9999);
-            $nextId = 'FAQ' . str_pad($randomNumber, 4, '0', STR_PAD_LEFT);
-            $exists = FAQ::where('faq_id', $nextId)->exists();
-        } while ($exists);
+
+        $nextId = (string) Str::uuid();
+
 
         return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));
     }

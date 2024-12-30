@@ -29,10 +29,6 @@
                 <div class="col-md-9">
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
-                            <label for="employee_id" class="form-label">Mã người dùng<span class="required">*</span></label>
-                            <input type="text" id="employee_id" name="employee_id" class="form-control" value="{{ $randomIdAD }}" readonly required>
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                             <input type="username" id="username" name="username" class="form-control" value="{{$randomUserNameAD}}" readonly required>
                         </div>

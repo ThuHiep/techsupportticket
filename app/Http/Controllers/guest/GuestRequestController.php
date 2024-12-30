@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Request as SupportRequest;
 use App\Models\RequestType;
 use App\Models\Attachment;
+use Illuminate\Support\Str;
 use App\Models\RequestHistory;
 
 use Carbon\Carbon;
@@ -24,16 +25,6 @@ class GuestRequestController extends Controller
             ->get(['changed_at as time', 'new_status as status']);
 
         return response()->json($history);
-    }
-    public function generateAttachmentId()
-    {
-        do {
-            // Tạo 8 số ngẫu nhiên từ 00000000 đến 99999999
-            $randomNumber = mt_rand(0, 99999999);
-            $attachmentId = 'ATT' . str_pad($randomNumber, 8, '0', STR_PAD_LEFT);
-        } while (Attachment::where('attachment_id', $attachmentId)->exists());
-
-        return $attachmentId;
     }
 
     public function store(Request $request)
@@ -67,9 +58,7 @@ class GuestRequestController extends Controller
 
         foreach ($titles as $index => $title) {
             // Tạo request_id ngẫu nhiên không trùng
-            do {
-                $newRequestId = 'RQ' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-            } while (SupportRequest::where('request_id', $newRequestId)->exists());
+            $newRequestId = (string) Str::uuid();
 
             // Tạo yêu cầu mới
             $supportRequest = SupportRequest::create([
@@ -86,7 +75,7 @@ class GuestRequestController extends Controller
 
             // Tạo bản ghi lịch sử đầu tiên với trạng thái "Chưa xử lý"
             RequestHistory::create([
-                'history_id' => $this->generateHistoryId(),
+                'history_id' => (string)Str::uuid(),
                 'request_id' => $newRequestId,
                 'changed_by' => null, // Hoặc một giá trị mặc định nếu khách hàng không có ID nhân viên
                 'old_status' => null,
@@ -102,7 +91,7 @@ class GuestRequestController extends Controller
 
                 // Tạo bản ghi file đính kèm
                 Attachment::create([
-                    'attachment_id' => $this->generateAttachmentId(), // Sử dụng phương thức mới
+                    'attachment_id' => (string)Str::uuid(), // Sử dụng phương thức mới
                     'request_id' => $supportRequest->request_id,
                     'filename' => $file->getClientOriginalName(),
                     'file_path' => $filePath,
@@ -116,22 +105,5 @@ class GuestRequestController extends Controller
         // Redirect về form với thông báo thành công
         return redirect()->route('showFormRequest')->with('success', 'Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ liên hệ lại sớm nhất!');
     }
-
-    /**
-     * Tạo history_id theo định dạng HID + 5 số
-     *
-     * @return string
-     */
-    private function generateHistoryId()
-    {
-        do {
-            // Tạo 5 số ngẫu nhiên từ 00000 đến 99999
-            $randomNumber = mt_rand(0, 99999);
-            $historyId = 'HID' . str_pad($randomNumber, 5, '0', STR_PAD_LEFT);
-        } while (RequestHistory::where('history_id', $historyId)->exists());
-
-        return $historyId;
-    }
-
 }
 

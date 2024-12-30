@@ -40,21 +40,6 @@
         <!-- Row chứa các trường trên cùng 1 dòng -->
         <div class="form-group-row">
             <div class="form-group">
-                <label for="department_id">Mã phòng ban:<span class="required">*</span></label>
-                <input
-                    type="text"
-                    name="department_id"
-                    id="department_id"
-                    value="{{ $nextId ?? '' }}"
-                    readonly
-                >
-                @error('department_id')
-                <div class="error visible">{{ $message }}</div>
-                @enderror
-            </div>
-
-
-            <div class="form-group">
                 <label for="department_name">Tên phòng ban:<span class="required">*</span></label>
                 <input
                     type="text"

@@ -73,19 +73,15 @@ class PermissionController extends Controller
         $template = 'admin.permission.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         // Sinh employee_id và username ngẫu nhiên cho admin
-        $randomIdAD = 'AD' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        while (Employee::where('employee_id', $randomIdAD)->exists()) {
-            $randomIdAD = 'AD' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        }
+        $randomIdAD = (string) Str::uuid();
+
         $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         while (User::where('username', $randomUserNameAD)->exists()) {
             $randomUserNameAD = 'admin' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         }
         // Sinh employee_id và username ngẫu nhiên cho nhân viên
-        $randomIdEM = 'NV' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        while (Employee::where('employee_id', $randomIdEM)->exists()) {
-            $randomIdEM = 'NV' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-        }
+        $randomIdEM = (string) Str::uuid();
+
         $randomUserNameEM = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
         while (User::where('username', $randomUserNameEM)->exists()) {
             $randomUserNameEM = 'support' . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
@@ -111,10 +107,7 @@ class PermissionController extends Controller
             'profile_image.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, hoặc gif',
         ]);
         //Sinh user_id ngẫu nhiên
-        $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        while (User::where('user_id', $randomUserId)->exists()) {
-            $randomUserId = 'TK' . str_pad(mt_rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-        }
+        $randomUserId = (string) Str::uuid();
 
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
