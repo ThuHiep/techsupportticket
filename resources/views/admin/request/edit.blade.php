@@ -391,7 +391,7 @@
         departmentSelect.addEventListener('change', updateStatusOptions);
     });
 </script>
-{{-- <script src="admin/js/plugins/summernote/summernote.min.js"></script>
+
 <script>
     $(document).ready(function(){
 
@@ -399,5 +399,5 @@
 
     });
 
-</script> --}}
+</script>
 </body>

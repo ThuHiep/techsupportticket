@@ -2,7 +2,9 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
+    <FilesMatch "\.(woff|woff2|ttf|eot|otf)$">
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
     RewriteEngine On
 
     # Handle Authorization Header
