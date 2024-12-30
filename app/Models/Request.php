@@ -29,7 +29,6 @@ class Request extends Model
         'create_at',
         'received_at',
         'resolved_at',
-        'priority',
         'status',
     ];
 

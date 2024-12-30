@@ -190,6 +190,7 @@
                     {{-- Nhóm nút Submit và Cancel --}}
                     <div class="button-group">
                         <button type="submit" class="submit-button">Cập nhật </button>
+                        <button type="submit" class="reply-button">Phản hồi </button>
                         <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
                     </div>
                 </div>
@@ -199,7 +200,7 @@
 
     <!-- Phần Lịch Sử Yêu Cầu -->
     <div class="history-container">
-        <h2>Lịch sử trạng thái yêu cầu</h2>
+        <h1>Lịch sử trạng thái yêu cầu</h1>
         @if($supportRequest->history->count() > 0)
             <!-- Thêm đoạn sắp xếp tạm ở đây -->
             @php
