@@ -18,7 +18,7 @@
             <form action="{{ route('department.index') }}" method="GET">
                 <!-- Ô nhập tìm kiếm tên hoặc mã phòng ban -->
                 <div style="position: relative;">
-                    <input type="text" name="search" placeholder="Nhập tên hoặc mã phòng ban cần tìm" value="{{ request()->query('search') }}">
+                    <input type="text" name="search" placeholder="Nhập tênphòng ban cần tìm" value="{{ request()->query('search') }}">
                     @if($search)
                     <a
                         href="{{ route('department.index') }}"
@@ -36,25 +36,13 @@
     {{-- Hiển thị thông báo tìm kiếm --}}
     @if ($searchPerformed && $search !== '')
         @if ($count > 0)
-            @if (preg_match('/^PB\d{4}$/', $search))
-                <div id="search-notification"  class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
-                    Tìm thấy {{ $count }} phòng ban có mã: "{{ $search }}"
-                </div>
-            @else
                 <div  id="search-notification" class="alert-success" style="text-align: center; color: green; margin-bottom: 15px;">
                     Tìm thấy {{ $count }} phòng ban có từ khóa: "{{ $search }}"
                 </div>
-            @endif
         @else
-            @if (preg_match('/^PB\d{4}$/', $search))
-                <div  id="search-notification"  class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
-                    Không tìm thấy phòng ban có mã: "{{ $search }}"
-                </div>
-            @else
                 <div  id="search-notification"  class="alert-danger" style="text-align: center; color: red; margin-bottom: 15px;">
                     Không tìm thấy phòng ban có từ khóa: "{{ $search }}"
                 </div>
-            @endif
         @endif
     @endif
 

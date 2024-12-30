@@ -33,6 +33,7 @@
 
     <form action="{{ route('faq.store') }}" method="POST">
         @csrf
+        <input type="hidden" name="faq_id" value="{{ $nextId }}">
 
         <div class="form-group-row">
             <!-- Email -->

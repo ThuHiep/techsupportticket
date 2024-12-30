@@ -34,8 +34,7 @@ class DepartmentController extends Controller
 
             if ($search !== '') {
                 $query->where(function($q) use ($search) {
-                    $q->where('department_name', 'LIKE', "%{$search}%")
-                        ->orWhere('department_id', 'LIKE', "%{$search}%");
+                    $q->where('department_name', 'LIKE', "%{$search}%");
                 });
             }
 

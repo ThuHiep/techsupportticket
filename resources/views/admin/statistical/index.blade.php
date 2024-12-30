@@ -144,7 +144,7 @@
                         </a>
                     </div>
 
-                    <input type="text" id="customerIdInput" placeholder="Nhập mã khách hàng..." onkeyup="filterCustomers('id')">
+                    <input type="text" id="customerIdInput" placeholder="Mã khách hàng" onkeyup="filterCustomers('id')" readonly>
                     <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
                 <div class="chart-container">
