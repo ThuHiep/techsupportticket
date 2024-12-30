@@ -669,14 +669,15 @@ footer {
         gap: 70px;
     }
     .main-content {
-        flex-direction: column;
         height: auto;
     }
     .main-content .right h1 span {
         font-size: 35px;
     }
     .faq-container {
-        flex-direction: column;
+        margin: 20px 0px 0px 0px;
+        gap: 10px;
+        align-items: baseline;
     }
     .faq-list,
     .faq-form-container {
@@ -709,6 +710,16 @@ footer {
         width: 53%;
         height: 64%;
     }
+    .main-content .right .search-container input[type="text"], select{
+        font-size: 13px;
+    }
+    .main-content .right h1 span {
+        font-size: 25px;
+    }
+    .search-container{
+        flex-direction: column;
+        align-items: flex-start!important;
+    }
 }
 
 /* Màn hình tối đa 425px */
@@ -723,13 +734,13 @@ footer {
         font-size: 13px;
     }
     .main-content .right h1 span {
-        font-size: 28px;
+        font-size: 21px;
 
     }
     .main-content .right .search-container input[type="text"],
     .main-content .right .search-container select {
         width: 100%;
-        font-size: 0.9em;
+        font-size: 13px;
     }
     .main-content .right .search-container button {
         width: 35px;
@@ -748,8 +759,24 @@ footer {
         width: 90%;
         height: auto;
     }
-
-
+    .search-container{
+        align-items: flex-start!important;
+    }
+    .faq-list li{
+        font-size: 14px;
+    }
+    .faq-form-container{
+        padding: 4px;
+    }
+    .faq-container {
+        margin: 20px 0px 0px 0px;
+        gap: 10px;
+        align-items: baseline;
+        padding: 8px;
+    }
+    .toggle-button{
+        margin-top: 0px;
+    }
 }
 /* Màn hình tối đa 425px */
 /* Responsive Footer */
