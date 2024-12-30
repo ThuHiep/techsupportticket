@@ -589,7 +589,7 @@
     <section id="request-history" class="request-history section">
       <div class="container">
         @forelse ($requests as $request)
-        <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
+        <div class="request-item {{ Str::slug($request->status, '-') }}" >
           <div class="request-info">
             <h3>{{ $request->request_id }}</h3>
             <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
@@ -600,6 +600,7 @@
         @empty
         <p>Không có yêu cầu nào trong lịch sử.</p>
         @endforelse
+        
       </div>
     </section>
 
