@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Request as SupportRequest;
 use App\Models\SwitchedUser;
 use App\Models\User;
+use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
@@ -34,7 +35,16 @@ class UserController extends Controller
     public function indexAccount()
     {
         $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        $accounts = SwitchedUser::with('customer')->where('customer_id', '!=', $logged_user->customer_id)->get();
+        $accounts = Cookie::get('accounts', '[]');
+        $accounts = is_string($accounts) ? json_decode($accounts, true) : $accounts;
+        $accounts = $accounts ?: [];
+
+        // Lấy tài khoản hiện tại đã đăng nhập
+        $loggedID = $logged_user->customer_id;
+        // Loại bỏ tài khoản đang đăng nhập khỏi danh sách
+        $accounts = collect($accounts)->reject(function ($account) use ($loggedID) {
+            return $account['customer_id'] == $loggedID;
+        })->values()->toArray();
 
         if (!$logged_user) {
             return redirect()->route('homepage.index')->with('error', 'Không tìm thấy thông tin khách hàng.');
@@ -105,20 +115,50 @@ class UserController extends Controller
         return redirect()->route('indexAccount')->with('success', 'Mật khẩu đã được thay đổi thành công!');
     }
 
-    public function switchAccount(Request $request, $id)
+    public function switchAccount(Request $request, $username)
     {
-        Auth::logout();
-        $account = SwitchedUser::with('customer')->where('id', $id)->first();
+        // Lấy thông tin tài khoản từ cookie
+        $accounts = json_decode(Cookie::get('accounts', '[]'), true);
 
-        if ($account->password) {
-            $newUser = User::where('user_id', $account->customer->user->user_id)->first();
+        // Tìm tài khoản trong cookie
+        $account = collect($accounts)->firstWhere('username', $username);
 
-            Auth::login($newUser);
+        if ($account) {
+            if (isset($account['password']) && !empty($account['password'])) {
+                // Đăng nhập với mật khẩu từ cookie
+                $credentials = [
+                    'username' => $account['username'],
+                    'password' => $account['password'],
+                ];
 
-            return redirect()->route('indexAccount')->with('success', "Chào mừng {$account->customer->full_name} đến với trang khách hàng");
-        } else {
-
-            return redirect()->route('login')->withInput(['username' => $account->username]);
+                if (Auth::attempt($credentials)) {
+                    return redirect()->route('indexAccount')->with('success', "Chào mừng {$account['full_name']} đến với trang khách hàng");
+                }
+            } else {
+                session(['login_username' => $account['username']]);
+                // Nếu không có mật khẩu, chuyển hướng đến trang login
+                return redirect()->route('login');
+            }
         }
+
+        // Nếu không tìm thấy tài khoản, chuyển hướng về trang login
+        return redirect()->route('login')->with('error', 'Không tìm thấy tài khoản');
+    }
+
+    public function removeAccount($customer_id)
+    {
+        // Lấy danh sách tài khoản từ cookie
+        $accounts = json_decode(Cookie::get('accounts', '[]'), true);
+
+        // Tìm và loại bỏ tài khoản cần xóa
+        $accounts = collect($accounts)->reject(function ($account) use ($customer_id) {
+            return $account['customer_id'] === $customer_id;
+        })->values()->toArray();
+
+        // Cập nhật lại cookie với danh sách tài khoản đã xóa
+        Cookie::queue('accounts', json_encode($accounts), 60 * 24 * 30); // Lưu cookie trong 30 ngày
+
+        // Quay lại trang chuyển đổi tài khoản
+        return redirect()->route('indexAccount')->with('success', 'Tài khoản đã được xóa khỏi danh sách');
     }
 }

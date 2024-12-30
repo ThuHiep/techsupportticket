@@ -29,7 +29,7 @@
                 <form action="{{route('loginProcess')}}" method="POST">
                     @csrf
                     <div class="input_box">
-                        <input type="text" name="username" id="user" class="input-field" @if(isset($_COOKIE["username"])) value="{{$_COOKIE["username"]}}" @else value="{{old('username')}}" @endif required>
+                        <input type="text" name="username" id="user" class="input-field" @if(isset($_COOKIE["username"])) value="{{$_COOKIE["username"]}}" @else value="{{ old('username', session('login_username')) }}" @endif required>
                         <label for="user" class="label">Tên đăng nhập</label>
                         <i class="bx bx-user icon"></i>
                     </div>
