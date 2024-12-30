@@ -45,15 +45,20 @@ class CustomerController extends Controller
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
 
         // Sinh customer_id ngẫu nhiên và kiểm tra trùng lặp
-        $randomId =(string) Str::uuid();
+        $randomId = (string) Str::uuid();
+
         // Sinh username ngẫu nhiên
         $username = 'user' . mt_rand(100000, 999999);
         while (User::where('username', $username)->exists()) {
             $username = 'user' . mt_rand(100000, 999999);
         }
 
-        // Sinh password ngẫu nhiên
-        $password = Str::random(12); // Chuỗi 12 ký tự ngẫu nhiên
+        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
+        $password = '';
+        for ($i = 0; $i < 20; $i++) {
+            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
 
         // Truyền các giá trị vào view
         $template = 'admin.customer.create';
@@ -159,11 +164,18 @@ class CustomerController extends Controller
         ], [
             'email.unique' => 'Email đã tồn tại',
         ]);
+
         // Sinh các giá trị ngẫu nhiên như trước
         $randomId = (string) Str::uuid();
         $randuserID = (string) Str::uuid();
         $username = 'user' . mt_rand(100000, 999999);
-        $password = Str::random(12);
+
+        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
+        $password = '';
+        for ($i = 0; $i < 20; $i++) {
+            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
 
         // Xử lý lưu ảnh
         $profileImageName = null;
@@ -203,7 +215,7 @@ class CustomerController extends Controller
         try {
             Mail::to($request['email'])->send(new CustomerCreated($username, $password, $request['email']));
             return redirect()->route('customer.index')
-                ->with('success', 'Thêm khách hàng thành công! Email đã được gửi.<br>Tài khoản: ' . $username . '<br>Mật khẩu: ' . $password);
+                ->with('success', 'Thêm khách hàng thành công! Email đã được gửi.');
         } catch (\Exception $e) {
             return redirect()->route('customer.index')
                 ->with('error', 'Khách hàng đã được thêm, nhưng không thể gửi email. Lỗi: ' . $e->getMessage());

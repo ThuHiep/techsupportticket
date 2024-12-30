@@ -6,24 +6,6 @@
     <title>Thêm khách hàng mới</title>
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body .container {
-            width: calc(98%);
-            transition: all 0.3s ease-in-out;
-        }
-        .required {
-            color: red;
-            font-size: 14px;
-        }
-        .btn-cancel.btn-sm {
-            padding: 5px 10px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        .is-invalid {
-            border-color: red; /* Đổi màu biên ô nhập thành đỏ */
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -34,16 +16,24 @@
             <div class="col-md-9">
                 <div class="row mb-3">
 
-                    <div class="form-group col-md-4">
+                    {{-- <div class="form-group col-md-4">
                         <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                         <input type="text" id="username" name="username" class="form-control" value="{{ old('username', $username) }}" readonly required>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-4">
                         <label for="full_name" class="form-label">Tên khách hàng<span class="required">*</span></label>
                         <input type="text" id="full_name" name="full_name" class="form-control" value="{{ old('full_name') }}" required>
                         <small id="name-error" class="text-danger" style="display: none;">Vui lòng nhập tên khách hàng!</small>
                     </div>
+                    <div class="form-group col-md-4">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" required value="{{ old('email') }}">
+                        @error('email')
+                        <small id="email-error" class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
@@ -88,13 +78,7 @@
                         <input type="text" id="address" name="address" class="form-control" required value="{{ old('address') }}">
                         <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" required value="{{ old('email') }}">
-                        @error('email')
-                        <small id="email-error" class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                    
                     <div class="form-group col-md-6">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control" required value="{{ old('website') }}">

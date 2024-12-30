@@ -4,26 +4,7 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-    /* Khi sidebar ở trạng thái bình thường */
-    body .container {
-        width: calc(98%);
-        /* Độ rộng sau khi trừ sidebar */
-        transition: all 0.3s ease-in-out;
-    }
 
-    /* Khi sidebar thu nhỏ */
-    body.mini-navbar .container {
-        width: calc(98%);
-        /* Mở rộng nội dung khi sidebar thu nhỏ */
-        transition: all 0.3s ease-in-out;
-    }
-
-    .required {
-        color: red;
-        font-size: 14px;
-    }
-</style>
 
 <body>
     <div class="container">
@@ -38,31 +19,21 @@
                     <!-- Mã KH + Mã số thuế + Tên KH -->
                     <div class="row mb-3">
                         <div class="form-group col-md-4">
-                            <label for="user_id" class="form-label">Mã nhân viên<span class="required">*</span></label>
-                            <input type="text" id="user_id" name="user_id" class="form-control"
-                                value="{{ $logged_user->user_id }}" readonly required>
+                            <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                value="{{ $logged_user->user->username }}" required>
                         </div>
-
-
                         <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control"
                                 value="{{ $logged_user->full_name }}" required>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
-                            <input type="text" id="username" name="username" class="form-control"
-                                value="{{ $logged_user->user->username }}" required>
-                        </div>
+                        
 
                     </div>
 
                     <div class="row mb-3">
-                        <div class="form-group col-md-4">
-                            <label for="email" class="form-label">Email<span class="required">*</span></label>
-                            <input type="text" id="email" name="email" class="form-control"
-                                value="{{ $logged_user->email }}" required>
-                        </div>
+                       
                         <div class="form-group col-md-4">
                             <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                             <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
@@ -75,13 +46,18 @@
                                 <option value="Nữ" {{ $logged_user->gender == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                             </select>
                         </div>
-
-                    </div>
-                    <div class="row mb-3">
                         <div class="form-group col-md-4">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control"
                                 value="{{ $logged_user->phone }}" required>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-4">
+                            <label for="email" class="form-label">Email<span class="required">*</span></label>
+                            <input type="text" id="email" name="email" class="form-control"
+                                value="{{ $logged_user->email }}" required>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
@@ -117,8 +93,8 @@
             </div>
             <!-- Nút hành động -->
             <div class="button-container">
-                <button type="submit" class="btn btn-success me-3">Cập nhật</button>
-                <div class="btn btn-success me-3" id="openForm">Thay đổi mật khẩu</div>
+                <button type="submit" class="btn btn-edit me-3">Cập nhật</button>
+                <div class="btn btn-edit me-3" id="openForm">Thay đổi mật khẩu</div>
                 <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">Hủy</a>
             </div>
         </form>

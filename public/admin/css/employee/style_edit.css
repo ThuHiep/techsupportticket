@@ -3,6 +3,24 @@
     --second-color: #64606052;
     --black-color: #000000;
 }
+/* Khi sidebar ở trạng thái bình thường */
+body .container {
+    width: calc(98%);
+    /* Độ rộng sau khi trừ sidebar */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Khi sidebar thu nhỏ */
+body.mini-navbar .container {
+    width: calc(98%);
+    /* Mở rộng nội dung khi sidebar thu nhỏ */
+    transition: all 0.3s ease-in-out;
+}
+
+.required {
+    color: red;
+    font-size: 14px;
+}
 /* Tổng quan */
 body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -121,7 +139,7 @@ input.error, select.error {
 
 
 /* Nút Lưu thay đổi */
-.btn-success {
+.btn-edit{
     padding: 12px 24px; /* Khoảng cách trong lớn hơn */
     background-color: #FF9700; /* Màu xanh lá */
     color: white;
@@ -133,12 +151,12 @@ input.error, select.error {
     height: 50px; /* Chiều cao nút */
 }
 
-.btn-success:hover {
+.btn-edit:hover {
     background-color: #FF6F00; /* Màu xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 
-.btn-success:active {
+.btn-edit:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
 }
 
@@ -412,7 +430,7 @@ input.error, select.error {
         font-size: 12px; /* Kích thước chữ nhỏ hơn */
     }
 
-    .btn-success {
+    .btn-edit {
         width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
     }
 }

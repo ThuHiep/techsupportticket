@@ -2,7 +2,7 @@
 <style>
 
 
- 
+
 </style>
 
 <body>
@@ -13,10 +13,6 @@
             <div class="row mb-3">
                 <div class="col-md-9">
                     <div class="row mb-3">
-                        <div class="form-group col-md-4">
-                            <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
-                            <input type="username" id="username" name="username" class="form-control" value="{{$randomUserNameAD}}" readonly required>
-                        </div>
                         <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên người dùng<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control {{ $errors->has('full_name') ? 'is-invalid' : '' }}" value="{{ old('full_name') }}" required>
@@ -34,13 +30,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="form-group col-md-4">
-                            <label for="email" class="form-label">Email<span class="required">*</span></label>
-                            <input type="email" id="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" required>
-                            @error('email')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+
                         <div class="form-group col-md-4">
                             <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                             <input type="date" id="date_of_birth" name="date_of_birth" class="form-control {{ $errors->has('date_of_birth') ? 'is-invalid' : '' }}" value="{{ old('date_of_birth') }}" required>
@@ -55,12 +45,19 @@
                                 <option value="Nữ">Nữ</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" value="{{ old('phone') }}" required>
                             @error('phone')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-4">
+                            <label for="email" class="form-label">Email<span class="required">*</span></label>
+                            <input type="email" id="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" required>
+                            @error('email')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -124,27 +121,6 @@
 
         errorFields.forEach(function(field) {
             field.value = '';
-        });
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-        const roleSelect = document.getElementById('role_id');
-        const employeeIdField = document.getElementById('employee_id');
-        const usernameField = document.getElementById('username');
-
-        // Giá trị để hiển thị theo vai trò
-        const randomIdAD = "{{ $randomIdAD }}";
-        const randomUserNameAD = "{{ $randomUserNameAD }}";
-        const randomIdEM = "{{ $randomIdEM }}";
-        const randomUserNameEM = "{{ $randomUserNameEM }}";
-
-        roleSelect.addEventListener('change', function() {
-            if (roleSelect.value === "1") {
-                employeeIdField.value = randomIdAD;
-                usernameField.value = randomUserNameAD;
-            } else if (roleSelect.value === "2") {
-                employeeIdField.value = randomIdEM;
-                usernameField.value = randomUserNameEM;
-            }
         });
     });
 </script>

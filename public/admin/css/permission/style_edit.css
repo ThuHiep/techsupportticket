@@ -11,7 +11,24 @@ body {
     background-color: #ffffff; /* Nền sáng */
     overflow-x: hidden; /* Ẩn phần tử tràn ngang */
 }
+    /* Khi sidebar ở trạng thái bình thường */
+    body .container {
+        width: calc(98%);
+        /* Độ rộng sau khi trừ sidebar */
+        transition: all 0.3s ease-in-out;
+    }
 
+    /* Khi sidebar thu nhỏ */
+    body.mini-navbar .container {
+        width: calc(98%);
+        /* Mở rộng nội dung khi sidebar thu nhỏ */
+        transition: all 0.3s ease-in-out;
+    }
+
+    .required {
+        color: red;
+        font-size: 14px;
+    }
 /* Container chính */
 .container {
     width: 1200px;
