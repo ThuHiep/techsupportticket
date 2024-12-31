@@ -273,7 +273,6 @@ class RequestController extends Controller
             'request_type_id' => 'required|exists:request_type,request_type_id',
             'subject' => 'required|max:255',
             'description' => 'required',
-            'create_at' => 'required|date',
             'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
             'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960', // 40 MB
         ]);
@@ -299,7 +298,6 @@ class RequestController extends Controller
             'request_type_id' => $validatedData['request_type_id'],
             'subject' => $validatedData['subject'],
             'description' => $validatedData['description'],
-            'create_at' => $validatedData['create_at'],
             'resolved_at' => $validatedData['status'] === 'Hoàn thành' ? now() : $supportRequest->resolved_at,
             'status' => $validatedData['status'],
         ]);
