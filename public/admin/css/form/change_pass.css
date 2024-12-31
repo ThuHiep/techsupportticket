@@ -162,6 +162,49 @@ body{
 .toggle-password:hover {
     color: var(--second-color);
 }
+
+.password-hint {
+    font-size: 13px;
+    color: var(--second-color);
+    margin-top: 15px;
+    margin-left: 20px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.hint-list ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 15px;
+}
+
+.hint-list li {
+    list-style-position: inside;
+}
+.password-hint {
+    font-size: 14px;
+    color: var(--second-color);
+    margin-top: 15px;
+    margin-left: 20px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.hint-list ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 15px;
+}
+
+.hint-list li {
+    list-style-position: inside;
+}
 @media (max-width: 426px){
     .reset-password-box{
         width: 100%;

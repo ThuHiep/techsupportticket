@@ -289,10 +289,6 @@ class AuthController extends Controller
     {
         $user = User::findOrFail($user_id);
 
-        if ($request->input('new-password') !== $request->input('confirm-password')) {
-            return back()->withErrors(['confirm-password' => 'Mật khẩu mới và xác nhận mật khẩu không khớp!']);
-        }
-
         $user->password = Hash::make($request->input('new-password'));
         $user->update_at = now();
         $user->save();
@@ -309,11 +305,7 @@ class AuthController extends Controller
         $user = User::findOrFail($user_id);
 
         if (!Hash::check($request->input('old-password'), $user->password)) {
-            return back()->withErrors(['old-password' => 'Mật khẩu cũ không đúng!']);
-        }
-
-        if ($request->input('new-password') !== $request->input('confirm-password')) {
-            return back()->withErrors(['confirm-password' => 'Mật khẩu mới và xác nhận mật khẩu không khớp!']);
+            return back()->withErrors(['old-password' => 'Mật khẩu cũ không đúng!'])->withInput();
         }
 
         $user->password = Hash::make($request->input('new-password'));
