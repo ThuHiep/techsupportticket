@@ -384,4 +384,5 @@ class RequestController extends Controller
 
         return redirect()->route('request.edit', $request_id)->with('success', 'Phản hồi đã được gửi thành công!');
     }
+    
 }

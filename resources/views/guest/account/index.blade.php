@@ -9,67 +9,10 @@
   <meta content="" name="keywords" />
   <link href="admin/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
   <!-- Main CSS File -->
   <link href="guest/css/account/user.css" rel="stylesheet" />
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <style>
-    .feedback-show {
-      margin-top: 15px;
-      padding: 10px;
-      background: #f9f9f9;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .feedback-item {
-      display: flex;
-      flex-direction: column;
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .feedback-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .feedback-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 10px;
-    }
-
-    .feedback-user-info {
-      flex-grow: 1;
-    }
-
-    .feedback-time {
-      font-size: 12px;
-      color: #888;
-      white-space: nowrap;
-      margin-left: auto;
-    }
-
-    .feedback-message {
-      font-size: 14px;
-      color: #333;
-      margin: 0;
-      line-height: 1.5;
-    }
-  </style>
-
 </head>
 
 <body class="index-page">

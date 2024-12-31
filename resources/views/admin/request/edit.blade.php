@@ -256,10 +256,7 @@
     </form>
     </div>
 
-    <!-- Phần Phản hồi -->
-    <div class="reply-container" style="display: none;">
-        @include('admin.request.reply-cus')
-    </div>
+    
     <strong>
         <h2>Phản hồi</h2>
     </strong>
@@ -289,6 +286,10 @@
             </div>
         </div>
         @endforeach
+    </div>
+    <!-- Phần Phản hồi -->
+    <div class="reply-container" style="display: none;">
+        @include('admin.request.reply-cus')
     </div>
 
 
