@@ -415,11 +415,14 @@ input[readonly] {
         padding: 14px 13px;
         font-size: 14px;
     }
+    .history-table {
+        margin-top: 15px;
+    }
 }
 @media (max-width: 426px) {
     h1{
       font-size: 19.7px;
-        margin-bottom: -15px;
+        margin-top: 5px;
     }
     .row_left {
         flex-direction: column; /* Xếp các cột thành 1 hàng dọc */
@@ -443,5 +446,55 @@ input[readonly] {
 
     .form-group-row {
         flex-direction: column; /* Các trường xếp chồng lên nhau */
+    }
+    input#subject {
+        width: 200%;
+    }
+    textarea#description{
+        width: 200%;
+    }
+    .button-group {
+        display: flex; /* Hiển thị các nút theo hàng ngang */
+        justify-content: space-between; /* Chia đều khoảng cách giữa các nút */
+        width: 100%; /* Chiếm toàn bộ chiều ngang khung chứa */
+        margin-top: 3px;
+    }
+
+    .submit-button,
+    .reply-button,
+    .cancel-btn {
+        display: flex; /* Đảm bảo căn chỉnh text */
+        justify-content: center; /* Căn giữa text theo chiều ngang */
+        align-items: center; /* Căn giữa text theo chiều dọc */
+        padding: 10px 20px; /* Điều chỉnh khoảng cách text bên trong */
+        font-size: 14px; /* Kích thước chữ */
+        white-space: nowrap; /* Đảm bảo text không xuống hàng */
+        border-radius: 5px; /* Bo góc nút */
+        text-decoration: none; /* Loại bỏ gạch chân (cho <a>) */
+        cursor: pointer; /* Con trỏ dạng tay khi hover */
+        box-sizing: border-box; /* Bao gồm padding và viền trong kích thước */
+    }
+
+    .submit-button {
+        flex: 1; /* Để các nút có chiều rộng đều nhau */
+    }
+
+    .reply-button {
+        flex: 1;
+    }
+
+    .cancel-btn {
+        flex: 1;
+        margin-left: 0px!important;
+    }
+
+    .button-group > *:not(:last-child) {
+        margin-right: 10px; /* Tạo khoảng cách giữa các nút */
+    }
+    .feedback-container {
+        margin: 20px 0px 5px 0px !important;
+    }
+    .history-table {
+        margin-top: 15px;
     }
 }
