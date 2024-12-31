@@ -227,7 +227,7 @@ class AuthController extends Controller
             return redirect()->route('login')->with('error', 'Email không hợp lệ.');
         }
 
-        return redirect()->route('login')->with('success', 'Đăng ký thành công! Hãy chờ kích hoạt tài khoản.');
+        return redirect()->route('homepage.index')->with('success', 'Đăng ký thành công! Hãy chờ kích hoạt tài khoản.');
     }
     // Quên mật khẩu
     public function forgotPass()
