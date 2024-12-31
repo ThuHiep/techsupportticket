@@ -981,7 +981,7 @@ select#gender:focus{
 /* Responsive */
 @media (max-width: 768px) {
     body{
-        background-color: #ffffff;
+        background-color: #ffffff!important;
     }
   .button-group {
       gap: 10px; /* Tăng khoảng cách giữa các nút */
