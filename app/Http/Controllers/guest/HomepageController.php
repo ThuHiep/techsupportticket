@@ -62,6 +62,8 @@ class HomepageController extends Controller
 
         if ($type === 'faq') {
             $results = FAQ::where('question', 'LIKE', "%{$keyword}%")
+                ->whereNotNull('answer')
+                ->where('answer', '<>', '')
                 ->get();
         } elseif ($type === 'article') {
             $results = Article::where('title', 'LIKE', "%{$keyword}%")

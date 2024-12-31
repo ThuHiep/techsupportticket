@@ -207,6 +207,7 @@
             const keywordInput = document.getElementById('search-keyword');
             const searchType = document.getElementById('search-type');
             const searchResults = document.getElementById('search-results');
+            const assetBasePath = "{{ asset('admin/img/articles/') }}";
 
             function fetchSearchResults() {
                 const keyword = keywordInput.value.trim();
@@ -216,7 +217,7 @@
                     fetch(`/search?keyword=${encodeURIComponent(keyword)}&type=${type}`)
                         .then(response => response.json())
                         .then(data => {
-                            // Làm sạch các kết quả cũ
+
                             searchResults.innerHTML = '';
 
                             if (data.length > 0) {
@@ -228,7 +229,10 @@
                                     if (type === 'faq') {
                                         resultItem.setAttribute('data-id', item.faq_id);
                                     } else if (type === 'article') {
-                                        resultItem.setAttribute('onclick', `openHuongdanModal(this, '${item.title}', '${item.content}', '${item.create_at ? new Date(item.create_at).toLocaleDateString('en-GB') : 'Chưa có ngày đăng'}')`);
+                                        resultItem.setAttribute(
+                                            'onclick',
+                                            `openHuongdanModal(this, '${item.title}', '${item.content}', '${item.create_at ? new Date(item.create_at).toLocaleDateString('en-GB') : 'Chưa có ngày đăng'}', '${assetBasePath}/${item.images}')`
+                                        );
                                     }
 
                                     resultItem.innerHTML = `
@@ -295,9 +299,7 @@
             // Lắng nghe sự kiện thay đổi lựa chọn trong select
             searchType.addEventListener('change', fetchSearchResults);
 
-            // Ẩn dropdown khi mất tiêu điểm
             keywordInput.addEventListener('blur', function(event) {
-                // Chờ một chút để kiểm tra xem người dùng có nhấp vào mục dropdown hay không
                 setTimeout(() => {
                     hideDropdown();
                 }, 200);
@@ -761,13 +763,16 @@
     </div>
 
     <script>
-        function openHuongdanModal(cardElement, title, content, date) {
+        function openHuongdanModal(cardElement, title, content, date, img) {
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerHTML = content;
             document.getElementById('huongdanModalDate').innerText = date;
-
-            const imageSrc = cardElement.querySelector('img').getAttribute('src');
-            document.getElementById('huongdanModalImage').setAttribute('src', imageSrc);
+            if (img == null) {
+                const imageSrc = cardElement.querySelector('img').getAttribute('src');
+                document.getElementById('huongdanModalImage').setAttribute('src', imageSrc);
+            } else {
+                document.getElementById('huongdanModalImage').setAttribute('src', img);
+            }
 
             const modal = document.getElementById('huongdanArticleModal');
             modal.style.display = "block";
