@@ -7,6 +7,7 @@
   <title>Tài khoản</title>
   <meta content="" name="description" />
   <meta content="" name="keywords" />
+  <link href="admin/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -418,7 +419,7 @@
 
           <!-- Modal -->
           <div id="editModal" class="modal">
-            <div class="modal-content">
+            <div class="modal-content-edit">
               <span class="close">x</span>
               <h1 class="modal-title">Chỉnh sửa thông tin khách hàng</h1>
               <form action="{{ route('customer.updateProfile') }}" method="POST" enctype="multipart/form-data">
@@ -633,14 +634,13 @@
             <!-- Nội dung trạng thái sẽ được tạo động -->
           </div>
         </div>
+        
+        </div>
+        <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;"></div>
         <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
 
           @include('guest.account.reply-ad')
 
-        </div>
-        <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
-
-        </div>
         @empty
         <p>Không có yêu cầu nào trong lịch sử.</p>
         @endforelse
@@ -682,84 +682,68 @@
             return [];
           });
       }
-
-      // Hàm hiển thị trạng thái yêu cầu trong modal
       function viewRequestDetail(requestId) {
-        const BASE_URL = "{{ asset('') }}";
-
-        // Đóng tất cả các request-item đang mở
-        document.querySelectorAll('.status-container').forEach(container => {
-          container.style.display = 'none';
-        });
-        document.querySelectorAll('.reply-container').forEach(container => {
-          container.style.display = 'none';
-        });
-        document.querySelectorAll('.reply-show').forEach(container => {
-          container.style.display = 'none';
-        });
-
-        // Lấy các phần tử liên quan đến requestId
+        const statusContainer = document.getElementById(`status-container-${requestId}`);
         const replyContainer = document.getElementById(`reply-container-${requestId}`);
         const replyShow = document.getElementById(`reply-show-${requestId}`);
-        const statusContainer = document.getElementById(`status-container-${requestId}`);
 
-        // Hiển thị phần phản hồi và trạng thái yêu cầu
-        replyContainer.style.display = "block";
-        statusContainer.style.display = "block";
+        // Kiểm tra trạng thái hiển thị
+        if (statusContainer.style.display === "none" || !statusContainer.style.display) {
+            // Hiển thị nội dung chi tiết
+            statusContainer.style.display = "block";
+            replyContainer.style.display = "block";
+            replyShow.style.display = "block";
 
-        // Gọi API để lấy dữ liệu trạng thái
-        fetchRequestStatus(requestId).then(data => {
-          renderRequestStatus(data, requestId); // Hiển thị trạng thái yêu cầu
-        });
+            // Gọi API để lấy trạng thái yêu cầu (nếu cần)
+            fetchRequestStatus(requestId).then(data => {
+                renderRequestStatus(data, requestId); // Hiển thị trạng thái yêu cầu
+            });
 
-        // Gửi AJAX request để lấy feedback
-        fetch(`/feedback/${requestId}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            // Kiểm tra nếu có dữ liệu feedback
-            if (data.feedbacks && data.feedbacks.length > 0) {
-              let feedbackHtml = `
-                    <strong>
-                        <h2>Phản hồi</h2>
-                    </strong>
-                    <div class="feedback-container">
-                `;
-
-              data.feedbacks.forEach(feedback => {
-                feedbackHtml += `
-                        <div class="feedback-item">
-                            <div class="feedback-header">
-                                ${
-                                    (feedback.role_id == 1 || feedback.role_id == 2)
-                                        ? `<img src="${BASE_URL}admin/img/employee/${feedback.profile_image ? feedback.profile_image : 'default.png'}" alt="Hình ảnh nhân viên" class="feedback-avatar">`
-                                        : `<img src="${BASE_URL}admin/img/customer/${feedback.profile_image ? feedback.profile_image : 'default.png'}" alt="Hình ảnh khách hàng" class="feedback-avatar">`
-                                }
-                                <div class="feedback-user-info">
-                                    <p class="feedback-name">${feedback.full_name}</p>
-                                    <p class="feedback-type">${feedback.role_id === 3 ? 'Chủ sở hữu' : 'Nhân viên hỗ trợ'}</p>
+            // Lấy dữ liệu phản hồi
+            fetch(`/feedback/${requestId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.feedbacks && data.feedbacks.length > 0) {
+                        let feedbackHtml = `
+                            <strong>
+                                <h2>Phản hồi</h2>
+                            </strong>
+                            <div class="feedback-container">
+                        `;
+                        data.feedbacks.forEach(feedback => {
+                            feedbackHtml += `
+                                <div class="feedback-item">
+                                    <div class="feedback-header">
+                                        ${
+                                            (feedback.role_id == 1 || feedback.role_id == 2)
+                                                ? `<img src="/admin/img/employee/${feedback.profile_image || 'default.png'}" alt="Hình ảnh nhân viên" class="feedback-avatar">`
+                                                : `<img src="/admin/img/customer/${feedback.profile_image || 'default.png'}" alt="Hình ảnh khách hàng" class="feedback-avatar">`
+                                        }
+                                        <div class="feedback-user-info">
+                                            <p class="feedback-name">${feedback.full_name}</p>
+                                            <p class="feedback-type">${feedback.role_id === 3 ? 'Chủ sở hữu' : 'Nhân viên hỗ trợ'}</p>
+                                        </div>
+                                        <p class="feedback-time">${new Date(feedback.created_at).toLocaleString('vi-VN')}</p>
+                                    </div>
+                                    <div class="feedback-message">${feedback.message}</div>
                                 </div>
-                                <p class="feedback-time">${feedback.created_at}</p>
-                            </div>
-                            <div class="feedback-message">${feedback.message}</div>
-                        </div>
-                    `;
-              });
+                            `;
+                        });
+                        feedbackHtml += `</div>`;
+                        replyShow.innerHTML = feedbackHtml;
+                    } else {
+                        replyShow.innerHTML = '<p>Không có phản hồi nào.</p>';
+                    }
+                })
+                .catch(error => console.error('Lỗi khi lấy phản hồi:', error));
+        } else {
+            // Ẩn nội dung chi tiết
+            statusContainer.style.display = "none";
+            replyContainer.style.display = "none";
+            replyShow.style.display = "none";
+        }
+    }
 
-              feedbackHtml += `</div>`;
-
-              // Cập nhật HTML vào container và hiển thị
-              replyShow.innerHTML = feedbackHtml;
-              replyShow.style.display = 'block';
-            } else {
-              replyShow.innerHTML = '<p>Không có feedback nào.</p>';
-              replyShow.style.display = 'block';
-            }
-          })
-          .catch(error => {
-            console.error('Lỗi khi lấy feedback:', error);
-          });
-      }
 
       // Hàm hiển thị trạng thái yêu cầu
       function renderRequestStatus(data, requestId) {

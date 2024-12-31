@@ -4,7 +4,7 @@
 
 <title>SWEETSOFT</title>
 
-<link href="admin/css/bootstrap.min.css" rel="stylesheet">
+
 <link href="admin/font-awesome/css/font-awesome.css" rel="stylesheet">
 <link href="admin/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <link href="admin/css/plugins/toastr/toastr.min.css" rel="stylesheet">

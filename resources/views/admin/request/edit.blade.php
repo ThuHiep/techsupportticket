@@ -136,20 +136,18 @@
                     <div class="form-column-left">
                         <!-- Hàng 1: Mã yêu cầu + Khách hàng + Trạng thái -->
                         <div class="row_left">
+                            
                             <div class="form-group">
-                                <label for="customer_id">Khách hàng <span class="required">*</span></label>
-                                <select id="customer_id" name="customer_id" required>
-                                    <option value="">--Chọn khách hàng--</option>
-                                    @foreach($customers as $customer)
-                                    <option value="{{ $customer->customer_id }}" {{ (old('customer_id', $supportRequest->customer_id) == $customer->customer_id) ? 'selected' : '' }}>
-                                        {{ $customer->full_name }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <label for="customer_name">Khách hàng <span class="required">*</span></label>
+                                <!-- Hiển thị tên khách hàng -->
+                                <input type="text" id="customer_name" name="customer_name" value="{{ $supportRequest->customer->full_name }}" readonly>
+                                <!-- Trường ẩn để gửi customer_id -->
+                                <input type="hidden" id="customer_id" name="customer_id" value="{{ $supportRequest->customer_id }}">
                                 @error('customer_id')
                                 <div class="error">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
                             <div class="form-group">
                                 <label for="status">Trạng thái <span class="required">*</span></label>
                                 <select id="status" name="status" required>
@@ -197,26 +195,7 @@
                             </div>
                         </div>
 
-                        <!-- Hàng 3: Ngày tạo + Ngày hoàn thành -->
-                        {{-- <div class="row_left">
-                        <!-- Nhóm "Ngày tạo" và "Ngày hoàn thành" -->
-                        <div class="form-group-row date-group">
-                            <div class="form-group">
-                                <label for="create_at">Ngày tạo <span class="required">*</span></label>
-                                <input type="date" id="create_at" name="create_at" value="{{ old('create_at', $supportRequest->create_at ? $supportRequest->create_at->format('Y-m-d') : '') }}" readonly required>
-                        @error('create_at')
-                        <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="resolved_at">Ngày hoàn thành</label>
-                        <input type="date" id="resolved_at" name="resolved_at" value="{{ old('resolved_at', $supportRequest->resolved_at ? $supportRequest->resolved_at->format('Y-m-d') : '') }}">
-                        @error('resolved_at')
-                        <div class="error">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-        </div> --}}
+                        
 
         <div class="form-group attachments">
             <label for="attachments">{{ $supportRequest->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
