@@ -429,13 +429,12 @@ input.error, select.error {
     }
 
     .btn-secondary {
-        top: 10px; /* Giảm khoảng cách khi nút quay lại ở màn hình nhỏ */
-        right: 10px;
-        font-size: 12px; /* Kích thước chữ nhỏ hơn */
+        font-size: 14px;
+        padding: 15px 24px;
     }
 
     .btn-success {
-        width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
+        width: 20%;
     }
 }
 
@@ -467,5 +466,14 @@ input.error, select.error {
     .image-preview img {
         max-width: 200px; /* Giảm kích thước ảnh preview */
         max-height: 120px;
+    }
+}
+@media (max-width: 426px) {
+    .btn-secondary {
+        font-size: 14px;
+        padding: 15px 24px;
+    }
+    .btn-success {
+        width: 32%;
     }
 }

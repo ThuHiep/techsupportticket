@@ -297,11 +297,12 @@ input.error, select.error {
     }
 
     .btn-cancel {
-        top: 10px; /* Giảm khoảng cách khi nút quay lại ở màn hình nhỏ */
-        right: 10px;
-        font-size: 12px; /* Kích thước chữ nhỏ hơn */
+        font-size: 14px; /* Kích thước chữ nhỏ hơn */
+        padding: 15px 24px;
     }
-
+    .btn-add-cus{
+        width: 17%;
+    }
     .btn-success {
         width: 100%; /* Chiều rộng nút chiếm toàn bộ màn hình */
     }
@@ -314,6 +315,7 @@ input.error, select.error {
         margin-left: 0;
         margin-top: 0;
     }
+
 }
 
 @media (max-width: 576px) {
@@ -351,6 +353,16 @@ input.error, select.error {
         flex-direction: column;
         margin-left: 0;
         margin-top: 0;
+    }
+
+}
+@media (max-width: 426px) {
+    .btn-cancel {
+        font-size: 14px;
+        padding: 15px 24px;
+    }
+    .btn-add-cus{
+        width: 31%;
     }
 
 }
