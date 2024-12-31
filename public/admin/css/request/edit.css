@@ -303,7 +303,7 @@ h1 {
     transform: scale(1.05); /* Phóng to nhẹ */
 }
 .reply-button:focus {
-    background-color: #4A1F6A; 
+    background-color: #4A1F6A;
     color: #ffffff;
 }
 .reply-button:active {
@@ -389,12 +389,31 @@ input[readonly] {
     }
     .submit-button{
         width: 100%;
+        font-size: 14px;
+        padding: 14px 10px;
     }
     .cancel-btn {
         width: 100%;
+        font-size: 14px;
     }
     .alert-info{
         margin-bottom: 10px;
+    }
+    .form-columns {
+        gap: 10px;
+    }
+    .form-column-right {
+        width: 50%;
+    }
+    .form-column-left .form-group select{
+        font-size: 12px;
+        min-height: 48px;
+    }
+    .reply-button{
+        width: 100%;
+        height: 50px;
+        padding: 14px 13px;
+        font-size: 14px;
     }
 }
 @media (max-width: 426px) {
