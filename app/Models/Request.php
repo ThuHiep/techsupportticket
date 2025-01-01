@@ -78,5 +78,10 @@ class Request extends Model
     {
         return $this->hasMany(RequestHistory::class, 'request_id', 'request_id');
     }
+    public function feedbacks()
+    {
+        return $this->hasMany(CustomerFeedback::class, 'customer_id', 'customer_id');
+    }
+
 
 }

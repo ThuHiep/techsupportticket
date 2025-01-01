@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\AccountApproved;
 use App\Mail\AccountRejected;
 use App\Mail\CustomerUpdated;
-use App\Models\Customer; // Import Model Customer
+use App\Models\Customer;
+use App\Models\CustomerFeedback;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,15 +29,11 @@ class CustomerController extends Controller
         // Truy vấn khách hàng có status là 'active'
         $customers = Customer::where('status', 'active')
             ->when($search, function ($query) use ($search) {
-                // Tìm kiếm theo tên khách hàng
                 return $query->whereRaw("full_name COLLATE utf8_general_ci LIKE ?", ["%$search%"]);
             })
             ->paginate(3);
 
-        // Tạo thông báo nếu có kết quả tìm kiếm
-        $totalResults = $customers->total();
-
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults'));
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search'));
     }
 
     // Hiển thị form tạo khách hàng mới
