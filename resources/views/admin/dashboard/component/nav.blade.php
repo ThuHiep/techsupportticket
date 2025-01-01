@@ -8,13 +8,13 @@
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
-
+            @include('admin.dashboard.component.notification')
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="dropdownMenu">
                     <i class="fa fa-bell"></i>
                    <span class="label label-warning" id="userCountt">0</span>
                 </a>
-                <ul class="dropdown-menu dropdown-messages">
+                <ul class="dropdown-menu dropdown-alerts">
                     <!-- Hiển thị thông báo yêu cầu chưa xử lý -->
                     <li id="requestNotification" style="display: none;">
 
