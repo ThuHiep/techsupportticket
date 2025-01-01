@@ -20,6 +20,7 @@ class RequestHistory extends Model
         'new_status',
         'note',
         'changed_at',
+        'department_id'
     ];
 
     protected $casts = [
@@ -65,4 +66,10 @@ class RequestHistory extends Model
     {
         return $this->belongsTo(Employee::class, 'changed_by');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id', 'department_id');
+    }
+
 }

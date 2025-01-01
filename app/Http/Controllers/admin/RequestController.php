@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Request;
+use App\Mail\DepartmentChangedMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request as SupportRequest;
 use App\Models\Customer;
@@ -306,16 +308,25 @@ class RequestController extends Controller
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
         // Lưu lịch sử thay đổi trạng thái nếu trạng thái đã thay đổi
-        if ($supportRequest->wasChanged('status')) {
+        if ($supportRequest->wasChanged('status') || $supportRequest->wasChanged('department_id')) {
             RequestHistory::create([
-                'request_id' => $request_id,
-                'changed_by' => $logged_user->employee_id,
-                'old_status' => $supportRequest->getOriginal('status'),
-                'new_status' => $validatedData['status'],
-                'note' => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
-                'changed_at' => now(),
+                'request_id'    => $request_id,
+                'changed_by'    => $logged_user->employee_id,
+                'old_status'    => $supportRequest->getOriginal('status'),
+                'new_status'    => $validatedData['status'],
+                'note'          => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
+                'changed_at'    => now(),
+                'department_id' => $validatedData['department_id'],
             ]);
         }
+
+        if ($supportRequest->wasChanged('department_id')) {
+            // Gửi email cho khách hàng
+            Mail::to($supportRequest->customer->email)
+                ->send(new DepartmentChangedMail($supportRequest));
+        }
+
+
 
         // Xử lý file đính kèm nếu có
         if ($request->hasFile('attachments')) {
@@ -384,5 +395,5 @@ class RequestController extends Controller
 
         return redirect()->route('request.edit', $request_id)->with('success', 'Phản hồi đã được gửi thành công!');
     }
-    
+
 }

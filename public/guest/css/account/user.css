@@ -1689,6 +1689,37 @@ input#confirm-password:focus{
   font-size: 14px;
   color: #333;
 }
+
+/* Định dạng chung cho phần trạng thái */
+.status-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Định dạng chung cho phần trạng thái */
+.status-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Định dạng cho hình tròn */
+.circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    background-color: gray; /* Màu xám cho các trạng thái trước */
+}
+
+/* Màu xanh cho trạng thái hiện tại (mới nhất) */
+.circle.current {
+    background-color: green; /* Màu xanh cho trạng thái hiện tại */
+}
+
+
+
 /* 23/12 */
 
 /*--------------------------------------------------------------
