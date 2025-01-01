@@ -31,9 +31,6 @@ class DashboardController extends Controller
         $pendingCustomerToday = Customer::whereDate('create_at', now()->toDateString())
             ->count();
 
-
-
-
         // Số khách hàng hôm nay
         $totalCustomersToday = Customer::whereDate('create_at', now()->toDateString())->count();
 
@@ -101,6 +98,12 @@ class DashboardController extends Controller
             $requestData[$request->weekday]['total'] = $request->total;
         }
 
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
         $template = 'admin.dashboard.home.index';
 
         return view('admin.dashboard.layout', compact(
@@ -116,7 +119,8 @@ class DashboardController extends Controller
             'faqPercentageChange',
             'requestStatusCounts',
             'requestData',
-
+            'unreadRequests',
+            'unreadRequestCount'
         ));
     }
 

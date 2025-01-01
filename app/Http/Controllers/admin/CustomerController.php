@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\CustomerCreated;
 use App\Models\Employee;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,7 +37,22 @@ class CustomerController extends Controller
         // Tạo thông báo nếu có kết quả tìm kiếm
         $totalResults = $customers->total();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'search', 'totalResults'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'customers',
+            'searchPerformed',
+            'search',
+            'totalResults',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     // Hiển thị form tạo khách hàng mới
@@ -60,10 +76,25 @@ class CustomerController extends Controller
             $password .= $characters[mt_rand(0, strlen($characters) - 1)];
         }
 
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
         // Truyền các giá trị vào view
         $template = 'admin.customer.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'randomId', 'username', 'password', 'customers'));
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'randomId',
+            'username',
+            'password',
+            'customers',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
 
@@ -73,7 +104,20 @@ class CustomerController extends Controller
         $template = 'admin.customer.edit';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $customers = Customer::findOrFail($customer_id);
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers'));
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'customers',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     public function update(Request $request, $customer_id)
@@ -317,7 +361,23 @@ class CustomerController extends Controller
         $totalResults = $customers->total();
         $searchPerformed = $searchName || $searchDate;
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'customers', 'searchPerformed', 'totalResults', 'searchName', 'searchDate'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'customers',
+            'searchPerformed',
+            'totalResults',
+            'searchName',
+            'searchDate',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     public function getUserList(Request $request)

@@ -566,6 +566,9 @@
             <h3>{{ $request->request_id }}</h3>
             <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
             <p>{{ $request->subject }}</p>
+            @if($request->employeeFeedbacks->where('is_read', false)->isNotEmpty())
+            <strong class="new-feedback">Đã được phản hồi</strong>
+            @endif
           </div>
           <div class="request-arrow">→</div>
         </div>
@@ -577,12 +580,11 @@
           </div>
         </div>
 
-        </div>
-        <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;"></div>
         <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
 
           @include('guest.account.reply-ad')
-
+        </div>
+        <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;"></div>
         @empty
         <p>Không có yêu cầu nào trong lịch sử.</p>
         @endforelse
@@ -624,6 +626,7 @@
             return [];
           });
       }
+
       function viewRequestDetail(requestId) {
         const statusContainer = document.getElementById(`status-container-${requestId}`);
         const replyContainer = document.getElementById(`reply-container-${requestId}`);
@@ -631,29 +634,40 @@
 
         // Kiểm tra trạng thái hiển thị
         if (statusContainer.style.display === "none" || !statusContainer.style.display) {
-            // Hiển thị nội dung chi tiết
-            statusContainer.style.display = "block";
-            replyContainer.style.display = "block";
-            replyShow.style.display = "block";
+          // Đóng tất cả các request-item đang mở
+          document.querySelectorAll('.status-container').forEach(container => {
+            container.style.display = 'none';
+          });
+          document.querySelectorAll('.reply-container').forEach(container => {
+            container.style.display = 'none';
+          });
+          document.querySelectorAll('.reply-show').forEach(container => {
+            container.style.display = 'none';
+          });
 
-            // Gọi API để lấy trạng thái yêu cầu (nếu cần)
-            fetchRequestStatus(requestId).then(data => {
-                renderRequestStatus(data, requestId); // Hiển thị trạng thái yêu cầu
-            });
+          // Hiển thị nội dung chi tiết
+          statusContainer.style.display = "block";
+          replyContainer.style.display = "block";
+          replyShow.style.display = "block";
 
-            // Lấy dữ liệu phản hồi
-            fetch(`/feedback/${requestId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.feedbacks && data.feedbacks.length > 0) {
-                        let feedbackHtml = `
+          // Gọi API để lấy trạng thái yêu cầu (nếu cần)
+          fetchRequestStatus(requestId).then(data => {
+            renderRequestStatus(data, requestId); // Hiển thị trạng thái yêu cầu
+          });
+
+          // Lấy dữ liệu phản hồi
+          fetch(`/feedback/${requestId}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.feedbacks && data.feedbacks.length > 0) {
+                let feedbackHtml = `
                             <strong>
                                 <h2>Phản hồi</h2>
                             </strong>
                             <div class="feedback-container">
                         `;
-                        data.feedbacks.forEach(feedback => {
-                            feedbackHtml += `
+                data.feedbacks.forEach(feedback => {
+                  feedbackHtml += `
                                 <div class="feedback-item">
                                     <div class="feedback-header">
                                         ${
@@ -663,53 +677,61 @@
                                         }
                                         <div class="feedback-user-info">
                                             <p class="feedback-name">${feedback.full_name}</p>
-                                            <p class="feedback-type">${feedback.role_id === 3 ? 'Chủ sở hữu' : 'Nhân viên hỗ trợ'}</p>
+                                            <p class="feedback-type">${feedback.role_id == 3 ? 'Chủ sở hữu' : 'Nhân viên hỗ trợ'}</p>
                                         </div>
                                         <p class="feedback-time">${new Date(feedback.created_at).toLocaleString('vi-VN')}</p>
                                     </div>
                                     <div class="feedback-message">${feedback.message}</div>
                                 </div>
                             `;
-                        });
-                        feedbackHtml += `</div>`;
-                        replyShow.innerHTML = feedbackHtml;
-                    } else {
-                        replyShow.innerHTML = '<p>Không có phản hồi nào.</p>';
-                    }
-                })
-                .catch(error => console.error('Lỗi khi lấy phản hồi:', error));
+                });
+                feedbackHtml += `</div>
+                            <strong>
+                                <h2 class="text-center">------------------</h2>
+                            </strong>
+                `;
+                replyShow.innerHTML = feedbackHtml;
+                const feedbackIndicator = document.querySelector(`.request-item[onclick="viewRequestDetail('${requestId}')"] .new-feedback`);
+                if (feedbackIndicator) {
+                  feedbackIndicator.style.display = 'none';
+                }
+              } else {
+                replyShow.innerHTML = '<p>Không có phản hồi nào.</p>';
+              }
+            })
+            .catch(error => console.error('Lỗi khi lấy phản hồi:', error));
         } else {
-            // Ẩn nội dung chi tiết
-            statusContainer.style.display = "none";
-            replyContainer.style.display = "none";
-            replyShow.style.display = "none";
+          // Ẩn nội dung chi tiết
+          statusContainer.style.display = "none";
+          replyContainer.style.display = "none";
+          replyShow.style.display = "none";
         }
-    }
+      }
 
 
       function renderRequestStatus(data, requestId) {
-          const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
-          statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
+        const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
+        statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
 
-          data.forEach((item, index) => {
-              // Xác định xem đây có phải là trạng thái hiện tại (mới nhất) hay không
-              const isCurrent = index === data.length - 1 ? 'current' : '';
+        data.forEach((item, index) => {
+          // Xác định xem đây có phải là trạng thái hiện tại (mới nhất) hay không
+          const isCurrent = index === data.length - 1 ? 'current' : '';
 
-              // Tạo HTML cho trạng thái
-              const statusItem = `
+          // Tạo HTML cho trạng thái
+          const statusItem = `
             <div class="status-item">
                 <div class="circle ${isCurrent}"></div>
                 <div class="line"></div>
                 <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
             </div>
         `;
-              statusTimeline.innerHTML += statusItem;
-          });
+          statusTimeline.innerHTML += statusItem;
+        });
 
-          // Nếu không có dữ liệu, hiển thị thông báo
-          if (data.length === 0) {
-              statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
-          }
+        // Nếu không có dữ liệu, hiển thị thông báo
+        if (data.length === 0) {
+          statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+        }
       }
 
 

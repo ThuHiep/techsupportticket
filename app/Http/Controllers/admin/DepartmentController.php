@@ -33,7 +33,7 @@ class DepartmentController extends Controller
             $query = Department::query();
 
             if ($search !== '') {
-                $query->where(function($q) use ($search) {
+                $query->where(function ($q) use ($search) {
                     $q->where('department_name', 'LIKE', "%{$search}%");
                 });
             }
@@ -59,7 +59,22 @@ class DepartmentController extends Controller
         // Định nghĩa các trạng thái có sẵn (nếu vẫn cần hiển thị)
         // $statuses = ['active', 'inactive'];
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user','departments', /* 'statuses', */ 'searchPerformed', 'search', 'count'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'departments', /* 'statuses', */
+            'searchPerformed',
+            'search',
+            'count',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     // Hiển thị form tạo phòng ban
@@ -70,8 +85,20 @@ class DepartmentController extends Controller
         // Lặp đến khi tìm được mã không trùng lặp
         $nextId = (string) Str::uuid();
 
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
         // Trả về view với $template và $nextId
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'nextId',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
 
@@ -102,7 +129,20 @@ class DepartmentController extends Controller
         $template = 'admin.department.edit';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $department = Department::findOrFail($department_id);
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'department'));
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'department',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     // Cập nhật phòng ban

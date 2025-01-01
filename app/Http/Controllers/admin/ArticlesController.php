@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -23,13 +24,19 @@ class ArticlesController extends Controller
         $articles = Article::when($search, function ($query) use ($search) {
             return $query->where('title', 'LIKE', "%$search%");
         })
-        ->when($date, function ($query) use ($date) {
-            return $query->whereDate('create_at', $date);
-        })
-        ->paginate(5);
-        
+            ->when($date, function ($query) use ($date) {
+                return $query->whereDate('create_at', $date);
+            })
+            ->paginate(5);
+
 
         $totalResults = $articles->total();
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
 
         return view('admin.dashboard.layout', compact(
             'template',
@@ -37,7 +44,9 @@ class ArticlesController extends Controller
             'articles',
             'search',
             'date',
-            'totalResults'
+            'totalResults',
+            'unreadRequests',
+            'unreadRequestCount'
         ));
     }
 
@@ -48,7 +57,19 @@ class ArticlesController extends Controller
 
         $nextId = (string) Str::uuid();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'nextId',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     public function store(Request $request)
@@ -101,7 +122,19 @@ class ArticlesController extends Controller
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $article = Article::findOrFail($article_id);
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'article'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'article',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     public function update(Request $request, $article_id)
@@ -162,6 +195,4 @@ class ArticlesController extends Controller
 
         return redirect()->route('articles.index')->with('success', 'Bài viết và ảnh đã được xóa!');
     }
-
-
 }

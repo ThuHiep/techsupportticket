@@ -209,6 +209,13 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $latestFeedback = EmployeeFeedback::firstWhere('is_read', false);
+
+        if ($latestFeedback) {
+            $latestFeedback->is_read = true;
+            $latestFeedback->save();
+        }
+
         return response()->json(['feedbacks' => $feedbacks]);
     }
 }

@@ -23,7 +23,8 @@ class EmployeeFeedback extends Model
     protected $fillable = [
         'request_id',
         'employee_id',
-        'message',
+        'is_read',
+        'message'
     ];
 
     // Tắt timestamps nếu bảng không có cột `updated_at`

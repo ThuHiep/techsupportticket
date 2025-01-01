@@ -14,48 +14,56 @@ use Illuminate\Support\Str;
 class FaqController extends Controller
 {
     public function index(Request $request)
-{
-    $template = 'admin.faq.index';
-    $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+    {
+        $template = 'admin.faq.index';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-    // Lấy các tham số tìm kiếm
-    $search = $request->input('search'); // Từ khóa tìm kiếm theo nội dung câu hỏi
-    $statusFilter = $request->input('status'); // Trạng thái câu hỏi
-    $date = $request->input('date'); // Ngày cụ thể (nếu có)
+        // Lấy các tham số tìm kiếm
+        $search = $request->input('search'); // Từ khóa tìm kiếm theo nội dung câu hỏi
+        $statusFilter = $request->input('status'); // Trạng thái câu hỏi
+        $date = $request->input('date'); // Ngày cụ thể (nếu có)
 
-    // Tìm kiếm FAQ
-    $faqs = FAQ::where('status', 'Chưa phản hồi') // Lọc chỉ câu hỏi chưa phản hồi
-        ->when($search, function ($query) use ($search) {
-            // Tìm kiếm theo nội dung câu hỏi
-            return $query->where('question', 'LIKE', "%$search%");
-        })
-        ->when($date, function ($query) use ($date) {
-            // Lọc theo ngày tạo
-            return $query->whereDate('create_at', $date);
-        })
-        ->paginate(5);
+        // Tìm kiếm FAQ
+        $faqs = FAQ::where('status', 'Chưa phản hồi') // Lọc chỉ câu hỏi chưa phản hồi
+            ->when($search, function ($query) use ($search) {
+                // Tìm kiếm theo nội dung câu hỏi
+                return $query->where('question', 'LIKE', "%$search%");
+            })
+            ->when($date, function ($query) use ($date) {
+                // Lọc theo ngày tạo
+                return $query->whereDate('create_at', $date);
+            })
+            ->paginate(5);
 
-    // Đếm số lượng kết quả tìm thấy
-    $totalResults = $faqs->total();
+        // Đếm số lượng kết quả tìm thấy
+        $totalResults = $faqs->total();
 
-    // Xác định các tiêu chí tìm kiếm
-    $isSearchWithDate = $search && $date; // Cả từ khóa và ngày
-    $isSearchPerformed = $search || $date;
-    $isTodaySearch = $date === now()->toDateString();
+        // Xác định các tiêu chí tìm kiếm
+        $isSearchWithDate = $search && $date; // Cả từ khóa và ngày
+        $isSearchPerformed = $search || $date;
+        $isTodaySearch = $date === now()->toDateString();
 
-    return view('admin.dashboard.layout', compact(
-        'template',
-        'logged_user',
-        'faqs',
-        'search',
-        'date',
-        'statusFilter',
-        'totalResults',
-        'isSearchWithDate',
-        'isSearchPerformed',
-        'isTodaySearch'
-    ));
-}
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'faqs',
+            'search',
+            'date',
+            'statusFilter',
+            'totalResults',
+            'isSearchWithDate',
+            'isSearchPerformed',
+            'isTodaySearch',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
+    }
 
 
     public function create()
@@ -65,8 +73,19 @@ class FaqController extends Controller
 
         $nextId = (string) Str::uuid();
 
+        $data = RequestController::getUnreadRequests();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId'));
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'nextId',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     public function store(Request $request)
@@ -106,7 +125,20 @@ class FaqController extends Controller
         $template = 'admin.faq.feedback';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
         $faq = Faq::findOrFail($faq_id);
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'faq'));
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'faq',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     public function feedbackProcess(Request $request, $faq_id)
@@ -207,24 +239,20 @@ class FaqController extends Controller
             'email.email' => 'Email không đúng định dạng.',
             'question.required' => 'Vui lòng nhập câu hỏi.',
         ]);
-    
+
         try {
             $faq = new FAQ();
             // Tạo mã FAQ ngẫu nhiên giống như trong create
-            $faq->faq_id = (string) \Illuminate\Support\Str::uuid(); 
+            $faq->faq_id = (string) \Illuminate\Support\Str::uuid();
             $faq->email = $request->input('email');
             $faq->question = $request->input('question');
             $faq->status = 'Chưa phản hồi';
             $faq->create_at = now();
             $faq->save();
-    
+
             return response()->json(['success' => true, 'message' => 'Câu hỏi đã được gửi thành công!', 'faq_id' => $faq->faq_id]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()], 500);
         }
     }
-    
-
-
-
 }

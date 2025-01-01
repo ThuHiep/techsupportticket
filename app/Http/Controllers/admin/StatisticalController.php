@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Request; // Alias your model to avoid conflict
 use App\Models\RequestType;
 use Illuminate\Http\Request as HttpRequest; // Đổi tên cho rõ ràng
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class StatisticalController extends Controller
@@ -22,7 +23,21 @@ class StatisticalController extends Controller
         $statuses = $this->getCustomerReportData(); // Gọi phương thức này
         //dd($customerStats);
 
-        return view('admin.statistical.static_index', compact('customerStats', 'requestTypeStats', 'departmentStats', 'timeStats', 'statuses'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.statistical.static_index', compact(
+            'customerStats',
+            'requestTypeStats',
+            'departmentStats',
+            'timeStats',
+            'statuses',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     private function getCustomerStatistics(HttpRequest $request)
@@ -39,13 +54,13 @@ class StatisticalController extends Controller
                 ];
             });
     }
-//    public function searchCustomers(Request $request)
-//    {
-//        $name = $request->input('name');
-//        $customers = Customer::where('full_name', 'LIKE', "%$name%")->get(); // Giả sử bạn có model Customer
-//
-//        return response()->json($customers);
-//    }
+    //    public function searchCustomers(Request $request)
+    //    {
+    //        $name = $request->input('name');
+    //        $customers = Customer::where('full_name', 'LIKE', "%$name%")->get(); // Giả sử bạn có model Customer
+    //
+    //        return response()->json($customers);
+    //    }
 
     public function getCustomerReportData()
     {
@@ -83,7 +98,7 @@ class StatisticalController extends Controller
     private function getTimeStatistics(HttpRequest $request)
     {
         return Request::selectRaw('DATE(create_at) as request_date, COUNT(*) as request_count') // Sửa tên cột
-        ->groupBy('request_date')
+            ->groupBy('request_date')
             ->get();
     }
 

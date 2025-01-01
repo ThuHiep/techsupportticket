@@ -1,9 +1,4 @@
 <link rel="stylesheet" href="{{ asset('admin/css/permission/style_create.css') }}">
-<style>
-
-
-
-</style>
 
 <body>
     <div class="container">

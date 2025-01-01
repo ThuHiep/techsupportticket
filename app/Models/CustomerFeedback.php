@@ -23,7 +23,8 @@ class CustomerFeedback extends Model
     protected $fillable = [
         'request_id',
         'customer_id',
-        'message',
+        'is_read',
+        'message'
     ];
 
     // Tắt timestamps nếu bảng không có các cột `updated_at`

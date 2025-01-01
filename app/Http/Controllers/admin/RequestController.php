@@ -23,6 +23,30 @@ use Carbon\Carbon;
 
 class RequestController extends Controller
 {
+    public static function getUnreadRequests()
+    {
+        // Lấy danh sách request có phản hồi chưa đọc từ khách hàng
+        $unreadRequests = Request::whereHas('customerFeedbacks', function ($query) {
+            $query->where('is_read', false);
+        })
+            ->with(['customer', 'customerFeedbacks' => function ($query) {
+                $query->where('is_read', false)
+                    ->select('request_id', 'created_at');
+            }])
+            ->get()
+            ->map(function ($request) {
+                $request->feedback_count = $request->customerFeedbacks->count();
+                $request->last_feedback_time = $request->customerFeedbacks->max('created_at')
+                    ? Carbon::parse($request->customerFeedbacks->max('created_at')) // Chuyển sang Carbon
+                    : null;
+                return $request;
+            });
+
+        // Tính tổng số request có phản hồi chưa đọc
+        $unreadRequestCount = $unreadRequests->count();
+
+        return compact('unreadRequests', 'unreadRequestCount');
+    }
     /**
      * Hiển thị danh sách yêu cầu hỗ trợ kỹ thuật
      */
@@ -132,6 +156,11 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
 
         // Truyền thêm các biến vào view
         return view('admin.dashboard.layout', compact(
@@ -147,7 +176,9 @@ class RequestController extends Controller
             'searchType',
             'search',
             'additionalSearchType',
-            'additionalSearchValue'
+            'additionalSearchValue',
+            'unreadRequests',
+            'unreadRequestCount'
         ));
     }
 
@@ -169,7 +200,13 @@ class RequestController extends Controller
         $departments = Department::all();
         $requestTypes = RequestType::all();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId', 'customers', 'departments', 'requestTypes'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'nextId', 'customers', 'departments', 'requestTypes', 'unreadRequests', 'unreadRequestCount'));
     }
 
     /**
@@ -256,7 +293,17 @@ class RequestController extends Controller
         // Kết hợp feedback từ cả hai bảng
         $feedbacks = $customerFeedbacks->unionAll($employeeFeedbacks->toBase())->orderBy('created_at', 'desc')->get();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'supportRequest', 'customers', 'departments', 'requestTypes', 'feedbacks'));
+        CustomerFeedback::where('request_id', $request_id)
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact('template', 'logged_user', 'supportRequest', 'customers', 'departments', 'requestTypes', 'feedbacks', 'unreadRequests', 'unreadRequestCount'));
     }
 
 
@@ -395,5 +442,4 @@ class RequestController extends Controller
 
         return redirect()->route('request.edit', $request_id)->with('success', 'Phản hồi đã được gửi thành công!');
     }
-
 }

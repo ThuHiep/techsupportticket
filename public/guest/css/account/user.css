@@ -1505,6 +1505,21 @@ input#confirm-password:focus{
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
   cursor: pointer;
+  position: relative;
+}
+
+.new-feedback {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: #ff9800;
+  color: #fff; 
+  padding: 5px  10px;
+  font-size: 14px; 
+  font-weight: bold; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  z-index: 10; 
 }
 
 .request-item:hover {

@@ -18,7 +18,19 @@ class EmployeeController extends Controller
     {
         $template = 'admin.employee.editProfile';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-        return view('admin.dashboard.layout', compact('template', 'logged_user'));
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     // Cập nhật thông tin hồ sơ

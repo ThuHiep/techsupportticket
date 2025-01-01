@@ -45,14 +45,26 @@ class PermissionController extends Controller
             $resultMessage = "Không tìm thấy người dùng có tên chứa từ khóa: {$search}";
         }
 
-
-
-
         $employees = $query->select('employee.*', 'user.*', 'role.description')
             ->orderBy('employee.employee_id')
             ->paginate(3)->appends($request->all());
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employees', 'search', 'count', 'resultMessage'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'employees',
+            'search',
+            'count',
+            'resultMessage',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
 
@@ -64,7 +76,18 @@ class PermissionController extends Controller
         $template = 'admin.permission.create';
         $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
 
-        return view('admin.dashboard.layout', compact('template', 'logged_user'));
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
 
@@ -161,7 +184,20 @@ class PermissionController extends Controller
         $employee = Employee::with(['user.role'])
             ->where('employee_id', '=', $employee_id)
             ->first();
-        return view('admin.dashboard.layout', compact('template', 'logged_user', 'employee'));
+
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'employee',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
     }
 
     // Cập nhật thông tin nhân viên

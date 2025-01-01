@@ -93,6 +93,12 @@ class ReportController extends Controller
         $timeData = $this->getTimeBasedStatistics();
         //dd($timeData);
 
+        $data = RequestController::getUnreadRequests();
+
+        // Lấy danh sách request và số lượng request chưa đọc
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
         // Trả về view với dữ liệu đã xử lý
         return view('admin.dashboard.layout', compact(
             'data',
@@ -105,7 +111,9 @@ class ReportController extends Controller
             'departmentColors',
             'departmentData',
             'requestTypeData', // Gửi dữ liệu trạng thái theo loại yêu cầu
-            'timeData'
+            'timeData',
+            'unreadRequests',
+            'unreadRequestCount'
         ));
     }
 
@@ -267,10 +275,9 @@ class ReportController extends Controller
 
         // Trả về dữ liệu phòng ban kèm thống kê dưới dạng JSON
         return response()->json($departmentData);
-
     }
 
-// Controller method to get request types
+    // Controller method to get request types
     public function getRequestTypes()
     {
         $requestTypes = DB::table('request_type')->select('request_type_id', 'request_type_name')->get();
@@ -418,5 +425,4 @@ class ReportController extends Controller
             return ['period' => $year, 'total' => $totals];
         }, $years, array_keys($years));
     }
-
 }
