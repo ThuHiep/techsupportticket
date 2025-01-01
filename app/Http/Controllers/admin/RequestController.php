@@ -314,6 +314,7 @@ class RequestController extends Controller
                 'new_status' => $validatedData['status'],
                 'note' => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
                 'changed_at' => now(),
+                'department_id' => $request->input('department_id'),
             ]);
         }
 
@@ -384,5 +385,5 @@ class RequestController extends Controller
 
         return redirect()->route('request.edit', $request_id)->with('success', 'Phản hồi đã được gửi thành công!');
     }
-    
+
 }

@@ -136,7 +136,7 @@
                     <div class="form-column-left">
                         <!-- Hàng 1: Mã yêu cầu + Khách hàng + Trạng thái -->
                         <div class="row_left">
-                            
+
                             <div class="form-group">
                                 <label for="customer_name">Khách hàng <span class="required">*</span></label>
                                 <!-- Hiển thị tên khách hàng -->
@@ -147,7 +147,7 @@
                                 <div class="error">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="status">Trạng thái <span class="required">*</span></label>
                                 <select id="status" name="status" required>
@@ -195,7 +195,7 @@
                             </div>
                         </div>
 
-                        
+
 
         <div class="form-group attachments">
             <label for="attachments">{{ $supportRequest->attachment ? 'Cập nhật File đính kèm:' : 'Thêm File Đính Kèm:' }}</label>
@@ -256,7 +256,7 @@
     </form>
     </div>
 
-    
+
     <strong>
         <h2>Phản hồi</h2>
     </strong>
@@ -306,30 +306,41 @@
 
         <table class="history-table">
             <thead>
-                <tr>
-                    <th>Thời gian</th>
-                    <th>Trạng thái</th>
-                    <th>Người thay đổi</th>
-                    <th>Ghi chú</th>
-                </tr>
+            <tr>
+                <th>Thời gian</th>
+                <th>Trạng thái</th>
+                <th>Phòng ban tiếp nhận</th> <!-- thêm cột -->
+                <th>Người thay đổi</th>
+                <th>Ghi chú</th>
+            </tr>
             </thead>
             <tbody>
-                <!-- Thay vì lặp $supportRequest->history, ta lặp $sortedHistory -->
-                @foreach($sortedHistory as $history)
+            @foreach($sortedHistory as $history)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($history->changed_at)->format('d/m/Y H:i') }}</td>
                     <td>{{ $history->new_status }}</td>
+
+                    <!-- Hiển thị tên phòng ban -->
+                    <td>
+                        @if($history->department_id)
+                            {{ optional($history->department)->department_name ?? 'N/A' }}
+                        @else
+                            N/A
+                        @endif
+                    </td>
+
                     <td>
                         @if($history->changed_by)
-                        {{ $history->employee->full_name ?? 'N/A' }}
+                            {{ $history->employee->full_name ?? 'N/A' }}
                         @else
-                        Hệ thống
+                            Hệ thống
                         @endif
                     </td>
                     <td>{{ $history->note }}</td>
                 </tr>
-                @endforeach
+            @endforeach
             </tbody>
+
         </table>
         @else
         <p>Không có lịch sử trạng thái nào để hiển thị.</p>
