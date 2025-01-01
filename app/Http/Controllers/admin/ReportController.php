@@ -57,8 +57,15 @@ class ReportController extends Controller
             ->withCount('requests') // Đếm số lượng yêu cầu
             ->get(['customer_id', 'full_name']);
 
+        function generateColors($numColors) {
+            $colors = [];
+            for ($i = 0; $i < $numColors; $i++) {
+                $colors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            }
+            return $colors;
+        }
         // Màu sắc của các khách hàng
-        $customerColors = ['#3498db', '#1abc9c', '#9b59b6', '#e74c3c', '#f1c40f'];
+        $customerColors = generateColors(5000); // Thay đổi số lượng theo nhu cầu
 
         // Tạo màu sắc cho phòng ban
         $departmentColors = [];
@@ -116,6 +123,7 @@ class ReportController extends Controller
             'unreadRequestCount'
         ));
     }
+
 
 
     public function getRequests(Request $request)

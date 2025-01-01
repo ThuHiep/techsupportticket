@@ -19,6 +19,7 @@ class CustomerFeedback extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
+
     // Các cột có thể được gán giá trị
     protected $fillable = [
         'request_id',
@@ -28,7 +29,7 @@ class CustomerFeedback extends Model
     ];
 
     // Tắt timestamps nếu bảng không có các cột `updated_at`
-    public $timestamps = false;
+    public $timestamps = true;
 
     // Định nghĩa mối quan hệ
     public function request()

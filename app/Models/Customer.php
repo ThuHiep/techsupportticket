@@ -45,6 +45,10 @@ class Customer extends Model
     {
         return $this->hasMany(Request::class, 'customer_id');
     }
+    public function feedbacks()
+    {
+        return $this->hasMany(CustomerFeedback::class, 'customer_id', 'customer_id');
+    }
 
 
 }

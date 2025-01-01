@@ -71,4 +71,9 @@ class Employee extends Model
     {
         return $this->hasMany(Faq::class);
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(EmployeeFeedback::class, 'employee_id', 'employee_id');
+    }
 }
