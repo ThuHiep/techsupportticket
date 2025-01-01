@@ -29,7 +29,7 @@ class CustomerFeedback extends Model
     ];
 
     // Tắt timestamps nếu bảng không có các cột `updated_at`
-    public $timestamps = true;
+    public $timestamps = false;
 
     // Định nghĩa mối quan hệ
     public function request()

@@ -34,7 +34,6 @@ class CustomerController extends Controller
             })
             ->paginate(3);
 
-
         $data = RequestController::getUnreadRequests();
 
         // Lấy danh sách request và số lượng request chưa đọc
