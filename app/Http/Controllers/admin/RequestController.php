@@ -306,17 +306,21 @@ class RequestController extends Controller
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
         // Lưu lịch sử thay đổi trạng thái nếu trạng thái đã thay đổi
-        if ($supportRequest->wasChanged('status')) {
+        if (
+            $supportRequest->wasChanged('status')
+            || $supportRequest->wasChanged('department_id')  // <-- thêm dòng này
+        ) {
             RequestHistory::create([
-                'request_id' => $request_id,
-                'changed_by' => $logged_user->employee_id,
-                'old_status' => $supportRequest->getOriginal('status'),
-                'new_status' => $validatedData['status'],
-                'note' => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
-                'changed_at' => now(),
-                'department_id' => $request->input('department_id'),
+                'request_id'    => $request_id,
+                'changed_by'    => $logged_user->employee_id,
+                'old_status'    => $supportRequest->getOriginal('status'),
+                'new_status'    => $validatedData['status'],
+                'note'          => $request->input('note', 'Cập nhật trạng thái yêu cầu'),
+                'changed_at'    => now(),
+                'department_id' => $validatedData['department_id'],
             ]);
         }
+
 
         // Xử lý file đính kèm nếu có
         if ($request->hasFile('attachments')) {
