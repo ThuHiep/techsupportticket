@@ -558,7 +558,6 @@
     </section>
 
     <!-- Lịch sử yêu cầu -->
-    <!-- Lịch sử yêu cầu -->
     <section id="request-history" class="request-history section">
       <div class="container">
         @forelse ($requests as $request)
@@ -577,7 +576,7 @@
             <!-- Nội dung trạng thái sẽ được tạo động -->
           </div>
         </div>
-        
+
         </div>
         <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;"></div>
         <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
@@ -688,28 +687,33 @@
     }
 
 
-      // Hàm hiển thị trạng thái yêu cầu
       function renderRequestStatus(data, requestId) {
-        const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
-        statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
+          const statusTimeline = document.getElementById(`status-timeline-${requestId}`);
+          statusTimeline.innerHTML = ""; // Xóa nội dung trước đó
 
-        // Tạo các trạng thái động
-        data.forEach(item => {
-          const statusItem = `
+          data.forEach((item, index) => {
+              // Xác định xem đây có phải là trạng thái hiện tại (mới nhất) hay không
+              const isCurrent = index === data.length - 1 ? 'current' : '';
+
+              // Tạo HTML cho trạng thái
+              const statusItem = `
             <div class="status-item">
-                <div class="circle"></div>
+                <div class="circle ${isCurrent}"></div>
                 <div class="line"></div>
                 <span>${new Date(item.time).toLocaleString('vi-VN')}</span> - <span>${item.status}</span>
             </div>
         `;
-          statusTimeline.innerHTML += statusItem;
-        });
+              statusTimeline.innerHTML += statusItem;
+          });
 
-        // Nếu không có dữ liệu, hiển thị thông báo
-        if (data.length === 0) {
-          statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
-        }
+          // Nếu không có dữ liệu, hiển thị thông báo
+          if (data.length === 0) {
+              statusTimeline.innerHTML = "<p>Không có trạng thái nào để hiển thị.</p>";
+          }
       }
+
+
+
 
       // Đóng form phản hồi
       function cancelReply(requestId) {
