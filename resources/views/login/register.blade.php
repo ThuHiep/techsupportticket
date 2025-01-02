@@ -12,8 +12,13 @@
         .error-message {
             color: red;
             font-size: 0.9em;
-            margin-top: 5px;
+            margin-top:62px; /* Khoảng cách phía trên lỗi */
+            margin-bottom: 5px; /* Khoảng cách phía dưới lỗi */
+            position: absolute; /* Vị trí tương đối */
             display: block;
+            width: 100%; /* Đảm bảo lỗi không vượt khỏi khung */
+            white-space: normal; /* Cho phép lỗi xuống dòng nếu quá dài */
+            line-height: 1.2em; /* Tăng dòng nếu lỗi nhiều */
         }
     </style>
 </head>
@@ -119,7 +124,7 @@
                         </div>
                     </div>
 
-                    <div class="input_box">
+                    <div class="input_box password_cf">
                         <input type="password" id="password_confirm" name="password_confirmation" class="input-field" required>
                         <label for="password_confirm" class="label">Xác nhận mật khẩu <span class="required">*</span></label>
 
