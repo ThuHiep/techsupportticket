@@ -323,18 +323,15 @@ class RequestController extends Controller
             'subject' => 'required|max:255',
             'description' => 'required',
             'status' => 'required|in:Chưa xử lý,Đang xử lý,Hoàn thành,Đã hủy',
-            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960', // 40 MB
+            'attachments' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:40960',
         ]);
 
         // Kiểm tra điều kiện cập nhật trạng thái
         if ($supportRequest->status === 'Chưa xử lý' && $validatedData['department_id']) {
-            // Nếu trạng thái hiện tại là "Chưa xử lý" và phòng ban được chọn, đặt trạng thái thành "Đang xử lý"
             $validatedData['status'] = 'Đang xử lý';
         }
 
-        // Kiểm tra xem phòng ban đã được cập nhật hay chưa
         if ($supportRequest->department_id !== $validatedData['department_id']) {
-            // Nếu phòng ban mới được chọn và trạng thái hiện tại là "Chưa xử lý", cập nhật thành "Đang xử lý"
             if ($validatedData['department_id'] && $supportRequest->status === 'Chưa xử lý') {
                 $validatedData['status'] = 'Đang xử lý';
             }
@@ -351,11 +348,25 @@ class RequestController extends Controller
             'status' => $validatedData['status'],
         ]);
 
-        // Lấy thông tin người cập nhật (admin)
-        $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+        // Nếu trạng thái chuyển sang "Hoàn thành", xóa các phản hồi
+        if ($validatedData['status'] === 'Hoàn thành') {
+            CustomerFeedback::where('request_id', $request_id)->delete();
+            EmployeeFeedback::where('request_id', $request_id)->delete();
+        }
 
-        // Lưu lịch sử thay đổi trạng thái nếu trạng thái đã thay đổi
+        // Nếu phòng ban thay đổi, xóa các phản hồi
+        if ($supportRequest->wasChanged('department_id')) {
+            CustomerFeedback::where('request_id', $request_id)->delete();
+            EmployeeFeedback::where('request_id', $request_id)->delete();
+
+            Mail::to($supportRequest->customer->email)
+                ->send(new DepartmentChangedMail($supportRequest));
+        }
+
+        // Lưu lịch sử thay đổi trạng thái nếu trạng thái hoặc phòng ban thay đổi
         if ($supportRequest->wasChanged('status') || $supportRequest->wasChanged('department_id')) {
+            $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
+
             RequestHistory::create([
                 'request_id'    => $request_id,
                 'changed_by'    => $logged_user->employee_id,
@@ -367,33 +378,21 @@ class RequestController extends Controller
             ]);
         }
 
-        if ($supportRequest->wasChanged('department_id')) {
-            // Gửi email cho khách hàng
-            Mail::to($supportRequest->customer->email)
-                ->send(new DepartmentChangedMail($supportRequest));
-        }
-
-
-
         // Xử lý file đính kèm nếu có
         if ($request->hasFile('attachments')) {
-            // Nếu đã có file đính kèm, xóa file cũ trước khi upload mới
             if ($supportRequest->attachment) {
-                // Xóa file từ storage
                 if (Storage::disk('public')->exists($supportRequest->attachment->file_path)) {
                     Storage::disk('public')->delete($supportRequest->attachment->file_path);
                 }
-                // Xóa bản ghi trong cơ sở dữ liệu
                 $supportRequest->attachment->delete();
             }
 
             $file = $request->file('attachments');
             $filename = $file->getClientOriginalName();
-            $filePath = $file->store('attachments', 'public'); // Lưu vào thư mục 'storage/app/public/attachments'
+            $filePath = $file->store('attachments', 'public');
             $fileSize = $file->getSize();
             $fileType = $file->getClientOriginalExtension();
 
-            // Tạo mới bản ghi Attachment
             $supportRequest->attachment()->create([
                 'attachment_id' => (string) Str::uuid(),
                 'filename' => $filename,
