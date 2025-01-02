@@ -39,10 +39,10 @@
                             <option value="Nữ" {{ old('gender') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                         </select>
                     </div>
-                    
+
                 </div>
                 <div class="row mb-3">
-                    
+
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                         <input type="text" id="phone" name="phone" class="form-control" required pattern="\d{10}" title="Số điện thoại phải gồm 10 chữ số" value="{{ old('phone') }}">
@@ -62,31 +62,31 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 form-group-2">
                         <label for="website" class="form-label">Website<span class="required">*</span></label>
                         <input type="text" id="website" name="website" class="form-control" required value="{{ old('website') }}">
                         <small id="website-error" class="text-danger" style="display: none;">Vui lòng nhập website!</small>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 form-group-2">
                         <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
                         <input type="text" id="software" name="software" class="form-control" required value="{{ old('software') }}">
                         <small id="software-error" class="text-danger" style="display: none;">Vui lòng nhập phần mềm!</small>
                     </div>
 
-                    
+
                 </div>
                 <div class="row mb-3">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 form-group-3">
                         <label for="company" class="form-label">Công ty<span class="required">*</span></label>
                         <input type="text" id="company" name="company" class="form-control" required value="{{ old('company') }}">
                         <small id="company-error" class="text-danger" style="display: none;">Vui lòng nhập công ty!</small>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 form-group-3">
                         <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
                         <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số" value="{{ old('tax_id') }}">
                         <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="col-md-3 grouped-fields">
