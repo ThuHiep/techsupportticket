@@ -239,9 +239,6 @@
             <div class="report-section" id="customerDataContainer" style="display: block;">
                 <h3>Số liệu tổng hợp</h3>
                 <p id="totalCustomerRequests"></p>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 58%;"></div>
-                </div>
                 <ul id="customerDataList"></ul>
             </div>
             <!--Số liệu loại yêu cầu-------------->
@@ -487,12 +484,12 @@
 
             sortedCustomers.forEach(customer => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${customer.full_name} (ID: ${customer.customer_id}): ${customer.requests_count} yêu cầu`;
+                listItem.textContent = `${customer.full_name}: ${customer.requests_count} yêu cầu`;
                 customerDataList.appendChild(listItem);
                 totalRequests += customer.requests_count;
             });
 
-            totalCustomerRequests.textContent = `Tổng số yêu cầu: ${totalRequests}`;
+            totalCustomerRequests.innerHTML = `<strong>Tổng số yêu cầu: ${totalRequests}</strong>`;
         } else {
             // Filter customers by full_name or customer_id
             const filteredCustomers = customerData.filter(customer =>
