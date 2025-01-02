@@ -281,7 +281,9 @@ input.error, select.error {
     margin: 0 auto 20px;
 }
 
-
+input#address{
+    width: 214%;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .container {
@@ -313,6 +315,9 @@ input.error, select.error {
         flex-direction: column;
         margin-left: 0;
         margin-top: 0;
+    }
+    input#address{
+        width: 100%;
     }
 }
 

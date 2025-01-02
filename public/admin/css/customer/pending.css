@@ -280,7 +280,7 @@ th:nth-child(5), td:nth-child(5) {
     .search-container{
         flex-direction: column; /* Xếp các cột thành 1 hàng dọc */
         align-items: flex-start!important;
-        gap: 0px;
+        gap: 10px;
         margin-bottom: 5px!important;
     }
     #searchName{

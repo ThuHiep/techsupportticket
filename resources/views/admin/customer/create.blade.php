@@ -27,13 +27,17 @@
                         <small id="name-error" class="text-danger" style="display: none;">Vui lòng nhập tên khách hàng!</small>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="email" class="form-label">Email<span class="required">*</span></label>
-                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" required value="{{ old('email') }}">
-                        @error('email')
-                        <small id="email-error" class="text-danger">{{ $message }}</small>
-                        @enderror
+                        <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="Nam" {{ old('gender') == 'Nam' ? 'selected' : '' }}>Nam</option>
+                            <option value="Nữ" {{ old('gender') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                        </select>
                     </div>
-
+                    <div class="form-group col-md-6">
+                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số" value="{{ old('tax_id') }}">
+                        <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <div class="form-group col-md-4">
@@ -42,29 +46,29 @@
                         <small id="date-error" class="text-danger" style="display: none;">Bạn phải đủ 18 tuổi!</small>
                         <small id="date-incomplete-error" class="text-danger" style="display: none;">Vui lòng nhập đầy đủ ngày, tháng và năm!</small>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
-                        <select id="gender" name="gender" class="form-control" required>
-                            <option value="Nam" {{ old('gender') == 'Nam' ? 'selected' : '' }}>Nam</option>
-                            <option value="Nữ" {{ old('gender') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
-                        </select>
-                    </div>
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                         <input type="text" id="phone" name="phone" class="form-control" required pattern="\d{10}" title="Số điện thoại phải gồm 10 chữ số" value="{{ old('phone') }}">
                         <small id="phone-error" class="text-danger" style="display: none;">Vui lòng nhập đúng số điện thoại!</small>
                     </div>
+                    <div class="form-group col-md-4">
+                        <label for="email" class="form-label">Email<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" required value="{{ old('email') }}">
+                        @error('email')
+                        <small id="email-error" class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
                 </div>
                 <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <label for="website" class="form-label">Website<span class="required">*</span></label>
+                        <input type="text" id="website" name="website" class="form-control" required value="{{ old('website') }}">
+                        <small id="website-error" class="text-danger" style="display: none;">Vui lòng nhập website!</small>
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="company" class="form-label">Công ty<span class="required">*</span></label>
                         <input type="text" id="company" name="company" class="form-control" required value="{{ old('company') }}">
                         <small id="company-error" class="text-danger" style="display: none;">Vui lòng nhập công ty!</small>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="tax_id" class="form-label">Mã số thuế<span class="required">*</span></label>
-                        <input type="text" id="tax_id" name="tax_id" class="form-control" required pattern="\d{1,9}" title="Mã số thuế chỉ được phép tối đa 9 chữ số" value="{{ old('tax_id') }}">
-                        <small id="tax-error" class="text-danger" style="display: none;">Vui lòng nhập mã số thuế!</small>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="software" class="form-label">Phần mềm<span class="required">*</span></label>
@@ -77,12 +81,6 @@
                         <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                         <input type="text" id="address" name="address" class="form-control" required value="{{ old('address') }}">
                         <small id="address-error" class="text-danger" style="display: none;">Vui lòng nhập địa chỉ!</small>
-                    </div>
-                    
-                    <div class="form-group col-md-6">
-                        <label for="website" class="form-label">Website<span class="required">*</span></label>
-                        <input type="text" id="website" name="website" class="form-control" required value="{{ old('website') }}">
-                        <small id="website-error" class="text-danger" style="display: none;">Vui lòng nhập website!</small>
                     </div>
                 </div>
             </div>
