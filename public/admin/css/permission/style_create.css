@@ -378,3 +378,12 @@ input#address {
     }
 
 }
+@media (max-width: 376px) {
+    .btn-add-cus {
+        width: 36%;
+    }
+    .btn-cancel {
+        font-size: 14px;
+        padding: 15px 24px;
+    }
+}
