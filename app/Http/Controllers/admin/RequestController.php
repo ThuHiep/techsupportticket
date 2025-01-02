@@ -281,7 +281,7 @@ class RequestController extends Controller
         // Chỉ lấy khách hàng có status là "active"
         $customers = Customer::where('status', 'active')->get();
 
-        $departments = Department::all();
+        $departments = Department::where('status', 'active')->get();
         $requestTypes = RequestType::all();
 
         // Lấy feedback từ khách hàng

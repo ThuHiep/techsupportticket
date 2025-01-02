@@ -324,7 +324,7 @@
                             @if($history->department_id)
                             {{ optional($history->department)->department_name ?? 'N/A' }}
                             @else
-                            N/A
+                            Chưa có
                             @endif
                         </td>
 
