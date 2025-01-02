@@ -234,7 +234,7 @@ select option {
     gap: 10px;
     align-items: center;
     width: 100%;
-    margin-top: -100px;
+    margin-top: -180px;
     position: relative;
 }
 /*Login link*/
@@ -285,8 +285,8 @@ select option {
     }
 
     .input-submit {
-        width: 100%;
-        margin-top: 20px;
+        width: 20%;
+        margin-top: 80px;
     }
     .error-message{
         margin-bottom: 10px;
@@ -320,6 +320,7 @@ select option {
 
     .input-submit {
         width: 100%;
+        margin-top: 50px;
     }
 
     .login-link {
