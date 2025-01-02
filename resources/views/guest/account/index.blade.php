@@ -580,9 +580,11 @@
           </div>
         </div>
 
-        <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
 
+        <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+          @if($request->status !== 'Hoàn thành')
           @include('guest.account.reply-ad')
+          @endif
         </div>
         <div class="reply-show" id="reply-show-{{ $request->request_id }}" style="display: none; margin-top: 20px;"></div>
         @empty
