@@ -244,11 +244,14 @@ p#totalTimeRequests {
         max-width: 100%;
     }
 
-    select, .date-container input[type="date"] {
+    select{
+        width: 30%;
+        max-width: 100%;
+    }
+    .date-container input[type="date"] {
         width: 100%;
         max-width: 100%;
     }
-
     .row_start_end {
         flex-direction: column;
     }
@@ -295,9 +298,10 @@ p#totalTimeRequests {
         padding: 0 5px;
     }
 
-    select, .date-container input[type="date"] {
+    select{
         font-size: 12px;
         height: 35px;
+        width: 50%;
     }
 
     button, input[type="submit"] {
