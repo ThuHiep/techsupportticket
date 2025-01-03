@@ -16,24 +16,6 @@
                             @enderror
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
-                            <select class="form-select" id="role_id" name="role_id" required>
-                                <option value="1">Quản trị viên hệ thống</option>
-                                <option value="2">Nhân viên hỗ trợ</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-
-                        <div class="form-group col-md-4">
-                            <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
-                            <input type="date" id="date_of_birth" name="date_of_birth" class="form-control {{ $errors->has('date_of_birth') ? 'is-invalid' : '' }}" value="{{ old('date_of_birth') }}" required>
-                            @error('date_of_birth')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                             <select id="gender" name="gender" class="form-control" required>
                                 <option value="Nam">Nam</option>
@@ -41,6 +23,23 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
+                            <label for="role_id" class="form-label">Vai trò<span class="required">*</span></label>
+                            <select class="form-select" id="role_id" name="role_id" required>
+                                <option value="1">Quản trị viên hệ thống</option>
+                                <option value="2">Nhân viên hỗ trợ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6 form-group-2">
+                            <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="form-control {{ $errors->has('date_of_birth') ? 'is-invalid' : '' }}" value="{{ old('date_of_birth') }}" required>
+                            @error('date_of_birth')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-6 form-group-2">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" value="{{ old('phone') }}" required>
                             @error('phone')
@@ -49,14 +48,14 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6 form-group-3">
                             <label for="email" class="form-label">Email<span class="required">*</span></label>
                             <input type="email" id="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" required>
                             @error('email')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 form-group-3">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                             <input type="text" id="address" name="address" class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" value="{{ old('address') }}" required>
                             @error('address')

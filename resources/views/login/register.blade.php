@@ -12,8 +12,13 @@
         .error-message {
             color: red;
             font-size: 0.9em;
-            margin-top: 5px;
+            margin-top:62px; /* Khoảng cách phía trên lỗi */
+            margin-bottom: 5px; /* Khoảng cách phía dưới lỗi */
+            position: absolute; /* Vị trí tương đối */
             display: block;
+            width: 100%; /* Đảm bảo lỗi không vượt khỏi khung */
+            white-space: normal; /* Cho phép lỗi xuống dòng nếu quá dài */
+            line-height: 1.2em; /* Tăng dòng nếu lỗi nhiều */
         }
     </style>
 </head>
@@ -53,19 +58,21 @@
                         <span class="error-message" id="phone_error"></span>
                     </div>
 
-                    <div class="input_box">
-                        <select id="gender" name="gender" class="input-field" required>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
-                        <label for="gender" class="label">Giới tính <span class="required">*</span></label>
-                        <i class="bx bx-male-female icon"></i>
-                    </div>
+                    <div class="sexual-date-row">
+                        <div class="input_box">
+                            <select id="gender" name="gender" class="input-field" required>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                            <label for="gender" class="label">Giới tính <span class="required">*</span></label>
+                            <i class="bx bx-male-female icon"></i>
+                        </div>
 
-                    <div class="input_box">
-                        <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" required>
-                        <label for="date_of_birth" class="label">Ngày sinh <span class="required">*</span></label>
-                        <span class="error-message" id="date_of_birth_error"></span>
+                        <div class="input_box">
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" required>
+                            <label for="date_of_birth" class="label">Ngày sinh <span class="required">*</span></label>
+                            <span class="error-message" id="date_of_birth_error"></span>
+                        </div>
                     </div>
 
                     <div class="input_box">
@@ -119,7 +126,7 @@
                         </div>
                     </div>
 
-                    <div class="input_box">
+                    <div class="input_box password_cf">
                         <input type="password" id="password_confirm" name="password_confirmation" class="input-field" required>
                         <label for="password_confirm" class="label">Xác nhận mật khẩu <span class="required">*</span></label>
 

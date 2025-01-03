@@ -53,7 +53,7 @@ form {
 .form-group {
     flex: 1 1 23%; /* Đảm bảo mỗi cột chiếm tối đa 23% không gian */
     min-width: 250px; /* Đặt chiều rộng tối thiểu cho mỗi cột */
-    max-width: 23%; /* Đặt chiều rộng tối đa cho mỗi cột */
+    width: 23%; /* Đặt chiều rộng tối đa cho mỗi cột */
 }
 
 /* Điều chỉnh cho label */
@@ -280,8 +280,12 @@ input.error, select.error {
     display: block;
     margin: 0 auto 20px;
 }
-
-
+.form-group.col-md-6.form-group-2 {
+    width: 40.6%;
+}
+.form-group.col-md-6.form-group-3 {
+    width: 40.6%;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .container {
@@ -313,6 +317,9 @@ input.error, select.error {
         flex-direction: column;
         margin-left: 0;
         margin-top: 0;
+    }
+    input#address{
+        width: 100%;
     }
 }
 

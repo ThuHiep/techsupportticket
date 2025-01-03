@@ -579,8 +579,6 @@
                         <!-- Nội dung trạng thái sẽ được tạo động -->
                     </div>
                 </div>
-
-
                 <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
                     @if($request->status !== 'Hoàn thành')
                         @include('guest.account.reply-ad')
@@ -590,6 +588,10 @@
             @empty
                 <p>Không có yêu cầu nào trong lịch sử.</p>
             @endforelse
+        <div class="reply-container" id="reply-container-{{ $request->request_id }}" style="display: none; margin-top: 20px;">
+          @if($request->status !== 'Hoàn thành')
+          @include('guest.account.reply-ad')
+          @endif
         </div>
     </section>
 
