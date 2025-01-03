@@ -888,14 +888,14 @@
             totalCancelled += cancelled;
 
             timeDataList.innerHTML += `
-            <tr>
-                <td style="padding: 5px">${item.period}</td>
-                <td style="padding: 5px">${processing}</td>
-                <td style="padding: 5px">${pending}</td>
-                <td style="padding: 5px">${completed}</td>
-                <td style="padding: 5px">${cancelled}</td>
-                <td style="padding: 5px">${processing + pending + completed + cancelled}</td>
-            </tr>
+        <tr>
+            <td style="padding: 5px">${item.period}</td>
+            <td style="padding: 5px">${processing}</td>
+            <td style="padding: 5px">${pending}</td>
+            <td style="padding: 5px">${completed}</td>
+            <td style="padding: 5px">${cancelled}</td>
+            <td style="padding: 5px">${processing + pending + completed + cancelled}</td>
+        </tr>
         `;
         });
 
@@ -912,7 +912,9 @@
 
         // Format the output based on the selected period type
         if (selectedPeriodType === 'day') {
-            totalRequestsText = `Tổng số yêu cầu trong ngày ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+            const dateParts = firstPeriod.split('-');
+            const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; // Định dạng DD/MM/YYYY
+            totalRequestsText = `Tổng số yêu cầu trong ngày ${formattedDate} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
         } else if (selectedPeriodType === 'month') {
             totalRequestsText = `Tổng số yêu cầu trong tháng ${firstPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
         } else if (selectedPeriodType === 'year') {
@@ -922,11 +924,16 @@
         } else if (selectedPeriodType === 'yearRange') {
             totalRequestsText = `Tổng số yêu cầu từ năm ${firstPeriod} đến năm ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
         } else if (selectedPeriodType === 'dateRange') {
-            totalRequestsText = `Tổng số yêu cầu từ ngày ${firstPeriod} đến ngày ${lastPeriod} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
+            const datePartsStart = firstPeriod.split('-');
+            const formattedStartDate = `${datePartsStart[2]}/${datePartsStart[1]}/${datePartsStart[0]}`; // Định dạng DD/MM/YYYY
+            const datePartsEnd = lastPeriod.split('-');
+            const formattedEndDate = `${datePartsEnd[2]}/${datePartsEnd[1]}/${datePartsEnd[0]}`; // Định dạng DD/MM/YYYY
+            totalRequestsText = `Tổng số yêu cầu từ ngày ${formattedStartDate} đến ngày ${formattedEndDate} là: ${totalProcessing + totalPending + totalCompleted + totalCancelled}`;
         }
 
         totalTimeRequests.innerHTML = `<strong>${totalRequestsText}</strong>`;
     }
+
 
 
     {{--function updateChartFromDate() {--}}
