@@ -416,8 +416,6 @@ class RequestController extends Controller
         return redirect()->route('request.index')->with('success', 'Yêu cầu đã được xóa thành công!');
     }
 
-
-
     public function getPendingRequestsByDate(HttpRequest $request)
     {
 
