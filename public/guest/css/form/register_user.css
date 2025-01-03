@@ -105,7 +105,11 @@ a:hover{
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
     row-gap: 20px;
-    margin-top: 130px;
+    margin-top: 80px;
+    position: relative;
+    bottom: 0px;
+    margin-bottom: 0px;
+    width: 100%;
 }
 .input_row {
     display: flex;
@@ -173,11 +177,7 @@ select option {
     right: 10px;
     font-size: 20px;
 }
-.input-container {
-    position: relative;
-    bottom: 60px;
-    width: 100%;
-}
+
 .column {
     flex: 1;
 }
@@ -210,7 +210,6 @@ select option {
 
 /*Submit Register*/
 .input-submit {
-    grid-column: span 2;
     width: 25%;
     height: 50px;
     background: #ececec;
@@ -220,7 +219,7 @@ select option {
     border-radius: 30px;
     cursor: pointer;
     transition: .3s;
-    margin: 10px 0 0 auto;
+    margin: 0 0 0 0;
     display: block;
     padding: 10px 20px;
     text-align: center;
@@ -232,9 +231,8 @@ select option {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    align-items: center;
     width: 100%;
-    margin-top: -180px;
+    margin-top: 0px;
     position: relative;
 }
 /*Login link*/
@@ -272,7 +270,14 @@ select option {
     color: #ff6f00;
 }
 
-
+.sexual-date-row{
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa các ô */
+}
+.sexual-date-row .input_box {
+    flex: 1; /* Chia đều không gian giữa các ô */
+    min-width: 0; /* Đảm bảo không vượt quá không gian có sẵn */
+}
 /* Responsive CSS */
 @media (max-width: 1200px) {
     .register_box {
@@ -365,6 +370,9 @@ select option {
     }
     .input-box-submit{
         margin-top: -150px;
+    }
+    .sexual-date-row{
+        flex-direction: column;
     }
 }
 @media (max-width: 426px){

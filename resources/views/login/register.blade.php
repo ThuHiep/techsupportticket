@@ -58,19 +58,21 @@
                         <span class="error-message" id="phone_error"></span>
                     </div>
 
-                    <div class="input_box">
-                        <select id="gender" name="gender" class="input-field" required>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
-                        <label for="gender" class="label">Giới tính <span class="required">*</span></label>
-                        <i class="bx bx-male-female icon"></i>
-                    </div>
+                    <div class="sexual-date-row">
+                        <div class="input_box">
+                            <select id="gender" name="gender" class="input-field" required>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                            <label for="gender" class="label">Giới tính <span class="required">*</span></label>
+                            <i class="bx bx-male-female icon"></i>
+                        </div>
 
-                    <div class="input_box">
-                        <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" required>
-                        <label for="date_of_birth" class="label">Ngày sinh <span class="required">*</span></label>
-                        <span class="error-message" id="date_of_birth_error"></span>
+                        <div class="input_box">
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" required>
+                            <label for="date_of_birth" class="label">Ngày sinh <span class="required">*</span></label>
+                            <span class="error-message" id="date_of_birth_error"></span>
+                        </div>
                     </div>
 
                     <div class="input_box">
