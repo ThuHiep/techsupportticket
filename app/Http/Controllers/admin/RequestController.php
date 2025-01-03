@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Request;
 use App\Mail\DepartmentChangedMail;
+use App\Mail\RequestResultMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\Request as SupportRequest;
@@ -313,7 +314,7 @@ class RequestController extends Controller
     public function update(HttpRequest $request, $request_id)
     {
         // Tìm yêu cầu cần cập nhật
-        $supportRequest = SupportRequest::with('attachment')->findOrFail($request_id);
+        $supportRequest = SupportRequest::with(['attachment','department','requestType','customer'])->findOrFail($request_id);
 
         // Validate dữ liệu
         $validatedData = $request->validate([
@@ -348,6 +349,9 @@ class RequestController extends Controller
             'status' => $validatedData['status'],
         ]);
 
+        $supportRequest->refresh();
+
+
         // Nếu trạng thái chuyển sang "Hoàn thành", xóa các phản hồi
         if ($validatedData['status'] === 'Hoàn thành') {
             CustomerFeedback::where('request_id', $request_id)->delete();
@@ -361,6 +365,12 @@ class RequestController extends Controller
 
             Mail::to($supportRequest->customer->email)
                 ->send(new DepartmentChangedMail($supportRequest));
+        }
+
+        if ($supportRequest->wasChanged('status')) {
+            // Gửi mail
+            Mail::to($supportRequest->customer->email)
+                ->send(new RequestResultMail($supportRequest));
         }
 
         // Lưu lịch sử thay đổi trạng thái nếu trạng thái hoặc phòng ban thay đổi

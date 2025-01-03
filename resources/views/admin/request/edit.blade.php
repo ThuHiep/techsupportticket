@@ -121,6 +121,12 @@
         margin: 0;
         line-height: 1.5;
     }
+
+    .reply-button.disabled {
+        pointer-events: none;
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
 </style>
 
 <body>
@@ -248,7 +254,7 @@
                         {{-- Nhóm nút Submit và Cancel --}}
                         <div class="button-group">
                             <button type="submit" class="submit-button">Cập nhật </button>
-                            <a href="#" class="reply-button" onclick="showReplyForm(); return false;">Phản hồi</a>
+                            <a href="#" class="reply-button {{ $supportRequest->status == 'Hoàn thành' ? 'disabled' : '' }}" onclick="showReplyForm(); return false;">Phản hồi</a>
                             <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
                         </div>
                     </div>
