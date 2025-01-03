@@ -43,13 +43,7 @@
             background: #4caf50; /* Màu xanh */
             transition: width 0.4s ease;
         }
-        .filter-container {
-            display: flex;
-            justify-content: center; /* Căn giữa các phần tử */
-            align-items: center; /* Căn giữa theo chiều dọc */
-            gap: 15px; /* Khoảng cách giữa các phần tử */
-            margin-bottom: 20px; /* Khoảng cách dưới cùng */
-        }
+
 
         .filter-group {
             display: flex;
@@ -188,18 +182,18 @@
                     <button class="btn" onclick="showInput('dateSelection')">Ngày</button>
                     <div id="dateSelectionInput" style="display: none;">
                         <div id="dateRangeInput">
-                            <label for="startDatee">Ngày bắt đầu:</label>
+                            <label class="label-start" for="startDatee">Ngày bắt đầu:</label>
                             <input type="date" id="startDatee" onchange="updateChartFromDateRange()">
-                            <label for="endDatee">Ngày kết thúc:</label>
+                            <label class="label-end" for="endDatee">Ngày kết thúc:</label>
                             <input type="date" id="endDatee" onchange="updateChartFromDateRange()">
                         </div>
                     </div>
                     <button class="btn" onclick="showInput('monthSelection')">Chọn Tháng</button>
                     <div id="monthSelectionInput" style="display: none;">
                         <div id="monthRangeInput" style="display: block;">
-                            <label for="startMonth">Tháng bắt đầu:</label>
+                            <label class="label-start" for="startMonth">Tháng bắt đầu:</label>
                             <input type="month" id="startMonth" onchange="updateChartFromMonthRange()">
-                            <label for="endMonth">Tháng kết thúc:</label>
+                            <label class="label-end" for="endMonth">Tháng kết thúc:</label>
                             <input type="month" id="endMonth" onchange="updateChartFromMonthRange()">
                         </div>
                     </div>
@@ -207,7 +201,7 @@
                     <button class="btn" onclick="showInput('yearSelection')">Năm</button>
                     <div id="yearSelectionInput" style="display: none;">
                         <div id="yearRangeInput">
-                            <label for="startYear">Năm bắt đầu:</label>
+                            <label class="label-start" for="startYear">Năm bắt đầu:</label>
                             <select id="startYear" onchange="updateChartFromYearRange()">
                                 <option value="">--Chọn năm bắt đầu--</option>
                                 <script>
@@ -218,7 +212,7 @@
                                 </script>
                             </select>
 
-                            <label for="endYear">Năm kết thúc:</label>
+                            <label class="label-end" for="endYear">Năm kết thúc:</label>
                             <select id="endYear" onchange="updateChartFromYearRange()">
                                 <option value="">--Chọn năm kết thúc--</option>
                                 <script>
