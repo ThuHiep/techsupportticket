@@ -42,6 +42,9 @@ Route::post('/registerProcess', [AuthController::class, 'registerProcess'])->nam
 Route::get('/forgotPass', [AuthController::class, 'forgotPass'])->name('forgotPass');
 Route::post('/forgotPassProcess', [AuthController::class, 'forgotPassProcess'])->name('forgotPassProcess');
 
+// Thêm route trong web.php
+Route::post('/delete-otp/{user_id}', [AuthController::class, 'deleteOtp'])->name('deleteOtp');
+
 Route::get('/verifyOTP/{user_id}', [AuthController::class, 'verifyOTP'])->name('verifyOTP');
 Route::post('/verifyOTPProcess/{user_id}', [AuthController::class, 'verifyOTPProcess'])->name('verifyOTPProcess');
 

@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\SwitchedUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -235,6 +236,7 @@ class AuthController extends Controller
         return view('login.forgot_pass');
     }
     // Xử lý form quên mật khẩu
+    // Xử lý form quên mật khẩu
     public function forgotPassProcess(Request $request)
     {
         $request->validate([
@@ -247,19 +249,30 @@ class AuthController extends Controller
             ?? Employee::with('user')->where('email', $email)->first();
 
         if ($user) {
+            // Xóa dữ liệu OTP cũ nếu có
+            $user->user->otp = null;
+            $user->user->otp_expiration_time = null;
+            $user->user->save();
+
             $randomOtp = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
             $user->user->otp = $randomOtp;
+            $user->user->otp_expiration_time = Carbon::now('Asia/Ho_Chi_Minh')->addMinutes(5)->toDateTimeString();
             $user->user->save();
+
             // Gửi email thông báo
             Mail::to($email)->send(new VerifyEmail($user, $randomOtp));
+
+            // Xóa countdown trong localStorage
+            echo "<script>localStorage.removeItem('otpCountdown');</script>";
 
             // Chuyển hướng đến trang xác thực OTP
             return redirect()->route('verifyOTP', $user->user->user_id);
         }
 
-        // Nếu không tìm thấy email trong cả hai bảng
+        // Nếu email không tồn tại trong bảng nào
         return back()->with('error', 'Email không tồn tại trong hệ thống.');
     }
+
     // Xác nhận otp gửi về email
     public function verifyOTP($user_id)
     {
@@ -275,12 +288,41 @@ class AuthController extends Controller
         $otp = $request->input('otp');
         $user = User::findOrFail($user_id);
 
+        // Check OTP expiration
+        $otpExpirationTime = Carbon::parse($user->otp_expiration_time)->addMinutes(1);
+        if (Carbon::now('Asia/Ho_Chi_Minh')->greaterThan($otpExpirationTime)) {
+            // Clear the OTP and expiration time
+            $user->otp = null;
+            $user->otp_expiration_time = null;
+            $user->save();
+
+            return back()->with('otp', 'Mã OTP đã hết hiệu lực.');
+        }
+
+        // Verify OTP
         if ($user->otp != $otp) {
             return back()->with('otp', 'Mã OTP không chính xác.');
         }
 
+        // Clear OTP after successful verification
+        $user->otp = null;
+        $user->otp_expiration_time = null;
+        $user->save();
+
+        // Redirect to password change page
         return redirect()->route('changePass', $user->user_id);
     }
+    // Phương thức trong controller
+    public function deleteOtp(Request $request, $user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $user->otp = null;
+        $user->otp_expiration_time = null;
+        $user->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function changePass($user_id)
     {
         return view('login.change_pass', compact('user_id'));
