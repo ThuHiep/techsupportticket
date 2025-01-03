@@ -284,14 +284,11 @@ select option {
         width: 90%;
         height: auto;
     }
-
-    .input-container {
-        grid-template-columns: 1fr;
-    }
+    
 
     .input-submit {
         width: 20%;
-        margin-top: 80px;
+        margin-top: 0px;
     }
     .error-message{
         margin-bottom: 10px;
