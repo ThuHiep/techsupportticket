@@ -142,7 +142,7 @@
         </div>
         <nav class="nav-links">
             <a href="#home">Trang chủ</a>
-            <a href="#faq">Bài viết</a>
+            <a href="#faq">Câu hỏi</a>
             <a href="#ins">Hướng dẫn</a>
             <a href="#contact">Liên hệ</a>
             @if (auth()->check())
@@ -311,7 +311,7 @@
     </script>
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
     <section class="faq-section" id="faq">
-        <h1 class="faq-title">Bài viết</h1> <!-- Thêm tiêu đề riêng -->
+        <h1 class="faq-title">Câu hỏi thường gặp</h1> <!-- Thêm tiêu đề riêng -->
         <div class="faq-container">
             <ul class="faq-list">
                 @forelse ($faqs as $faq)
@@ -729,7 +729,7 @@
     </script>
     <hr style="border: none; border-top: 1px solid #ccc; margin: 20px auto; width: 50%;">
     <div class="carousel-container" id="ins">
-        <div class="instructions">Hướng dẫn</div>
+        <div class="instructions">Bài viết hướng dẫn</div>
         <div class="carousel" id="carousel">
             @foreach($articles as $article)
             <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
