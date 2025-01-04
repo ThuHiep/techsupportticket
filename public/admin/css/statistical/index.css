@@ -130,7 +130,7 @@ input#customerIdInput:focus {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
     margin-bottom: 20px;
 }
@@ -228,6 +228,9 @@ p#totalRequestTypeRequests {
 }
 p#totalTimeRequests {
     margin-top: 20px;
+}
+tbody#timeDataList {
+    text-align: left;
 }
 /* Các kiểu CSS cho giao diện phản hồi (responsive) */
 @media screen and (max-width: 768px) {

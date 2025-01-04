@@ -83,12 +83,7 @@
             background-color: #e67e22; /* Màu nền khi hover */
             transform: scale(1.05); /* Phóng to một chút khi hover */
         }
-
-        #combinedChart {
-            width: 100% !important;
-            height: 400px !important; /* Hoặc kích thước bạn muốn */
-            display: block; /* Đảm bảo rằng canvas được hiển thị */
-        }
+        
         .suggestions-dropdown {
             border: 1px solid #ccc;
             max-height: 200px;
