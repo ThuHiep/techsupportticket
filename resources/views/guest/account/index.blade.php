@@ -114,7 +114,7 @@
                                 </li>
                                 <li>
                                     <i class="bi bi-chevron-right"></i>
-                                    <strong>Năm sinh:</strong>
+                                    <strong>Ngày sinh:</strong>
                                     <span id="day">{{$logged_user->date_of_birth->format('d/m/Y')}}</span>
                                 </li>
                                 <li>
@@ -127,7 +127,7 @@
                                 </li>
                                 <li>
                                     <i class="bi bi-chevron-right"></i>
-                                    <strong>Software:</strong> <span id="day">{{$logged_user->software}}</span>
+                                    <strong>Phần mềm:</strong> <span id="day">{{$logged_user->software}}</span>
                                 </li>
                             </ul>
                         </div>
