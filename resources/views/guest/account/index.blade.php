@@ -166,6 +166,7 @@
                             <div class="btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
                         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
                         <!-- Submit Button -->
                         <div class="input_box" style="align-items: center">
@@ -319,6 +320,8 @@
                         <h1 class="modal-title">Chỉnh sửa thông tin khách hàng</h1>
                         <form action="{{ route('customer.updateProfile') }}" method="POST" enctype="multipart/form-data">
 =======
+=======
+>>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
                     </div>
                     <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
                     <div class="modal-overlay" id="modalOverlay"></div>
@@ -328,6 +331,9 @@
                             Đổi mật khẩu
                         </h1>
                         <form action="{{ route('account.changePass') }}" method="POST" enctype="multipart/form-data" class="reset-password-form">
+<<<<<<< HEAD
+>>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
+=======
 >>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
                             @csrf
                             @method('PUT')
@@ -605,6 +611,7 @@
                         </div>
                     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 </div>
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
@@ -615,6 +622,8 @@
                         const previewImg = document.getElementById("preview-img");
                         const profileImageInput = document.getElementById("profile_image");
 =======
+=======
+>>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
                             const modal = document.querySelector(".modal");
@@ -623,6 +632,9 @@
                             const cancelBtn = document.querySelector(".btn-cancel");
                             const previewImg = document.getElementById("preview-img");
                             const profileImageInput = document.getElementById("profile_image");
+<<<<<<< HEAD
+>>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
+=======
 >>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
 
                             let initialData = {};
@@ -957,6 +969,7 @@
         <button id="openModal" class="btn-open-modal">Chuyển đổi tài khoản</button>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <!-- Modal -->
     <div id="accountModal" class="modal-switch">
         <div class="modal-content-switch">
@@ -966,6 +979,8 @@
                 <!-- Danh sách tài khoản -->
                 @foreach ($accounts as $account)
 =======
+=======
+>>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
         <!-- Modal -->
         <div id="accountModal" class="modal-switch">
             <div class="modal-content-switch">
@@ -974,6 +989,9 @@
                 <ul class="account-list">
                     <!-- Danh sách tài khoản -->
                     @foreach ($accounts as $account)
+<<<<<<< HEAD
+>>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
+=======
 >>>>>>> 48e3e91dba66a0222158b4e8de3aadec23d7e833
                     <li class="account-item">
                         <form action="{{ route('account.switch', $account['username']) }}" method="POST" class="account-form">
