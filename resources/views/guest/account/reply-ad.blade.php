@@ -7,7 +7,7 @@
     <div class="animated fadeInRight">
         <div class="mail-box-header">
             <h2>
-                Nội dung phản hồi
+                Soạn nội dung phản hồi
             </h2>
         </div>
         <div class="mail-box">
