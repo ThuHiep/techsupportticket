@@ -403,9 +403,11 @@ input.input-submit:hover {
     position: absolute;
     top: 21px;
     left: 20px;
-    background-color: transparent;
     transition: .2s;
     font-size: 15px;
+}
+.label-warning{
+background-color: #f8ac59;
 }
 .input-field:focus ~ .label,
 .input-field:not(:placeholder-shown) ~ .label{

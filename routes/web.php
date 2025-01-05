@@ -56,6 +56,9 @@ Route::get('/changePassEmail/{user_id}', [AuthController::class, 'changePassEmai
 /*Route update mật khẩu từ email*/
 Route::put('/updatePassEmail/{user_id}', [AuthController::class, 'updatePassEmail'])->name('updatePassEmail');
 
+//
+Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('checkEmail');
+
 // Nhóm route cho phần admin
 Route::name('customer.')->group(function () {
     // Hiển thị danh sách khách hàng
