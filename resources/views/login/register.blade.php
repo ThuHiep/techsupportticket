@@ -7,12 +7,13 @@
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="guest/css/form/register_user.css?v=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Register</title>
     <style>
         .error-message {
             color: red;
             font-size: 0.9em;
-            margin-top:62px; /* Khoảng cách phía trên lỗi */
+            margin-top: 62px; /* Khoảng cách phía trên lỗi */
             margin-bottom: 5px; /* Khoảng cách phía dưới lỗi */
             position: absolute; /* Vị trí tương đối */
             display: block;
@@ -28,15 +29,7 @@
     <div class="register_box">
         <div class="register-header">
             <span>Đăng ký tài khoản</span>
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+
         </div>
         <!--Input field-->
         <form action="{{ route('registerProcess') }}" method="POST">
@@ -45,14 +38,14 @@
                 <!-- Cột trái -->
                 <div class="column">
                     <div class="input_box">
-                        <input type="text" id="full_name" name="full_name" class="input-field" required>
+                        <input type="text" id="full_name" name="full_name" class="input-field" value="{{ old('full_name') }}" required>
                         <label for="full_name" class="label">Họ và tên <span class="required">*</span></label>
                         <i class="bx bx-user icon"></i>
                         <span class="error-message" id="full_name_error"></span>
                     </div>
 
                     <div class="input_box">
-                        <input type="text" id="phone" name="phone" class="input-field" required>
+                        <input type="text" id="phone" name="phone" class="input-field" value="{{ old('phone') }}" required>
                         <label for="phone" class="label">Số điện thoại <span class="required">*</span></label>
                         <i class="bx bx-phone icon"></i>
                         <span class="error-message" id="phone_error"></span>
@@ -69,21 +62,21 @@
                         </div>
 
                         <div class="input_box">
-                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" required>
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="input-field" value="{{ old('date_of_birth') }}" required>
                             <label for="date_of_birth" class="label">Ngày sinh <span class="required">*</span></label>
                             <span class="error-message" id="date_of_birth_error"></span>
                         </div>
                     </div>
 
                     <div class="input_box">
-                        <input type="text" id="address" name="address" class="input-field" required>
+                        <input type="text" id="address" name="address" class="input-field" value="{{ old('address') }}" required>
                         <label for="address" class="label">Địa chỉ <span class="required">*</span></label>
                         <i class="bx bx-map icon"></i>
                         <span class="error-message" id="address_error"></span>
                     </div>
 
                     <div class="input_box">
-                        <input type="text" id="company" name="company" class="input-field" required>
+                        <input type="text" id="company" name="company" class="input-field" value="{{ old('company') }}" required>
                         <label for="company" class="label">Tên công ty <span class="required">*</span></label>
                         <i class="bx bx-buildings icon"></i>
                         <span class="error-message" id="company_error"></span>
@@ -92,16 +85,20 @@
                 <!-- Cột phải -->
                 <div class="column">
                     <div class="input_box">
-                        <input type="email" id="email" name="email" class="input-field" required>
+                        <input type="email" id="email" name="email" class="input-field" value="{{ old('email') }}" required>
                         <label for="email" class="label">Email <span class="required">*</span></label>
-                        <span class="error-message" id="email_error"></span>
+                        <span class="error-message" id="email_error" style="color:red;">
+                            {{ $errors->first('email') }}
+                        </span>
                         <i class="bx bx-envelope icon"></i>
                     </div>
 
                     <div class="input_box">
-                        <input type="text" id="username" name="username" class="input-field" required>
+                        <input type="text" id="username" name="username" class="input-field" value="{{ old('username') }}" required>
                         <label for="username" class="label">Tên đăng nhập <span class="required">*</span></label>
-                        <span class="error-message" id="username_error"></span>
+                        <span class="error-message" id="username_error">
+                            {{ $errors->first('username') }}
+                        </span>
                         <i class="bx bx-user-circle icon"></i>
                     </div>
 
@@ -219,7 +216,8 @@
                 errorMessage.textContent = '';
             }
         });
-// JavaScript để ẩn/hiện mật khẩu
+
+        // JavaScript để ẩn/hiện mật khẩu
         document.querySelectorAll('.toggle-password').forEach(icon => {
             icon.addEventListener('click', () => {
                 const targetId = icon.getAttribute('data-target');
@@ -236,6 +234,7 @@
                 }
             });
         });
+
         // Kiểm tra số điện thoại
         phoneInput.addEventListener('input', function () {
             const errorMessage = document.getElementById('phone_error');
@@ -317,11 +316,37 @@
             if (!emailValue) {
                 errorMessage.textContent = 'Vui lòng nhập email.';
             } else if (!isValidEmail(emailValue)) {
-                errorMessage.textContent = 'Định dạng email không hợp lệ. Vui lòng nhập lại.';
+                errorMessage.textContent = 'Email không đúng định dạng. Vui lòng nhập lại.';
             } else {
-                errorMessage.textContent = '';
+                errorMessage.textContent = ''; // Xóa thông báo lỗi
+                checkEmailExists(emailValue); // Gọi hàm kiểm tra email tồn tại
             }
         });
+
+        // Hàm kiểm tra email tồn tại trong cơ sở dữ liệu
+        // Hàm kiểm tra email tồn tại trong cơ sở dữ liệu
+        function checkEmailExists(email) {
+            $.ajax({
+                url: '/check-email',
+                type: 'POST',
+                data: JSON.stringify({ email: email }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    const errorMessage = document.getElementById('email_error');
+                    if (data.exists) {
+                        errorMessage.textContent = 'Email đã tồn tại. Vui lòng nhập email khác.';
+                    } else {
+                        errorMessage.textContent = ''; // Xóa thông báo lỗi nếu email không tồn tại
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
 
         // Xử lý khi nhấn "Đăng ký"
         form.addEventListener('submit', function (e) {
@@ -370,7 +395,8 @@
             }
 
             // Email validation
-            if (!isValidEmail(emailInput.value.trim())) {
+            const emailValue = emailInput.value.trim();
+            if (!isValidEmail(emailValue)) {
                 document.getElementById('email_error').textContent = 'Email không hợp lệ.';
                 hasError = true;
             }
