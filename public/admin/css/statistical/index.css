@@ -41,12 +41,15 @@ h1 {
     margin: auto;
 }
 
-.label-start{
+.label-start {
     text-align: left;
+    width: 70%;
 }
-.label-end{
+.label-end {
     text-align: left;
+    width: 75%;
 }
+
 /* Phong cách chung cho requestTypeFilter, monthFilter, yearFilter */
 #requestTypeFilter, #monthFilter, #yearFilter {
     margin-bottom: 15px;
@@ -130,11 +133,18 @@ input#customerIdInput:focus {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.filter-container1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: flex-start;
     gap: 15px;
     margin-bottom: 20px;
 }
-
 
 /* Phong cách cho phần tử row chứa các ô input ngày */
 .row_start_end {
@@ -164,7 +174,8 @@ button:active, input[type="submit"]:active {
 
 div#dateRangeInput {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 50px;
 }
 div#monthRangeInput {
     display: flex !important;
@@ -172,10 +183,22 @@ div#monthRangeInput {
 }
 div#yearRangeInput{
     display: flex !important;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 50px;
 }
 /* Phong cách cho input ngày bắt đầu và ngày kết thúc */
 .filter-container input[type="date"] {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
+    height: 40px;
+    padding: 6px;
+    font-size: 14px;
+    border: 2px solid #c9d1d9;  /* Viền giống như select */
+    border-radius: 3px;
+    background-color: #f9f9f9;  /* Nền màu sáng */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px;
+}
+.filter-container1 input[type="date"] {
     width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
     height: 40px;
     padding: 6px;
@@ -195,6 +218,14 @@ div#yearRangeInput{
     box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
     outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
 }
+/* Hiệu ứng khi focus vào input */
+.filter-container1 input[type="date"]:focus,
+.filter-container1 input[type="date"]:hover,
+.filter-container1 input[type="date"]:active {
+    border-color: #FF9700;  /* Viền màu cam khi focus */
+    box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
+    outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
+}
 #monthRangeInput input[type="month"] {
     width: 100%;
     padding: 0 10px;
@@ -208,6 +239,13 @@ div#yearRangeInput{
 .filter-container input[type="month"]:hover,
 .filter-container input[type="month"]:active {
     border-color: #FF9700;  /* Viền màu cam khi focus */
+    box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
+    outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
+}
+.filter-container1 input[type="month"]:focus,
+.filter-container1 input[type="month"]:hover,
+.filter-container1 input[type="month"]:active {
+    border-color: #FF9700 !important;  /* Viền màu cam khi focus */
     box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
     outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
 }
@@ -231,6 +269,26 @@ p#totalTimeRequests {
 }
 tbody#timeDataList {
     text-align: left;
+}
+.start{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.end{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+tr.timeDataList {
+    text-align: center;
+}
+ul#customerDataList {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    text-align: left;
+    gap: 10px;
 }
 /* Các kiểu CSS cho giao diện phản hồi (responsive) */
 @media screen and (max-width: 768px) {
@@ -270,10 +328,15 @@ tbody#timeDataList {
         flex-direction: column;
         align-items: center !important;
     }
+    .filter-container1{
+        flex-direction: column;
+        align-items: center !important;
+    }
     div#dateRangeInput {
         width: 100%;
         display: flex;
         flex-direction: column;
+        gap: 0px;
     }
     div#monthRangeInput {
         width: 100%;
@@ -283,6 +346,7 @@ tbody#timeDataList {
     div#yearRangeInput{
         display: flex !important;
         flex-direction: column;
+        gap: 0px;
     }
     ul#customerDataList {
         list-style: none;
@@ -294,7 +358,11 @@ tbody#timeDataList {
     tbody#departmentDataList {
         text-align: left;
     }
-
+    .start {
+        display: flex;
+        flex-direction: row;
+        gap: 18px;
+    }
 }
 @media screen and (max-width: 426px) {
     .container {
@@ -322,5 +390,14 @@ tbody#timeDataList {
     }
     .filter-container{
         flex-direction: column;
+    }
+    .filter-container1{
+        flex-direction: column;
+    }
+    tr.size {
+        font-size: 10px;
+    }
+    #monthRangeInput input[type="month"] {
+        font-size: 13px;
     }
 }

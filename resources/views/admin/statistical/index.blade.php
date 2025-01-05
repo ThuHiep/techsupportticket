@@ -83,7 +83,7 @@
             background-color: #e67e22; /* Màu nền khi hover */
             transform: scale(1.05); /* Phóng to một chút khi hover */
         }
-        
+
         .suggestions-dropdown {
             border: 1px solid #ccc;
             max-height: 200px;
@@ -173,29 +173,40 @@
             <!--Biểu đồ báo cáo yêu cầu theo thời gian-->
             <div class="report-section" id="timeReportContainer" style="display: none;">
                 <h3>Báo cáo số yêu cầu theo thời gian</h3>
-                <div class="filter-container">
+                <div class="filter-container1">
                     <button class="btn" onclick="showInput('dateSelection')">Ngày</button>
                     <div id="dateSelectionInput" style="display: none;">
                         <div id="dateRangeInput">
-                            <label class="label-start" for="startDatee">Ngày bắt đầu:</label>
-                            <input type="date" id="startDatee" onchange="updateChartFromDateRange()">
-                            <label class="label-end" for="endDatee">Ngày kết thúc:</label>
-                            <input type="date" id="endDatee" onchange="updateChartFromDateRange()">
+                            <div class="start">
+                                <label class="label-start" for="startDatee">Ngày bắt đầu:</label>
+                                <input type="date" id="startDatee" onchange="updateChartFromDateRange()">
+                            </div>
+                            <div class="end">
+                                <label class="label-end" for="endDatee">Ngày kết thúc:</label>
+                                <input type="date" id="endDatee" onchange="updateChartFromDateRange()">
+                            </div>
                         </div>
                     </div>
                     <button class="btn" onclick="showInput('monthSelection')">Chọn Tháng</button>
                     <div id="monthSelectionInput" style="display: none;">
                         <div id="monthRangeInput" style="display: block;">
-                            <label class="label-start" for="startMonth">Tháng bắt đầu:</label>
-                            <input type="month" id="startMonth" onchange="updateChartFromMonthRange()">
-                            <label class="label-end" for="endMonth">Tháng kết thúc:</label>
-                            <input type="month" id="endMonth" onchange="updateChartFromMonthRange()">
+                            <div class="start">
+                                <label class="label-start" for="startMonth">Tháng bắt đầu:</label>
+                                <input type="month" id="startMonth" onchange="updateChartFromMonthRange()">
+                            </div>
+
+                            <div class="end">
+                                <label class="label-end" for="endMonth">Tháng kết thúc:</label>
+                                <input type="month" id="endMonth" onchange="updateChartFromMonthRange()">
+                            </div>
+
                         </div>
                     </div>
 
                     <button class="btn" onclick="showInput('yearSelection')">Năm</button>
                     <div id="yearSelectionInput" style="display: none;">
                         <div id="yearRangeInput">
+                            <div class="start">
                             <label class="label-start" for="startYear">Năm bắt đầu:</label>
                             <select id="startYear" onchange="updateChartFromYearRange()">
                                 <option value="">--Chọn năm bắt đầu--</option>
@@ -206,16 +217,18 @@
                                     }
                                 </script>
                             </select>
-
-                            <label class="label-end" for="endYear">Năm kết thúc:</label>
-                            <select id="endYear" onchange="updateChartFromYearRange()">
-                                <option value="">--Chọn năm kết thúc--</option>
-                                <script>
-                                    for (let i = 2020; i <= currentYear + 10; i++) {
-                                        document.write(`<option value="${i}">${i}</option>`);
-                                    }
-                                </script>
-                            </select>
+                            </div>
+                            <div class="end">
+                                <label class="label-end" for="endYear">Năm kết thúc:</label>
+                                <select id="endYear" onchange="updateChartFromYearRange()">
+                                    <option value="">--Chọn năm kết thúc--</option>
+                                    <script>
+                                        for (let i = 2020; i <= currentYear + 10; i++) {
+                                            document.write(`<option value="${i}">${i}</option>`);
+                                        }
+                                    </script>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -235,7 +248,7 @@
                 <h3>Số liệu tổng hợp</h3>
                 <table style="border-collapse: collapse; width: 100%; font-size: 12px;">
                     <thead>
-                    <tr>
+                    <tr class="size">
                         <th>Loại yêu cầu</th>
                         <th>Đang xử lý</th>
                         <th>Chưa xử lý</th>
@@ -253,13 +266,13 @@
                 <h3>Số liệu tổng hợp</h3>
                 <table style="border-collapse: collapse; width: 100%; font-size: 12px;">
                     <thead>
-                        <tr>
+                        <tr class="size">
                             <th>Phòng ban</th>
                             <th>Đang xử lý</th>
                             <th>Chưa xử lý</th>
                             <th>Hoàn thành</th>
                             <th>Đã hủy</th>
-                            <th >Tổng</th>
+                            <th>Tổng</th>
                         </tr>
                     </thead>
                     <tbody id="departmentDataList"></tbody>
@@ -271,7 +284,7 @@
                 <h3 id="summaryTitle">Số liệu tổng hợp</h3>
                 <table style="border-collapse: collapse; width: 100%; font-size: 13px;">
                     <thead>
-                    <tr>
+                    <tr class="size">
                         <th>Thời gian</th>
                         <th>Đang xử lý</th>
                         <th>Chưa xử lý</th>
@@ -590,7 +603,7 @@
             const requestCount = Object.values(statuses).reduce((a, b) => a + b, 0); // Tính tổng số yêu cầu cho loại này
 
             listItem.innerHTML = `
-            <td style="padding: 5px">${typeName}</td>
+            <td style="padding: 5px; text-align: left;">${typeName}</td>
             <td style="padding: 5px">${statuses['Đang xử lý'] || 0}</td>
             <td style="padding: 5px">${statuses['Chưa xử lý'] || 0}</td>
             <td style="padding: 5px">${statuses['Hoàn thành'] || 0}</td>
@@ -728,7 +741,7 @@
                 // Thêm hàng cho từng phòng ban
                 const row = document.createElement('tr');
                 row.innerHTML = `
-            <td>${department}</td>
+            <td style="text-align: left">${department}</td>
             <td>${processing}</td>
             <td>${notProcessed}</td>
             <td>${completed}</td>
@@ -877,8 +890,8 @@
             totalCancelled += cancelled;
 
             timeDataList.innerHTML += `
-        <tr>
-            <td style="padding: 5px">${item.period}</td>
+        <tr class= "timeDataList">
+            <td style="padding: 5px; text-align: left">${item.period}</td>
             <td style="padding: 5px">${processing}</td>
             <td style="padding: 5px">${pending}</td>
             <td style="padding: 5px">${completed}</td>
