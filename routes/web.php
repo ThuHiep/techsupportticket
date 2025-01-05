@@ -89,6 +89,8 @@ Route::name('customer.')->group(function () {
 //Employee
 Route::name('employee.')->group(function () {
     Route::get('/employee/editProfile', [EmployeeController::class, 'editProfile'])->middleware('customersp')->name('editProfile');
+    Route::get('/check-username-employee/{username}', [EmployeeController::class, 'checkUsernameEmployee'])->middleware('customersp');
+    Route::get('/check-email-employee/{email}', [EmployeeController::class, 'checkEmailEmployee'])->middleware('customersp');
     Route::put('/employee/updateProfile', [EmployeeController::class, 'updateProfile'])->middleware('customersp')->name('updateProfile');
     Route::put('/employee/changePass', [EmployeeController::class, 'changePass'])->middleware('customersp')->name('changePass');
 });
@@ -205,6 +207,8 @@ Route::delete('remove-account/{customer_id}', [UserController::class, 'removeAcc
 Route::get('/feedback/{request_id}', [UserController::class, 'getFeedbackByRequestId'])->middleware('customer');
 Route::post('/reply/{request_id}', [UserController::class, 'reply'])->middleware('customer')->name('customer.reply');
 
+Route::get('/check-username-customer/{username}', [UserController::class, 'checkUsernameCustomer'])->middleware('customer');
+Route::get('/check-email-customer/{email}', [UserController::class, 'checkEmailCustomer'])->middleware('customer');
 // Route để hiển thị form
 Route::get('/pend-request', [HomepageController::class, 'showFormRequest'])->middleware('customer')->name('showFormRequest');
 

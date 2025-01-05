@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmployeeCreatedMail;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -73,6 +74,33 @@ class EmployeeController extends Controller
 
         return redirect()->route('dashboard.index')
             ->with('success', 'Thông tin tài khoản đã được cập nhật!');
+    }
+    public function checkUsernameEmployee($username)
+    {
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        if ($username == $logged_user->user->username) {
+            return response()->json(['exists' => false]);
+        } else {
+            $exists = User::where('username', $username)->exists();
+
+            return response()->json(['exists' => $exists]);
+        }
+    }
+
+    public function checkEmailEmployee($email)
+    {
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        if ($email == $logged_user->email) {
+            return response()->json(['exists' => false]);
+        } else {
+            // Kiểm tra email trong bảng employee và customer
+            $employeeExists = Employee::where('email', $email)->exists();
+            $customerExists = Customer::where('email', $email)->exists();
+
+            return response()->json([
+                'exists' => $employeeExists || $customerExists,
+            ]);
+        }
     }
     public function changePass(Request $request)
     {

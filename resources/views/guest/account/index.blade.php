@@ -110,24 +110,30 @@
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
                                         <strong>Họ và tên:</strong>
-                                        <span id="name">{{$logged_user->full_name}}</span>
+                                        <span>{{$logged_user->full_name}}</span>
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-chevron-right"></i>
+                                        <strong>Tên đăng nhập:</strong>
+                                        <span>{{$logged_user->user->username}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
                                         <strong>Ngày sinh:</strong>
-                                        <span id="day">{{$logged_user->date_of_birth->format('d/m/Y')}}</span>
+                                        <span>{{$logged_user->date_of_birth->format('d/m/Y')}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
-                                        <strong>Giới tính:</strong> <span id="phone">{{$logged_user->gender}}</span>
+                                        <strong>Giới tính:</strong> <span>{{$logged_user->gender}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
-                                        <strong>Địa chỉ:</strong> <span id="day">{{$logged_user->address}}</span>
+                                        <strong>Số điện thoại:</strong>
+                                        <span>{{$logged_user->phone}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
-                                        <strong>Phần mềm:</strong> <span id="day">{{$logged_user->software}}</span>
+                                        <strong>Địa chỉ:</strong> <span>{{$logged_user->address}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -135,26 +141,25 @@
                                 <ul>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
-                                        <strong>Công ty:</strong>
-                                        <span id="phone">{{$logged_user->company}}</span>
-                                    </li>
-                                    <li>
-                                        <i class="bi bi-chevron-right"></i>
                                         <strong>Email:</strong>
-                                        <span id="address">{{$logged_user->email}}</span>
+                                        <span>{{$logged_user->email}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i> <strong>TAX:</strong>
-                                        <span id="email">{{$logged_user->tax_id}}</span>
+                                        <span>{{$logged_user->tax_id}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
-                                        <strong>Website:</strong> <span id="name">{{$logged_user->website}}</span>
+                                        <strong>Công ty:</strong>
+                                        <span>{{$logged_user->company}}</span>
                                     </li>
                                     <li>
                                         <i class="bi bi-chevron-right"></i>
-                                        <strong>Số điện thoại:</strong>
-                                        <span id="phone">{{$logged_user->phone}}</span>
+                                        <strong>Phần mềm:</strong> <span>{{$logged_user->software}}</span>
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-chevron-right"></i>
+                                        <strong>Website:</strong> <span>{{$logged_user->website}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -276,6 +281,7 @@
                                 }
                             })
                         });
+
                         const openFormButton = document.getElementById('openForm');
                         const modalPass = document.getElementById('registrationForm');
                         const overlay = document.getElementById('modalOverlay');
@@ -365,7 +371,7 @@
                         <div class="modal-content-edit">
                             <span class="close">x</span>
                             <h1 class="modal-title">Chỉnh sửa thông tin khách hàng</h1>
-                            <form action="{{ route('customer.updateProfile') }}" method="POST" enctype="multipart/form-data">
+                            <form id="edit-form" action="{{ route('customer.updateProfile') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-container">
@@ -374,10 +380,17 @@
                                         <div class="form-group">
                                             <label for="full_name">Họ và Tên<span class="required">*</span></label>
                                             <input type="text" name="full_name" id="full_name" value="{{$logged_user->full_name}}">
+                                            <span class="error-message" id="full_name_error"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="username">Tên đăng nhập<span class="required">*</span></label>
+                                            <input type="text" name="username" id="username" value="{{$logged_user->user->username}}">
+                                            <span class="error-message" id="username_error"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="date_of_birth">Năm sinh<span class="required">*</span></label>
                                             <input type="date" name="date_of_birth" id="date_of_birth" value="{{$logged_user->date_of_birth->toDateString()}}">
+                                            <span class="error-message" id="date_of_birth_error"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
@@ -389,13 +402,15 @@
                                         <div class="form-group">
                                             <label for="phone">Số điện thoại<span class="required">*</span></label>
                                             <input type="text" name="phone" id="phone" value="{{$logged_user->phone}}">
+                                            <span class="error-message" id="phone_error"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="address">Địa chỉ</label>
                                             <input type="text" name="address" id="address" value="{{$logged_user->address}}">
+                                            <span class="error-message" id="address_error"></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="software">Software</label>
+                                            <label for="software">Phần mềm</label>
                                             <input type="text" name="software" id="software" value="{{$logged_user->software}}">
                                         </div>
                                     </div>
@@ -405,10 +420,12 @@
                                         <div class="form-group">
                                             <label for="company">Công Ty</label>
                                             <input type="text" name="company" id="company" value="{{$logged_user->company}}">
+                                            <span class="error-message" id="company_error"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email<span class="required">*</span></label>
                                             <input type="text" name="email" id="email" value="{{$logged_user->email}}">
+                                            <span class="error-message" id="email_error"></span>
                                         </div>
                                         <div class="form-group">
                                             <label for="tax-id">TAX</label>
@@ -449,9 +466,10 @@
                             </form>
                         </div>
                     </div>
+
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
-                            const modal = document.querySelector(".modal");
+                            const modal = document.getElementById('editModal');
                             const btn = document.getElementById("edit-btn");
                             const closeBtn = document.querySelector(".close");
                             const cancelBtn = document.querySelector(".btn-cancel");
@@ -482,6 +500,19 @@
                                 profileImageInput.value = "";
                             };
 
+                            const clearErrorMessages = () => {
+                                const errorMessages = modal.querySelectorAll(".error-message");
+                                errorMessages.forEach(error => {
+                                    error.textContent = ""; // Xóa nội dung thông báo lỗi
+                                });
+                            };
+
+                            @if(session('openModal') == 'editModal')
+                            // Hiển thị modal nếu có lỗi từ server
+                            saveInitialData();
+                            modal.style.display = "block";
+                            @endif
+
                             btn.onclick = () => {
                                 saveInitialData();
                                 modal.style.display = "block";
@@ -489,32 +520,26 @@
 
                             closeBtn.onclick = () => {
                                 resetToInitialData();
+                                clearErrorMessages(); // Xóa các thông báo lỗi
                                 modal.style.display = "none";
                             };
 
                             cancelBtn.onclick = () => {
                                 resetToInitialData();
+                                clearErrorMessages(); // Xóa các thông báo lỗi
                                 modal.style.display = "none";
                             };
 
                             window.onclick = (event) => {
                                 if (event.target === modal) {
                                     resetToInitialData();
+                                    clearErrorMessages(); // Xóa các thông báo lỗi
                                     modal.style.display = "none";
                                 }
                             };
                         });
 
-                        // function previewImage(event) {
-                        //   const reader = new FileReader();
-                        //   reader.onload = function() {
-                        //     const output = document.getElementById("preview-img");
-                        //     output.src = reader.result;
-                        //     output.style.display = "block";
-                        //   };
-                        //   reader.readAsDataURL(event.target.files[0]);
-                        // }
-                        // Preview ảnh với kích thước giới hạn
+
                         function previewImage(event) {
                             const file = event.target.files[0];
                             if (file) {
@@ -532,6 +557,179 @@
                                 reader.readAsDataURL(file);
                             }
                         }
+                    </script>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const modal = document.getElementById('editModal');
+                            const btn = document.getElementById("edit-btn");
+                            const closeBtn = document.querySelector(".close");
+                            const cancelBtn = document.querySelector(".btn-cancel");
+                            const previewImg = document.getElementById("preview-img");
+                            const profileImageInput = document.getElementById("profile_image");
+                            const fullNameInput = document.getElementById('full_name');
+                            const phoneInput = document.getElementById('phone');
+                            const addressInput = document.getElementById('address');
+                            const companyInput = document.getElementById('company');
+                            const dateOfBirthInput = document.getElementById('date_of_birth');
+                            const emailInput = document.getElementById('email');
+                            const usernameInput = document.getElementById('username');
+                            const form = document.getElementById('edit-form');
+
+                            let initialData = {};
+
+                            const saveInitialData = () => {
+                                const inputs = modal.querySelectorAll("input, select");
+                                inputs.forEach(input => {
+                                    initialData[input.name] = input.value;
+                                });
+                                initialData["profile_image_preview"] = previewImg.src;
+                            };
+
+                            const resetToInitialData = () => {
+                                const inputs = modal.querySelectorAll("input, select");
+                                inputs.forEach(input => {
+                                    input.value = initialData[input.name];
+                                    if (input.tagName === "SELECT") {
+                                        input.dispatchEvent(new Event("change"));
+                                    }
+                                });
+
+                                previewImg.src = initialData["profile_image_preview"];
+                                profileImageInput.value = "";
+                            };
+
+                            const clearErrorMessages = () => {
+                                const errorMessages = modal.querySelectorAll(".error-message");
+                                errorMessages.forEach(error => {
+                                    error.textContent = "";
+                                });
+                            };
+
+                            const isValidEmail = (email) => {
+                                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                return emailRegex.test(email);
+                            };
+
+                            const validateForm = async () => {
+                                let hasError = false;
+
+                                clearErrorMessages();
+
+                                // Full name validation
+                                if (!/^[a-zA-ZÀ-ỹ\s]+$/.test(fullNameInput.value.trim())) {
+                                    document.getElementById('full_name_error').textContent = 'Họ và tên không được chứa số hoặc ký tự đặc biệt.';
+                                    hasError = true;
+                                }
+
+                                // Phone validation
+                                if (!/^\d{10}$/.test(phoneInput.value.trim())) {
+                                    document.getElementById('phone_error').textContent = 'Số điện thoại phải gồm 10 chữ số.';
+                                    hasError = true;
+                                }
+
+                                // Date of birth validation
+                                const dobValue = dateOfBirthInput.value;
+                                const [year, month, day] = dobValue.split('-').map(Number);
+                                const currentDate = new Date();
+
+                                if (!year || !month || !day || year < 1900 || isNaN(new Date(dobValue).getTime())) {
+                                    document.getElementById('date_of_birth_error').textContent = 'Vui lòng nhập ngày sinh hợp lệ (phải từ 1900 trở đi).';
+                                    hasError = true;
+                                } else {
+                                    const age = currentDate.getFullYear() - year;
+                                    if (age < 18) {
+                                        document.getElementById('date_of_birth_error').textContent = 'Bạn phải đủ 18 tuổi để đăng ký.';
+                                        hasError = true;
+                                    }
+                                }
+
+                                if (/^\d+$/.test(addressInput.value.trim())) {
+                                    document.getElementById('address_error').textContent = 'Địa chỉ không được chứa toàn là số.';
+                                    hasError = true;
+                                }
+
+                                if (/^\d+$/.test(companyInput.value.trim())) {
+                                    document.getElementById('company_error').textContent = 'Tên công ty không được chứa toàn là số.';
+                                    hasError = true;
+                                }
+
+                                const emailValue = emailInput.value.trim();
+                                if (!isValidEmail(emailValue)) {
+                                    document.getElementById('email_error').textContent = 'Email không hợp lệ.';
+                                    hasError = true;
+                                } else {
+                                    const emailResponse = await fetch(`/check-email-customer/${emailValue}`);
+                                    const emailData = await emailResponse.json();
+                                    if (emailData.exists) {
+                                        document.getElementById('email_error').textContent = 'Email đã tồn tại trong hệ thống. Vui lòng sử dụng email khác.';
+                                        hasError = true;
+                                    }
+                                }
+
+                                const usernameValue = usernameInput.value.trim();
+                                if (!/^[a-zA-Z0-9]+$/.test(usernameValue)) {
+                                    document.getElementById('username_error').textContent = 'Tên đăng nhập chỉ được chứa chữ cái và số, không chứa dấu câu.';
+                                    hasError = true;
+                                } else {
+                                    const usernameResponse = await fetch(`/check-username-customer/${usernameValue}`);
+                                    const usernameData = await usernameResponse.json();
+                                    if (usernameData.exists) {
+                                        document.getElementById('username_error').textContent = 'Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.';
+                                        hasError = true;
+                                    }
+                                }
+
+                                return !hasError;
+                            };
+
+                            form.addEventListener('submit', async function(e) {
+                                e.preventDefault();
+                                const isValid = await validateForm();
+                                if (isValid) {
+                                    form.submit();
+                                }
+                            });
+
+                            btn.onclick = () => {
+                                saveInitialData();
+                                modal.style.display = "block";
+                            };
+
+                            closeBtn.onclick = () => {
+                                resetToInitialData();
+                                clearErrorMessages();
+                                modal.style.display = "none";
+                            };
+
+                            cancelBtn.onclick = () => {
+                                resetToInitialData();
+                                clearErrorMessages();
+                                modal.style.display = "none";
+                            };
+
+                            window.onclick = (event) => {
+                                if (event.target === modal) {
+                                    resetToInitialData();
+                                    clearErrorMessages();
+                                    modal.style.display = "none";
+                                }
+                            };
+
+                            function previewImage(event) {
+                                const file = event.target.files[0];
+                                if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = function() {
+                                        previewImg.src = reader.result;
+                                        previewImg.style.display = "block";
+                                        previewImg.style.maxWidth = "100px";
+                                        previewImg.style.maxHeight = "100px";
+                                        previewImg.style.objectFit = "cover";
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                            }
+                        });
                     </script>
                 </div>
             </div>
@@ -804,14 +1002,12 @@
                                 <img src="{{ $account['profile_image'] ? asset('admin/img/customer/' . $account['profile_image']) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
                                 <span class="account-name">{{ $account['full_name'] }}</span>
                             </div>
-                            <div>
-                                <button type="submit" class="btn-switch">Chuyển</button>
-                                <form action="{{ route('account.remove', $account['customer_id']) }}" method="POST" class="account-remove-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-remove">Xóa</button>
-                                </form>
-                            </div>
+                            <button type="submit" class="btn-switch">Chuyển</button>
+                        </form>
+                        <form action="{{ route('account.remove', $account['customer_id']) }}" method="POST" class="account-remove-form">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-remove">Xóa</button>
                         </form>
                     </li>
 
