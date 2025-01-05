@@ -28,17 +28,6 @@
                             <input type="text" id="full_name" name="full_name" class="form-control"
                                 value="{{ $logged_user->full_name }}" required>
                         </div>
-                        
-
-                    </div>
-
-                    <div class="row mb-3">
-                       
-                        <div class="form-group col-md-4">
-                            <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
-                            <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
-                                value="{{ $logged_user->date_of_birth->toDateString() }}" required>
-                        </div>
                         <div class="form-group col-md-4">
                             <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
                             <select id="gender" name="gender" class="form-control" required>
@@ -46,7 +35,15 @@
                                 <option value="Nữ" {{ $logged_user->gender == 'Nữ' ? 'selected' : '' }}>Nữ</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-4">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6 form-group-2">
+                            <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
+                            <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
+                                value="{{ $logged_user->date_of_birth->toDateString() }}" required>
+                        </div>
+                        <div class="form-group col-md-6 form-group-2">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control"
                                 value="{{ $logged_user->phone }}" required>
@@ -54,12 +51,12 @@
 
                     </div>
                     <div class="row mb-3">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6 form-group-3">
                             <label for="email" class="form-label">Email<span class="required">*</span></label>
                             <input type="text" id="email" name="email" class="form-control"
                                 value="{{ $logged_user->email }}" required>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6 form-group-3">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                             <input type="text" id="address" name="address" class="form-control"
                                 value="{{ $logged_user->address }}" required>

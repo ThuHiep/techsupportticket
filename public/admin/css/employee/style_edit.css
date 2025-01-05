@@ -63,7 +63,7 @@ form {
 .form-group {
     flex: 1 1 23%; /* Đảm bảo mỗi cột chiếm tối đa 23% không gian */
     min-width: 250px; /* Đặt chiều rộng tối thiểu cho mỗi cột */
-    max-width: 23%; /* Đặt chiều rộng tối đa cho mỗi cột */
+    width: 23%; /* Đặt chiều rộng tối đa cho mỗi cột */
 }
 
 /* Điều chỉnh cho label */
@@ -140,7 +140,7 @@ input.error, select.error {
 
 /* Nút Lưu thay đổi */
 .btn-edit{
-    padding: 12px 24px; /* Khoảng cách trong lớn hơn */
+    padding: 16px 24px; /* Khoảng cách trong lớn hơn */
     background-color: #FF9700; /* Màu xanh lá */
     color: white;
     border: none;
@@ -152,12 +152,15 @@ input.error, select.error {
 }
 
 .btn-edit:hover {
+    color: #ffffff;
     background-color: #FF6F00; /* Màu xanh đậm hơn */
     transform: scale(1.05); /* Phóng to nhẹ */
+    outline: none;
 }
 
 .btn-edit:active {
     transform: scale(0.95); /* Nhỏ lại khi click */
+    outline: none;
 }
 
 /* Nút Hủy */
@@ -408,7 +411,12 @@ input.error, select.error {
 .input-submit:hover{
     background: var(--second-color);
 }
-
+.form-group.col-md-6.form-group-2 {
+    width: 40.6%;
+}
+.form-group.col-md-6.form-group-3{
+    width: 40.6%;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -464,4 +472,12 @@ input.error, select.error {
         max-width: 200px; /* Giảm kích thước ảnh preview */
         max-height: 120px;
     }
+}
+@media (max-width: 476px) {
+    .btn-edit{
+        width: 30%; /* Chiều rộng nút chiếm toàn bộ màn hình */
+        padding: 16px 3px;
+        font-size: 12px;
+    }
+
 }
