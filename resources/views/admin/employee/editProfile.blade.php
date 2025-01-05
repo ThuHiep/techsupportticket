@@ -122,7 +122,7 @@
                 <div class="password-hint">
                     <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
                     <div class="hint-list">
-                        <ul>
+                        <ul class="ul-hint-list">
                             <li class="hint" id="hint_length">Tối thiểu 8 ký tự</li>
                             <li class="hint" id="hint_uppercase">1 chữ cái in hoa</li>
                             <li class="hint" id="hint_number">1 số</li>

@@ -57,6 +57,7 @@ form {
     flex-direction: column; /* Đảm bảo các phần tử trong form xếp dọc */
     gap: 10px; /* Khoảng cách giữa các phần tử */
     justify-content: flex-start; /* Căn phần tử từ trên xuống */
+    margin-top: 20px;
 }
 
 /* Mỗi form-group chiếm 3 cột (col-md-3) */
@@ -308,22 +309,23 @@ input.error, select.error {
     margin-top: 40px ;
 }
 /*Header Doi mat khau*/
-.reset-password-header{
+.reset-password-header {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 50%;
-    transform:translateX(-50%);
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary-color);
-    width: 140px;
-    height: 70px;
+    background-color: #ffffff;
+    width: 100%;
+    height: auto;
     border-radius: 0 0 20px 20px;
 }
-.reset-password-header span{
-    font-size: 18px;
+.reset-password-header span {
+    font-size: 27px;
     color: var(--black-color);
+    font-weight: normal;
 }
 .reset-password-header::before{
     content: "";
@@ -334,7 +336,7 @@ input.error, select.error {
     height: 30px;
     border-top-right-radius: 50%;
     background: transparent;
-    box-shadow: 12px 0 0 0 var(--primary-color);
+    box-shadow: 12px 0 0 0 #ffffff;
 }
 .reset-password-header::after{
     content: "";
@@ -345,9 +347,14 @@ input.error, select.error {
     height: 30px;
     border-top-left-radius: 50%;
     background: transparent;
-    box-shadow: -12px 0 0 0 var(--primary-color);
+    box-shadow: -12px 0 0 0 #ffffff;
 }
-
+.input-field:hover{
+    border-color: #FF9700;
+}
+.input-field:focus{
+    border-color: #FF9700;
+}
 /*Input*/
 .input_box{
     position: relative;
@@ -356,15 +363,35 @@ input.error, select.error {
     margin: 20px 0;
     bottom: 50px;
 }
+strong.strong1 {
+    display: flex;
+    text-align: center;
+    font-weight: normal;
+    color: black;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
 .input-field{
     width:100%;
     height: 66px;
     font-size: 16px;
     background: transparent;
     padding-inline: 20px 50px;
-    border: 2px solid var(--primary-color);
-    border-radius: 30px;
+    border: 3px solid var(--primary-color);
+    border-radius: 15px;
     outline: none;
+}
+i.bx.toggle-password.icon.bx-show {
+    cursor: pointer;
+}
+input.input-submit {
+    color: #ffffff;
+    background-color: #FF9700;
+}
+input.input-submit:hover {
+    color: #ffffff;
+    background-color:  #FF6F00;
 }
 #new-password{
     margin-bottom: 10px;
@@ -381,14 +408,22 @@ input.error, select.error {
     font-size: 15px;
 }
 .input-field:focus ~ .label,
-.input-field:valid ~ .label{
+.input-field:not(:placeholder-shown) ~ .label{
     position: absolute;
-    top: -10px;
+    top: -20px;
     left: 20px;
     font-size: 14px;
     border-radius: 30px;
     color:var(--black-color);
     padding: 0 10px;
+    font-weight: normal;
+}
+ul.ul-hint-list {
+    list-style: none;
+    font-weight: normal;
+    color: black;
+    font-size: 15px;
+    padding-inline-start: 0px;
 }
 .icon{
     position: absolute;
