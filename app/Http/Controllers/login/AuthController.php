@@ -270,7 +270,7 @@ class AuthController extends Controller
         }
 
         // Nếu email không tồn tại trong bảng nào
-        return back()->with('error', 'Email không tồn tại trong hệ thống.');
+        return back()->with('error', 'Email không đúng/không tồn tại.');
     }
 
     // Xác nhận otp gửi về email
