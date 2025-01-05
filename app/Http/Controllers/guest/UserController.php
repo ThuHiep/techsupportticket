@@ -82,6 +82,22 @@ class UserController extends Controller
                 $profileImagePath = $imageName;  // Cập nhật đường dẫn ảnh mới
                 $image->move(public_path('admin/img/customer/'), $imageName);  // Di chuyển ảnh mới vào thư mục
             }
+
+            // Lấy thông tin tài khoản từ cookie, nếu có
+            $accounts = Cookie::get('accounts', []);
+
+            // Nếu tài khoản là chuỗi, giải mã JSON, nếu không thì $accounts đã là mảng
+            $accounts = is_string($accounts) ? json_decode($accounts, true) : $accounts;
+
+            // Tìm và cập nhật mật khẩu của tài khoản trong mảng
+            foreach ($accounts as &$account) {
+                if ($account['customer_id'] == $logged_user->customer_id) {
+                    $account['profile_image'] = $profileImagePath;
+                    break;
+                }
+            }
+
+            Cookie::queue('accounts', json_encode($accounts), 60 * 24 * 30);  // Lưu trong 30 ngày
         }
 
         // Cập nhật thông tin khách hàng

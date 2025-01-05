@@ -189,7 +189,9 @@ class AuthController extends Controller
             'email' => 'required|email|unique:customer,email',
         ], [
             'required' => ':attribute là bắt buộc.',
-            'email.unique' => 'Email đã tồn tại',
+            'username.unique' => 'Tên đăng nhập đã tồn tại.',
+            'email.unique' => 'Email đã tồn tại.',
+            'email.email' => 'Email không hợp lệ.',
         ]);
 
         // Tạo ID ngẫu nhiên cho người dùng theo định dạng NDxxxxxxx
@@ -355,5 +357,13 @@ class AuthController extends Controller
         $user->save();
 
         return redirect()->route('login')->with('success', 'Mật khẩu đã được thay đổi thành công!');
+    }
+
+    // Ví dụ trong Laravel
+    public function checkEmail(Request $request) {
+        $email = $request->input('email');
+        $exists = Customer::where('email', $email)->exists();
+
+        return response()->json(['exists' => $exists]);
     }
 }

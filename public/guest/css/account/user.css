@@ -32,6 +32,7 @@ h1{
 p{
   font-size: 20px;
 }
+
 /* Ẩn toggle trên màn hình lớn */
 @media (min-width: 1024px) {
   .header-toggle {
@@ -151,11 +152,34 @@ p{
       /* Màu nền khi hover */
     }
 
+    .btn-remove {
+      background-color: #ee0a0a;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Hiệu ứng hover cho nút */
+    .btn-remove:hover {
+      background-color: #ee0a0a;
+      /* Màu nền khi hover */
+    }
+
+    .btn-content-switch {
+      display: flex;
+      justify-content: space-between; 
+      align-items: center; 
+    }
+
     /* Nút Thêm tài khoản mới */
     .btn-add-account {
       display: inline-block;
       /* Hiển thị như một nút */
-      background-color: #ff0000;
+      background-color: #f69a2a;
       /* Màu nền đỏ */
       color: #ffffff;
       /* Màu chữ trắng */
@@ -177,7 +201,41 @@ p{
 
     /* Hiệu ứng hover */
     .btn-add-account:hover {
-      background-color: #cc0000;
+      background-color: #f69a2a;
+      /* Màu nền đậm hơn khi hover */
+      transform: scale(1.1);
+      /* Phóng to nút khi hover */
+      color: #ffffff;
+      /* Giữ màu chữ trắng */
+    }
+
+     /* Nút Thêm tài khoản mới */
+     .logout-button {
+      display: inline-block;
+      /* Hiển thị như một nút */
+      background-color: #a9a5a5;
+      /* Màu nền đỏ */
+      color: #ffffff;
+      /* Màu chữ trắng */
+      padding: 10px 20px;
+      /* Đệm trong nút */
+      border-radius: 5px;
+      /* Bo góc */
+      text-align: center;
+      /* Căn giữa chữ */
+      text-decoration: none;
+      /* Loại bỏ gạch chân */
+      font-size: 16px;
+      /* Kích thước chữ */
+      transition: all 0.3s ease;
+      /* Hiệu ứng chuyển đổi mượt */
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Hiệu ứng hover */
+    .logout-button:hover {
+      background-color: #a9a5a5;;
       /* Màu nền đậm hơn khi hover */
       transform: scale(1.1);
       /* Phóng to nút khi hover */
@@ -755,9 +813,9 @@ section,
     border-radius: 8px;
 }
 
-.close {
+.close-modal {
     text-align: right;
-    color: #aaa;
+    color: #AAAAAA;
     float: right;
     font-size: 26px;
     font-weight: bold;
@@ -766,7 +824,7 @@ section,
     margin-bottom: 12px;
 }
 
-.close:hover {
+.close-modal:hover {
     color: #000;
 }
 
@@ -1165,7 +1223,7 @@ select#gender:focus{
 .modalPass {
     display: none;
     position: fixed;
-    top: 47%;
+    top: 50%;
     left: 50%;
     width: 25%;
     height: 675px;
@@ -1513,13 +1571,13 @@ input#confirm-password:focus{
   top: 15px;
   right: 20px;
   background-color: #ff9800;
-  color: #fff; 
+  color: #fff;
   padding: 5px  10px;
-  font-size: 14px; 
-  font-weight: bold; 
-  border-radius: 5px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-  z-index: 10; 
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .request-item:hover {
