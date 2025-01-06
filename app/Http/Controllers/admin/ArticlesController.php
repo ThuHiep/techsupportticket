@@ -105,7 +105,7 @@ class ArticlesController extends Controller
         $article = new Article();
         $article->article_id = $request->input('article_id');
         $article->title = $request->input('title');
-        $article->content = nl2br(e($request->input('content'))); // Chuyển đổi ký tự xuống dòng thành <br> trước khi lưu
+        $article->content = $request->input('content');
 
         $article->images = $imagePath; // Lưu đường dẫn ảnh vào cột 'images'
         $article->employee_id = $logged_user->employee_id;
@@ -167,9 +167,7 @@ class ArticlesController extends Controller
 
         // Cập nhật thông tin bài viết
         $article->title = $request->input('title');
-        $content = $request->input('content');
-        $content = strip_tags($content, '<br>'); // Cho phép thẻ <br> nhưng loại bỏ các thẻ khác
-        $article->content = nl2br($content);
+        $article->content = $request->input('content');
         $article->employee_id = $logged_user->employee_id;
         $article->update_at = now();
         $article->save();
