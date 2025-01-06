@@ -280,6 +280,25 @@ class AuthController extends Controller
     {
         return view('login.verify_otp', compact('user_id'));
     }
+    public function resendOtp(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+        $email = Customer::where('user_id', $user_id)->value('email')
+            ?? Employee::where('user_id', $user_id)->value('email');
+
+        // Tạo mã OTP mới
+        $randomOtp = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+        $user->otp = $randomOtp;
+        $user->otp_expiration_time = Carbon::now('Asia/Ho_Chi_Minh')->addMinutes(5);
+        $user->save();
+
+        // Gửi email thông báo
+        Mail::to($email)->send(new VerifyEmail($user, $randomOtp));
+
+        return response()->json(['success' => true, 'message' => 'Mã OTP đã được gửi lại.']);
+    }
+
+
     // Xử lý form xác nhận otp
     public function verifyOTPProcess(Request $request, $user_id)
     {
@@ -360,7 +379,8 @@ class AuthController extends Controller
     }
 
     // Ví dụ trong Laravel
-    public function checkEmail(Request $request) {
+    public function checkEmail(Request $request)
+    {
         $email = $request->input('email');
         $exists = Customer::where('email', $email)->exists();
 

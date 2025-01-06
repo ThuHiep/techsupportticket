@@ -46,6 +46,7 @@ Route::post('/forgotPassProcess', [AuthController::class, 'forgotPassProcess'])-
 Route::post('/delete-otp/{user_id}', [AuthController::class, 'deleteOtp'])->name('deleteOtp');
 
 Route::get('/verifyOTP/{user_id}', [AuthController::class, 'verifyOTP'])->name('verifyOTP');
+Route::post('/resend-otp/{user_id}', [AuthController::class, 'resendOtp'])->name('resendOtp');
 Route::post('/verifyOTPProcess/{user_id}', [AuthController::class, 'verifyOTPProcess'])->name('verifyOTPProcess');
 
 Route::get('/changePass/{user_id}', [AuthController::class, 'changePass'])->name('changePass');
