@@ -19,7 +19,7 @@
 
                 <div class="mail-body text-right tooltip-demo">
                     <button type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send">
-                        <i class="fa fa-share"></i> Gửi
+                        <i class="fa fa-share"></i> <span style="font-size: 18px">Gửi</span>
                     </button>
                 </div>
             </form>
