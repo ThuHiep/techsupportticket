@@ -107,6 +107,12 @@
 <div class="container">
     <div class="report-select-container">
         <h1>Báo cáo số lượng yêu cầu</h1>
+        <a id="exportCsvLink" href="{{ route('export.csv', 'requestType') }}">Xuất CSV</a>
+        @if (session('message'))
+            <div id="sessionMessage" class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
         <label for="reportSelect" class="filter-label"></label>
         <select id="reportSelect" onchange="showSelectedChart()">
             <option value="customer">Báo cáo theo khách hàng</option>
@@ -114,6 +120,7 @@
             <option value="department">Báo cáo theo phòng ban</option>
             <option value="time">Báo cáo theo thời gian</option>
         </select>
+
     </div>
     <div class="row">
         <!-- Cột trái - Biểu đồ -->
@@ -1187,6 +1194,20 @@
         }
     }
 </script>
-
+<script>
+    document.getElementById('reportSelect').addEventListener('change', function() {
+        const selectedValue = this.value;
+        const exportLink = document.getElementById('exportCsvLink');
+        exportLink.href = `{{ url('/export-csv') }}/${selectedValue}`;
+    });
+    // Kiểm tra xem phần tử thông báo có tồn tại không
+    const sessionMessage = document.getElementById('sessionMessage');
+        if (sessionMessage) {
+        // Đặt thời gian 5 giây (5000 ms) để ẩn thông báo
+        setTimeout(() => {
+            sessionMessage.style.display = 'none';
+        }, 5000);
+    }
+</script>
 </body>
 </html>
