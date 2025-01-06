@@ -123,18 +123,6 @@
                 <label for="new-password" class="label">Mật khẩu mới</label>
                 <i class="bx bx-show toggle-password icon" data-target="new-password"></i>
                 <span class="error-message" id="password_error"></span>
-                <div class="password-hint">
-                    <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
-                    <div class="hint-list">
-                        <ul class="ul-hint-list">
-                            <li class="hint" id="hint_length">Tối thiểu 8 ký tự</li>
-                            <li class="hint" id="hint_uppercase">1 chữ cái in hoa</li>
-                            <li class="hint" id="hint_number">1 số</li>
-                            <li class="hint" id="hint_special">1 ký tự đặc biệt</li>
-                            <li class="hint" id="hint_lowercase">1 chữ thường</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
 
             <!-- Confirm Password -->
@@ -258,28 +246,6 @@
 
     function updateHints(passwordValue) {
         const errorMessage = document.getElementById('password_error');
-
-        // Reset màu sắc gợi ý
-        document.querySelectorAll('.hint').forEach(hint => {
-            hint.style.color = 'black';
-        });
-
-        // Thay đổi màu sắc dựa trên điều kiện
-        if (passwordValue.length >= 8) {
-            document.getElementById('hint_length').style.color = 'orange';
-        }
-        if (/[A-Z]/.test(passwordValue)) {
-            document.getElementById('hint_uppercase').style.color = 'orange';
-        }
-        if (/[0-9]/.test(passwordValue)) {
-            document.getElementById('hint_number').style.color = 'orange';
-        }
-        if (/[!@#$%^&*]/.test(passwordValue)) {
-            document.getElementById('hint_special').style.color = 'orange';
-        }
-        if (/[a-z]/.test(passwordValue)) {
-            document.getElementById('hint_lowercase').style.color = 'orange';
-        }
 
         // Hiển thị thông báo lỗi nếu không đạt
         if (passwordValue.length < 8) {

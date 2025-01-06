@@ -43,19 +43,6 @@
                     <label for="new-password" class="label">Mật khẩu mới</label>
                     <i class="bx bx-hide toggle-password" onclick="togglePassword('new-password', this)"></i>
                     <span class="error-message" id="password_error"></span>
-                    <div class="password-hint">
-                        <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
-                        <div class="hint-list">
-                            <ul>
-                                <li class="hint" id="hint_length">Tối thiểu 8 ký tự</li>
-                                <li class="hint" id="hint_uppercase">1 chữ cái in hoa</li>
-                                <li class="hint" id="hint_number">1 số</li>
-                                <li class="hint" id="hint_special">1 ký tự đặc biệt</li>
-                                <li class="hint" id="hint_lowercase">1 chữ thường</li>
-                                <li class="hint" id="hint_example">Ví dụ: @Aa123456</li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="input_box">
@@ -96,28 +83,6 @@
         passwordInput.addEventListener('input', function() {
             const errorMessage = document.getElementById('password_error');
             const passwordValue = passwordInput.value;
-
-            // Reset màu sắc cho tất cả các gợi ý
-            document.querySelectorAll('.hint').forEach(hint => {
-                hint.style.color = '#ffffff'; // Hoặc màu mặc định bạn muốn
-            });
-
-            // Kiểm tra các điều kiện
-            if (passwordValue.length >= 8) {
-                document.getElementById('hint_length').style.color = 'black';
-            }
-            if (/[A-Z]/.test(passwordValue)) {
-                document.getElementById('hint_uppercase').style.color = 'black';
-            }
-            if (/[0-9]/.test(passwordValue)) {
-                document.getElementById('hint_number').style.color = 'black';
-            }
-            if (/[!@#$%^&*]/.test(passwordValue)) {
-                document.getElementById('hint_special').style.color = 'black';
-            }
-            if (/[a-z]/.test(passwordValue)) {
-                document.getElementById('hint_lowercase').style.color = 'black';
-            }
 
             // Kiểm tra mật khẩu
             if (passwordValue.length < 8) {

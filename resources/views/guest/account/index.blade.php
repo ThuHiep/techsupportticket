@@ -198,18 +198,6 @@
                                 <label for="new-password" class="label">Mật khẩu mới</label>
                                 <i class="bx bx-show toggle-password icon" data-target="new-password"></i>
                                 <span class="error-message" id="password_error"></span>
-                                <div class="password-hint">
-                                    <strong class="strong1">Gợi ý để tạo mật khẩu an toàn:</strong>
-                                    <div class="hint-list">
-                                        <ul>
-                                            <li class="hint" id="hint_length">Tối thiểu 8 ký tự</li>
-                                            <li class="hint" id="hint_uppercase">1 chữ cái in hoa</li>
-                                            <li class="hint" id="hint_number">1 số</li>
-                                            <li class="hint" id="hint_special">1 ký tự đặc biệt</li>
-                                            <li class="hint" id="hint_lowercase">1 chữ thường</li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Confirm Password -->
@@ -324,28 +312,6 @@
 
                         function updateHints(passwordValue) {
                             const errorMessage = document.getElementById('password_error');
-
-                            // Reset màu sắc gợi ý
-                            document.querySelectorAll('.hint').forEach(hint => {
-                                hint.style.color = 'black';
-                            });
-
-                            // Thay đổi màu sắc dựa trên điều kiện
-                            if (passwordValue.length >= 8) {
-                                document.getElementById('hint_length').style.color = '#ff6f00';
-                            }
-                            if (/[A-Z]/.test(passwordValue)) {
-                                document.getElementById('hint_uppercase').style.color = '#ff6f00';
-                            }
-                            if (/[0-9]/.test(passwordValue)) {
-                                document.getElementById('hint_number').style.color = '#ff6f00';
-                            }
-                            if (/[!@#$%^&*]/.test(passwordValue)) {
-                                document.getElementById('hint_special').style.color = '#ff6f00';
-                            }
-                            if (/[a-z]/.test(passwordValue)) {
-                                document.getElementById('hint_lowercase').style.color = '#ff6f00';
-                            }
 
                             // Hiển thị thông báo lỗi nếu không đạt
                             if (passwordValue.length < 8) {
@@ -997,27 +963,27 @@
                     @foreach ($accounts as $account)
                     <li class="account-item">
                         <form action="{{ route('account.switch', $account['username']) }}" method="POST" class="account-form">
-                            @csrf
-                            <div class="account-info">
-                                <img src="{{ $account['profile_image'] ? asset('admin/img/customer/' . $account['profile_image']) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
-                                <span class="account-name">{{ $account['full_name'] }}</span>
-                            </div>
-                            <button type="submit" class="btn-switch">Chuyển</button>
-                        </form>
-                        <form action="{{ route('account.remove', $account['customer_id']) }}" method="POST" class="account-remove-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-remove">Xóa</button>
-                        </form>
-                    </li>
+        @csrf
+        <div class="account-info">
+            <img src="{{ $account['profile_image'] ? asset('admin/img/customer/' . $account['profile_image']) : asset('admin/img/customer/default.png') }}" alt="" class="avatar">
+            <span class="account-name">{{ $account['full_name'] }}</span>
+        </div>
+        <button type="submit" class="btn-switch">Chuyển</button>
+        </form>
+        <form action="{{ route('account.remove', $account['customer_id']) }}" method="POST" class="account-remove-form">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-remove">Xóa</button>
+        </form>
+        </li>
 
-                    @endforeach
-                </ul>
-                <div class="btn-content-switch">
-                    <a class="login-button btn-add-account" href="{{ route('login') }}">+ Thêm tài khoản mới</a>
-                    <a class="logout-button" href="{{ route('logout') }}">Đăng Xuất</a>
-                </div>
-            </div>
+        @endforeach
+        </ul>
+        <div class="btn-content-switch">
+            <a class="login-button btn-add-account" href="{{ route('login') }}">+ Thêm tài khoản mới</a>
+            <a class="logout-button" href="{{ route('logout') }}">Đăng Xuất</a>
+        </div>
+        </div>
         </div> --}}
         {{-- <script>
             // Lấy các phần tử
