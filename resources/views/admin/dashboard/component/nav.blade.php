@@ -1,4 +1,3 @@
-
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header">
@@ -12,7 +11,7 @@
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="dropdownMenu">
                     <i class="fa fa-bell"></i>
-                   <span class="label label-warning" id="userCountt">0</span>
+                    <span class="label label-warning" id="userCountt">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
                     <!-- Hiển thị thông báo yêu cầu chưa xử lý -->
@@ -25,7 +24,7 @@
                         </a>
                     </li>
                     <li class="divider" id="requestDivider" style="display: none;"></li>
-                
+
                     <!-- Hiển thị thông báo tài khoản chờ duyệt -->
                     <li id="customerNotification" style="display: none;">
                         <a href="{{ route('customer.pending', ['date' => now()->toDateString()]) }}">
@@ -35,7 +34,7 @@
                         </a>
                     </li>
                     <li class="divider" id="customerDivider" style="display: none;"></li>
-                
+
                     <!-- Hiển thị thông báo bài viết chưa phản hồi -->
                     <li id="faqNotification" style="display: none;">
                         <a href="{{ route('faq.index', ['status' => 'Chưa phản hồi', 'date' => now()->toDateString()]) }}">
@@ -45,15 +44,15 @@
                         </a>
                     </li>
                 </ul>
-                
-                
+
+
             </li>
-            
+
             {{-- <li><a href="{{route('logout')}}">Đăng xuất</a></li> --}}
             <li>
                 <a href="#" onclick="confirmLogout(event)">Đăng xuất</a>
             </li>
-            
+
         </ul>
     </nav>
 </div>
@@ -64,10 +63,10 @@
 
         // Hiển thị hộp thoại xác nhận
         const confirmation = confirm("Bạn có chắc muốn đăng xuất không?");
-        
+
         // Nếu người dùng xác nhận, chuyển hướng tới trang đăng xuất
         if (confirmation) {
-            window.location.href = "{{ route('logout') }}";
+            window.location.href = "{{ route('logoutAdmin') }}";
         }
     }
 </script>
@@ -163,4 +162,3 @@
         }
     });
 </script>
-

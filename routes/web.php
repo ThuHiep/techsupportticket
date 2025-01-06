@@ -31,9 +31,16 @@ Route::get('/search', [HomepageController::class, 'search']);
 /*Route dashboard cho admin*/
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('customersp')->name('dashboard.index');
 
+/*Route login admin*/
+Route::get('loginAdmin', [AuthController::class, 'loginAdmin'])->name('loginAdmin');
+Route::post('/loginAdminProcess', [AuthController::class, 'LoginAdminProcess'])->name('loginAdminProcess');
+/*Route logout admin*/
+Route::get('/logoutAdmin', [AuthController::class, 'LogoutAdmin'])->name('logoutAdmin');
+
 /*Route login*/
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('/loginProcess', [AuthController::class, 'LoginProcess'])->name('loginProcess');
+
 /*Route logout*/
 Route::get('/logout', [AuthController::class, 'Logout'])->name('logout');
 /*Route register cua user*/

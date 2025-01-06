@@ -59,6 +59,46 @@ a:hover{
     height: auto;
 }
 
+.login-header-admin{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform:translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    width: 260px;
+    height: 70px;
+    border-radius: 0 0 20px 20px;
+}
+.login-header-admin span{
+    font-size: 20px;
+    color: var(--black-color);
+}
+.login-header-admin::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    border-top-right-radius: 50%;
+    background: transparent;
+    box-shadow: 15px 0 0 0 var(--primary-color);
+}
+.login-header-admin::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -30px;
+    width : 30px;
+    height: 30px;
+    border-top-left-radius: 50%;
+    background: transparent;
+    box-shadow: -15px 0 0 0 var(--primary-color);
+}
+
 
 /*Login box*/
 .login_box{

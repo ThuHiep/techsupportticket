@@ -23,6 +23,104 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    public function loginAdmin()
+    {
+        if (Auth::check()) {
+            Session::flush();
+            Auth::logout();
+        }
+        return view('login.login_admin');
+    }
+    public function loginAdminProcess(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'g-recaptcha-response' => 'required', // Ensure reCaptcha is filled
+        ]);
+
+        // Kiểm tra reCAPTCHA
+        $secretKey = env('NOCAPTCHA_SECRET');
+        $responseKey = $request->input('g-recaptcha-response');
+
+        // Gửi yêu cầu xác thực reCAPTCHA
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secretKey,
+            'response' => $responseKey,
+            'remoteip' => $request->ip(),
+        ]);
+
+        $responseBody = $response->json();
+        // Kiểm tra kết quả xác thực reCAPTCHA
+        if (!$responseBody['success']) {
+            return back()->withErrors(['captcha' => 'Vui lòng xác minh CAPTCHA!']);
+        }
+
+        $maxAttempts = 5; // Số lần thử tối đa
+        $lockoutTime = 30; // Thời gian khóa (giây)
+        $attempts = session('login_attempts', 0); // Số lần thử hiện tại
+        $lastAttemptTime = session('last_attempt_time', now()->toIsoString()); // Lần thử cuối cùng
+
+        // Kiểm tra nếu người dùng đã bị khóa
+        if ($attempts >= $maxAttempts) {
+            $timeElapsed = abs(now()->diffInSeconds($lastAttemptTime));
+
+            if (!($timeElapsed < $lockoutTime)) {
+                // Nếu hết thời gian khóa, reset lại số lần thử và thời gian
+                session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
+                $attempts = 0;
+            }
+        }
+
+        // Kiểm tra đăng nhập
+        if (Auth::attempt($request->only('username', 'password'))) {
+            //Phân quyền người dùng
+            $user = Auth::user();
+
+            if ($user->role_id == 1 || $user->role_id == 2) {
+                $request->session()->regenerate();
+
+                // Xóa số lần thử khi đăng nhập thành công
+                session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
+
+                if (isset($request['remember']) && !empty($request['remember'])) {
+                    setcookie("username", $request['username'], time() + 3600);
+                    setcookie("password", $request['password'], time() + 3600);
+                } else {
+                    setcookie("username", "");
+                    setcookie("password", "");
+                }
+
+                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+                return redirect()->route('dashboard.index')->with('login_success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
+            }
+            Auth::logout();
+        }
+
+        // Xử lý nếu đăng nhập sai
+        $attempts++;
+        session([
+            'login_attempts' => $attempts,
+            'last_attempt_time' => now()->toIsoString()
+        ]);
+
+        $remainingAttempts = $maxAttempts - $attempts;
+
+        if ($remainingAttempts > 0) {
+            return back()->with('error', "Tên đăng nhập hoặc mật khẩu không đúng. Bạn còn $remainingAttempts lần thử.")->withInput();
+        } else {
+            session(['remaining_time' => $lockoutTime]);
+            return back()->with('error', "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau $lockoutTime giây.")->withInput();
+        }
+    }
+    public function logoutAdmin()
+    {
+        if (Auth::check()) {
+            Session::flush();
+            Auth::logout();
+        }
+        return view('login.login_admin');
+    }
     public function login()
     {
         if (Auth::check()) {
@@ -74,31 +172,27 @@ class AuthController extends Controller
 
         // Kiểm tra đăng nhập
         if (Auth::attempt($request->only('username', 'password'))) {
-            $request->session()->regenerate();
-
-            // Xóa số lần thử khi đăng nhập thành công
-            session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
-
-            if (isset($request['remember']) && !empty($request['remember'])) {
-                setcookie("username", $request['username'], time() + 3600);
-                setcookie("password", $request['password'], time() + 3600);
-            } else {
-                setcookie("username", "");
-                setcookie("password", "");
-            }
-
             //Phân quyền người dùng
             $user = Auth::user();
 
-            if ($user->status === null) {
-                Auth::logout();
-                return back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
-            }
+            if ($user->role_id == 3) {
+                if ($user->status == null) {
+                    Auth::logout();
+                    return back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
+                }
+                $request->session()->regenerate();
 
-            if ($user->role_id == 1 || $user->role_id == 2) {
-                $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
-                return redirect()->route('dashboard.index')->with('success', "Chào mừng {$logged_user->full_name} đến với trang quản trị");
-            } elseif ($user->role_id == 3) {
+                // Xóa số lần thử khi đăng nhập thành công
+                session()->forget(['login_attempts', 'last_attempt_time', 'remaining_time']);
+
+                if (isset($request['remember']) && !empty($request['remember'])) {
+                    setcookie("username", $request['username'], time() + 3600);
+                    setcookie("password", $request['password'], time() + 3600);
+                } else {
+                    setcookie("username", "");
+                    setcookie("password", "");
+                }
+
                 // Lấy thông tin tài khoản từ cookie, nếu có
                 $accounts = Cookie::get('accounts', []);
 
@@ -148,12 +242,10 @@ class AuthController extends Controller
                 }
 
                 // Trả về trang chủ sau khi đăng nhập thành công
-                return redirect()->route('indexAccount')->with('success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
-            } else {
-                return back()->with('error', 'Không tìm thấy vai trò của bạn.')->withInput();
+                return redirect()->route('indexAccount')->with('login_success', "Chào mừng {$logged_user->full_name} đến với trang khách hàng");
             }
+            Auth::logout();
         }
-
         // Xử lý nếu đăng nhập sai
         $attempts++;
         session([
@@ -162,7 +254,6 @@ class AuthController extends Controller
         ]);
 
         $remainingAttempts = $maxAttempts - $attempts;
-
         if ($remainingAttempts > 0) {
             return back()->with('error', "Tên đăng nhập hoặc mật khẩu không đúng. Bạn còn $remainingAttempts lần thử.")->withInput();
         } else {
