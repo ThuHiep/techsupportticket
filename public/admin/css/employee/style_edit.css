@@ -281,6 +281,7 @@ input.error, select.error {
     position: fixed;
     top: 50%;
     left: 50%;
+    overflow: hidden;
     transform: translate(-50%, -90%);
     background-color: white;
     padding: 20px;
@@ -299,8 +300,8 @@ input.error, select.error {
 /* Reset Password Box */
 .reset-password-box{
     position: relative;
-    width: 430px;
-    height: 650px;
+    width: 400px;
+    height: 560px;
     backdrop-filter: blur(25px);
     border: 2px solid var(--primary-color);
     border-radius: 15px;

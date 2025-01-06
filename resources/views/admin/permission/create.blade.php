@@ -1,4 +1,7 @@
 <link rel="stylesheet" href="{{ asset('admin/css/permission/style_create.css') }}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
     <div class="container">
@@ -63,6 +66,33 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <!-- Tùy chọn mật khẩu -->
+                        <div class="form-group col-md-4">
+                            <label for="password_option" class="form-label">Tùy chọn mật khẩu<span class="required">*</span></label>
+                            <select class="form-select" id="password_option" name="password_option" required>
+                                <option value="random" selected>Tạo mật khẩu ngẫu nhiên</option>
+                                <option value="manual">Nhập mật khẩu</option>
+                            </select>
+                        </div>
+
+                        <!-- Trường nhập mật khẩu -->
+                        <div class="form-group col-md-4 password-input-fields" style="display: none;">
+                            <label for="password" class="form-label">Mật khẩu<span class="required">*</span></label>
+                            <input type="password" id="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}">
+                            <i class="bx bx-show toggle-password icon" data-target="password"></i>
+                            <span class="error-message" id="password_error"></span>
+                        </div>
+
+                        <!-- Trường xác nhận mật khẩu -->
+                        <div class="form-group col-md-4 password-input-fields" style="display: none;">
+                            <label for="confirm-password" class="form-label">Xác nhận mật khẩu<span class="required">*</span></label>
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control">
+                            <i class="bx bx-show toggle-password icon" data-target="confirm-password"></i>
+                            <span class="error-message" id="password_confirm_error"></span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Cột bên phải cho hình ảnh đại diện -->
@@ -98,23 +128,126 @@
 
 
 <script>
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var output = document.getElementById('preview-img');
-            output.src = reader.result;
-            output.style.display = 'block';
-            var label = document.getElementById('file-label');
-            label.style.display = 'block';
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
     document.addEventListener("DOMContentLoaded", function() {
+
+        // Hàm xem trước ảnh
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('preview-img');
+                output.src = reader.result;
+                output.style.display = 'block';
+                var label = document.getElementById('file-label');
+                label.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Xóa giá trị các trường có lỗi
         var errorFields = document.querySelector('form').querySelectorAll('.is-invalid');
-        console.log('Các trường có lỗi:', errorFields);
 
         errorFields.forEach(function(field) {
             field.value = '';
         });
+
+        const passwordOptionSelect = document.getElementById('password_option');
+        const passwordFields = document.querySelectorAll('.password-input-fields');
+        const form = document.querySelector('form');
+
+        // Hàm kiểm tra độ mạnh của mật khẩu
+        function updateHints(passwordValue) {
+            const errorMessage = document.getElementById('password_error');
+            if (passwordValue.length < 8) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất 8 ký tự.';
+            } else if (!/[A-Z]/.test(passwordValue)) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất một chữ cái viết hoa.';
+            } else if (!/[0-9]/.test(passwordValue)) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất một số.';
+            } else if (!/[!@#$%^&*]/.test(passwordValue)) {
+                errorMessage.textContent = 'Mật khẩu phải có ít nhất một ký tự đặc biệt.';
+            } else {
+                errorMessage.textContent = '';
+            }
+        }
+
+        // Sự kiện thay đổi tùy chọn mật khẩu
+        passwordOptionSelect.addEventListener('change', function() {
+            if (this.value === 'manual') {
+                passwordFields.forEach(field => field.style.display = 'block'); // Hiển thị trường nhập mật khẩu
+            } else {
+                passwordFields.forEach(field => {
+                    field.style.display = 'none'; // Ẩn trường nhập mật khẩu
+                    const input = field.querySelector('input');
+                    if (input) input.value = ''; // Reset giá trị input
+                });
+            }
+            document.querySelectorAll('.error-message').forEach(errorElement => {
+                errorElement.textContent = ''; // Xóa nội dung thông báo lỗi
+            });
+        });
+
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const targetId = icon.getAttribute('data-target');
+                const targetInput = document.getElementById(targetId);
+
+                if (targetInput.type === 'password') {
+                    targetInput.type = 'text';
+                    icon.classList.remove('bx-show');
+                    icon.classList.add('bx-hide');
+                } else {
+                    targetInput.type = 'password';
+                    icon.classList.remove('bx-hide');
+                    icon.classList.add('bx-show');
+                }
+            });
+        });
+
+        // Xử lý sự kiện nhập mật khẩu và submit form
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('confirm-password');
+
+        if (passwordInput && passwordConfirmInput) {
+            // Lắng nghe sự kiện nhập mật khẩu mới
+            passwordInput.addEventListener('input', function() {
+                updateHints(passwordInput.value);
+            });
+
+            // Kiểm tra khi người dùng submit form
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Ngăn không cho form submit nếu có lỗi
+                let hasError = false;
+
+                if (passwordOptionSelect.value === 'manual') {
+                    // Kiểm tra mật khẩu mới
+                    if (
+                        passwordInput.value.length < 8 ||
+                        !/[A-Z]/.test(passwordInput.value) ||
+                        !/[0-9]/.test(passwordInput.value) ||
+                        !/[!@#$%^&*]/.test(passwordInput.value)
+                    ) {
+                        document.getElementById('password_error').textContent =
+                            'Mật khẩu yếu: phải chứa ít nhất 8 ký tự bao gồm chữ in hoa, số và ký tự đặc biệt.';
+                        hasError = true;
+                    } else {
+                        document.getElementById('password_error').textContent = '';
+                    }
+
+                    // Kiểm tra xác nhận mật khẩu
+                    if (passwordInput.value !== passwordConfirmInput.value) {
+                        document.getElementById('password_confirm_error').textContent =
+                            'Mật khẩu xác nhận không khớp.';
+                        hasError = true;
+                    } else {
+                        document.getElementById('password_confirm_error').textContent = '';
+                    }
+                }
+
+                // Nếu không có lỗi, submit form
+                if (!hasError) {
+                    form.submit();
+                }
+            });
+        }
     });
 </script>

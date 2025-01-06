@@ -16,10 +16,23 @@ use App\Models\Employee;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
 
 class CustomerController extends Controller
 {
+    public function generateRandomPassword($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $password = '';
+        $charactersLength = strlen($characters);
+
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[mt_rand(0, $charactersLength - 1)];
+        }
+
+        return $password;
+    }
     public function index(Request $request)
     {
         $template = 'admin.customer.index';
@@ -56,22 +69,6 @@ class CustomerController extends Controller
     {
         $customers = Customer::with('user')->get(); // Load quan hệ user để lấy email
 
-        // Sinh customer_id ngẫu nhiên và kiểm tra trùng lặp
-        $randomId = (string) Str::uuid();
-
-        // Sinh username ngẫu nhiên
-        $username = 'user' . mt_rand(100000, 999999);
-        while (User::where('username', $username)->exists()) {
-            $username = 'user' . mt_rand(100000, 999999);
-        }
-
-        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
-        $password = '';
-        for ($i = 0; $i < 8; $i++) {
-            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
-        }
-
         $data = RequestController::getUnreadRequests();
 
         // Lấy danh sách request và số lượng request chưa đọc
@@ -84,9 +81,6 @@ class CustomerController extends Controller
         return view('admin.dashboard.layout', compact(
             'template',
             'logged_user',
-            'randomId',
-            'username',
-            'password',
             'customers',
             'unreadRequests',
             'unreadRequestCount'
@@ -210,12 +204,9 @@ class CustomerController extends Controller
         $randuserID = (string) Str::uuid();
         $username = 'user' . mt_rand(100000, 999999);
 
-        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
-        $password = '';
-        for ($i = 0; $i < 20; $i++) {
-            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
-        }
+        $password = $request->input('password_option') == 'manual'
+            ? $request->input('password')
+            : $this->generateRandomPassword(10);
 
         // Xử lý lưu ảnh
         $profileImageName = null;
@@ -229,7 +220,7 @@ class CustomerController extends Controller
         $user = new User();
         $user->user_id = $randuserID;
         $user->username = $username;
-        $user->password = bcrypt($password);
+        $user->password = Hash::make($password);
         $user->role_id = 3;
         $user->save();
 

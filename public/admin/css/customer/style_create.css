@@ -286,6 +286,21 @@ input.error, select.error {
 .form-group.col-md-6.form-group-3 {
     width: 40.6%;
 }
+
+.toggle-password {
+    position: absolute;
+    top: 32px;
+    right: 60px;
+    font-size: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-right: -35px;
+}
+
+.toggle-password:hover {
+    color: var(--second-color);
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .container {

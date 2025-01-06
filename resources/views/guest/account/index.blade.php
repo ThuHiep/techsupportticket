@@ -171,7 +171,7 @@
                             <div class="btn-change me-3" id="openForm">Thay đổi mật khẩu</div>
                         </div>
                     </div>
-                    <!-- CHỈNH SỬA THÔNG TIN KHÁCH HÀNG -->
+
                     <div class="modal-overlay" id="modalOverlay"></div>
                     <div class="modalPass reset-password-box" id="registrationForm">
                         <span class="close_pass">x</span>
@@ -227,6 +227,12 @@
                             });
                         });
                         @endif
+
+                        function clearErrorMessages() {
+                            document.querySelectorAll('.error-message').forEach(errorElement => {
+                                errorElement.textContent = '';
+                            });
+                        }
 
                         document.addEventListener('DOMContentLoaded', function() {
                             // Hiển thị modal nếu có lỗi từ server
@@ -291,6 +297,7 @@
                                     input.value = "";
                                 }
                             });
+                            clearErrorMessages();
                         });
 
                         document.querySelectorAll('.toggle-password').forEach(icon => {
@@ -329,6 +336,15 @@
                         closeBtn_pass.onclick = () => {
                             modalPass.style.display = "none";
                             overlay.style.display = "none";
+
+                            const inputs = modalPass.querySelectorAll("input");
+                            inputs.forEach(input => {
+                                if (input.type !== "submit") {
+                                    input.value = "";
+                                }
+                            });
+
+                            clearErrorMessages();
                         };
                     </script>
 

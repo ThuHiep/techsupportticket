@@ -152,6 +152,12 @@
         };
         reader.readAsDataURL(event.target.files[0]);
     }
+
+    function clearErrorMessages() {
+        document.querySelectorAll('.error-message').forEach(errorElement => {
+            errorElement.textContent = '';
+        });
+    }
     @if(session('success'))
     document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
@@ -225,6 +231,8 @@
                 input.value = "";
             }
         });
+
+        clearErrorMessages();
     });
 
     document.querySelectorAll('.toggle-password').forEach(icon => {

@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\Hash;
 
 class PermissionController extends Controller
 {
+    public function generateRandomPassword($length)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $password = '';
+        $charactersLength = strlen($characters);
+
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[mt_rand(0, $charactersLength - 1)];
+        }
+
+        return $password;
+    }
     public function index(Request $request)
     {
         $template = 'admin.permission.index';
@@ -137,12 +149,9 @@ class PermissionController extends Controller
             }
         }
 
-        // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
-        $password = '';
-        for ($i = 0; $i < 20; $i++) {
-            $password .= $characters[mt_rand(0, strlen($characters) - 1)];
-        }
+        $password = $request->input('password_option') == 'manual'
+            ? $request->input('password')
+            : $this->generateRandomPassword(10);
 
         // Tạo user mới
         $user = new User();
