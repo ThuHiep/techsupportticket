@@ -143,19 +143,29 @@
             <!--Biểu đồ khách hàng-->
             <div class="report-section" id="customerReportContainer" style="display: block;">
                 <h3>Báo cáo theo khách hàng</h3>
-                <div class="filter-container">
+                <div class="filter-container2">
                     <div style="position: relative;">
-                        <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..."
-                               onkeyup="filterCustomers('name')"
-                               style="width: 100%; padding-right: 30px;">
-                        <a href="{{ route('statistical.index') }}"
+                        <input
+                            type="text"
+                            id="customerNameInput"
+                            placeholder="Nhập tên khách hàng..."
+                            onkeyup="filterCustomers('name')">
+
+                        <!-- Thay đổi href thành "#" và thêm sự kiện onclick -->
+                        <a href="#"
                            id="clearButton"
-                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #D5D5D5; font-size: 14px; cursor: pointer; text-decoration: none;">
-                           ✖
+                           onclick="clearInput('customerNameInput'); return false;"
+                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #00000087; font-size: 16px; cursor: pointer; text-decoration: none;">
+                            X
                         </a>
                     </div>
+                    <input
+                        type="text"
+                        id="customerIdInput"
+                        placeholder="Mã khách hàng"
+                        onkeyup="filterCustomers('id')"
+                        readonly>
 
-                    <input type="text" id="customerIdInput" placeholder="Mã khách hàng" onkeyup="filterCustomers('id')" readonly>
                     <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
                 <div class="chart-container">
@@ -1231,7 +1241,12 @@
         // Cập nhật liên kết dựa trên lựa chọn của người dùng
         exportCsvLink.href = `{{ url('export/csv') }}/${selectedValue}`;
     }
-
+    function clearInput(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.value = ''; // Xóa nội dung trong ô input
+        }
+    }
 </script>
 </body>
 </html>

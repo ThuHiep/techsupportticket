@@ -88,6 +88,8 @@ input#customerNameInput{
     outline: none !important;
     padding: 7px 40px 7px 7px;
     border: 2px solid #BCBCBC;
+    width: 100%;
+    padding-right: 30px;
 }
 input#customerNameInput:hover{
     border-color: #FF9700 !important;
@@ -102,12 +104,17 @@ input#customerNameInput:focus {
     border-width: 2px;
     border-style: solid;
 }
-input#customerIdInput{
+#customerIdInput {
+    width: 300px;
+    padding: 7px 7px 7px 7px;
     outline: none !important;
-    padding: 7px 40px 7px 7px;
+    color: black;
+    background-color: #a9a9a98f;
     border: 2px solid #BCBCBC;
+    box-sizing: border-box;
+    cursor: not-allowed;
 }
-input#customerIdInput:focus {
+#customerIdInput:focus {
     color: #000;
     border-color: #FF9700 !important;
     box-shadow: 0 0 5px #FF9700 !important;
@@ -115,7 +122,10 @@ input#customerIdInput:focus {
     border-width: 2px;
     border-style: solid;
 }
-
+#customerIdInput[readonly] {
+    background-color: #e9ecef; /* Màu nền đặc biệt khi readonly */
+    color: #6c757d; /* Màu chữ mờ hơn */
+}
 /* Phong cách chung cho các ô input ngày bắt đầu và ngày kết thúc */
 .date-container {
     margin-bottom: 15px; /* Khoảng cách dưới mỗi ô input */
@@ -145,7 +155,14 @@ input#customerIdInput:focus {
     gap: 15px;
     margin-bottom: 20px;
 }
-
+.filter-container2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
 /* Phong cách cho phần tử row chứa các ô input ngày */
 .row_start_end {
     display: flex;
@@ -209,7 +226,17 @@ div#yearRangeInput{
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 15px;
 }
-
+.filter-container2 input[type="date"] {
+    width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
+    height: 40px;
+    padding: 6px;
+    font-size: 14px;
+    border: 2px solid #c9d1d9;  /* Viền giống như select */
+    border-radius: 3px;
+    background-color: #f9f9f9;  /* Nền màu sáng */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px;
+}
 /* Hiệu ứng khi focus vào input */
 .filter-container input[type="date"]:focus,
 .filter-container input[type="date"]:hover,
@@ -222,6 +249,13 @@ div#yearRangeInput{
 .filter-container1 input[type="date"]:focus,
 .filter-container1 input[type="date"]:hover,
 .filter-container1 input[type="date"]:active {
+    border-color: #FF9700;  /* Viền màu cam khi focus */
+    box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
+    outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
+}
+.filter-container2 input[type="date"]:focus,
+.filter-container2 input[type="date"]:hover,
+.filter-container2 input[type="date"]:active {
     border-color: #FF9700;  /* Viền màu cam khi focus */
     box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
     outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
@@ -245,6 +279,13 @@ div#yearRangeInput{
 .filter-container1 input[type="month"]:focus,
 .filter-container1 input[type="month"]:hover,
 .filter-container1 input[type="month"]:active {
+    border-color: #FF9700 !important;  /* Viền màu cam khi focus */
+    box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
+    outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
+}
+.filter-container2 input[type="month"]:focus,
+.filter-container2 input[type="month"]:hover,
+.filter-container2 input[type="month"]:active {
     border-color: #FF9700 !important;  /* Viền màu cam khi focus */
     box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
     outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
@@ -332,6 +373,10 @@ ul#customerDataList {
         flex-direction: column;
         align-items: center !important;
     }
+    .filter-container2{
+        flex-direction: row;
+        align-items: center !important;
+    }
     div#dateRangeInput {
         width: 100%;
         display: flex;
@@ -394,10 +439,27 @@ ul#customerDataList {
     .filter-container1{
         flex-direction: column;
     }
+    .filter-container2{
+        flex-direction: row;
+    }
     tr.size {
         font-size: 10px;
     }
     #monthRangeInput input[type="month"] {
         font-size: 13px;
+    }
+    input#customerNameInput{
+        width: 100%;
+    }
+    input#customerIdInput{
+        width: 40%;
+    }
+}
+@media screen and (max-width: 376px) {
+    .filter-container2{
+        flex-direction: column;
+    }
+    input#customerIdInput{
+        width: auto;
     }
 }
