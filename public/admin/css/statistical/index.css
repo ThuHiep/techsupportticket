@@ -331,6 +331,39 @@ ul#customerDataList {
     text-align: left;
     gap: 10px;
 }
+.csvLink {
+    display: inline-flex; /* Hiển thị nội dung trên cùng một hàng */
+    align-items: center; /* Căn giữa theo trục dọc */
+    justify-content: center; /* Căn giữa nội dung */
+    padding: 10px 15px; /* Khoảng cách bên trong nút */
+    background-color: #FF9700; /* Màu nền nút */
+    border-radius: 5px; /* Bo góc nút */
+    color: white; /* Màu chữ */
+    text-decoration: none; /* Bỏ gạch chân trong liên kết */
+    font-size: 16px; /* Kích thước chữ */
+    font-weight: bold; /* Chữ đậm */
+    cursor: pointer; /* Con trỏ dạng nút */
+    border: none; /* Bỏ viền */
+    transition: background-color 0.3s; /* Hiệu ứng hover */
+    outline: none;
+}
+.csvLink:focus{
+    outline: none;
+}
+.csvLink:hover {
+    background-color: #ff6f00; /* Màu nền khi hover */
+}
+
+.csvLink i {
+    margin-left: 8px; /* Khoảng cách giữa chữ và biểu tượng */
+}
+a#exportCsvLink {
+    color: #ffffff;
+}
+a#exportCsvLink:focus {
+    color: #ffffff;
+    outline: none;
+}
 /* Các kiểu CSS cho giao diện phản hồi (responsive) */
 @media screen and (max-width: 768px) {
     h1{

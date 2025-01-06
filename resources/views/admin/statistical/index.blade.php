@@ -102,15 +102,6 @@
             background-color: #f0f0f0;
         }
 
-        #exportCsvLink {
-            font-size: 30px; /* Kích thước biểu tượng lớn hơn */
-            color: #000; /* Màu sắc biểu tượng */
-            text-decoration: none; /* Bỏ gạch chân */
-        }
-
-        #exportCsvLink:hover {
-            color: #007bff; /* Màu khi hover */
-        }
     </style>
 </head>
 <body>
@@ -118,9 +109,11 @@
     <div class="report-select-container">
         <div class="report-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h1>Báo cáo số lượng yêu cầu</h1>
-            <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">
-                <i class="fas fa-print"></i>
-            </a>
+            <div class="csvLink">
+                <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">
+                    In <i class="fas fa-print"></i>
+                </a>
+            </div>
         </div>
 
         @if (session('message'))
