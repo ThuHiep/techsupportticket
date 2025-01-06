@@ -107,7 +107,7 @@
 <div class="container">
     <div class="report-select-container">
         <h1>Báo cáo số lượng yêu cầu</h1>
-        <a id="exportCsvLink" href="{{ route('export.csv', 'requestType') }}">Xuất CSV</a>
+        <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">Xuất CSV</a>
         @if (session('message'))
             <div id="sessionMessage" class="alert alert-success">
                 {{ session('message') }}
@@ -1208,6 +1208,15 @@
             sessionMessage.style.display = 'none';
         }, 5000);
     }
+    function updateExportLink() {
+        const reportSelect = document.getElementById('reportSelect');
+        const selectedValue = reportSelect.value;
+        const exportCsvLink = document.getElementById('exportCsvLink');
+
+        // Cập nhật liên kết dựa trên lựa chọn của người dùng
+        exportCsvLink.href = `{{ url('export/csv') }}/${selectedValue}`;
+    }
+
 </script>
 </body>
 </html>

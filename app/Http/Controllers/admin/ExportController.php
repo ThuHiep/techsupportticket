@@ -22,7 +22,12 @@ class ExportController extends Controller
             mkdir($directoryPath, 0777, true);
         }
 
-        $filePath = $directoryPath . '/report_' . $type . '.csv';
+        // Tạo tên file với chuỗi ngẫu nhiên 8 số
+        do {
+            $randomSuffix = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+            $filePath = $directoryPath . '/report_' . $type . '_' . $randomSuffix . '.csv';
+        } while (file_exists($filePath)); // Kiểm tra xem file đã tồn tại chưa
+
         $file = fopen($filePath, 'w');
 
         // Ghi BOM để Excel nhận diện mã hóa UTF-8
@@ -86,7 +91,43 @@ class ExportController extends Controller
                 break;
 
             case 'department':
-                // Xử lý cho loại báo cáo theo phòng ban
+                // Ghi tiêu đề cho các cột
+                fputcsv($file, ['Department', 'Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy']);
+
+                // Lấy danh sách các phòng ban và số lượng yêu cầu của chúng
+                $departments = Department::withCount('requests')->get();
+
+                $totalPending = 0;
+                $totalInProgress = 0;
+                $totalCompleted = 0;
+                $totalCanceled = 0;
+
+                foreach ($departments as $department) {
+                    // Đếm số yêu cầu theo từng trạng thái
+                    $pendingCount = $department->requests()->where('status', 'Chưa xử lý')->count();
+                    $inProgressCount = $department->requests()->where('status', 'Đang xử lý')->count();
+                    $completedCount = $department->requests()->where('status', 'Hoàn thành')->count();
+                    $canceledCount = $department->requests()->where('status', 'Đã hủy')->count();
+
+                    // Cộng dồn số lượng vào tổng
+                    $totalPending += $pendingCount;
+                    $totalInProgress += $inProgressCount;
+                    $totalCompleted += $completedCount;
+                    $totalCanceled += $canceledCount;
+
+                    // Ghi dữ liệu vào file CSV
+                    fputcsv($file, [
+                        $department->department_name, // Hoặc tên phòng ban tương ứng
+                        $pendingCount,
+                        $inProgressCount,
+                        $completedCount,
+                        $canceledCount
+                    ]);
+                }
+
+                // Ghi dòng tổng cộng chỉ với tổng số lượng
+                $overallTotal = $totalPending + $totalInProgress + $totalCompleted + $totalCanceled;
+                fputcsv($file, ['Tổng cộng', $overallTotal]);
                 break;
 
             case 'time':
