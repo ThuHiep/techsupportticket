@@ -77,12 +77,11 @@ p{
     /* Nội dung modal */
     .modal-content-switch {
       background-color: #fff;
-      margin: 15% auto;
+      margin: 12% auto;
       padding: 20px;
       border-radius: 10px;
       width: 37%;
       height: auto;
-
       position: relative;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
@@ -171,8 +170,8 @@ p{
 
     .btn-content-switch {
       display: flex;
-      justify-content: space-between; 
-      align-items: center; 
+      justify-content: space-between;
+      align-items: center;
     }
 
     /* Nút Thêm tài khoản mới */
@@ -197,6 +196,7 @@ p{
       /* Hiệu ứng chuyển đổi mượt */
       margin-top: 10px;
       margin-bottom: 10px;
+        outline: none;
     }
 
     /* Hiệu ứng hover */
@@ -208,7 +208,10 @@ p{
       color: #ffffff;
       /* Giữ màu chữ trắng */
     }
-
+.btn-add-account:focus{
+    color: #ffffff;
+    outline: none !important;
+}
      /* Nút Thêm tài khoản mới */
      .logout-button {
       display: inline-block;
@@ -1086,6 +1089,9 @@ select#gender:focus{
         margin-bottom: 40px;
         width: 60% !important;
     }
+    .modal-content-switch{
+        width: 75%;
+    }
 }
 
 @media (max-width: 426px) {
@@ -1143,6 +1149,10 @@ select#gender:focus{
     }
     #status-timeline {
         margin-left: 17px;
+    }
+    .modal-content-switch{
+        width: 88%;
+        padding: 6px;
     }
 }
 
