@@ -13,116 +13,150 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticalController extends Controller
 {
-    public function index(HttpRequest $request)
+    public function index()
     {
-        // Lấy dữ liệu theo yêu cầu
-        $customerStats = $this->getCustomerStatistics($request);
-        $requestTypeStats = $this->getRequestTypeStatistics($request);
-        $departmentStats = $this->getDepartmentStatistics($request);
-        $timeStats = $this->getTimeStatistics($request);
-        $statuses = $this->getCustomerReportData(); // Gọi phương thức này
-        //dd($customerStats);
+        $timeData = $this->getTimeBasedStatistics();
 
-        $data = RequestController::getUnreadRequests();
-
-        // Lấy danh sách request và số lượng request chưa đọc
-        $unreadRequests = $data['unreadRequests'];
-        $unreadRequestCount = $data['unreadRequestCount'];
-
-        return view('admin.statistical.static_index', compact(
-            'customerStats',
-            'requestTypeStats',
-            'departmentStats',
-            'timeStats',
-            'statuses',
-            'unreadRequests',
-            'unreadRequestCount'
-        ));
+        return view('admin.statistical.static_index', compact('timeData'));
+    }
+    protected function getTimeBasedStatistics()
+    {
+        $timeData = [];
+        $timeData['Ngày'] = $this->getDailyStatistics();
+        $timeData['Tuần'] = $this->getWeeklyStatistics();
+        $timeData['Tháng'] = $this->getMonthlyStatistics();
+        $timeData['Năm'] = $this->getYearlyStatistics();
+        return $timeData;
     }
 
-    private function getCustomerStatistics(HttpRequest $request)
+    private function getDailyStatistics()
     {
-        return Request::with('customer')
-            ->selectRaw('customer_id, status, COUNT(*) as request_count')
-            ->groupBy('customer_id', 'status')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'full_name' => $item->customer ? $item->customer->full_name : 'Không có tên',
-                    'status' => $item->status,
-                    'request_count' => $item->request_count,
-                ];
-            });
-    }
-    //    public function searchCustomers(Request $request)
-    //    {
-    //        $name = $request->input('name');
-    //        $customers = Customer::where('full_name', 'LIKE', "%$name%")->get(); // Giả sử bạn có model Customer
-    //
-    //        return response()->json($customers);
-    //    }
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+        $days = [];
 
-    public function getCustomerReportData()
-    {
-        return Request::select('status')->distinct()->pluck('status');
-    }
+        for ($date = clone $startDate; $date <= $endDate; $date->addDay()) {
+            $days[$date->format('Y-m-d')] = [
+                'Đang xử lý' => 0,
+                'Chưa xử lý' => 0,
+                'Hoàn thành' => 0,
+                'Đã hủy' => 0,
+            ];
+        }
 
-    private function getRequestTypeStatistics(HttpRequest $request)
-    {
-        return Request::with('requestType')
-            ->selectRaw('request_type_id, COUNT(*) as request_count')
-            ->groupBy('request_type_id')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'request_type_name' => $item->requestType->request_type_name,
-                    'request_count' => $item->request_count,
-                ];
-            });
-    }
-
-    private function getDepartmentStatistics(HttpRequest $request)
-    {
-        return Request::with('department')
-            ->selectRaw('department_id, COUNT(*) as request_count')
-            ->groupBy('department_id')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'department_name' => $item->department->department_name,
-                    'request_count' => $item->request_count,
-                ];
-            });
-    }
-
-    private function getTimeStatistics(HttpRequest $request)
-    {
-        return Request::selectRaw('DATE(create_at) as request_date, COUNT(*) as request_count') // Sửa tên cột
-            ->groupBy('request_date')
+        $dailyStats = DB::table('request')
+            ->select(DB::raw("DATE_FORMAT(create_at, '%Y-%m-%d') as period"), 'status', DB::raw('count(*) as total'))
+            ->whereBetween('create_at', [$startDate, $endDate])
+            ->groupBy('period', 'status')
             ->get();
+
+        // Kiểm tra kết quả của dailyStats
+        \Log::info('Daily Stats:', $dailyStats->toArray());
+
+        foreach ($dailyStats as $stat) {
+            $days[$stat->period][$stat->status] = $stat->total;
+        }
+
+        return array_map(function ($totals, $period) {
+            return ['period' => $period, 'total' => $totals];
+        }, $days, array_keys($days));
     }
 
-    public function getCustomerStats(HttpRequest $request)
+    private function getWeeklyStatistics()
     {
-        $customerStats = $this->getCustomerStatistics($request);
-        return response()->json($customerStats);
+        $weeks = [];
+        $startDate = now()->startOfYear();
+        $endDate = now()->endOfYear();
+
+        // Tạo mảng tuần
+        for ($date = clone $startDate; $date <= $endDate; $date->addWeek()) {
+            $weeks[$date->format('Y-W')] = [
+                'Đang xử lý' => 0,
+                'Chưa xử lý' => 0,
+                'Hoàn thành' => 0,
+                'Đã hủy' => 0,
+            ];
+        }
+
+        // Lấy thống kê tuần
+        $weeklyStats = DB::table('request')
+            ->select(DB::raw("YEAR(create_at) as year, WEEK(create_at, 1) as week, status, count(*) as total"))
+            ->whereBetween('create_at', [$startDate, $endDate])
+            ->groupBy('year', 'week', 'status')
+            ->get();
+
+        // Cập nhật mảng tuần với số liệu
+        foreach ($weeklyStats as $stat) {
+            $weekKey = $stat->year . '-' . str_pad($stat->week, 2, '0', STR_PAD_LEFT);
+            if (isset($weeks[$weekKey])) {
+                $weeks[$weekKey][$stat->status] = $stat->total;
+            }
+        }
+
+        // Trả về dữ liệu theo định dạng mong muốn
+        return array_map(function ($totals, $period) {
+            return [
+                'period' => $period,
+                'totals' => $totals,
+            ];
+        }, $weeks, array_keys($weeks));
     }
 
-    public function getRequestTypeStats(HttpRequest $request)
+    private function getMonthlyStatistics()
     {
-        $requestTypeStats = $this->getRequestTypeStatistics($request);
-        return response()->json($requestTypeStats);
+        $months = [];
+        $startDate = now()->startOfYear();
+        $endDate = now()->endOfYear();
+
+        for ($month = 1; $month <= 12; $month++) {
+            $months[$month] = [
+                'Đang xử lý' => 0,
+                'Chưa xử lý' => 0,
+                'Hoàn thành' => 0,
+                'Đã hủy' => 0,
+            ];
+        }
+
+        $monthlyStats = DB::table('request')
+            ->select(DB::raw("MONTH(create_at) as month"), 'status', DB::raw('count(*) as total'))
+            ->whereBetween('create_at', [$startDate, $endDate])
+            ->groupBy('month', 'status')
+            ->get();
+
+        foreach ($monthlyStats as $stat) {
+            $months[$stat->month][$stat->status] = $stat->total;
+        }
+
+        return array_map(function ($totals, $month) {
+            return ['period' => $month, 'total' => $totals];
+        }, $months, array_keys($months));
     }
 
-    public function getDepartmentStats(HttpRequest $request)
+    private function getYearlyStatistics()
     {
-        $departmentStats = $this->getDepartmentStatistics($request);
-        return response()->json($departmentStats);
-    }
+        $years = [];
 
-    public function getTimeStats(HttpRequest $request)
-    {
-        $timeStats = $this->getTimeStatistics($request);
-        return response()->json($timeStats);
+        for ($year = 2020; $year <= 2030; $year++) {
+            $years[$year] = [
+                'Đang xử lý' => 0,
+                'Chưa xử lý' => 0,
+                'Hoàn thành' => 0,
+                'Đã hủy' => 0,
+            ];
+        }
+
+        $yearlyStats = DB::table('request')
+            ->select(DB::raw("YEAR(create_at) as year"), 'status', DB::raw('count(*) as total'))
+            ->whereBetween('create_at', ['2020-01-01', '2030-12-31'])
+            ->groupBy('year', 'status')
+            ->get();
+
+        foreach ($yearlyStats as $stat) {
+            $years[$stat->year][$stat->status] = $stat->total;
+        }
+
+        return array_map(function ($totals, $year) {
+            return ['period' => $year, 'total' => $totals];
+        }, $years, array_keys($years));
     }
 }

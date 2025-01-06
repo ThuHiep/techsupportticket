@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{ asset('admin/css/statistical/index.css') }}">
     <title>Báo cáo thống kê</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
         .container {
@@ -964,50 +968,6 @@
 
         totalTimeRequests.innerHTML = `<strong>${totalRequestsText}</strong>`;
     }
-
-
-
-    {{--function updateChartFromDate() {--}}
-    {{--    const date = document.getElementById('specificDate').value; // Lấy ngày từ input--}}
-    {{--    const timeData = @json($timeData); // Đảm bảo dữ liệu timeData có sẵn ở đây--}}
-
-    {{--    console.log(date);--}}
-
-    {{--    // Lọc dữ liệu cho ngày cụ thể--}}
-    {{--    const filteredData = timeData['Ngày'].filter(item => item.period === date);--}}
-
-    {{--    // Cập nhật biểu đồ với dữ liệu đã lọc--}}
-    {{--    if (filteredData.length > 0) {--}}
-    {{--        updateChartWithFilteredDataa(filteredData); // Cập nhật biểu đồ với dữ liệu cho ngày hôm nay--}}
-    {{--        displayTotalSummary(filteredData);--}}
-    {{--    } else {--}}
-    {{--        alert('Không có dữ liệu cho ngày này.'); // Thông báo nếu không có dữ liệu--}}
-    {{--    }--}}
-    {{--}--}}
-
-    {{--function updateChartFromMonth() {--}}
-    {{--    const selectedMonth = document.getElementById('specificMonth').value; // Lấy tháng từ input--}}
-    {{--    const [year, month] = selectedMonth.split('-'); // Tách năm và tháng--}}
-
-    {{--    const timeData = @json($timeData); // Dữ liệu gốc--}}
-
-    {{--    console.log('Selected Month:', month); // Debugging--}}
-    {{--    console.log('Selected Year:', year); // Debugging--}}
-
-    {{--    // Lọc dữ liệu cho tháng được chọn--}}
-    {{--    const filteredData = timeData['Tháng'].filter(item => item.period === parseInt(month));--}}
-
-    {{--    console.log('Filtered data:', filteredData); // Debugging--}}
-
-    {{--    if (filteredData.length > 0) {--}}
-    {{--        updateTimeReport('Tháng', filteredData); // Cập nhật biểu đồ cho tháng được chọn--}}
-    {{--        displayTotalSummary(filteredData);--}}
-    {{--    } else {--}}
-    {{--        alert(`Không có dữ liệu cho tháng ${month} năm ${year}.`);--}}
-    {{--    }--}}
-    {{--}--}}
-
-
 
     // Cập nhật biểu đồ với dữ liệu đã lọc
     function updateChartWithFilteredTimeData(data) {

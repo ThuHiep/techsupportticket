@@ -23,7 +23,7 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        $template = 'admin.statistical.index';
+        $template = 'admin.dashboard.home.index';
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
 
         // Lấy loại yêu cầu từ cơ sở dữ liệu với số lượng yêu cầu
