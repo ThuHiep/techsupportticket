@@ -254,7 +254,6 @@
                         {{-- Nhóm nút Submit và Cancel --}}
                         <div class="button-group">
                             <button type="submit" class="submit-button">Cập nhật </button>
-                            <a href="#" class="reply-button {{ $supportRequest->status == 'Hoàn thành' ? 'disabled' : '' }}" onclick="showReplyForm(); return false;">Phản hồi</a>
                             <a href="{{ route('request.index') }}" class="cancel-btn">Hủy</a>
                         </div>
                     </div>
@@ -262,10 +261,7 @@
             </form>
         </div>
 
-        <!-- Phần Phản hồi -->
-        <div class="reply-container" style="display: none;">
-            @include('admin.request.reply-cus')
-        </div>
+        @if($supportRequest->status !== 'Hoàn thành')
         <strong>
             <h2>Phản hồi</h2>
         </strong>
@@ -296,7 +292,14 @@
             </div>
             @endforeach
         </div>
+        @endif
 
+        @if($supportRequest->status !== 'Hoàn thành')
+        <!-- Phần Phản hồi -->
+        <div class="reply-container">
+            @include('admin.request.reply-cus')
+        </div>
+        @endif
 
 
         <!-- Phần Lịch Sử Yêu Cầu -->
@@ -369,24 +372,6 @@
                 fileLabel.innerText = fileName ? fileName : 'Chọn file';
             }
         });
-
-        function showReplyForm() {
-            const replyContainer = document.querySelector('.reply-container');
-            const historyContainer = document.querySelector('.history-container');
-
-            if (replyContainer.style.display === 'block') {
-                replyContainer.style.display = 'none';
-                historyContainer.style.marginTop = '0';
-            } else {
-                replyContainer.style.display = 'block';
-                historyContainer.style.marginTop = '20px';
-            }
-        }
-
-        function hideReplyForm() {
-            document.querySelector('.reply-container').style.display = 'none';
-            document.querySelector('.history-container').style.marginTop = '0'; // Khôi phục lại vị trí
-        }
     </script>
 
     <!-- JavaScript SweetAlert và các script khác -->

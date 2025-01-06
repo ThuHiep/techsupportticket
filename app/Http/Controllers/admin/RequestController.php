@@ -292,7 +292,7 @@ class RequestController extends Controller
         $employeeFeedbacks = $this->getFeedback(new EmployeeFeedback(), new Employee(), 'employee_id', $request_id);
 
         // Kết hợp feedback từ cả hai bảng
-        $feedbacks = $customerFeedbacks->unionAll($employeeFeedbacks->toBase())->orderBy('created_at', 'desc')->get();
+        $feedbacks = $customerFeedbacks->unionAll($employeeFeedbacks->toBase())->orderBy('created_at', 'asc')->get();
 
         CustomerFeedback::where('request_id', $request_id)
             ->where('is_read', false)
@@ -314,7 +314,7 @@ class RequestController extends Controller
     public function update(HttpRequest $request, $request_id)
     {
         // Tìm yêu cầu cần cập nhật
-        $supportRequest = SupportRequest::with(['attachment','department','requestType','customer'])->findOrFail($request_id);
+        $supportRequest = SupportRequest::with(['attachment', 'department', 'requestType', 'customer'])->findOrFail($request_id);
 
         // Validate dữ liệu
         $validatedData = $request->validate([

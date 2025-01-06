@@ -253,7 +253,7 @@ class UserController extends Controller
         // Kết hợp feedback từ cả hai bảng
         $feedbacks = $customerFeedbacks
             ->unionAll($employeeFeedbacks->toBase())
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
         $latestFeedback = EmployeeFeedback::firstWhere('is_read', false);
