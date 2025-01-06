@@ -68,7 +68,7 @@ class CustomerController extends Controller
         // Sinh password ngẫu nhiên với 20 ký tự bao gồm ký tự đặc biệt
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?';
         $password = '';
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $password .= $characters[mt_rand(0, strlen($characters) - 1)];
         }
 
