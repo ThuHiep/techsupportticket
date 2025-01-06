@@ -727,9 +727,8 @@
                 @forelse ($requests as $request)
                 <div class="request-item {{ Str::slug($request->status, '-') }}" onclick="viewRequestDetail('{{ $request->request_id }}')">
                     <div class="request-info">
-                        <h3>{{ $request->request_id }}</h3>
+                        <h3>{{ $request->subject }}</h3>
                         <span class="status {{ Str::slug($request->status, '-') }}">{{ $request->status }}</span>
-                        <p>{{ $request->subject }}</p>
                         @if($request->employeeFeedbacks->where('is_read', false)->isNotEmpty())
                         <strong class="new-feedback">Đã được phản hồi</strong>
                         @endif
