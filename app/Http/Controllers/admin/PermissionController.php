@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EmployeeUpdated;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -241,8 +242,10 @@ class PermissionController extends Controller
         $employee->save();
         $user->save();
 
+        Mail::to($employee->email)->send(new EmployeeUpdated($employee));
+
         return redirect()->route('permission.index')
-            ->with('success', 'Thông tin tài khoản đã được cập nhật!');
+            ->with('success', 'Thông tin tài khoản đã được cập nhật thành công và email thông báo đã được gửi!');
     }
 
     public function deletePermission($id)
