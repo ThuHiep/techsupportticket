@@ -31,9 +31,14 @@
                         <img alt="image" class="img-circle" src="admin/img/logoss.png" style="width:30px; height: 30px">
                     </div>
                 </li>
-                <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
+                {{-- <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.index') }}"><i class="fa fa-th-large"></i>
                         <span>Trang quản trị</span>
+                    </a>
+                </li> --}}
+                <li class="{{ Request::is('statistical*') ? 'active' : '' }}">
+                    <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>
+                        <span class="nav-label">    <span>Trang quản trị</span>
                     </a>
                 </li>
                 @if (auth()->user()->role_id == 1)
@@ -58,14 +63,11 @@
                         <span class="nav-label">Yêu cầu</span>
                     </a>
                 </li>
-                <li class="{{ Request::is('statistical*') ? 'active' : '' }}">
-                    <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>
-                        <span class="nav-label">Thống kê</span>
-                    </a>
-                </li>
+                
                 <li class="{{ Request::is('faq*') ? 'active' : '' }}">
-                    <a href="{{ route('faq.index') }}"><i class="fa-solid fa-newspaper"></i>
-                        <span class="nav-label">Tin tức</span>
+                    <a href="{{ route('faq.index') }}"><i class="fa-solid fa-circle-question"></i>
+
+                        <span class="nav-label">Câu hỏi</span>
                     </a>
                 </li>
                 <li class="{{ Request::is('articles*') ? 'active' : '' }}">

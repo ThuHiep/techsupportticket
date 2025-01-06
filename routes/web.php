@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\StatisticalController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\AttachmentController;
 use App\Http\Controllers\Admin\ArticlesController;
+use App\Http\Controllers\Admin\ExportController;
 
 
 
@@ -228,3 +229,6 @@ Route::get('/api/request-status/{requestId}', [GuestRequestController::class, 'g
 Route::get('/chatbot', [ChatbotController::class, 'index']);
 Route::post('/chatbot/chat', [ChatbotController::class, 'chat']);
 Route::get('/chatbot/faqs', [ChatbotController::class, 'getFAQs']); // Thêm route này
+
+//Xuất file CSV
+Route::get('/export-csv/{type}', [ExportController::class, 'export'])->name('export.csv');

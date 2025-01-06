@@ -38,9 +38,9 @@
                 <li>
                     <a href="#portfolio"><i class="bi bi-card-text navicon"></i>YÊU CẦU</a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="#contact"><i class="bi bi-gear navicon"></i>CÀI ĐẶT</a>
-                </li>
+                </li> --}}
                 <li><a href="{{ route('homepage.index') }}"><i class="bi bi-arrow-left navicon"></i> QUAY LẠI</a></li>
             </ul>
         </nav>
@@ -979,16 +979,16 @@
         </script>
 
         <!-- Contact Section -->
-        <section id="contact" class="contact section">
+        {{-- <section id="contact" class="contact section">
             <div class="container section-title" data-aos="fade-up">
                 <h1>CÀI ĐẶT</h1>
             </div>
         </section>
 
-        <button id="openModal" class="btn-open-modal">Chuyển đổi tài khoản</button>
+        <button id="openModal" class="btn-open-modal">Chuyển đổi tài khoản</button> --}}
 
         <!-- Modal -->
-        <div id="accountModal" class="modal-switch">
+        {{-- <div id="accountModal" class="modal-switch">
             <div class="modal-content-switch">
                 <span class="close" id="btn-close-switch">&times;</span>
                 <h2>Chuyển đổi tài khoản</h2>
@@ -1018,8 +1018,8 @@
                     <a class="logout-button" href="{{ route('logout') }}">Đăng Xuất</a>
                 </div>
             </div>
-        </div>
-        <script>
+        </div> --}}
+        {{-- <script>
             // Lấy các phần tử
             const modal_switch = document.getElementById('accountModal');
             const openModalBtn = document.getElementById('openModal');
@@ -1041,7 +1041,7 @@
                     modal_switch.style.display = 'none';
                 }
             });
-        </script>
+        </script> --}}
         <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
         {{-- <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a> --}}
         <!-- Main JS File -->

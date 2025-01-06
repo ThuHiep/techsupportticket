@@ -101,12 +101,30 @@
         .suggestions-dropdown div:hover {
             background-color: #f0f0f0;
         }
+
     </style>
 </head>
 <body>
 <div class="container">
     <div class="report-select-container">
-        <h1>Báo cáo số lượng yêu cầu</h1>
+        <div class="report-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Báo cáo số lượng yêu cầu</h1>
+
+            <a id="exportCsvLink" href="{{ route('export.csv', 'customer') }}">
+                <i class="fas fa-print"></i>
+            </a>
+            <div class="csvLink">
+                <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">
+                    In <i class="fas fa-print"></i>
+                </a>
+            </div>
+        </div>
+
+        @if (session('message'))
+            <div id="sessionMessage" class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
         <label for="reportSelect" class="filter-label"></label>
         <select id="reportSelect" onchange="showSelectedChart()">
             <option value="customer">Báo cáo theo khách hàng</option>
@@ -114,6 +132,7 @@
             <option value="department">Báo cáo theo phòng ban</option>
             <option value="time">Báo cáo theo thời gian</option>
         </select>
+
     </div>
     <div class="row">
         <!-- Cột trái - Biểu đồ -->
@@ -121,19 +140,29 @@
             <!--Biểu đồ khách hàng-->
             <div class="report-section" id="customerReportContainer" style="display: block;">
                 <h3>Báo cáo theo khách hàng</h3>
-                <div class="filter-container">
+                <div class="filter-container2">
                     <div style="position: relative;">
-                        <input type="text" id="customerNameInput" placeholder="Nhập tên khách hàng..."
-                               onkeyup="filterCustomers('name')"
-                               style="width: 100%; padding-right: 30px;">
-                        <a href="{{ route('statistical.index') }}"
+                        <input
+                            type="text"
+                            id="customerNameInput"
+                            placeholder="Nhập tên khách hàng..."
+                            onkeyup="filterCustomers('name')">
+
+                        <!-- Thay đổi href thành "#" và thêm sự kiện onclick -->
+                        <a href="#"
                            id="clearButton"
-                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #D5D5D5; font-size: 14px; cursor: pointer; text-decoration: none;">
-                           ✖
+                           onclick="clearInput('customerNameInput'); return false;"
+                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #00000087; font-size: 16px; cursor: pointer; text-decoration: none;">
+                            X
                         </a>
                     </div>
+                    <input
+                        type="text"
+                        id="customerIdInput"
+                        placeholder="Mã khách hàng"
+                        onkeyup="filterCustomers('id')"
+                        readonly>
 
-                    <input type="text" id="customerIdInput" placeholder="Mã khách hàng" onkeyup="filterCustomers('id')" readonly>
                     <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
                 </div>
                 <div class="chart-container">
@@ -1187,6 +1216,35 @@
         }
     }
 </script>
+<script>
+    document.getElementById('reportSelect').addEventListener('change', function() {
+        const selectedValue = this.value;
+        const exportLink = document.getElementById('exportCsvLink');
+        exportLink.href = `{{ url('/export-csv') }}/${selectedValue}`;
+    });
+    // Kiểm tra xem phần tử thông báo có tồn tại không
+    const sessionMessage = document.getElementById('sessionMessage');
+        if (sessionMessage) {
+        // Đặt thời gian 5 giây (5000 ms) để ẩn thông báo
+        setTimeout(() => {
+            sessionMessage.style.display = 'none';
+        }, 5000);
+    }
+    function updateExportLink() {
+        const reportSelect = document.getElementById('reportSelect');
+        const selectedValue = reportSelect.value;
+        const exportCsvLink = document.getElementById('exportCsvLink');
 
+        // Cập nhật liên kết dựa trên lựa chọn của người dùng
+        exportCsvLink.href = `{{ url('export/csv') }}/${selectedValue}`;
+    }
+
+    function clearInput(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.value = ''; // Xóa nội dung trong ô input
+        }
+    }
+</script>
 </body>
 </html>
