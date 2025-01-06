@@ -1231,7 +1231,6 @@
         // Cập nhật liên kết dựa trên lựa chọn của người dùng
         exportCsvLink.href = `{{ url('export/csv') }}/${selectedValue}`;
     }
-
 </script>
 </body>
 </html>

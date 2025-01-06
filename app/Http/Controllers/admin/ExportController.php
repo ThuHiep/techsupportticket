@@ -36,7 +36,7 @@ class ExportController extends Controller
         // Xử lý xuất CSV theo loại báo cáo
         switch ($type) {
             case 'customer':
-                fputcsv($file, ['Customer ID', 'Customer Name', 'Request Count']); // Ghi tiêu đề
+                fputcsv($file, ['Mã khách hàng', 'Họ và tên', 'Số lượng yêu cầu']); // Ghi tiêu đề
 
                 // Lấy danh sách khách hàng và số lượng yêu cầu của họ
                 $customers = Customer::withCount('requests')->get();
@@ -144,8 +144,8 @@ class ExportController extends Controller
         // Thêm thông báo thành công vào session
         session()->flash('message', 'File CSV đã được lưu thành công.');
 
-        // Chuyển hướng về trang thống kê
-        return redirect()->route('statistical.index'); // Đảm bảo route đúng với tên route bạn đã định nghĩa
+        // Tải xuống file CSV
+        return response()->download($filePath)->deleteFileAfterSend(true);
     }
 
     private function formatVietnameseName($name)
