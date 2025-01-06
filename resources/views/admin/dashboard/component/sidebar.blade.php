@@ -64,8 +64,9 @@
                     </a>
                 </li>
                 <li class="{{ Request::is('faq*') ? 'active' : '' }}">
-                    <a href="{{ route('faq.index') }}"><i class="fa-solid fa-newspaper"></i>
-                        <span class="nav-label">Tin tức</span>
+                    <a href="{{ route('faq.index') }}"><i class="fa-solid fa-circle-question"></i>
+
+                        <span class="nav-label">Câu hỏi</span>
                     </a>
                 </li>
                 <li class="{{ Request::is('articles*') ? 'active' : '' }}">

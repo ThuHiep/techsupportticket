@@ -42,7 +42,7 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <span class="label label-warning pull-right">Hằng ngày</span>
-                    <h5>Bài viết</h5>
+                    <h5>Câu hỏi</h5>
                 </div>
                 <div class="ibox-content">
                     <h1 class="no-margins">{{ number_format($totalFaqsToday) }}</h1>
@@ -50,7 +50,7 @@
                         {{ is_numeric($faqPercentageChange) ? number_format($faqPercentageChange, 0) . '%' : $faqPercentageChange }}
                         <i class="fa {{ $faqPercentageChange > 0 ? 'fa-level-up' : ($faqPercentageChange < 0 ? 'fa-level-down' : 'fa-minus') }}"></i>
                     </div>
-                    <small>Tổng bài viết hôm nay</small>
+                    <small>Tổng câu hỏi hôm nay</small>
                 </div>
             </div>
         </div>
