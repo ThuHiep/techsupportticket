@@ -364,6 +364,7 @@ a#exportCsvLink:focus {
     color: #ffffff;
     outline: none;
 }
+
 /* Các kiểu CSS cho giao diện phản hồi (responsive) */
 @media screen and (max-width: 768px) {
     h1{
