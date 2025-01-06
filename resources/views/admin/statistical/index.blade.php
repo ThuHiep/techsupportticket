@@ -118,7 +118,7 @@
     <div class="report-select-container">
         <div class="report-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h1>Báo cáo số lượng yêu cầu</h1>
-            <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">
+            <a id="exportCsvLink" href="{{ route('export.csv', 'customer') }}">
                 <i class="fas fa-print"></i>
             </a>
         </div>
