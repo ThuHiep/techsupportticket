@@ -1073,6 +1073,7 @@ select#gender:focus{
         width: 46% !important;
         height: auto!important;
         top: 50%!important;
+        overflow-y: auto;
     }
     .modal-content-request {
         width: 58%!important;
@@ -1097,6 +1098,7 @@ select#gender:focus{
 @media (max-width: 426px) {
     .modalPass{
         width: 80%!important;
+        overflow-y: auto;
     }
     .modal-content-edit{
         margin: 2% 9%;
@@ -1199,6 +1201,9 @@ select#gender:focus{
     #status-timeline {
         margin-left: 0px;
     }
+    .modalPass{
+        overflow-y: auto;
+    }
 }
 
 .img-container img {
@@ -1240,8 +1245,7 @@ select#gender:focus{
     top: 50%;
     left: 50%;
     width: 25%;
-    height: 675px;
-    overflow-y: auto;
+    height: auto;
     border: 2px solid white;
     backdrop-filter: blur(25px);
     border-radius: 15px;
@@ -1397,6 +1401,8 @@ input#confirm-password:focus{
     cursor: pointer;
     transition: .3s;
     margin-top: 5px;
+    margin-bottom: 60px;
+
 }
 .input-submit:hover{
     transform: scale(1.08);
