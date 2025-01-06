@@ -7,7 +7,46 @@
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_create.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display: none; /* Mặc định ẩn */
+    }
+
+    .spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    /* Animation quay */
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
 <body>
+<div class="loading-overlay">
+    <div class="spinner"></div>
+</div>
+
 <div class="container">
     <h1 style="text-align: left">Thêm khách hàng mới</h1>
     <form action="{{ route('customer.store') }}" method="POST" enctype="multipart/form-data">
@@ -113,5 +152,15 @@
     </form>
 </div>
 <script src="{{asset('admin/js/customer/script.js')}}"></script>
+<script>
+    const form = document.querySelector('form');
+    const loadingOverlay = document.querySelector('.loading-overlay');
+
+    form.addEventListener('submit', function () {
+        loadingOverlay.style.display = 'flex'; // Hiển thị spinner
+    });
+
+</script>
+
 </body>
 </html>

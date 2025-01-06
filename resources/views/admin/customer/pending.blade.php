@@ -9,10 +9,44 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/customer/pending.css') }}">
     <style>
-        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none; /* Mặc định ẩn */
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animation quay */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
+<div class="loading-overlay">
+    <div class="spinner"></div>
+</div>
 <div class="container">
     <h1 style="text-align: left">Danh sách khách hàng chưa duyệt</h1>
     <a href="{{ route('customer.index') }}" class="btn btn-secondary">Quay lại</a>
@@ -156,5 +190,14 @@ setTimeout(function() {
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const form = document.querySelector('form');
+    const loadingOverlay = document.querySelector('.loading-overlay');
+
+    form.addEventListener('submit', function () {
+        loadingOverlay.style.display = 'flex'; // Hiển thị spinner
+    });
+
+</script>
 </body>
 </html>
