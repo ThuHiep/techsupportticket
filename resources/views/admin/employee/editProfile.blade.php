@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1 style="text-align: left">Chỉnh sửa thông tin hồ sơ</h1>
-        <form action="{{ route('employee.updateProfile') }}" method="POST" enctype="multipart/form-data">
+        <form id="updateProfile" action="{{ route('employee.updateProfile') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <!-- Cột bên trái (3/4) và cột bên phải (1/4) -->
@@ -22,11 +22,13 @@
                             <label for="username" class="form-label">Tên tài khoản<span class="required">*</span></label>
                             <input type="text" id="username" name="username" class="form-control"
                                 value="{{ $logged_user->user->username }}" required>
+                            <span class="error-message" id="username_error"></span>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="full_name" class="form-label">Tên nhân viên<span class="required">*</span></label>
                             <input type="text" id="full_name" name="full_name" class="form-control"
                                 value="{{ $logged_user->full_name }}" required>
+                            <span class="error-message" id="full_name_error"></span>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="gender" class="form-label">Giới tính<span class="required">*</span></label>
@@ -42,11 +44,13 @@
                             <label for="date_of_birth" class="form-label">Ngày sinh<span class="required">*</span></label>
                             <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
                                 value="{{ $logged_user->date_of_birth->toDateString() }}" required>
+                            <span class="error-message" id="date_of_birth_error"></span>
                         </div>
                         <div class="form-group col-md-6 form-group-2">
                             <label for="phone" class="form-label">Số điện thoại<span class="required">*</span></label>
                             <input type="text" id="phone" name="phone" class="form-control"
                                 value="{{ $logged_user->phone }}" required>
+                            <span class="error-message" id="phone_error"></span>
                         </div>
 
                     </div>
@@ -55,11 +59,13 @@
                             <label for="email" class="form-label">Email<span class="required">*</span></label>
                             <input type="text" id="email" name="email" class="form-control"
                                 value="{{ $logged_user->email }}" required>
+                            <span class="error-message" id="email_error"></span>
                         </div>
                         <div class="form-group col-md-6 form-group-3">
                             <label for="address" class="form-label">Địa chỉ<span class="required">*</span></label>
                             <input type="text" id="address" name="address" class="form-control"
                                 value="{{ $logged_user->address }}" required>
+                            <span class="error-message" id="address_error"></span>
                         </div>
                     </div>
                 </div>
@@ -75,8 +81,6 @@
                                 <label for="profile_image" class="custom-file-label">Chọn khác</label>
 
                                 <div class="image-preview">
-
-
                                     <div id="image-preview" class="image-preview">
                                         <img id="preview-img"
                                             src="{{ $logged_user->profile_image ? asset('admin/img/employee/' . $logged_user->profile_image) : asset('admin/img/customer/default.png') }}"
@@ -290,4 +294,93 @@
             errorMessage.textContent = '';
         }
     }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fullNameInput = document.getElementById('full_name');
+        const phoneInput = document.getElementById('phone');
+        const addressInput = document.getElementById('address');
+        const dateOfBirthInput = document.getElementById('date_of_birth');
+        const emailInput = document.getElementById('email');
+        const usernameInput = document.getElementById('username');
+        const form = document.getElementById('updateProfile');
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let hasError = false;
+
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.textContent = '';
+            });
+
+            if (!/^[a-zA-ZÀ-ỹ\s]+$/.test(fullNameInput.value.trim())) {
+                document.getElementById('full_name_error').textContent = 'Họ và tên không được chứa số hoặc ký tự đặc biệt.';
+                hasError = true;
+            }
+
+            if (!/^\d{10}$/.test(phoneInput.value.trim())) {
+                document.getElementById('phone_error').textContent = 'Số điện thoại phải gồm 10 chữ số.';
+                hasError = true;
+            }
+
+            const dobValue = dateOfBirthInput.value;
+            const [year, month, day] = dobValue.split('-').map(Number);
+
+            if (!year || !month || !day) {
+                document.getElementById('date_of_birth_error').textContent = 'Vui lòng nhập đầy đủ ngày, tháng, năm.';
+                hasError = true;
+            } else if (year < 1900) {
+                document.getElementById('date_of_birth_error').textContent = 'Năm sinh không hợp lệ (phải từ 1900 trở đi).';
+                hasError = true;
+            }
+
+            if (/^\d+$/.test(addressInput.value.trim())) {
+                document.getElementById('address_error').textContent = 'Địa chỉ không được chứa toàn là số.';
+                hasError = true;
+            }
+
+            if (!isValidEmail(emailInput.value.trim())) {
+                document.getElementById('email_error').textContent = 'Email không hợp lệ.';
+                hasError = true;
+            }
+
+            if (!/^[a-zA-Z0-9]+$/.test(usernameInput.value.trim())) {
+                document.getElementById('username_error').textContent = 'Tên đăng nhập chỉ được chứa chữ cái và số, không chứa dấu câu.';
+                hasError = true;
+            }
+
+            Promise.all([
+                fetch(`/check-email-employee/${emailInput.value.trim()}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        document.getElementById('email_error').textContent = 'Email đã tồn tại trong hệ thống. Vui lòng sử dụng email khác.';
+                        hasError = true;
+                    }
+                }),
+
+                fetch(`/check-username-employee/${usernameInput.value.trim()}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        document.getElementById('username_error').textContent = 'Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.';
+                        hasError = true;
+                    }
+                })
+            ]).then(() => {
+                if (!hasError) {
+                    form.submit();
+                }
+            }).catch(error => {
+                console.error('Lỗi khi kiểm tra thông tin:', error);
+            });
+
+        });
+    });
 </script>

@@ -115,8 +115,38 @@ class UserController extends Controller
         $logged_user->update_at = now();
         $logged_user->save();
 
+        $logged_user->user->username = $request['username'];
+        $logged_user->user->save();
+
         return redirect()->route('indexAccount')
             ->with('success', 'Hồ sơ khách hàng đã được cập nhật!');
+    }
+    public function checkUsernameCustomer($username)
+    {
+        $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        if ($username == $logged_user->user->username) {
+            return response()->json(['exists' => false]);
+        } else {
+            $exists = User::where('username', $username)->exists();
+
+            return response()->json(['exists' => $exists]);
+        }
+    }
+
+    public function checkEmailCustomer($email)
+    {
+        $logged_user = Customer::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        if ($email == $logged_user->email) {
+            return response()->json(['exists' => false]);
+        } else {
+            // Kiểm tra email trong bảng employee và customer
+            $employeeExists = Employee::where('email', $email)->exists();
+            $customerExists = Customer::where('email', $email)->exists();
+
+            return response()->json([
+                'exists' => $employeeExists || $customerExists,
+            ]);
+        }
     }
     public function changePass(Request $request)
     {
@@ -131,6 +161,7 @@ class UserController extends Controller
         $logged_user->password = Hash::make($request->input('new-password'));
         $logged_user->update_at = now();
         $logged_user->save();
+
 
         return redirect()->route('indexAccount')->with('success', 'Mật khẩu đã được thay đổi thành công!');
     }
