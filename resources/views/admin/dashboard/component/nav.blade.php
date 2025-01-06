@@ -49,10 +49,28 @@
                 
             </li>
             
-            <li><a href="{{route('logout')}}">Đăng xuất</a></li>
+            {{-- <li><a href="{{route('logout')}}">Đăng xuất</a></li> --}}
+            <li>
+                <a href="#" onclick="confirmLogout(event)">Đăng xuất</a>
+            </li>
+            
         </ul>
     </nav>
 </div>
+<script>
+    function confirmLogout(event) {
+        // Ngăn chặn hành động mặc định khi nhấn vào liên kết
+        event.preventDefault();
+
+        // Hiển thị hộp thoại xác nhận
+        const confirmation = confirm("Bạn có chắc muốn đăng xuất không?");
+        
+        // Nếu người dùng xác nhận, chuyển hướng tới trang đăng xuất
+        if (confirmation) {
+            window.location.href = "{{ route('logout') }}";
+        }
+    }
+</script>
 
 <script>
     // Định nghĩa hàm toggleNotification

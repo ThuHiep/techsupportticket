@@ -38,7 +38,7 @@
                 </li> --}}
                 <li class="{{ Request::is('statistical*') ? 'active' : '' }}">
                     <a href="{{ route('statistical.index') }}"><i class="fa-solid fa-chart-line"></i>
-                        <span class="nav-label">Trang quản trị</span>
+                        <span class="nav-label">    <span>Trang quản trị</span>
                     </a>
                 </li>
                 @if (auth()->user()->role_id == 1)
