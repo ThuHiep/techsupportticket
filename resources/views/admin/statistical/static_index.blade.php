@@ -1,179 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistical Report</title>
+    <title>Báo cáo số yêu cầu theo thời gian</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        #reportContainer {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        #reportrange {
+            background: #fff;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        #totalTimeRequests {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Thống kê yêu cầu hỗ trợ</h1>
-
-    <select id="chartSelector" onchange="showChart(this.value)">
-        <option value="">Chọn biểu đồ</option>
-        <option value="customer">Theo khách hàng</option>
-        <option value="requestType">Theo loại yêu cầu</option>
-        <option value="department">Theo phòng ban</option>
-        <option value="time">Theo thời gian</option>
-    </select>
-
-    <div id="customerChart" class="chart" style="display:none;">
-        <h2>Báo cáo theo khách hàng</h2>
-        <div>
-            <label for="customerNameFilter">Tên khách hàng:</label>
-            <input type="text" id="customerNameFilter" oninput="filterCustomerChart()">
-            <ul id="customerSuggestions" style="list-style: none; padding: 0;"></ul>
+<div class="report-section" id="reportContainer">
+    <h3>Báo cáo số yêu cầu theo thời gian</h3>
+    <div class="filter-container1">
+        <div id="reportrange">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span>Chọn khoảng thời gian</span> <i class="fa fa-caret-down"></i>
         </div>
-        <div>
-            <label for="customerStatusFilter">Trạng thái yêu cầu:</label>
-            <select id="customerStatusFilter" onchange="filterCustomerChart()">
-                <option value="">Tất cả trạng thái</option>
-                @foreach ($statuses as $status)
-                    <option value="{{ $status }}">{{ ucfirst($status) }}</option>
-                @endforeach
-            </select>
-        </div>
-        <canvas id="customerChartCanvas"></canvas>
     </div>
-
-    <div id="requestTypeChart" class="chart" style="display:none;">
-        <h2>Báo cáo theo loại yêu cầu</h2>
-        <div>
-            <label for="requestTypeDateFilter">Lọc theo thời gian:</label>
-            <input type="date" id="requestTypeDateFilter" onchange="filterRequestTypeChart()">
-        </div>
-        <canvas id="requestTypeChartCanvas"></canvas>
-    </div>
-
-    <div id="departmentChart" class="chart" style="display:none;">
-        <h2>Báo cáo theo phòng ban</h2>
-        <div>
-            <label for="departmentDateFilter">Lọc theo thời gian:</label>
-            <input type="date" id="departmentDateFilter" onchange="filterDepartmentChart()">
-        </div>
-        <canvas id="departmentChartCanvas"></canvas>
-    </div>
-
-    <div id="timeChart" class="chart" style="display:none;">
-        <h2>Báo cáo theo thời gian</h2>
-        <div>
-            <label for="timeDateFilter">Lọc theo thời gian:</label>
-            <input type="date" id="timeDateFilter" onchange="filterTimeChart()">
-        </div>
-        <canvas id="timeChartCanvas"></canvas>
-    </div>
+    <div id="totalTimeRequests"></div>
+    <canvas id="requestsChart"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Khi trang được tải, kiểm tra localStorage
-    window.onload = function() {
-        const selectedChart = localStorage.getItem('selectedChart');
-        if (selectedChart) {
-            document.getElementById('chartSelector').value = selectedChart; // Khôi phục giá trị select
-            showChart(selectedChart); // Hiển thị biểu đồ tương ứng
-        } else {
-            showChart('customer'); // Hiển thị biểu đồ khách hàng mặc định
+<script type="text/javascript">
+    $(function() {
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            displayTotalRequests(start, end); // Hiển thị tổng số yêu cầu
         }
-    }
 
-    function showChart(chartType) {
-        // Ẩn tất cả biểu đồ
-        const charts = document.querySelectorAll('.chart');
-        charts.forEach(chart => chart.style.display = 'none');
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+                'Hôm nay': [moment(), moment()],
+                'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 ngày qua': [moment().subtract(6, 'days'), moment()],
+                '30 ngày qua': [moment().subtract(29, 'days'), moment()],
+                'Tháng này': [moment().startOf('month'), moment().endOf('month')],
+                'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'Năm này': [moment().startOf('year'), moment().endOf('year')],
+                'Năm trước': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+            }
+        }, cb);
 
-        // Hiển thị biểu đồ tương ứng
-        if (chartType) {
-            document.getElementById(chartType + 'Chart').style.display = 'block';
-            drawChart(chartType);
-            // Lưu loại biểu đồ vào localStorage
-            localStorage.setItem('selectedChart', chartType);
-        }
-    }
+        cb(start, end);
+    });
 
-    function filterCustomerChart() {
-        const customerName = document.getElementById('customerNameFilter').value;
-        const customerStatus = document.getElementById('customerStatusFilter').value;
+    function displayTotalRequests(start, end) {
+        const timeData = @json($timeData); // Dữ liệu gốc
 
-        // Gợi ý khách hàng
-        fetch(`/api/search-customers?name=${customerName}`)
-            .then(response => response.json())
-            .then(data => {
-                const suggestions = document.getElementById('customerSuggestions');
-                suggestions.innerHTML = ''; // Xóa gợi ý cũ
-
-                data.forEach(customer => {
-                    const li = document.createElement('li');
-                    li.textContent = customer.full_name; // Giả sử bạn có thuộc tính full_name
-                    li.onclick = () => {
-                        document.getElementById('customerNameFilter').value = customer.full_name; // Điền tên vào ô tìm kiếm
-                        suggestions.innerHTML = ''; // Xóa gợi ý
-                    };
-                    suggestions.appendChild(li);
-                });
-            })
-            .catch(error => console.error('Error fetching customer suggestions:', error));
-
-        // Lấy dữ liệu thống kê khách hàng
-        fetch(`/api/customer-stats?name=${customerName}&status=${customerStatus}`)
-            .then(response => response.json())
-            .then(data => {
-                drawCustomerChart(data); // Cập nhật biểu đồ khách hàng
-            })
-            .catch(error => console.error('Error fetching customer stats:', error));
-    }
-    function drawCustomerChart(data) {
-        const ctx = document.getElementById('customerChartCanvas').getContext('2d');
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-        const customerNames = [...new Set(data.map(item => item.full_name))];
-        const statuses = ['Đang xử lý', 'Chưa xử lý', 'Hoàn thành', 'Đã hủy'];
-        const requestCounts = {
-            'Đang xử lý': [],
-            'Chưa xử lý': [],
-            'Hoàn thành': [],
-            'Đã hủy': []
-        };
-
-        customerNames.forEach(name => {
-            const customerData = data.filter(item => item.full_name === name);
-            statuses.forEach(status => {
-                const count = customerData.find(item => item.status === status)?.request_count || 0;
-                requestCounts[status].push(count);
-            });
+        // Lọc dữ liệu cho khoảng thời gian
+        const filteredData = timeData['Ngày'].filter(item => {
+            const itemDate = moment(item.period);
+            return itemDate.isBetween(start, end, null, '[]'); // Bao gồm ngày bắt đầu và kết thúc
         });
 
-        new Chart(ctx, {
+        const totalRequests = filteredData.reduce((total, item) => {
+            return total + (item.total['Đang xử lý'] || 0) + (item.total['Chưa xử lý'] || 0) + (item.total['Hoàn thành'] || 0) + (item.total['Đã hủy'] || 0);
+        }, 0);
+
+        document.getElementById('totalTimeRequests').innerHTML = `<strong>Tổng số yêu cầu: ${totalRequests}</strong>`;
+
+        // Vẽ biểu đồ
+        drawChart(filteredData);
+    }
+
+    function drawChart(data) {
+        const labels = data.map(item => item.period);
+        const processing = data.map(item => item.total['Đang xử lý'] || 0);
+        const pending = data.map(item => item.total['Chưa xử lý'] || 0);
+        const completed = data.map(item => item.total['Hoàn thành'] || 0);
+        const canceled = data.map(item => item.total['Đã hủy'] || 0);
+
+        const ctx = document.getElementById('requestsChart').getContext('2d');
+        const requestsChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: customerNames,
+                labels: labels,
                 datasets: [
                     {
                         label: 'Đang xử lý',
-                        data: requestCounts['Đang xử lý'],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Chưa xử lý',
-                        data: requestCounts['Chưa xử lý'],
+                        data: processing,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     },
                     {
-                        label: 'Hoàn thành',
-                        data: requestCounts['Hoàn thành'],
+                        label: 'Chưa xử lý',
+                        data: pending,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
                     },
                     {
+                        label: 'Hoàn thành',
+                        data: completed,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
                         label: 'Đã hủy',
-                        data: requestCounts['Đã hủy'],
+                        data: canceled,
                         backgroundColor: 'rgba(255, 206, 86, 0.2)',
                         borderColor: 'rgba(255, 206, 86, 1)',
                         borderWidth: 1
@@ -181,6 +136,7 @@
                 ]
             },
             options: {
+                responsive: true,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -189,185 +145,6 @@
             }
         });
     }
-    ////////////////////////////
-
-    function filterRequestTypeChart() {
-        const date = document.getElementById('requestTypeDateFilter').value;
-        fetch(`/api/request-type-stats?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                drawRequestTypeChart(data);
-            })
-            .catch(error => console.error('Error fetching request type stats:', error));
-    }
-
-    function filterDepartmentChart() {
-        const date = document.getElementById('departmentDateFilter').value;
-        fetch(`/api/department-stats?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                drawDepartmentChart(data);
-            })
-            .catch(error => console.error('Error fetching department stats:', error));
-    }
-
-    function filterTimeChart() {
-        const date = document.getElementById('timeDateFilter').value;
-        fetch(`/api/time-stats?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                drawTimeChart(data);
-            })
-            .catch(error => console.error('Error fetching time stats:', error));
-    }
-
-    function drawChart(chartType) {
-        let ctx, data;
-
-        switch (chartType) {
-            case 'customer':
-                ctx = document.getElementById('customerChartCanvas').getContext('2d');
-                // Gọi API để lấy dữ liệu cho từng khách hàng
-                fetch('/api/customer-stats')
-                    .then(response => response.json())
-                    .then(stats => {
-                        const labels = stats.map(item => item.full_name); // Tên khách hàng
-                        const requestCounts = {
-                            'Đang xử lý': [],
-                            'Chưa xử lý': [],
-                            'Hoàn thành': [],
-                            'Đã hủy': []
-                        };
-
-                        // Nhóm số lượng yêu cầu theo trạng thái cho từng khách hàng
-                        stats.forEach(item => {
-                            requestCounts['Đang xử lý'].push(item['Đang xử lý'] || 0);
-                            requestCounts['Chưa xử lý'].push(item['Chưa xử lý'] || 0);
-                            requestCounts['Hoàn thành'].push(item['Hoàn thành'] || 0);
-                            requestCounts['Đã hủy'].push(item['Đã hủy'] || 0);
-                        });
-
-                        // Xóa biểu đồ cũ trước khi vẽ biểu đồ mới
-                        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: 'Đang xử lý',
-                                        data: requestCounts['Đang xử lý'],
-                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                        borderColor: 'rgba(75, 192, 192, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Chưa xử lý',
-                                        data: requestCounts['Chưa xử lý'],
-                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                        borderColor: 'rgba(255, 99, 132, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Hoàn thành',
-                                        data: requestCounts['Hoàn thành'],
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        label: 'Đã hủy',
-                                        data: requestCounts['Đã hủy'],
-                                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                                        borderColor: 'rgba(255, 206, 86, 1)',
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-                    })
-                    .catch(error => console.error('Error fetching customer stats:', error));
-                break;
-
-            case 'requestType':
-                ctx = document.getElementById('requestTypeChartCanvas').getContext('2d');
-                data = @json($requestTypeStats);
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.map(item => item.request_type_name),
-                        datasets: [{
-                            label: 'Số lượng yêu cầu',
-                            data: data.map(item => item.request_count),
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                            ],
-                            borderWidth: 1
-                        }]
-                    }
-                });
-                break;
-
-            case 'department':
-                ctx = document.getElementById('departmentChartCanvas').getContext('2d');
-                data = @json($departmentStats);
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.map(item => item.department_name),
-                        datasets: [{
-                            label: 'Số lượng yêu cầu',
-                            data: data.map(item => item.request_count),
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                break;
-
-            case 'time':
-                ctx = document.getElementById('timeChartCanvas').getContext('2d');
-                data = @json($timeStats);
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.map(item => item.request_date),
-                        datasets: [{
-                            label: 'Số lượng yêu cầu',
-                            data: data.map(item => item.request_count),
-                            fill: false,
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            tension: 0.1
-                        }]
-                    }
-                });
-                break;
-        }
-    }
-
 </script>
 
 </body>

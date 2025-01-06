@@ -9,8 +9,49 @@
     <link rel="stylesheet" href="{{ asset('admin/css/customer/style_edit.css') }}">
     <title>Chỉnh sửa khách hàng</title>
 </head>
+<style>
+    /* Container của loading spinner */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display: none; /* Mặc định ẩn */
+    }
+
+    /* Spinner */
+    .spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    /* Animation quay */
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
 
 <body>
+<div class="loading-overlay">
+    <div class="spinner"></div>
+</div>
+
 <div class="container">
     <h1 style="text-align: left">Chỉnh sửa thông tin khách hàng</h1>
 
@@ -98,7 +139,7 @@
                         <input type="text" id="website" name="website" class="form-control" value="{{ $customers->website }}">
                     </div>
                 </div>
-                
+
 
             </div>
 
@@ -160,6 +201,21 @@
             }
         };
     </script>
+    <script>
+        // Bắt sự kiện submit form
+        const form = document.querySelector('form');
+        const loadingOverlay = document.querySelector('.loading-overlay');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Chặn submit để test
+            loadingOverlay.style.display = 'flex';
+            setTimeout(() => {
+                form.submit(); // Submit form sau 3 giây
+            }, 3000);
+        });
+
+    </script>
+
 </div>
 </body>
 
