@@ -1,4 +1,39 @@
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Mặc định ẩn */
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loading-spinner {
+        border: 8px solid #f3f3f3; /* Màu nền */
+        border-top: 8px solid #3498db; /* Màu xoay */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 <body class="pace-done body-small">
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
     <div class="pace  pace-inactive">
         <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
             <div class="pace-progress-inner"></div>
@@ -59,12 +94,13 @@
                     </a>
                 </li>
                 <li class="{{ Request::is('requesttype*') ? 'active' : '' }}">
-                    <a href="{{ route('requesttype.index') }}"><i class="fa-solid fa-clipboard"></i>
+                    <a href="{{ route('requesttype.index') }}"><i class="fa-solid fa-plane"></i>
                         <span class="nav-label">Loại yêu cầu</span>
                     </a>
                 </li>
-                <li class="{{ Request::is('request*') ? 'active' : '' }}">
-                    <a href="{{ route('request.index') }}"><i class="fa-solid fa-tools"></i>
+                <li class="{{ Request::is('request*') && !Request::is('requesttype*') ? 'active' : '' }}">
+                    <a href="{{ route('request.index') }}">
+                        <i class="fa-solid fa-tools"></i>
                         <span class="nav-label">Yêu cầu</span>
                     </a>
                 </li>
@@ -84,4 +120,23 @@
             </ul>
         </div>
     </nav>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        // Hàm hiển thị overlay loading
+        function showLoading() {
+            loadingOverlay.style.display = 'flex'; // Hiển thị overlay
+        }
+
+        // Thêm sự kiện click cho tất cả các mục trong menu
+        const menuItems = document.querySelectorAll('#side-menu a');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                showLoading(); // Hiển thị overlay loading khi nhấn vào menu
+            });
+        });
+    });
+</script>
 </body>
