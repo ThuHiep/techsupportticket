@@ -14,7 +14,7 @@
             <form action="{{ route('customer.reply', $request->request_id) }}" method="POST">
                 @csrf
                 <div class="mail-text">
-                    <textarea name="reply_content" class="summernote"></textarea>
+                    <textarea id="reply_content" name="reply_content" class="summernote"></textarea>
                     <div class="clearfix"></div>
                 </div>
 
@@ -30,8 +30,8 @@
     </div>
 
     @include('guest.account.component.script')
- 
-    
+
+
 </body>
 
 </html>

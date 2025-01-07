@@ -10,10 +10,29 @@
 
 <script>
     $(document).ready(function() {
-
         $('.summernote').summernote({
             height: 200
         });
 
+        const submitButton = $("button[type='submit']");
+
+        function checkContent() {
+            const content = $('.summernote').summernote('code').trim();
+            const isEmpty = $('.summernote').summernote('isEmpty');
+
+            if (isEmpty || content === '' || content === '<p><br></p>') {
+                submitButton.prop('disabled', true);
+                submitButton.css('opacity', '0.5');
+            } else {
+                submitButton.prop('disabled', false);
+                submitButton.css('opacity', '1');
+            }
+        }
+
+        checkContent();
+
+        $('.summernote').on('summernote.change', function() {
+            checkContent();
+        });
     });
 </script>
