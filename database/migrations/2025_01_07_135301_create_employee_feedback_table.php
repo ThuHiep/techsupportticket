@@ -9,7 +9,7 @@ class CreateEmployeeFeedbackTable extends Migration
     public function up()
     {
         Schema::create('employee_feedback', function (Blueprint $table) {
-            $table->integer('id')->primary;
+            $table->increments('id');
             $table->string('request_id', 40);
             $table->string('employee_id', 40);
             $table->text('message');
