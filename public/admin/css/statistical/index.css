@@ -149,11 +149,28 @@ input#customerNameInput:focus {
 }
 .filter-container1 {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     align-items: flex-start;
-    gap: 15px;
+    gap: 100px;
     margin-bottom: 20px;
+}
+div#dateRangePicker {
+    display: flex;
+    flex-direction: column;
+}
+input#dateRange {
+    height: 42px;
+    padding: 10px;
+    border: 2px solid #CBCBCB;
+    width: 100%;
+    outline: none;
+}
+input#dateRange:focus,
+input#dateRange:hover{
+    border-color: #FF9700;  /* Viền màu cam khi focus */
+    box-shadow: 0 0 5px #FF9700;  /* Hiệu ứng ánh sáng */
+    outline: none;  /* Loại bỏ viền mặc định của trình duyệt */
 }
 .filter-container2 {
     display: flex;
@@ -406,6 +423,7 @@ a#exportCsvLink:focus {
     .filter-container1{
         flex-direction: column;
         align-items: center !important;
+        gap: 15px;
     }
     .filter-container2{
         flex-direction: row;
@@ -442,6 +460,9 @@ a#exportCsvLink:focus {
         flex-direction: row;
         gap: 18px;
     }
+    .daterangepicker.ltr.show-ranges.opensright.show-calendar {
+        margin-right: 60px;
+    }
 }
 @media screen and (max-width: 426px) {
     .container {
@@ -472,6 +493,7 @@ a#exportCsvLink:focus {
     }
     .filter-container1{
         flex-direction: column;
+        gap: 15px;
     }
     .filter-container2{
         flex-direction: row;
@@ -487,6 +509,9 @@ a#exportCsvLink:focus {
     }
     input#customerIdInput{
         width: 40%;
+    }
+    .daterangepicker.ltr.show-ranges.opensright.show-calendar {
+        left: 80px !important;
     }
 }
 @media screen and (max-width: 376px) {

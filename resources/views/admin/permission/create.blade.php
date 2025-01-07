@@ -11,7 +11,8 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        display: none; /* Mặc định ẩn */
+        display: none;
+        /* Mặc định ẩn */
         justify-content: center;
         align-items: center;
         z-index: 9999;
@@ -19,8 +20,10 @@
 
     /* Vòng tròn xoay */
     .loading-spinner {
-        border: 8px solid #f3f3f3; /* Màu nền */
-        border-top: 8px solid #3498db; /* Màu xoay */
+        border: 8px solid #f3f3f3;
+        /* Màu nền */
+        border-top: 8px solid #3498db;
+        /* Màu xoay */
         border-radius: 50%;
         width: 60px;
         height: 60px;
@@ -31,15 +34,17 @@
         0% {
             transform: rotate(0deg);
         }
+
         100% {
             transform: rotate(360deg);
         }
     }
 </style>
+
 <body>
-<div class="loading-overlay" id="loading-overlay">
-    <div class="loading-spinner"></div>
-</div>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
 
     <div class="container">
         <h1 style="text-align: left">Thêm tài khoản mới</h1>
@@ -129,7 +134,6 @@
                             <span class="error-message" id="password_confirm_error"></span>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Cột bên phải cho hình ảnh đại diện -->
@@ -166,28 +170,18 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Hàm xem trước ảnh
-        function previewImage(event) {
-            var reader = new FileReader();
-            reader.onload = function() {
-                var output = document.getElementById('preview-img');
-                output.src = reader.result;
-                output.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        // Xóa giá trị các trường có lỗi
-        var errorFields = document.querySelector('form').querySelectorAll('.is-invalid');
-        errorFields.forEach(function(field) {
-            field.value = '';
-        });
-
+        const form = document.querySelector('form');
+        const loadingOverlay = document.querySelector('.loading-overlay');
         const passwordOptionSelect = document.getElementById('password_option');
         const passwordFields = document.querySelectorAll('.password-input-fields');
-        const form = document.querySelector('form');
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('confirm-password');
+        const errorMessages = document.querySelectorAll('.error-message');
 
-        // Hàm kiểm tra độ mạnh của mật khẩu
+        function clearErrors() {
+            errorMessages.forEach(errorElement => (errorElement.textContent = ''));
+        }
+
         function updateHints(passwordValue) {
             const errorMessage = document.getElementById('password_error');
             if (passwordValue.length < 8) {
@@ -203,21 +197,20 @@
             }
         }
 
-        // Sự kiện thay đổi tùy chọn mật khẩu
-        passwordOptionSelect.addEventListener('change', function() {
-            if (this.value === 'manual') {
-                passwordFields.forEach(field => field.style.display = 'block'); // Hiển thị trường nhập mật khẩu
-            } else {
-                passwordFields.forEach(field => {
-                    field.style.display = 'none'; // Ẩn trường nhập mật khẩu
-                    const input = field.querySelector('input');
-                    if (input) input.value = ''; // Reset giá trị input
-                });
-            }
-            document.querySelectorAll('.error-message').forEach(errorElement => {
-                errorElement.textContent = ''; // Xóa nội dung thông báo lỗi
+        if (passwordOptionSelect) {
+            passwordOptionSelect.addEventListener('change', function() {
+                if (this.value === 'manual') {
+                    passwordFields.forEach(field => (field.style.display = 'block'));
+                } else {
+                    passwordFields.forEach(field => {
+                        field.style.display = 'none';
+                        const input = field.querySelector('input');
+                        if (input) input.value = ''; // Reset giá trị input
+                    });
+                }
+                clearErrors();
             });
-        });
+        }
 
         document.querySelectorAll('.toggle-password').forEach(icon => {
             icon.addEventListener('click', () => {
@@ -236,13 +229,19 @@
             });
         });
 
-        // Xử lý sự kiện submit form
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                updateHints(passwordInput.value);
+            });
+        }
+
+        // Xử lý submit form
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Ngăn không cho form submit nếu có lỗi
             let hasError = false;
 
-            if (passwordOptionSelect.value === 'manual') {
-                // Kiểm tra mật khẩu mới
+            loadingOverlay.style.display = 'flex';
+
+            if (passwordOptionSelect && passwordOptionSelect.value === 'manual') {
                 if (
                     passwordInput.value.length < 8 ||
                     !/[A-Z]/.test(passwordInput.value) ||
@@ -252,30 +251,19 @@
                     document.getElementById('password_error').textContent =
                         'Mật khẩu yếu: phải chứa ít nhất 8 ký tự bao gồm chữ in hoa, số và ký tự đặc biệt.';
                     hasError = true;
-                } else {
-                    document.getElementById('password_error').textContent = '';
                 }
 
-                // Kiểm tra xác nhận mật khẩu
                 if (passwordInput.value !== passwordConfirmInput.value) {
                     document.getElementById('password_confirm_error').textContent =
                         'Mật khẩu xác nhận không khớp.';
                     hasError = true;
-                } else {
-                    document.getElementById('password_confirm_error').textContent = '';
                 }
             }
 
-            // Nếu không có lỗi, hiển thị loading và submit form
-            if (!hasError) {
-                showLoading(); // Hiển thị overlay loading
-                form.submit(); // Submit form
+            if (hasError) {
+                e.preventDefault();
+                loadingOverlay.style.display = 'none'; // Ẩn spinner nếu có lỗi
             }
         });
     });
-
-    function showLoading() {
-        const overlay = document.getElementById('loading-overlay');
-        overlay.style.display = 'flex'; // Hiển thị overlay
-    }
 </script>

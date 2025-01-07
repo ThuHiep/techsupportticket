@@ -30,6 +30,8 @@
     </div>
 
     @include('guest.account.component.script')
+ 
+    
 </body>
 
 </html>
