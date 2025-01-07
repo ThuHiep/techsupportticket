@@ -179,6 +179,159 @@ section {
 .card:hover {
     transform: scale(1.05);
 }
+.carousel-card {
+    transition: transform 0.3s ease;
+    /* Hiệu ứng chuyển động */
+    cursor: pointer;
+    /* Con trỏ chuột */
+    position: relative;
+    /* Định vị cho các phần tử con */
+}
+
+.carousel-card.expanded {
+    transform: scale(1.1);
+    /* Phóng to lên 40% */
+    z-index: 10;
+    /* Đưa card lên trên cùng */
+}
+
+.article-details {
+    position: absolute;
+    /* Định vị tuyệt đối để hiển thị bên trong card */
+    bottom: 10px;
+    /* Cách đáy */
+    left: 10px;
+    /* Cách bên trái */
+    color: #333;
+    /* Màu chữ */
+    background: rgba(255, 255, 255, 0.8);
+    /* Nền mờ */
+    padding: 10px;
+    border-radius: 5px;
+    transition: opacity 0.3s ease;
+    /* Hiệu ứng mờ */
+}
+
+.avatar-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.menu {
+    width: 160px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    margin: 0;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    display: none;
+    z-index: 100;
+}
+
+.menu-section-1 {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.menu-section-2 {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.menu-item>a:hover {
+    color: #ff6f00;
+}
+
+.menu-item a {
+    color: #333;
+    font-size: 14px;
+    margin-right: auto;
+    margin-left: 10px;
+}
+
+.logout-button {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px !important;
+    font-weight: normal;
+}
+
+.menu-section-2>a {
+    color: #333;
+}
+
+.menu-section-2>a:hover {
+    color: #ff6f00;
+}
+
+
+
+.text-muted {
+    color: #888;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#copyLinkButton {
+    background-color: #007bff;
+    /* Màu nền xanh dương */
+    color: white;
+    /* Màu chữ trắng */
+    border: none;
+    /* Bỏ đường viền */
+    padding: 10px 20px;
+    /* Khoảng cách bên trong nút */
+    font-size: 16px;
+    /* Kích thước chữ */
+    border-radius: 5px;
+    /* Bo góc */
+    cursor: pointer;
+    /* Con trỏ chuột khi hover */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Hiệu ứng hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Hiệu ứng đổ bóng */
+    margin-top: 10px;
+}
+
+#copyLinkButton:hover {
+    background-color: #0056b3;
+    /* Màu xanh đậm hơn khi hover */
+    transform: translateY(-2px);
+    /* Hiệu ứng đẩy nút lên */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    /* Đổ bóng mạnh hơn khi hover */
+}
+
+#copyLinkButton:active {
+    transform: translateY(0);
+    /* Trả về vị trí ban đầu khi click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Giảm đổ bóng khi click */
+    background-color: #004085;
+    /* Màu xanh tối hơn khi click */
+}
 .faq-title {
     text-align: center;
     color: #6f2f9f;
