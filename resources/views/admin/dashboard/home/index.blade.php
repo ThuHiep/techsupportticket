@@ -208,7 +208,6 @@
                 <div class="filter-container1">
                     <button class="btn" id="dateRangeButton">Chọn khoảng thời gian</button>
                     <div id="dateRangePicker" style="display: none;">
-                        <label for="dateRange">Chọn khoảng thời gian:</label>
                         <input type="text" id="dateRange" />
                     </div>
                 </div>
