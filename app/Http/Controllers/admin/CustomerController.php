@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountApproved;
@@ -8,6 +8,7 @@ use App\Mail\AccountRejected;
 use App\Mail\CustomerUpdated;
 use App\Models\Customer;
 use App\Models\CustomerFeedback;
+use App\Http\Controllers\admin\RequestController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

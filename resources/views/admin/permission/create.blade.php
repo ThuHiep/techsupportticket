@@ -210,7 +210,7 @@
                 }
                 clearErrors();
             });
-        }
+        } 
 
         document.querySelectorAll('.toggle-password').forEach(icon => {
             icon.addEventListener('click', () => {

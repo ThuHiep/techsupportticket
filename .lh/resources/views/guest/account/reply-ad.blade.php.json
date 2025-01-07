@@ -1,0 +1,18 @@
+{
+    "sourceFile": "resources/views/guest/account/reply-ad.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1736257106879,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1736257106879,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\n@include('guest.account.component.header')\n<html>\n<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\" rel=\"stylesheet\">\n\n<body>\n    <div class=\"animated fadeInRight\">\n        <div class=\"mail-box-header\">\n            <h2>\n                Soạn nội dung phản hồi\n            </h2>\n        </div>\n        <div class=\"mail-box\">\n            <form action=\"{{ route('customer.reply', $request->request_id) }}\" method=\"POST\">\n                @csrf\n                <div class=\"mail-text\">\n                    <textarea id=\"reply_content\" name=\"reply_content\" class=\"summernote\"></textarea>\n                    <div class=\"clearfix\"></div>\n                </div>\n\n                <div class=\"mail-body text-right tooltip-demo\">\n                    <button type=\"submit\" class=\"btn btn-sm btn-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Send\">\n                        <i class=\"fa fa-share\"></i> <span style=\"font-size: 18px\">Gửi</span>\n                    </button>\n                </div>\n            </form>\n            <div class=\"clearfix\"></div>\n\n        </div>\n    </div>\n\n    @include('guest.account.component.script')\n \n    \n</body>\n\n</html>"
+        }
+    ]
+}

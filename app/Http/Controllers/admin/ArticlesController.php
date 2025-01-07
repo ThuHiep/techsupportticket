@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\admin\RequestController;
 use Illuminate\Support\Str;
 
 

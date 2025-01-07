@@ -2,11 +2,6 @@
 <html>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-<script src="admin/js/jquery-3.1.1.min.js"></script>
-<script src="admin/js/bootstrap.min.js"></script>
-<script src="admin/js/plugins/iCheck/icheck.min.js"></script>
-<script src="admin/js/plugins/pace/pace.min.js"></script>
-<script src="admin/js/plugins/summernote/summernote.min.js"></script>
 
 <body>
     <div class="animated fadeInRight">
