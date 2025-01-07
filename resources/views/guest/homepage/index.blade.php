@@ -851,6 +851,11 @@
             const link = articleId ?
                 `${window.location.origin}${window.location.pathname}?article=${articleId}` :
                 `${window.location.origin}${window.location.pathname}`;
+
+            navigator.clipboard.writeText(link).then(() => {}).catch(err => {
+                console.error('Không thể sao chép liên kết: ', err);
+                alert('Đã xảy ra lỗi khi sao chép liên kết!');
+            });
         }
 
         // Hàm toggle khi click vào card để phóng to card
