@@ -8,7 +8,7 @@
 <body>
 <h1>Thông báo cập nhật thông tin</h1>
 <p>Chào {{ $customer->full_name }},</p>
-<p>Thành viên của bạn đã được cập nhật thành công. Dưới đây là thông tin của bạn:</p>
+<p>Thông tin của bạn đã được cập nhật thành công. Dưới đây là tất cả thông tin của bạn:</p>
 
 <ul>
     <li><strong>Tên:</strong> {{ $customer->full_name }}</li>

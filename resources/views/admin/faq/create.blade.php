@@ -20,9 +20,42 @@
             color: red;
             font-size: 14px;
         }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Mặc định ẩn */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3; /* Màu nền */
+            border-top: 8px solid #3498db; /* Màu xoay */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
 <div class="container">
     <h1>Thêm mới câu hỏi</h1>
     @if(session('success'))
@@ -105,6 +138,22 @@
             } else {
                 statusField.value = 'Chưa phản hồi';
             }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector('form');
+
+        // Hàm hiển thị overlay loading
+        function showLoading() {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex'; // Hiển thị overlay
+        }
+
+        // Xử lý sự kiện submit form
+        form.addEventListener('submit', function(e) {
+            showLoading(); // Hiển thị overlay loading
         });
     });
 </script>
