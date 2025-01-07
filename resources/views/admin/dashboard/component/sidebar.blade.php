@@ -58,6 +58,11 @@
                         <span class="nav-label">Phòng ban</span>
                     </a>
                 </li>
+                <li class="{{ Request::is('requesttype*') ? 'active' : '' }}">
+                    <a href="{{ route('requesttype.index') }}"><i class="fa-solid fa-clipboard"></i>
+                        <span class="nav-label">Loại yêu cầu</span>
+                    </a>
+                </li>
                 <li class="{{ Request::is('request*') ? 'active' : '' }}">
                     <a href="{{ route('request.index') }}"><i class="fa-solid fa-tools"></i>
                         <span class="nav-label">Yêu cầu</span>

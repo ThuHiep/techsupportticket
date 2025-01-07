@@ -102,8 +102,6 @@ class DepartmentController extends Controller
     }
 
 
-
-    // Lưu phòng ban mới
     public function store(Request $request)
     {
         $request->validate([

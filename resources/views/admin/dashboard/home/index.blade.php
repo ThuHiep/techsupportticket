@@ -1160,6 +1160,10 @@
 
         // Gọi hàm để cập nhật giá trị ban đầu
         cb(start, end);
+
+        // Hiển thị biểu đồ cho ngày hôm nay ngay khi tải trang
+        const today = moment().format('YYYY-MM-DD');
+        updateChartFromDateRange(today, today);
     });
 
     // Cập nhật biểu đồ cho khoảng thời gian

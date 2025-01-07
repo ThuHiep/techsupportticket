@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\AttachmentController;
 use App\Http\Controllers\Admin\ArticlesController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\RequestTypeController;
 
 
 
@@ -129,6 +130,13 @@ Route::name('department.')->group(function () {
     Route::get('/department/edit/{department_id}', [DepartmentController::class, 'edit'])->middleware('customersp')->name('edit');
     Route::put('/department/update/{department_id}', [DepartmentController::class, 'update'])->middleware('customersp')->name('update');
     Route::delete('/department/delete/{department_id}', [DepartmentController::class, 'destroy'])->middleware('customersp')->name('delete');
+});
+
+Route::name('requesttype.')->group(function () {
+    Route::get('/requesttype/index', [RequestTypeController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('/requesttype/create', [RequestTypeController::class, 'create'])->middleware('customersp')->name('create');
+    Route::post('/requesttype/store', [RequestTypeController::class, 'store'])->middleware('customersp')->name('store');
+    Route::delete('/requesttype/delete/{request_type_id}', [RequestTypeController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
 
 // Request Routes
