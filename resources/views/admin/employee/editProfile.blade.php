@@ -4,9 +4,43 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Mặc định ẩn */
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
 
+    .loading-spinner {
+        border: 8px solid #f3f3f3; /* Màu nền */
+        border-top: 8px solid #3498db; /* Màu xoay */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 <body>
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
     <div class="container">
         <h1 style="text-align: left">Chỉnh sửa thông tin hồ sơ</h1>
         <form id="updateProfile" action="{{ route('employee.updateProfile') }}" method="POST" enctype="multipart/form-data">
@@ -143,6 +177,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    function showLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex'; // Hiển thị vòng xoay
+    }
+
     function previewImage(event) {
         var reader = new FileReader();
         reader.onload = function() {
@@ -207,6 +245,7 @@
 
             // Nếu không có lỗi thì gửi form
             if (!hasError) {
+                showLoading(); // Hiển thị vòng xoay
                 form.submit();
             }
         });
@@ -349,6 +388,7 @@
                 })
             ]).then(() => {
                 if (!hasError) {
+                    showLoading(); // Hiển thị vòng xoay
                     form.submit();
                 }
             }).catch(error => {
