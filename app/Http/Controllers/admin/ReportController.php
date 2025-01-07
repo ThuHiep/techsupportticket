@@ -124,8 +124,6 @@ class ReportController extends Controller
         ));
     }
 
-
-
     public function getRequests(Request $request)
     {
         $query = DB::table('request')
@@ -303,6 +301,38 @@ class ReportController extends Controller
         return $timeData;
     }
 
+//    private function getDailyStatistics()
+//    {
+//        $startDate = now()->startOfMonth();
+//        $endDate = now()->endOfMonth();
+//        $days = [];
+//
+//        for ($date = clone $startDate; $date <= $endDate; $date->addDay()) {
+//            $days[$date->format('Y-m-d')] = [
+//                'Đang xử lý' => 0,
+//                'Chưa xử lý' => 0,
+//                'Hoàn thành' => 0,
+//                'Đã hủy' => 0,
+//            ];
+//        }
+//
+//        $dailyStats = DB::table('request')
+//            ->select(DB::raw("DATE_FORMAT(create_at, '%Y-%m-%d') as period"), 'status', DB::raw('count(*) as total'))
+//            ->whereBetween('create_at', [$startDate, $endDate])
+//            ->groupBy('period', 'status')
+//            ->get();
+//
+//        // Kiểm tra kết quả của dailyStats
+//        \Log::info('Daily Stats:', $dailyStats->toArray());
+//
+//        foreach ($dailyStats as $stat) {
+//            $days[$stat->period][$stat->status] = $stat->total;
+//        }
+//
+//        return array_map(function ($totals, $period) {
+//            return ['period' => $period, 'total' => $totals];
+//        }, $days, array_keys($days));
+//    }
     private function getDailyStatistics()
     {
         $startDate = now()->startOfMonth();
@@ -324,15 +354,15 @@ class ReportController extends Controller
             ->groupBy('period', 'status')
             ->get();
 
-        // Kiểm tra kết quả của dailyStats
-        \Log::info('Daily Stats:', $dailyStats->toArray());
-
         foreach ($dailyStats as $stat) {
             $days[$stat->period][$stat->status] = $stat->total;
         }
 
         return array_map(function ($totals, $period) {
-            return ['period' => $period, 'total' => $totals];
+            return [
+                'period' => $period,
+                'total' => $totals
+            ];
         }, $days, array_keys($days));
     }
 
