@@ -711,7 +711,7 @@ footer {
     justify-content: center; /* Căn giữa theo chiều ngang */
     align-items: center; /* Căn giữa theo chiều dọc */
     margin-top: 15px;
-    width: 15%;
+    width: 28%;
     text-align: center; /* Đảm bảo nội dung chữ căn giữa trong trường hợp nhiều dòng */
 }
 
@@ -835,8 +835,13 @@ footer {
         font-size: 12px;
         font-weight: 600;
     }
+    #huongdanModalImage {
+        width: 302px;
+        height: 150px;
+        margin: auto 20px;
+    }
     #huongdanModalDateBox{
-        width: 28%;
+        width: 55%;
     }
     .floating-button {
         width: 40px;
@@ -910,6 +915,14 @@ footer {
     .modal-registration {
         padding: 10px;
         font-size: 14px;
+    }
+    #huongdanModalImage {
+        width: 282px;
+        height: 130px;
+        margin: auto 8px;
+    }
+    #huongdanModalDateBox{
+        width: 65%;
     }
     .faq-title {
         font-size: 1.5em;
