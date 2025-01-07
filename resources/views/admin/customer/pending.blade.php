@@ -20,7 +20,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            display: none; /* Mặc định ẩn */
+            display: none;
+            /* Mặc định ẩn */
         }
 
         .spinner {
@@ -37,6 +38,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -189,15 +191,33 @@ setTimeout(function() {
         }, duration);
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    const form = document.querySelector('form');
-    const loadingOverlay = document.querySelector('.loading-overlay');
+    document.addEventListener('DOMContentLoaded', function () {
+        const approveButtons = document.querySelectorAll('form[action*="customer.approve"] button[type="submit"]');
+        const rejectButtons = document.querySelectorAll('form[action*="customer.reject"] button[type="submit"]');
+        const loadingOverlay = document.querySelector('.loading-overlay');
 
-    form.addEventListener('submit', function () {
-        loadingOverlay.style.display = 'flex'; // Hiển thị spinner
+        // Xử lý khi nhấn nút "Approve" hoặc "Reject"
+        approveButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault(); // Ngăn chặn hành vi submit mặc định
+                loadingOverlay.style.display = 'flex'; // Hiển thị spinner
+                const form = button.closest('form'); // Lấy form tương ứng
+                setTimeout(() => form.submit(), 100); // Chờ một chút rồi submit form
+            });
+        });
+
+        rejectButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault(); // Ngăn chặn hành vi submit mặc định
+                loadingOverlay.style.display = 'flex'; // Hiển thị spinner
+                const form = button.closest('form'); // Lấy form tương ứng
+                setTimeout(() => form.submit(), 100); // Chờ một chút rồi submit form
+            });
+        });
     });
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

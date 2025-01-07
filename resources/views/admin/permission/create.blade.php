@@ -2,8 +2,45 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    /* Overlay che toàn màn hình */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Mặc định ẩn */
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
 
+    /* Vòng tròn xoay */
+    .loading-spinner {
+        border: 8px solid #f3f3f3; /* Màu nền */
+        border-top: 8px solid #3498db; /* Màu xoay */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 <body>
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
+
     <div class="container">
         <h1 style="text-align: left">Thêm tài khoản mới</h1>
         <form action="{{ route('permission.save') }}" method="POST" enctype="multipart/form-data">
@@ -129,7 +166,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-
         // Hàm xem trước ảnh
         function previewImage(event) {
             var reader = new FileReader();
@@ -137,15 +173,12 @@
                 var output = document.getElementById('preview-img');
                 output.src = reader.result;
                 output.style.display = 'block';
-                var label = document.getElementById('file-label');
-                label.style.display = 'block';
             };
             reader.readAsDataURL(event.target.files[0]);
         }
 
         // Xóa giá trị các trường có lỗi
         var errorFields = document.querySelector('form').querySelectorAll('.is-invalid');
-
         errorFields.forEach(function(field) {
             field.value = '';
         });
@@ -203,51 +236,46 @@
             });
         });
 
-        // Xử lý sự kiện nhập mật khẩu và submit form
-        const passwordInput = document.getElementById('password');
-        const passwordConfirmInput = document.getElementById('confirm-password');
+        // Xử lý sự kiện submit form
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Ngăn không cho form submit nếu có lỗi
+            let hasError = false;
 
-        if (passwordInput && passwordConfirmInput) {
-            // Lắng nghe sự kiện nhập mật khẩu mới
-            passwordInput.addEventListener('input', function() {
-                updateHints(passwordInput.value);
-            });
-
-            // Kiểm tra khi người dùng submit form
-            form.addEventListener('submit', function(e) {
-                e.preventDefault(); // Ngăn không cho form submit nếu có lỗi
-                let hasError = false;
-
-                if (passwordOptionSelect.value === 'manual') {
-                    // Kiểm tra mật khẩu mới
-                    if (
-                        passwordInput.value.length < 8 ||
-                        !/[A-Z]/.test(passwordInput.value) ||
-                        !/[0-9]/.test(passwordInput.value) ||
-                        !/[!@#$%^&*]/.test(passwordInput.value)
-                    ) {
-                        document.getElementById('password_error').textContent =
-                            'Mật khẩu yếu: phải chứa ít nhất 8 ký tự bao gồm chữ in hoa, số và ký tự đặc biệt.';
-                        hasError = true;
-                    } else {
-                        document.getElementById('password_error').textContent = '';
-                    }
-
-                    // Kiểm tra xác nhận mật khẩu
-                    if (passwordInput.value !== passwordConfirmInput.value) {
-                        document.getElementById('password_confirm_error').textContent =
-                            'Mật khẩu xác nhận không khớp.';
-                        hasError = true;
-                    } else {
-                        document.getElementById('password_confirm_error').textContent = '';
-                    }
+            if (passwordOptionSelect.value === 'manual') {
+                // Kiểm tra mật khẩu mới
+                if (
+                    passwordInput.value.length < 8 ||
+                    !/[A-Z]/.test(passwordInput.value) ||
+                    !/[0-9]/.test(passwordInput.value) ||
+                    !/[!@#$%^&*]/.test(passwordInput.value)
+                ) {
+                    document.getElementById('password_error').textContent =
+                        'Mật khẩu yếu: phải chứa ít nhất 8 ký tự bao gồm chữ in hoa, số và ký tự đặc biệt.';
+                    hasError = true;
+                } else {
+                    document.getElementById('password_error').textContent = '';
                 }
 
-                // Nếu không có lỗi, submit form
-                if (!hasError) {
-                    form.submit();
+                // Kiểm tra xác nhận mật khẩu
+                if (passwordInput.value !== passwordConfirmInput.value) {
+                    document.getElementById('password_confirm_error').textContent =
+                        'Mật khẩu xác nhận không khớp.';
+                    hasError = true;
+                } else {
+                    document.getElementById('password_confirm_error').textContent = '';
                 }
-            });
-        }
+            }
+
+            // Nếu không có lỗi, hiển thị loading và submit form
+            if (!hasError) {
+                showLoading(); // Hiển thị overlay loading
+                form.submit(); // Submit form
+            }
+        });
     });
+
+    function showLoading() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.style.display = 'flex'; // Hiển thị overlay
+    }
 </script>

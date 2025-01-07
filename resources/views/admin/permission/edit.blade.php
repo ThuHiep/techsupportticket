@@ -1,7 +1,44 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('admin/css/permission/style_edit.css') }}">
+<style>
+        /* Overlay che toàn màn hình */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Mặc định ẩn */
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* Vòng tròn xoay */
+    .loading-spinner {
+        border: 8px solid #f3f3f3; /* Màu nền */
+        border-top: 8px solid #3498db; /* Màu xoay */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 <body>
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
     <div class="container">
         <h1 style="text-align: left">Chỉnh sửa thông tin tài khoản</h1>
         <form action="{{ route('permission.update', $employee->employee_id) }}" method="POST" enctype="multipart/form-data">
@@ -120,3 +157,11 @@
         reader.readAsDataURL(event.target.files[0]);
     }
 </script>
+<script>
+    // Xử lý khi nhấn nút cập nhật
+    document.querySelector('form').addEventListener('submit', function() {
+        // Hiển thị overlay
+        document.getElementById('loading-overlay').style.display = 'flex';
+    });
+</script>
+
