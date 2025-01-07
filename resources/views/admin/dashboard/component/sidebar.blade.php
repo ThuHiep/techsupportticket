@@ -94,7 +94,7 @@
                     </a>
                 </li>
                 <li class="{{ Request::is('requesttype*') ? 'active' : '' }}">
-                    <a href="{{ route('requesttype.index') }}"><i class="fa-solid fa-plane"></i>
+                    <a href="{{ route('requesttype.index') }}"><i class="fa-solid fa-cogs"></i>
                         <span class="nav-label">Loại yêu cầu</span>
                     </a>
                 </li>
