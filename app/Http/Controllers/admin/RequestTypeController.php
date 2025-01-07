@@ -85,6 +85,39 @@ class RequestTypeController extends Controller{
 
         return redirect()->route('requesttype.index')->with('success', 'Loại yêu cầu được thêm thành công.');
     }
+    //Chỉnh sửa loại yêu cầu
+    public function edit($request_type_id)
+    {
+        $template = 'admin.requesttype.edit';
+        $logged_user = Employee::with('user')->where('user_id', '=', Auth::user()->user_id)->first();
+        $requestType = RequestType::findOrFail($request_type_id); // Đảm bảo bạn đang gọi đúng model
+
+        $data = RequestController::getUnreadRequests();
+
+        $unreadRequests = $data['unreadRequests'];
+        $unreadRequestCount = $data['unreadRequestCount'];
+
+        return view('admin.dashboard.layout', compact(
+            'template',
+            'logged_user',
+            'requestType',
+            'unreadRequests',
+            'unreadRequestCount'
+        ));
+    }
+
+    // Cập nhật loại yêu cầu
+    public function update(Request $request, $request_type_id)
+    {
+        $requestType = RequestType::findOrFail($request_type_id); // Sửa từ Department thành RequestType
+
+        $requestType->update([
+            'request_type_name' => $request->input('request_type_name'),
+        ]);
+
+        return redirect()->route('requesttype.index')
+            ->with('success', 'Thông tin loại yêu cầu đã được cập nhật!');
+    }
 
     // Xóa loại yêu cầu
     public function destroy($request_type_id)

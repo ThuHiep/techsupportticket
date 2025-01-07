@@ -53,6 +53,11 @@
                         <td>{{ ($requesttypes->currentPage() - 1) * $requesttypes->perPage() + $index + 1 }}</td>
                         <td>{{ $requesttype->request_type_name }}</td>
                         <td>
+                            <form action="{{ route('requesttype.edit', $requesttype->request_type_id) }}" style="display:inline;">
+                                <button type="submit" class="edit-button" title="Sửa loại yêu cầu">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form>
                             <form action="{{ route('requesttype.delete', $requesttype->request_type_id) }}" method="POST" style="display:inline;" id="deleteForm{{ $requesttype->request_type_id }}">
                                 @csrf
                                 @method('DELETE')

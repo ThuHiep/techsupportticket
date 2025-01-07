@@ -136,6 +136,8 @@ Route::name('requesttype.')->group(function () {
     Route::get('/requesttype/index', [RequestTypeController::class, 'index'])->middleware('customersp')->name('index');
     Route::get('/requesttype/create', [RequestTypeController::class, 'create'])->middleware('customersp')->name('create');
     Route::post('/requesttype/store', [RequestTypeController::class, 'store'])->middleware('customersp')->name('store');
+    Route::get('/requesttype/edit/{request_type_id}', [RequestTypeController::class, 'edit'])->middleware('customersp')->name('edit');
+    Route::put('/requesttype/update/{request_type_id}', [RequestTypeController::class, 'update'])->middleware('customersp')->name('update');
     Route::delete('/requesttype/delete/{request_type_id}', [RequestTypeController::class, 'destroy'])->middleware('customersp')->name('delete');
 });
 
