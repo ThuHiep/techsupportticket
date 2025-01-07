@@ -13,10 +13,6 @@ use App\Http\Controllers\admin\AttachmentController;
 use App\Http\Controllers\admin\ArticlesController;
 use App\Http\Controllers\admin\ExportController;
 use App\Http\Controllers\admin\RequestTypeController;
-<<<<<<< HEAD
-
-=======
->>>>>>> 397e5122202fe0ff7b608398fc15d3303e3ccc14
 
 
 
