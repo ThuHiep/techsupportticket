@@ -130,6 +130,46 @@
             padding: 10px;
             font-size: 14px;
         }
+
+        #copyLinkButton {
+            background-color: #007bff;
+            /* Màu nền xanh dương */
+            color: white;
+            /* Màu chữ trắng */
+            border: none;
+            /* Bỏ đường viền */
+            padding: 10px 20px;
+            /* Khoảng cách bên trong nút */
+            font-size: 16px;
+            /* Kích thước chữ */
+            border-radius: 5px;
+            /* Bo góc */
+            cursor: pointer;
+            /* Con trỏ chuột khi hover */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            /* Hiệu ứng hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Hiệu ứng đổ bóng */
+            margin-top: 10px;
+        }
+
+        #copyLinkButton:hover {
+            background-color: #0056b3;
+            /* Màu xanh đậm hơn khi hover */
+            transform: translateY(-2px);
+            /* Hiệu ứng đẩy nút lên */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            /* Đổ bóng mạnh hơn khi hover */
+        }
+
+        #copyLinkButton:active {
+            transform: translateY(0);
+            /* Trả về vị trí ban đầu khi click */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Giảm đổ bóng khi click */
+            background-color: #004085;
+            /* Màu xanh tối hơn khi click */
+        }
     </style>
 </head>
 
@@ -732,7 +772,7 @@
         <div class="instructions">Bài viết hướng dẫn</div>
         <div class="carousel" id="carousel">
             @foreach($articles as $article)
-            <div class="carousel-card" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', '{{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
+            <div class="carousel-card" data-id="{{ $article->article_id }}" onclick="openHuongdanModal(this, '{{ $article->title }}', '{{ $article->content }}', 'Ngày đăng: {{ $article->create_at ? \Carbon\Carbon::parse($article->create_at)->format('d/m/Y') : 'Chưa có ngày đăng' }}')">
                 <img src="{{ asset('admin/img/articles/' . $article->images) }}" alt="Hình ảnh {{ $article->title }}">
 
                 <h3 class="article-title">{{ $article->title }}</h3>
@@ -759,7 +799,7 @@
         </div>
         <h3 id="huongdanModalTitle"></h3>
         <p id="huongdanModalContent"></p>
-
+        <button id="copyLinkButton" onclick="copyModalLink()">Sao chép liên kết</button>
     </div>
 
     <script>
@@ -767,6 +807,7 @@
             document.getElementById('huongdanModalTitle').innerText = title;
             document.getElementById('huongdanModalContent').innerHTML = content;
             document.getElementById('huongdanModalDate').innerText = date;
+
             if (img == null) {
                 const imageSrc = cardElement.querySelector('img').getAttribute('src');
                 document.getElementById('huongdanModalImage').setAttribute('src', imageSrc);
@@ -779,6 +820,14 @@
 
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "block";
+
+            // Cập nhật URL với article ID
+            const articleId = cardElement.getAttribute('data-id');
+            const newUrl = `${window.location.origin}${window.location.pathname}?article=${articleId}`;
+            console.log(newUrl);
+            window.history.pushState({
+                path: newUrl
+            }, '', newUrl);
         }
 
 
@@ -788,9 +837,21 @@
 
             const overlay = document.getElementById('huongdanModalOverlay');
             overlay.style.display = "none";
+
+            // Xóa tham số article khỏi URL
+            const newUrl = window.location.pathname;
+            window.history.pushState({
+                path: newUrl
+            }, '', newUrl);
         }
 
-
+        function copyModalLink() {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article'); // Lấy ID bài viết từ URL hiện tại
+            const link = articleId ?
+                `${window.location.origin}${window.location.pathname}?article=${articleId}` :
+                `${window.location.origin}${window.location.pathname}`;
+        }
 
         // Hàm toggle khi click vào card để phóng to card
         function toggleCard(cardElement, title, content, date) {
@@ -861,6 +922,24 @@
             // Ensure only 2 cards are visible at a time
             const containerWidth = 990; // Adjusted for larger cards (300px each + margin)
             document.querySelector('.carousel-container').style.width = `${containerWidth}px`;
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article');
+            if (articleId) {
+                // Tìm bài viết tương ứng
+                const articleCard = document.querySelector(`.carousel-card[data-id="${articleId}"]`);
+                if (articleCard) {
+                    const title = articleCard.querySelector('.article-title').innerText;
+                    const content = articleCard.querySelector('.article-content').innerText;
+                    const date = articleCard.querySelector('.article-date').innerText;
+                    const img = articleCard.querySelector('img').getAttribute('src');
+
+                    // Mở modal
+                    openHuongdanModal(articleCard, title, content, date, img);
+                }
+            }
         });
     </script>
 
