@@ -377,7 +377,7 @@ input.error, select.error {
     position: absolute;
     top: 21px;
     left: 20px;
-    background-color: transparent;
+    background-color: #f8ac59;
     transition: .2s;
     font-size: 15px;
 }
