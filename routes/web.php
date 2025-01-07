@@ -110,7 +110,7 @@ Route::name('employee.')->group(function () {
 
 //Permission
 Route::name('permission.')->group(function () {
-    Route::get('permission/index', [PermissionController::class, 'index'])->middleware('customersp')->name('index');
+    Route::get('permission/index', [PermissionController::class, 'index'])->middleware('admin')->name('index');
     Route::get('/permission/create', [PermissionController::class, 'create'])->middleware('admin')->name('create');
     Route::post('/permission/save', [PermissionController::class, 'save'])->middleware('admin')->name('save');
     Route::get('/permission/edit/{id}', [PermissionController::class, 'editPermission'])->middleware('admin')->name('edit');
