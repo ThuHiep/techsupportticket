@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\DepartmentController;
 use App\Http\Controllers\admin\EmployeeController;
 use App\Http\Controllers\admin\RequestController;
 use App\Http\Controllers\admin\FAQController;
 use App\Http\Controllers\admin\PermissionController;
-use App\Http\Controllers\Admin\StatisticalController;
-use App\Http\Controllers\Admin\ReportController;
-use App\Http\Controllers\Admin\AttachmentController;
-use App\Http\Controllers\Admin\ArticlesController;
-use App\Http\Controllers\Admin\ExportController;
-use App\Http\Controllers\Admin\RequestTypeController;
+use App\Http\Controllers\admin\StatisticalController;
+use App\Http\Controllers\admin\ReportController;
+use App\Http\Controllers\admin\AttachmentController;
+use App\Http\Controllers\admin\ArticlesController;
+use App\Http\Controllers\admin\ExportController;
+use App\Http\Controllers\admin\RequestTypeController;
 
 
 

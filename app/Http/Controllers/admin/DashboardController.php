@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
@@ -569,11 +569,11 @@ class DashboardController extends Controller
         return [
             'js' => [
 
-                'admin/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
-                'admin/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
-                'admin/js/plugins/easypiechart/jquery.easypiechart.js',
-                'admin/js/plugins/sparkline/jquery.sparkline.min.js',
-                'admin/js/demo/sparkline-demo.js',
+                'statis/admin/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
+                'statis/admin/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
+                'statis/admin/js/plugins/easypiechart/jquery.easypiechart.js',
+                'statis/admin/js/plugins/sparkline/jquery.sparkline.min.js',
+                'statis/admin/js/demo/sparkline-demo.js',
             ],
         ];
     }
