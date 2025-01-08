@@ -1302,8 +1302,25 @@
     }
     // Hàm cập nhật liên kết xuất CSV
     function updateExportLink(reportType) {
-        const exportCsvLink = document.getElementById('exportCsvLink');
-        exportCsvLink.href = `{{ url('/export/csv') }}/${reportType}`;
+        let exportLink = document.getElementById('exportCsvLink');
+        let startDate, endDate;
+
+        if (reportType === 'time') {
+            const dateRange = $('#dateRange').val();
+            const dates = dateRange.split(' - ');
+
+            if (dates.length === 2) {
+                startDate = dates[0];
+                endDate = dates[1];
+            } else {
+                alert('Vui lòng chọn khoảng thời gian hợp lệ.');
+                return;
+            }
+
+            exportLink.href = `/admin/export/time?start=${startDate}&end=${endDate}`;
+        } else {
+            exportLink.href = `{{ route('export.csv', '') }}/${reportType}`;
+        }
     }
 
     function clearInput(inputId) {

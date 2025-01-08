@@ -101,17 +101,17 @@ class UserController extends Controller
         }
 
         // Cập nhật thông tin khách hàng
-        $logged_user->full_name = $request['full_name'];
-        $logged_user->date_of_birth = $request['date_of_birth'];
-        $logged_user->gender = $request['gender'];
-        $logged_user->phone = $request['phone'];
-        $logged_user->address = $request['address'];
+        $logged_user->full_name = $request['full_name'] ?? null;
+        $logged_user->date_of_birth = $request['date_of_birth'] ?? null ;
+        $logged_user->gender = $request['gender']?? null ;
+        $logged_user->phone = $request['phone']?? null ;
+        $logged_user->address = $request['address'] ?? null;
         $logged_user->profile_image = $profileImagePath;
-        $logged_user->software = $request['software'];
-        $logged_user->website = $request['website'];
-        $logged_user->company = $request['company'];
-        $logged_user->email = $request['email'];
-        $logged_user->tax_id = $request['tax_id'];
+        $logged_user->software = $request['software'] ?? null;
+        $logged_user->website = $request['website'] ?? null;
+        $logged_user->company = $request['company'] ?? null;
+        $logged_user->email = $request['email'] ?? null;
+        $logged_user->tax_id = $request['tax_id'] ?? null;
         $logged_user->update_at = now();
         $logged_user->save();
 

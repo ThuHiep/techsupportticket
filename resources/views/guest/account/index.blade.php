@@ -38,7 +38,7 @@
                 <li>
                     <a href="#portfolio"><i class="bi bi-card-text navicon"></i>YÊU CẦU</a>
                 </li>
-              
+
                 {{-- <li>
                     <a href="#contact"><i class="bi bi-gear navicon"></i>CÀI ĐẶT</a>
                 </li> --}}
@@ -443,7 +443,7 @@
 
                                 <!-- Buttons -->
                                 <div class="button-group">
-                                    <button type="submit" class="btn-update">Cập nhật</button>
+                                    <button type="submit1" class="btn-update">Cập nhật</button>
                                     <button type="button" class="btn-cancel">Hủy</button>
                                 </div>
                             </form>
@@ -661,15 +661,19 @@
                                         hasError = true;
                                     }
                                 }
+                                console.log('Validation complete. Has error:', hasError);
+                                return !hasError; // Return true if no errors exist
 
-                                return !hasError;
                             };
 
-                            form.addEventListener('submit', async function(e) {
-                                e.preventDefault();
-                                const isValid = await validateForm();
+                            form.addEventListener('submit1', async function(e) {
+                                e.preventDefault(); // Prevent default form submission
+
+                                const isValid = await validateForm(); // Validate the form
                                 if (isValid) {
-                                    form.submit();
+                                    form.submit1(); // Submit the form if valid
+                                } else {
+                                    console.log('Form is not valid'); // Log for debugging
                                 }
                             });
 

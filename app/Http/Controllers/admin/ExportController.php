@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\RequestType;
+use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use App\Models\Request; // Đảm bảo bạn đang sử dụng đúng namespace
@@ -15,7 +16,7 @@ use App\Models\Request; // Đảm bảo bạn đang sử dụng đúng namespace
 
 class ExportController extends Controller
 {
-    public function export($type)
+    public function export($type, Request $request)
     {
         $directoryPath = public_path('admin/csv');
         if (!file_exists($directoryPath)) {
@@ -131,7 +132,43 @@ class ExportController extends Controller
                 break;
 
             case 'time':
-                // Xử lý cho loại báo cáo theo thời gian
+                // Get the start and end dates from the request
+                $startDate = $request->input('start'); // Expecting 'YYYY-MM-DD'
+                $endDate = $request->input('end'); // Expecting 'YYYY-MM-DD'
+
+                // Write headers
+                fputcsv($file, ['Thời gian', 'Đang xử lý', 'Chưa xử lý', 'Hoàn thành', 'Đã hủy']);
+
+                // Fetch requests within the specified date range
+                $requests = Request::whereBetween('create_at', [Carbon::parse($startDate), Carbon::parse($endDate)])
+                    ->get()
+                    ->groupBy(function($date) {
+                        return Carbon::parse($date->create_at)->format('Y-m-d'); // Group by date
+                    });
+
+                // Prepare totals
+                $totalCounts = ['pending' => 0, 'inProgress' => 0, 'completed' => 0, 'canceled' => 0];
+
+                // Iterate through grouped requests and count statuses
+                foreach ($requests as $date => $group) {
+                    $counts = $this->countRequestStatuses($group);
+                    fputcsv($file, [
+                        $date,
+                        $counts['inProgress'],
+                        $counts['pending'],
+                        $counts['completed'],
+                        $counts['canceled']
+                    ]);
+
+                    // Aggregate totals
+                    $totalCounts['pending'] += $counts['pending'];
+                    $totalCounts['inProgress'] += $counts['inProgress'];
+                    $totalCounts['completed'] += $counts['completed'];
+                    $totalCounts['canceled'] += $counts['canceled'];
+                }
+
+                // Write overall totals
+                fputcsv($file, ['Tổng cộng', $totalCounts['inProgress'], $totalCounts['pending'], $totalCounts['completed'], $totalCounts['canceled']]);
                 break;
 
             default:
@@ -146,6 +183,16 @@ class ExportController extends Controller
 
         // Tải xuống file CSV
         return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
+    private function countRequestStatuses($group)
+    {
+        return [
+            'pending' => $group->where('status', 'Chưa xử lý')->count(),
+            'inProgress' => $group->where('status', 'Đang xử lý')->count(),
+            'completed' => $group->where('status', 'Hoàn thành')->count(),
+            'canceled' => $group->where('status', 'Đã hủy')->count(),
+        ];
     }
 
     private function formatVietnameseName($name)
