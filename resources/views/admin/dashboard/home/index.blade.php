@@ -113,7 +113,7 @@
         <div class="report-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h1>Báo cáo số lượng yêu cầu</h1>
             <div class="csvLink">
-                <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">
+                <a id="exportCsvLink" >
                     In <i class="fas fa-print"></i>
                 </a>
             </div>
@@ -1152,10 +1152,14 @@
             $('#dateRangePicker').toggle();
         });
 
-        // Lắng nghe sự kiện khi chọn khoảng thời gian
         $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
             const startDate = picker.startDate.format('YYYY-MM-DD');
             const endDate = picker.endDate.format('YYYY-MM-DD');
+
+            const exportLink = document.getElementById('exportCsvLink');
+            exportLink.href = `/export-csv/time?start=${startDate}&end=${endDate}`; // Correct URL formation
+
+            // Update the chart or any other actions
             updateChartFromDateRange(startDate, endDate);
         });
 
@@ -1301,6 +1305,11 @@
         }, 5000);
     }
     // Hàm cập nhật liên kết xuất CSV
+    {{--function updateExportLink(reportType) {--}}
+    {{--    const exportCsvLink = document.getElementById('exportCsvLink');--}}
+    {{--    exportCsvLink.href = `{{ url('/export/csv') }}/${reportType}`;--}}
+    {{--}--}}
+
     function updateExportLink(reportType) {
         let exportLink = document.getElementById('exportCsvLink');
         let startDate, endDate;
@@ -1312,12 +1321,11 @@
             if (dates.length === 2) {
                 startDate = dates[0];
                 endDate = dates[1];
+                exportLink.href = `/admin/export/time?start=${startDate}&end=${endDate}`; // Ensure this is correct
             } else {
                 alert('Vui lòng chọn khoảng thời gian hợp lệ.');
                 return;
             }
-
-            exportLink.href = `/admin/export/time?start=${startDate}&end=${endDate}`;
         } else {
             exportLink.href = `{{ route('export.csv', '') }}/${reportType}`;
         }

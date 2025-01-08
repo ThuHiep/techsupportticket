@@ -9,7 +9,8 @@ use App\Models\RequestType;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
-use App\Models\Request; // Đảm bảo bạn đang sử dụng đúng namespace
+use Illuminate\Http\Request;
+use App\Models\Request as HttpRequest;
 
 
 
@@ -18,6 +19,7 @@ class ExportController extends Controller
 {
     public function export($type, Request $request)
     {
+
         $directoryPath = public_path('admin/csv');
         if (!file_exists($directoryPath)) {
             mkdir($directoryPath, 0777, true);
@@ -133,25 +135,56 @@ class ExportController extends Controller
 
             case 'time':
                 // Get the start and end dates from the request
-                $startDate = $request->input('start'); // Expecting 'YYYY-MM-DD'
-                $endDate = $request->input('end'); // Expecting 'YYYY-MM-DD'
+                $startDate = Carbon::parse($request->input('start', now()->subMonth()->startOfMonth()));
+                $endDate = Carbon::parse($request->input('end', now()->endOfMonth()));
 
                 // Write headers
                 fputcsv($file, ['Thời gian', 'Đang xử lý', 'Chưa xử lý', 'Hoàn thành', 'Đã hủy']);
 
                 // Fetch requests within the specified date range
-                $requests = Request::whereBetween('create_at', [Carbon::parse($startDate), Carbon::parse($endDate)])
-                    ->get()
-                    ->groupBy(function($date) {
-                        return Carbon::parse($date->create_at)->format('Y-m-d'); // Group by date
-                    });
+                $requests = HttpRequest::whereBetween('create_at', [$startDate, $endDate])->get();
 
-                // Prepare totals
-                $totalCounts = ['pending' => 0, 'inProgress' => 0, 'completed' => 0, 'canceled' => 0];
+                // Create an array to hold counts for each day
+                $dateCounts = [];
+                $dateRange = [];
 
-                // Iterate through grouped requests and count statuses
-                foreach ($requests as $date => $group) {
-                    $counts = $this->countRequestStatuses($group);
+                // Generate all dates in the range
+                for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+                    $formattedDate = $date->format('Y-m-d');
+                    $dateCounts[$formattedDate] = [
+                        'inProgress' => 0,
+                        'pending' => 0,
+                        'completed' => 0, // Ensure this key matches your database status
+                        'canceled' => 0,   // Ensure this key matches your database status
+                    ];
+                    $dateRange[] = $formattedDate; // Keep track of all dates
+                }
+
+                // Count requests for each date
+                foreach ($requests as $request) {
+                    $dateKey = Carbon::parse($request->create_at)->format('Y-m-d');
+                    if (isset($dateCounts[$dateKey])) {
+                        // Adjust the key to match the actual status values in your database
+                        switch ($request->status) {
+                            case 'Chưa xử lý':
+                                $dateCounts[$dateKey]['pending']++;
+                                break;
+                            case 'Đang xử lý':
+                                $dateCounts[$dateKey]['inProgress']++;
+                                break;
+                            case 'Hoàn thành':
+                                $dateCounts[$dateKey]['completed']++;
+                                break;
+                            case 'Đã hủy':
+                                $dateCounts[$dateKey]['canceled']++;
+                                break;
+                        }
+                    }
+                }
+
+                // Write counts to CSV for each date
+                foreach ($dateRange as $date) {
+                    $counts = $dateCounts[$date];
                     fputcsv($file, [
                         $date,
                         $counts['inProgress'],
@@ -159,8 +192,18 @@ class ExportController extends Controller
                         $counts['completed'],
                         $counts['canceled']
                     ]);
+                }
 
-                    // Aggregate totals
+                // Prepare total counts
+                $totalCounts = [
+                    'pending' => 0,
+                    'inProgress' => 0,
+                    'completed' => 0,
+                    'canceled' => 0
+                ];
+
+                // Aggregate totals
+                foreach ($dateCounts as $counts) {
                     $totalCounts['pending'] += $counts['pending'];
                     $totalCounts['inProgress'] += $counts['inProgress'];
                     $totalCounts['completed'] += $counts['completed'];
