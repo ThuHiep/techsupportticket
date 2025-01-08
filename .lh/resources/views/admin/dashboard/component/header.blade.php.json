@@ -1,0 +1,18 @@
+{
+    "sourceFile": "resources/views/admin/dashboard/component/header.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1736265758022,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1736265758022,
+            "name": "Commit-0",
+            "content": "<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n<title>SWEETSOFT</title>\n\n<link href=\"admin/css/bootstrap.min.css\" rel=\"stylesheet\">\n<link href=\"admin/font-awesome/css/font-awesome.css\" rel=\"stylesheet\">\n<link href=\"admin/font-awesome/css/font-awesome.min.css\" rel=\"stylesheet\">\n<link href=\"admin/css/plugins/toastr/toastr.min.css\" rel=\"stylesheet\">\n<link href=\"admin/css/animate.css\" rel=\"stylesheet\">\n<link href=\"admin/css/style.css\" rel=\"stylesheet\">\n<link href=\"admin/css/customize.css\" rel=\"stylesheet\">\n<link href=\"admin/css/plugins/iCheck/custom.css\" rel=\"stylesheet\">\n<link href=\"admin/css/plugins/summernote/summernote.css\" rel=\"stylesheet\">\n<link href=\"admin/css/plugins/summernote/summernote-bs3.css\" rel=\"stylesheet\">\n\n\n\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css\"> <!--Huy thêm-->\n"
+        }
+    ]
+}

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\FaqFeedback;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\FAQ;
+use App\Http\Controllers\admin\RequestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;

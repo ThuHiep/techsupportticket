@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Controllers\admin\RequestController;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 

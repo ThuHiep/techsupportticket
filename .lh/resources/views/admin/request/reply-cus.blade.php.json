@@ -1,0 +1,18 @@
+{
+    "sourceFile": "resources/views/admin/request/reply-cus.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1736256904160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1736256904160,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\n<html>\n<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css\" rel=\"stylesheet\">\n\n<script src=\"admin/js/jquery-3.1.1.min.js\"></script>\n<script src=\"admin/js/bootstrap.min.js\"></script>\n<script src=\"admin/js/plugins/iCheck/icheck.min.js\"></script>\n<script src=\"admin/js/plugins/pace/pace.min.js\"></script>\n<script src=\"admin/js/plugins/summernote/summernote.min.js\"></script>\n\n<body>\n    <div class=\"animated fadeInRight\">\n        <div class=\"mail-box-header\">\n            <h2>\n                Nội dung phản hồi\n            </h2>\n        </div>\n        <div class=\"mail-box\">\n            <form action=\"{{ route('request.reply', $supportRequest->request_id) }}\" method=\"POST\">\n                @csrf\n                <div class=\"mail-text\">\n                    <textarea id=\"reply_content\" name=\"reply_content\" class=\"summernote\"></textarea>\n                    <div class=\"clearfix\"></div>\n                </div>\n\n                <div class=\"mail-body text-right tooltip-demo\">\n                    <button type=\"submit\" class=\"btn btn-sm btn-primary\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Send\">\n                        <i class=\"fa fa-share\"></i> <span style=\"font-size: 18px\">Gửi</span>\n                    </button>\n                </div>\n            </form>\n            <div class=\"clearfix\"></div>\n\n        </div>\n    </div>\n\n\n    <!-- SUMMERNOTE -->\n\n    <script>\n        $(document).ready(function() {\n            $('.summernote').summernote({\n                height: 200\n            });\n\n            const submitButton = $(\"button[type='submit']\");\n\n            function checkContent() {\n                const content = $('.summernote').summernote('code').trim();\n                const isEmpty = $('.summernote').summernote('isEmpty');\n\n                if (isEmpty || content === '' || content === '<p><br></p>') {\n                    submitButton.prop('disabled', true);\n                    submitButton.css('opacity', '0.5');\n                } else {\n                    submitButton.prop('disabled', false);\n                    submitButton.css('opacity', '1');\n                }\n            }\n\n            checkContent();\n\n            $('.summernote').on('summernote.change', function() {\n                checkContent();\n            });\n        });\n    </script>\n\n\n</body>\n\n</html>"
+        }
+    ]
+}

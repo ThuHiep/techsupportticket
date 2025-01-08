@@ -9,12 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/css/article/create.css') }}">
 
-    <!-- Mainly scripts -->
-    <script src="admin/js/jquery-3.1.1.min.js"></script>
-    <script src="admin/js/bootstrap.min.js"></script>
-    <script src="admin/js/plugins/iCheck/icheck.min.js"></script>
-    <script src="admin/js/plugins/pace/pace.min.js"></script>
-    <script src="admin/js/plugins/summernote/summernote.min.js"></script>
+
     <style>
         body .container {
             width: calc(98%);
