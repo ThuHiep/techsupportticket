@@ -112,10 +112,6 @@
     <div class="report-select-container">
         <div class="report-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h1>Báo cáo số lượng yêu cầu</h1>
-
-            <a id="exportCsvLink" href="{{ route('export.csv', 'customer') }}">
-                <i class="fas fa-print"></i>
-            </a>
             <div class="csvLink">
                 <a id="exportCsvLink" href="{{ route('export.csv', 'department') }}">
                     In <i class="fas fa-print"></i>
@@ -294,6 +290,7 @@
         const departmentDataContainer = document.getElementById('departmentDataContainer');
         const timeDataContainer = document.getElementById('timeDataContainer');
 
+        // Hiển thị hoặc ẩn các phần tử dựa trên báo cáo đã chọn
         customerReportContainer.style.display = selectedReport === 'customer' ? 'block' : 'none';
         requestTypeReportContainer.style.display = selectedReport === 'requestType' ? 'block' : 'none';
         departmentReportContainer.style.display = selectedReport === 'department' ? 'block' : 'none';
@@ -304,14 +301,19 @@
         departmentDataContainer.style.display = selectedReport === 'department' ? 'block' : 'none';
         timeDataContainer.style.display = selectedReport === 'time' ? 'block' : 'none';
 
+        // Cập nhật báo cáo dựa trên lựa chọn
         if (selectedReport === 'customer') {
             updateCustomerReport();
+            updateExportLink('customer'); // Cập nhật liên kết xuất CSV
         } else if (selectedReport === 'requestType') {
             updateRequestTypeData();
+            updateExportLink('requestType'); // Cập nhật liên kết xuất CSV
         } else if (selectedReport === 'department') {
             updateDepartmentReport();
+            updateExportLink('department'); // Cập nhật liên kết xuất CSV
         } else if (selectedReport === 'time') {
             updateTimeReport(); // Cập nhật dữ liệu thời gian, mặc định là hôm nay
+            updateExportLink('time'); // Cập nhật liên kết xuất CSV
         }
     }
 
@@ -1298,13 +1300,10 @@
             sessionMessage.style.display = 'none';
         }, 5000);
     }
-    function updateExportLink() {
-        const reportSelect = document.getElementById('reportSelect');
-        const selectedValue = reportSelect.value;
+    // Hàm cập nhật liên kết xuất CSV
+    function updateExportLink(reportType) {
         const exportCsvLink = document.getElementById('exportCsvLink');
-
-        // Cập nhật liên kết dựa trên lựa chọn của người dùng
-        exportCsvLink.href = `{{ url('export/csv') }}/${selectedValue}`;
+        exportCsvLink.href = `{{ url('/export/csv') }}/${reportType}`;
     }
 
     function clearInput(inputId) {
