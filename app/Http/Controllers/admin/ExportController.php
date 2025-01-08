@@ -40,25 +40,50 @@ class ExportController extends Controller
         switch ($type) {
             case 'customer':
                 fputcsv($file, ['Mã khách hàng', 'Họ và tên', 'Số lượng yêu cầu']); // Ghi tiêu đề
+                // Lấy tên hoặc mã khách hàng từ request
+                $customerName = $request->input('customer_name', '');
+                $customerId = $request->input('customer_id', '');
+                // Lấy danh sách khách hàng và số lượng yêu cầu của họ, có lọc
+                $query = Customer::withCount('requests');
 
-                // Lấy danh sách khách hàng và số lượng yêu cầu của họ
-                $customers = Customer::withCount('requests')->get();
+                // Lọc theo tên khách hàng nếu có
+                if (!empty($customerName)) {
+                    $query->where('full_name', 'LIKE', '%' . $customerName . '%');
+                }
 
+                // Lọc theo mã khách hàng nếu có
+                if (!empty($customerId)) {
+                    $query->where('customer_id', $customerId);
+                }
+                $customers = $query->get();
+                // Khởi tạo biến tổng cộng
+                $totalRequests = 0;
                 foreach ($customers as $customer) {
                     fputcsv($file, [
                         $customer->customer_id,
                         $this->formatVietnameseName($customer->full_name),
                         $customer->requests_count
                     ]); // Ghi dữ liệu
-                }
-                break;
 
+                    // Cộng dồn số lượng yêu cầu
+                    $totalRequests += $customer->requests_count;
+                }
+                // Ghi dòng tổng cộng
+                fputcsv($file, ['Tổng cộng', '', $totalRequests]);
+                break;
             case 'requestType':
                 // Ghi tiêu đề cho các cột
                 fputcsv($file, ['Request Type', 'Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy']);
 
-                // Lấy danh sách các loại yêu cầu và số lượng yêu cầu của chúng
-                $requestTypes = RequestType::withCount('requests')->get();
+                // Lấy loại yêu cầu từ request
+                $selectedRequestType = $request->input('type', 'all'); // Mặc định là 'all'
+
+                // Lấy danh sách các loại yêu cầu
+                if ($selectedRequestType !== 'all') {
+                    $requestTypes = RequestType::where('request_type_name', $selectedRequestType)->withCount('requests')->get();
+                } else {
+                    $requestTypes = RequestType::withCount('requests')->get();
+                }
 
                 $totalPending = 0;
                 $totalInProgress = 0;
@@ -95,10 +120,17 @@ class ExportController extends Controller
 
             case 'department':
                 // Ghi tiêu đề cho các cột
-                fputcsv($file, ['Department', 'Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy']);
+                fputcsv($file, ['Phòng ban', 'Chưa xử lý', 'Đang xử lý', 'Hoàn thành', 'Đã hủy']);
 
-                // Lấy danh sách các phòng ban và số lượng yêu cầu của chúng
-                $departments = Department::withCount('requests')->get();
+                // Lấy phòng ban từ request
+                $selectedDepartment = $request->input('department', 'all'); // Mặc định là 'all'
+
+                // Lấy danh sách các phòng ban
+                if ($selectedDepartment !== 'all') {
+                    $departments = Department::where('department_name', $selectedDepartment)->withCount('requests')->get();
+                } else {
+                    $departments = Department::withCount('requests')->get();
+                }
 
                 $totalPending = 0;
                 $totalInProgress = 0;
@@ -226,16 +258,6 @@ class ExportController extends Controller
 
         // Tải xuống file CSV
         return response()->download($filePath)->deleteFileAfterSend(true);
-    }
-
-    private function countRequestStatuses($group)
-    {
-        return [
-            'pending' => $group->where('status', 'Chưa xử lý')->count(),
-            'inProgress' => $group->where('status', 'Đang xử lý')->count(),
-            'completed' => $group->where('status', 'Hoàn thành')->count(),
-            'canceled' => $group->where('status', 'Đã hủy')->count(),
-        ];
     }
 
     private function formatVietnameseName($name)

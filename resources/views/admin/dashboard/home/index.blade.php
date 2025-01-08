@@ -1337,6 +1337,53 @@
             input.value = ''; // Xóa nội dung trong ô input
         }
     }
+
+    // Xuất CSV theo từng loại
+    $('#requestTypeSelect').on('change', function() {
+        const selectedType = $(this).val();
+        const exportLink = document.getElementById('exportCsvLink');
+        exportLink.href = `/export-csv/requestType?type=${selectedType}`; // Gửi loại yêu cầu đã chọn
+        updateChartBasedOnSelection(); // Cập nhật biểu đồ dựa trên lựa chọn
+    });
+
+    // Xuất CSV theo từng phòng ban
+    $('#departmentFilter').on('change', function() {
+        const selectedDepartment = $(this).val();
+        const exportLink = document.getElementById('exportCsvLink');
+
+        // Cập nhật liên kết xuất CSV với phòng ban đã chọn
+        exportLink.href = `/export-csv/department?department=${selectedDepartment}`;
+
+        // Gọi hàm để cập nhật báo cáo
+        updateDepartmentReport(selectedDepartment);
+    });
+
+    // Lắng nghe sự kiện thay đổi trên input tìm kiếm tên khách hàng
+    $('#customerNameInput').on('keyup', function() {
+        const customerName = $(this).val();
+        const customerId = $('#customerIdInput').val(); // Lấy mã khách hàng từ input
+
+        // Cập nhật liên kết xuất CSV với tên và mã khách hàng đã nhập
+        const exportLink = document.getElementById('exportCsvLink');
+        exportLink.href = `/export-csv/customer?customer_name=${encodeURIComponent(customerName)}&customer_id=${encodeURIComponent(customerId)}`;
+
+        // Gọi hàm để lọc khách hàng hoặc cập nhật báo cáo theo tên
+        filterCustomers('name');
+    });
+
+    // Lắng nghe sự kiện thay đổi trên input mã khách hàng
+    $('#customerIdInput').on('keyup', function() {
+        const customerId = $(this).val();
+        const customerName = $('#customerNameInput').val(); // Lấy tên khách hàng từ input
+
+        // Cập nhật liên kết xuất CSV với tên và mã khách hàng đã nhập
+        const exportLink = document.getElementById('exportCsvLink');
+        exportLink.href = `/export-csv/customer?customer_name=${encodeURIComponent(customerName)}&customer_id=${encodeURIComponent(customerId)}`;
+
+        // Gọi hàm để lọc khách hàng hoặc cập nhật báo cáo theo mã
+        filterCustomers('id');
+    });
+
 </script>
 </body>
 </html>
