@@ -48,6 +48,7 @@ class CustomerController extends Controller
             })
             ->paginate(3);
 
+        $totalResults = $customers->total();
         $data = RequestController::getUnreadRequests();
 
         // Lấy danh sách request và số lượng request chưa đọc
@@ -61,7 +62,8 @@ class CustomerController extends Controller
             'searchPerformed',
             'search',
             'unreadRequests',
-            'unreadRequestCount'
+            'unreadRequestCount',
+            'totalResults'
         ));
     }
 
