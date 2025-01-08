@@ -15,10 +15,12 @@ class AccountApproved extends Mailable
     use Queueable, SerializesModels;
 
     public $customer;
+    public $password;
 
-    public function __construct(Customer $customer)
+    public function __construct(Customer $customer, $password)
     {
         $this->customer = $customer;
+        $this->password = $password;
 
     }
 
@@ -32,7 +34,7 @@ class AccountApproved extends Mailable
             ->with([
                 'customerName' => $this->customer->full_name,
                 'username' => $username,
-                'password' => $password,
+                'password' => $this-> password,
             ]);
     }
 }
