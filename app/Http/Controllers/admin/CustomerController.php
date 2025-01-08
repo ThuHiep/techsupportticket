@@ -278,13 +278,12 @@ class CustomerController extends Controller
                 } else {
                     return redirect()->route('customer.index')->with('error', 'Email không hợp lệ.');
                 }
-
                 return redirect()->route('customer.index')->with([
                     'success' => 'Tài khoản đã được duyệt và email thông báo đã được gửi!',
                     'notification_duration' => 500 // thời gian hiển thị thông báo (ms)
                 ]);
             } else {
-                return redirect()->route('customer.index')->with('error', 'Tài khoản không trong trạng thái cần duyệt');
+                return redirect()->route('customer.index')->with('error', 'Tài khoản đã được phê duyệt');
             }
         }
 
