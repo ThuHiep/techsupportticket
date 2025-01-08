@@ -34,7 +34,7 @@ class Register extends Mailable
     public function build()
     {
         return $this->view('emails.register')
-            ->subject('Welcome to Our Platform!')
+            ->subject('Đăng ký tài khoản!')
             ->with(['customer' => $this->customer]);
     }
 }
