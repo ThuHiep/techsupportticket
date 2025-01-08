@@ -97,7 +97,9 @@ class ReportController extends Controller
         //dd($departmentData);
 
         // Time-based statistics
-        $timeData = $this->getTimeBasedStatistics();
+        $startDate = now()->startOfMonth();
+        $endDate = now()->endOfMonth();
+        $timeData = $this->getTimeBasedStatistics($startDate, $endDate);
         //dd($timeData);
 
         $data = RequestController::getUnreadRequests();
@@ -148,56 +150,56 @@ class ReportController extends Controller
         return response()->json($response);
     }
 
-    public function getRequestData(Request $request)
-    {
-        $period = $request->input('period');
-        $startDate = $request->input('startDate');
-        $endDate = $request->input('endDate');
-        $data = DB::table('request')
-            ->select('status', DB::raw('COUNT(*) as count'))
-            ->groupBy('status')
-            ->get();
-
-        // Kiểm tra xem startDate và endDate có được gửi hay không
-        if ($startDate && $endDate) {
-            // Nếu có, chuyển về định dạng Carbon để dễ dàng so sánh
-            $startDate = Carbon::parse($startDate);
-            $endDate = Carbon::parse($endDate);
-
-            // Lấy dữ liệu cho khoảng thời gian từ startDate đến endDate
-            while ($startDate <= $endDate) {
-                $date = $startDate->format('Y-m-d');
-                $data[$date] = $this->getRequestsCountByDate($date);
-                $startDate->addDay(); // Di chuyển tới ngày tiếp theo
-            }
-        } else {
-            // Nếu không có startDate và endDate, xử lý theo các khoảng thời gian 'today', 'monthly', 'yearly'
-            switch ($period) {
-                case 'today':
-                    // Lấy dữ liệu cho 7 ngày qua
-                    for ($i = 6; $i >= 0; $i--) {
-                        $date = Carbon::today()->subDays($i)->format('Y-m-d');
-                        $data[$date] = $this->getRequestsCountByDate($date);
-                    }
-                    break;
-
-                case 'monthly':
-                    // Lấy dữ liệu cho tháng hiện tại
-                    $month = Carbon::now()->format('Y-m');
-                    $data = $this->getRequestsCountByMonth($month);
-                    break;
-
-                case 'yearly':
-                    // Lấy dữ liệu cho 10 năm qua
-                    for ($i = 0; $i < 10; $i++) {
-                        $year = Carbon::now()->subYears($i)->format('Y');
-                        $data[$year] = $this->getRequestsCountByYear($year);
-                    }
-                    break;
-            }
-        }
-        return response()->json($data);
-    }
+//    public function getRequestData(Request $request)
+//    {
+//        $period = $request->input('period');
+//        $startDate = $request->input('startDate');
+//        $endDate = $request->input('endDate');
+//        $data = DB::table('request')
+//            ->select('status', DB::raw('COUNT(*) as count'))
+//            ->groupBy('status')
+//            ->get();
+//
+//        // Kiểm tra xem startDate và endDate có được gửi hay không
+//        if ($startDate && $endDate) {
+//            // Nếu có, chuyển về định dạng Carbon để dễ dàng so sánh
+//            $startDate = Carbon::parse($startDate);
+//            $endDate = Carbon::parse($endDate);
+//
+//            // Lấy dữ liệu cho khoảng thời gian từ startDate đến endDate
+//            while ($startDate <= $endDate) {
+//                $date = $startDate->format('Y-m-d');
+//                $data[$date] = $this->getRequestsCountByDate($date);
+//                $startDate->addDay(); // Di chuyển tới ngày tiếp theo
+//            }
+//        } else {
+//            // Nếu không có startDate và endDate, xử lý theo các khoảng thời gian 'today', 'monthly', 'yearly'
+//            switch ($period) {
+//                case 'today':
+//                    // Lấy dữ liệu cho 7 ngày qua
+//                    for ($i = 6; $i >= 0; $i--) {
+//                        $date = Carbon::today()->subDays($i)->format('Y-m-d');
+//                        $data[$date] = $this->getRequestsCountByDate($date);
+//                    }
+//                    break;
+//
+//                case 'monthly':
+//                    // Lấy dữ liệu cho tháng hiện tại
+//                    $month = Carbon::now()->format('Y-m');
+//                    $data = $this->getRequestsCountByMonth($month);
+//                    break;
+//
+//                case 'yearly':
+//                    // Lấy dữ liệu cho 10 năm qua
+//                    for ($i = 0; $i < 10; $i++) {
+//                        $year = Carbon::now()->subYears($i)->format('Y');
+//                        $data[$year] = $this->getRequestsCountByYear($year);
+//                    }
+//                    break;
+//            }
+//        }
+//        return response()->json($data);
+//    }
 
 
     private function getRequestsCountByDate($date)
@@ -290,11 +292,18 @@ class ReportController extends Controller
         return response()->json($requestTypes);
     }
 
+    public function getRequestData(Request $request)
+    {
+        $startDate = Carbon::parse($request->input('startDate'));
+        $endDate = Carbon::parse($request->input('endDate'));
 
-    protected function getTimeBasedStatistics()
+        return $this->getTimeBasedStatistics($startDate, $endDate);
+    }
+
+    protected function getTimeBasedStatistics($startDate, $endDate)
     {
         $timeData = [];
-        $timeData['Ngày'] = $this->getDailyStatistics();
+        $timeData['Ngày'] = $this->getDailyStatistics($startDate, $endDate);
         $timeData['Tuần'] = $this->getWeeklyStatistics();
         $timeData['Tháng'] = $this->getMonthlyStatistics();
         $timeData['Năm'] = $this->getYearlyStatistics();
@@ -333,10 +342,8 @@ class ReportController extends Controller
 //            return ['period' => $period, 'total' => $totals];
 //        }, $days, array_keys($days));
 //    }
-    private function getDailyStatistics()
+    private function getDailyStatistics($startDate, $endDate)
     {
-        $startDate = now()->startOfMonth();
-        $endDate = now()->endOfMonth();
         $days = [];
 
         for ($date = clone $startDate; $date <= $endDate; $date->addDay()) {
@@ -353,6 +360,9 @@ class ReportController extends Controller
             ->whereBetween('create_at', [$startDate, $endDate])
             ->groupBy('period', 'status')
             ->get();
+        // Example debugging
+        Log::info('Start Date: ' . $startDate);
+        Log::info('End Date: ' . $endDate);
 
         foreach ($dailyStats as $stat) {
             $days[$stat->period][$stat->status] = $stat->total;

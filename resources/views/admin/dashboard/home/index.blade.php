@@ -1180,12 +1180,15 @@
             return itemDate >= startDate && itemDate < endDate;
         });
 
-        if (filteredData.length > 0) {
-            updateTimeReport('Khoảng ngày', filteredData);
-            displayTotalSummaryByTime(filteredData, 'dateRange');
-        } else {
+        // Nếu không có dữ liệu nào, hiển thị thông báo
+        if (filteredData.length === 0) {
             alert('Không có dữ liệu trong khoảng ngày này.');
+            return;
         }
+
+        // Cập nhật biểu đồ và tổng số yêu cầu
+        updateTimeReport('Khoảng ngày', filteredData);
+        displayTotalSummaryByTime(filteredData, 'dateRange');
     }
 
     // Hàm cập nhật biểu đồ từ dữ liệu đã lọc

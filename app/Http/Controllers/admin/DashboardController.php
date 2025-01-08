@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer; // Import Model Customer
 use App\Models\Department;
 use App\Models\Employee;
-use App\Models\Request;
+use Illuminate\Http\Request; // Import HTTP Request
 use App\Models\Request as SupportRequest; // Import Model Request
 use App\Models\RequestType;
 use App\Models\User; // Import Model User
@@ -21,7 +21,7 @@ class DashboardController extends Controller
     {
         // Constructor logic
     }
-    public function index()
+    public function index(Request $request)
     {
         $template = 'admin.dashboard.home.index';
         $logged_user = Employee::with('user')->where('user_id', Auth::user()->user_id)->first();
@@ -104,7 +104,10 @@ class DashboardController extends Controller
         //dd($departmentData);
 
         // Time-based statistics
-        $timeData = $this->getTimeBasedStatistics();
+        // Assuming startDate and endDate are sent from the request
+        $startDate = Carbon::parse($request->input('startDate', now()->subMonth()->startOfMonth())); // Bắt đầu từ tháng trước
+        $endDate = Carbon::parse($request->input('endDate', now()->endOfMonth())); // Kết thúc tại cuối tháng hiện tại
+        $timeData = $this->getTimeBasedStatistics($startDate, $endDate);
         //dd($timeData);
 
         $data = RequestController::getUnreadRequests();
@@ -157,11 +160,13 @@ class DashboardController extends Controller
         return response()->json($response);
     }
 
+
+
     public function getRequestData(Request $request)
     {
         $period = $request->input('period');
-        $startDate = $request->input('startDate');
-        $endDate = $request->input('endDate');
+        $startDate = Carbon::parse($request->input('startDate'));
+        $endDate = Carbon::parse($request->input('endDate'));
         $data = DB::table('request')
             ->select('status', DB::raw('COUNT(*) as count'))
             ->groupBy('status')
@@ -300,22 +305,22 @@ class DashboardController extends Controller
     }
 
 
-    protected function getTimeBasedStatistics()
+    protected function getTimeBasedStatistics($startDate, $endDate)
     {
         $timeData = [];
-        $timeData['Ngày'] = $this->getDailyStatistics();
-        $timeData['Tuần'] = $this->getWeeklyStatistics();
-        $timeData['Tháng'] = $this->getMonthlyStatistics();
-        $timeData['Năm'] = $this->getYearlyStatistics();
+        $timeData['Ngày'] = $this->getDailyStatistics($startDate, $endDate);
+        $timeData['Tuần'] = $this->getWeeklyStatistics($startDate, $endDate);
+        $timeData['Tháng'] = $this->getMonthlyStatistics($startDate, $endDate);
+        $timeData['Năm'] = $this->getYearlyStatistics($startDate, $endDate);
         return $timeData;
     }
 
-    private function getDailyStatistics()
+
+    private function getDailyStatistics($startDate, $endDate)
     {
-        $startDate = now()->startOfMonth();
-        $endDate = now()->endOfMonth();
         $days = [];
 
+        // Create an array for each day in the date range
         for ($date = clone $startDate; $date <= $endDate; $date->addDay()) {
             $days[$date->format('Y-m-d')] = [
                 'Đang xử lý' => 0,
@@ -325,31 +330,35 @@ class DashboardController extends Controller
             ];
         }
 
+        // Fetch daily statistics for the specified date range
         $dailyStats = DB::table('request')
             ->select(DB::raw("DATE_FORMAT(create_at, '%Y-%m-%d') as period"), 'status', DB::raw('count(*) as total'))
             ->whereBetween('create_at', [$startDate, $endDate])
             ->groupBy('period', 'status')
             ->get();
 
-        // Kiểm tra kết quả của dailyStats
-        \Log::info('Daily Stats:', $dailyStats->toArray());
-
+        // Update the days array with the fetched statistics
         foreach ($dailyStats as $stat) {
             $days[$stat->period][$stat->status] = $stat->total;
         }
 
         return array_map(function ($totals, $period) {
-            return ['period' => $period, 'total' => $totals];
+            return [
+                'period' => $period,
+                'total' => $totals
+            ];
         }, $days, array_keys($days));
     }
 
-    private function getWeeklyStatistics()
+    private function getWeeklyStatistics($startDate, $endDate)
     {
         $weeks = [];
-        $startDate = now()->startOfYear();
-        $endDate = now()->endOfYear();
 
-        // Tạo mảng tuần
+        // Adjust the start and end dates to include only full weeks
+        $startDate = $startDate->startOfWeek(); // Start at the beginning of the week
+        $endDate = $endDate->endOfWeek(); // End at the end of the week
+
+        // Create an array for each week in the date range
         for ($date = clone $startDate; $date <= $endDate; $date->addWeek()) {
             $weeks[$date->format('Y-W')] = [
                 'Đang xử lý' => 0,
@@ -359,14 +368,14 @@ class DashboardController extends Controller
             ];
         }
 
-        // Lấy thống kê tuần
+        // Fetch weekly statistics for the specified date range
         $weeklyStats = DB::table('request')
             ->select(DB::raw("YEAR(create_at) as year, WEEK(create_at, 1) as week, status, count(*) as total"))
             ->whereBetween('create_at', [$startDate, $endDate])
             ->groupBy('year', 'week', 'status')
             ->get();
 
-        // Cập nhật mảng tuần với số liệu
+        // Update the weeks array with the fetched statistics
         foreach ($weeklyStats as $stat) {
             $weekKey = $stat->year . '-' . str_pad($stat->week, 2, '0', STR_PAD_LEFT);
             if (isset($weeks[$weekKey])) {
@@ -374,7 +383,6 @@ class DashboardController extends Controller
             }
         }
 
-        // Trả về dữ liệu theo định dạng mong muốn
         return array_map(function ($totals, $period) {
             return [
                 'period' => $period,
@@ -383,14 +391,13 @@ class DashboardController extends Controller
         }, $weeks, array_keys($weeks));
     }
 
-    private function getMonthlyStatistics()
+    private function getMonthlyStatistics($startDate, $endDate)
     {
         $months = [];
-        $startDate = now()->startOfYear();
-        $endDate = now()->endOfYear();
 
-        for ($month = 1; $month <= 12; $month++) {
-            $months[$month] = [
+        // Lặp qua từng tháng trong khoảng thời gian
+        for ($date = clone $startDate; $date->lessThanOrEqualTo($endDate); $date->addMonth()) {
+            $months[$date->format('Y-m')] = [
                 'Đang xử lý' => 0,
                 'Chưa xử lý' => 0,
                 'Hoàn thành' => 0,
@@ -398,14 +405,18 @@ class DashboardController extends Controller
             ];
         }
 
+        // Truy vấn dữ liệu yêu cầu theo tháng
         $monthlyStats = DB::table('request')
-            ->select(DB::raw("MONTH(create_at) as month"), 'status', DB::raw('count(*) as total'))
-            ->whereBetween('create_at', [$startDate, $endDate])
+            ->select(DB::raw("DATE_FORMAT(create_at, '%Y-%m') as month"), 'status', DB::raw('count(*) as total'))
+            ->whereBetween('create_at', [$startDate, $endDate]) // Giới hạn truy vấn theo ngày
             ->groupBy('month', 'status')
             ->get();
 
+        // Cập nhật mảng tháng với số lượng yêu cầu
         foreach ($monthlyStats as $stat) {
-            $months[$stat->month][$stat->status] = $stat->total;
+            if (isset($months[$stat->month])) {
+                $months[$stat->month][$stat->status] = $stat->total;
+            }
         }
 
         return array_map(function ($totals, $month) {
@@ -413,11 +424,12 @@ class DashboardController extends Controller
         }, $months, array_keys($months));
     }
 
-    private function getYearlyStatistics()
+    private function getYearlyStatistics($startDate, $endDate)
     {
         $years = [];
 
-        for ($year = 2020; $year <= 2030; $year++) {
+        // Loop from the start year to the end year
+        for ($year = $startDate->year; $year <= $endDate->year; $year++) {
             $years[$year] = [
                 'Đang xử lý' => 0,
                 'Chưa xử lý' => 0,
@@ -428,7 +440,7 @@ class DashboardController extends Controller
 
         $yearlyStats = DB::table('request')
             ->select(DB::raw("YEAR(create_at) as year"), 'status', DB::raw('count(*) as total'))
-            ->whereBetween('create_at', ['2020-01-01', '2030-12-31'])
+            ->whereBetween('create_at', [$startDate, $endDate])
             ->groupBy('year', 'status')
             ->get();
 
