@@ -1192,6 +1192,8 @@
     }
 
     // Hàm cập nhật biểu đồ từ dữ liệu đã lọc
+    let combinedChart; // Khai báo biến biểu đồ toàn cục
+
     function updateTimeReport(period, filteredData) {
         const labels = filteredData.map(item => item.period);
         const datasets = [{
@@ -1213,7 +1215,14 @@
         }];
 
         const ctx = document.getElementById('combinedChart').getContext('2d');
-        const combinedChart = new Chart(ctx, {
+
+        // Hủy biểu đồ cũ nếu đã tồn tại
+        if (combinedChart) {
+            combinedChart.destroy();
+        }
+
+        // Tạo biểu đồ mới
+        combinedChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -1225,6 +1234,7 @@
                 plugins: {
                     legend: { position: 'top' },
                     tooltip: {
+                        position: 'nearest', // Giữ tooltip gần nhất với điểm dữ liệu
                         callbacks: {
                             label: function (tooltipItem) {
                                 return `${tooltipItem.dataset.label}: ${tooltipItem.raw} yêu cầu`;
