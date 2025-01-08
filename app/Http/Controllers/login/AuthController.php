@@ -466,7 +466,7 @@ class AuthController extends Controller
         $user->update_at = now();
         $user->save();
 
-        return redirect()->route('login')->with('success', 'Mật khẩu đã được thay đổi thành công!');
+        return redirect()->route('loginAdmin')->with('success', 'Mật khẩu đã được thay đổi thành công!');
     }
 
     // Ví dụ trong Laravel

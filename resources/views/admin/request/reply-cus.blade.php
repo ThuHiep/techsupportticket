@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="mail-body text-right tooltip-demo">
-                    <button type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send">
+                    <button type="submit" id="btn-feedback" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send">
                         <i class="fa fa-share"></i> <span style="font-size: 18px">Gửi</span>
                     </button>
                 </div>
@@ -39,7 +39,7 @@
                 height: 200
             });
 
-            const submitButton = $("button[type='submit']");
+            const submitButton = $("#btn-feedback");
 
             function checkContent() {
                 const content = $('.summernote').summernote('code').trim();
