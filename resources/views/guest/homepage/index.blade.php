@@ -640,13 +640,13 @@
     <div id="huongdanArticleModal" class="huongdan-modal">
         <span class="close" onclick="closeHuongdanModal()" style="cursor: pointer;">&times;</span>
         <img id="huongdanModalImage" src="" alt="Article Image">
-        <button id="copyLinkButton" onclick="copyModalLink()">Sao chép liên kết</button>
-        
-        <h3 id="huongdanModalTitle"></h3>
-        <p id="huongdanModalContent"></p>
         <div id="huongdanModalDateBox">
             <p id="huongdanModalDate"></p>
         </div>
+
+        <h3 id="huongdanModalTitle"></h3>
+        <p id="huongdanModalContent"></p>
+        <button id="copyLinkButton" onclick="copyModalLink()">Sao chép liên kết</button>
     </div>
 
     <script>
