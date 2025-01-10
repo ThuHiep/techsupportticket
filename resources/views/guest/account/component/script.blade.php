@@ -14,11 +14,10 @@
             height: 200
         });
 
-        const submitButton = $("button[type='submit']");
-
-        function checkContent() {
-            const content = $('.summernote').summernote('code').trim();
-            const isEmpty = $('.summernote').summernote('isEmpty');
+        function checkContent(requestId) {
+            const content = $(`#reply_content-${requestId}`).summernote('code').trim();
+            const isEmpty = $(`#reply_content-${requestId}`).summernote('isEmpty');
+            const submitButton = $(`#btn-feedback-${requestId}`);
 
             if (isEmpty || content === '' || content === '<p><br></p>') {
                 submitButton.prop('disabled', true);
@@ -29,10 +28,13 @@
             }
         }
 
-        checkContent();
+        $('.summernote').each(function() {
+            const requestId = $(this).data('request-id');
+            checkContent(requestId);
 
-        $('.summernote').on('summernote.change', function() {
-            checkContent();
+            $(this).on('summernote.change', function() {
+                checkContent(requestId);
+            });
         });
     });
 </script>

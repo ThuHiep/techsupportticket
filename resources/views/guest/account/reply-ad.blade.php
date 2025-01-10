@@ -16,13 +16,21 @@
             <form action="{{ route('customer.reply', $request->request_id) }}" method="POST">
                 @csrf
                 <div class="mail-text">
-                    <textarea id="reply_content" name="reply_content" class="summernote"></textarea>
+                    <textarea id="reply_content-{{$request->request_id}}"
+                        name="reply_content"
+                        class="summernote"
+                        data-request-id="{{$request->request_id}}"></textarea>
                     <div class="clearfix"></div>
                 </div>
-
                 <div class="mail-body text-right tooltip-demo">
-                    <button type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send">
-                        <i class="fa fa-share"></i> <span style="font-size: 18px">Gửi</span>
+                    <button type="submit" id="btn-feedback-{{$request->request_id}}"
+                        class="btn btn-sm btn-primary"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Send"
+                        disabled>
+                        <i class="fa fa-share"></i>
+                        <span style="font-size: 18px">Gửi</span>
                     </button>
                 </div>
             </form>
