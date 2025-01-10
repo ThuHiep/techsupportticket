@@ -102,9 +102,9 @@ class UserController extends Controller
 
         // Cập nhật thông tin khách hàng
         $logged_user->full_name = $request['full_name'] ?? null;
-        $logged_user->date_of_birth = $request['date_of_birth'] ?? null ;
-        $logged_user->gender = $request['gender']?? null ;
-        $logged_user->phone = $request['phone']?? null ;
+        $logged_user->date_of_birth = $request['date_of_birth'] ?? null;
+        $logged_user->gender = $request['gender'] ?? null;
+        $logged_user->phone = $request['phone'] ?? null;
         $logged_user->address = $request['address'] ?? null;
         $logged_user->profile_image = $profileImagePath;
         $logged_user->software = $request['software'] ?? null;
@@ -220,6 +220,7 @@ class UserController extends Controller
         $customer_feedback = new CustomerFeedback();
         $customer_feedback->request_id = $request_id;
         $customer_feedback->customer_id = $logged_user->customer_id;
+        $customer_feedback->is_read = 0;
         $customer_feedback->message = $request->input('reply_content');
         $customer_feedback->Save();
 
